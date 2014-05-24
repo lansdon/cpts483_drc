@@ -1,5 +1,6 @@
-#include "DRCClient.h"
+#include "gui/DRCClient.h"
 #include "ui_DRCClient.h"
+
 
 DRCClient::DRCClient(QWidget *parent) :
     QMainWindow(parent),
@@ -31,3 +32,5 @@ void DRCClient::on_nameLineEdit_returnPressed()
 {
     on_sendButton_clicked();
 }
+
+

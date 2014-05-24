@@ -1,6 +1,7 @@
 #ifndef DRCCLIENT_H
 #define DRCCLIENT_H
-#include "IntakeForm.h"
+
+#include "gui/IntakeForm.h"
 #include <QMainWindow>
 #include <QString>
 

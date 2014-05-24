@@ -1,9 +1,16 @@
 #ifndef INTAKEFORM_H
 #define INTAKEFORM_H
+
 #include "Person.h"
 #include <string>
 #include <vector>
 #include <ctime>
+
+namespace drc {
+namespace gui {
+class IntakeForm;
+}}
+
 class IntakeForm
 {
 private:

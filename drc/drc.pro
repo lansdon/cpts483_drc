@@ -13,12 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        DRCClient.cpp \
-    IntakeForm.cpp \
+    gui/IntakeForm.cpp \
+    gui/DRCClient.cpp \
     Person.cpp
 
-HEADERS  += DRCClient.h \
-    IntakeForm.h \
-    Person.h
+HEADERS  += \
+    Person.h \
+    gui/IntakeForm.h \
+    gui/DRCClient.h
 
-FORMS    += DRCClient.ui
+FORMS    += \
+    gui/DRCClient.ui
