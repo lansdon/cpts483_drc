@@ -4,7 +4,7 @@ IntakeForm::IntakeForm()
 {
 }
 
-void IntakeForm::populate(QString input)
+void IntakeForm::addPerson(QString input)
 {
     Person temp(input);
 
@@ -14,4 +14,16 @@ void IntakeForm::populate(QString input)
 void IntakeForm::setTime(time_t t)
 {
     enterTime = t;
+}
+
+Person IntakeForm::getPerson(std::string n)
+{
+    for(int i = 0;i<clients.size();i++)
+    {
+        if(clients[i].getName()==n)
+        {
+            return clients[i];
+        }
+    }
+    return Person("none");
 }

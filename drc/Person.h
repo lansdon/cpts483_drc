@@ -9,6 +9,7 @@ private:
     std::string _name;
 public:
     Person(QString n);
+    std::string getName() const;
 };
 
 #endif // PERSON_H

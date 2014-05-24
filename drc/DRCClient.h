@@ -1,15 +1,13 @@
 #ifndef DRCCLIENT_H
 #define DRCCLIENT_H
-
+#include "IntakeForm.h"
 #include <QMainWindow>
+#include <QString>
 
 namespace Ui {
 class DRCClient;
 }
 
-
-// DRC Client
-// This is the main entrypoint for the GUI Application
 class DRCClient : public QMainWindow
 {
     Q_OBJECT
@@ -18,8 +16,16 @@ public:
     explicit DRCClient(QWidget *parent = 0);
     ~DRCClient();
 
+private slots:
+    void on_retrieveButton_clicked();
+
+    void on_sendButton_clicked();
+
+    void on_nameLineEdit_returnPressed();
+
 private:
     Ui::DRCClient *ui;
+    QString _name;
 };
 
-#endif // DRCCLIENT_H
+#endif // DRCClient_H
