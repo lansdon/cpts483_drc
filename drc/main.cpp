@@ -1,4 +1,4 @@
-#include "gui/DRCClient.h"
+#include "DRCClient.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

@@ -27,6 +27,14 @@ private slots:
 private:
     Ui::DRCClient *ui;
     QString _name;
+
+    void UpdateNameField(QString str);
+
+    //////////// SEND / RECIEVE EVENTS /////////////////
+    AsyncMediatorCall *asyncSendFruitName;
+    void SendFruitName(QString name);
+    void RecieveFruitNameResult(MediatorArg arg);
+
 };
 
 #endif // DRCClient_H
