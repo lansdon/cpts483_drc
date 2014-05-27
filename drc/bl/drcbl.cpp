@@ -3,6 +3,8 @@
 #include "drc_shared/mediator/MediatorArg.h"
 #include "drc_shared/mediator/MediatorKeys.h"
 #include <qstring.h>
+#include <qdebug.h>
+
 
 //namespace drc {
 //namespace bl {
@@ -23,7 +25,7 @@ void DRCBL::ProcessFruitName(MediatorArg arg)
         auto fruitName = arg.getArg<std::string*>();
         if (fruitName)
         {
-            std::cout << "BL -> Processing Fruit Name -> " << *fruitName << std::endl;
+            qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(*fruitName);
             // Do stuff here.
          }
         else
@@ -38,7 +40,7 @@ void DRCBL::ProcessFruitName(MediatorArg arg)
         errorMessage = "Incoming arg flagged invalid.";
     }
 
-    std::cout << "BL -> Send result back " << std::endl;
+    qDebug() << "BL -> Send result back";
     Mediator::Call(MKEY_BL_SEND_FRUIT_NAME_RESULT, nullptr, success, errorMessage);
 }
 

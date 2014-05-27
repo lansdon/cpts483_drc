@@ -13,6 +13,8 @@
 #include "MediatorArg.h"
 #include <thread>
 #include <future>
+#include <QDebug>
+
 
 //namespace drc {
 //namespace drc_shared {
@@ -30,7 +32,7 @@ AsyncMediatorCall::AsyncMediatorCall(
 , _timeoutSecs(timeoutSecs)
 , _waiting(false)
 {
-	Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { ResponseRecieved(mediatorArg); });		// Start listening for a response
+    Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { this->ResponseRecieved(mediatorArg); });		// Start listening for a response
 }
 
 AsyncMediatorCall::AsyncMediatorCall(
@@ -46,7 +48,7 @@ AsyncMediatorCall::AsyncMediatorCall(
 	, _timeoutSecs(timeoutSecs)
 	, _waiting(false)
 {
-	Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { ResponseRecieved(mediatorArg); });		// Start listening for a response
+    Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { this->ResponseRecieved(mediatorArg); });		// Start listening for a response
 
 }
 
@@ -65,39 +67,25 @@ void AsyncMediatorCall::Send()					// This will perform the send event, and wait
 	}
 	else
 	{
-        std::cerr << "\n !!! A request is already in progress... Please try again later.\n";
+        qDebug() << "\n !!! A request is already in progress... Please try again later.";
 	}
 }
 
 void AsyncMediatorCall::SendEvent()	// This internal function handles maintenance when a response is recieved. Then the _callback is called.
 {
-	std::cout << "Async -> thread running...\n";
+    qDebug() << "Async -> thread running...";
 
 	_waitingAsync = std::async(&AsyncMediatorCall::WaitForResponse, this);
 	Mediator::Call(_sendEventMediatorKey, _mediatorArg);
 	bool responseSuccess = _waitingAsync.get();      // waits for response
 
 	if (!responseSuccess)
-		std::cerr << "Async -> Error waiting for response.\n";
+        qDebug() << "Async -> Error waiting for response.";
+//    else qDebug() << "Async -> Complete";
 }
 
 double AsyncMediatorCall::Elapsed(clock_t startTime) {
 	return double(clock() - startTime) / CLOCKS_PER_SEC;
-}
-
-#ifdef Q_OS_WIN
-#include <windows.h> // for Sleep
-#endif
-void qSleep(int ms)
-{
-//    QTEST_ASSERT(ms > 0);
-    if(ms <= 0) ms = 1;
-#ifdef Q_OS_WIN
-    Sleep(uint(ms));
-#else
-    struct timespec ts = { ms / 1000, (ms % 1000) * 1000 * 1000 };
-    nanosleep(&ts, NULL);
-#endif
 }
 
 // This will wait for the asynchronous response. This is intended to be run asynchronously
@@ -110,25 +98,25 @@ bool AsyncMediatorCall::WaitForResponse()
 		double elapsed = Elapsed(startTime);
 		if (elapsed > _timeoutSecs)
 		{
-			return false;		// timeout = error
+            _waiting = false;
+            qDebug() << "Async -> Timeout";
+            return false;		// timeout = error
 		}
 	}
-	return true;			// no error
+//    qDebug() << "Async -> Done waiting";
+    return true;			// no error
 }
 
 void AsyncMediatorCall::ResponseRecieved(MediatorArg mediatorArg)	// This internal function handles maintenance when a response is recieved. Then the _callback is called.
 {
-	// Internal cleanup and maintenance first
-//	 _thread.join();											// All done with the thread.
-
 	// Call the callback we were given
 	 if (_callback)
 		_callback(mediatorArg);
 
-	// Ready to do it again
-	_waiting = false;
+     qDebug() << "Async -> Response recieved - thread terminated.";
 
-	std::cout << "Async -> Response recieved - thread terminated.\n";
+    // Ready to do it again
+    _waiting = false;
 }
 
 //}

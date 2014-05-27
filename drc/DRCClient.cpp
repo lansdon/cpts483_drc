@@ -3,6 +3,7 @@
 #include "ui_DRCClient.h"
 #include "bl/drcbl.h"
 #include "db/drcdb.h"
+#include <QDebug>
 
 DRCClient::DRCClient(QWidget *parent) :
    QMainWindow(parent),
@@ -52,14 +53,14 @@ void DRCClient::on_nameLineEdit_returnPressed()
 
 void DRCClient::SendFruitName(QString name)
 {
+    qDebug() << "Gui -> Submit fruit name asynchronously";
     asyncSendFruitName->GetMediatorArg().SetArg( new std::string(name.toStdString()));
     asyncSendFruitName->Send();
 }
 
 void DRCClient::RecieveFruitNameResult(MediatorArg arg)
 {
-    bool success = true;
-    std::string errorMessage;
+    qDebug() << "Gui -> Recieve response - sumbit fruit name";
 
     if (arg.IsSuccessful())
     {
@@ -67,8 +68,8 @@ void DRCClient::RecieveFruitNameResult(MediatorArg arg)
     }
     else
     {
-        QString str = QString("Submit Name Error: ");
-        str.append(QString::fromStdString(arg.ErrorMessage()));
-        UpdateNameField(str);
+        QString error = QString("Submit Name Error: ");
+        error.append(QString::fromStdString(arg.ErrorMessage()));
+        UpdateNameField(error);
     }
 }
