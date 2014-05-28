@@ -13,7 +13,7 @@
 #include "MediatorKeys.h"
 #include "Mediator.h"
 #include "MediatorArg.h"
-#include <thread>
+//#include <thread>
 #include <future>
 
 //namespace drc {
@@ -41,7 +41,7 @@ private:
 	MediatorArg _mediatorArg;			// This is the argument being sent.
 
 	unsigned long _timeoutSecs;			// How long before we stop waiting for a response
-	std::future<bool> _waitingAsync;	// Dats why it's async!
+    std::future<bool> _waitingAsync;	// Dats why it's async!
 
 	bool WaitForResponse();
 	bool _waiting;						// This will block additional calls to Send() if a Send is already in progress.

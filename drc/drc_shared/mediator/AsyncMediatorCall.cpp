@@ -63,7 +63,7 @@ void AsyncMediatorCall::Send()					// This will perform the send event, and wait
 	if (!_waiting)
 	{
 		_waiting = true;
-		std::async(&AsyncMediatorCall::SendEvent, this);	// fire and forget seperate thread
+        std::async(&AsyncMediatorCall::SendEvent, this);	// fire and forget seperate thread
 	}
 	else
 	{
@@ -75,7 +75,7 @@ void AsyncMediatorCall::SendEvent()	// This internal function handles maintenanc
 {
     qDebug() << "Async -> thread running...";
 
-	_waitingAsync = std::async(&AsyncMediatorCall::WaitForResponse, this);
+    _waitingAsync = std::async(&AsyncMediatorCall::WaitForResponse, this);
 	Mediator::Call(_sendEventMediatorKey, _mediatorArg);
 	bool responseSuccess = _waitingAsync.get();      // waits for response
 

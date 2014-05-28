@@ -5,11 +5,13 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT	+= sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = drc
 TEMPLATE = app
+
 
 
 SOURCES += main.cpp\
@@ -33,7 +35,6 @@ HEADERS  += \
     DRCClient.h
 
 FORMS    += \
-    gui/DRCClient.ui \
     DRCClient.ui
 
 CONFIG += c++11

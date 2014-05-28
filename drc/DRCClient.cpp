@@ -13,8 +13,8 @@ DRCClient::DRCClient(QWidget *parent) :
 
    // Create the application components that will be listening for events.
    DRCBL bl;
-   DRCDB db;
-
+   DRCDB DB;
+   DB.openDB();
    asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SEND_FRUIT_NAME, MKEY_BL_SEND_FRUIT_NAME_RESULT, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"));
 }
 
