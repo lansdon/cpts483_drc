@@ -18,7 +18,7 @@ MediatorId Mediator::Register(std::string Key, MediatorCallback* Callback)
     return Callback->GetId();
 }
 
-MediatorId Mediator::Register(std::string Key, MediatorCallbackType Function)
+MediatorId Mediator::Register(std::string Key, MediatorCallbackFunc Function)
 {
     return Register(Key, new MediatorCallback(Function));
 }

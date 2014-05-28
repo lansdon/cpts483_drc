@@ -24,8 +24,8 @@ const unsigned long DEF_ASYNC_TIMEOUT_SECS = 30; // timeout in seconds
 class AsyncMediatorCall
 {
 public:
-    AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackType callback, void* argObject, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
-    AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackType callback, MediatorArg _mediatorArg, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
+    AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, void* argObject, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
+    AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg _mediatorArg, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
 	~AsyncMediatorCall();
 
     // Accessors
@@ -37,7 +37,7 @@ private:
 	std::string _sendEventMediatorKey;		// Send Event Key
 	std::string _recieveEventMediatorKey;	// Listen for this result Key
 
-    MediatorCallbackType _callback;			// This is called when a response is received.
+    MediatorCallbackFunc _callback;			// This is called when a response is received.
 	MediatorArg _mediatorArg;			// This is the argument being sent.
 
 	unsigned long _timeoutSecs;			// How long before we stop waiting for a response

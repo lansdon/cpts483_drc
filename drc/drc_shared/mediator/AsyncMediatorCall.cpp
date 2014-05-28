@@ -22,7 +22,7 @@
 AsyncMediatorCall::AsyncMediatorCall(
 	std::string sendEventMediatorKey, 
 	std::string recieveEventMediatorKey, 
-    MediatorCallbackType callback,
+    MediatorCallbackFunc callback,
 	void* argObject, 
 	unsigned long timeoutSecs)
 : _sendEventMediatorKey(sendEventMediatorKey)
@@ -38,7 +38,7 @@ AsyncMediatorCall::AsyncMediatorCall(
 AsyncMediatorCall::AsyncMediatorCall(
 	std::string sendEventMediatorKey,
 	std::string recieveEventMediatorKey,
-    MediatorCallbackType callback,
+    MediatorCallbackFunc callback,
 	MediatorArg mediatorArg,
 	unsigned long timeoutSecs)
 	: _sendEventMediatorKey(sendEventMediatorKey)

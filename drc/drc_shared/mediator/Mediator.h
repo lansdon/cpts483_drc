@@ -9,29 +9,23 @@
 //namespace drc {
 //namespace drc_shared {
 
+typedef std::function<void(MediatorArg mediatorArg)> MediatorCallbackFunc;				// Lambda signature
 
-class MediatorArg;
-
-
-//typedef void(*MediatorCallback)(MediatorArg);	// Callback function type
-
-typedef std::function<void(MediatorArg mediatorArg)> MediatorCallbackType;				// Lambda signature
-typedef unsigned int MediatorId;
-
-static MediatorId __MEDIATOR_UNIQUE_ID = 0;    // used to increment unique ids  (DON'T EDIT THIS!)
 
 // MediatorCallback
 // This is a wrapper for MediatorCallbackType that tracks a unique id.
 // The caller can use the id to unregister the function at a later date.
+typedef unsigned int MediatorId;
+static MediatorId __MEDIATOR_UNIQUE_ID = 0;    // used to increment unique ids  (DON'T EDIT THIS!)
 class MediatorCallback
 {
 public:
-    MediatorCallback(MediatorCallbackType callback) :  _callback(callback) {_id = ++__MEDIATOR_UNIQUE_ID;}
+    MediatorCallback(MediatorCallbackFunc callback) :  _callback(callback) {_id = ++__MEDIATOR_UNIQUE_ID;}
     void Run(MediatorArg &arg) { _callback(arg); }
     unsigned int GetId() { return _id; }
 private:
     MediatorId _id;
-    MediatorCallbackType _callback;
+    MediatorCallbackFunc _callback;
 };
 
 class Mediator
@@ -51,7 +45,7 @@ private:
 
 public:
 
-    static MediatorId Register(std::string Key, MediatorCallbackType Function);
+    static MediatorId Register(std::string Key, MediatorCallbackFunc Function);
     static MediatorId Register(std::string Key, MediatorCallback* Function);
 
     static void Unregister(std::string Key, MediatorId callbackId);
