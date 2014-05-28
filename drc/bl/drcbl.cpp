@@ -12,7 +12,14 @@
 
 DRCBL::DRCBL()
 {
-    Mediator::Register(MKEY_GUI_SEND_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
+    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SEND_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
+
+    // Testing unregister... remove this later.
+    Mediator::Unregister(MKEY_GUI_SEND_FRUIT_NAME, ProcessFruitNameId);
+    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SEND_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
+    Mediator::Unregister(MKEY_GUI_SEND_FRUIT_NAME, ProcessFruitNameId);
+    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SEND_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
+
 }
 
 void DRCBL::ProcessFruitName(MediatorArg arg)

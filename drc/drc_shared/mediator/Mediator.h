@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-
+#include "drc_shared/mediator/MediatorArg.h"
 //namespace drc {
 //namespace drc_shared {
 
@@ -15,7 +15,24 @@ class MediatorArg;
 
 //typedef void(*MediatorCallback)(MediatorArg);	// Callback function type
 
-typedef std::function<void(MediatorArg mediatorArg)> MediatorCallback;				// Lambda signature
+typedef std::function<void(MediatorArg mediatorArg)> MediatorCallbackType;				// Lambda signature
+typedef unsigned int MediatorId;
+
+static MediatorId __MEDIATOR_UNIQUE_ID = 0;    // used to increment unique ids  (DON'T EDIT THIS!)
+
+// MediatorCallback
+// This is a wrapper for MediatorCallbackType that tracks a unique id.
+// The caller can use the id to unregister the function at a later date.
+class MediatorCallback
+{
+public:
+    MediatorCallback(MediatorCallbackType callback) :  _callback(callback) {_id = ++__MEDIATOR_UNIQUE_ID;}
+    void Run(MediatorArg &arg) { _callback(arg); }
+    unsigned int GetId() { return _id; }
+private:
+    MediatorId _id;
+    MediatorCallbackType _callback;
+};
 
 class Mediator
 {
@@ -30,13 +47,15 @@ private:
 
 	static Mediator& Instance();
 
-	std::map<std::string, std::vector<MediatorCallback>> MediatorMap;
+    std::map<std::string, std::vector<MediatorCallback*>> MediatorMap;
 
 public:
 
-	static void Register(std::string Key, MediatorCallback Function);
+    static MediatorId Register(std::string Key, MediatorCallbackType Function);
+    static MediatorId Register(std::string Key, MediatorCallback* Function);
 
-	static void Unregister(std::string Key, MediatorCallback Function);
+    static void Unregister(std::string Key, MediatorId callbackId);
+    static void Unregister(std::string Key, MediatorCallback* Function);
 
 	// Call Override to package arguments into a MediatorArg
 	static void Call(std::string key, void* object = nullptr, bool success = true, std::string errorMessage = "");
