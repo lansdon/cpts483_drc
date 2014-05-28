@@ -23,13 +23,15 @@ AsyncMediatorCall::AsyncMediatorCall(
 	std::string sendEventMediatorKey, 
 	std::string recieveEventMediatorKey, 
     MediatorCallbackFunc callback,
-	void* argObject, 
+    void* argObject,
+    bool waitForResponse,
 	unsigned long timeoutSecs)
 : _sendEventMediatorKey(sendEventMediatorKey)
 , _recieveEventMediatorKey(recieveEventMediatorKey)
 , _callback(callback)
 , _mediatorArg(MediatorArg(argObject))
 , _timeoutSecs(timeoutSecs)
+, _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
 , _waiting(false)
 {
     ResponseRecievedId = Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { this->ResponseRecieved(mediatorArg); });		// Start listening for a response
@@ -40,23 +42,22 @@ AsyncMediatorCall::AsyncMediatorCall(
 	std::string recieveEventMediatorKey,
     MediatorCallbackFunc callback,
 	MediatorArg mediatorArg,
-	unsigned long timeoutSecs)
+    bool waitForResponse,
+    unsigned long timeoutSecs)
 	: _sendEventMediatorKey(sendEventMediatorKey)
 	, _recieveEventMediatorKey(recieveEventMediatorKey)
 	, _callback(callback)
 	, _mediatorArg(mediatorArg)
 	, _timeoutSecs(timeoutSecs)
-	, _waiting(false)
+    , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
+    , _waiting(false)
 {
     ResponseRecievedId = Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { this->ResponseRecieved(mediatorArg); });		// Start listening for a response
-
 }
 
 AsyncMediatorCall::~AsyncMediatorCall() 
 {
 }
-
-
 
 void AsyncMediatorCall::Send()					// This will perform the send event, and wait for the response.
 {

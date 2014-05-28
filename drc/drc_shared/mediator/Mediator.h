@@ -28,6 +28,20 @@ private:
     MediatorCallbackFunc _callback;
 };
 
+
+///
+/// \brief The Mediator class
+///
+/// This is the primary class for registering to listen for events and signaling events.
+/// A listener will register a callback function that is fired whenever the event (key) occurs.
+/// Any class can call an event with an arbitrary key. However the keys should be
+/// strictly entered into MediatorKeys.h where we can track all the events.
+/// Note: An event is always called with a MediatorArg. The MediatorArg holds a void* to
+/// an arbitrary object which the listener can cast to the correct pointer type. The listener
+/// must know what kind of object to cast to.
+///
+/// Callback functions are of type   void func(MediatorArg);
+
 class Mediator
 {
 private:
