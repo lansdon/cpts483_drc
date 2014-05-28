@@ -12,62 +12,36 @@ Mediator& Mediator::Instance()
 	return instance;
 }
 
-MediatorId Mediator::Register(std::string Key, MediatorCallback* Callback)
+MediatorId Mediator::Register(std::string key, MediatorCallback* callback)
 {
-    Instance().MediatorMap[Key].push_back(Callback);
-    return Callback->GetId();
+    Instance().MediatorMap[key].push_back(callback);
+    QString dbug = "Mediator Register -> Key:" + QString::fromStdString(key) + "   id: " + QString::number(callback->GetId());
+    qDebug() << dbug;
+    return callback->GetId();
 }
 
-MediatorId Mediator::Register(std::string Key, MediatorCallbackFunc Function)
+MediatorId Mediator::Register(std::string key, MediatorCallbackFunc function)
 {
-    return Register(Key, new MediatorCallback(Function));
+    return Register(key, new MediatorCallback(function));
 }
 
-void Mediator::Unregister(std::string Key, MediatorCallback *Function)
+void Mediator::Unregister(std::string key, MediatorId callbackId)
 {
-	if (Instance().MediatorMap.count(Key) != 0)
-	{
-        auto found = std::find_if(Instance().MediatorMap[Key].begin(),
-                             Instance().MediatorMap[Key].end(),
-                             [Function] (MediatorCallback* lhs)
-                            {
-                                qDebug() << lhs << "==" << Function;
-                                return lhs == Function;
-                            }
-        );
-        if(found != Instance().MediatorMap[Key].end())
-            qDebug() << "Mediator Unregister -> Found match!";
-        else qDebug() << "Mediator Unregister -> NO match!";
-         Instance().MediatorMap[Key].erase(found);
-	}
-	if (Instance().MediatorMap[Key].size() == 0)
-	{
-		Instance().MediatorMap.erase(Instance().MediatorMap.find(Key));
-	}
-}
-
-void Mediator::Unregister(std::string Key, MediatorId callbackId)
-{
-    if (Instance().MediatorMap.count(Key) != 0)
+    if (Instance().MediatorMap.count(key) != 0)
     {
-        auto found = std::find_if(Instance().MediatorMap[Key].begin(),
-                             Instance().MediatorMap[Key].end(),
-                             [callbackId] (MediatorCallback* lhs)
-                            {
-                                qDebug() << lhs->GetId() << "==" << callbackId;
-                                return lhs->GetId() == callbackId;
-                            }
-        );
-        if(found != Instance().MediatorMap[Key].end())
-            qDebug() << "Mediator Unregister -> Found match!";
+        auto vec = Instance().MediatorMap[key];
+        auto found = std::find_if( vec.begin(), vec.end(), [callbackId] (MediatorCallback* lhs) { return lhs->GetId() == callbackId;} );
+        if(found != vec.end())
+            qDebug() << QString("Mediator Unregister -> Key:" + QString::fromStdString(key) + "   id: " + QString::number((*found)->GetId()));
         else qDebug() << "Mediator Unregister -> NO match!";
-         Instance().MediatorMap[Key].erase(found);
+        vec.erase(found);
+
+        if (vec.size() == 0)
+        {
+            Instance().MediatorMap.erase(Instance().MediatorMap.find(key));
+        }
     }
-    if (Instance().MediatorMap[Key].size() == 0)
-    {
-        Instance().MediatorMap.erase(Instance().MediatorMap.find(Key));
-    }
-}
+ }
 
 // Call Override to package arguments into a MediatorArg
 void Mediator::Call(std::string key, void* object, bool success, std::string errorMessage)
@@ -79,13 +53,11 @@ void Mediator::Call(std::string Key, MediatorArg Object)
 {
 	if (Instance().MediatorMap.count(Key) != 0)
 	{
-        for (std::vector<MediatorCallback*>::iterator It = Instance().MediatorMap[Key].begin();
+        for (MediatorCallbackVector::iterator It = Instance().MediatorMap[Key].begin();
 			It != Instance().MediatorMap[Key].end();
 			++It)
 		{
-            MediatorCallback* c = *It;
-            c->Run(Object);
-//            (*c)(Object);
+            (*It)->Run(Object);
 		}
 	}
 }

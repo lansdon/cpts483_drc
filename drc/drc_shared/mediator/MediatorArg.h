@@ -18,6 +18,15 @@
 //namespace drc {
 //namespace drc_shared {
 
+///
+/// \brief The MediatorArg class
+///
+/// This wraps a void* object used as an argument. The reciever must know what kind of * to cast to.
+/// Use GetArg<PointerType*> to get the object automatically cast.  ex:  Dog* myDogPtr = GetArg<Dog*>();
+/// Also includes optional meta settings:
+/// bool success    (defaults to true)
+/// string errorMessage (defaults to "")
+
 class MediatorArg
 {
 public:
@@ -25,11 +34,11 @@ public:
 	: _arg(arg)
 	, _success(success)
 	, _errorMessage(errorMessage)
-	{};
+    {}
 	~MediatorArg() { }
 	
 	// Accessors
-	bool IsSuccessful() { return _success; };
+    bool IsSuccessful() { return _success; }
 	void SetSuccessful(bool isSuccessful) { _success = isSuccessful; }
 	std::string ErrorMessage() { return _errorMessage; }
 	void SetErrorMsg(std::string errorMessage) { _errorMessage = errorMessage; }
@@ -52,7 +61,7 @@ public:
 			assert(false);
 			return nullptr;
 		}
-	};
+    }
 	
 private:
 	void* _arg;					// optional pointer to some object
