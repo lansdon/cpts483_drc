@@ -33,7 +33,6 @@ HEADERS  += \
     DRCClient.h
 
 FORMS    += \
-    gui/DRCClient.ui \
     DRCClient.ui
 
 CONFIG += c++11
