@@ -1,5 +1,6 @@
 #include "drcdb.h"
 using std::string;
+using std::vector;
 
 DATABASE::DATABASE() : DB_ERROR(false)
 {
@@ -31,4 +32,24 @@ bool DATABASE::isError()
 string DATABASE::errorMessage()
 {
     return string(sqlite3_errmsg(database));
+}
+
+void CreateTable(string table_name)
+{
+
+}
+
+void AddColumn(string column_name, string column_type, string column_required, bool primary_key)
+{
+
+}
+
+void InsertField(string fruit_name, string time_stamp)
+{
+
+}
+
+vector<string> SelectAllField()
+{
+    return vector<string> empty;
 }
