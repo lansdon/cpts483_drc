@@ -20,7 +20,9 @@ SOURCES += main.cpp\
     drc_shared/models/Person.cpp \
     DRCClient.cpp \
     drc_shared/models/Intake.cpp \
-    gui/fruitnameform.cpp
+    gui/fruitnameform.cpp \
+    gui/intakeform.cpp \
+    gui/mainmenutabwidget.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -33,10 +35,14 @@ HEADERS  += \
     DRCClient.h \
     drc_shared/models/Intake.h \
     gui/fruitnameform.h \
-    drc_shared/models/DRCModels.h
+    drc_shared/models/DRCModels.h \
+    gui/intakeform.h \
+    gui/mainmenutabwidget.h
 
 FORMS    += \
     DRCClient.ui \
-    gui/fruitnameform.ui
+    gui/fruitnameform.ui \
+    gui/intakeform.ui \
+    gui/mainmenutabwidget.ui
 
 CONFIG += c++11
