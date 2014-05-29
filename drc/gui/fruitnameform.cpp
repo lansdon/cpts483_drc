@@ -10,6 +10,8 @@ FruitNameForm::FruitNameForm(QWidget *parent) :
     ui(new Ui::FruitNameForm)
 {
     ui->setupUi(this);
+    ui->tabWidget->clear();
+    ui->tabWidget->addTab(new Particapants(),"tab 1");
 
     // One time setup of async handler.
     asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
@@ -69,4 +71,10 @@ void FruitNameForm::RecieveFruitNameResult(MediatorArg arg)
         error.append(QString::fromStdString(arg.ErrorMessage()));
         UpdateNameField(error);
     }
+}
+
+void FruitNameForm::on_AddParty_clicked()
+{
+
+    ui->tabWidget->addTab(new Particapants(), QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
 }

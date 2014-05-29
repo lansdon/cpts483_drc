@@ -2,6 +2,7 @@
 #define FRUITNAMEFORM_H
 
 #include <QWidget>
+#include "particapants.h"
 
 // Forward declarations
 class AsyncMediatorCall;
@@ -23,6 +24,8 @@ private slots:
     void on_retrieveButton_clicked();
     void on_sendButton_clicked();
     void on_nameLineEdit_returnPressed();
+
+    void on_AddParty_clicked();
 
 private:
     Ui::FruitNameForm *ui;
