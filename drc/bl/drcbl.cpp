@@ -5,6 +5,8 @@
 #include <qstring.h>
 #include <qdebug.h>
 
+#include <set>
+#include <algorithm>
 
 //namespace drc {
 //namespace bl {
@@ -15,13 +17,19 @@ DRCBL::DRCBL()
     ProcessFruitNameId = Mediator::Register(MKEY_GUI_SUBMIT_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
 
     // Testing unregister... remove this later.
-    Mediator::Unregister(MKEY_GUI_SUBMIT_FRUIT_NAME, ProcessFruitNameId);
-    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SUBMIT_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
+//    Mediator::Unregister(MKEY_GUI_SUBMIT_FRUIT_NAME, ProcessFruitNameId);
+//    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SUBMIT_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
 
 }
 
 void DRCBL::ProcessFruitName(MediatorArg arg)
 {
+    std::set<std::string> fruitNames;
+    fruitNames.insert("apple");
+    fruitNames.insert("orange");
+    fruitNames.insert("grapefruit");
+    fruitNames.insert("pineapple");
+
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
 
@@ -32,7 +40,14 @@ void DRCBL::ProcessFruitName(MediatorArg arg)
         if (fruitName)
         {
             qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(*fruitName);
-            // Do stuff here.
+
+            auto fruitLower = *fruitName;
+            std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), tolower);
+            if (fruitNames.find(fruitLower) == fruitNames.end())
+            {
+                success = false;
+                errorMessage = "Invalid fruit name.";
+            }
          }
         else
         {
