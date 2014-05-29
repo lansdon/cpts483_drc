@@ -5,11 +5,16 @@ Intake::Intake()
 
 }
 
-void Intake::addPerson(QString input)
+void Intake::addClaimant(QString input)
 {
     Person temp(input);
+    claimant = temp;
+}
 
-    clients.push_back(temp);
+void Intake::addRespondents(QString input)
+{
+    Person temp(input);
+    respondents.push_back(temp);
 }
 
 void Intake::setTime(time_t t)
@@ -17,16 +22,13 @@ void Intake::setTime(time_t t)
     enterTime = t;
 }
 
-Person Intake::getPerson(std::string n)
+Person Intake::getClaimant() const
 {
-    for(unsigned long i = 0;i<clients.size();i++)
-    {
-        if(clients[i].getName()==n)
-        {
-            return clients[i];
-        }
-    }
-    return Person("none");
+    return claimant;
 }
 
+std::vector<Person> Intake::getRespondents() const
+{
+    return respondents;
+}
 

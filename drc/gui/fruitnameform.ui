@@ -138,7 +138,7 @@
   <widget class="QPushButton" name="AddParty">
    <property name="geometry">
     <rect>
-     <x>430</x>
+     <x>370</x>
      <y>410</y>
      <width>75</width>
      <height>23</height>
@@ -148,20 +148,40 @@
     <string>Add</string>
    </property>
   </widget>
-  <widget class="QFrame" name="frame">
+  <widget class="QWidget" name="widget" native="true">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>50</x>
      <y>160</y>
      <width>181</width>
      <height>211</height>
     </rect>
    </property>
-   <property name="frameShape">
-    <enum>QFrame::StyledPanel</enum>
+   <widget class="QFrame" name="frame">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>181</width>
+      <height>211</height>
+     </rect>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::Box</enum>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QPushButton" name="removePushButton">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>410</y>
+     <width>75</width>
+     <height>23</height>
+    </rect>
    </property>
-   <property name="frameShadow">
-    <enum>QFrame::Raised</enum>
+   <property name="text">
+    <string>Remove</string>
    </property>
   </widget>
  </widget>

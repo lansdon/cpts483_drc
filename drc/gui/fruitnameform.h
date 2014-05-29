@@ -3,6 +3,12 @@
 
 #include <QWidget>
 #include "particapants.h"
+#include "drc_shared/mediator/Mediator.h"
+#include "drc_shared/mediator/AsyncMediatorCall.h"
+#include "drc_shared/models/DRCModels.h"
+#include <vector>
+//#include "drc_shared/models/DRCModels.h"
+
 
 // Forward declarations
 class AsyncMediatorCall;
@@ -27,12 +33,15 @@ private slots:
 
     void on_AddParty_clicked();
 
+    void on_removePushButton_clicked();
+
 private:
     Ui::FruitNameForm *ui;
     QString _name;
 
     // Misc Functions
     void UpdateNameField(QString str);
+    void UpdateForm(Intake *recieved);
 
     //////////// SEND / RECIEVE EVENTS /////////////////
     AsyncMediatorCall *asyncSendFruitName;

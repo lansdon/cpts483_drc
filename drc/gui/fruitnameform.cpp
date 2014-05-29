@@ -3,7 +3,7 @@
 #include <QDebug>
 #include "drc_shared/mediator/Mediator.h"
 #include "drc_shared/mediator/AsyncMediatorCall.h"
-#include "drc_shared/models/DRCModels.h"
+//#include "drc_shared/models/DRCModels.h"
 
 FruitNameForm::FruitNameForm(QWidget *parent) :
     QWidget(parent),
@@ -13,6 +13,7 @@ FruitNameForm::FruitNameForm(QWidget *parent) :
     ui->tabWidget->clear();
     ui->tabWidget->addTab(new Particapants(),"tab 1");
 
+    ui->widget = new Particapants(ui->widget);
     // One time setup of async handler.
     asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
 }
@@ -29,12 +30,37 @@ void FruitNameForm::on_retrieveButton_clicked()
 
 void FruitNameForm::on_sendButton_clicked()
 {
+    //// Filling out Intake form  ////
    Intake temp;
-   _name = ui->nameLineEdit->text();
-   temp.addPerson(_name);
-   UpdateNameField("Sending name: " + _name);
+   Particapants *tempClaim = (Particapants*)ui->widget;
+   temp.addClaimant(tempClaim->getName());
+   for(int i = 0; i < ui->tabWidget->count();i++)
+   {
+       Particapants *tempRespond = (Particapants*)ui->tabWidget->widget(i);
+       temp.addRespondents(tempRespond->getName());
+   }
+
+
+
+
+   UpdateNameField("Sending name: " + tempClaim->getName());
    //send info to logic to store into database
-   SendFruitName(_name);
+   SendFruitName(tempClaim->getName());
+}
+void FruitNameForm::UpdateForm(Intake *recieved)
+{
+    Particapants *tempClaim = new Particapants();
+    tempClaim->setName(recieved->getClaimant().getName());
+    ui->widget = tempClaim;
+    std::vector<Person> tempVec = recieved->getRespondents();
+    ui->tabWidget->clear();
+    Particapants *tempRespon;
+    for(uint i = 0; i < tempVec.size(); i++)
+    {
+        tempRespon = new Particapants();
+        tempRespon->setName(tempVec[i].getName());
+        ui->tabWidget->addTab(tempRespon, QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
+    }
 }
 
 void FruitNameForm::UpdateNameField(QString str)
@@ -77,4 +103,11 @@ void FruitNameForm::on_AddParty_clicked()
 {
 
     ui->tabWidget->addTab(new Particapants(), QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
+    ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
 }
+
+void FruitNameForm::on_removePushButton_clicked()
+{
+    ui->tabWidget->removeTab(ui->tabWidget->currentIndex());
+}
+

@@ -14,6 +14,10 @@ class Particapants : public QWidget
 public:
     explicit Particapants(QWidget *parent = 0);
     ~Particapants();
+    QString getName();
+    void setName(std::string str);
+private slots:
+
 
 private:
     Ui::Particapants *ui;

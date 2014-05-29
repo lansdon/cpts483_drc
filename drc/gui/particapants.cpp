@@ -12,3 +12,13 @@ Particapants::~Particapants()
 {
     delete ui;
 }
+
+QString Particapants::getName()
+{
+    return ui->nameLineEditPar->text();
+}
+
+void Particapants::setName(std::string str)
+{
+    ui->nameLineEditPar->setText(QString::fromStdString(str));
+}

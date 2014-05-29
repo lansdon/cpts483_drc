@@ -1,5 +1,5 @@
-#ifndef INTAKEFORM_H
-#define INTAKEFORM_H
+#ifndef INTAKE_H
+#define INTAKE_H
 
 #include "drc_shared/models/Person.h"
 #include <string>
@@ -16,16 +16,19 @@
 class Intake
 {
 private:
-    std::vector<Person> clients;
+    Person claimant;
+    std::vector<Person> respondents;
     time_t enterTime;
 
 
 public:
     Intake();
-    void addPerson(QString input);
+    void addClaimant(QString input);
+    void addRespondents(QString input);
     void setTime(time_t t);
     time_t getTime() const;
-    Person getPerson(std::string n);
+    Person getClaimant() const;
+    std::vector<Person> getRespondents() const;
 
 };
 

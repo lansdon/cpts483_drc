@@ -2,6 +2,7 @@
 #define MAINMENUTABWIDGET_H
 
 #include <QTabWidget>
+#include "intakeform.h"
 
 namespace Ui {
 class MainMenuTabWidget;
