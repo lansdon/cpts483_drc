@@ -1,55 +1,34 @@
 #include "drcdb.h"
+using std::string;
 
-DRCDB::DRCDB(QObject *parent)
+DATABASE::DATABASE() : DB_ERROR(false)
 {
-
-}
-DRCDB::~DRCDB()
-{
-
+    OpenDatabase("");
 }
 
-bool DRCDB::openDB()
-    {
-    // Find QSLite driver
-    db = QSqlDatabase::addDatabase("QSQLITE");
 
-    #ifdef Q_OS_LINUX
-    // NOTE: We have to store database file into user home folder in Linux
-    QString path(QDir::home().path());
-    path.append(QDir::separator()).append("my.db.sqlite");
-    path = QDir::toNativeSeparators(path);
-    db.setDatabaseName(path);
-    #else
-    // NOTE: File exists in the application private folder, in Symbian Qt implementation
-    db.setDatabaseName("my.db.sqlite");
-    #endif
+DATABASE::DATABASE(string database_name) : DB_ERROR(false)
+{
+    OpenDatabase(database_name);
+}
 
-    // Open databasee
-    return db.open();
-    }
+void DATABASE::OpenDatabase(string database_name)
+{
+    //sqlite3_open both creates and/or opens a database.
+    int sql_result = sqlite3_open(database_name.c_str(), &database);
 
-QSqlError DRCDB::lastError()
-    {
-    // If opening database has failed user can ask
-    // error description by QSqlError::text()
-    return db.lastError();
-    }
+    if (result)     //If result != 0, then database didn't open.
+        DB_ERROR = true;
+    else            //If result == 0, then database opened.
+        DB_ERROR = false;
+}
 
-bool DRCDB::deleteDB()
-    {
-    // Close database
-    db.close();
+bool DATABASE::isError()
+{
+    return DB_ERROR;
+}
 
-    #ifdef Q_OS_LINUX
-    // NOTE: We have to store database file into user home folder in Linux
-    QString path(QDir::home().path());
-    path.append(QDir::separator()).append("my.db.sqlite");
-    path = QDir::toNativeSeparators(path);
-    return QFile::remove(path);
-    #else
-
-    // Remove created database binary file
-    return QFile::remove("my.db.sqlite");
-    #endif
+string DATABASE::errorMessage()
+{
+    return string(sqlite3_errmsg(database));
 }
