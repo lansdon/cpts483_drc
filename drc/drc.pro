@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     drc_shared/mediator/Mediator.cpp \
     drc_shared/models/Person.cpp \
     DRCClient.cpp \
-    drc_shared/models/IntakeForm.cpp
+    drc_shared/models/Intake.cpp \
+    gui/fruitnameform.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -30,9 +31,12 @@ HEADERS  += \
     drc_shared/mediator/MediatorKeys.h \
     drc_shared/models/Person.h \
     DRCClient.h \
-    drc_shared/models/IntakeForm.h
+    drc_shared/models/Intake.h \
+    gui/fruitnameform.h \
+    drc_shared/models/DRCModels.h
 
 FORMS    += \
-    DRCClient.ui
+    DRCClient.ui \
+    gui/fruitnameform.ui
 
 CONFIG += c++11

@@ -6,14 +6,29 @@
 #include <vector>
 #include <functional>
 #include "drc_shared/mediator/MediatorArg.h"
+
 //namespace drc {
 //namespace drc_shared {
 
+///
+/// \brief MediatorCallbackFunc
+///
+/// This is the function signature of all callbacks.
+/// Note: this will work with global functions, member functions and lambdas.
+///
+/// Global Example:
+/// void GlobalFunction(MediatorArg arg);
+///
+/// Class Member Function Example:
+/// void SomeClass::MemberFunction(MediatorArg arg);
+///
+/// Lambda Example:
+/// [](MediatorArg arg) { /* your code here */ }
 
 typedef std::function<void(MediatorArg mediatorArg)> MediatorCallbackFunc;				// Lambda signature
 
 // MediatorCallback
-// This is a wrapper for MediatorCallbackType that tracks a unique id.
+// This is a wrapper for MediatorCallbackFunc that tracks a unique id.
 // The caller can use the id to unregister the function at a later date.
 typedef unsigned int MediatorId;
 static MediatorId __MEDIATOR_UNIQUE_ID = 0;    // used to increment unique ids  (DON'T EDIT THIS!)
@@ -42,7 +57,7 @@ private:
 /// an arbitrary object which the listener can cast to the correct pointer type. The listener
 /// must know what kind of object to cast to.
 ///
-/// Callback functions are of type   void func(MediatorArg);
+/// MediatorCallbackFunc functions are of type   std::function<void(MediatorArg mediatorArg)>
 
 class Mediator
 {

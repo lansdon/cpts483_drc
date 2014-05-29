@@ -30,11 +30,6 @@ void DRCDB::persistFruitName(MediatorArg arg)
             errorMessage = "No fruit name.";
         }
     }
-    else
-    {
-        success = false;
-        errorMessage = "Incoming arg flagged invalid.";
-    }
 
     qDebug() << "DB -> Persist Completed";
     Mediator::Call(MKEY_DB_PERSIST_FRUIT_NAME_DONE, fruitName, success, errorMessage);

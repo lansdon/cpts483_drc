@@ -13,7 +13,7 @@
 //class IntakeForm;
 //}}
 
-class IntakeForm
+class Intake
 {
 private:
     std::vector<Person> clients;
@@ -21,7 +21,7 @@ private:
 
 
 public:
-    IntakeForm();
+    Intake();
     void addPerson(QString input);
     void setTime(time_t t);
     time_t getTime() const;

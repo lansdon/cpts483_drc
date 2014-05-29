@@ -1,9 +1,12 @@
 #ifndef DRCCLIENT_H
 #define DRCCLIENT_H
 
-#include "drc_shared/models//IntakeForm.h"
 #include <QMainWindow>
 #include <QString>
+#include "drc_shared/models//Intake.h"
+#include "bl/drcbl.h"
+#include "db/drcdb.h"
+#include "gui/fruitnameform.h"
 
 namespace Ui {
 class DRCClient;
@@ -18,22 +21,22 @@ public:
     ~DRCClient();
 
 private slots:
-    void on_retrieveButton_clicked();
+//    void on_retrieveButton_clicked();
 
-    void on_sendButton_clicked();
+//    void on_sendButton_clicked();
 
-    void on_nameLineEdit_returnPressed();
+//    void on_nameLineEdit_returnPressed();
 
 private:
     Ui::DRCClient *ui;
-    QString _name;
 
-    void UpdateNameField(QString str);
+    // Important!! These objects are automatically initialized.
+    // They need to be instantiated at startup to register events properly.
+    DRCBL _bl;  // Business Logic
+    DRCDB _db;  // Database
 
-    //////////// SEND / RECIEVE EVENTS /////////////////
-    AsyncMediatorCall *asyncSendFruitName;
-    void SendFruitName(QString name);
-    void RecieveFruitNameResult(MediatorArg arg);
+    // Sub views
+    FruitNameForm* _fruitForm;
 
 };
 
