@@ -13,16 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-    gui/IntakeForm.cpp \
     bl/drcbl.cpp \
     db/drcdb.cpp \
     drc_shared/mediator/AsyncMediatorCall.cpp \
     drc_shared/mediator/Mediator.cpp \
     drc_shared/models/Person.cpp \
-    DRCClient.cpp
+    DRCClient.cpp \
+    drc_shared/models/IntakeForm.cpp
 
 HEADERS  += \
-    gui/IntakeForm.h \
     bl/drcbl.h \
     db/drcdb.h \
     drc_shared/mediator/AsyncMediatorCall.h \
@@ -30,7 +29,8 @@ HEADERS  += \
     drc_shared/mediator/MediatorArg.h \
     drc_shared/mediator/MediatorKeys.h \
     drc_shared/models/Person.h \
-    DRCClient.h
+    DRCClient.h \
+    drc_shared/models/IntakeForm.h
 
 FORMS    += \
     DRCClient.ui

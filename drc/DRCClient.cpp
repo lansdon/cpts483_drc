@@ -15,7 +15,7 @@ DRCClient::DRCClient(QWidget *parent) :
    DRCBL bl;
    DRCDB db;
 
-   asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SEND_FRUIT_NAME, MKEY_BL_SEND_FRUIT_NAME_RESULT, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
+   asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
 }
 
 DRCClient::~DRCClient()

@@ -49,15 +49,17 @@ void Mediator::Call(std::string key, void* object, bool success, std::string err
 	Call(key, MediatorArg(object, success, errorMessage));
 }
 
-void Mediator::Call(std::string Key, MediatorArg Object)
+void Mediator::Call(std::string key, MediatorArg arg)
 {
-	if (Instance().MediatorMap.count(Key) != 0)
+    qDebug() << "------  Medaitor Call: " << QString::fromStdString( key );
+    if (Instance().MediatorMap.count(key) != 0)
 	{
-        for (MediatorCallbackVector::iterator It = Instance().MediatorMap[Key].begin();
-			It != Instance().MediatorMap[Key].end();
-			++It)
+        for (MediatorCallbackVector::iterator it = Instance().MediatorMap[key].begin();
+            it != Instance().MediatorMap[key].end();
+            ++it)
 		{
-            (*It)->Run(Object);
+ //           qDebug() << "  -> " << QString::fromStdString((*it)->toString());
+            (*it)->Run(arg);
 		}
 	}
 }

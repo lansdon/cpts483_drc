@@ -12,24 +12,23 @@
 
 DRCBL::DRCBL()
 {
-    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SEND_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
+    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SUBMIT_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
 
     // Testing unregister... remove this later.
-    Mediator::Unregister(MKEY_GUI_SEND_FRUIT_NAME, ProcessFruitNameId);
-    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SEND_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
-    Mediator::Unregister(MKEY_GUI_SEND_FRUIT_NAME, ProcessFruitNameId);
-    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SEND_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
+    Mediator::Unregister(MKEY_GUI_SUBMIT_FRUIT_NAME, ProcessFruitNameId);
+    ProcessFruitNameId = Mediator::Register(MKEY_GUI_SUBMIT_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
 
 }
 
 void DRCBL::ProcessFruitName(MediatorArg arg)
 {
-    bool success = true;
-    std::string errorMessage;
+    bool success = arg.IsSuccessful();
+    std::string errorMessage = arg.ErrorMessage();
 
+    std::string* fruitName = nullptr;
     if (arg.IsSuccessful())
     {
-        auto fruitName = arg.getArg<std::string*>();
+        fruitName = arg.getArg<std::string*>();
         if (fruitName)
         {
             qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(*fruitName);
@@ -47,8 +46,8 @@ void DRCBL::ProcessFruitName(MediatorArg arg)
         errorMessage = "Incoming arg flagged invalid.";
     }
 
-    qDebug() << "BL -> Send result back";
-    Mediator::Call(MKEY_BL_SEND_FRUIT_NAME_RESULT, nullptr, success, errorMessage);
+    qDebug() << "BL -> Validation Complete";
+    Mediator::Call(MKEY_BL_VALIDATE_FRUITNAME_DONE, fruitName, success, errorMessage);
 }
 
 // end namespaces

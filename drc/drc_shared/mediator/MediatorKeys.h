@@ -18,7 +18,7 @@
 //  - For example, when the user submits a name which			//
 //  - the BL will register to recieve those events.				//
 //////////////////////////////////////////////////////////////////
-const std::string MKEY_GUI_SEND_FRUIT_NAME = "MKEY_GUI_SEND_FRUIT_NAME";
+const std::string MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";                // std::string*
 
 //////////////////////////////////////////////////////////////////
 //				BUSINESS LOGIC EVENTS							//
@@ -26,7 +26,7 @@ const std::string MKEY_GUI_SEND_FRUIT_NAME = "MKEY_GUI_SEND_FRUIT_NAME";
 //  - For example, when the user submits a name which			//
 //  - the BL will register to recieve those events.				//
 //////////////////////////////////////////////////////////////////
-const std::string MKEY_BL_SEND_FRUIT_NAME_RESULT = "MKEY_BL_SEND_FRUIT_NAME_RESULT";
+const std::string MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";       // std::string*
 
 
 //////////////////////////////////////////////////////////////////
@@ -35,6 +35,7 @@ const std::string MKEY_BL_SEND_FRUIT_NAME_RESULT = "MKEY_BL_SEND_FRUIT_NAME_RESU
 //  - For example, when the user submits a name which			//
 //  - the BL will register to recieve those events.				//
 //////////////////////////////////////////////////////////////////
+const std::string MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";       // nil
 
 
 
