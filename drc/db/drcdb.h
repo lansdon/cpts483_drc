@@ -3,6 +3,7 @@
 
 #include <sqlite3.h>
 #include <string>
+#include <vector>
 
 //This is a rough draft of all the methods we may need for our database
 //in the scope of the Fruit basket.  If you feel there are additions or

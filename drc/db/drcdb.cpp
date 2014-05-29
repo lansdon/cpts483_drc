@@ -17,9 +17,9 @@ void DATABASE::OpenDatabase(string database_name)
     //sqlite3_open both creates and/or opens a database.
     int sql_result = sqlite3_open(database_name.c_str(), &database);
 
-    if (result)     //If result != 0, then database didn't open.
+    if (sql_result)     //If result != 0, then database didn't open.
         DB_ERROR = true;
-    else            //If result == 0, then database opened.
+    else                //If result == 0, then database opened.
         DB_ERROR = false;
 }
 
