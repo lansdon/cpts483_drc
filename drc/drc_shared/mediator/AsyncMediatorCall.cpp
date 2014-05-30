@@ -6,11 +6,12 @@
 //  Copyright (c) 2014 Lansdon Page. All rights reserved.
 //
 
-#include "AsyncMediatorCall.h"
+
 #include <iostream>
 #include "MediatorKeys.h"
 #include "Mediator.h"
 #include "MediatorArg.h"
+#include "AsyncMediatorCall.h"
 #include <thread>
 #include <future>
 #include <QDebug>
@@ -28,8 +29,8 @@ AsyncMediatorCall::AsyncMediatorCall(
     unsigned long timeoutSecs)
 : QObject(0)
 , _sendEventMediatorKey(sendEventMediatorKey)
-, _callback(callback)
 , _recieveEventMediatorKey(recieveEventMediatorKey)
+, _callback(callback)
 , _mediatorArg(MediatorArg(argObject))
 , _timeoutSecs(timeoutSecs)
 , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
@@ -47,8 +48,8 @@ AsyncMediatorCall::AsyncMediatorCall(
     unsigned long timeoutSecs)
 : QObject(0)
 , _sendEventMediatorKey(sendEventMediatorKey)
-, _callback(callback)
 , _recieveEventMediatorKey(recieveEventMediatorKey)
+, _callback(callback)
 , _mediatorArg(mediatorArg)
 , _timeoutSecs(timeoutSecs)
 , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
@@ -59,6 +60,7 @@ AsyncMediatorCall::AsyncMediatorCall(
 
 AsyncMediatorCall::~AsyncMediatorCall()
 {
+
 }
 
 void AsyncMediatorCall::Send()					// This will perform the send event, and wait for the response.

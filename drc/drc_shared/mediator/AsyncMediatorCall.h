@@ -37,11 +37,14 @@ public:
 	void Send();						// This will perform the send event, and wait for the response.
 
 private:
+    // Internal mediator callbacks
+    MediatorId ResponseRecievedId;
+
 	std::string _sendEventMediatorKey;		// Send Event Key
 	std::string _recieveEventMediatorKey;	// Listen for this result Key
-
-	MediatorArg _mediatorArg;			// This is the argument being sent.
     MediatorCallbackFunc _callback;			// This is called when a response is received.
+	MediatorArg _mediatorArg;			// This is the argument being sent.
+
 
 	unsigned long _timeoutSecs;			// How long before we stop waiting for a response
 	std::future<bool> _waitingAsync;	// Dats why it's async!
@@ -55,8 +58,7 @@ private:
 
 	double Elapsed(clock_t startTime);
 
-    // Internal mediator callbacks
-    MediatorId ResponseRecievedId;
+
 
 public slots:
     void DoCallbackOnMainThread();

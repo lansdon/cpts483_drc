@@ -51,6 +51,7 @@ private:
     AsyncMediatorCall *asyncSendSearch;
     void SendSearchName(QString name);
     void SendFruitName(QString name);
+    Particapants *claiment;
 };
 
 #endif // FRUITNAMEFORM_H

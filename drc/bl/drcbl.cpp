@@ -55,6 +55,7 @@ void DRCBL::ProcessFruitName(MediatorArg arg)
     if (arg.IsSuccessful())
     {
         fruitName = arg.getArg<std::string*>();
+        qDebug() << QString("BL -> The Fruit Name is-> ") << QString::fromStdString(*fruitName);
         if (fruitName)
         {
             qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(*fruitName);

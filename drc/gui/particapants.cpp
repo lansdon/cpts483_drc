@@ -7,6 +7,15 @@ Particapants::Particapants(QWidget *parent) :
     ui(new Ui::Particapants)
 {
     ui->setupUi(this);
+
+}
+Particapants::Particapants(QWidget *parent,std::string input) :
+    QWidget(parent),
+    ui(new Ui::Particapants)
+{
+    ui->setupUi(this);
+    setName(input);
+
 }
 
 Particapants::~Particapants()
@@ -23,3 +32,5 @@ void Particapants::setName(std::string str)
 {
     ui->nameLineEditPar->setText(QString::fromStdString(str));
 }
+
+

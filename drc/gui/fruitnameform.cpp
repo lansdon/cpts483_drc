@@ -13,10 +13,11 @@ FruitNameForm::FruitNameForm(QWidget *parent) :
     ui->tabWidget->clear();
     ui->tabWidget->addTab(new Particapants(),"tab 1");
 
-    ui->widget = new Particapants(ui->widget);
+    claiment = new Particapants(ui->widget);
     // One time setup of async handler.
     asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
     asyncSendSearch = new AsyncMediatorCall(MKEY_GUI_SEARCH_FOR_USERNAME, MKEY_BL_RETURN_SEARCH_RESULTS, [this](MediatorArg arg){UpdateForm(arg);}, new Intake(),true);
+
 }
 
 FruitNameForm::~FruitNameForm()
@@ -34,32 +35,33 @@ void FruitNameForm::on_sendButton_clicked()
 {
     //// Filling out Intake form  ////
    Intake temp;
-   Particapants *tempClaim = (Particapants*)ui->widget;
-   temp.addClaimant(tempClaim->getName());
+   //Particapants *tempClaim = (Particapants*)ui->widget;
+   temp.addClaimant(claiment->getName());
    for(int i = 0; i < ui->tabWidget->count();i++)
    {
        Particapants *tempRespond = (Particapants*)ui->tabWidget->widget(i);
        temp.addRespondents(tempRespond->getName());
    }
 
-   UpdateNameField("Sending name: " + tempClaim->getName());
+   UpdateNameField("Sending name: " + claiment->getName());
    //send info to logic to store into database
-   SendFruitName(tempClaim->getName());
+   SendFruitName(claiment->getName());
 }
 void FruitNameForm::UpdateForm(MediatorArg arg)
 {
    Intake *recieved = arg.getArg<Intake*>();
-    Particapants *tempClaim = new Particapants(this);
-    tempClaim->setName(recieved->getClaimant().getName());
-    ui->widget = tempClaim;
+
+
+   //ui->widget->setName();
    if(recieved)
    {
+       claiment->setName(recieved->getClaimant().getName());
+       claiment->repaint();
        qDebug() << QString::fromStdString(recieved->getClaimant().getName());
        qDebug() << QString::fromStdString(recieved->getRespondents()[0].getName());
        std::vector<Person> tempVec = recieved->getRespondents();
        ui->tabWidget->clear();
        Particapants *tempRespon;
-//       tempClaim = new Particapants();
        for(uint i = 0; i < tempVec.size(); i++)
       {
            tempRespon = new Particapants();
