@@ -35,9 +35,14 @@ HEADERS  += \
     DRCClient.h \
     drc_shared/models/Fruit.h \
     drc_shared/models/User.h \
-    drc_shared/models/UserType.h
+    drc_shared/models/UserType.h \
+    db/FilterTypes.h \
+    db/Filter.h
 
 FORMS    += \
     DRCClient.ui
 
 CONFIG += c++11
+
+OTHER_FILES += \
+    
