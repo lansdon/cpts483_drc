@@ -1,5 +1,5 @@
-#ifndef INTAKEFORM_H
-#define INTAKEFORM_H
+#ifndef INTAKE_H
+#define INTAKE_H
 
 #include "drc_shared/models/Person.h"
 #include <string>

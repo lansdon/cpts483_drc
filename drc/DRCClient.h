@@ -21,11 +21,7 @@ public:
     ~DRCClient();
 
 private slots:
-//    void on_retrieveButton_clicked();
-
-//    void on_sendButton_clicked();
-
-//    void on_nameLineEdit_returnPressed();
+    void showFullScreen();
 
 private:
     Ui::DRCClient *ui;

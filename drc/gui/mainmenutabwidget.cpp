@@ -8,12 +8,12 @@ MainMenuTabWidget::MainMenuTabWidget(QWidget *parent) :
     ui(new Ui::MainMenuTabWidget)
 {
     ui->setupUi(this);
-
+//    this->setWindowState(Qt::WindowMaximized);
+//    QTabWidget::showFullScreen();
     // Setup the Tabs
     clear();
     addTab(new FruitNameForm(), "Fruit1");
     addTab(new IntakeForm(), "Intake Form");
-
 }
 
 MainMenuTabWidget::~MainMenuTabWidget()

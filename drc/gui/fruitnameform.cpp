@@ -4,12 +4,15 @@
 #include "drc_shared/mediator/Mediator.h"
 #include "drc_shared/mediator/AsyncMediatorCall.h"
 #include "drc_shared/models/DRCModels.h"
+#include <QWidget>
 
 FruitNameForm::FruitNameForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FruitNameForm)
 {
     ui->setupUi(this);
+    this->setWindowState(Qt::WindowState::WindowFullScreen);
+
     ui->tabWidget->clear();
     ui->tabWidget->addTab(new Particapants(),"tab 1");
 
@@ -40,6 +43,7 @@ void FruitNameForm::on_sendButton_clicked()
 void FruitNameForm::UpdateNameField(QString str)
 {
     ui->nameLabel->setText(str);
+
 }
 
 void FruitNameForm::on_nameLineEdit_returnPressed()
