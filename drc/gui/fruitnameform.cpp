@@ -56,7 +56,7 @@ void FruitNameForm::UpdateForm(MediatorArg arg)
    if(recieved)
    {
        claiment->setName(recieved->getClaimant().getName());
-       claiment->repaint();
+       //claiment->repaint();
        qDebug() << QString::fromStdString(recieved->getClaimant().getName());
        qDebug() << QString::fromStdString(recieved->getRespondents()[0].getName());
        std::vector<Person> tempVec = recieved->getRespondents();

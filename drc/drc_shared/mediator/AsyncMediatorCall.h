@@ -28,11 +28,11 @@ class AsyncMediatorCall : QObject
 
 public:
     AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, void* argObject, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
-    AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg _mediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
+    AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg _sendMediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
     virtual ~AsyncMediatorCall();
 
     // Accessors
-    MediatorArg& GetMediatorArg() { return _mediatorArg; }
+    MediatorArg& GetMediatorArg() { return _sendMediatorArg; }
 
 	void Send();						// This will perform the send event, and wait for the response.
 
@@ -43,8 +43,8 @@ private:
 	std::string _sendEventMediatorKey;		// Send Event Key
 	std::string _recieveEventMediatorKey;	// Listen for this result Key
     MediatorCallbackFunc _callback;			// This is called when a response is received.
-	MediatorArg _mediatorArg;			// This is the argument being sent.
-
+    MediatorArg _sendMediatorArg;			// This is the argument being sent.
+    MediatorArg _recieveMediatorArg;        // This is the argument being recieved.
 
 	unsigned long _timeoutSecs;			// How long before we stop waiting for a response
 	std::future<bool> _waitingAsync;	// Dats why it's async!

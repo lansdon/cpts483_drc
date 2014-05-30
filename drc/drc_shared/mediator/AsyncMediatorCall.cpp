@@ -31,7 +31,7 @@ AsyncMediatorCall::AsyncMediatorCall(
 , _sendEventMediatorKey(sendEventMediatorKey)
 , _recieveEventMediatorKey(recieveEventMediatorKey)
 , _callback(callback)
-, _mediatorArg(MediatorArg(argObject))
+, _recieveMediatorArg(MediatorArg(argObject))
 , _timeoutSecs(timeoutSecs)
 , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
 , _waiting(false)
@@ -50,7 +50,7 @@ AsyncMediatorCall::AsyncMediatorCall(
 , _sendEventMediatorKey(sendEventMediatorKey)
 , _recieveEventMediatorKey(recieveEventMediatorKey)
 , _callback(callback)
-, _mediatorArg(mediatorArg)
+, _recieveMediatorArg(mediatorArg)
 , _timeoutSecs(timeoutSecs)
 , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
 , _waiting(false)
@@ -81,7 +81,7 @@ void AsyncMediatorCall::SendEvent()	// This internal function handles maintenanc
     qDebug() << "Async -> thread running...";
 
     _waitingAsync = std::async(std::launch::async, &AsyncMediatorCall::WaitForResponse, this);
-	Mediator::Call(_sendEventMediatorKey, _mediatorArg);
+    Mediator::Call(_sendEventMediatorKey, _sendMediatorArg);
     WaitForResponse();
 	bool responseSuccess = _waitingAsync.get();      // waits for response
 
@@ -116,7 +116,7 @@ bool AsyncMediatorCall::WaitForResponse()
 
 void AsyncMediatorCall::ResponseRecieved(MediatorArg mediatorArg)	// This internal function handles maintenance when a response is recieved. Then the _callback is called.
 {
-    _mediatorArg = mediatorArg;
+    _recieveMediatorArg = mediatorArg;
 
     // Invoke the callback function on the main thread.
     if(_callback)
@@ -133,7 +133,7 @@ void AsyncMediatorCall::ResponseRecieved(MediatorArg mediatorArg)	// This intern
 void AsyncMediatorCall::DoCallbackOnMainThread()
 {
     qDebug() << "Doing callback on main thread";
-    _callback(_mediatorArg);
+    _callback(_recieveMediatorArg);
 }
 
 //}
