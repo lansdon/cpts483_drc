@@ -20,6 +20,9 @@
 // data as an argument. The BL will register to recieve that event.
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";                // std::string*
+const std::string MKEY_GUI_SUBMIT_INTAKE_FORM = "MKEY_GUI_SUBMIT_INTAKE_FORM";              // Intake*
+const std::string MKEY_GUI_LOAD_INTAKE_FORM = "MKEY_GUI_LOAD_INTAKE_FORM";                // Intake*
+
 
 //////////////////////////////////////////////////////////////////
 //				BUSINESS LOGIC EVENTS
@@ -29,6 +32,8 @@ const std::string MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";    
 // which the database has registered to recieve.
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";       // std::string*
+const std::string MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE";   // Intake*
+const std::string MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE";   // Intake*
 
 
 //////////////////////////////////////////////////////////////////
@@ -39,13 +44,8 @@ const std::string MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_
 // as an event for anyone listening to recieve.
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";       // nil
-
-
-
-//////////////// Temp Testing -- Delete this! ///////////////////
-const std::string MKEY_PRINT_STRING			= "MKEY_PRINT_STRING";
-const std::string MKEY_PRINT_DOG			= "MKEY_PRINT_DOG";
-const std::string MKEY_PRINT_INT			= "MKEY_PRINT_INT";
+const std::string MKEY_DB_PERSIST_INTAKE_FORM_DONE = "MKEY_DB_PERSIST_INTAKE_FORM_DONE";      // Intake*
+const std::string MKEY_DB_LOAD_INTAKE_FORM_DONE = "MKEY_DB_LOAD_INTAKE_FORM_DONE";      // std::vector<Intake*>*
 
 
 #endif

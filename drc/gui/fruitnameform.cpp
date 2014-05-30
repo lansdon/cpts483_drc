@@ -1,17 +1,20 @@
 #include "fruitnameform.h"
 #include "ui_fruitnameform.h"
+
+// Qt
 #include <QDebug>
+#include <QWidget>
+
+// DRC
 #include "drc_shared/mediator/Mediator.h"
 #include "drc_shared/mediator/AsyncMediatorCall.h"
 #include "drc_shared/models/DRCModels.h"
-#include <QWidget>
 
 FruitNameForm::FruitNameForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::FruitNameForm)
 {
     ui->setupUi(this);
-    this->setWindowState(Qt::WindowState::WindowFullScreen);
 
     ui->tabWidget->clear();
     ui->tabWidget->addTab(new Particapants(),"tab 1");
