@@ -15,18 +15,21 @@
 #include "MediatorArg.h"
 #include <thread>
 #include <future>
+#include <QObject>
 
 //namespace drc {
 //namespace drc_shared {
 
 const unsigned long DEF_ASYNC_TIMEOUT_SECS = 30; // timeout in seconds
 
-class AsyncMediatorCall
+class AsyncMediatorCall : QObject
 {
+    Q_OBJECT
+
 public:
     AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, void* argObject, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
     AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg _mediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
-	~AsyncMediatorCall();
+    virtual ~AsyncMediatorCall();
 
     // Accessors
     MediatorArg& GetMediatorArg() { return _mediatorArg; }
@@ -37,8 +40,8 @@ private:
 	std::string _sendEventMediatorKey;		// Send Event Key
 	std::string _recieveEventMediatorKey;	// Listen for this result Key
 
-    MediatorCallbackFunc _callback;			// This is called when a response is received.
 	MediatorArg _mediatorArg;			// This is the argument being sent.
+    MediatorCallbackFunc _callback;			// This is called when a response is received.
 
 	unsigned long _timeoutSecs;			// How long before we stop waiting for a response
 	std::future<bool> _waitingAsync;	// Dats why it's async!
@@ -54,6 +57,10 @@ private:
 
     // Internal mediator callbacks
     MediatorId ResponseRecievedId;
+
+public slots:
+    void DoCallbackOnMainThread();
+
 };
 
 //}   // end namespace drc_shared

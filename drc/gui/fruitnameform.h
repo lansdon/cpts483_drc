@@ -35,20 +35,22 @@ private slots:
 
     void on_removePushButton_clicked();
 
+    // Async Callbacks Must Be SLOTS!?
+    void RecieveFruitNameResult(MediatorArg arg);
+    void UpdateForm(MediatorArg arg);
+
 private:
     Ui::FruitNameForm *ui;
     QString _name;
 
     // Misc Functions
     void UpdateNameField(QString str);
-    void UpdateForm(MediatorArg arg);
 
     //////////// SEND / RECIEVE EVENTS /////////////////
     AsyncMediatorCall *asyncSendFruitName;
     AsyncMediatorCall *asyncSendSearch;
     void SendSearchName(QString name);
     void SendFruitName(QString name);
-    void RecieveFruitNameResult(MediatorArg arg);
 };
 
 #endif // FRUITNAMEFORM_H

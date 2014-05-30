@@ -42,9 +42,6 @@ void FruitNameForm::on_sendButton_clicked()
        temp.addRespondents(tempRespond->getName());
    }
 
-
-
-
    UpdateNameField("Sending name: " + tempClaim->getName());
    //send info to logic to store into database
    SendFruitName(tempClaim->getName());
@@ -52,21 +49,24 @@ void FruitNameForm::on_sendButton_clicked()
 void FruitNameForm::UpdateForm(MediatorArg arg)
 {
    Intake *recieved = arg.getArg<Intake*>();
-//    Particapants *tempClaim = new Particapants(this);
- //   tempClaim->setName(recieved->getClaimant().getName());
-//    ui->widget = tempClaim;
-    qDebug() << QString::fromStdString(recieved->getClaimant().getName());
-    qDebug() << QString::fromStdString(recieved->getRespondents()[0].getName());
-    std::vector<Person> tempVec = recieved->getRespondents();
-    ui->tabWidget->clear();
-    Particapants *tempRespon;
-   // tempClaim = new Particapants();
-    for(uint i = 0; i < tempVec.size(); i++)
+    Particapants *tempClaim = new Particapants(this);
+    tempClaim->setName(recieved->getClaimant().getName());
+    ui->widget = tempClaim;
+   if(recieved)
    {
-        tempRespon = new Particapants();
-        tempRespon->setName(tempVec[i].getName());
-        ui->tabWidget->addTab(tempRespon, QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
-    }
+       qDebug() << QString::fromStdString(recieved->getClaimant().getName());
+       qDebug() << QString::fromStdString(recieved->getRespondents()[0].getName());
+       std::vector<Person> tempVec = recieved->getRespondents();
+       ui->tabWidget->clear();
+       Particapants *tempRespon;
+//       tempClaim = new Particapants();
+       for(uint i = 0; i < tempVec.size(); i++)
+      {
+           tempRespon = new Particapants();
+           tempRespon->setName(tempVec[i].getName());
+           ui->tabWidget->addTab(tempRespon, QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
+       }
+   }
 }
 
 void FruitNameForm::UpdateNameField(QString str)
