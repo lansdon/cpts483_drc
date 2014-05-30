@@ -51,5 +51,6 @@ void InsertField(string fruit_name, string time_stamp)
 
 vector<string> SelectAllField()
 {
-    return vector<string> empty;
+    vector<string> empty;
+    return empty;
 }

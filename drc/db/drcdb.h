@@ -1,7 +1,7 @@
 #ifndef DRCDB_H
 #define DRCDB_H
 
-#include <sqlite3.h>
+#include "sqlite3.h"
 #include <string>
 #include <vector>
 
