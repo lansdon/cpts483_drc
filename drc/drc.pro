@@ -22,7 +22,6 @@ SOURCES += main.cpp\
     drc_shared/models/Intake.cpp \
     gui/fruitnameform.cpp \
     gui/intakeform.cpp \
-    gui/mainmenutabwidget.cpp \
     gui/particapants.cpp \
     bl/fruitnameprocessor.cpp \
     bl/intakeformprocessor.cpp
@@ -40,7 +39,6 @@ HEADERS  += \
     gui/fruitnameform.h \
     drc_shared/models/DRCModels.h \
     gui/intakeform.h \
-    gui/mainmenutabwidget.h \
     gui/particapants.h \
     bl/fruitnameprocessor.h \
     bl/intakeformprocessor.h
@@ -49,7 +47,6 @@ FORMS    += \
     DRCClient.ui \
     gui/fruitnameform.ui \
     gui/intakeform.ui \
-    gui/mainmenutabwidget.ui \
     gui/particapants.ui
 
 CONFIG += c++11

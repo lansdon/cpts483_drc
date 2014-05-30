@@ -1,18 +1,21 @@
 
 #include "DRCClient.h"
 #include "ui_DRCClient.h"
-#include "bl/drcbl.h"
-#include "db/drcdb.h"
-#include <QDebug>
-#include "gui/fruitnameform.h"
-#include "gui/mainmenutabwidget.h"
-#include <QTimer>
+
+
+// GUI STUFF
 #include <QGridLayout>
-#include "gui/intakeform.h"
-#include <QLayout>
-#include <QHBoxLayout>
 #include <QTabWidget>
 #include "gui/intakeform.h"
+#include "gui/fruitnameform.h"
+#include "gui/intakeform.h"
+
+// DRC COMPONENTS
+#include "bl/drcbl.h"
+#include "db/drcdb.h"
+
+// MISC
+#include <QDebug>
 
 DRCClient::DRCClient(QWidget *parent) :
    QMainWindow(parent),
