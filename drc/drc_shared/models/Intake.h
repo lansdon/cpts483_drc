@@ -26,7 +26,8 @@ public:
     void setTime(time_t t);
     time_t getTime() const;
     Person getPerson(std::string n);
-
+    Person getPerson(int index) const;
+    int getNumberOfPeople() const;
 };
 
 #endif // INTAKEFORM_H

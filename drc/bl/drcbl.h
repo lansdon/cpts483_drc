@@ -5,6 +5,7 @@
 //namespace bl {
 
 #include "drc_shared/mediator/Mediator.h"
+#include "fruitnameprocessor.h"
 
 class MediatorArg;
 
@@ -13,10 +14,13 @@ class DRCBL
 public:
     DRCBL();
 
-    void ProcessFruitName(MediatorArg arg);
+    void ProcessFruitName(MediatorArg arg) const;
 
     // Mediator Callbacks.
     MediatorId ProcessFruitNameId;
+
+private:
+    FruitNameProcessor _fruitNameProcessor;
 };
 
 //}   // end namespace

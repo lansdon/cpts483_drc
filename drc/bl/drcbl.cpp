@@ -1,12 +1,10 @@
+#include <qstring.h>
+#include <qdebug.h>
+
 #include "drcbl.h"
 #include "drc_shared/mediator/Mediator.h"
 #include "drc_shared/mediator/MediatorArg.h"
 #include "drc_shared/mediator/MediatorKeys.h"
-#include <qstring.h>
-#include <qdebug.h>
-
-#include <set>
-#include <algorithm>
 
 //namespace drc {
 //namespace bl {
@@ -22,38 +20,16 @@ DRCBL::DRCBL()
 
 }
 
-void DRCBL::ProcessFruitName(MediatorArg arg)
+void DRCBL::ProcessFruitName(MediatorArg arg) const
 {
-    std::set<std::string> fruitNames;
-    fruitNames.insert("apple");
-    fruitNames.insert("orange");
-    fruitNames.insert("grapefruit");
-    fruitNames.insert("pineapple");
-
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
 
     std::string* fruitName = nullptr;
-    if (arg.IsSuccessful())
+    if (success)
     {
         fruitName = arg.getArg<std::string*>();
-        if (fruitName)
-        {
-            qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(*fruitName);
-
-            auto fruitLower = *fruitName;
-            std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), tolower);
-            if (fruitNames.find(fruitLower) == fruitNames.end())
-            {
-                success = false;
-                errorMessage = "Invalid fruit name.";
-            }
-         }
-        else
-        {
-            success = false;
-            errorMessage = "No fruit name.";
-        }
+        success = _fruitNameProcessor.ValidateFruitName(fruitName, errorMessage);
     }
     else
     {
