@@ -12,6 +12,7 @@ class Particapants : public QWidget
     Q_OBJECT
 
 public:
+
     explicit Particapants(QWidget *parent = 0);
     ~Particapants();
     QString getName();

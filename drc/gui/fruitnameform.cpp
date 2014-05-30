@@ -16,6 +16,7 @@ FruitNameForm::FruitNameForm(QWidget *parent) :
     ui->widget = new Particapants(ui->widget);
     // One time setup of async handler.
     asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
+    asyncSendSearch = new AsyncMediatorCall(MKEY_GUI_SEARCH_FOR_USERNAME, MKEY_BL_RETURN_SEARCH_RESULTS, [this](MediatorArg arg){UpdateForm(arg);}, new Intake(),true);
 }
 
 FruitNameForm::~FruitNameForm()
@@ -26,6 +27,7 @@ FruitNameForm::~FruitNameForm()
 void FruitNameForm::on_retrieveButton_clicked()
 {
    //send request to logic to retrieve names from database based on date
+    SendSearchName("search");
 }
 
 void FruitNameForm::on_sendButton_clicked()
@@ -47,16 +49,20 @@ void FruitNameForm::on_sendButton_clicked()
    //send info to logic to store into database
    SendFruitName(tempClaim->getName());
 }
-void FruitNameForm::UpdateForm(Intake *recieved)
+void FruitNameForm::UpdateForm(MediatorArg arg)
 {
-    Particapants *tempClaim = new Particapants();
-    tempClaim->setName(recieved->getClaimant().getName());
-    ui->widget = tempClaim;
+   Intake *recieved = arg.getArg<Intake*>();
+//    Particapants *tempClaim = new Particapants(this);
+ //   tempClaim->setName(recieved->getClaimant().getName());
+//    ui->widget = tempClaim;
+    qDebug() << QString::fromStdString(recieved->getClaimant().getName());
+    qDebug() << QString::fromStdString(recieved->getRespondents()[0].getName());
     std::vector<Person> tempVec = recieved->getRespondents();
     ui->tabWidget->clear();
     Particapants *tempRespon;
+   // tempClaim = new Particapants();
     for(uint i = 0; i < tempVec.size(); i++)
-    {
+   {
         tempRespon = new Particapants();
         tempRespon->setName(tempVec[i].getName());
         ui->tabWidget->addTab(tempRespon, QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
@@ -98,6 +104,13 @@ void FruitNameForm::RecieveFruitNameResult(MediatorArg arg)
         UpdateNameField(error);
     }
 }
+
+void FruitNameForm::SendSearchName(QString name)
+{
+    asyncSendSearch->GetMediatorArg().SetArg(new std::string(name.toStdString()));
+    asyncSendSearch->Send();
+}
+
 
 void FruitNameForm::on_AddParty_clicked()
 {

@@ -14,7 +14,7 @@ public:
     DRCBL();
 
     void ProcessFruitName(MediatorArg arg);
-
+    void SendResults(MediatorArg arg);
     // Mediator Callbacks.
     MediatorId ProcessFruitNameId;
 };

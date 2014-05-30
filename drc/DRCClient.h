@@ -36,7 +36,7 @@ private:
     DRCDB _db;  // Database
 
     // Sub views
-    FruitNameForm* _fruitForm;
+    //FruitNameForm* _fruitForm;
 
 };
 

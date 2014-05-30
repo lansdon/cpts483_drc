@@ -41,10 +41,12 @@ private:
 
     // Misc Functions
     void UpdateNameField(QString str);
-    void UpdateForm(Intake *recieved);
+    void UpdateForm(MediatorArg arg);
 
     //////////// SEND / RECIEVE EVENTS /////////////////
     AsyncMediatorCall *asyncSendFruitName;
+    AsyncMediatorCall *asyncSendSearch;
+    void SendSearchName(QString name);
     void SendFruitName(QString name);
     void RecieveFruitNameResult(MediatorArg arg);
 };

@@ -2,6 +2,7 @@
 
 Intake::Intake()
 {
+    claimant = Person("");
 
 }
 
