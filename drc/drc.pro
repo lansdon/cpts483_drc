@@ -32,7 +32,10 @@ HEADERS  += \
     drc_shared/mediator/MediatorArg.h \
     drc_shared/mediator/MediatorKeys.h \
     drc_shared/models/Person.h \
-    DRCClient.h
+    DRCClient.h \
+    drc_shared/models/Fruit.h \
+    drc_shared/models/User.h \
+    drc_shared/models/UserType.h
 
 FORMS    += \
     DRCClient.ui
