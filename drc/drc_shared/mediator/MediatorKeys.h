@@ -20,13 +20,13 @@
 // data as an argument. The BL will register to recieve that event.
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";                // std::string*
-<<<<<<< HEAD
+
 const std::string MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";           // std::string*
-=======
+
 const std::string MKEY_GUI_SUBMIT_INTAKE_FORM = "MKEY_GUI_SUBMIT_INTAKE_FORM";              // Intake*
 const std::string MKEY_GUI_LOAD_INTAKE_FORM = "MKEY_GUI_LOAD_INTAKE_FORM";                // Intake*
 
->>>>>>> baa7bac4c75f0407e861f04d1a1d64c086e01f60
+
 
 //////////////////////////////////////////////////////////////////
 //				BUSINESS LOGIC EVENTS
@@ -36,13 +36,13 @@ const std::string MKEY_GUI_LOAD_INTAKE_FORM = "MKEY_GUI_LOAD_INTAKE_FORM";      
 // which the database has registered to recieve.
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";       // std::string*
-<<<<<<< HEAD
+
 const std::string MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
-=======
+
 const std::string MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE";   // Intake*
 const std::string MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE";   // Intake*
 
->>>>>>> baa7bac4c75f0407e861f04d1a1d64c086e01f60
+
 
 //////////////////////////////////////////////////////////////////
 //				DB EVENTS
