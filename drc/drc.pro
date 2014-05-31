@@ -46,12 +46,11 @@ HEADERS  += \
     bl/intakeformprocessor.h \
     db/Filter.h \
     db/FilterTypes.h \
-    db/sqlite3.h \
     drc_shared/models/Fruit.h \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \
-    db/FilterTypes.h \
-    db/Filter.h
+    db/sqlite3.h
+
 FORMS    += \
     DRCClient.ui \
     gui/fruitnameform.ui \
