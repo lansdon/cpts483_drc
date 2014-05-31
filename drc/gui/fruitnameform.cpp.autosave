@@ -8,12 +8,12 @@
 // DRC
 #include "drc_shared/mediator/Mediator.h"
 #include "drc_shared/mediator/AsyncMediatorCall.h"
-<<<<<<< HEAD
+
 
 #include <QWidget>
-=======
+
 #include "drc_shared/models/DRCModels.h"
->>>>>>> baa7bac4c75f0407e861f04d1a1d64c086e01f60
+
 
 
 FruitNameForm::FruitNameForm(QWidget *parent) :
