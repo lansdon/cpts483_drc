@@ -16,8 +16,8 @@ IntakeForm::IntakeForm(QWidget *parent) :
     ui->setupUi(this);
 
     // One time setup of async handlers.
-    _asyncLoadIntake = new AsyncMediatorCall(MKEY_GUI_LOAD_INTAKE_FORM, MKEY_DB_PERSIST_INTAKE_FORM_DONE, [this](MediatorArg arg){ Recieve_SaveIntakeForm(arg); }, nullptr, true);
-    _asyncSaveIntake = new AsyncMediatorCall(MKEY_GUI_SUBMIT_INTAKE_FORM, MKEY_DB_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){ Recieve_LoadIntakeForm(arg); }, nullptr, true);
+    _asyncLoadIntake = new AsyncMediatorCall(MKEY_GUI_LOAD_INTAKE_FORM, MKEY_DB_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){ Recieve_LoadIntakeForm(arg); }, nullptr, true);
+    _asyncSaveIntake = new AsyncMediatorCall(MKEY_GUI_SUBMIT_INTAKE_FORM, MKEY_DB_PERSIST_INTAKE_FORM_DONE, [this](MediatorArg arg){ Recieve_SaveIntakeForm(arg); }, nullptr, true);
 
 }
 
