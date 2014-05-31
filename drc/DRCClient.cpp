@@ -23,6 +23,7 @@ DRCClient::DRCClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
+
     // Set layout with Tab View with Tabs.
     QHBoxLayout *layout = new QHBoxLayout;
     QTabWidget* tw = new QTabWidget();
@@ -33,6 +34,14 @@ DRCClient::DRCClient(QWidget *parent) :
     // Add layout to QWidget (The main frame holding all our subviews.)
     QWidget *window = new QWidget();
     window->setLayout(layout);
+
+   // Create the application components that will be listening for events.
+   DRCBL bl;
+   DATABASE DB;
+   DB.OpenDatabase("test.db");
+   asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SEND_FRUIT_NAME, MKEY_BL_SEND_FRUIT_NAME_RESULT, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"));
+
+
 
     // Set QWidget as the central layout of the main window
     setCentralWidget(window);

@@ -1,12 +1,12 @@
 #ifndef INTAKE_H
 #define INTAKE_H
 
-#include "drc_shared/models/Person.h"
+#include "../drc_shared/models/Person.h"
 #include <string>
 #include <vector>
 #include <ctime>
-#include "drc_shared/mediator/AsyncMediatorCall.h"
-#include "drc_shared/mediator/MediatorArg.h"
+#include "../drc_shared/mediator/AsyncMediatorCall.h"
+#include "../drc_shared/mediator/MediatorArg.h"
 
 //namespace drc {
 //namespace gui {
