@@ -68,9 +68,7 @@ void AsyncMediatorCall::Send()					// This will perform the send event, and wait
 	if (!_waiting)
 	{
 		_waiting = true;
-
         std::async(std::launch::async, &AsyncMediatorCall::SendEvent, this);	// fire and forget seperate thread
-
 	}
 	else
 	{

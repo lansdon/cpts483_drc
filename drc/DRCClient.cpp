@@ -35,14 +35,6 @@ DRCClient::DRCClient(QWidget *parent) :
     QWidget *window = new QWidget();
     window->setLayout(layout);
 
-   // Create the application components that will be listening for events.
-   DRCBL bl;
-   DATABASE DB;
-   DB.OpenDatabase("test.db");
-   asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SEND_FRUIT_NAME, MKEY_BL_SEND_FRUIT_NAME_RESULT, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"));
-
-
-
     // Set QWidget as the central layout of the main window
     setCentralWidget(window);
 

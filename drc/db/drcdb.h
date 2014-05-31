@@ -5,6 +5,7 @@
 #include "sqlite3.h"
 #include <string>
 #include <vector>
+#include <QtSql/QtSql>
 
 //This is a rough draft of all the methods we may need for our database
 //in the scope of the Fruit basket.  If you feel there are additions or
@@ -13,7 +14,8 @@
 class DATABASE
 {
 private:
-	sqlite3 *database;
+//	sqlite3 *database;
+    QSqlDatabase database;
 	bool DB_ERROR;
 
 public:
@@ -38,6 +40,14 @@ public:
 
 	bool isError();
 	std::string errorMessage();
+
+
+    // Incoming Events
+    void PersistIntakeForm(MediatorArg arg) const;
+
+    void PersistFruit(MediatorArg arg) const;
+
+    void LoadIntake(MediatorArg arg) const;
 
 };
 

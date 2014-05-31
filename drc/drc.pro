@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT      += core gui
 QT	+= sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
@@ -43,7 +43,10 @@ HEADERS  += \
     gui/intakeform.h \
     gui/particapants.h \
     bl/fruitnameprocessor.h \
-    bl/intakeformprocessor.h
+    bl/intakeformprocessor.h \
+    db/Filter.h \
+    db/FilterTypes.h \
+    db/sqlite3.h \
     drc_shared/models/Fruit.h \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \

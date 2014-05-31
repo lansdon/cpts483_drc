@@ -42,7 +42,7 @@ public:
 	void SetSuccessful(bool isSuccessful) { _success = isSuccessful; }
 	std::string ErrorMessage() { return _errorMessage; }
 	void SetErrorMsg(std::string errorMessage) { _errorMessage = errorMessage; }
-	void SetArg(void* arg) { _arg = arg; }
+    void SetArg(void* arg = nullptr, bool success=true, std::string error = "") { _arg = arg; _success = success; _errorMessage = error;}
 	
 	// Cast the argument to expected type (Must be a pointer!)
 	template<typename T>
