@@ -23,6 +23,10 @@ public:
 private slots:
     void showFullScreen();
 
+    void on_actionNew_Fruit_Submission_triggered();
+
+    void on_actionNew_Form_triggered();
+
 private:
     Ui::DRCClient *ui;
 
@@ -34,6 +38,7 @@ private:
     // Sub views
     //FruitNameForm* _fruitForm;
 
+    void SetMainView(QWidget* widget);
 };
 
 #endif // DRCClient_H
