@@ -9,6 +9,7 @@
 #include "gui/intakeform.h"
 #include "gui/fruitnameform.h"
 #include "gui/intakeform.h"
+#include "gui/loginform.h"
 
 // DRC COMPONENTS
 #include "bl/drcbl.h"
@@ -23,7 +24,7 @@ DRCClient::DRCClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
+    setCentralWidget(new LoginForm(this));
 
     // Set the window to max size.
     this->setWindowState(Qt::WindowMaximized);
@@ -33,12 +34,6 @@ DRCClient::~DRCClient()
 {
    delete ui;
 }
-
-void DRCClient::showFullScreen()
-{
-//    QMainWindow::showFullScreen();
-}
-
 
 
 void DRCClient::on_actionNew_Fruit_Submission_triggered()

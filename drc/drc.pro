@@ -26,7 +26,8 @@ SOURCES += main.cpp\
     gui/intakeform.cpp \
     gui/particapants.cpp \
     bl/fruitnameprocessor.cpp \
-    bl/intakeformprocessor.cpp
+    bl/intakeformprocessor.cpp \
+    gui/loginform.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -49,13 +50,15 @@ HEADERS  += \
     drc_shared/models/Fruit.h \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \
-    db/sqlite3.h
+    db/sqlite3.h \
+    gui/loginform.h
 
 FORMS    += \
     DRCClient.ui \
     gui/fruitnameform.ui \
     gui/intakeform.ui \
-    gui/particapants.ui
+    gui/particapants.ui \
+    gui/loginform.ui
 
 
 CONFIG += c++11

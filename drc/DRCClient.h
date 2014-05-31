@@ -21,7 +21,6 @@ public:
     ~DRCClient();
 
 private slots:
-    void showFullScreen();
 
     void on_actionNew_Fruit_Submission_triggered();
 
