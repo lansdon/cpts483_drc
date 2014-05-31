@@ -5,11 +5,13 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT	+= sql
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = drc
 TEMPLATE = app
+
 
 
 SOURCES += main.cpp\
@@ -42,11 +44,19 @@ HEADERS  += \
     gui/particapants.h \
     bl/fruitnameprocessor.h \
     bl/intakeformprocessor.h
-
+    drc_shared/models/Fruit.h \
+    drc_shared/models/User.h \
+    drc_shared/models/UserType.h \
+    db/FilterTypes.h \
+    db/Filter.h
 FORMS    += \
     DRCClient.ui \
     gui/fruitnameform.ui \
     gui/intakeform.ui \
     gui/particapants.ui
 
+
 CONFIG += c++11
+
+OTHER_FILES += \
+    

@@ -13,7 +13,7 @@
 #include "MediatorKeys.h"
 #include "Mediator.h"
 #include "MediatorArg.h"
-#include <thread>
+//#include <thread>
 #include <future>
 #include <QObject>
 
@@ -47,7 +47,7 @@ private:
     MediatorArg _recieveMediatorArg;        // This is the argument being recieved.
 
 	unsigned long _timeoutSecs;			// How long before we stop waiting for a response
-	std::future<bool> _waitingAsync;	// Dats why it's async!
+    std::future<bool> _waitingAsync;	// Dats why it's async!
 
     bool _willWaitForResponse;          // Turn this on when you want to handle a response event.
 	bool WaitForResponse();

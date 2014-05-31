@@ -1,36 +1,60 @@
 #include "drcdb.h"
-#include "drc_shared/mediator/Mediator.h"
-#include "drc_shared/mediator/MediatorKeys.h"
-#include "QDebug"
 
-DRCDB::DRCDB()
+using std::string;
+using std::vector;
+
+
+DATABASE::DATABASE() : DB_ERROR(false)
 {
-    _persistFruitNameId = Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){ persistFruitName(arg); });
 
+    OpenDatabase("");
 }
 
 
-void DRCDB::persistFruitName(MediatorArg arg)
+DATABASE::DATABASE(string database_name) : DB_ERROR(false)
 {
-    bool success = arg.IsSuccessful();
-    std::string errorMessage = arg.ErrorMessage();
-    std::string* fruitName = nullptr;
+    OpenDatabase(database_name);
+}
 
-    if (arg.IsSuccessful())
-    {
-        fruitName = arg.getArg<std::string*>();
-        if (fruitName)
-        {
-            qDebug() << QString("DB -> Persisting Fruit Name -> ") << QString::fromStdString(*fruitName);
-            // Do stuff here.
-         }
-        else
-        {
-            success = false;
-            errorMessage = "No fruit name.";
-        }
-    }
+void DATABASE::OpenDatabase(string database_name)
+{
+    //sqlite3_open both creates and/or opens a database.
+    int sql_result = sqlite3_open(database_name.c_str(), &database);
 
-    qDebug() << "DB -> Persist Completed";
-    Mediator::Call(MKEY_DB_PERSIST_FRUIT_NAME_DONE, fruitName, success, errorMessage);
+    if (sql_result)     //If result != 0, then database didn't open.
+        DB_ERROR = true;
+    else                //If result == 0, then database opened.
+        DB_ERROR = false;
+}
+
+bool DATABASE::isError()
+{
+    return DB_ERROR;
+}
+
+string DATABASE::errorMessage()
+{
+    return string(sqlite3_errmsg(database));
+}
+
+void CreateTable(string table_name)
+{
+
+}
+
+void AddColumn(string column_name, string column_type, string column_required, bool primary_key)
+{
+
+}
+
+void InsertField(string fruit_name, string time_stamp)
+{
+
+}
+
+vector<string> SelectAllField()
+{
+    vector<string> empty;
+    return empty;
+
 }
