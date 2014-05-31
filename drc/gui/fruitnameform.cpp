@@ -24,8 +24,9 @@ FruitNameForm::FruitNameForm(QWidget *parent) :
 
     ui->tabWidget->clear();
     ui->tabWidget->addTab(new Particapants(),"tab 1");
+    ui->claimentTabWidget->clear();
+    ui->claimentTabWidget->addTab((claiment=new Particapants(ui->claimentTabWidget)), QString::fromStdString("Claiment " + std::to_string(ui->claimentTabWidget->count() + 1)));
 
-    claiment = new Particapants();
     // One time setup of async handler.
     asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
     asyncSendSearch = new AsyncMediatorCall(MKEY_GUI_SEARCH_FOR_USERNAME, MKEY_BL_RETURN_SEARCH_RESULTS, [this](MediatorArg arg){UpdateForm(arg);}, new Intake(),true);
