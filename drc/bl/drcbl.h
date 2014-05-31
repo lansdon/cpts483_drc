@@ -17,7 +17,8 @@ public:
 
     void ProcessFruitName(MediatorArg arg) const;
 
-
+    void ValidateSaveIntakeRequest(MediatorArg arg) const;
+    void ValidateLoadIntakeRequest(MediatorArg arg) const;
 
     void SendResults(MediatorArg arg);
 

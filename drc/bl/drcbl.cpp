@@ -25,6 +25,8 @@ DRCBL::DRCBL()
 {
     ProcessFruitNameId = Mediator::Register(MKEY_GUI_SUBMIT_FRUIT_NAME, [this](MediatorArg arg){ ProcessFruitName(arg); });
     Mediator::Register(MKEY_GUI_SEARCH_FOR_USERNAME, [this](MediatorArg arg){SendResults(arg); });
+    Mediator::Register(MKEY_GUI_LOAD_INTAKE_FORM, [this](MediatorArg arg){ValidateLoadIntakeRequest(arg); });
+    Mediator::Register(MKEY_GUI_SUBMIT_INTAKE_FORM, [this](MediatorArg arg){ValidateSaveIntakeRequest(arg); });
 
 }
 void DRCBL::SendResults(MediatorArg arg)
@@ -58,16 +60,43 @@ void DRCBL::ProcessFruitName(MediatorArg arg) const
         success = _fruitNameProcessor.ValidateFruitName(fruitName, errorMessage);
 
     }
-    else
-    {
-        success = false;
-        errorMessage = "Incoming arg flagged invalid.";
-    }
 
     qDebug() << "BL -> Validation Complete";
     Mediator::Call(MKEY_BL_VALIDATE_FRUITNAME_DONE, fruitName, success, errorMessage);
 }
 
+
+void DRCBL::ValidateSaveIntakeRequest(MediatorArg arg) const
+{
+    bool success = arg.IsSuccessful();
+    std::string errorMessage = arg.ErrorMessage();
+
+    Intake* intake = nullptr;
+    if (success)
+    {
+        intake = arg.getArg<Intake*>();
+        // INSERT CODE HERE
+    }
+
+    qDebug() << "BL -> ValidateSaveIntakeRequest Complete";
+    Mediator::Call(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, intake, success, errorMessage);
+}
+
+void DRCBL::ValidateLoadIntakeRequest(MediatorArg arg) const
+{
+    bool success = arg.IsSuccessful();
+    std::string errorMessage = arg.ErrorMessage();
+
+    Intake* intake = nullptr;
+    if (success)
+    {
+        intake = arg.getArg<Intake*>();
+        // INSERT CODE HERE
+    }
+
+    qDebug() << "BL -> ValidateLoadIntakeRequest Complete";
+    Mediator::Call(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, intake, success, errorMessage);
+}
 // end namespaces
 //}
 //}
