@@ -49,7 +49,8 @@ HEADERS  += \
     drc_shared/models/Fruit.h \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \
-    db/sqlite3.h
+    db/sqlite3.h \
+    drc_shared/models/DBBaseObject.h
 
 FORMS    += \
     DRCClient.ui \
