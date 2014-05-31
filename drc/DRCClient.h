@@ -29,7 +29,7 @@ private:
     // Important!! These objects are automatically initialized.
     // They need to be instantiated at startup to register events properly.
     DRCBL _bl;  // Business Logic
-    DRCDB _db;  // Database
+    DATABASE _db;  // Database
 
     // Sub views
     //FruitNameForm* _fruitForm;
