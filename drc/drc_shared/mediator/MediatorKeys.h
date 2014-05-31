@@ -20,6 +20,7 @@
 // data as an argument. The BL will register to recieve that event.
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";                // std::string*
+const std::string MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";           // std::string*
 
 //////////////////////////////////////////////////////////////////
 //				BUSINESS LOGIC EVENTS
@@ -29,7 +30,7 @@ const std::string MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";    
 // which the database has registered to recieve.
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";       // std::string*
-
+const std::string MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
 
 //////////////////////////////////////////////////////////////////
 //				DB EVENTS

@@ -14,7 +14,12 @@ class DRCBL
 public:
     DRCBL();
 
+
     void ProcessFruitName(MediatorArg arg) const;
+
+
+
+    void SendResults(MediatorArg arg);
 
     // Mediator Callbacks.
     MediatorId ProcessFruitNameId;

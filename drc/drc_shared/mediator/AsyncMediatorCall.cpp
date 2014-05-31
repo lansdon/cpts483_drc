@@ -6,30 +6,32 @@
 //  Copyright (c) 2014 Lansdon Page. All rights reserved.
 //
 
-#include "AsyncMediatorCall.h"
+
 #include <iostream>
 #include "MediatorKeys.h"
 #include "Mediator.h"
 #include "MediatorArg.h"
+#include "AsyncMediatorCall.h"
 #include <thread>
 #include <future>
 #include <QDebug>
-
+#include <QObject>
 
 //namespace drc {
 //namespace drc_shared {
 
 AsyncMediatorCall::AsyncMediatorCall(
-	std::string sendEventMediatorKey, 
-	std::string recieveEventMediatorKey, 
+    std::string sendEventMediatorKey,
+    std::string recieveEventMediatorKey,
     MediatorCallbackFunc callback,
     void* argObject,
     bool waitForResponse,
-	unsigned long timeoutSecs)
-: _sendEventMediatorKey(sendEventMediatorKey)
+    unsigned long timeoutSecs)
+: QObject(0)
+, _sendEventMediatorKey(sendEventMediatorKey)
 , _recieveEventMediatorKey(recieveEventMediatorKey)
 , _callback(callback)
-, _mediatorArg(MediatorArg(argObject))
+, _recieveMediatorArg(MediatorArg(argObject))
 , _timeoutSecs(timeoutSecs)
 , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
 , _waiting(false)
@@ -38,25 +40,27 @@ AsyncMediatorCall::AsyncMediatorCall(
 }
 
 AsyncMediatorCall::AsyncMediatorCall(
-	std::string sendEventMediatorKey,
-	std::string recieveEventMediatorKey,
+    std::string sendEventMediatorKey,
+    std::string recieveEventMediatorKey,
     MediatorCallbackFunc callback,
-	MediatorArg mediatorArg,
+    MediatorArg mediatorArg,
     bool waitForResponse,
     unsigned long timeoutSecs)
-	: _sendEventMediatorKey(sendEventMediatorKey)
-	, _recieveEventMediatorKey(recieveEventMediatorKey)
-	, _callback(callback)
-	, _mediatorArg(mediatorArg)
-	, _timeoutSecs(timeoutSecs)
-    , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
-    , _waiting(false)
+: QObject(0)
+, _sendEventMediatorKey(sendEventMediatorKey)
+, _recieveEventMediatorKey(recieveEventMediatorKey)
+, _callback(callback)
+, _recieveMediatorArg(mediatorArg)
+, _timeoutSecs(timeoutSecs)
+, _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
+, _waiting(false)
 {
     ResponseRecievedId = Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { this->ResponseRecieved(mediatorArg); });		// Start listening for a response
 }
 
-AsyncMediatorCall::~AsyncMediatorCall() 
+AsyncMediatorCall::~AsyncMediatorCall()
 {
+
 }
 
 void AsyncMediatorCall::Send()					// This will perform the send event, and wait for the response.
@@ -77,7 +81,7 @@ void AsyncMediatorCall::SendEvent()	// This internal function handles maintenanc
     qDebug() << "Async -> thread running...";
 
     _waitingAsync = std::async(std::launch::async, &AsyncMediatorCall::WaitForResponse, this);
-	Mediator::Call(_sendEventMediatorKey, _mediatorArg);
+    Mediator::Call(_sendEventMediatorKey, _sendMediatorArg);
     WaitForResponse();
 	bool responseSuccess = _waitingAsync.get();      // waits for response
 
@@ -112,14 +116,24 @@ bool AsyncMediatorCall::WaitForResponse()
 
 void AsyncMediatorCall::ResponseRecieved(MediatorArg mediatorArg)	// This internal function handles maintenance when a response is recieved. Then the _callback is called.
 {
-	// Call the callback we were given
-     if (_callback)
-        _callback(mediatorArg);
+    _recieveMediatorArg = mediatorArg;
+
+    // Invoke the callback function on the main thread.
+    if(_callback)
+    {
+        QMetaObject::invokeMethod(this, "DoCallbackOnMainThread", Qt::QueuedConnection);
+    }
 
      qDebug() << "Async -> Response recieved - thread terminated.";
 
     // Ready to do it again
     _waiting = false;
+}
+
+void AsyncMediatorCall::DoCallbackOnMainThread()
+{
+    qDebug() << "Doing callback on main thread";
+    _callback(_recieveMediatorArg);
 }
 
 //}

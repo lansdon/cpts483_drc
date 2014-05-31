@@ -8,6 +8,7 @@ class Person
 private:
     std::string _name;
 public:
+    Person();
     Person(QString n);
     std::string getName() const;
 };

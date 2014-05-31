@@ -19,8 +19,7 @@
 
 DRCClient::DRCClient(QWidget *parent) :
    QMainWindow(parent),
-   ui(new Ui::DRCClient),
-   _fruitForm(new FruitNameForm())
+   ui(new Ui::DRCClient)
 {
     ui->setupUi(this);
 

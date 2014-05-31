@@ -14,9 +14,9 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     bl/drcbl.cpp \
-    db/drcdb.cpp \
-    drc_shared/mediator/AsyncMediatorCall.cpp \
+    db/drcdb.cpp \    
     drc_shared/mediator/Mediator.cpp \
+    drc_shared/mediator/AsyncMediatorCall.cpp \
     drc_shared/models/Person.cpp \
     DRCClient.cpp \
     drc_shared/models/Intake.cpp \
@@ -29,10 +29,10 @@ SOURCES += main.cpp\
 HEADERS  += \
     bl/drcbl.h \
     db/drcdb.h \
-    drc_shared/mediator/AsyncMediatorCall.h \
     drc_shared/mediator/Mediator.h \
     drc_shared/mediator/MediatorArg.h \
     drc_shared/mediator/MediatorKeys.h \
+    drc_shared/mediator/AsyncMediatorCall.h \
     drc_shared/models/Person.h \
     DRCClient.h \
     drc_shared/models/Intake.h \

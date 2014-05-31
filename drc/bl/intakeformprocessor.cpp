@@ -13,7 +13,7 @@ bool IntakeFormProcessor::ValidateIntakeForm(Intake* intakeForm, std::string& er
     {
         for (int i = 0; i < intakeForm->getNumberOfPeople(); i++)
         {
-            success = ValidatePerson(intakeForm->getPerson(i), errorMessage);
+            success = ValidatePerson(intakeForm->getRespondents()[i], errorMessage);
             if (!success) break;
         }
         success = ValidateTime(intakeForm->getTime(), errorMessage);

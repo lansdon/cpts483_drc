@@ -16,18 +16,24 @@
 class Intake
 {
 private:
-    std::vector<Person> clients;
+    Person claimant;
+    std::vector<Person> respondents;
     time_t enterTime;
 
 
 public:
     Intake();
-    void addPerson(QString input);
+    void addClaimant(QString input);
+    void addRespondents(QString input);
     void setTime(time_t t);
     time_t getTime() const;
-    Person getPerson(std::string n);
-    Person getPerson(int index) const;
+
     int getNumberOfPeople() const;
+
+    Person getClaimant() const;
+    std::vector<Person> getRespondents() const;
+
+
 };
 
 #endif // INTAKEFORM_H
