@@ -1,0 +1,20 @@
+#include "loginprocessor.h"
+
+LoginProcessor::LoginProcessor(std::string regProcess="", std::string sendProcess="",
+                           std::string regLoad="", std::string sendLoad="")
+              : _regProcess(regProcess), _sendProcess(sendProcess),
+                _regLoad(regLoad), _sendLoad(sendLoad)
+{
+    if (_regProcess != "")    Mediator::Register(_regProcess, [this](MediatorArg arg){ Process(arg); });
+    if (_regProcess != "")   Mediator::Register(_regLoad, [this](MediatorArg arg){ Load(arg); });
+}
+
+void LoginProcessor::Process(MediatorArg arg) const
+{
+    
+}
+
+void LoginProcessor::Load(MediatorArg arg) const
+{
+    
+}

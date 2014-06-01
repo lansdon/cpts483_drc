@@ -1,11 +1,19 @@
+#include <algorithm>
 #include <qstring.h>
 #include <qdebug.h>
-#include <algorithm>
+
+#include "../drc_shared/mediator/Mediator.h"
+#include "../drc_shared/models/Fruit.h"
 
 #include "fruitnameprocessor.h"
 
-FruitNameProcessor::FruitNameProcessor()
+FruitNameProcessor::FruitNameProcessor(std::string regProcess="", std::string sendProcess="",
+                                       std::string regLoad="", std::string sendLoad="")
+                    : _regProcess(regProcess), _sendProcess(sendProcess),
+                      _regLoad(regLoad), _sendLoad(sendLoad)
 {
+    if (_regProcess != "")    Mediator::Register(_regProcess, [this](MediatorArg arg){ Process(arg); });
+    if (_regProcess != "")   Mediator::Register(_regLoad, [this](MediatorArg arg){ Load(arg); });
     _fruitNames.insert("apple");
     _fruitNames.insert("orange");
     _fruitNames.insert("banana");
@@ -19,25 +27,40 @@ FruitNameProcessor::FruitNameProcessor()
     _fruitNames.insert("kiwi");
 }
 
-bool FruitNameProcessor::ValidateFruitName(std::string* fruitName, std::string& errorMessage) const
+void FruitNameProcessor::Process(MediatorArg arg)
 {
-    bool success = true;
-    if (fruitName)
-    {
-        qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(*fruitName);
+    bool success = arg.IsSuccessful();
+    std::string errorMessage = arg.ErrorMessage();
 
-        auto fruitLower = *fruitName;
-        std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), tolower);
-        if (_fruitNames.find(fruitLower) == _fruitNames.end())
+    Fruit* fruit = nullptr;
+    if (success)
+    {
+        fruit = arg.getArg<Fruit*>();
+
+        if (fruit)
+        {
+            qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(fruit->GetName());
+
+            auto fruitLower = fruit->GetName();
+            std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), ::tolower);
+            if (_fruitNames.find(fruitLower) == _fruitNames.end())
+            {
+                success = false;
+                errorMessage = "Invalid fruit name.";
+            }
+         }
+        else
         {
             success = false;
-            errorMessage = "Invalid fruit name.";
+            errorMessage = "No fruit name.";
         }
-     }
-    else
-    {
-        success = false;
-        errorMessage = "No fruit name.";
     }
-    return success;
+
+    qDebug() << "BL -> Validation Complete";
+    Mediator::Call(_sendProcess, fruit, success, errorMessage);
+}
+
+void FruitNameProcessor::Load(MediatorArg)
+{
+
 }

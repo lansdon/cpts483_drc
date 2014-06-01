@@ -5,7 +5,11 @@
 //namespace bl {
 
 #include "drc_shared/mediator/Mediator.h"
+
 #include "fruitnameprocessor.h"
+#include "intakeformprocessor.h"
+#include "searchusername.h"
+#include "userloginprocessor.h"
 
 class MediatorArg;
 
@@ -14,19 +18,11 @@ class DRCBL
 public:
     DRCBL();
 
-
-    void ProcessFruitName(MediatorArg arg) const;
-
-    void ValidateSaveIntakeRequest(MediatorArg arg) const;
-    void ValidateLoadIntakeRequest(MediatorArg arg) const;
-
-    void SendResults(MediatorArg arg);
-
-    // Mediator Callbacks.
-    MediatorId ProcessFruitNameId;
-
 private:
-    FruitNameProcessor _fruitNameProcessor;
+    FruitNameProcessor  _fruitNameProcessor;
+    IntakeFormProcessor _intakeFormProcessor;
+    SearchUserName      _searchUserName;
+    UserLoginProcessor  _userLoginProcessor;
 };
 
 //}   // end namespace

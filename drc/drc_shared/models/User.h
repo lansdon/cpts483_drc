@@ -30,4 +30,10 @@ string User::GetName(void)
 {
     return m_userName;
 }
+
+string User::GetPassword()
+{
+    return m_password;
+}
+
 #endif
