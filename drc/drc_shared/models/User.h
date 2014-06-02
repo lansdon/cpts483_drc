@@ -17,23 +17,9 @@ public:
     User(string name, string pass);
 
     string GetName(void);
+    string GetPassword(void);
+    void SetName(string name);
+    void SetPassword(string password);
 };
-
-User::User(string name, string pass)
-{
-    m_userName = name;
-    m_password = pass;
-    m_type = ADMIN;
-}
-
-string User::GetName(void)
-{
-    return m_userName;
-}
-
-string User::GetPassword()
-{
-    return m_password;
-}
 
 #endif

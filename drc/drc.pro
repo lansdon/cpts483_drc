@@ -27,9 +27,9 @@ SOURCES += main.cpp\
     gui/particapants.cpp \
     bl/fruitnameprocessor.cpp \
     bl/intakeformprocessor.cpp \
-    bl/searchusername.cpp \
     bl/userloginprocessor.cpp \
-    drc_shared/models/Fruit.cpp
+    drc_shared/models/Fruit.cpp \
+    drc_shared/models/User.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -54,7 +54,6 @@ HEADERS  += \
     drc_shared/models/UserType.h \
     db/sqlite3.h \
     bl/Processor.h \
-    bl/searchusername.h \
     bl/userloginprocessor.h
 
 FORMS    += \

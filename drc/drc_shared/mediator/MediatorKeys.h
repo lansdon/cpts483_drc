@@ -25,6 +25,7 @@ const std::string MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";
 
 const std::string MKEY_GUI_SUBMIT_INTAKE_FORM = "MKEY_GUI_SUBMIT_INTAKE_FORM";              // Intake*
 const std::string MKEY_GUI_LOAD_INTAKE_FORM = "MKEY_GUI_LOAD_INTAKE_FORM";                // Intake*
+const std::string MKEY_GUI_SEND_USER = "MKEY_GUI_SEND_USER";                              // User*
 
 
 
@@ -42,6 +43,9 @@ const std::string MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS
 const std::string MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE";   // Intake*
 const std::string MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE";   // Intake*
 
+const std::string MKEY_BL_REQUEST_SALT = "MKEY_BL_REQUEST_SALT";                            // std::string*
+const std::string MKEY_BL_SEND_USER = "MKEY_BL_USER_AUTHENTICATE_DONE";                     // User*
+
 
 
 //////////////////////////////////////////////////////////////////
@@ -54,6 +58,6 @@ const std::string MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_LOA
 const std::string MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";       // nil
 const std::string MKEY_DB_PERSIST_INTAKE_FORM_DONE = "MKEY_DB_PERSIST_INTAKE_FORM_DONE";      // Intake*
 const std::string MKEY_DB_LOAD_INTAKE_FORM_DONE = "MKEY_DB_LOAD_INTAKE_FORM_DONE";      // std::vector<Intake*>*
-
+const std::string MKEY_DB_SEND_SALT = "MKEY_DB_SEND_SALT";                              // std::string
 
 #endif

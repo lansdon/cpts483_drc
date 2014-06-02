@@ -4,75 +4,80 @@
 #include <qstring.h>
 #include <qdebug.h>
 
-UserLoginProcessor::UserLoginProcessor(std::string regProcess="", std::string sendProcess="",
-                           std::string regLoad="", std::string sendLoad="")
-              : _regProcess(regProcess), _sendProcess(sendProcess),
-                _regLoad(regLoad), _sendLoad(sendLoad)
+UserLoginProcessor::UserLoginProcessor(std::string authUser, std::string sendUser,
+                                       std::string requestSalt, std::string receiveSalt)
+              : _sendUser(sendUser), _requestSalt(requestSalt)
 {
-    if (_regProcess != "")    Mediator::Register(_regProcess, [this](MediatorArg arg){ Process(arg); });
-    if (_regProcess != "")   Mediator::Register(_regLoad, [this](MediatorArg arg){ Load(arg); });
+    Mediator::Register(authUser, [this](MediatorArg arg){ Authenticate(arg); });
+    Mediator::Register(receiveSalt, [this](MediatorArg arg){ ReceiveSalt(arg); });
 }
 
-void UserLoginProcessor::Process(MediatorArg arg)
+// Authentication
+void UserLoginProcessor::Authenticate(MediatorArg arg)
 {
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
-
     User* user = nullptr;
     if (success)
     {
+        user = arg.getArg<User*>();
         if (user)
         {
-            success = ValidateUser(*user, errorMessage);
+            _user = user;
+            CleanUserName();
+            _userName = new std::string(user->GetName());
+        }
+        else
+        {
+            errorMessage = "Empty user argument.";
+            success = false;
         }
     }
-    Mediator::Call(_sendProcess, nullptr, success, errorMessage);
+    if (!success) Mediator::Call(_sendUser, nullptr, success, errorMessage);
+    else Mediator::Call(_requestSalt, _userName, success, errorMessage);
 }
 
-void UserLoginProcessor::Load(MediatorArg arg)
+void UserLoginProcessor::ReceiveSalt(MediatorArg arg)
 {
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
-
-    User* user = nullptr;
+    std::string* salt = nullptr;
     if (success)
     {
-        if (user)
+        salt = arg.getArg<std::string*>();
+        if (salt)
         {
-            success = ValidateUser(*user, errorMessage);
+            if (_user)
+            {
+                _user->SetName("");
+            }
+            else
+            {
+                errorMessage = "Empty user.";
+                success = false;
+            }
+        }
+        else
+        {
+            errorMessage = "Empty user argument.";
+            success = false;
         }
     }
-    Mediator::Call(_sendLoad, nullptr, success, errorMessage);
+    Mediator::Call(_sendUser, _user, success, errorMessage);
 }
 
-bool UserLoginProcessor::ValidateUser(const User& user, std::string& errorMessage) const
+void UserLoginProcessor::CleanUserName()
 {
-    bool success = true;
-    auto userName = user.GetName();
-    auto password = user.GetPassword();
-    success &= ValidateUserName(userName, errorMessage);
-    success &= ValidatePassword(password, errorMessage);
-    return success;
+    if (_userName != nullptr) delete _userName;
+    _userName = nullptr;
 }
-bool UserLoginProcessor::ValidateUserName(std::string userName, std::string& errorMessage) const
+
+UserLoginProcessor::~UserLoginProcessor()
 {
-    bool success = true;
-    std::string pattern = "[a-zA-Z0-9\.]*";
-    success &= std::regex_match(userName, std::regex(pattern));
-    if (!success)
-    {
-        errorMessage = "Invalid user name.";
-    }
-    return success;
+    CleanUserName();
 }
-bool UserLoginProcessor::ValidatePassword(std::string password, std::string& errorMessage) const
-{
-    bool success = true;
-    std::string pattern = "[a-zA-Z0-9\. ]*";
-    success &= std::regex_match(userName, std::regex(pattern));
-    if (!success)
-    {
-        errorMessage = "Invalid password.";
-    }
-    return success;
-}
+
+
+// Process new User
+void UserLoginProcessor::Process(MediatorArg arg) {}
+void UserLoginProcessor::Load(MediatorArg arg) {}

@@ -8,7 +8,6 @@
 
 #include "fruitnameprocessor.h"
 #include "intakeformprocessor.h"
-#include "searchusername.h"
 #include "userloginprocessor.h"
 
 class MediatorArg;
@@ -17,12 +16,12 @@ class DRCBL
 {
 public:
     DRCBL();
+    void AuthenticateUser(MediatorArg arg) const;
 
 private:
     FruitNameProcessor  _fruitNameProcessor;
     IntakeFormProcessor _intakeFormProcessor;
-    SearchUserName      _searchUserName;
-    UserLoginProcessor  _userLoginProcessor;
+    UserLoginProcessor _userLoginProcessor;
 };
 
 //}   // end namespace

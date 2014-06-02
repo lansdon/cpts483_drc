@@ -2,24 +2,30 @@
 #define USERLOGINPROCESSOR_H
 
 #include <string>
-#include "Processor.h"
+#include "../drc_shared/mediator/MediatorArg.h"
 #include "../drc_shared/models/User.h"
+#include "Processor.h"
 
-class UserLoginProcessor : public Processor
+class UserLoginProcessor: Processor
 {
 public:
-    UserLoginProcessor(std::string regProcess, std::string sendProcess,
-                       std::string regLoad,    std::string sendLoad);
+    UserLoginProcessor(std::string authUser, std::string sendUser,
+                       std::string requestSalt, std::string receiveSalt);
     void Process(MediatorArg arg);
     void Load(MediatorArg arg);
+
+    void Authenticate(MediatorArg arg);
+
+    ~UserLoginProcessor();
 private:
-    bool ValidateUser(const User& user, std::string& errorMessage) const;
-    bool ValidateUserName(std::string userName, std::string& errorMessage) const;
-    bool ValidatePassword(std::string password, std::string& errorMessage) const;
-    std::string _regProcess;
-    std::string _sendProcess;
-    std::string _regLoad;
-    std::string _sendLoad;
+    void ReceiveSalt(MediatorArg arg);
+    void CleanUserName();
+
+    User* _user;
+    std::string* _userName;
+
+    std::string _requestSalt;
+    std::string _sendUser;
 };
 
 #endif // USERLOGINPROCESSOR_H
