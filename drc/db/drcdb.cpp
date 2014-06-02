@@ -13,6 +13,8 @@ DRCDB::DRCDB() : DB_ERROR(false)
 {
     OpenDatabase("drc_db.db3");
 
+    CreateTable("Albertsons", "(TIME_STAMP INT PRIMARY KEY NOT NULL, FRUIT_NAME CHAR(50)");
+
     // Register to Listen for events.
     Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
     Mediator::Register(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){LoadIntake(arg);});
@@ -34,6 +36,19 @@ bool DRCDB::isError()
 string DRCDB::errorMessage()
 {
     return database.lastError().text().toStdString();
+}
+
+bool DRCDB::CreateTable(QString table_name, QString table_columns)
+{
+    bool create_success = false;
+
+    if (database.isOpen())
+    {
+        QSqlQuery query_object;
+        create_success = query_object.exec(QString("create table %1 (%2)").arg(table_name).arg(table_columns));
+    }
+
+    return create_success;
 }
 
 void DRCDB::InsertField(string fruit_name, string time_stamp)

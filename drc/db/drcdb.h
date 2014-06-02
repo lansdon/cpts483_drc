@@ -11,7 +11,10 @@ class DRCDB
 {
 private:
     QSqlDatabase database;
-	bool DB_ERROR;
+
+    bool DB_ERROR;
+
+    bool CreateTable(QString table_name, QString table_columns);
 
 public:
 
