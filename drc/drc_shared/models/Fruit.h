@@ -76,7 +76,14 @@ string Fruit::BreakApart()
 
 string Fruit::Parse(void)
 {
-    return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetTime() + " );");
+    string toReturn = "VALUES (\'";
+    toReturn = toReturn + "VALUES (\'";
+    toReturn = toReturn + GetTime();
+    toReturn = toReturn + "\', \'";
+    toReturn = toReturn + GetName();
+    toReturn = toReturn + " );";
+    return toReturn;
+    //return string("VALUES (\'" + this->GetTime() + "\', \'" + this->GetName + " );");
 }
 
 #endif

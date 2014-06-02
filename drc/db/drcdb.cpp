@@ -11,9 +11,9 @@ using std::vector;
 
 DRCDB::DRCDB() : DB_ERROR(false)
 {
-    OpenDatabase("drc_db.db3");
+    OpenDatabase("../drc/drc_db.db3");
 
-    CreateTable("Albertsons", "(TIME_STAMP INT PRIMARY KEY NOT NULL, FRUIT_NAME CHAR(50)");
+    CreateTable("Albertsons", "TIME_STAMP integer PRIMARY KEY NOT NULL, FRUIT_NAME varchar(50)");
 
     // Register to Listen for events.
     Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
@@ -25,6 +25,11 @@ void DRCDB::OpenDatabase(string database_name)
 {
     database =  QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName(QString::fromStdString(database_name));
+    if(database.open())
+    {
+        //Success
+        qDebug()<<"Database creation success";
+    }
     DB_ERROR = database.open();
 }
 
@@ -45,7 +50,7 @@ bool DRCDB::CreateTable(QString table_name, QString table_columns)
     if (database.isOpen())
     {
         QSqlQuery query_object;
-        create_success = query_object.exec(QString("create table %1 (%2)").arg(table_name).arg(table_columns));
+        create_success = query_object.exec(QString("CREATE TABLE %1 (%2)").arg(table_name).arg(table_columns));
     }
 
     return create_success;
@@ -58,8 +63,19 @@ void DRCDB::InsertField(string fruit_name, string time_stamp)
 
 void DRCDB::InsertString(string Command)
 {
-    string tester = Command;
+    QSqlQuery qObject;
+    bool insertSuccess = false;
 
+    if(database.isOpen())
+    {
+        string cmd = "INSERT INTO Albertsons (TIME_STAMP, NAME) ";
+
+        cmd = cmd + Command;
+        QString qCmd;
+        qCmd.fromStdString(cmd);
+
+        insertSuccess = qObject.exec(qCmd);
+    }
 }
 
 /*void DRCDB::InsertFruit(Fruit* enteredFruit)
@@ -106,12 +122,7 @@ void DRCDB::PersistFruit(MediatorArg arg)
 
         fruit = new Fruit(&(*fruitname));
 
-        //Fruit* lies = new Fruit("apple");
-
-        //fruit->SetName();
-        fruit->GetName();
-
-        std::string tester = fruit->BreakApart();
+        std::string tester = fruit->Parse();
 
         InsertString(tester);
 
