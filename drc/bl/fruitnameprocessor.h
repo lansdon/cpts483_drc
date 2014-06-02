@@ -8,8 +8,8 @@
 class FruitNameProcessor: public Processor
 {
 public:
-    FruitNameProcessor(std::string regProcess, std::string sendProcess,
-                       std::string regLoad,    std::string sendLoad);
+    FruitNameProcessor(std::string regProcess="", std::string sendProcess="",
+                                           std::string regLoad="", std::string sendLoad="");
     void Process(MediatorArg arg);
     void Load(MediatorArg arg);
 

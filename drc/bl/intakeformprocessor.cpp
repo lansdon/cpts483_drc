@@ -6,8 +6,8 @@
 
 #include <regex>
 
-IntakeFormProcessor::IntakeFormProcessor(std::string regProcess="", std::string sendProcess="",
-                                         std::string regLoad="", std::string sendLoad="")
+IntakeFormProcessor::IntakeFormProcessor(std::string regProcess, std::string sendProcess,
+                    std::string regLoad,    std::string sendLoad)
                     : _regProcess(regProcess), _sendProcess(sendProcess),
                       _regLoad(regLoad), _sendLoad(sendLoad)
 {

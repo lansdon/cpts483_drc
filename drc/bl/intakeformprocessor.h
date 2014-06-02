@@ -10,8 +10,8 @@
 class IntakeFormProcessor: public Processor
 {
 public:
-    IntakeFormProcessor(std::string regProcess, std::string sendProcess,
-                        std::string regLoad,    std::string sendLoad);
+    IntakeFormProcessor(std::string regProcess="", std::string sendProcess="",
+                                             std::string regLoad="", std::string sendLoad="");
     void Process(MediatorArg arg);
     void Load(MediatorArg arg);
 

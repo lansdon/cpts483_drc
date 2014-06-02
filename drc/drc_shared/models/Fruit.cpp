@@ -24,3 +24,13 @@ string Fruit::GetName(void)
 {
     return m_name;
 }
+
+string Fruit::GetTime(void)
+{
+    return to_string(m_timestamp);
+}
+
+string Fruit::Parse()
+{
+    return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetTime() + " );");
+}
