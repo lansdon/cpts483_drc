@@ -49,6 +49,7 @@ public slots:
     void errorString(QString error);        // meh. this can prolly go away.
     void threadFinished();
     void DoCallbackOnMainThread();
+    void updateRecieveArg(MediatorArg responseArg);
 };
 
 //}   // end namespace drc_shared

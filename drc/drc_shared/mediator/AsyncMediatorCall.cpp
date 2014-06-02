@@ -12,11 +12,10 @@
 #include "Mediator.h"
 #include "MediatorArg.h"
 #include "AsyncMediatorCall.h"
-#include <thread>
-#include <future>
 #include <QDebug>
 #include <QObject>
 #include <QThread>
+#include "asyncmediatorworker.h"
 
 //namespace drc {
 //namespace drc_shared {
@@ -37,6 +36,7 @@ AsyncMediatorCall::AsyncMediatorCall(
 , _timeoutSecs(timeoutSecs)
 , _waiting(false)
 {
+    qRegisterMetaType<MediatorArg>("MediatorArg");
 }
 
 AsyncMediatorCall::AsyncMediatorCall(
@@ -80,6 +80,7 @@ void AsyncMediatorCall::Send()					// This will perform the send event, and wait
                     _willWaitForResponse,
                     _timeoutSecs);
         worker->moveToThread(thread);
+        connect(worker, SIGNAL(sendResponseArg(MediatorArg)), this, SLOT(updateRecieveArg(MediatorArg)));
         connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
         connect(thread, SIGNAL(started()), worker, SLOT(Start()));
         connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
@@ -111,9 +112,16 @@ void AsyncMediatorCall::DoCallbackOnMainThread()
 {
     if(_callback)
     {
-        qDebug() << "AsyncMediatorWorker -> Doing callback on main thread";
+        qDebug() << "Async -> Doing callback on main thread";
         _callback(_recieveMediatorArg);
     }
 }
+
+void AsyncMediatorCall::updateRecieveArg(MediatorArg responseArg)
+{
+    qDebug() << "Async -> updating recieved arg";
+    _recieveMediatorArg = responseArg;
+}
+
 //}
 //}

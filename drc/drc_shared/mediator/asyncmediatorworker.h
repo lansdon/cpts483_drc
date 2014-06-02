@@ -22,6 +22,7 @@ public slots:
 signals:
     void finished();
     void error(QString err);
+    void sendResponseArg(MediatorArg responseArg);
 
 private:
     unsigned long _timeoutSecs;			// How long before we stop waiting for a response

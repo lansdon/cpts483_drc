@@ -77,6 +77,7 @@ void AsyncMediatorWorker::AsyncMediatorWorker::Start()
 //        QMetaObject::invokeMethod(this, "DoCallbackOnMainThread", Qt::QueuedConnection);
 //    }
 
+    emit sendResponseArg(_recieveMediatorArg);
     emit finished();            // This will cause the thread to shut down.
 }
 double AsyncMediatorWorker::Elapsed(clock_t startTime) {
