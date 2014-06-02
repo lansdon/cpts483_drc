@@ -9,6 +9,7 @@
 #include "gui/intakeform.h"
 #include "gui/fruitnameform.h"
 #include "gui/intakeform.h"
+#include "gui/loginform.h"
 
 // DRC COMPONENTS
 #include "bl/drcbl.h"
@@ -23,20 +24,7 @@ DRCClient::DRCClient(QWidget *parent) :
 {
     ui->setupUi(this);
 
-
-    // Set layout with Tab View with Tabs.
-    QHBoxLayout *layout = new QHBoxLayout;
-    QTabWidget* tw = new QTabWidget();
-    tw->addTab(new FruitNameForm(), "Fruit Name");
-    tw->addTab(new IntakeForm(), "Intake Form");
-    layout->addWidget(tw);
-
-    // Add layout to QWidget (The main frame holding all our subviews.)
-    QWidget *window = new QWidget();
-    window->setLayout(layout);
-
-    // Set QWidget as the central layout of the main window
-    setCentralWidget(window);
+    setCentralWidget(new LoginForm(this));
 
     // Set the window to max size.
     this->setWindowState(Qt::WindowMaximized);
@@ -47,10 +35,13 @@ DRCClient::~DRCClient()
    delete ui;
 }
 
-void DRCClient::showFullScreen()
+
+void DRCClient::on_actionNew_Fruit_Submission_triggered()
 {
-//    QMainWindow::showFullScreen();
+    setCentralWidget(new FruitNameForm(this));
 }
 
-
-
+void DRCClient::on_actionNew_Form_triggered()
+{
+    setCentralWidget(new IntakeForm(this));
+}

@@ -21,7 +21,10 @@ public:
     ~DRCClient();
 
 private slots:
-    void showFullScreen();
+
+    void on_actionNew_Fruit_Submission_triggered();
+
+    void on_actionNew_Form_triggered();
 
 private:
     Ui::DRCClient *ui;
@@ -29,11 +32,12 @@ private:
     // Important!! These objects are automatically initialized.
     // They need to be instantiated at startup to register events properly.
     DRCBL _bl;  // Business Logic
-    DATABASE _db;  // Database
+    DRCDB _db;  // Database
 
     // Sub views
     //FruitNameForm* _fruitForm;
 
+    void SetMainView(QWidget* widget);
 };
 
 #endif // DRCClient_H
