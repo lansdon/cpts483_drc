@@ -11,6 +11,8 @@ UserLoginProcessor::UserLoginProcessor(std::string authUser, std::string sendUse
 {
     Mediator::Register(authUser, [this](MediatorArg arg){ Authenticate(arg); });
     Mediator::Register(receiveSalt, [this](MediatorArg arg){ ReceiveSalt(arg); });
+    _user = nullptr;
+    _userName = nullptr;
 }
 
 // Authentication
