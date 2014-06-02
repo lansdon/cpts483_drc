@@ -2,10 +2,12 @@
 #define USERLOGINPROCESSOR_H
 
 #include <string>
-#include "Crypto/SHA256_Crypto.h"
+//#include "Crypto/SHA256_Crypto.h"
 #include "../drc_shared/mediator/MediatorArg.h"
 #include "../drc_shared/models/User.h"
 #include "Processor.h"
+
+class SHA256_Crypto;
 
 class UserLoginProcessor: Processor
 {

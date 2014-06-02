@@ -31,8 +31,7 @@ SOURCES += main.cpp\
     drc_shared/models/Fruit.cpp \
     drc_shared/models/User.cpp \
     bl/Crypto/SHA256_Crypto.cpp \
-    gui/loginform.cpp \
-    bl/Crypto/SHA256_Crypto.cpp
+    gui/loginform.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -60,8 +59,7 @@ HEADERS  += \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
-    drc_shared/models/DBBaseObject.h \
-    bl/Crypto/SHA256_Crypto.h
+    drc_shared/models/DBBaseObject.h
 
 FORMS    += \
     DRCClient.ui \
