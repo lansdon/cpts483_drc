@@ -62,26 +62,39 @@ void FruitNameForm::on_sendButton_clicked()
 }
 void FruitNameForm::UpdateForm(MediatorArg arg)
 {
-   Intake *recieved = arg.getArg<Intake*>();
+    qDebug() << "GUI -> UpdateForm Callback...";
+    if(arg.IsSuccessful())
+    {
+        Intake *recieved = arg.getArg<Intake*>();
 
-
-   //ui->widget->setName();
-   if(recieved)
-   {
-       claiment->setName(recieved->getClaimant().getName());
-       //claiment->repaint();
-       qDebug() << QString::fromStdString(recieved->getClaimant().getName());
-       qDebug() << QString::fromStdString(recieved->getRespondents()[0].getName());
-       std::vector<Person> tempVec = recieved->getRespondents();
-       ui->tabWidget->clear();
-       Particapants *tempRespon;
-       for(uint i = 0; i < tempVec.size(); i++)
-      {
-           tempRespon = new Particapants();
-           tempRespon->setName(tempVec[i].getName());
-           ui->tabWidget->addTab(tempRespon, QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
-       }
-   }
+        //ui->widget->setName();
+        if(recieved)
+        {
+            claiment->setName(recieved->getClaimant().getName());
+            //claiment->repaint();
+            qDebug() << QString::fromStdString(recieved->getClaimant().getName());
+            qDebug() << QString::fromStdString(recieved->getRespondents()[0].getName());
+            std::vector<Person> tempVec = recieved->getRespondents();
+            ui->tabWidget->clear();
+            Particapants *tempRespon;
+            for(uint i = 0; i < tempVec.size(); i++)
+           {
+                tempRespon = new Particapants();
+                tempRespon->setName(tempVec[i].getName());
+                ui->tabWidget->addTab(tempRespon, QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
+            }
+        }
+        else
+        {
+            qDebug() << "GUI -> INTAKE ARGUMENT ERROR";
+            qDebug() << QString::fromStdString(arg.ErrorMessage());
+        }
+    }
+    else
+    {
+        qDebug() << "RESPONSE NOT SUCCESSFUL!";
+        qDebug() << QString::fromStdString(arg.ErrorMessage());
+    }
 }
 
 void FruitNameForm::UpdateNameField(QString str)

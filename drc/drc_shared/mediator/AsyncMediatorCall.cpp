@@ -101,8 +101,19 @@ void AsyncMediatorCall::errorString(QString error)
 
 void AsyncMediatorCall::threadFinished()
 {
+    // Invoke the callback function on the main thread.
+    QMetaObject::invokeMethod(this, "DoCallbackOnMainThread", Qt::QueuedConnection);
+
     _waiting = false;
 }
 
+void AsyncMediatorCall::DoCallbackOnMainThread()
+{
+    if(_callback)
+    {
+        qDebug() << "AsyncMediatorWorker -> Doing callback on main thread";
+        _callback(_recieveMediatorArg);
+    }
+}
 //}
 //}

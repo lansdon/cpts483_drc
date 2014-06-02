@@ -71,11 +71,11 @@ void AsyncMediatorWorker::AsyncMediatorWorker::Start()
     // Stop listening for a response
      Mediator::Unregister(_recieveEventMediatorKey, ResponseRecievedId);
 
-    // Invoke the callback function on the main thread.
-    if(_callback)
-    {
-        QMetaObject::invokeMethod(this, "DoCallbackOnMainThread", Qt::QueuedConnection);
-    }
+//    // Invoke the callback function on the main thread.
+//    if(_callback)
+//    {
+//        QMetaObject::invokeMethod(this, "DoCallbackOnMainThread", Qt::QueuedConnection);
+//    }
 
     emit finished();            // This will cause the thread to shut down.
 }
@@ -104,8 +104,8 @@ bool AsyncMediatorWorker::WaitForResponse()
 
 void AsyncMediatorWorker::DoCallbackOnMainThread()
 {
-    qDebug() << "AsyncMediatorWorker -> Doing callback on main thread";
-    _callback(_recieveMediatorArg);
+//    qDebug() << "AsyncMediatorWorker -> Doing callback on main thread";
+//    _callback(_recieveMediatorArg);
 }
 
 // This internal function handles maintenance when a response is recieved. Then the _callback is called.

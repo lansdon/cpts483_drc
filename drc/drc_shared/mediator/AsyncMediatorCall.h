@@ -48,6 +48,7 @@ private:
 public slots:
     void errorString(QString error);        // meh. this can prolly go away.
     void threadFinished();
+    void DoCallbackOnMainThread();
 };
 
 //}   // end namespace drc_shared
