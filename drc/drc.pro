@@ -29,7 +29,9 @@ SOURCES += main.cpp\
     bl/intakeformprocessor.cpp \
     bl/userloginprocessor.cpp \
     drc_shared/models/Fruit.cpp \
-    drc_shared/models/User.cpp
+    drc_shared/models/User.cpp \
+    bl/Crypto/SHA256_Crypto.cpp \
+    gui/mainmenutabwidget.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -54,7 +56,9 @@ HEADERS  += \
     drc_shared/models/UserType.h \
     db/sqlite3.h \
     bl/Processor.h \
-    bl/userloginprocessor.h
+    bl/userloginprocessor.h \
+    bl/Crypto/SHA256_Crypto.h \
+    gui/mainmenutabwidget.h
 
 FORMS    += \
     DRCClient.ui \

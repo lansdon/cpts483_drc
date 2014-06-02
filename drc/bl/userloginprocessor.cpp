@@ -1,5 +1,6 @@
 #include "userloginprocessor.h"
 #include "../drc_shared/mediator/Mediator.h"
+#include "Crypto/SHA256_Crypto.h"
 
 #include <qstring.h>
 #include <qdebug.h>
@@ -49,7 +50,8 @@ void UserLoginProcessor::ReceiveSalt(MediatorArg arg)
         {
             if (_user)
             {
-                _user->SetName("");
+                auto encryptedPw = sha256(_user->GetName(), *salt);
+                _user->SetPassword(encryptedPw);
             }
             else
             {
