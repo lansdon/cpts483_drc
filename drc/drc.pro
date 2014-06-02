@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     gui/particapants.cpp \
     bl/fruitnameprocessor.cpp \
     bl/intakeformprocessor.cpp \
-    gui/loginform.cpp
+    gui/loginform.cpp \
+    bl/Crypto/SHA256_Crypto.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -51,7 +52,9 @@ HEADERS  += \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \
     db/sqlite3.h \
-    gui/loginform.h
+    gui/loginform.h \
+    drc_shared/models/DBBaseObject.h \
+    bl/Crypto/SHA256_Crypto.h
 
 FORMS    += \
     DRCClient.ui \

@@ -11,7 +11,7 @@
 //in the scope of the Fruit basket.  If you feel there are additions or
 //revisions to be made, feel free to do so, but becareful of multiple
 //hands digging into the same pie.
-class DATABASE
+class DRCDB
 {
 private:
 //	sqlite3 *database;
@@ -20,8 +20,8 @@ private:
 
 public:
 
-	DATABASE();
-	DATABASE(std::string database_name);
+    DRCDB();
+    DRCDB(std::string database_name);
 	
 	void OpenDatabase(std::string database_name);
 	

@@ -9,7 +9,7 @@ using std::string;
 using std::vector;
 
 
-DATABASE::DATABASE() : DB_ERROR(false)
+DRCDB::DRCDB() : DB_ERROR(false)
 {
     OpenDatabase("drc_db.db3");
 
@@ -20,12 +20,12 @@ DATABASE::DATABASE() : DB_ERROR(false)
 }
 
 
-DATABASE::DATABASE(string database_name) : DB_ERROR(false)
+DRCDB::DRCDB(string database_name) : DB_ERROR(false)
 {
     OpenDatabase(database_name);
 }
 
-void DATABASE::OpenDatabase(string database_name)
+void DRCDB::OpenDatabase(string database_name)
 {
     database =  QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName(QString::fromStdString(database_name));
@@ -43,40 +43,40 @@ void DATABASE::OpenDatabase(string database_name)
 //        DB_ERROR = false;
 }
 
-bool DATABASE::isError()
+bool DRCDB::isError()
 {
     return DB_ERROR;
 }
 
-string DATABASE::errorMessage()
+string DRCDB::errorMessage()
 {
 //    return string(sqlite3_errmsg(database));
     return database.lastError().text().toStdString();
 }
 
-void DATABASE::CreateTable(string table_name)
+void DRCDB::CreateTable(string table_name)
 {
 
 }
 
-void DATABASE::AddColumn(string column_name, string column_type, string column_required, bool primary_key)
+void DRCDB::AddColumn(string column_name, string column_type, string column_required, bool primary_key)
 {
 
 }
 
-void DATABASE::InsertField(string fruit_name, string time_stamp)
+void DRCDB::InsertField(string fruit_name, string time_stamp)
 {
 
 }
 
-vector<string> DATABASE::SelectAllField()
+vector<string> DRCDB::SelectAllField()
 {
     vector<string> empty;
     return empty;
 
 }
 
-void DATABASE::PersistIntakeForm(MediatorArg arg) const
+void DRCDB::PersistIntakeForm(MediatorArg arg) const
 {
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
@@ -93,7 +93,7 @@ void DATABASE::PersistIntakeForm(MediatorArg arg) const
     Mediator::Call(MKEY_DB_PERSIST_INTAKE_FORM_DONE, intake, success, errorMessage);
 }
 
-void DATABASE::PersistFruit(MediatorArg arg) const
+void DRCDB::PersistFruit(MediatorArg arg) const
 {
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
@@ -110,7 +110,7 @@ void DATABASE::PersistFruit(MediatorArg arg) const
     Mediator::Call(MKEY_DB_PERSIST_FRUIT_NAME_DONE, fruit, success, errorMessage);
 }
 
-void DATABASE::LoadIntake(MediatorArg arg) const
+void DRCDB::LoadIntake(MediatorArg arg) const
 {
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
