@@ -19,28 +19,11 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, [this](MediatorArg arg){PersistIntakeForm(arg);});
 }
 
-
-DRCDB::DRCDB(string database_name) : DB_ERROR(false)
-{
-    OpenDatabase(database_name);
-}
-
 void DRCDB::OpenDatabase(string database_name)
 {
     database =  QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName(QString::fromStdString(database_name));
     DB_ERROR = database.open();
-
-    // !!!! Sorry for molesting your code!! Forgive me.  -LP
-
-
-//    //sqlite3_open both creates and/or opens a database.
-//    int sql_result = sqlite3_open(database_name.c_str(), &database);
-
-//    if (sql_result)     //If result != 0, then database didn't open.
-//        DB_ERROR = true;
-//    else                //If result == 0, then database opened.
-//        DB_ERROR = false;
 }
 
 bool DRCDB::isError()
@@ -50,18 +33,7 @@ bool DRCDB::isError()
 
 string DRCDB::errorMessage()
 {
-//    return string(sqlite3_errmsg(database));
     return database.lastError().text().toStdString();
-}
-
-void DRCDB::CreateTable(string table_name)
-{
-
-}
-
-void DRCDB::AddColumn(string column_name, string column_type, string column_required, bool primary_key)
-{
-
 }
 
 void DRCDB::InsertField(string fruit_name, string time_stamp)
