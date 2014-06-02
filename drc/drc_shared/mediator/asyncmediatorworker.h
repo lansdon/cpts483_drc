@@ -18,7 +18,7 @@ public:
 
 public slots:
     void Start();
-    void DoCallbackOnMainThread();
+//    void DoCallbackOnMainThread();
 
 signals:
     void finished();
@@ -34,8 +34,7 @@ private:
     std::string _sendEventMediatorKey;		// Send Event Key
     std::string _recieveEventMediatorKey;	// Listen for this result Key
 
-    MediatorCallbackFunc _callback;			// This is called when a response is received.
-
+    MediatorCallbackFunc _callback;			// NOT USED - Handled by AsynchMediatorCall
 
     MediatorArg _sendMediatorArg;			// This is the argument being sent.
     MediatorArg _recieveMediatorArg;        // This is the argument being recieved.
