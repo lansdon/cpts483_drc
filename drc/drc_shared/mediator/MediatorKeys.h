@@ -18,15 +18,6 @@
 // Please follow this convention for clarity and ease of debugging.
 //////////////////////////////////////////////////////////////////
 
-
-//////////////////////////////////////////////////////////////////
-//				AUTHENTICATE USER
-// When the user hit's login - we must see if they entered correct username + password
-//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
-const std::string MKEY_GUI_AUTHENTICATE_USER = "MKEY_GUI_AUTHENTICATE_USER";                // User*
-const std::string MKEY_BL_AUTHENTICATE_USER_DONE = "MKEY_BL_AUTHENTICATE_USER_DONE";        // User*
-const std::string MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";        // std::vector<User*>*
-
 //////////////////////////////////////////////////////////////////
 //				SUBMIT FRUIT NAME
 // Test function to save a fruit in the database
@@ -37,10 +28,19 @@ const std::string MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_
 
 //////////////////////////////////////////////////////////////////
 //				SEARCH FOR USER BY NAME ????? Test Function ???
-// Test function to save a fruit in the database
+// Test function to load test records on fruit page
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";           // std::string*
 const std::string MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
+
+//////////////////////////////////////////////////////////////////
+//				AUTHENTICATE USER
+// When the user hit's login - we must see if they entered correct username + password
+//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
+const std::string MKEY_GUI_AUTHENTICATE_USER = "MKEY_GUI_AUTHENTICATE_USER";                // User*
+const std::string MKEY_BL_AUTHENTICATE_USER_DONE = "MKEY_BL_AUTHENTICATE_USER_DONE";        // User*
+const std::string MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";        // std::vector<User*>*
+
 
 //////////////////////////////////////////////////////////////////
 //				SAVE INTAKE FORM
