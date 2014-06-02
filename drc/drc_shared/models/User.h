@@ -46,7 +46,7 @@ string User::GetPass(void)
 
 string User::GetType(void)
 {
-    return string(m_type);
+    return to_string(m_type);
 }
 
 string User::Parse()
