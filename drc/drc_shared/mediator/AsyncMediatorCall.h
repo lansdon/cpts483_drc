@@ -13,14 +13,11 @@
 #include "MediatorKeys.h"
 #include "Mediator.h"
 #include "MediatorArg.h"
-//#include <thread>
-#include <future>
 #include <QObject>
+#include "asyncmediatorworker.h"
 
 //namespace drc {
 //namespace drc_shared {
-
-const unsigned long DEF_ASYNC_TIMEOUT_SECS = 10; // timeout in seconds
 
 class AsyncMediatorCall : QObject
 {
@@ -37,32 +34,20 @@ public:
 	void Send();						// This will perform the send event, and wait for the response.
 
 private:
-    // Internal mediator callbacks
-    MediatorId ResponseRecievedId;
-
+    // Settings - This list of parameters is saved, and passed to each new thread when they are spawned.
 	std::string _sendEventMediatorKey;		// Send Event Key
 	std::string _recieveEventMediatorKey;	// Listen for this result Key
     MediatorCallbackFunc _callback;			// This is called when a response is received.
     MediatorArg _sendMediatorArg;			// This is the argument being sent.
     MediatorArg _recieveMediatorArg;        // This is the argument being recieved.
+    bool _willWaitForResponse;              // Turn this on when you want to handle a response event.
+    unsigned long _timeoutSecs;             // How long before we stop waiting for a response
 
-	unsigned long _timeoutSecs;			// How long before we stop waiting for a response
-    std::future<bool> _waitingAsync;	// Dats why it's async!
-
-    bool _willWaitForResponse;          // Turn this on when you want to handle a response event.
-	bool WaitForResponse();
-	bool _waiting;						// This will block additional calls to Send() if a Send is already in progress.
-
-	void SendEvent();	// This is run on a seperate thread. This internal function handles maintenance when a event is sent. 
-	void ResponseRecieved(MediatorArg mediatorArg);	// This internal function handles maintenance when a response is recieved. Then the _callback is called.
-
-	double Elapsed(clock_t startTime);
-
-
+    bool _waiting;                          // This will block additional calls to Send() if a Send is already in progress.
 
 public slots:
-    void DoCallbackOnMainThread();
-
+    void errorString(QString error);        // meh. this can prolly go away.
+    void threadFinished();
 };
 
 //}   // end namespace drc_shared

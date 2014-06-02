@@ -16,6 +16,7 @@
 #include <future>
 #include <QDebug>
 #include <QObject>
+#include <QThread>
 
 //namespace drc {
 //namespace drc_shared {
@@ -31,12 +32,11 @@ AsyncMediatorCall::AsyncMediatorCall(
 , _sendEventMediatorKey(sendEventMediatorKey)
 , _recieveEventMediatorKey(recieveEventMediatorKey)
 , _callback(callback)
-, _recieveMediatorArg(MediatorArg(argObject))
-, _timeoutSecs(timeoutSecs)
+, _sendMediatorArg(MediatorArg(argObject))
 , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
+, _timeoutSecs(timeoutSecs)
 , _waiting(false)
 {
-    ResponseRecievedId = Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { this->ResponseRecieved(mediatorArg); });		// Start listening for a response
 }
 
 AsyncMediatorCall::AsyncMediatorCall(
@@ -51,11 +51,10 @@ AsyncMediatorCall::AsyncMediatorCall(
 , _recieveEventMediatorKey(recieveEventMediatorKey)
 , _callback(callback)
 , _recieveMediatorArg(mediatorArg)
-, _timeoutSecs(timeoutSecs)
 , _willWaitForResponse(sendEventMediatorKey.length() ?  waitForResponse : false)
+, _timeoutSecs(timeoutSecs)
 , _waiting(false)
 {
-    ResponseRecievedId = Mediator::Register(_recieveEventMediatorKey, [this](MediatorArg mediatorArg) { this->ResponseRecieved(mediatorArg); });		// Start listening for a response
 }
 
 AsyncMediatorCall::~AsyncMediatorCall()
@@ -65,89 +64,44 @@ AsyncMediatorCall::~AsyncMediatorCall()
 
 void AsyncMediatorCall::Send()					// This will perform the send event, and wait for the response.
 {
-	if (!_waiting)
-	{
-		_waiting = true;
-        std::async(std::launch::async, &AsyncMediatorCall::SendEvent, this);	// fire and forget seperate thread
-	}
-	else
-	{
+    if (!_waiting)
+    {
+        _waiting = true;
+
+        // Create a thread, and run a worker class on it.
+        // When the worker finishes, threadFinished() will be called.
+        // Note: the worker handles all callbacks, timeouts and errors.
+        QThread* thread = new QThread;
+        AsyncMediatorWorker* worker = new AsyncMediatorWorker(
+                    _sendEventMediatorKey,
+                    _recieveEventMediatorKey,
+                    _callback,
+                    _sendMediatorArg,
+                    _willWaitForResponse,
+                    _timeoutSecs);
+        worker->moveToThread(thread);
+        connect(worker, SIGNAL(error(QString)), this, SLOT(errorString(QString)));
+        connect(thread, SIGNAL(started()), worker, SLOT(Start()));
+        connect(worker, SIGNAL(finished()), thread, SLOT(quit()));
+        connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
+        connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+        connect(thread, SIGNAL(finished()), this, SLOT(threadFinished()));
+        thread->start();
+    }
+    else
+    {
         qDebug() << "\n !!! A request is already in progress... Please try again later.";
-	}
-}
-
-void AsyncMediatorCall::SendEvent()	// This internal function handles maintenance when a response is recieved. Then the _callback is called.
-{
-    qDebug() << "Async -> thread running...";
-
-    // Reset response data
-    _recieveMediatorArg.SetSuccessful(true);
-    _recieveMediatorArg.SetErrorMsg("");
-
-
-    _waitingAsync = std::async(std::launch::async, &AsyncMediatorCall::WaitForResponse, this);
-    Mediator::Call(_sendEventMediatorKey, _sendMediatorArg);
-//    WaitForResponse();
-
-	bool responseSuccess = _waitingAsync.get();      // waits for response
-
-	if (!responseSuccess)
-        qDebug() << "Async -> Error waiting for response.";
-//    else qDebug() << "Async -> Complete";
-}
-
-double AsyncMediatorCall::Elapsed(clock_t startTime) {
-	return double(clock() - startTime) / CLOCKS_PER_SEC;
-}
-
-// This will wait for the asynchronous response. This is intended to be run asynchronously
-bool AsyncMediatorCall::WaitForResponse()
-{
-    clock_t startTime = clock();
-    // Wait for a response, or timeout
-    while (_willWaitForResponse && _waiting)
-    {
-        double elapsed = Elapsed(startTime);
-        if (elapsed > _timeoutSecs)
-        {
-            _waiting = false;
-            qDebug() << "Async -> Timeout";
-            // Invoke the callback function on the main thread.
-            if(_callback)
-            {
-                _recieveMediatorArg.SetSuccessful(false);
-                _recieveMediatorArg.SetErrorMsg("Request timed out.");
-                QMetaObject::invokeMethod(this, "DoCallbackOnMainThread", Qt::QueuedConnection);
-            }
-            return false;		// timeout = error
-        }
     }
-//    qDebug() << "Async -> Done waiting";
-    _waiting = false;
-    return true;			// no error
 }
 
-
-void AsyncMediatorCall::ResponseRecieved(MediatorArg mediatorArg)	// This internal function handles maintenance when a response is recieved. Then the _callback is called.
+void AsyncMediatorCall::errorString(QString error)
 {
-    _recieveMediatorArg = mediatorArg;
-
-    // Invoke the callback function on the main thread.
-    if(_callback)
-    {
-        QMetaObject::invokeMethod(this, "DoCallbackOnMainThread", Qt::QueuedConnection);
-    }
-
-     qDebug() << "Async -> Response recieved - thread terminated.";
-
-    // Ready to do it again
-    _waiting = false;
+    qDebug() << "Async Error: " << error;
 }
 
-void AsyncMediatorCall::DoCallbackOnMainThread()
+void AsyncMediatorCall::threadFinished()
 {
-    qDebug() << "Doing callback on main thread";
-    _callback(_recieveMediatorArg);
+    _waiting = false;
 }
 
 //}

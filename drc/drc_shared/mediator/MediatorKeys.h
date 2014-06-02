@@ -57,7 +57,7 @@ const std::string MKEY_BL_AUTHENTICATE_USER_DONE = "MKEY_BL_AUTHENTICATE_USER_DO
 const std::string MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";       // nil
 const std::string MKEY_DB_PERSIST_INTAKE_FORM_DONE = "MKEY_DB_PERSIST_INTAKE_FORM_DONE";      // Intake*
 const std::string MKEY_DB_LOAD_INTAKE_FORM_DONE = "MKEY_DB_LOAD_INTAKE_FORM_DONE";      // std::vector<Intake*>*
-const std::string MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_LOAD_INTAKE_FORM_DONE";      // std::vector<Intake*>*
+const std::string MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";      // std::vector<Intake*>*
 
 
 #endif

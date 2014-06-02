@@ -28,7 +28,8 @@ SOURCES += main.cpp\
     bl/fruitnameprocessor.cpp \
     bl/intakeformprocessor.cpp \
     gui/loginform.cpp \
-    bl/Crypto/SHA256_Crypto.cpp
+    bl/Crypto/SHA256_Crypto.cpp \
+    drc_shared/mediator/asyncmediatorworker.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -54,7 +55,8 @@ HEADERS  += \
     db/sqlite3.h \
     gui/loginform.h \
     drc_shared/models/DBBaseObject.h \
-    bl/Crypto/SHA256_Crypto.h
+    bl/Crypto/SHA256_Crypto.h \
+    drc_shared/mediator/asyncmediatorworker.h
 
 FORMS    += \
     DRCClient.ui \
