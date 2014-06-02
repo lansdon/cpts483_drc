@@ -22,7 +22,8 @@ public:
 
     string GetPass(void);
 
-    string GetType(void);
+    UserType GetType(void);
+    string GetTypeString(void);
 
     string Parse(void);
 };
@@ -44,14 +45,25 @@ string User::GetPass(void)
     return m_password;
 }
 
-string User::GetType(void)
+string User::GetTypeString(void)
 {
-    return string(m_type);
+    switch(m_type)
+    {
+        case SUPER_USER: return "Super User"; break;
+        case ADMIN: return "Admin"; break;
+        case NORMAL_USER: return "User"; break;
+        default: return "Invalid"; break;
+    }
+}
+
+UserType User::GetType(void)
+{
+    return m_type;
 }
 
 string User::Parse()
 {
-    return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetPass() + "\', \'" + this->GetType() + " );");
+    return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetPass() + "\', \'" + this->GetTypeString() + " );");
 }
 
 #endif

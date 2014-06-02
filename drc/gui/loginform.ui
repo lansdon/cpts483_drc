@@ -93,6 +93,16 @@
            </item>
           </layout>
          </item>
+         <item row="3" column="0" colspan="2">
+          <widget class="QLabel" name="statusLabel">
+           <property name="text">
+            <string>TextLabel</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

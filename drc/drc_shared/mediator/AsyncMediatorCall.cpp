@@ -80,10 +80,14 @@ void AsyncMediatorCall::SendEvent()	// This internal function handles maintenanc
 {
     qDebug() << "Async -> thread running...";
 
+    // Reset response data
+    _recieveMediatorArg.SetSuccessful(true);
+    _recieveMediatorArg.SetErrorMsg("");
+
 
     _waitingAsync = std::async(std::launch::async, &AsyncMediatorCall::WaitForResponse, this);
     Mediator::Call(_sendEventMediatorKey, _sendMediatorArg);
-    WaitForResponse();
+//    WaitForResponse();
 
 	bool responseSuccess = _waitingAsync.get();      // waits for response
 
@@ -101,17 +105,25 @@ bool AsyncMediatorCall::WaitForResponse()
 {
     clock_t startTime = clock();
     // Wait for a response, or timeout
-    while (_waiting)
+    while (_willWaitForResponse && _waiting)
     {
         double elapsed = Elapsed(startTime);
         if (elapsed > _timeoutSecs)
         {
             _waiting = false;
             qDebug() << "Async -> Timeout";
+            // Invoke the callback function on the main thread.
+            if(_callback)
+            {
+                _recieveMediatorArg.SetSuccessful(false);
+                _recieveMediatorArg.SetErrorMsg("Request timed out.");
+                QMetaObject::invokeMethod(this, "DoCallbackOnMainThread", Qt::QueuedConnection);
+            }
             return false;		// timeout = error
         }
     }
 //    qDebug() << "Async -> Done waiting";
+    _waiting = false;
     return true;			// no error
 }
 
