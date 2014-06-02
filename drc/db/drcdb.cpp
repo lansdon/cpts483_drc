@@ -56,6 +56,19 @@ void DRCDB::InsertField(string fruit_name, string time_stamp)
 
 }
 
+void DRCDB::InsertString(string Command)
+{
+    string tester = Command;
+
+}
+
+/*void DRCDB::InsertFruit(Fruit* enteredFruit)
+{
+    string value = enteredFruit->Parse();
+
+    printf("%s\n", value.c_str());
+}*/
+
 vector<string> DRCDB::SelectAllField()
 {
     vector<string> empty;
@@ -80,7 +93,7 @@ void DRCDB::PersistIntakeForm(MediatorArg arg) const
     Mediator::Call(MKEY_DB_PERSIST_INTAKE_FORM_DONE, intake, success, errorMessage);
 }
 
-void DRCDB::PersistFruit(MediatorArg arg) const
+void DRCDB::PersistFruit(MediatorArg arg)
 {
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
@@ -88,7 +101,19 @@ void DRCDB::PersistFruit(MediatorArg arg) const
     Fruit* fruit = nullptr;       // Unpackaged argument
     if (success)
     {
-        fruit = arg.getArg<Fruit*>();
+        // Arguement is still a string!!! not a fruit!!!
+        string* fruitname = arg.getArg<string*>();
+
+        fruit = new Fruit(&(*fruitname));
+
+        //Fruit* lies = new Fruit("apple");
+
+        //fruit->SetName();
+        fruit->GetName();
+
+        std::string tester = fruit->BreakApart();
+
+        InsertString(tester);
 
         // SUCCESS!! INSERT CODE HERE
     }

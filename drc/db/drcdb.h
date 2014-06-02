@@ -24,6 +24,8 @@ public:
 	
 	void InsertField(std::string fruit_name, std::string time_stamp);
 
+    void InsertString(std::string Command);
+
 	std::vector<std::string> SelectAllField();
 
 	bool isError();
@@ -34,7 +36,7 @@ public:
     // Incoming Events
     void PersistIntakeForm(MediatorArg arg) const;
 
-    void PersistFruit(MediatorArg arg) const;
+    void PersistFruit(MediatorArg arg);
 
     void LoadIntake(MediatorArg arg) const;
 
