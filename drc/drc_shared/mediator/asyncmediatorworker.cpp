@@ -12,11 +12,11 @@ AsyncMediatorWorker::AsyncMediatorWorker(
         bool waitForResponse,
         unsigned long timeoutSecs)
     : _sendEventMediatorKey(sendEventMediatorKey)
-    , _callback(callback)
     , _recieveEventMediatorKey(recieveEventMediatorKey)
+    , _callback(callback)
     , _sendMediatorArg(MediatorArg(argObject))
-    , _timeoutSecs(timeoutSecs)
     , _willWaitForResponse(waitForResponse)
+    , _timeoutSecs(timeoutSecs)
 {
 }
 // --- CONSTRUCTOR ---
