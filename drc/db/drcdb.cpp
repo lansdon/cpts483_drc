@@ -120,10 +120,10 @@ void DRCDB::LoadIntake(MediatorArg arg) const
     {
         // Returning a test object... This should be deleted!!!
         intake = new Intake();
-        intake->addClaimant("CLAIMENT DB TEST");
-        intake->addRespondents("Respondent1");
-        intake->addRespondents("Respondent2");
-        intake->addRespondents("Respondent3");
+        intake->addClaimant(Person("CLAIMENT DB TEST"));
+        intake->addRespondents(Person("Respondent1"));
+        intake->addRespondents(Person("Respondent2"));
+        intake->addRespondents(Person("Respondent3"));
 
         // SUCCESS!! INSERT CODE HERE
     }

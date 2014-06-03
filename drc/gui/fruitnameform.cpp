@@ -8,12 +8,8 @@
 // DRC
 #include "drc_shared/mediator/Mediator.h"
 #include "drc_shared/mediator/AsyncMediatorCall.h"
-
-
-#include <QWidget>
-
 #include "drc_shared/models/DRCModels.h"
-
+#include "gui/partydetailsform.h"
 
 
 FruitNameForm::FruitNameForm(QWidget *parent) :
@@ -23,9 +19,9 @@ FruitNameForm::FruitNameForm(QWidget *parent) :
     ui->setupUi(this);
 
     ui->tabWidget->clear();
-    ui->tabWidget->addTab(new Particapants(),"tab 1");
+    ui->tabWidget->addTab(new PartyDetailsForm(),"tab 1");
     ui->claimentTabWidget->clear();
-    ui->claimentTabWidget->addTab((claiment=new Particapants(ui->claimentTabWidget)), QString::fromStdString("Claiment " + std::to_string(ui->claimentTabWidget->count() + 1)));
+    ui->claimentTabWidget->addTab((claiment=new PartyDetailsForm(ui->claimentTabWidget)), QString::fromStdString("Claiment " + std::to_string(ui->claimentTabWidget->count() + 1)));
 
     // One time setup of async handler.
     asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
@@ -49,16 +45,16 @@ void FruitNameForm::on_sendButton_clicked()
     //// Filling out Intake form  ////
    Intake temp;
    //Particapants *tempClaim = (Particapants*)ui->widget;
-   temp.addClaimant(claiment->getName());
+   temp.addClaimant(claiment->GetPerson());
    for(int i = 0; i < ui->tabWidget->count();i++)
    {
-       Particapants *tempRespond = (Particapants*)ui->tabWidget->widget(i);
-       temp.addRespondents(tempRespond->getName());
+       PartyDetailsForm *tempRespond = (PartyDetailsForm*)ui->tabWidget->widget(i);
+       temp.addRespondents(tempRespond->GetPerson());
    }
 
-   UpdateNameField("Sending name: " + claiment->getName());
+   UpdateNameField("Sending name: " + QString::fromStdString(claiment->GetPerson().getFirstName()));
    //send info to logic to store into database
-   SendFruitName(claiment->getName());
+   SendFruitName(QString::fromStdString(claiment->GetPerson().getFirstName()));
 }
 void FruitNameForm::UpdateForm(MediatorArg arg)
 {
@@ -70,17 +66,17 @@ void FruitNameForm::UpdateForm(MediatorArg arg)
         //ui->widget->setName();
         if(recieved)
         {
-            claiment->setName(recieved->getClaimant().getName());
+            claiment->SetPerson(recieved->getClaimant());
             //claiment->repaint();
-            qDebug() << QString::fromStdString(recieved->getClaimant().getName());
-            qDebug() << QString::fromStdString(recieved->getRespondents()[0].getName());
+            qDebug() << QString::fromStdString(recieved->getClaimant().getFirstName());
+            qDebug() << QString::fromStdString(recieved->getRespondents()[0].getFirstName());
             std::vector<Person> tempVec = recieved->getRespondents();
             ui->tabWidget->clear();
-            Particapants *tempRespon;
+            PartyDetailsForm* tempRespon;
             for(uint i = 0; i < tempVec.size(); i++)
            {
-                tempRespon = new Particapants();
-                tempRespon->setName(tempVec[i].getName());
+                tempRespon = new PartyDetailsForm();
+                tempRespon->SetPerson(tempVec[i]);
                 ui->tabWidget->addTab(tempRespon, QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
             }
         }
@@ -144,7 +140,7 @@ void FruitNameForm::SendSearchName(QString name)
 void FruitNameForm::on_AddParty_clicked()
 {
 
-    ui->tabWidget->addTab(new Particapants(), QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
+    ui->tabWidget->addTab(new PartyDetailsForm(), QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
 }
 

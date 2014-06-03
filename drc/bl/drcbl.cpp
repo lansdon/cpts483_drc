@@ -36,10 +36,10 @@ void DRCBL::SendResults(MediatorArg arg)
 //    Intake* intakeResult = arg.getArg<Intake*>();
 
     Intake temp;
-    temp.addClaimant("apple");
-    temp.addRespondents("peach");
-    temp.addRespondents("banana");
-    temp.addRespondents("grape");
+    temp.addClaimant(Person("apple"));
+    temp.addRespondents(Person("peach"));
+    temp.addRespondents(Person("banana"));
+    temp.addRespondents(Person("grape"));
     //MediatorArg args(&temp);
     //Intake* intakeResult = args.getArg<Intake*>();
    // qDebug() << QString::fromStdString(intakeResult->getClaimant().getName());

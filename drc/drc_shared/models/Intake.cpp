@@ -6,16 +6,14 @@ Intake::Intake()
 
 }
 
-void Intake::addClaimant(QString input)
+void Intake::addClaimant(Person input)
 {
-    Person temp(input);
-    claimant = temp;
+    claimant = input;
 }
 
-void Intake::addRespondents(QString input)
+void Intake::addRespondents(Person input)
 {
-    Person temp(input);
-    respondents.push_back(temp);
+    respondents.push_back(input);
 }
 
 time_t Intake::getTime() const

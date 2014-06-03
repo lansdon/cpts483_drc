@@ -6,7 +6,7 @@
 #include "Mediator.h"
 #include <ctime>
 
-const unsigned long DEF_ASYNC_TIMEOUT_SECS = 10; // timeout in seconds
+const unsigned long DEF_ASYNC_TIMEOUT_SECS = 5; // timeout in seconds
 
 class AsyncMediatorWorker : public QObject {
     Q_OBJECT

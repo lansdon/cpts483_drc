@@ -2,15 +2,10 @@
 
 Person::Person()
 {
-    _name = "";
+    _firstName = "";
 }
 
 Person::Person(QString n)
 {
-    _name = n.toUtf8().constData();
-}
-
-std::string Person::getName() const
-{
-    return _name;
+    _firstName = n.toUtf8().constData();
 }

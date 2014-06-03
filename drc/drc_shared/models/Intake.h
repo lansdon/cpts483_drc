@@ -23,8 +23,8 @@ private:
 
 public:
     Intake();
-    void addClaimant(QString input);
-    void addRespondents(QString input);
+    void addClaimant(Person input);
+    void addRespondents(Person input);
     void setTime(time_t t);
     time_t getTime() const;
 
