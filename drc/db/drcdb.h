@@ -22,7 +22,7 @@ public:
 	
 	void OpenDatabase(std::string database_name);
 	
-	void InsertField(std::string fruit_name, std::string time_stamp);
+    void InsertFruit(int time, std::string name);
 
     void InsertString(std::string Command);
 

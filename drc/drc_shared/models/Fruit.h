@@ -64,24 +64,22 @@ string Fruit::GetTime(void)
 
 string Fruit::BreakApart()
 {
-    string toReturn = "VALUES (\'";
-    toReturn = toReturn + "VALUES (\'";
+    string toReturn = "VALUES(\'";
     toReturn = toReturn + GetName();
     toReturn = toReturn + "\', \'";
     toReturn = toReturn + GetTime();
-    toReturn = toReturn + " );";
+    toReturn = toReturn + ")";
     return toReturn;
     //return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetTime() + " );");
 }
 
 string Fruit::Parse(void)
 {
-    string toReturn = "VALUES (\'";
-    toReturn = toReturn + "VALUES (\'";
+    string toReturn = "VALUES(";
     toReturn = toReturn + GetTime();
-    toReturn = toReturn + "\', \'";
+    toReturn = toReturn + ", \'";
     toReturn = toReturn + GetName();
-    toReturn = toReturn + " );";
+    toReturn = toReturn + "\')";
     return toReturn;
     //return string("VALUES (\'" + this->GetTime() + "\', \'" + this->GetName + " );");
 }

@@ -56,9 +56,17 @@ bool DRCDB::CreateTable(QString table_name, QString table_columns)
     return create_success;
 }
 
-void DRCDB::InsertField(string fruit_name, string time_stamp)
+void DRCDB::InsertFruit(int time, string name)
 {
+    QSqlQuery qObject;
+    bool insertSuccess = false;
+    QString qName = QString::fromUtf8(name.c_str());
+    //qName.fromStdString(name);
 
+    if(database.isOpen())
+    {
+        insertSuccess = qObject.exec(QString("insert into Albertsons values(%1, '%2')").arg(time).arg(qName));
+    }
 }
 
 void DRCDB::InsertString(string Command)
@@ -68,13 +76,15 @@ void DRCDB::InsertString(string Command)
 
     if(database.isOpen())
     {
-        string cmd = "INSERT INTO Albertsons (TIME_STAMP, NAME) ";
+        QString qCmd, data;
 
+        string cmd = "insert into Albertsons ";
         cmd = cmd + Command;
-        QString qCmd;
+
         qCmd.fromStdString(cmd);
 
         insertSuccess = qObject.exec(qCmd);
+        //insertSuccess = qObject.exec("insert into Albertsons values(100, 'apple')");
     }
 }
 
@@ -124,7 +134,9 @@ void DRCDB::PersistFruit(MediatorArg arg)
 
         std::string tester = fruit->Parse();
 
-        InsertString(tester);
+        InsertFruit(atoi(fruit->GetTime().c_str()), fruit->GetName());
+
+        //InsertString(tester);
 
         // SUCCESS!! INSERT CODE HERE
     }
