@@ -19,9 +19,11 @@ public:
     User(string name, string pass);
 
     string GetName(void);
-    string GetPassword(void);
+    string GetPass(void);
+    string GetType(void);
     void SetName(string name);
     void SetPassword(string password);
+    string Parse(void);
 };
 
 

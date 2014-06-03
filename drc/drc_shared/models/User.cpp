@@ -12,9 +12,19 @@ string User::GetName(void)
     return m_userName;
 }
 
-string User::GetPassword(void)
+string User::GetPass(void)
 {
     return m_password;
+}
+
+string User::GetType(void)
+{
+    return to_string(m_type);
+}
+
+string User::Parse()
+{
+    return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetPass() + "\', \'" + this->GetType() + " );");
 }
 
 void User::SetName(string name)

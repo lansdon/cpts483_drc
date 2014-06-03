@@ -17,6 +17,7 @@ IntakeFormProcessor::IntakeFormProcessor(std::string regProcess, std::string sen
 
 void IntakeFormProcessor::Process(MediatorArg arg)
 {
+    qDebug() << "BL -> Processing Intake Form.";
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
 
@@ -33,6 +34,7 @@ void IntakeFormProcessor::Process(MediatorArg arg)
 
 void IntakeFormProcessor::Load(MediatorArg arg)
 {
+    qDebug() << "BL -> Loading Intake Form.";
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
 
@@ -49,6 +51,7 @@ void IntakeFormProcessor::Load(MediatorArg arg)
 
 bool IntakeFormProcessor::ValidateIntakeForm(const Intake& intake, std::string& errorMessage) const
 {
+    qDebug() << "BL -> Validate Intake Form";
     bool success = true;
     auto persons = intake.getRespondents();
     auto claimant = intake.getClaimant();
@@ -65,11 +68,26 @@ bool IntakeFormProcessor::ValidateIntakeForm(const Intake& intake, std::string& 
 
 bool IntakeFormProcessor::ValidatePerson(const Person& person, std::string& errorMessage) const
 {
+    qDebug() << "BL -> Validate Person "+ QString(person.getName().c_str());
     bool success = true;
-    std::string pattern = "[a-zA-Z\. ]*";
+    std::string pattern = "^[a-zA-Z]+$";
     auto name = person.getName();
-    bool match = std::regex_match(name, std::regex(pattern));
-    if (!match)
+//    success = std::regex_match(name, std::regex(pattern));
+    if (name.size() == 0)
+    {
+        success = false;
+        errorMessage = "Empty person name.";
+    }
+    for (unsigned int i = 0; i < name.size(); i++)
+    {
+        if (!((name[i] >= 65 && name[i] <= 90) || (name[i] >= 97 && name[i] <= 122) || (name[i] == ' ')))
+        {
+            success = false;
+            errorMessage = "Invalid character in person name.";
+            break;
+        }
+    }
+    if (!success)
     {
         errorMessage = "Person name contains invalid characters.";
         success = false;
@@ -79,6 +97,7 @@ bool IntakeFormProcessor::ValidatePerson(const Person& person, std::string& erro
 
 bool IntakeFormProcessor::ValidateTime(time_t time, std::string& errorMessage) const
 {
+    qDebug() << "BL -> Validate time";
     bool success = true;
     if (time < 0)
     {

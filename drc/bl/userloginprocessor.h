@@ -24,11 +24,10 @@ private:
     void ReceiveSalt(MediatorArg arg);
     void CleanUserName();
 
+    std::string _sendUser;
+    std::string _requestSalt;
     User* _user;
     std::string* _userName;
-
-    std::string _requestSalt;
-    std::string _sendUser;
 };
 
 #endif // USERLOGINPROCESSOR_H
