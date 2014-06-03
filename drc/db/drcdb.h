@@ -26,7 +26,7 @@ public:
 
     void InsertString(std::string Command);
 
-    std::vector<std::string> SelectAllField();
+    std::vector<std::string> *SelectAllField();
 
 	bool isError();
 
@@ -39,6 +39,8 @@ public:
     void PersistFruit(MediatorArg arg);
 
     void LoadIntake(MediatorArg arg) const;
+
+    void LoadFruit(MediatorArg arg);
 
 };
 

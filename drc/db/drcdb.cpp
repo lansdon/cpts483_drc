@@ -17,6 +17,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     // Register to Listen for events.
     Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
+    Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
     Mediator::Register(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){LoadIntake(arg);});
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, [this](MediatorArg arg){PersistIntakeForm(arg);});
 }
@@ -86,9 +87,9 @@ void DRCDB::InsertString(string Command)
     }
 }
 
-vector<string> DRCDB::SelectAllField()
+vector<string>* DRCDB::SelectAllField()
 {
-    vector<string> empty;
+    vector<string>* empty = new vector<string>();
 
     QSqlQuery query;
     bool searchSuccess;
@@ -101,8 +102,8 @@ vector<string> DRCDB::SelectAllField()
     {
         string name(query.value(1).toString().toStdString());
         string time(query.value(0).toString().toStdString());
-        empty.push_back(name);
-        empty.push_back(time);
+        empty->push_back(name);
+        empty->push_back(time);
     }
 
 
@@ -148,11 +149,20 @@ void DRCDB::PersistFruit(MediatorArg arg)
         // SUCCESS!! INSERT CODE HERE
     }
 
-
-    vector<string> results = SelectAllField();
-
     qDebug() << "DB -> PersistFruit Complete";
     Mediator::Call(MKEY_DB_PERSIST_FRUIT_NAME_DONE, fruit, success, errorMessage);
+}
+
+void DRCDB::LoadFruit(MediatorArg arg)
+{
+    vector<string>* results = new vector<string>();
+    results = SelectAllField();
+    qDebug() << "Data stored in database; name then timestamp\n";
+    for(int i = 0; i < results->size(); i++)
+    {
+        qDebug() << results->at(i).c_str() << endl;
+    }
+    qDebug() << "DB -> LoadFruit Complete";
 }
 
 void DRCDB::LoadIntake(MediatorArg arg) const
