@@ -26,7 +26,7 @@ public:
 
     void InsertString(std::string Command);
 
-	std::vector<std::string> SelectAllField();
+    std::vector<std::string> SelectAllField();
 
 	bool isError();
 

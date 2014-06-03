@@ -61,8 +61,6 @@ void DRCDB::InsertFruit(int time, string name)
     QSqlQuery qObject;
     bool insertSuccess = false;
     QString qName = QString::fromUtf8(name.c_str());
-    //qName.fromStdString(name);
-
     if(database.isOpen())
     {
         insertSuccess = qObject.exec(QString("insert into Albertsons values(%1, '%2')").arg(time).arg(qName));
@@ -88,16 +86,26 @@ void DRCDB::InsertString(string Command)
     }
 }
 
-/*void DRCDB::InsertFruit(Fruit* enteredFruit)
-{
-    string value = enteredFruit->Parse();
-
-    printf("%s\n", value.c_str());
-}*/
-
 vector<string> DRCDB::SelectAllField()
 {
     vector<string> empty;
+
+    QSqlQuery query;
+    bool searchSuccess;
+
+    if(database.isOpen())
+    {
+        searchSuccess = query.exec("select * from Albertsons");
+    }
+    while(query.next())
+    {
+        string name(query.value(1).toString().toStdString());
+        string time(query.value(0).toString().toStdString());
+        empty.push_back(name);
+        empty.push_back(time);
+    }
+
+
     return empty;
 
 }
@@ -114,6 +122,7 @@ void DRCDB::PersistIntakeForm(MediatorArg arg) const
 
         // SUCCESS!! INSERT CODE HERE
     }
+
 
     qDebug() << "DB -> PersistIntakeForm Complete";
     Mediator::Call(MKEY_DB_PERSIST_INTAKE_FORM_DONE, intake, success, errorMessage);
@@ -132,14 +141,15 @@ void DRCDB::PersistFruit(MediatorArg arg)
 
         fruit = new Fruit(&(*fruitname));
 
-        std::string tester = fruit->Parse();
-
         InsertFruit(atoi(fruit->GetTime().c_str()), fruit->GetName());
 
         //InsertString(tester);
 
         // SUCCESS!! INSERT CODE HERE
     }
+
+
+    vector<string> results = SelectAllField();
 
     qDebug() << "DB -> PersistFruit Complete";
     Mediator::Call(MKEY_DB_PERSIST_FRUIT_NAME_DONE, fruit, success, errorMessage);
