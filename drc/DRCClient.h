@@ -6,7 +6,7 @@
 //#include "drc_shared/models//Intake.h"
 #include "bl/drcbl.h"
 #include "db/drcdb.h"
-#include "gui/fruitnameform.h"
+#include "fruitnameform.h"
 
 namespace Ui {
 class DRCClient;
