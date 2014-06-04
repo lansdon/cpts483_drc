@@ -5,16 +5,25 @@
 
 #include "../drc_shared/models/Intake.h"
 #include "../drc_shared/models/Person.h"
+#include "Processor.h"
 
-class IntakeFormProcessor
+class IntakeFormProcessor: public Processor
 {
 public:
-    IntakeFormProcessor();
-    bool ValidateIntakeForm(Intake* intakeForm, std::string& errorMessage) const;
+    IntakeFormProcessor(std::string regProcess="", std::string sendProcess="",
+                                             std::string regLoad="", std::string sendLoad="");
+    void Process(MediatorArg arg);
+    void Load(MediatorArg arg);
 
 private:
-    bool ValidatePerson(Person person, std::string& errorMessage) const;
+    bool ValidateIntakeForm(const Intake& intake, std::string& errorMessage) const;
+    bool ValidatePerson(const Person& person, std::string& errorMessage) const;
     bool ValidateTime(time_t time, std::string& errorMessage) const;
+
+    std::string _regProcess;
+    std::string _sendProcess;
+    std::string _regLoad;
+    std::string _sendLoad;
 };
 
 #endif // INTAKEFORMPROCESSOR_H

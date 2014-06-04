@@ -38,8 +38,13 @@ SOURCES += main.cpp\
     gui/partydetailsform.cpp \
     gui/queryform.cpp \
     drc_shared/models/Fruit.cpp \
+<<<<<<< HEAD
     gui/contactrecordview.cpp \
     gui/contactrecorddataview.cpp
+=======
+    bl/userloginprocessor.cpp \
+    drc_shared/models/User.cpp
+>>>>>>> b5134fdae3bfd5ab5737e71a1f8fea3a946211c9
 
 HEADERS  += \
     bl/drcbl.h \
@@ -63,14 +68,20 @@ HEADERS  += \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \
     db/sqlite3.h \
+    bl/Processor.h \
+    bl/userloginprocessor.h \
+    bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
-    drc_shared/models/DBBaseObject.h \
     bl/Crypto/SHA256_Crypto.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/partydetailsform.h \
     gui/queryform.h \
+<<<<<<< HEAD
     gui/contactrecordview.h \
     gui/contactrecorddataview.h
+=======
+    drc_shared/models/DBBaseObject.h
+>>>>>>> b5134fdae3bfd5ab5737e71a1f8fea3a946211c9
 
 FORMS    += \
     DRCClient.ui \
