@@ -36,11 +36,6 @@ void FruitNameProcessor::Process(MediatorArg arg)
     {
         fruit = arg.getArg<Fruit*>();
 
-<<<<<<< HEAD
-        auto fruitLower = fruit->GetName();
-        std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), ::tolower);
-        if (_fruitNames.find(fruitLower) == _fruitNames.end())
-=======
         if (fruit)
         {
             qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(fruit->GetName());
@@ -54,7 +49,7 @@ void FruitNameProcessor::Process(MediatorArg arg)
             }
          }
         else
->>>>>>> b5134fdae3bfd5ab5737e71a1f8fea3a946211c9
+
         {
             success = false;
             errorMessage = "No fruit name.";
