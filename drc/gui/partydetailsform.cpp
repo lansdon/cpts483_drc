@@ -55,6 +55,8 @@ void PartyDetailsForm::UpdateLabels()
     ui->mobileExtLineEdit->setText(QString::fromStdString(_person.getMobilePhoneExt()));
     ui->numInHomeLineEdit->setText(QString::number(_person.getNumberInHousehold()));
     ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
+
+    SetEditMode(false);
 }
 
 void PartyDetailsForm::SetWidgetInvalid(QWidget *widget)
@@ -133,4 +135,46 @@ void PartyDetailsForm::on_homeLineEdit_textChanged(const QString &arg1)
 void PartyDetailsForm::on_mobileLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->mobileLineEdit);
+}
+
+void PartyDetailsForm::on_saveButton_clicked()
+{
+    SetEditMode(false);
+    // To do - Send Save Party signal
+}
+
+void PartyDetailsForm::on_editButton_clicked()
+{
+    SetEditMode(true);
+}
+
+void PartyDetailsForm::on_deleteButton_clicked()
+{
+    SetEditMode(true);
+    _person = Person();
+    UpdateLabels();
+
+    // To do, send Delete Party signal
+}
+
+void PartyDetailsForm::SetEditMode(bool editModeOn)
+{
+    ui->firstLineEdit->setEnabled(editModeOn);
+    ui->middleLineEdit->setEnabled(editModeOn);
+    ui->lastLineEdit->setEnabled(editModeOn);
+    ui->streetLineEdit->setEnabled(editModeOn);
+    ui->unitLineEdit->setEnabled(editModeOn);
+    ui->cityLineEdit->setEnabled(editModeOn);
+    ui->stateLineEdit->setEnabled(editModeOn);
+    ui->countyLineEdit->setEnabled(editModeOn);
+    ui->zipLineEdit->setEnabled(editModeOn);
+    ui->emailLineEdit->setEnabled(editModeOn);
+    ui->homeLineEdit->setEnabled(editModeOn);
+    ui->homeExtLineEdit->setEnabled(editModeOn);
+    ui->workLineEdit->setEnabled(editModeOn);
+    ui->workExtLineEdit->setEnabled(editModeOn);
+    ui->mobileLineEdit->setEnabled(editModeOn);
+    ui->mobileExtLineEdit->setEnabled(editModeOn);
+    ui->numInHomeLineEdit->setEnabled(editModeOn);
+    ui->attorneyLineEdit->setEnabled(editModeOn);
 }

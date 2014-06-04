@@ -22,6 +22,7 @@ LoginForm::LoginForm(QWidget *parent) :
             );
 
     ui->statusLabel->setText("stuff");
+    ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 }
 
 LoginForm::~LoginForm()

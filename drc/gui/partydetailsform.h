@@ -30,6 +30,12 @@ private slots:
 
     void on_mobileLineEdit_textChanged(const QString &arg1);
 
+    void on_saveButton_clicked();
+
+    void on_editButton_clicked();
+
+    void on_deleteButton_clicked();
+
 private:
     Ui::PartyDetailsForm *ui;
 
@@ -42,6 +48,7 @@ private:
     void SetWidgetInvalid(QWidget *widget);
     void SetWidgetValid(QWidget *widget);
     bool ProcessPhoneNumber(const QString& string, QLineEdit *widget);
+    void SetEditMode(bool editModeOn);
 
 };
 
