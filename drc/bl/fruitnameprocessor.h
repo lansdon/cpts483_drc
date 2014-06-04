@@ -3,12 +3,15 @@
 
 #include <set>
 #include <string>
+//#include "Fruit.h"
+
+class Fruit;
 
 class FruitNameProcessor
 {
 public:
     FruitNameProcessor();
-    bool ValidateFruitName(std::string* fruitName, std::string& error) const;
+    bool ValidateFruitName(Fruit* fruit, std::string& error) const;
 
 private:
     std::set<std::string> _fruitNames;

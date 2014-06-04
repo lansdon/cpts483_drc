@@ -1,7 +1,7 @@
 #include <qstring.h>
 #include <qdebug.h>
 #include <algorithm>
-
+#include "Fruit.h"
 #include "fruitnameprocessor.h"
 
 FruitNameProcessor::FruitNameProcessor()
@@ -19,14 +19,14 @@ FruitNameProcessor::FruitNameProcessor()
     _fruitNames.insert("kiwi");
 }
 
-bool FruitNameProcessor::ValidateFruitName(std::string* fruitName, std::string& errorMessage) const
+bool FruitNameProcessor::ValidateFruitName(Fruit* fruit, std::string& errorMessage) const
 {
     bool success = true;
-    if (fruitName)
+    if (fruit)
     {
-        qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(*fruitName);
+        qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(fruit->GetName());
 
-        auto fruitLower = *fruitName;
+        auto fruitLower = fruit->GetName();
         std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), tolower);
         if (_fruitNames.find(fruitLower) == _fruitNames.end())
         {

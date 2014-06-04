@@ -26,6 +26,8 @@ PartyDetailsForm::PartyDetailsForm(QWidget *parent) :
 //    ui->mobileExtLineEdit->setText(QString::fromStdString(_person.getMobilePhoneExt()));
     ui->numInHomeLineEdit->setValidator(new QIntValidator(ui->numInHomeLineEdit));
 //    ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
+
+    SetEditMode(false);
 }
 
 PartyDetailsForm::~PartyDetailsForm()
@@ -161,7 +163,28 @@ void PartyDetailsForm::on_mobileLineEdit_textChanged(const QString &arg1)
 void PartyDetailsForm::on_saveButton_clicked()
 {
     SetEditMode(false);
+
+    _person.setFirstName(ui->firstLineEdit->text().toStdString());
+    _person.setMiddleName(ui->middleLineEdit->text().toStdString());
+    _person.setLastName(ui->lastLineEdit->text().toStdString());
+    _person.setStreet(ui->streetLineEdit->text().toStdString());
+    _person.setUnit(ui->unitLineEdit->text().toStdString());
+    _person.setCity(ui->cityLineEdit->text().toStdString());
+    _person.setState(ui->stateLineEdit->text().toStdString());
+    _person.setCounty(ui->countyLineEdit->text().toStdString());
+    _person.setZip(ui->zipLineEdit->text().toStdString());
+    _person.setEmail(ui->emailLineEdit->text().toStdString());
+    _person.setHomePhone(ui->homeLineEdit->text().toStdString());
+    _person.setHomePhoneExt(ui->homeExtLineEdit->text().toStdString());
+    _person.setWorkPhone(ui->workLineEdit->text().toStdString());
+    _person.setWorkPhoneExt(ui->workExtLineEdit->text().toStdString());
+    _person.setMobilePhone(ui->mobileLineEdit->text().toStdString());
+    _person.setMobilePhoneExt(ui->mobileExtLineEdit->text().toStdString());
+    _person.setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
+    _person.setAttorney(ui->attorneyLineEdit->text().toStdString());
+
     // To do - Send Save Party signal
+
 }
 
 void PartyDetailsForm::on_editButton_clicked()
@@ -198,4 +221,10 @@ void PartyDetailsForm::SetEditMode(bool editModeOn)
     ui->mobileExtLineEdit->setEnabled(editModeOn);
     ui->numInHomeLineEdit->setEnabled(editModeOn);
     ui->attorneyLineEdit->setEnabled(editModeOn);
+
+    ui->saveButton->setEnabled(editModeOn);
+    ui->editButton->setEnabled(!editModeOn);
+
+    _editModeOn = editModeOn;
+
 }

@@ -11,7 +11,7 @@
 
 #include "drc_shared/models/Intake.h"
 #include "drc_shared/models/Person.h"
-//#include "drc_shared/models/Fruit.h"
+#include "drc_shared/models/Fruit.h"
 //#include "drc_shared/models/User.h"
 
 

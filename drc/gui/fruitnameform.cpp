@@ -54,7 +54,7 @@ void FruitNameForm::on_sendButton_clicked()
 
    UpdateNameField("Sending name: " + QString::fromStdString(claiment->GetPerson().getFirstName()));
    //send info to logic to store into database
-   SendFruitName(QString::fromStdString(claiment->GetPerson().getFirstName()));
+   SendFruitName(new Fruit(claiment->GetPerson().getFirstName()));
 }
 void FruitNameForm::UpdateForm(MediatorArg arg)
 {
@@ -107,10 +107,11 @@ void FruitNameForm::on_nameLineEdit_returnPressed()
 
 //////////// SEND / RECIEVE EVENTS /////////////////
 
-void FruitNameForm::SendFruitName(QString name)
+void FruitNameForm::SendFruitName(Fruit *fruit)
 {
-    qDebug() << "Gui -> Submit fruit name asynchronously";
-    asyncSendFruitName->GetMediatorArg().SetArg( new std::string(name.toStdString()));
+    qDebug() << "Gui -> Submit fruit name asynchronously" << QString::fromStdString(fruit->GetName());
+    qDebug() <<  QString::fromStdString(fruit->GetName());
+    asyncSendFruitName->GetMediatorArg().SetArg((Fruit*)fruit);
     asyncSendFruitName->Send();
 }
 

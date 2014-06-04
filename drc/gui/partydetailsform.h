@@ -52,6 +52,8 @@ private:
     void SetEditMode(bool editModeOn);
     bool ValidateForm();
 
+    bool _editModeOn;
+
 };
 
 #endif // PARTYDETAILSFORM_H

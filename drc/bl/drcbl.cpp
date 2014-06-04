@@ -7,11 +7,11 @@
 #include "drc_shared/mediator/MediatorArg.h"
 #include "drc_shared/mediator/MediatorKeys.h"
 
-
-
 #include <qstring.h>
 #include <qdebug.h>
+
 #include "drc_shared/models/Intake.h"
+#include "Fruit.h"
 
 #include <set>
 #include <algorithm>
@@ -65,17 +65,16 @@ void DRCBL::ProcessFruitName(MediatorArg arg) const
     bool success = arg.IsSuccessful();
     std::string errorMessage = arg.ErrorMessage();
 
-    std::string* fruitName = nullptr;
+    Fruit* fruit= nullptr;
     if (success)
     {
-        fruitName = arg.getArg<std::string*>();
+        fruit = arg.getArg<Fruit*>();
 
-        success = _fruitNameProcessor.ValidateFruitName(fruitName, errorMessage);
-
+        success = _fruitNameProcessor.ValidateFruitName(fruit, errorMessage);
     }
 
     qDebug() << "BL -> Validation Complete";
-    Mediator::Call(MKEY_BL_VALIDATE_FRUITNAME_DONE, fruitName, success, errorMessage);
+    Mediator::Call(MKEY_BL_VALIDATE_FRUITNAME_DONE, fruit, success, errorMessage);
 }
 
 

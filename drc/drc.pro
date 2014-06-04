@@ -36,7 +36,8 @@ SOURCES += main.cpp\
     bl/Crypto/SHA256_Crypto.cpp \
     drc_shared/mediator/asyncmediatorworker.cpp \
     gui/partydetailsform.cpp \
-    gui/queryform.cpp
+    gui/queryform.cpp \
+    drc_shared/models/Fruit.cpp
 
 HEADERS  += \
     bl/drcbl.h \

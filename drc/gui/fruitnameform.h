@@ -7,12 +7,11 @@
 #include "drc_shared/mediator/AsyncMediatorCall.h"
 #include "drc_shared/models/DRCModels.h"
 #include <vector>
-//#include "drc_shared/models/DRCModels.h"
-
 
 // Forward declarations
 class AsyncMediatorCall;
 class MediatorArg;
+class Fruit;
 
 namespace Ui {
 class FruitNameForm;
@@ -50,7 +49,7 @@ private:
     AsyncMediatorCall *asyncSendFruitName;
     AsyncMediatorCall *asyncSendSearch;
     void SendSearchName(QString name);
-    void SendFruitName(QString name);
+    void SendFruitName(Fruit* fruit);
     PartyDetailsForm *claiment;
 };
 

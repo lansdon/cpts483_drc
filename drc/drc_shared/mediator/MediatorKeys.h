@@ -30,7 +30,7 @@ const std::string MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_
 //				SEARCH FOR USER BY NAME ????? Test Function ???
 // Test function to load test records on fruit page
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
-const std::string MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";           // std::string*
+const std::string MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";            // std::string*
 const std::string MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
 
 //////////////////////////////////////////////////////////////////
@@ -41,23 +41,37 @@ const std::string MKEY_GUI_AUTHENTICATE_USER = "MKEY_GUI_AUTHENTICATE_USER";    
 const std::string MKEY_BL_AUTHENTICATE_USER_DONE = "MKEY_BL_AUTHENTICATE_USER_DONE";        // User*
 const std::string MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";        // std::vector<User*>*
 
-
 //////////////////////////////////////////////////////////////////
 //				SAVE INTAKE FORM
 // Save an intake form to the database
-//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
-const std::string MKEY_GUI_SUBMIT_INTAKE_FORM = "MKEY_GUI_SUBMIT_INTAKE_FORM";              // Intake*
-const std::string MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE";   // Intake*
-const std::string MKEY_DB_PERSIST_INTAKE_FORM_DONE = "MKEY_DB_PERSIST_INTAKE_FORM_DONE";      // Intake*
+//////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
+const std::string MKEY_GUI_SUBMIT_INTAKE_FORM = "MKEY_GUI_SUBMIT_INTAKE_FORM";                          // Intake*
+const std::string MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE";    // Intake*
+const std::string MKEY_DB_PERSIST_INTAKE_FORM_DONE = "MKEY_DB_PERSIST_INTAKE_FORM_DONE";                // Intake*
 
 //////////////////////////////////////////////////////////////////
 //				LOAD INTAKE FORM
 // Load an intake form from the database
-//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
-const std::string MKEY_GUI_LOAD_INTAKE_FORM = "MKEY_GUI_LOAD_INTAKE_FORM";                // Intake*
+//////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
+const std::string MKEY_GUI_LOAD_INTAKE_FORM = "MKEY_GUI_LOAD_INTAKE_FORM";                              // Intake*
 const std::string MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE";   // Intake*
-const std::string MKEY_DB_LOAD_INTAKE_FORM_DONE = "MKEY_DB_LOAD_INTAKE_FORM_DONE";      // std::vector<Intake*>*
+const std::string MKEY_DB_LOAD_INTAKE_FORM_DONE = "MKEY_DB_LOAD_INTAKE_FORM_DONE";                      // std::vector<Intake*>*
 
+//////////////////////////////////////////////////////////////////
+//				SAVE PERSON
+// Save a person the database
+//////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
+const std::string MKEY_GUI_SUBMIT_PERSON_FORM = "MKEY_GUI_SUBMIT_PERSON_FORM";                          // Person*
+const std::string MKEY_BL_VALIDATE_SAVE_PERSON_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_PERSON_FORM_DONE";    // Person*
+const std::string MKEY_DB_PERSIST_PERSON_FORM_DONE = "MKEY_DB_PERSIST_PERSON_FORM_DONE";                // Person*
+
+//////////////////////////////////////////////////////////////////
+//				LOAD PERSON
+// Load a person from the database
+//////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
+const std::string MKEY_GUI_LOAD_PERSON_FORM = "MKEY_GUI_LOAD_PERSON_FORM";                              // Person*
+const std::string MKEY_BL_VALIDATE_LOAD_PERSON_FORM_DONE = "MKEY_BL_VALIDATE_LOAD_PERSON_FORM_DONE";    // Person*
+const std::string MKEY_DB_LOAD_PERSON_FORM_DONE = "MKEY_DB_LOAD_PERSON_FORM_DONE";                      // std::vector<Person*>*
 
 
 #endif
