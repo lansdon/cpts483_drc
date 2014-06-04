@@ -3,6 +3,7 @@
 
 #include <set>
 #include <string>
+#include <algorithm>
 //#include "Fruit.h"
 
 class Fruit;

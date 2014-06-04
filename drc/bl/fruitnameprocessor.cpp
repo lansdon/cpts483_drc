@@ -27,7 +27,7 @@ bool FruitNameProcessor::ValidateFruitName(Fruit* fruit, std::string& errorMessa
         qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(fruit->GetName());
 
         auto fruitLower = fruit->GetName();
-        std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), tolower);
+        std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), ::tolower);
         if (_fruitNames.find(fruitLower) == _fruitNames.end())
         {
             success = false;

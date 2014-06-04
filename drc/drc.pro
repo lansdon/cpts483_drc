@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     drc_shared/mediator/asyncmediatorworker.cpp \
     gui/partydetailsform.cpp \
     gui/queryform.cpp \
-    drc_shared/models/Fruit.cpp
+    drc_shared/models/Fruit.cpp \
+    gui/contactrecordview.cpp \
+    gui/contactrecorddataview.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -66,7 +68,9 @@ HEADERS  += \
     bl/Crypto/SHA256_Crypto.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/partydetailsform.h \
-    gui/queryform.h
+    gui/queryform.h \
+    gui/contactrecordview.h \
+    gui/contactrecorddataview.h
 
 FORMS    += \
     DRCClient.ui \
@@ -75,7 +79,9 @@ FORMS    += \
     gui/particapants.ui \
     gui/loginform.ui \
     gui/partydetailsform.ui \
-    gui/queryform.ui
+    gui/queryform.ui \
+    gui/contactrecordview.ui \
+    gui/contactrecorddataview.ui
 
 
 CONFIG += c++11

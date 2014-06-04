@@ -51,3 +51,8 @@ void DRCClient::on_actionNew_search_form_triggered()
 {
     setCentralWidget(new QueryForm());
 }
+
+void DRCClient::on_actionOpen_contact_view_triggered()
+{
+    setCentralWidget(new ContactRecordView());
+}

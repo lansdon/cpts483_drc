@@ -6,6 +6,7 @@
 #include "drcbl.h"
 #include "drcdb.h"
 #include "fruitnameform.h"
+#include "contactrecordview.h"
 
 namespace Ui {
 class DRCClient;
@@ -26,6 +27,8 @@ private slots:
     void on_actionNew_Form_triggered();
 
     void on_actionNew_search_form_triggered();
+
+    void on_actionOpen_contact_view_triggered();
 
 private:
     Ui::DRCClient *ui;

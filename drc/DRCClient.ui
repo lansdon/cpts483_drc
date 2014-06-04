@@ -105,12 +105,19 @@
     </property>
     <addaction name="actionNew_search_form"/>
    </widget>
+   <widget class="QMenu" name="menuContacts_test">
+    <property name="title">
+     <string>Contacts test</string>
+    </property>
+    <addaction name="actionOpen_contact_view"/>
+   </widget>
    <addaction name="menuFruit_Name"/>
    <addaction name="menuIntake_Forms"/>
    <addaction name="menuSearch"/>
    <addaction name="menuInquiries"/>
    <addaction name="menuReports"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuContacts_test"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionNew_Form">
@@ -191,6 +198,11 @@
   <action name="actionNew_search_form">
    <property name="text">
     <string>New</string>
+   </property>
+  </action>
+  <action name="actionOpen_contact_view">
+   <property name="text">
+    <string>open</string>
    </property>
   </action>
  </widget>
