@@ -25,6 +25,8 @@ private slots:
 
     void on_actionNew_Form_triggered();
 
+    void on_actionNew_search_form_triggered();
+
 private:
     Ui::DRCClient *ui;
 

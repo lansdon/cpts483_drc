@@ -51,7 +51,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFruit_Name">
@@ -99,8 +99,15 @@
      <string>Help</string>
     </property>
    </widget>
+   <widget class="QMenu" name="menuSearch">
+    <property name="title">
+     <string>Search</string>
+    </property>
+    <addaction name="actionNew_search_form"/>
+   </widget>
    <addaction name="menuFruit_Name"/>
    <addaction name="menuIntake_Forms"/>
+   <addaction name="menuSearch"/>
    <addaction name="menuInquiries"/>
    <addaction name="menuReports"/>
    <addaction name="menuHelp"/>
@@ -179,6 +186,11 @@
   <action name="actionNew_Fruit_Submission">
    <property name="text">
     <string>Open</string>
+   </property>
+  </action>
+  <action name="actionNew_search_form">
+   <property name="text">
+    <string>New</string>
    </property>
   </action>
  </widget>

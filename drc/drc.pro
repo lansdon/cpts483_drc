@@ -35,7 +35,8 @@ SOURCES += main.cpp\
     gui/loginform.cpp \
     bl/Crypto/SHA256_Crypto.cpp \
     drc_shared/mediator/asyncmediatorworker.cpp \
-    gui/partydetailsform.cpp
+    gui/partydetailsform.cpp \
+    gui/queryform.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -63,7 +64,8 @@ HEADERS  += \
     drc_shared/models/DBBaseObject.h \
     bl/Crypto/SHA256_Crypto.h \
     drc_shared/mediator/asyncmediatorworker.h \
-    gui/partydetailsform.h
+    gui/partydetailsform.h \
+    gui/queryform.h
 
 FORMS    += \
     DRCClient.ui \
@@ -71,7 +73,8 @@ FORMS    += \
     gui/intakeform.ui \
     gui/particapants.ui \
     gui/loginform.ui \
-    gui/partydetailsform.ui
+    gui/partydetailsform.ui \
+    gui/queryform.ui
 
 
 CONFIG += c++11

@@ -10,6 +10,7 @@
 #include "gui/fruitnameform.h"
 #include "gui/intakeform.h"
 #include "gui/loginform.h"
+#include "gui/queryform.h"
 
 // DRC COMPONENTS
 #include "bl/drcbl.h"
@@ -46,3 +47,7 @@ void DRCClient::on_actionNew_Form_triggered()
     setCentralWidget(new IntakeForm(this));
 }
 
+void DRCClient::on_actionNew_search_form_triggered()
+{
+    setCentralWidget(new QueryForm());
+}

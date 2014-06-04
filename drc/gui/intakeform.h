@@ -2,7 +2,9 @@
 #define INTAKEFORM_H
 
 #include <QWidget>
+#include <vector>
 #include "drc_shared/models/Intake.h"
+#include "partydetailsform.h"
 
 namespace Ui {
 class IntakeForm;
@@ -23,9 +25,16 @@ private slots:
 
     void on_clearButton_clicked();
 
+    void on_addButton_clicked();
+
+    void on_removeButton_clicked();
+
 private:
     Ui::IntakeForm *ui;
-
+    std::vector<PartyDetailsForm*> partys;
+    void initPartys();
+    void testFunction();
+    void update();
     // Current Intake Object
     Intake _currentIntake;
 
