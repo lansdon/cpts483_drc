@@ -31,6 +31,8 @@ private slots:
 
 private:
     Ui::IntakeForm *ui;
+
+    PartyDetailsForm *mainParty;
     std::vector<PartyDetailsForm*> partys;
     void initPartys();
     void testFunction();

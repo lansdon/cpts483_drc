@@ -14,10 +14,13 @@ IntakeForm::IntakeForm(QWidget *parent) :
     ui(new Ui::IntakeForm)
 {
     ui->setupUi(this);
+
+    mainParty = new PartyDetailsForm();
+    ui->mainPartyTabWidget->addTab(mainParty,"Main Party");
     initPartys();
-    ui->tabWidget->clear();
+    ui->OtherPartyTabWidget->clear();
     for(uint i =0; i< partys.size();i++)
-        ui->tabWidget->addTab(partys[i], QString::fromStdString("Party " + std::to_string(ui->tabWidget->count()+1)));
+        ui->OtherPartyTabWidget->addTab(partys[i], QString::fromStdString("Party " + std::to_string(ui->OtherPartyTabWidget->count()+1)));
 
     // One time setup of async handlers.
     _asyncLoadIntake = new AsyncMediatorCall(MKEY_GUI_LOAD_INTAKE_FORM, MKEY_DB_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){ Recieve_LoadIntakeForm(arg); }, nullptr, true);
@@ -66,6 +69,7 @@ void IntakeForm::Recieve_LoadIntakeForm(MediatorArg arg)
 // update the intakeform
 void IntakeForm::update()
 {
+    mainParty->SetPerson(_currentIntake.getClaimant());
     std::vector<Person> tempPeople;
     tempPeople = _currentIntake.getRespondents();
     for(uint i = 0; i < tempPeople.size(); i++)
@@ -107,13 +111,12 @@ void IntakeForm::initPartys()
 void IntakeForm::on_addButton_clicked()
 {
     partys.push_back(new PartyDetailsForm());
-    ui->tabWidget->addTab(partys[partys.size() - 1], QString::fromStdString("Party " + std::to_string(ui->tabWidget->count()+1)));
-    ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
+    ui->OtherPartyTabWidget->addTab(partys[partys.size() - 1], QString::fromStdString("Party " + std::to_string(ui->OtherPartyTabWidget->count()+1)));
+    ui->OtherPartyTabWidget->setCurrentIndex(ui->OtherPartyTabWidget->count()-1);
 }
 // removes a tab from widget
 void IntakeForm::on_removeButton_clicked()
 {
-    qDebug() << ui->tabWidget->currentIndex();
-    partys.erase(partys.begin() + ui->tabWidget->currentIndex());
-    ui->tabWidget->removeTab(ui->tabWidget->currentIndex());
+    partys.erase(partys.begin() + ui->OtherPartyTabWidget->currentIndex());
+    ui->OtherPartyTabWidget->removeTab(ui->OtherPartyTabWidget->currentIndex());
 }
