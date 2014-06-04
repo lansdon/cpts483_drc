@@ -73,5 +73,14 @@ const std::string MKEY_GUI_LOAD_PERSON_FORM = "MKEY_GUI_LOAD_PERSON_FORM";      
 const std::string MKEY_BL_VALIDATE_LOAD_PERSON_FORM_DONE = "MKEY_BL_VALIDATE_LOAD_PERSON_FORM_DONE";    // Person*
 const std::string MKEY_DB_LOAD_PERSON_FORM_DONE = "MKEY_DB_LOAD_PERSON_FORM_DONE";                      // std::vector<Person*>*
 
+//////////////////////////////////////////////////////////////////
+//				REQUEST SALT
+// Request salt for a particular user
+//////////////////////////////////////////////////////////////////                              ARGUMENT TYPE
+const std::string MKEY_BL_REQUEST_SALT = "MKEY_BL_REQUEST_SALT";                            	// std::string*
+const std::string MKEY_DB_SEND_SALT = "MKEY_DB_SEND_SALT";                              		// std::string
+
+
+
 
 #endif

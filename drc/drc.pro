@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     drc_shared/mediator/asyncmediatorworker.cpp \
     gui/partydetailsform.cpp \
     gui/queryform.cpp \
-    drc_shared/models/Fruit.cpp
+    drc_shared/models/Fruit.cpp \
+    bl/userloginprocessor.cpp \
+    drc_shared/models/User.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -61,12 +63,15 @@ HEADERS  += \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \
     db/sqlite3.h \
+    bl/Processor.h \
+    bl/userloginprocessor.h \
+    bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
-    drc_shared/models/DBBaseObject.h \
     bl/Crypto/SHA256_Crypto.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/partydetailsform.h \
-    gui/queryform.h
+    gui/queryform.h \
+    drc_shared/models/DBBaseObject.h
 
 FORMS    += \
     DRCClient.ui \
