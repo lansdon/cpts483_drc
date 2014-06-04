@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "drc_shared/models/Person.h"
+#include <QLineEdit>
 
 
 namespace Ui {
@@ -23,6 +24,12 @@ public:
 private slots:
     void on_emailLineEdit_textChanged(const QString &arg1);
 
+    void on_workLineEdit_textChanged(const QString &arg1);
+
+    void on_homeLineEdit_textChanged(const QString &arg1);
+
+    void on_mobileLineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::PartyDetailsForm *ui;
 
@@ -30,6 +37,12 @@ private:
 
     // This will set the labels based on Person object.
     void UpdateLabels();
+
+    // Validation
+    void SetWidgetInvalid(QWidget *widget);
+    void SetWidgetValid(QWidget *widget);
+    bool ProcessPhoneNumber(const QString& string, QLineEdit *widget);
+
 };
 
 #endif // PARTYDETAILSFORM_H

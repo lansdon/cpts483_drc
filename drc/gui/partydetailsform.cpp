@@ -1,12 +1,31 @@
 #include "partydetailsform.h"
 #include "ui_partydetailsform.h"
 #include "drc_shared/models/Person.h"
+#include <QDebug>
 
 PartyDetailsForm::PartyDetailsForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::PartyDetailsForm)
 {
     ui->setupUi(this);
+//    ui->firstLineEdit->setValidator(QString::fromStdString(_person.getFirstName()));
+//    ui->middleLineEdit->setText(QString::fromStdString(_person.getMiddleName()));
+//    ui->lastLineEdit->setText(QString::fromStdString(_person.getLastName()));
+//    ui->streetLineEdit->setText(QString::fromStdString(_person.getStreet()));
+//    ui->unitLineEdit->setText(QString::fromStdString(_person.getUnit()));
+//    ui->cityLineEdit->setText(QString::fromStdString(_person.getCity()));
+//    ui->stateLineEdit->setText(QString::fromStdString(_person.getState()));
+//    ui->countyLineEdit->setText(QString::fromStdString(_person.getCounty()));
+    ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
+//    ui->emailLineEdit->setText(QString::fromStdString(_person.getEmail()));
+//    ui->homeLineEdit->setText(QString::fromStdString(_person.getHomePhone()));
+//    ui->homeExtLineEdit->setText(QString::fromStdString(_person.getHomePhoneExt()));
+//    ui->workLineEdit->setText(QString::fromStdString(_person.getWorkPhone()));
+//    ui->workExtLineEdit->setText(QString::fromStdString(_person.getWorkPhoneExt()));
+//    ui->mobileLineEdit->setText(QString::fromStdString(_person.getMobilePhone()));
+//    ui->mobileExtLineEdit->setText(QString::fromStdString(_person.getMobilePhoneExt()));
+    ui->numInHomeLineEdit->setValidator(new QIntValidator(ui->numInHomeLineEdit));
+//    ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
 }
 
 PartyDetailsForm::~PartyDetailsForm()
@@ -38,16 +57,80 @@ void PartyDetailsForm::UpdateLabels()
     ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
 }
 
+void PartyDetailsForm::SetWidgetInvalid(QWidget *widget)
+{
+    QPalette palette;
+    palette.setColor( widget->foregroundRole(), Qt::red );
+    widget->setPalette(palette);
+}
+
+void PartyDetailsForm::SetWidgetValid(QWidget *widget)
+{
+    QPalette palette;
+    palette.setColor( widget->foregroundRole(), Qt::black );
+    widget->setPalette(palette);
+}
+
+bool ValidateForm()
+{
+    // Check every field and return true if they all pass, else false.
+
+}
+
 void PartyDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
 {
-    // integers 1 to 9999
-    QRegExp rx("[1-9]\\d{0,3}");
-    // the validator treats the regexp as "^[1-9]\\d{0,3}$"
+    // email validation - <something>@<something>.<two to three letters>
+    QRegExp rx("(^.*@.*[\.][a-z]{2,3})");
     QRegExpValidator v(rx, 0);
-    QString s;
+    QString s = arg1;
     int pos = 0;
+//    if(!v.validate(s, pos))
+    if(!rx.exactMatch(s))
+    {
+        SetWidgetInvalid(ui->emailLineEdit);
+    } else {
+        SetWidgetValid(ui->emailLineEdit);
+    }
+}
 
-    s = "0";     v.validate(s, pos);    // returns Invalid
-    s = "12345"; v.validate(s, pos);    // returns Invalid
-    s = "1";     v.validate(s, pos);    // returns Acceptable
+bool PartyDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* widget)
+{
+    QString s = string;
+
+    // Auto complete first dash
+    QRegExp rx("^[0-9]{3}");
+    if(rx.exactMatch(s))
+        s.append("-");
+
+    // Auto complete second dash
+    rx.setPattern("^[0-9]{3}-[0-9]{3}");
+    if(rx.exactMatch(s))
+        s.append("-");
+
+    // phone validation - xxx-xxx-xxxx
+    rx.setPattern("^[0-9]{3}-[0-9]{3}-[0-9]{4}");
+    widget->setText(s);
+    if(!rx.exactMatch(s))
+    {
+        SetWidgetInvalid(widget);
+        return false;
+    } else {
+        SetWidgetValid(widget);
+        return true;
+    }
+}
+
+void PartyDetailsForm::on_workLineEdit_textChanged(const QString &arg1)
+{
+    ProcessPhoneNumber(arg1, ui->workLineEdit);
+}
+
+void PartyDetailsForm::on_homeLineEdit_textChanged(const QString &arg1)
+{
+    ProcessPhoneNumber(arg1, ui->homeLineEdit);
+}
+
+void PartyDetailsForm::on_mobileLineEdit_textChanged(const QString &arg1)
+{
+    ProcessPhoneNumber(arg1, ui->mobileLineEdit);
 }

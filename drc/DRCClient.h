@@ -3,9 +3,8 @@
 
 #include <QMainWindow>
 #include <QString>
-//#include "drc_shared/models//Intake.h"
-#include "bl/drcbl.h"
-#include "db/drcdb.h"
+#include "drcbl.h"
+#include "drcdb.h"
 #include "fruitnameform.h"
 
 namespace Ui {
