@@ -80,6 +80,8 @@ public:
     std::string getAttorney() const { return _attorney; }
     void setAttorney(std::string value) { _attorney = value; }
 
+    // Test Data - Fill the object with test values in every field.
+    static Person SampleData();
 };
 
 #endif // PERSON_H

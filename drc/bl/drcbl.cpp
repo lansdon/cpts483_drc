@@ -36,14 +36,27 @@ void DRCBL::SendResults(MediatorArg arg)
 //    Intake* intakeResult = arg.getArg<Intake*>();
 
     Intake temp;
-    temp.addClaimant(Person("apple"));
-    temp.addRespondents(Person("peach"));
-    temp.addRespondents(Person("banana"));
-    temp.addRespondents(Person("grape"));
+    Person claimant = Person::SampleData();
+    claimant.setFirstName("apple");
+    temp.addClaimant(claimant);
+
+    Person p1 = Person::SampleData();
+    p1.setFirstName("peach");
+    temp.addRespondents(p1);
+
+    Person p2 = Person::SampleData();
+    p2.setFirstName("banana");
+    temp.addRespondents(p2);
+
+    Person p3 = Person::SampleData();
+    p3.setFirstName("grape");
+    temp.addRespondents(p3);
+
     //MediatorArg args(&temp);
     //Intake* intakeResult = args.getArg<Intake*>();
    // qDebug() << QString::fromStdString(intakeResult->getClaimant().getName());
    // qDebug() << QString::fromStdString(intakeResult->getRespondents()[0].getName());
+
     Mediator::Call(MKEY_BL_RETURN_SEARCH_RESULTS,new Intake(temp));
 }
 
