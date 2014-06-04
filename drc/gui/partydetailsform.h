@@ -48,7 +48,9 @@ private:
     void SetWidgetInvalid(QWidget *widget);
     void SetWidgetValid(QWidget *widget);
     bool ProcessPhoneNumber(const QString& string, QLineEdit *widget);
+    bool ProcessEmail(const QString& string, QLineEdit* widget);
     void SetEditMode(bool editModeOn);
+    bool ValidateForm();
 
 };
 

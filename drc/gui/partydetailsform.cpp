@@ -73,34 +73,55 @@ void PartyDetailsForm::SetWidgetValid(QWidget *widget)
     widget->setPalette(palette);
 }
 
-bool ValidateForm()
+bool PartyDetailsForm::ValidateForm()
 {
     // Check every field and return true if they all pass, else false.
 
+    if(
+            ProcessPhoneNumber(ui->homeLineEdit->text(), ui->homeLineEdit)
+            &&
+            ProcessPhoneNumber(ui->workLineEdit->text(), ui->workLineEdit)
+            &&
+            ProcessPhoneNumber(ui->mobileLineEdit->text(), ui->mobileLineEdit)
+            &&
+            ProcessEmail(ui->emailLineEdit->text(), ui->emailLineEdit)
+    )
+    {
+        return true;
+    }
+
+    return false;
 }
 
 void PartyDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
 {
+   ProcessEmail(arg1, ui->emailLineEdit);
+}
+
+bool PartyDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
+{
     // email validation - <something>@<something>.<two to three letters>
-    QRegExp rx("(^.*@.*[\.][a-z]{2,3})");
+    QRegExp rx("(^.*@.*[.][a-z]{2,3})");
     QRegExpValidator v(rx, 0);
-    QString s = arg1;
-    int pos = 0;
-//    if(!v.validate(s, pos))
+    QString s = string;
     if(!rx.exactMatch(s))
     {
-        SetWidgetInvalid(ui->emailLineEdit);
+        SetWidgetInvalid(widget);
+        return false;
     } else {
-        SetWidgetValid(ui->emailLineEdit);
+        SetWidgetValid(widget);
+        return true;
     }
 }
 
 bool PartyDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* widget)
 {
+    if(string.length() == 0) return true;
+
     QString s = string;
 
     // Auto complete first dash
-    QRegExp rx("^[0-9]{3}");
+    QRegExp rx("(^[0-9]{3})");
     if(rx.exactMatch(s))
         s.append("-");
 
