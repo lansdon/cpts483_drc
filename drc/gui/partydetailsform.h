@@ -20,6 +20,9 @@ public:
 
     void SetPerson(Person p) { _person = p; UpdateLabels(); }
     Person GetPerson() { return _person; }
+private slots:
+    void on_emailLineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::PartyDetailsForm *ui;
 

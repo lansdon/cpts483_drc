@@ -37,3 +37,17 @@ void PartyDetailsForm::UpdateLabels()
     ui->numInHomeLineEdit->setText(QString::number(_person.getNumberInHousehold()));
     ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
 }
+
+void PartyDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
+{
+    // integers 1 to 9999
+    QRegExp rx("[1-9]\\d{0,3}");
+    // the validator treats the regexp as "^[1-9]\\d{0,3}$"
+    QRegExpValidator v(rx, 0);
+    QString s;
+    int pos = 0;
+
+    s = "0";     v.validate(s, pos);    // returns Invalid
+    s = "12345"; v.validate(s, pos);    // returns Invalid
+    s = "1";     v.validate(s, pos);    // returns Acceptable
+}
