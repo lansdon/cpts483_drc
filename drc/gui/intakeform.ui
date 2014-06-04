@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>720</width>
-    <height>585</height>
+    <width>726</width>
+    <height>598</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,10 +26,10 @@
       <string>Participants</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
-      <item row="0" column="2">
+      <item row="0" column="1">
        <widget class="QTabWidget" name="OtherPartyTabWidget"/>
       </item>
-      <item row="0" column="1">
+      <item row="0" column="0">
        <widget class="QTabWidget" name="mainPartyTabWidget">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -56,13 +56,6 @@
         </property>
         <property name="autoFillBackground">
          <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QGroupBox" name="groupBox_4">
-        <property name="title">
-         <string>Claimant</string>
         </property>
        </widget>
       </item>
