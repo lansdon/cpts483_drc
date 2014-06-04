@@ -3,8 +3,8 @@
 
 #include <string>
 
-#include "../drc_shared/models/Intake.h"
-#include "../drc_shared/models/Person.h"
+#include "Intake.h"
+#include "Person.h"
 
 class IntakeFormProcessor
 {

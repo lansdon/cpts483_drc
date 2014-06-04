@@ -12,7 +12,12 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = drc
 TEMPLATE = app
 
-
+INCLUDEPATH += bl/ \
+    db/ \
+    drc_shared/ \
+    drc_shared/mediator/ \
+    drc_shared/models/ \
+    gui/
 
 SOURCES += main.cpp\
     bl/drcbl.cpp \

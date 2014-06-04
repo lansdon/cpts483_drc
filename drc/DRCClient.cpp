@@ -6,13 +6,13 @@
 // GUI STUFF
 #include <QGridLayout>
 #include <QTabWidget>
-#include "gui/intakeform.h"
-#include "gui/fruitnameform.h"
-#include "gui/intakeform.h"
+#include "intakeform.h"
+#include "fruitnameform.h"
+#include "intakeform.h"
 
 // DRC COMPONENTS
-#include "bl/drcbl.h"
-#include "db/drcdb.h"
+#include "drcbl.h"
+#include "drcdb.h"
 
 // MISC
 #include <QDebug>

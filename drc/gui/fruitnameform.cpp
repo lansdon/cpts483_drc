@@ -6,13 +6,13 @@
 #include <QWidget>
 
 // DRC
-#include "drc_shared/mediator/Mediator.h"
-#include "drc_shared/mediator/AsyncMediatorCall.h"
+#include "Mediator.h"
+#include "AsyncMediatorCall.h"
 
 
 #include <QWidget>
 
-#include "drc_shared/models/DRCModels.h"
+#include "DRCModels.h"
 
 
 

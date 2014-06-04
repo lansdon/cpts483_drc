@@ -1,6 +1,6 @@
 #ifndef DRCDB_H
 #define DRCDB_H
-#include "drc_shared/mediator/Mediator.h"
+#include "Mediator.h"
 
 #include "sqlite3.h"
 #include <string>

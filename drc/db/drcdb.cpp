@@ -1,9 +1,9 @@
 #include "drcdb.h"
 #include <QtSql/QtSql>
-#include "drc_shared/mediator/Mediator.h"
-#include "drc_shared/mediator/MediatorKeys.h"
-#include "drc_shared/models/DRCModels.h"
-#include "drc_shared/models/Fruit.h"    // temp.. not sure why it's having circular dependency.
+#include "Mediator.h"
+#include "MediatorKeys.h"
+#include "DRCModels.h"
+#include "Fruit.h"    // temp.. not sure why it's having circular dependency.
 
 using std::string;
 using std::vector;

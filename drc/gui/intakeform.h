@@ -2,7 +2,7 @@
 #define INTAKEFORM_H
 
 #include <QWidget>
-#include "drc_shared/models/Intake.h"
+#include "Intake.h"
 
 namespace Ui {
 class IntakeForm;
