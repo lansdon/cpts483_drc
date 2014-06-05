@@ -19,6 +19,8 @@ public:
 
     Fruit();
 
+    //Fruit(string name);
+
     Fruit(string *name);
 
     void SetName(string name);
