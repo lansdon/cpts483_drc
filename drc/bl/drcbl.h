@@ -4,7 +4,7 @@
 //namespace drc {
 //namespace bl {
 
-#include "drc_shared/mediator/Mediator.h"
+#include "Mediator.h"
 #include "fruitnameprocessor.h"
 #include "intakeformprocessor.h"
 #include "userloginprocessor.h"

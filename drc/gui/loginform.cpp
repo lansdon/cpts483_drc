@@ -1,9 +1,9 @@
 #include "loginform.h"
 #include "ui_loginform.h"
-#include "drc_shared/models/DRCModels.h"
-#include "drc_shared/models/User.h"
-#include "drc_shared/mediator/AsyncMediatorCall.h"
-#include "drc_shared/mediator/MediatorKeys.h"
+#include "DRCModels.h"
+#include "User.h"
+#include "AsyncMediatorCall.h"
+#include "MediatorKeys.h"
 #include <QDebug>
 
 

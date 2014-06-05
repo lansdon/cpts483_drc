@@ -3,8 +3,8 @@
 
 #include <string>
 //#include "Crypto/SHA256_Crypto.h"
-#include "../drc_shared/mediator/MediatorArg.h"
-#include "../drc_shared/models/User.h"
+#include "MediatorArg.h"
+#include "User.h"
 #include "Processor.h"
 
 class SHA256_Crypto;

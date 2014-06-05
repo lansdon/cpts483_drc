@@ -1,7 +1,7 @@
 #ifndef PROCESSOR_H
 #define PROCESSOR_H
 
-#include "drc_shared/mediator/MediatorArg.h"
+#include "MediatorArg.h"
 
 class Processor
 {

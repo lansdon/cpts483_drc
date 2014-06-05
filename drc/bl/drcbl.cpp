@@ -9,7 +9,7 @@
 
 #include <qstring.h>
 #include <qdebug.h>
-#include "drc_shared/models/Intake.h"
+#include "Intake.h"
 #include "Fruit.h"
 #include <set>
 #include <algorithm>
