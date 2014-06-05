@@ -32,7 +32,11 @@ public:
 
 	bool isError();
 
+    bool isOpen();
+
 	std::string errorMessage();
+
+    void CloseDatabase();
 
 };
 

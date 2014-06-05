@@ -11,34 +11,35 @@ class DatabaseTestSuite : public QObject
 public:
     DatabaseTestSuite();
 
-private:
-    DRCDB _db;
-
 private Q_SLOTS:
     void OpenDatabase();
     void CheckDriver();
-    void initTestCase();
+
 };
 
 DatabaseTestSuite::DatabaseTestSuite()
 {
-    _db.OpenDatabase("");
-}
 
-void DatabaseTestSuite::initTestCase()
-{
-    QCOMPARE(_db.WhatDriver(), QString("QSQLITE"));
-    QCOMPARE(_db.WhatDatabase(), QString("Albertsons"));
-}
-
-void DatabaseTestSuite::CheckDriver()
-{
 }
 
 
 void DatabaseTestSuite::OpenDatabase()
 {
+    DRCDB _db;
+    _db.OpenDatabase("Albert");
+    QCOMPARE(_db.WhatDatabase(), QString("Albertsons"));
+    QCOMPARE(_db.isOpen(), true);
+    _db.CloseDatabase();
+    QSqlDatabase::removeDatabase("QSQLITE");
+}
 
+void DatabaseTestSuite::CheckDriver()
+{
+      DRCDB _db;
+    _db.OpenDatabase("Albertsons");
+//    QCOMPARE(_db.WhatDriver(), QString("QSQLITE"));
+//    _db.CloseDatabase();
+//    QSqlDatabase::removeDatabase("QSQLITE");
 }
 
 QTEST_APPLESS_MAIN(DatabaseTestSuite)

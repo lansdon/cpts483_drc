@@ -8,21 +8,25 @@ using std::vector;
 
 DRCDB::DRCDB() : DB_ERROR(false)
 {
-    OpenDatabase("drc_db.db3");
-
-    CreateTable("Albertsons", "TIME_STAMP integer PRIMARY KEY NOT NULL, FRUIT_NAME varchar(50)");
-
 }
 
 bool DRCDB::OpenDatabase(QString database_name)
 {
     bool open_success = false;
-    database =  QSqlDatabase::addDatabase("QSQLITE");
+    if (this->WhatDriver() == QString(""))
+    {
+        database =  QSqlDatabase::addDatabase("QSQLITE");
+    }
     database.setDatabaseName(database_name);
     if (database.open())
         open_success = true;
 
     return open_success;
+}
+
+void DRCDB::CloseDatabase()
+{
+    database.close();
 }
 
 QString DRCDB::WhatDriver()
@@ -38,6 +42,11 @@ QString DRCDB::WhatDatabase()
 bool DRCDB::isError()
 {
     return DB_ERROR;
+}
+
+bool DRCDB::isOpen()
+{
+    return database.isOpen();
 }
 
 string DRCDB::errorMessage()
