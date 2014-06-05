@@ -11,12 +11,15 @@ using namespace std;
 class Fruit : public DBBaseObject
 {
     string m_name;
+
     time_t m_timestamp;
 
 public:
+
+
     Fruit();
 
-    Fruit(string name);
+    Fruit(string *name);
 
     void SetName(string name);
 
@@ -24,8 +27,9 @@ public:
 
     string GetTime(void);
 
+    string BreakApart(void);
+
     string Parse(void);
 };
-
 
 #endif

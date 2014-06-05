@@ -13,8 +13,8 @@
 #include "gui/queryform.h"
 
 // DRC COMPONENTS
-#include "bl/drcbl.h"
-#include "db/drcdb.h"
+#include "drcbl.h"
+#include "drcdb.h"
 
 // MISC
 #include <QDebug>

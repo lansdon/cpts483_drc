@@ -1,8 +1,6 @@
 #ifndef DRCDB_H
 #define DRCDB_H
-#include "Mediator.h"
 
-#include "sqlite3.h"
 #include <string>
 #include <vector>
 #include <QtSql/QtSql>
@@ -20,7 +18,11 @@ public:
 
     DRCDB();
 	
-	void OpenDatabase(std::string database_name);
+    bool OpenDatabase(QString database_name);
+
+    QString WhatDatabase();
+
+    QString WhatDriver();
 	
     void InsertFruit(int time, std::string name);
 
@@ -30,17 +32,11 @@ public:
 
 	bool isError();
 
+    bool isOpen();
+
 	std::string errorMessage();
 
-
-    // Incoming Events
-    void PersistIntakeForm(MediatorArg arg) const;
-
-    void PersistFruit(MediatorArg arg);
-
-    void LoadIntake(MediatorArg arg) const;
-
-    void LoadFruit(MediatorArg arg);
+    void CloseDatabase();
 
 };
 

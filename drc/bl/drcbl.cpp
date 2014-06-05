@@ -3,16 +3,14 @@
 
 #include "drcbl.h"
 
-#include "drc_shared/mediator/Mediator.h"
-#include "drc_shared/mediator/MediatorArg.h"
-#include "drc_shared/mediator/MediatorKeys.h"
+#include "Mediator.h"
+#include "MediatorArg.h"
+#include "MediatorKeys.h"
 
 #include <qstring.h>
 #include <qdebug.h>
-
 #include "drc_shared/models/Intake.h"
 #include "Fruit.h"
-
 #include <set>
 #include <algorithm>
 
