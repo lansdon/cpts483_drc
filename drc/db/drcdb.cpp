@@ -57,6 +57,22 @@ bool DRCDB::CreateTable(QString table_name, QString table_columns)
     return create_success;
 }
 
+void DRCDB::InsertObject(DBBaseObject* db_object)
+{
+    if(database.isOpen())
+    {
+        QSqlQuery qObject;
+
+        QString qCmd;
+        string cmd("insert into Albertsons");
+        cmd += db_object->Parse();
+        qCmd.fromStdString(cmd);
+
+        bool insertSuccess = false;
+        insertSuccess = qObject.exec(qCmd);
+    }
+}
+
 void DRCDB::InsertFruit(int time, string name)
 {
     QSqlQuery qObject;

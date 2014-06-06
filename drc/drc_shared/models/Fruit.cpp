@@ -38,7 +38,26 @@ string Fruit::GetTime(void)
     return to_string(m_timestamp);
 }
 
+//For the sake of readbility.  A lot of code though.
 string Fruit::Parse()
 {
-    return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetTime() + " );");
+    static string single_quote("\'");
+
+    string toReturn;
+
+    toReturn += "VALUES";
+
+    toReturn += "(";
+
+    toReturn += single_quote + this->GetName() + single_quote;
+
+    toReturn += ",";
+
+    toReturn += single_quote + this->GetTime() + single_quote;
+
+    toReturn += ");";
+
+    return toReturn;
+
+    //return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetTime() + " );");
 }
