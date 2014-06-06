@@ -53,13 +53,13 @@ bool IntakeFormProcessor::ValidateIntakeForm(const Intake& intake, std::string& 
 {
     qDebug() << "BL -> Validate Intake Form";
     bool success = true;
-    auto persons = intake.getRespondents();
+    auto persons = intake.getParties();
     auto claimant = intake.getClaimant();
     auto time = intake.getTime();
     success &= ValidatePerson(claimant, errorMessage);
     for (unsigned int i = 0; i < persons.size(); i++)
     {
-        success &= ValidatePerson(persons[i], errorMessage);
+        success &= ValidatePerson(*persons[i], errorMessage);
         if (!success) break;
     }
     success &= ValidateTime(time, errorMessage);

@@ -45,16 +45,16 @@ void FruitNameForm::on_sendButton_clicked()
     //// Filling out Intake form  ////
    Intake temp;
    //Particapants *tempClaim = (Particapants*)ui->widget;
-   temp.addClaimant(claiment->GetPerson());
+   temp.addClaimant(*claiment->GetPerson());
    for(int i = 0; i < ui->tabWidget->count();i++)
    {
        PartyDetailsForm *tempRespond = (PartyDetailsForm*)ui->tabWidget->widget(i);
-       temp.addRespondents(tempRespond->GetPerson());
+       temp.addRespondents(*tempRespond->GetPerson());
    }
 
-   UpdateNameField("Sending name: " + QString::fromStdString(claiment->GetPerson().getFirstName()));
+   UpdateNameField("Sending name: " + QString::fromStdString(claiment->GetPerson()->getFirstName()));
    //send info to logic to store into database
-   SendFruitName(new Fruit(claiment->GetPerson().getFirstName()));
+   SendFruitName(new Fruit(claiment->GetPerson()->getFirstName()));
 }
 void FruitNameForm::UpdateForm(MediatorArg arg)
 {
@@ -66,11 +66,11 @@ void FruitNameForm::UpdateForm(MediatorArg arg)
         //ui->widget->setName();
         if(recieved)
         {
-            claiment->SetPerson(recieved->getClaimant());
+            //claiment->SetPerson(recieved->getClaimant());
             //claiment->repaint();
             qDebug() << QString::fromStdString(recieved->getClaimant().getFirstName());
-            qDebug() << QString::fromStdString(recieved->getRespondents()[0].getFirstName());
-            std::vector<Person> tempVec = recieved->getRespondents();
+            //qDebug() << QString::fromStdString(recieved->getParties()[0].getFirstName());
+            std::vector<Person *> tempVec = recieved->getParties();
             ui->tabWidget->clear();
             PartyDetailsForm* tempRespon;
             for(uint i = 0; i < tempVec.size(); i++)

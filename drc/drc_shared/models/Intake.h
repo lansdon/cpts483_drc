@@ -19,7 +19,7 @@ private:
     Person claimant;
     std::vector<Person> respondents;
     time_t enterTime;
-
+    std::vector<Person *> _parties;
 
 public:
     Intake();
@@ -27,11 +27,11 @@ public:
     void addRespondents(Person input);
     void setTime(time_t t);
     time_t getTime() const;
-
+    Person* newParty(){Person *p = new Person(); _parties.push_back(p); return p; }
     int getNumberOfPeople() const;
 
     Person getClaimant() const;
-    std::vector<Person> getRespondents() const;
+    std::vector<Person* > getParties() const;
     void clearRespondents();
 
 };

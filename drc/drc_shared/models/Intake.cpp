@@ -42,9 +42,9 @@ int Intake::getNumberOfPeople() const
 }
 
 
-std::vector<Person> Intake::getRespondents() const
+std::vector<Person*> Intake::getParties() const
 {
-    return respondents;
+    return _parties;
 }
 
 

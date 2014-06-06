@@ -34,8 +34,8 @@ void ContactRecordView::on_toolBox_currentChanged(int index)
 {
     if(index == 1)
     {
-        std::vector<Person> temp = _localIntakeForm->getCurrentIntake().getRespondents();
-        temp.insert(temp.begin(),_localIntakeForm->getCurrentIntake().getClaimant());
+        std::vector<Person *> temp = _localIntakeForm->getCurrentIntake().getParties();
+        //temp.insert(temp.begin(),_localIntakeForm->getCurrentIntake().getClaimant());
 
         _numberOfParties = _localIntakeForm->totalParties();
         qDebug() << QString::fromStdString(std::to_string(temp.size()));

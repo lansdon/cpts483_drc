@@ -27,6 +27,7 @@ PartyDetailsForm::PartyDetailsForm(QWidget *parent) :
     ui->numInHomeLineEdit->setValidator(new QIntValidator(ui->numInHomeLineEdit));
 //    ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
 
+
     SetEditMode(false);
 }
 
@@ -39,24 +40,24 @@ PartyDetailsForm::~PartyDetailsForm()
 
 void PartyDetailsForm::UpdateLabels()
 {
-    ui->firstLineEdit->setText(QString::fromStdString(_person.getFirstName()));
-    ui->middleLineEdit->setText(QString::fromStdString(_person.getMiddleName()));
-    ui->lastLineEdit->setText(QString::fromStdString(_person.getLastName()));
-    ui->streetLineEdit->setText(QString::fromStdString(_person.getStreet()));
-    ui->unitLineEdit->setText(QString::fromStdString(_person.getUnit()));
-    ui->cityLineEdit->setText(QString::fromStdString(_person.getCity()));
-    ui->stateLineEdit->setText(QString::fromStdString(_person.getState()));
-    ui->countyLineEdit->setText(QString::fromStdString(_person.getCounty()));
-    ui->zipLineEdit->setText(QString::fromStdString(_person.getZip()));
-    ui->emailLineEdit->setText(QString::fromStdString(_person.getEmail()));
-    ui->homeLineEdit->setText(QString::fromStdString(_person.getHomePhone()));
-    ui->homeExtLineEdit->setText(QString::fromStdString(_person.getHomePhoneExt()));
-    ui->workLineEdit->setText(QString::fromStdString(_person.getWorkPhone()));
-    ui->workExtLineEdit->setText(QString::fromStdString(_person.getWorkPhoneExt()));
-    ui->mobileLineEdit->setText(QString::fromStdString(_person.getMobilePhone()));
-    ui->mobileExtLineEdit->setText(QString::fromStdString(_person.getMobilePhoneExt()));
-    ui->numInHomeLineEdit->setText(QString::number(_person.getNumberInHousehold()));
-    ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
+    ui->firstLineEdit->setText(QString::fromStdString(_person->getFirstName()));
+    ui->middleLineEdit->setText(QString::fromStdString(_person->getMiddleName()));
+    ui->lastLineEdit->setText(QString::fromStdString(_person->getLastName()));
+    ui->streetLineEdit->setText(QString::fromStdString(_person->getStreet()));
+    ui->unitLineEdit->setText(QString::fromStdString(_person->getUnit()));
+    ui->cityLineEdit->setText(QString::fromStdString(_person->getCity()));
+    ui->stateLineEdit->setText(QString::fromStdString(_person->getState()));
+    ui->countyLineEdit->setText(QString::fromStdString(_person->getCounty()));
+    ui->zipLineEdit->setText(QString::fromStdString(_person->getZip()));
+    ui->emailLineEdit->setText(QString::fromStdString(_person->getEmail()));
+    ui->homeLineEdit->setText(QString::fromStdString(_person->getHomePhone()));
+    ui->homeExtLineEdit->setText(QString::fromStdString(_person->getHomePhoneExt()));
+    ui->workLineEdit->setText(QString::fromStdString(_person->getWorkPhone()));
+    ui->workExtLineEdit->setText(QString::fromStdString(_person->getWorkPhoneExt()));
+    ui->mobileLineEdit->setText(QString::fromStdString(_person->getMobilePhone()));
+    ui->mobileExtLineEdit->setText(QString::fromStdString(_person->getMobilePhoneExt()));
+    ui->numInHomeLineEdit->setText(QString::number(_person->getNumberInHousehold()));
+    ui->attorneyLineEdit->setText(QString::fromStdString(_person->getAttorney()));
 
     SetEditMode(false);
 }
@@ -164,24 +165,24 @@ void PartyDetailsForm::on_saveButton_clicked()
 {
     SetEditMode(false);
 
-    _person.setFirstName(ui->firstLineEdit->text().toStdString());
-    _person.setMiddleName(ui->middleLineEdit->text().toStdString());
-    _person.setLastName(ui->lastLineEdit->text().toStdString());
-    _person.setStreet(ui->streetLineEdit->text().toStdString());
-    _person.setUnit(ui->unitLineEdit->text().toStdString());
-    _person.setCity(ui->cityLineEdit->text().toStdString());
-    _person.setState(ui->stateLineEdit->text().toStdString());
-    _person.setCounty(ui->countyLineEdit->text().toStdString());
-    _person.setZip(ui->zipLineEdit->text().toStdString());
-    _person.setEmail(ui->emailLineEdit->text().toStdString());
-    _person.setHomePhone(ui->homeLineEdit->text().toStdString());
-    _person.setHomePhoneExt(ui->homeExtLineEdit->text().toStdString());
-    _person.setWorkPhone(ui->workLineEdit->text().toStdString());
-    _person.setWorkPhoneExt(ui->workExtLineEdit->text().toStdString());
-    _person.setMobilePhone(ui->mobileLineEdit->text().toStdString());
-    _person.setMobilePhoneExt(ui->mobileExtLineEdit->text().toStdString());
-    _person.setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
-    _person.setAttorney(ui->attorneyLineEdit->text().toStdString());
+    _person->setFirstName(ui->firstLineEdit->text().toStdString());
+    _person->setMiddleName(ui->middleLineEdit->text().toStdString());
+    _person->setLastName(ui->lastLineEdit->text().toStdString());
+    _person->setStreet(ui->streetLineEdit->text().toStdString());
+    _person->setUnit(ui->unitLineEdit->text().toStdString());
+    _person->setCity(ui->cityLineEdit->text().toStdString());
+    _person->setState(ui->stateLineEdit->text().toStdString());
+    _person->setCounty(ui->countyLineEdit->text().toStdString());
+    _person->setZip(ui->zipLineEdit->text().toStdString());
+    _person->setEmail(ui->emailLineEdit->text().toStdString());
+    _person->setHomePhone(ui->homeLineEdit->text().toStdString());
+    _person->setHomePhoneExt(ui->homeExtLineEdit->text().toStdString());
+    _person->setWorkPhone(ui->workLineEdit->text().toStdString());
+    _person->setWorkPhoneExt(ui->workExtLineEdit->text().toStdString());
+    _person->setMobilePhone(ui->mobileLineEdit->text().toStdString());
+    _person->setMobilePhoneExt(ui->mobileExtLineEdit->text().toStdString());
+    _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
+    _person->setAttorney(ui->attorneyLineEdit->text().toStdString());
 
     // To do - Send Save Party signal
 
@@ -195,7 +196,7 @@ void PartyDetailsForm::on_editButton_clicked()
 void PartyDetailsForm::on_deleteButton_clicked()
 {
     SetEditMode(true);
-    _person = Person();
+    _person = new Person();
     UpdateLabels();
 
     // To do, send Delete Party signal

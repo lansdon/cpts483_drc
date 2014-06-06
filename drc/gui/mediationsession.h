@@ -17,11 +17,11 @@ public:
     explicit MediationSession(QWidget *parent = 0);
     ~MediationSession();
     void setParties(int input);
-    void updateTabs(std::vector<Person> input);
+    void updateTabs(std::vector<Person *> input);
 
 private:
     Ui::MediationSession *ui;
-    std::vector<AttorneyAndSupportForMediationSessionView *> _attoryneyAndSupportVector;
+    std::vector<AttorneyAndSupportForMediationSessionView *> _attorneyAndSupportVector;
 };
 
 #endif // MEDIATIONSESSION_H

@@ -14,9 +14,12 @@ IntakeForm::IntakeForm(QWidget *parent) :
     ui(new Ui::IntakeForm)
 {
     ui->setupUi(this);
+
     mainParty = new PartyDetailsForm();
+
     ui->mainPartyTabWidget->addTab(mainParty,"Party 1");
     update();
+
 //    _currentIntake.addClaimant(Person(""));
 
 
@@ -77,12 +80,12 @@ void IntakeForm::Recieve_LoadIntakeForm(MediatorArg arg)
 // update the intakeform
 void IntakeForm::update()
 {
-    mainParty->SetPerson(_currentIntake.getClaimant());
-    std::vector<Person> tempPeople;
-    tempPeople = _currentIntake.getRespondents();
+    mainParty->SetPerson(_currentIntake.newParty());
+    std::vector<Person *> tempPeople;
+    tempPeople = _currentIntake.getParties();
     ui->OtherPartyTabWidget->clear();
     PartyDetailsForm *temp;
-    for(uint i = 0; i < tempPeople.size(); i++)
+    for(uint i = 1; i < tempPeople.size(); i++)
     {
         temp = new PartyDetailsForm();
         temp->SetPerson(tempPeople[i]);
@@ -117,6 +120,7 @@ void IntakeForm::testFunction()
 void IntakeForm::initPartys()
 {
     PartyDetailsForm *temp = new PartyDetailsForm();
+    temp->SetPerson(_currentIntake.newParty());
     partys.push_back(temp);
 }
 // adds a new tab to widget
