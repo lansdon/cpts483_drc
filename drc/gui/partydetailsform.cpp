@@ -28,7 +28,7 @@ PartyDetailsForm::PartyDetailsForm(QWidget *parent) :
 //    ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
 
 
-    SetEditMode(false);
+    SetEditMode(true);
 }
 
 PartyDetailsForm::~PartyDetailsForm()

@@ -14,7 +14,7 @@ ContactRecordView::ContactRecordView(QWidget *parent) :
     _MediationSessionTabWidget = new QTabWidget();
     _localMediationSession = new MediationSession();
     _numberOfParties = _localIntakeForm->totalParties();
-    _localMediationSession->setParties(_numberOfParties);
+   // _localMediationSession->setParties(_numberOfParties);
     _MediationSessionTabWidget->addTab(_localMediationSession,QString::fromStdString("Session " + std::to_string(_MediationSessionTabWidget->count() + 1)));
     ui->toolBox->addItem(_MediationSessionTabWidget, "Mediation Session");
 
@@ -34,12 +34,12 @@ void ContactRecordView::on_toolBox_currentChanged(int index)
 {
     if(index == 1)
     {
-        std::vector<Person *> temp = _localIntakeForm->getCurrentIntake().getParties();
+
         //temp.insert(temp.begin(),_localIntakeForm->getCurrentIntake().getClaimant());
 
         _numberOfParties = _localIntakeForm->totalParties();
-        qDebug() << QString::fromStdString(std::to_string(temp.size()));
-        _localMediationSession->updateTabs(temp);
+        //qDebug() << QString::fromStdString(std::to_string(temp.size()));
+        _localMediationSession->updateTabs(_localIntakeForm->getCurrentIntake().getParties());
 
     }
 }

@@ -15,11 +15,11 @@ IntakeForm::IntakeForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    mainParty = new PartyDetailsForm();
-
-    ui->mainPartyTabWidget->addTab(mainParty,"Party 1");
-    update();
-
+    //mainParty = new PartyDetailsForm();
+    //partys.push_back(new PartyDetailsForm());
+    //ui->mainPartyTabWidget->addTab(partys[0],"Party 1");
+    //update();
+    initPartys();
 //    _currentIntake.addClaimant(Person(""));
 
 
@@ -80,7 +80,8 @@ void IntakeForm::Recieve_LoadIntakeForm(MediatorArg arg)
 // update the intakeform
 void IntakeForm::update()
 {
-    mainParty->SetPerson(_currentIntake.newParty());
+    partys[0]->SetPerson(_currentIntake.newParty());
+    partys.push_back(new PartyDetailsForm());
     std::vector<Person *> tempPeople;
     tempPeople = _currentIntake.getParties();
     ui->OtherPartyTabWidget->clear();
@@ -119,17 +120,21 @@ void IntakeForm::testFunction()
 // initilizes vector with one new party details form
 void IntakeForm::initPartys()
 {
-    PartyDetailsForm *temp = new PartyDetailsForm();
-    temp->SetPerson(_currentIntake.newParty());
-    partys.push_back(temp);
+    partys.push_back(new PartyDetailsForm());
+    partys.at(0)->SetPerson(_currentIntake.newParty());
+    partys.push_back(new PartyDetailsForm());
+    partys.at(1)->SetPerson(_currentIntake.newParty());
+    ui->mainPartyTabWidget->addTab(partys[0],"Party 1");
+    ui->OtherPartyTabWidget->addTab(partys[1],"Party 2");
 }
 // adds a new tab to widget
 void IntakeForm::on_addButton_clicked()
 {
-    _currentIntake.addRespondents(Person(""));
-    //ui->OtherPartyTabWidget->addTab(partys[partys.size() - 1], QString::fromStdString("Party " + std::to_string(ui->OtherPartyTabWidget->count()+1)));
-    //ui->OtherPartyTabWidget->setCurrentIndex(ui->OtherPartyTabWidget->count()-1);
-    update();
+    partys.push_back(new PartyDetailsForm());
+    partys.at(partys.size() - 1)->SetPerson(_currentIntake.newParty());
+    ui->OtherPartyTabWidget->addTab(partys[partys.size() - 1], QString::fromStdString("Party " + std::to_string(ui->OtherPartyTabWidget->count()+2)));
+    ui->OtherPartyTabWidget->setCurrentIndex(ui->OtherPartyTabWidget->count()-1);
+    //update();
 }
 // removes a tab from widget
 void IntakeForm::on_removeButton_clicked()
