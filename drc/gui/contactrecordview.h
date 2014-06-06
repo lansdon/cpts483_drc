@@ -7,6 +7,7 @@
 #include "contactrecorddataview.h"
 #include "intakeform.h"
 #include "mediationsession.h"
+#include "detailsview.h"
 namespace Ui {
 class ContactRecordView;
 }
@@ -29,6 +30,7 @@ private:
     IntakeForm *_localIntakeForm;
     QTabWidget *_MediationSessionTabWidget;
     MediationSession *_localMediationSession;
+    DetailsView *_localDetailsView;
     int _numberOfParties;
 };
 

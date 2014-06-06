@@ -10,13 +10,16 @@ ContactRecordView::ContactRecordView(QWidget *parent) :
     ui->setupUi(this);
     ui->toolBox->removeItem(0);
     _localIntakeForm = new IntakeForm();
-    ui->toolBox->addItem(_localIntakeForm,"Contact Information");
     _MediationSessionTabWidget = new QTabWidget();
     _localMediationSession = new MediationSession();
+    _localDetailsView = new DetailsView();
+    ui->toolBox->addItem(_localIntakeForm,"Contact Information");
+
+
     _numberOfParties = _localIntakeForm->totalParties();
    // _localMediationSession->setParties(_numberOfParties);
-    _MediationSessionTabWidget->addTab(_localMediationSession,QString::fromStdString("Session " + std::to_string(_MediationSessionTabWidget->count() + 1)));
-    ui->toolBox->addItem(_MediationSessionTabWidget, "Mediation Session");
+    //_MediationSessionTabWidget->addTab(_localMediationSession,QString::fromStdString("Session " + std::to_string(_MediationSessionTabWidget->count() + 1)));
+    ui->toolBox->addItem(_localDetailsView, "Details");
 
 }
 
@@ -39,7 +42,7 @@ void ContactRecordView::on_toolBox_currentChanged(int index)
 
         _numberOfParties = _localIntakeForm->totalParties();
         //qDebug() << QString::fromStdString(std::to_string(temp.size()));
-        _localMediationSession->updateTabs(_localIntakeForm->getCurrentIntake().getParties());
+        _localDetailsView->updateTabs(_localIntakeForm->getCurrentIntake().getParties());
 
     }
 }

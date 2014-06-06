@@ -47,4 +47,16 @@ std::vector<Person*> Intake::getParties() const
     return _parties;
 }
 
+void Intake::clearParties()
+{
+    _parties.clear();
+}
 
+void Intake::setParties(Person *p, int index)
+{
+
+    if(_parties.size() - 1 > index)
+        _parties.at(index) = p;
+    else
+        _parties.push_back(p);
+}
