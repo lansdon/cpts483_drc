@@ -45,17 +45,17 @@ string Fruit::Parse()
 
     string toReturn;
 
-    toReturn += "VALUES";
+    toReturn += " values";
 
     toReturn += "(";
 
+    toReturn += this->GetTime();
+
+    toReturn += ", ";
+
     toReturn += single_quote + this->GetName() + single_quote;
 
-    toReturn += ",";
-
-    toReturn += single_quote + this->GetTime() + single_quote;
-
-    toReturn += ");";
+    toReturn += ")";
 
     return toReturn;
 
