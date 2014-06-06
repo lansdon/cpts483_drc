@@ -68,8 +68,7 @@ void DRCDB::InsertObject(DBBaseObject* db_object)
         cmd += db_object->Parse();
         qCmd.fromStdString(cmd);
 
-        bool insertSuccess = false;
-        insertSuccess = qObject.exec(qCmd);
+        qObject.exec(qCmd);
     }
 }
 
