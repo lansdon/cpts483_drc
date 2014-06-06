@@ -14,13 +14,19 @@ IntakeForm::IntakeForm(QWidget *parent) :
     ui(new Ui::IntakeForm)
 {
     ui->setupUi(this);
-
     mainParty = new PartyDetailsForm();
-    ui->mainPartyTabWidget->addTab(mainParty,"Main Party");
-    initPartys();
-    ui->OtherPartyTabWidget->clear();
-    for(uint i =0; i< partys.size();i++)
-        ui->OtherPartyTabWidget->addTab(partys[i], QString::fromStdString("Party " + std::to_string(ui->OtherPartyTabWidget->count()+1)));
+    ui->mainPartyTabWidget->addTab(mainParty,"Party 1");
+    update();
+//    _currentIntake.addClaimant(Person(""));
+
+
+//    initPartys();
+//    ui->OtherPartyTabWidget->clear();
+//    for(uint i =0; i< partys.size();i++)
+//    {
+//        ui->OtherPartyTabWidget->addTab(partys[i], QString::fromStdString("Party " + std::to_string((ui->OtherPartyTabWidget->count())+2)));
+//        _currentIntake.addRespondents(Person(""));
+//    }
 
     // One time setup of async handlers.
     _asyncLoadIntake = new AsyncMediatorCall(MKEY_GUI_LOAD_INTAKE_FORM, MKEY_DB_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){ Recieve_LoadIntakeForm(arg); }, nullptr, true);
@@ -46,6 +52,8 @@ void IntakeForm::on_loadButton_clicked()
     qDebug() << "gui -> LOAD INTAKE FORM PRESSED";
     _asyncLoadIntake->GetMediatorArg().SetArg(&_currentIntake);
     _asyncLoadIntake->Send();
+    testFunction();
+    update();
 }
 
 void IntakeForm::on_clearButton_clicked()
@@ -72,17 +80,21 @@ void IntakeForm::update()
     mainParty->SetPerson(_currentIntake.getClaimant());
     std::vector<Person> tempPeople;
     tempPeople = _currentIntake.getRespondents();
+    ui->OtherPartyTabWidget->clear();
+    PartyDetailsForm *temp;
     for(uint i = 0; i < tempPeople.size(); i++)
     {
-        PartyDetailsForm *temp = new PartyDetailsForm();
+        temp = new PartyDetailsForm();
         temp->SetPerson(tempPeople[i]);
-        partys.push_back(temp);
+        ui->OtherPartyTabWidget->addTab(temp,QString::fromStdString("Party " + std::to_string((ui->OtherPartyTabWidget->count())+2)));
     }
 }
 // test function to load an intake class and populate the fields
 void IntakeForm::testFunction()
 {
+    _currentIntake.clearRespondents();
     Intake temp;
+    temp.clearRespondents();
     Person claimant = Person::SampleData();
     claimant.setFirstName("apple");
     temp.addClaimant(claimant);
@@ -110,13 +122,24 @@ void IntakeForm::initPartys()
 // adds a new tab to widget
 void IntakeForm::on_addButton_clicked()
 {
-    partys.push_back(new PartyDetailsForm());
-    ui->OtherPartyTabWidget->addTab(partys[partys.size() - 1], QString::fromStdString("Party " + std::to_string(ui->OtherPartyTabWidget->count()+1)));
-    ui->OtherPartyTabWidget->setCurrentIndex(ui->OtherPartyTabWidget->count()-1);
+    _currentIntake.addRespondents(Person(""));
+    //ui->OtherPartyTabWidget->addTab(partys[partys.size() - 1], QString::fromStdString("Party " + std::to_string(ui->OtherPartyTabWidget->count()+1)));
+    //ui->OtherPartyTabWidget->setCurrentIndex(ui->OtherPartyTabWidget->count()-1);
+    update();
 }
 // removes a tab from widget
 void IntakeForm::on_removeButton_clicked()
 {
     partys.erase(partys.begin() + ui->OtherPartyTabWidget->currentIndex());
     ui->OtherPartyTabWidget->removeTab(ui->OtherPartyTabWidget->currentIndex());
+}
+
+int IntakeForm::totalParties()
+{
+    return (partys.size() + 1);
+}
+
+Intake IntakeForm::getCurrentIntake()
+{
+    return _currentIntake;
 }

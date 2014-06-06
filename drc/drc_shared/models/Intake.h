@@ -32,7 +32,7 @@ public:
 
     Person getClaimant() const;
     std::vector<Person> getRespondents() const;
-
+    void clearRespondents();
 
 };
 

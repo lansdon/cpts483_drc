@@ -41,7 +41,9 @@ SOURCES += main.cpp\
     gui/contactrecordview.cpp \
     gui/contactrecorddataview.cpp \
     bl/userloginprocessor.cpp \
-    drc_shared/models/User.cpp
+    drc_shared/models/User.cpp \
+    gui/mediationsession.cpp \
+    gui/attorneyandsupportformediationsessionview.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -75,7 +77,9 @@ HEADERS  += \
     gui/queryform.h \
     gui/contactrecordview.h \
     gui/contactrecorddataview.h \
-    drc_shared/models/DBBaseObject.h
+    drc_shared/models/DBBaseObject.h \
+    gui/mediationsession.h \
+    gui/attorneyandsupportformediationsessionview.h
 
 FORMS    += \
     DRCClient.ui \
@@ -86,7 +90,9 @@ FORMS    += \
     gui/partydetailsform.ui \
     gui/queryform.ui \
     gui/contactrecordview.ui \
-    gui/contactrecorddataview.ui
+    gui/contactrecorddataview.ui \
+    gui/mediationsession.ui \
+    gui/attorneyandsupportformediationsessionview.ui
 
 
 CONFIG += c++11

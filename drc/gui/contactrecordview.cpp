@@ -9,13 +9,37 @@ ContactRecordView::ContactRecordView(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->toolBox->removeItem(0);
-    for(int i = 0; i < 100; i++)
-        ui->toolBox->addItem(new ContactRecordDataView,"Test");
-
+    _localIntakeForm = new IntakeForm();
+    ui->toolBox->addItem(_localIntakeForm,"Contact Information");
+    _MediationSessionTabWidget = new QTabWidget();
+    _localMediationSession = new MediationSession();
+    _numberOfParties = _localIntakeForm->totalParties();
+    _localMediationSession->setParties(_numberOfParties);
+    _MediationSessionTabWidget->addTab(_localMediationSession,QString::fromStdString("Session " + std::to_string(_MediationSessionTabWidget->count() + 1)));
+    ui->toolBox->addItem(_MediationSessionTabWidget, "Mediation Session");
 
 }
 
 ContactRecordView::~ContactRecordView()
 {
     delete ui;
+}
+
+int ContactRecordView::getNumberOfParty()
+{
+    return _numberOfParties;
+}
+
+void ContactRecordView::on_toolBox_currentChanged(int index)
+{
+    if(index == 1)
+    {
+        std::vector<Person> temp = _localIntakeForm->getCurrentIntake().getRespondents();
+        temp.insert(temp.begin(),_localIntakeForm->getCurrentIntake().getClaimant());
+
+        _numberOfParties = _localIntakeForm->totalParties();
+        qDebug() << QString::fromStdString(std::to_string(temp.size()));
+        _localMediationSession->updateTabs(temp);
+
+    }
 }

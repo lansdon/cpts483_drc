@@ -16,7 +16,9 @@ class IntakeForm : public QWidget
 
 public:
     explicit IntakeForm(QWidget *parent = 0);
+    int totalParties();
     ~IntakeForm();
+    Intake getCurrentIntake();
 
 private slots:
     void on_saveButton_clicked();

@@ -3,7 +3,7 @@
 Intake::Intake()
 {
     claimant = Person("");
-
+    respondents.push_back(Person(""));
 }
 
 void Intake::addClaimant(Person input)
@@ -31,6 +31,10 @@ Person Intake::getClaimant() const
     return claimant;
 }
 
+void Intake::clearRespondents()
+{
+    respondents.clear();
+}
 
 int Intake::getNumberOfPeople() const
 {
