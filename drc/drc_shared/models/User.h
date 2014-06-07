@@ -30,5 +30,4 @@ public:
 	string Parse(void);
 };
 
-
 #endif

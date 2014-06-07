@@ -2,7 +2,7 @@
 #define PARTYDETAILSFORM_H
 
 #include <QWidget>
-#include "drc_shared/models/Person.h"
+#include "Person.h"
 #include <QLineEdit>
 
 

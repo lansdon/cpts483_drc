@@ -3,9 +3,9 @@
 
 #include <QWidget>
 #include "partydetailsform.h"
-#include "drc_shared/mediator/Mediator.h"
-#include "drc_shared/mediator/AsyncMediatorCall.h"
-#include "drc_shared/models/DRCModels.h"
+#include "Mediator.h"
+#include "AsyncMediatorCall.h"
+#include "DRCModels.h"
 #include <vector>
 
 // Forward declarations

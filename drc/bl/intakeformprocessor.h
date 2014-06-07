@@ -2,9 +2,8 @@
 #define INTAKEFORMPROCESSOR_H
 
 #include <string>
-
-#include "../drc_shared/models/Intake.h"
-#include "../drc_shared/models/Person.h"
+#include "Intake.h"
+#include "Person.h"
 #include "Processor.h"
 
 class IntakeFormProcessor: public Processor

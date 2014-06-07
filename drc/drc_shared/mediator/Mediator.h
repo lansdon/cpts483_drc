@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 #include <functional>
-#include "drc_shared/mediator/MediatorArg.h"
+#include "MediatorArg.h"
 
 //namespace drc {
 //namespace drc_shared {

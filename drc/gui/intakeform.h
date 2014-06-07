@@ -3,7 +3,7 @@
 
 #include <QWidget>
 #include <vector>
-#include "drc_shared/models/Intake.h"
+#include "Intake.h"
 #include "partydetailsform.h"
 
 namespace Ui {

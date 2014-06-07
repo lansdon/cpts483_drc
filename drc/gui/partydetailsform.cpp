@@ -1,6 +1,6 @@
 #include "partydetailsform.h"
 #include "ui_partydetailsform.h"
-#include "drc_shared/models/Person.h"
+#include "Person.h"
 #include <QDebug>
 
 PartyDetailsForm::PartyDetailsForm(QWidget *parent) :

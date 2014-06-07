@@ -1,7 +1,7 @@
 #include <cstring>
 #include <fstream>
 #include <time.h>
-#include <limits.h>
+#include <limits>
 #include <stdio.h>
 
 #include "SHA256_Crypto.h"
