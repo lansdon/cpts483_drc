@@ -4,6 +4,8 @@
 #include <iostream>
 #include <time.h>
 
+#include "User.h"
+
 class UserInfo
 {
 private:
