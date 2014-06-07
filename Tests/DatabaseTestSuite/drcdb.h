@@ -1,8 +1,8 @@
 #ifndef DRCDB_H
 #define DRCDB_H
 
-#include <string>
-#include <vector>
+#include <QString>
+#include <QVector>
 #include <QtSql/QtSql>
 
 class DRCDB
@@ -22,6 +22,12 @@ public:
     QString WhatDriver();
 
     bool CloseDatabase();
+
+    bool CheckTableExists(QString table_name);
+
+    bool CreateTable(QString table_name, QVector<QString> column_data);
+
+    QString WhatLastError();
 };
 
 //private:

@@ -41,54 +41,61 @@ bool DRCDB::CloseDatabase()
 }
 
 
-//DRCDB::DRCDB(QString database_name) : db_name(database_name), DB_ERROR(false)
-//{
-//}
+//Code could be written in one line; however, the return value isn't
+//what you'd expect these kind of methods to return.  By explictly
+//stating the return type, those who read this code later will have
+//a better idea of what's going on as opposed to spending time sifting
+//through additional documentation.
+bool DRCDB::CheckTableExists(QString table_name)
+{
+    QStringList table_list = database.tables();
 
-//bool DRCDB::OpenDatabase()
-//{
-//    bool open_success = false;
-//    if (this->WhatDriver() == QString(""))
-//    {
-//        database =  QSqlDatabase::addDatabase("QSQLITE");
-//    }
-//    database.setDatabaseName(db_name);
-//    if (database.open())
-//        open_success = true;
+    return table_list.contains(table_name);
+}
 
-//    return open_success;
-//}
+bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
+{
 
-//void DRCDB::CloseDatabase()
-//{
-//    database.close();
-//    database.removeDatabase(QString());
-//}
+    QString command_string = QString("create table %1 ").arg(table_name);
 
-//QString DRCDB::WhatDriver()
-//{
-//    return database.driverName();
-//}
+    command_string += "(";
+    foreach(QString column, column_data)
+    {
+        command_string += column + " ";
+    }
+    command_string += ")";
 
-//QString DRCDB::WhatDatabase()
-//{
-//    return QSqlDatabase::databaseName();
-//}
 
-//bool DRCDB::isError()
-//{
-//    return database.isOpenError();
-//}
+    //Query object can be implicitly initialized without passing
+    //the QSQLDatabase object to the constructor.  However, it is
+    //slightly more obvious as to where it's getting its information.
+    QSqlQuery query_object(database);
 
-//bool DRCDB::isOpen()
-//{
-//    return database.isOpen();
-//}
 
-//string DRCDB::errorMessage()
-//{
-//    return database.lastError().text().toStdString();
-//}
+    //Prepare checks the potential SQL command for validity.  While it seems
+    //tedious, it apparently is more efficient than letting an erroneous
+    //command be executed directly.
+    bool create_success = query_object.prepare(command_string);
+
+
+    if (create_success)
+        query_object.exec(command_string);
+
+    return create_success;
+}
+
+//Code could be written in one line; however, the return value isn't
+//what you'd expect these kind of methods to return.  By explictly
+//stating the return type, those who read this code later will have
+//a better idea of what's going on as opposed to spending time sifting
+//through additional documentation.
+QString DRCDB::WhatLastError()
+{
+    QSqlError recent_error = database.lastError();
+
+    return recent_error.databaseText();
+}
+
 
 //bool DRCDB::CreateTable(QString table_name, QString table_columns)
 //{
