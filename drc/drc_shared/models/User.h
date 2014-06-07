@@ -11,22 +11,23 @@ using namespace std;
 class User : public DBBaseObject
 {
 private:
-    string m_userName;
-    string m_password;
-    UserType m_type;
+	string m_userName;
+	string m_password;
+	UserType m_type;
 
 public:
-    User(string name, string pass);
+	User();
+	User(string name, string pass);
 
-    string GetName(void);
-    void SetName(string name);
-    string GetPass(void);
-    void SetPassword(string password);
+	string GetName(void);
+	void SetName(string name);
+	string GetPass(void);
+	void SetPassword(string password);
 
-    UserType GetType(void);
-    string GetTypeString(void);
+	UserType GetType(void);
+	string GetTypeString(void);
 
-    string Parse(void);
+	string Parse(void);
 };
 
 
