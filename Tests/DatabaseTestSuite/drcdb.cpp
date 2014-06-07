@@ -5,28 +5,28 @@
 using std::string;
 using std::vector;
 
+#define db_driver "QSQLITE"
 
-DRCDB::DRCDB() : DB_ERROR(false)
+DRCDB::DRCDB()
 {
+}
+
+DRCDB::DRCDB(QString database_name)
+{
+    this->OpenDatabase(database_name);
+}
+
+
+QString DRCDB::GetDatabaseName()
+{
+    return database.databaseName();
 }
 
 bool DRCDB::OpenDatabase(QString database_name)
 {
-    bool open_success = false;
-    if (this->WhatDriver() == QString(""))
-    {
-        database =  QSqlDatabase::addDatabase("QSQLITE");
-    }
+    database = QSqlDatabase::addDatabase(db_driver);
     database.setDatabaseName(database_name);
-    if (database.open())
-        open_success = true;
-
-    return open_success;
-}
-
-void DRCDB::CloseDatabase()
-{
-    database.close();
+    return database.open();
 }
 
 QString DRCDB::WhatDriver()
@@ -34,91 +34,109 @@ QString DRCDB::WhatDriver()
     return database.driverName();
 }
 
-QString DRCDB::WhatDatabase()
+bool DRCDB::CloseDatabase()
 {
-    return QString("Albertsons");
-}
-
-bool DRCDB::isError()
-{
-    return DB_ERROR;
-}
-
-bool DRCDB::isOpen()
-{
+    database.close();
     return database.isOpen();
 }
 
-string DRCDB::errorMessage()
-{
-    return database.lastError().text().toStdString();
-}
 
-bool DRCDB::CreateTable(QString table_name, QString table_columns)
-{
-    bool create_success = false;
+//DRCDB::DRCDB(QString database_name) : db_name(database_name), DB_ERROR(false)
+//{
+//}
 
-    if (database.isOpen())
-    {
-        QSqlQuery query_object;
-        create_success = query_object.exec(QString("CREATE TABLE %1 (%2)").arg(table_name).arg(table_columns));
-    }
+//bool DRCDB::OpenDatabase()
+//{
+//    bool open_success = false;
+//    if (this->WhatDriver() == QString(""))
+//    {
+//        database =  QSqlDatabase::addDatabase("QSQLITE");
+//    }
+//    database.setDatabaseName(db_name);
+//    if (database.open())
+//        open_success = true;
 
-    return create_success;
-}
+//    return open_success;
+//}
 
-void DRCDB::InsertFruit(int time, string name)
-{
-    bool insertSuccess = false;
+//void DRCDB::CloseDatabase()
+//{
+//    database.close();
+//    database.removeDatabase(QString());
+//}
 
-    QString qName = QString::fromUtf8(name.c_str());
+//QString DRCDB::WhatDriver()
+//{
+//    return database.driverName();
+//}
 
-    if(database.isOpen())
-    {
-        QSqlQuery qObject;
-        insertSuccess = qObject.exec(QString("insert into Albertsons values(%1, '%2')").arg(time).arg(qName));
-    }
-}
+//QString DRCDB::WhatDatabase()
+//{
+//    return QSqlDatabase::databaseName();
+//}
 
-void DRCDB::InsertString(string Command)
-{
-    bool insertSuccess = false;
+//bool DRCDB::isError()
+//{
+//    return database.isOpenError();
+//}
 
-    if(database.isOpen())
-    {
-        QSqlQuery qObject;
+//bool DRCDB::isOpen()
+//{
+//    return database.isOpen();
+//}
 
-        QString qCmd, data;
+//string DRCDB::errorMessage()
+//{
+//    return database.lastError().text().toStdString();
+//}
 
-        string cmd = "insert into Albertsons ";
-        cmd = cmd + Command;
+//bool DRCDB::CreateTable(QString table_name, QString table_columns)
+//{
+//    bool create_success = false;
 
-        qCmd.fromStdString(cmd);
+//    if (database.isOpen())
+//    {
+//        QSqlQuery query_object;
+//        create_success = query_object.exec(QString("CREATE TABLE %1 (%2)").arg(table_name).arg(table_columns));
+//    }
 
-        insertSuccess = qObject.exec(qCmd);
-        //insertSuccess = qObject.exec("insert into Albertsons values(100, 'apple')");
-    }
-}
+//    return create_success;
+//}
 
-vector<string>* DRCDB::SelectAllField()
-{
-    vector<string>* empty = new vector<string>();
+//void DRCDB::InsertObject(DBBaseObject* db_object)
+//{
+//    if(database.isOpen())
+//    {
+//        QSqlQuery qObject;
 
-    if(database.isOpen())
-    {
-        QSqlQuery query;
-        query.exec("select * from Albertsons");
+//        QString qCmd;
+//        string cmd("insert into Albertsons");
+//        cmd += db_object->Parse();
+//        qCmd.fromStdString(cmd);
 
-        while(query.next())
-        {
-            string name(query.value(1).toString().toStdString());
-            string time(query.value(0).toString().toStdString());
-            empty->push_back(name);
-            empty->push_back(time);
-        }
-    }
+//        qObject.exec(qCmd);
+//    }
+//}
+
+//vector<string>* DRCDB::SelectAllField()
+//{
+//    vector<string>* empty = new vector<string>();
+
+//    if(database.isOpen())
+//    {
+//        QSqlQuery query;
+//        query.exec("select * from Albertsons");
+
+//        while(query.next())
+//        {
+//            string name(query.value(1).toString().toStdString());
+//            string time(query.value(0).toString().toStdString());
+//            empty->push_back(name);
+//            empty->push_back(time);
+//        }
+//    }
 
 
-    return empty;
+//    return empty;
 
-}
+//}
