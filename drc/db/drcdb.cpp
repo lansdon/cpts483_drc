@@ -59,16 +59,16 @@ bool DRCDB::CreateTable(QString table_name, QString table_columns)
 
 void DRCDB::InsertObject(DBBaseObject* db_object)
 {
+    bool insertSuccess;
     if(database.isOpen())
     {
         QSqlQuery qObject;
 
-        QString qCmd;
         string cmd("insert into Albertsons");
         cmd += db_object->Parse();
-        qCmd.fromStdString(cmd);
+        QString qCmd = QString::fromStdString(cmd);
 
-        qObject.exec(qCmd);
+        insertSuccess = qObject.exec(qCmd);
     }
 }
 
@@ -98,7 +98,6 @@ void DRCDB::InsertString(string Command)
         qCmd.fromStdString(cmd);
 
         insertSuccess = qObject.exec(qCmd);
-        //insertSuccess = qObject.exec("insert into Albertsons values(100, 'apple')");
     }
 }
 
@@ -152,16 +151,9 @@ void DRCDB::PersistFruit(MediatorArg arg)
     Fruit* fruit = nullptr;       // Unpackaged argument
     if (success)
     {
-        // Arguement is still a string!!! not a fruit!!!
-        string* fruitname = arg.getArg<string*>();
+        fruit = arg.getArg<Fruit*>();
 
-        fruit = new Fruit(&(*fruitname));
-
-        InsertFruit(atoi(fruit->GetTime().c_str()), fruit->GetName());
-
-        //InsertString(tester);
-
-        // SUCCESS!! INSERT CODE HERE
+        InsertObject(fruit);
     }
 
     qDebug() << "DB -> PersistFruit Complete";
