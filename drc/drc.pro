@@ -35,7 +35,6 @@ SOURCES += main.cpp\
     gui/loginform.cpp \
     bl/Crypto/SHA256_Crypto.cpp \
     drc_shared/mediator/asyncmediatorworker.cpp \
-    gui/partydetailsform.cpp \
     gui/queryform.cpp \
     drc_shared/models/Fruit.cpp \
     gui/contactrecordview.cpp \
@@ -46,7 +45,8 @@ SOURCES += main.cpp\
     gui/attorneyandsupportformediationsessionview.cpp \
     gui/detailsview.cpp \
     gui/childrenview.cpp \
-    drc_shared/models/CurrentUser.cpp
+    drc_shared/models/CurrentUser.cpp \
+    gui/persondetailsform.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -76,7 +76,6 @@ HEADERS  += \
     gui/loginform.h \
     bl/Crypto/SHA256_Crypto.h \
     drc_shared/mediator/asyncmediatorworker.h \
-    gui/partydetailsform.h \
     gui/queryform.h \
     gui/contactrecordview.h \
     gui/contactrecorddataview.h \
@@ -85,7 +84,8 @@ HEADERS  += \
     gui/attorneyandsupportformediationsessionview.h \
     gui/detailsview.h \
     gui/childrenview.h \
-    drc_shared/models/CurrentUser.h
+    drc_shared/models/CurrentUser.h \
+    gui/persondetailsform.h
 
 FORMS    += \
     DRCClient.ui \
@@ -93,14 +93,14 @@ FORMS    += \
     gui/intakeform.ui \
     gui/particapants.ui \
     gui/loginform.ui \
-    gui/partydetailsform.ui \
     gui/queryform.ui \
     gui/contactrecordview.ui \
     gui/contactrecorddataview.ui \
     gui/mediationsession.ui \
     gui/attorneyandsupportformediationsessionview.ui \
     gui/detailsview.ui \
-    gui/childrenview.ui
+    gui/childrenview.ui \
+    gui/persondetailsform.ui
 
 
 CONFIG += c++11

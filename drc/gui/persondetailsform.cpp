@@ -1,4 +1,4 @@
-#include "partydetailsform.h"
+#include "persondetailsform.h"
 #include "ui_partydetailsform.h"
 #include "Person.h"
 #include <QDebug>
@@ -21,8 +21,7 @@ PartyDetailsForm::PartyDetailsForm(QWidget *parent, Person* person)
 PartyDetailsForm::~PartyDetailsForm()
 {
     delete ui;
-    if(_shouldCleanPersonPointer)
-        delete _person;
+    cleanPerson();
 }
 
 

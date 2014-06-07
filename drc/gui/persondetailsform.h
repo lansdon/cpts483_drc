@@ -21,6 +21,7 @@ public:
 
     void SetPerson(Person *p);
     Person *GetPerson() { return _person; }
+
 private slots:
     void on_emailLineEdit_textChanged(const QString &arg1);
 

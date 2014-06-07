@@ -2,7 +2,7 @@
 #define FRUITNAMEFORM_H
 
 #include <QWidget>
-#include "partydetailsform.h"
+#include "persondetailsform.h"
 #include "Mediator.h"
 #include "AsyncMediatorCall.h"
 #include "DRCModels.h"

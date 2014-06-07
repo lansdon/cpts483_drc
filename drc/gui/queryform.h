@@ -2,7 +2,7 @@
 #define QUERYFORM_H
 
 #include <QWidget>
-#include "partydetailsform.h"
+#include "persondetailsform.h"
 
 namespace Ui {
 class QueryForm;

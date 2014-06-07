@@ -9,7 +9,7 @@
 #include "Mediator.h"
 #include "AsyncMediatorCall.h"
 #include "DRCModels.h"
-#include "partydetailsform.h"
+#include "persondetailsform.h"
 
 
 FruitNameForm::FruitNameForm(QWidget *parent) :

@@ -1,4 +1,7 @@
 #include "CurrentUser.h"
+#include "Mediator.h"
+#include "MediatorKeys.h"
+
 
 bool UserInfo::IsTimedOut()
 {
@@ -19,7 +22,8 @@ void UserInfo::SetTimeoutTheshold(int Time)
 
 UserInfo::UserInfo()
 {
-	Instance().ResetTime();
+//	Instance().ResetTime();
+    CurrentUser = nullptr;
 }
 
 UserInfo::UserInfo(const UserInfo& User)
@@ -36,9 +40,13 @@ UserInfo& UserInfo::Instance()
 
 bool UserInfo::LoginUser(User* NewUser)
 {
-	// Maybe do some error checking here.  Maybe make sure the permissions are set right?  IDK...
-	Instance().CurrentUser = NewUser;
-	Instance().ResetTime();
+    // Maybe do some error checking here.  Maybe make sure the permissions are set right?  IDK...
+    Instance().CurrentUser = NewUser;
+//	Instance().ResetTime();
+
+    // Signal an event that the current user changed.
+    Mediator::Call(MKEY_CURRENT_USER_CHANGED, NewUser);
+
 	return true;
 }
 

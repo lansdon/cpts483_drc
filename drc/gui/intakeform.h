@@ -4,7 +4,7 @@
 #include <QWidget>
 #include <vector>
 #include "Intake.h"
-#include "partydetailsform.h"
+#include "persondetailsform.h"
 
 namespace Ui {
 class IntakeForm;
