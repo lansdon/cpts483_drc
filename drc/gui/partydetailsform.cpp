@@ -3,30 +3,17 @@
 #include "Person.h"
 #include <QDebug>
 
-PartyDetailsForm::PartyDetailsForm(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::PartyDetailsForm)
+PartyDetailsForm::PartyDetailsForm(QWidget *parent, Person* person)
+    : QWidget(parent)
+    , ui(new Ui::PartyDetailsForm)
+    , _person(person ? person : new Person())
+    , _shouldCleanPersonPointer(person == nullptr)
 {
     ui->setupUi(this);
-//    ui->firstLineEdit->setValidator(QString::fromStdString(_person.getFirstName()));
-//    ui->middleLineEdit->setText(QString::fromStdString(_person.getMiddleName()));
-//    ui->lastLineEdit->setText(QString::fromStdString(_person.getLastName()));
-//    ui->streetLineEdit->setText(QString::fromStdString(_person.getStreet()));
-//    ui->unitLineEdit->setText(QString::fromStdString(_person.getUnit()));
-//    ui->cityLineEdit->setText(QString::fromStdString(_person.getCity()));
-//    ui->stateLineEdit->setText(QString::fromStdString(_person.getState()));
-//    ui->countyLineEdit->setText(QString::fromStdString(_person.getCounty()));
-    ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
-//    ui->emailLineEdit->setText(QString::fromStdString(_person.getEmail()));
-//    ui->homeLineEdit->setText(QString::fromStdString(_person.getHomePhone()));
-//    ui->homeExtLineEdit->setText(QString::fromStdString(_person.getHomePhoneExt()));
-//    ui->workLineEdit->setText(QString::fromStdString(_person.getWorkPhone()));
-//    ui->workExtLineEdit->setText(QString::fromStdString(_person.getWorkPhoneExt()));
-//    ui->mobileLineEdit->setText(QString::fromStdString(_person.getMobilePhone()));
-//    ui->mobileExtLineEdit->setText(QString::fromStdString(_person.getMobilePhoneExt()));
-    ui->numInHomeLineEdit->setValidator(new QIntValidator(ui->numInHomeLineEdit));
-//    ui->attorneyLineEdit->setText(QString::fromStdString(_person.getAttorney()));
 
+    // Setup Validations
+    ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
+    ui->numInHomeLineEdit->setValidator(new QIntValidator(ui->numInHomeLineEdit));
 
     SetEditMode(true);
 }
@@ -34,6 +21,8 @@ PartyDetailsForm::PartyDetailsForm(QWidget *parent) :
 PartyDetailsForm::~PartyDetailsForm()
 {
     delete ui;
+    if(_shouldCleanPersonPointer)
+        delete _person;
 }
 
 
@@ -81,13 +70,13 @@ bool PartyDetailsForm::ValidateForm()
     // Check every field and return true if they all pass, else false.
 
     if(
-            ProcessPhoneNumber(ui->homeLineEdit->text(), ui->homeLineEdit)
-            &&
-            ProcessPhoneNumber(ui->workLineEdit->text(), ui->workLineEdit)
-            &&
-            ProcessPhoneNumber(ui->mobileLineEdit->text(), ui->mobileLineEdit)
-            &&
-            ProcessEmail(ui->emailLineEdit->text(), ui->emailLineEdit)
+        ProcessPhoneNumber(ui->homeLineEdit->text(), ui->homeLineEdit)
+        &&
+        ProcessPhoneNumber(ui->workLineEdit->text(), ui->workLineEdit)
+        &&
+        ProcessPhoneNumber(ui->mobileLineEdit->text(), ui->mobileLineEdit)
+        &&
+        ProcessEmail(ui->emailLineEdit->text(), ui->emailLineEdit)
     )
     {
         return true;
@@ -228,4 +217,23 @@ void PartyDetailsForm::SetEditMode(bool editModeOn)
 
     _editModeOn = editModeOn;
 
+}
+
+void PartyDetailsForm::cleanPerson()
+{
+    if(_shouldCleanPersonPointer)
+        delete _person;
+    _shouldCleanPersonPointer = false;
+}
+
+void PartyDetailsForm::on_firstLineEdit_returnPressed()
+{
+
+}
+
+void PartyDetailsForm::SetPerson(Person *p)
+{
+    cleanPerson();
+    _person = p;
+    UpdateLabels();
 }

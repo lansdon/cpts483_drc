@@ -99,12 +99,6 @@ void FruitNameForm::UpdateNameField(QString str)
 
 }
 
-void FruitNameForm::on_nameLineEdit_returnPressed()
-{
-   on_sendButton_clicked();
-}
-
-
 //////////// SEND / RECIEVE EVENTS /////////////////
 
 void FruitNameForm::SendFruitName(Fruit *fruit)
