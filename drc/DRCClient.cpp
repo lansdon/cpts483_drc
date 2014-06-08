@@ -98,7 +98,17 @@ void DRCClient::on_actionNew_search_form_triggered()
     setCentralWidget(new QueryForm());
 }
 
-void DRCClient::on_actionOpen_contact_view_triggered()
+void DRCClient::on_actionOpen_mediation_view_triggered()
 {
-    setCentralWidget(new ContactRecordView());
+    setCentralWidget(new MediationProcessView());
+}
+
+void DRCClient::on_actionMediation_Process_triggered()
+{
+    setCentralWidget(new MediationProcessView());
+}
+
+void DRCClient::on_actionFruit_Test_triggered()
+{
+    setCentralWidget(new FruitNameForm(this));
 }

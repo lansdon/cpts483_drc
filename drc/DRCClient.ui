@@ -32,7 +32,7 @@
      <height>600</height>
     </size>
    </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QWidget" name="widget" native="true">
       <property name="minimumSize">
@@ -46,34 +46,17 @@
    </layout>
   </widget>
   <widget class="QMenuBar" name="menuBar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuFruit_Name">
-    <property name="title">
-     <string>Fruit Name</string>
-    </property>
-    <addaction name="actionNew_Fruit_Submission"/>
-   </widget>
-   <widget class="QMenu" name="menuIntake_Forms">
-    <property name="title">
-     <string>Intake Forms</string>
-    </property>
-    <addaction name="actionNew_Form"/>
-    <addaction name="separator"/>
-    <addaction name="actionFind_Form"/>
-    <addaction name="actionSave"/>
-    <addaction name="separator"/>
-    <addaction name="actionReset_Form"/>
-    <addaction name="actionDelete"/>
-    <addaction name="actionPrint"/>
-    <addaction name="separator"/>
-   </widget>
    <widget class="QMenu" name="menuInquiries">
     <property name="title">
      <string>Inquiries</string>
@@ -98,6 +81,9 @@
     <property name="title">
      <string>Help</string>
     </property>
+    <addaction name="actionMediation_Process"/>
+    <addaction name="separator"/>
+    <addaction name="actionFruit_Test"/>
    </widget>
    <widget class="QMenu" name="menuSearch">
     <property name="title">
@@ -105,21 +91,42 @@
     </property>
     <addaction name="actionNew_search_form"/>
    </widget>
-   <widget class="QMenu" name="menuContacts_test">
+   <widget class="QMenu" name="menu_mediationProcess">
     <property name="title">
-     <string>Contacts test</string>
+     <string>Mediation</string>
     </property>
-    <addaction name="actionOpen_contact_view"/>
+    <addaction name="actionOpen_mediation_view"/>
    </widget>
-   <addaction name="menuFruit_Name"/>
-   <addaction name="menuIntake_Forms"/>
+   <widget class="QMenu" name="menuAdmin">
+    <property name="title">
+     <string>Admin</string>
+    </property>
+    <addaction name="actionCreate_new_User"/>
+   </widget>
+   <addaction name="menu_mediationProcess"/>
    <addaction name="menuSearch"/>
    <addaction name="menuInquiries"/>
    <addaction name="menuReports"/>
    <addaction name="menuHelp"/>
-   <addaction name="menuContacts_test"/>
+   <addaction name="menuAdmin"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionMediation_Process"/>
+   <addaction name="separator"/>
+   <addaction name="actionNew_search_form"/>
+   <addaction name="actionFruit_Test"/>
+   <addaction name="actionCase_Summary"/>
+  </widget>
   <action name="actionNew_Form">
    <property name="text">
     <string>New</string>
@@ -197,12 +204,30 @@
   </action>
   <action name="actionNew_search_form">
    <property name="text">
-    <string>New</string>
+    <string>Search</string>
+   </property>
+   <property name="toolTip">
+    <string>Open a search wizard</string>
    </property>
   </action>
-  <action name="actionOpen_contact_view">
+  <action name="actionOpen_mediation_view">
    <property name="text">
     <string>open</string>
+   </property>
+  </action>
+  <action name="actionCreate_new_User">
+   <property name="text">
+    <string>Create new User</string>
+   </property>
+  </action>
+  <action name="actionMediation_Process">
+   <property name="text">
+    <string>Mediation Process</string>
+   </property>
+  </action>
+  <action name="actionFruit_Test">
+   <property name="text">
+    <string>Fruit Test</string>
    </property>
   </action>
  </widget>

@@ -1,11 +1,11 @@
-#include "contactrecordview.h"
-#include "ui_contactrecordview.h"
+#include "mediationprocessview.h"
+#include "ui_mediationprocessview.h"
 #include <QWidget>
 #include <QListWidget>
 
-ContactRecordView::ContactRecordView(QWidget *parent) :
+MediationProcessView::MediationProcessView(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ContactRecordView)
+    ui(new Ui::MediationProcessView)
 {
     ui->setupUi(this);
     ui->toolBox->removeItem(0);
@@ -23,17 +23,17 @@ ContactRecordView::ContactRecordView(QWidget *parent) :
 
 }
 
-ContactRecordView::~ContactRecordView()
+MediationProcessView::~MediationProcessView()
 {
     delete ui;
 }
 
-int ContactRecordView::getNumberOfParty()
+int MediationProcessView::getNumberOfParty()
 {
     return _numberOfParties;
 }
 
-void ContactRecordView::on_toolBox_currentChanged(int index)
+void MediationProcessView::on_toolBox_currentChanged(int index)
 {
     if(index == 1)
     {

@@ -8,17 +8,18 @@
 #include "intakeform.h"
 #include "mediationsession.h"
 #include "detailsview.h"
+
 namespace Ui {
-class ContactRecordView;
+class MediationProcessView;
 }
 
-class ContactRecordView : public QWidget
+class MediationProcessView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ContactRecordView(QWidget *parent = 0);
-    ~ContactRecordView();
+    explicit MediationProcessView(QWidget *parent = 0);
+    ~MediationProcessView();
     int getNumberOfParty();
 
 private slots:
@@ -26,7 +27,7 @@ private slots:
     void on_toolBox_currentChanged(int index);
 
 private:
-    Ui::ContactRecordView *ui;
+    Ui::MediationProcessView *ui;
     IntakeForm *_localIntakeForm;
     QTabWidget *_MediationSessionTabWidget;
     MediationSession *_localMediationSession;
