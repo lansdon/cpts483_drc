@@ -1,6 +1,6 @@
 #include "mediationprocess.h"
 
-#include <sstream>>
+#include <sstream>
 #include "DRCModels.h"
 #include "drctypes.h"
 
