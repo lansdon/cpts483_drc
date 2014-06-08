@@ -19,9 +19,9 @@ FruitNameForm::FruitNameForm(QWidget *parent) :
     ui->setupUi(this);
 
     ui->tabWidget->clear();
-    ui->tabWidget->addTab(new PartyDetailsForm(),"tab 1");
+    ui->tabWidget->addTab(new PersonDetailsForm(),"tab 1");
     ui->claimentTabWidget->clear();
-    ui->claimentTabWidget->addTab((claiment=new PartyDetailsForm(ui->claimentTabWidget)), QString::fromStdString("Claiment " + std::to_string(ui->claimentTabWidget->count() + 1)));
+    ui->claimentTabWidget->addTab((claiment=new PersonDetailsForm(ui->claimentTabWidget)), QString::fromStdString("Claiment " + std::to_string(ui->claimentTabWidget->count() + 1)));
 
     // One time setup of async handler.
     asyncSendFruitName = new AsyncMediatorCall(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){ RecieveFruitNameResult(arg); }, new std::string("Kumquat"), true);
@@ -48,7 +48,7 @@ void FruitNameForm::on_sendButton_clicked()
    temp.addClaimant(*claiment->GetPerson());
    for(int i = 0; i < ui->tabWidget->count();i++)
    {
-       PartyDetailsForm *tempRespond = (PartyDetailsForm*)ui->tabWidget->widget(i);
+       PersonDetailsForm *tempRespond = (PersonDetailsForm*)ui->tabWidget->widget(i);
        temp.addRespondents(*tempRespond->GetPerson());
    }
 
@@ -72,10 +72,10 @@ void FruitNameForm::UpdateForm(MediatorArg arg)
             //qDebug() << QString::fromStdString(recieved->getParties()[0].getFirstName());
             std::vector<Person *> tempVec = recieved->getParties();
             ui->tabWidget->clear();
-            PartyDetailsForm* tempRespon;
+            PersonDetailsForm* tempRespon;
             for(uint i = 0; i < tempVec.size(); i++)
            {
-                tempRespon = new PartyDetailsForm();
+                tempRespon = new PersonDetailsForm();
                 tempRespon->SetPerson(tempVec[i]);
                 ui->tabWidget->addTab(tempRespon, QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
             }
@@ -135,7 +135,7 @@ void FruitNameForm::SendSearchName(QString name)
 void FruitNameForm::on_AddParty_clicked()
 {
 
-    ui->tabWidget->addTab(new PartyDetailsForm(), QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
+    ui->tabWidget->addTab(new PersonDetailsForm(), QString::fromStdString("tab " + std::to_string(ui->tabWidget->count()+1)));
     ui->tabWidget->setCurrentIndex(ui->tabWidget->count()-1);
 }
 

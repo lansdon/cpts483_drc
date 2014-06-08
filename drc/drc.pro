@@ -46,7 +46,11 @@ SOURCES += main.cpp\
     gui/childrenview.cpp \
     drc_shared/models/CurrentUser.cpp \
     gui/persondetailsform.cpp \
-    gui/mediationprocessview.cpp
+    gui/mediationprocessview.cpp \
+    gui/partyform.cpp \
+    drc_shared/models/party.cpp \
+    drc_shared/models/mediationprocess.cpp \
+    gui/partiescontainerform.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -85,7 +89,12 @@ HEADERS  += \
     gui/childrenview.h \
     drc_shared/models/CurrentUser.h \
     gui/persondetailsform.h \
-    gui/mediationprocessview.h
+    gui/mediationprocessview.h \
+    gui/partyform.h \
+    drc_shared/models/party.h \
+    drc_shared/models/mediationprocess.h \
+    drc_shared/drctypes.h \
+    gui/partiescontainerform.h
 
 FORMS    += \
     DRCClient.ui \
@@ -100,7 +109,9 @@ FORMS    += \
     gui/detailsview.ui \
     gui/childrenview.ui \
     gui/persondetailsform.ui \
-    gui/mediationprocessview.ui
+    gui/mediationprocessview.ui \
+    gui/partyform.ui \
+    gui/partiescontainerform.ui
 
 
 CONFIG += c++11

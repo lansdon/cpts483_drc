@@ -1,11 +1,11 @@
 #include "persondetailsform.h"
-#include "ui_partydetailsform.h"
+#include "ui_persondetailsform.h"
 #include "Person.h"
 #include <QDebug>
 
-PartyDetailsForm::PartyDetailsForm(QWidget *parent, Person* person)
+PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person)
     : QWidget(parent)
-    , ui(new Ui::PartyDetailsForm)
+    , ui(new Ui::PersonDetailsForm)
     , _person(person ? person : new Person())
     , _shouldCleanPersonPointer(person == nullptr)
 {
@@ -18,7 +18,7 @@ PartyDetailsForm::PartyDetailsForm(QWidget *parent, Person* person)
     SetEditMode(true);
 }
 
-PartyDetailsForm::~PartyDetailsForm()
+PersonDetailsForm::~PersonDetailsForm()
 {
     delete ui;
     cleanPerson();
@@ -26,7 +26,7 @@ PartyDetailsForm::~PartyDetailsForm()
 
 
 
-void PartyDetailsForm::UpdateLabels()
+void PersonDetailsForm::UpdateLabels()
 {
     ui->firstLineEdit->setText(QString::fromStdString(_person->getFirstName()));
     ui->middleLineEdit->setText(QString::fromStdString(_person->getMiddleName()));
@@ -50,21 +50,21 @@ void PartyDetailsForm::UpdateLabels()
     SetEditMode(false);
 }
 
-void PartyDetailsForm::SetWidgetInvalid(QWidget *widget)
+void PersonDetailsForm::SetWidgetInvalid(QWidget *widget)
 {
     QPalette palette;
     palette.setColor( widget->foregroundRole(), Qt::red );
     widget->setPalette(palette);
 }
 
-void PartyDetailsForm::SetWidgetValid(QWidget *widget)
+void PersonDetailsForm::SetWidgetValid(QWidget *widget)
 {
     QPalette palette;
     palette.setColor( widget->foregroundRole(), Qt::black );
     widget->setPalette(palette);
 }
 
-bool PartyDetailsForm::ValidateForm()
+bool PersonDetailsForm::ValidateForm()
 {
     // Check every field and return true if they all pass, else false.
 
@@ -84,12 +84,12 @@ bool PartyDetailsForm::ValidateForm()
     return false;
 }
 
-void PartyDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
 {
    ProcessEmail(arg1, ui->emailLineEdit);
 }
 
-bool PartyDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
+bool PersonDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
 {
     // email validation - <something>@<something>.<two to three letters>
     QRegExp rx("(^.*@.*[.][a-z]{2,3})");
@@ -105,7 +105,7 @@ bool PartyDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
     }
 }
 
-bool PartyDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* widget)
+bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* widget)
 {
     if(string.length() == 0) return true;
 
@@ -134,22 +134,22 @@ bool PartyDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* widg
     }
 }
 
-void PartyDetailsForm::on_workLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_workLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->workLineEdit);
 }
 
-void PartyDetailsForm::on_homeLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_homeLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->homeLineEdit);
 }
 
-void PartyDetailsForm::on_mobileLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_mobileLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->mobileLineEdit);
 }
 
-void PartyDetailsForm::on_saveButton_clicked()
+void PersonDetailsForm::on_saveButton_clicked()
 {
     SetEditMode(false);
 
@@ -176,12 +176,12 @@ void PartyDetailsForm::on_saveButton_clicked()
 
 }
 
-void PartyDetailsForm::on_editButton_clicked()
+void PersonDetailsForm::on_editButton_clicked()
 {
     SetEditMode(true);
 }
 
-void PartyDetailsForm::on_deleteButton_clicked()
+void PersonDetailsForm::on_deleteButton_clicked()
 {
     SetEditMode(true);
     _person = new Person();
@@ -190,7 +190,7 @@ void PartyDetailsForm::on_deleteButton_clicked()
     // To do, send Delete Party signal
 }
 
-void PartyDetailsForm::SetEditMode(bool editModeOn)
+void PersonDetailsForm::SetEditMode(bool editModeOn)
 {
     ui->firstLineEdit->setEnabled(editModeOn);
     ui->middleLineEdit->setEnabled(editModeOn);
@@ -218,19 +218,19 @@ void PartyDetailsForm::SetEditMode(bool editModeOn)
 
 }
 
-void PartyDetailsForm::cleanPerson()
+void PersonDetailsForm::cleanPerson()
 {
     if(_shouldCleanPersonPointer)
         delete _person;
     _shouldCleanPersonPointer = false;
 }
 
-void PartyDetailsForm::on_firstLineEdit_returnPressed()
+void PersonDetailsForm::on_firstLineEdit_returnPressed()
 {
 
 }
 
-void PartyDetailsForm::SetPerson(Person *p)
+void PersonDetailsForm::SetPerson(Person *p)
 {
     cleanPerson();
     _person = p;

@@ -6,7 +6,7 @@ QueryForm::QueryForm(QWidget *parent) :
     ui(new Ui::QueryForm)
 {
     ui->setupUi(this);
-    ui->tabWidget->addTab(new PartyDetailsForm(),"Party");
+    ui->tabWidget->addTab(new PersonDetailsForm(),"Party");
 }
 
 QueryForm::~QueryForm()

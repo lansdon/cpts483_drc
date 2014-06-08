@@ -13,6 +13,6 @@
 #include "drc_shared/models/Person.h"
 #include "drc_shared/models/Fruit.h"
 //#include "drc_shared/models/User.h"
-
+#include "drc_shared/models/party.h"
 
 #endif // DRCMODELS_H

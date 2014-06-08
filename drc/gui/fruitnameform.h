@@ -49,7 +49,7 @@ private:
     AsyncMediatorCall *asyncSendSearch;
     void SendSearchName(QString name);
     void SendFruitName(Fruit* fruit);
-    PartyDetailsForm *claiment;
+    PersonDetailsForm *claiment;
 };
 
 #endif // FRUITNAMEFORM_H

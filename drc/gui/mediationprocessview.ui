@@ -19,13 +19,23 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="page_2">
+     <widget class="QWidget" name="partiesPage">
+      <attribute name="label">
+       <string>Page</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QWidget" name="widget" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="sessionsPage">
       <property name="geometry">
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>891</width>
-        <height>417</height>
+        <width>885</width>
+        <height>370</height>
        </rect>
       </property>
       <attribute name="label">

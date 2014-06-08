@@ -7,17 +7,17 @@
 
 
 namespace Ui {
-class PartyDetailsForm;
+class PersonDetailsForm;
 }
 
 
-class PartyDetailsForm : public QWidget
+class PersonDetailsForm : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PartyDetailsForm(QWidget *parent = 0, Person* person = nullptr);
-    ~PartyDetailsForm();
+    explicit PersonDetailsForm(QWidget *parent = 0, Person* person = nullptr);
+    ~PersonDetailsForm();
 
     void SetPerson(Person *p);
     Person *GetPerson() { return _person; }
@@ -40,8 +40,8 @@ private slots:
     void on_firstLineEdit_returnPressed();
 
 private:
-    Ui::PartyDetailsForm *ui;
-
+    Ui::PersonDetailsForm *ui;
+;
     Person *_person;
 
     // This will set the labels based on Person object.

@@ -83,14 +83,14 @@ void IntakeForm::Recieve_LoadIntakeForm(MediatorArg arg)
 void IntakeForm::update()
 {
     partys[0]->SetPerson(_currentIntake.newParty());
-    partys.push_back(new PartyDetailsForm());
+    partys.push_back(new PersonDetailsForm());
     std::vector<Person *> tempPeople;
     tempPeople = _currentIntake.getParties();
     ui->OtherPartyTabWidget->clear();
-    PartyDetailsForm *temp;
+    PersonDetailsForm *temp;
     for(uint i = 1; i < tempPeople.size(); i++)
     {
-        temp = new PartyDetailsForm();
+        temp = new PersonDetailsForm();
         temp->SetPerson(tempPeople[i]);
         ui->OtherPartyTabWidget->addTab(temp,QString::fromStdString("Party " + std::to_string((ui->OtherPartyTabWidget->count())+2)));
     }
@@ -103,28 +103,28 @@ void IntakeForm::testFunction()
     Person *claimant = Person::SampleData();
     claimant->setFirstName("apple");
     _currentIntake.setParties(claimant,0);
-    //partys.push_back(new PartyDetailsForm());
+    //partys.push_back(new PersonDetailsForm());
     //partys[0]->SetPerson(_currentIntake.addParty(claimant));
 
 
     Person *p1 = Person::SampleData();
     p1->setFirstName("peach");
     _currentIntake.setParties(p1,1);
-    //partys.push_back(new PartyDetailsForm());
+    //partys.push_back(new PersonDetailsForm());
     //partys[1]->SetPerson(_currentIntake.addParty(p1));
 
 
     Person *p2 = Person::SampleData();
     p2->setFirstName("banana");
     _currentIntake.setParties(p2,2);
-   // partys.push_back(new PartyDetailsForm());
+   // partys.push_back(new PersonDetailsForm());
     //partys[2]->SetPerson(_currentIntake.addParty(p2));
 
 
     Person *p3 = Person::SampleData();
     p3->setFirstName("grape");
     _currentIntake.setParties(p3,3);
-    //partys.push_back(new PartyDetailsForm());
+    //partys.push_back(new PersonDetailsForm());
     //partys[3]->SetPerson(_currentIntake.addParty(p3));
 //    ui->mainPartyTabWidget->clear();
 //    ui->OtherPartyTabWidget->clear();
@@ -139,9 +139,9 @@ void IntakeForm::testFunction()
 // initilizes vector with one new party details form
 void IntakeForm::initPartys()
 {
-    partys.push_back(new PartyDetailsForm());
+    partys.push_back(new PersonDetailsForm());
     partys.at(0)->SetPerson(_currentIntake.newParty());
-    partys.push_back(new PartyDetailsForm());
+    partys.push_back(new PersonDetailsForm());
     partys.at(1)->SetPerson(_currentIntake.newParty());
     ui->mainPartyTabWidget->addTab(partys[0],"Party 1");
     ui->OtherPartyTabWidget->addTab(partys[1],"Party 2");
@@ -149,7 +149,7 @@ void IntakeForm::initPartys()
 // adds a new tab to widget
 void IntakeForm::on_addButton_clicked()
 {
-    partys.push_back(new PartyDetailsForm());
+    partys.push_back(new PersonDetailsForm());
     partys.at(partys.size() - 1)->SetPerson(_currentIntake.newParty());
     ui->OtherPartyTabWidget->addTab(partys[partys.size() - 1], QString::fromStdString("Party " + std::to_string(ui->OtherPartyTabWidget->count()+2)));
     ui->OtherPartyTabWidget->setCurrentIndex(ui->OtherPartyTabWidget->count()-1);
