@@ -35,7 +35,7 @@ public:
     Person(QString n);
 
     // Accessors
-     void setName(std::string fName, std::string mName, std::string lName) { _firstName=fName; _middleName=mName; _lastName=lName;};
+     void setName(std::string fName, std::string mName, std::string lName) { _firstName=fName; _middleName=mName; _lastName=lName;}
     std::string getFirstName() const { return _firstName; }
     std::string getMiddleName() const { return _middleName; }
     std::string getLastName() const { return _lastName; }
@@ -79,6 +79,9 @@ public:
 
     std::string getAttorney() const { return _attorney; }
     void setAttorney(std::string value) { _attorney = value; }
+
+    // Helpers
+    QString FullName() { return QString::fromStdString(_firstName + " " + _lastName); }
 
     // Test Data - Fill the object with test values in every field.
     static Person *SampleData();

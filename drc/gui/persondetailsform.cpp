@@ -15,7 +15,12 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person)
     ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
     ui->numInHomeLineEdit->setValidator(new QIntValidator(ui->numInHomeLineEdit));
 
-    SetEditMode(true);
+    // If a valid person object was passed, display it and don't go into edit mode.
+    if(person)
+        UpdateLabels();
+    else
+        SetEditMode(true);      // Blank record, start in edit mode.
+
 }
 
 PersonDetailsForm::~PersonDetailsForm()

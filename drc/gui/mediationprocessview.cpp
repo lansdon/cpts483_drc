@@ -5,6 +5,7 @@
 #include "mediationprocess.h"
 #include "partiescontainerform.h"
 #include "party.h"
+#include <QToolBox>
 
 
 MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* mediationProcess) :
@@ -17,12 +18,13 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     // TEMP SAMPLE DATA
     _mediationProcess = MediationProcess::SampleData();
 
-    ui->toolBox->removeItem(0);
-
-    ui->toolBox->addItem(new PartiesContainerForm(this, _mediationProcess->GetParty1(), _mediationProcess->GetParty2()), "Parties");
+    QToolBox* toolBox = new QToolBox(this);
+    toolBox->addItem(new PartiesContainerForm(toolBox, _mediationProcess->GetParty1(), _mediationProcess->GetParty2()), "Parties");
 
     _MediationSessionTabWidget = new QTabWidget();
-    ui->toolBox->addItem(new MediationSession(),"Mediation Sessions");
+    toolBox->addItem(new MediationSession(toolBox),"Mediation Sessions");
+
+    ui->gridLayout->addWidget(toolBox);
 
 }
 

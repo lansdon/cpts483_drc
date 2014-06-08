@@ -6,22 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>515</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <item>
-    <widget class="QWidget" name="primaryFrame" native="true"/>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="observerGroup">
+     <property name="title">
+      <string>Observers</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="0" column="0">
+       <widget class="QTableWidget" name="observerTable"/>
+      </item>
+     </layout>
+     <zorder>observerTable</zorder>
+     <zorder>observerTable</zorder>
+    </widget>
    </item>
-   <item>
-    <widget class="QTableWidget" name="observerTable"/>
+   <item row="0" column="0" colspan="2">
+    <widget class="QWidget" name="primaryFrame" native="true">
+     <zorder>observerTable</zorder>
+    </widget>
    </item>
-   <item>
-    <widget class="QGroupBox" name="groupBox">
+   <item row="2" column="0" colspan="2">
+    <widget class="QGroupBox" name="detailsGroup">
      <property name="title">
       <string>Details:</string>
      </property>
@@ -39,6 +52,18 @@
          <string>TextLabel</string>
         </property>
        </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="1">
+    <widget class="QGroupBox" name="childrenGroup">
+     <property name="title">
+      <string>Children</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QTableWidget" name="childrenTable"/>
       </item>
      </layout>
     </widget>
