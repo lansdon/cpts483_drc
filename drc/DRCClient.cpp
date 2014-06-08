@@ -12,7 +12,7 @@
 #include "loginform.h"
 #include "queryform.h"
 #include "Mediator.h"
-#include "UserType.h"
+#include "drctypes.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -53,8 +53,8 @@ void DRCClient::CurrentUserChanged(MediatorArg arg)
     User* tmpUser = arg.getArg<User*>();
     if(arg.IsSuccessful() && tmpUser)
     {
-        isAdmin = (tmpUser->GetType() == SUPER_USER || tmpUser->GetType() == ADMIN);
-        showMenus = (isAdmin || tmpUser->GetType() == NORMAL_USER);
+        isAdmin = (tmpUser->GetType() == USER_T_SUPER_USER || tmpUser->GetType() == USER_T_ADMIN);
+        showMenus = (isAdmin || tmpUser->GetType() == USER_T_NORMAL);
     }
     SetMenusEnabled(showMenus, isAdmin);
 }

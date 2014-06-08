@@ -24,9 +24,9 @@ MediationProcess *MediationProcess::SampleData()
     result->_party1 = *Party::SampleData();
     result->_party2 = *Party::SampleData();
     result->_countyOfMediation = COUNTY_BENTON;
-    result->_disputeType = DISPUTE_TYPE_NONE;
+    result->_disputeType = DISPUTE_T_NONE;
     result->_processState = PROCESS_STATE_NONE;
-    result->_referalSource = REFERRAL_TYPE_NONE;
+    result->_referalSource = REFERRAL_T_NONE;
 
     return result;
 }

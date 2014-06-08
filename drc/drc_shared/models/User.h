@@ -4,7 +4,7 @@
 #include "DBBaseObject.h"
 
 #include <string>
-#include "UserType.h"
+#include "drctypes.h"
 
 using namespace std;
 
@@ -13,7 +13,7 @@ class User : public DBBaseObject
 private:
 	string m_userName;
 	string m_password;
-	UserType m_type;
+    UserTypes m_type;
 
 public:
 	User();
@@ -24,7 +24,7 @@ public:
 	string GetPass(void);
 	void SetPassword(string password);
 
-	UserType GetType(void);
+    UserTypes GetType(void);
 	string GetTypeString(void);
 
 	string Parse(void);

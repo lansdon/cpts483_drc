@@ -1,6 +1,7 @@
 #include "CurrentUser.h"
 #include "Mediator.h"
 #include "MediatorKeys.h"
+#include "drctypes.h"
 
 
 bool UserInfo::IsTimedOut()

@@ -12,7 +12,7 @@ typedef std::vector<Person*> PersonVector;
 
 enum DisputeTypes
 {
-    DISPUTE_TYPE_NONE
+    DISPUTE_T_NONE
 
     // TO DO FILL THIS IN!!!!
 };
@@ -33,17 +33,24 @@ enum CountyIds
 
 enum ReferralTypes
 {
-    REFERRAL_TYPE_NONE
+    REFERRAL_T_NONE
 
     // TO DO - FILL THIS IN
 };
 
 enum PartyTypes
 {
-    PARTY_TYPE_NONE,
-    PARTY_TYPE_FIRST,
-    PARTY_TYPE_SECOND
+    PARTY_T_NONE,
+    PARTY_T_FIRST,
+    PARTY_T_SECOND
 };
 
+enum UserTypes
+{
+    USER_T_NONE,        // 0
+    USER_T_SUPER_USER,
+    USER_T_ADMIN,
+    USER_T_NORMAL
+};
 
 #endif // DRCTYPES_H
