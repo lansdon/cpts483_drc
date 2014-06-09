@@ -142,8 +142,6 @@ void PartyForm::ObserverChanged(Person* p)
 
 void PartyForm::ObserverDeleted(Person* p)
 {
-    qDebug() << "Observer deleted callback.";
-
     _party->RemoveObserver(p);
 
     PopulateObserverTable();

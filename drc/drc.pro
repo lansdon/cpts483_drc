@@ -51,7 +51,12 @@ SOURCES += main.cpp\
     drc_shared/models/party.cpp \
     drc_shared/models/mediationprocess.cpp \
     gui/partiescontainerform.cpp \
-    gui/mediationprocessstatusform.cpp
+    gui/mediationprocessstatusform.cpp \
+    gui/searchwizard/searchwizard.cpp \
+    gui/searchwizard/searchwizardintro.cpp \
+    gui/searchwizard/searchwizardselecttype.cpp \
+    gui/searchwizard/searchwizardparameters.cpp \
+    gui/searchwizard/searchwizardresults.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -95,7 +100,12 @@ HEADERS  += \
     drc_shared/models/mediationprocess.h \
     drc_shared/drctypes.h \
     gui/partiescontainerform.h \
-    gui/mediationprocessstatusform.h
+    gui/mediationprocessstatusform.h \
+    gui/searchwizard/searchwizard.h \
+    gui/searchwizard/searchwizardintro.h \
+    gui/searchwizard/searchwizardselecttype.h \
+    gui/searchwizard/searchwizardparameters.h \
+    gui/searchwizard/searchwizardresults.h
 
 FORMS    += \
     DRCClient.ui \

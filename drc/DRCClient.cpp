@@ -13,6 +13,7 @@
 #include "queryform.h"
 #include "Mediator.h"
 #include "drctypes.h"
+#include "searchwizard/searchwizard.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -95,7 +96,7 @@ void DRCClient::on_actionNew_Form_triggered()
 
 void DRCClient::on_actionNew_search_form_triggered()
 {
-    setCentralWidget(new QueryForm());
+    setCentralWidget(new SearchWizard(this));
 }
 
 void DRCClient::on_actionOpen_mediation_view_triggered()
