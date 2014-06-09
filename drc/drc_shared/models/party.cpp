@@ -3,6 +3,7 @@
 #include "persondetailsform.h"
 #include "drctypes.h"
 #include <sstream>
+#include <QDebug>
 
 Party::Party()
 {
@@ -29,4 +30,19 @@ Party *Party::SampleData()
     result->AddChild(Person::SampleData());
 
     return result;
+}
+
+
+void Party::RemoveObserver(Person *person)
+{
+    for(auto it = _observers.begin(); it != _observers.end(); ++it)
+    {
+        qDebug() << *it << " == " << person;
+        if(*it == person)
+        {
+            _observers.erase(it);
+            qDebug() << "OBSERVER REMOVED FROM PARTY";
+            break;
+        }
+    }
 }

@@ -3,11 +3,12 @@
 #include "Person.h"
 #include <QDebug>
 
-PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person)
+PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopup)
     : QWidget(parent)
     , ui(new Ui::PersonDetailsForm)
     , _person(person ? person : new Person())
     , _shouldCleanPersonPointer(person == nullptr)
+    , _bPopup(bPopup)
 {
     ui->setupUi(this);
 
@@ -177,8 +178,12 @@ void PersonDetailsForm::on_saveButton_clicked()
     _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
     _person->setAttorney(ui->attorneyLineEdit->text().toStdString());
 
-    // To do - Send Save Party signal
+    emit PersonSaved(_person);
 
+    if(_bPopup)
+    {
+        this->close();
+    }
 }
 
 void PersonDetailsForm::on_editButton_clicked()
@@ -188,11 +193,16 @@ void PersonDetailsForm::on_editButton_clicked()
 
 void PersonDetailsForm::on_deleteButton_clicked()
 {
+    emit PersonDeleted(_person);
+
     SetEditMode(true);
     _person = new Person();
     UpdateLabels();
 
-    // To do, send Delete Party signal
+    if(_bPopup)
+    {
+        this->close();
+    }
 }
 
 void PersonDetailsForm::SetEditMode(bool editModeOn)

@@ -25,6 +25,7 @@ public:
     Person& GetAttorney() { return _attorney; }
 
     void AddObserver(Person* person) { if(person) _observers.push_back(person); }
+    void RemoveObserver(Person* person);
     void AddChild(Person* person) { if(person) _children.push_back(person); }
     // Test Data - Fill the object with test values in every field.
     static Party* SampleData();

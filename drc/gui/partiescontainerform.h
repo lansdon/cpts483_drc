@@ -17,6 +17,7 @@ public:
     explicit PartiesContainerForm(QWidget *parent = 0, Party* party1 = nullptr, Party* party2 = nullptr);
     ~PartiesContainerForm();
 
+
 private:
     Ui::PartiesContainerForm *ui;
 

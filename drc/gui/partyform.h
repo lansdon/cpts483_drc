@@ -6,6 +6,7 @@
 #include <QStringList>
 
 class Party;
+class Person;
 
 namespace Ui {
 class PartyForm;
@@ -38,6 +39,8 @@ public:
 private slots:
     void ObserverCellSelected(int nRow, int nCol);
     void ChildCellSelected(int nRow, int nCol);
+    void ObserverChanged(Person* p);
+    void ObserverDeleted(Person* p);
 
 private:
     Ui::PartyForm *ui;

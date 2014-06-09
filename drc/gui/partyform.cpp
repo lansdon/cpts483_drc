@@ -7,6 +7,7 @@
 #include <QStringList>
 #include <QApplication>
 #include <QMessageBox>
+#include <QDebug>
 
 
 PartyForm::PartyForm(QWidget *parent, Party* party) :
@@ -38,10 +39,18 @@ PartyForm::~PartyForm()
 
 void PartyForm::ObserverCellSelected(int nRow, int nCol)
 {
-    QMessageBox::information(this, "",
-                            "Observer cell at row "+QString::number(nRow)+
-                             " column "+QString::number(nCol)+
-                             " was double clicked.");
+    PersonDetailsForm* editWindow = new PersonDetailsForm(this, _party->GetObservers()[nRow], true);
+    editWindow->setWindowFlags(Qt::Popup);
+
+    connect(editWindow, SIGNAL(PersonDeleted(Person*)), this, SLOT(ObserverDeleted(Person*)));
+    connect(editWindow, SIGNAL(PersonSaved(Person*)), this, SLOT(ObserverChanged(Person*)));
+
+    editWindow->show();
+
+//    QMessageBox::information(this, "",
+//                            "Observer cell at row "+QString::number(nRow)+
+//                             " column "+QString::number(nCol)+
+//                             " was double clicked.");
 }
 
 void PartyForm::ChildCellSelected(int nRow, int nCol)
@@ -124,4 +133,22 @@ void PartyForm::PopulateChildrenTable()
 
         _childrenTable->setItem(row, CCOL_NAME, new QTableWidgetItem(o->FullName()));
     }
+}
+
+void PartyForm::ObserverChanged(Person* p)
+{
+    PopulateObserverTable();
+
+    // To-do persist changes!
+}
+
+void PartyForm::ObserverDeleted(Person* p)
+{
+    qDebug() << "Observer deleted callback.";
+
+    _party->RemoveObserver(p);
+
+    PopulateObserverTable();
+
+    // To-do persist changes!
 }
