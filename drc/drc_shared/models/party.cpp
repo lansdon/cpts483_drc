@@ -37,11 +37,21 @@ void Party::RemoveObserver(Person *person)
 {
     for(auto it = _observers.begin(); it != _observers.end(); ++it)
     {
-        qDebug() << *it << " == " << person;
         if(*it == person)
         {
             _observers.erase(it);
-            qDebug() << "OBSERVER REMOVED FROM PARTY";
+            break;
+        }
+    }
+}
+
+void Party::RemoveChild(Person *person)
+{
+    for(auto it = _children.begin(); it != _children.end(); ++it)
+    {
+        if(*it == person)
+        {
+            _children.erase(it);
             break;
         }
     }

@@ -41,6 +41,8 @@ private slots:
     void ChildCellSelected(int nRow, int nCol);
     void ObserverChanged(Person* p);
     void ObserverDeleted(Person* p);
+    void ChildChanged(Person* p);
+    void ChildDeleted(Person* p);
 
 private:
     Ui::PartyForm *ui;
