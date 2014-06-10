@@ -11,24 +11,14 @@ class DRCDB
 private:
     QSqlDatabase database;
 
-    bool ExecuteCommand(QString command_string);
-
-    void DebugDisplay(QString error_message, bool active = true);
-
 public:
     DRCDB();
 
     DRCDB(QString database_name);
 
-    QString GetDatabaseName();
-
     bool OpenDatabase(QString database_name);
 
-    QString WhatDriver();
-
     bool CloseDatabase();
-
-    bool CheckTableExists(QString table_name);
 
     bool CreateTable(QString table_name, QVector<QString> column_data);
 
@@ -36,6 +26,20 @@ public:
 
     void WhatLastError(const QSqlQuery &query_object);
 
+
+    //  Methods that aren't necessary, but are helpful for testing.
+    //======================================================================
+private:
+    bool ExecuteCommand(QString command_string);
+
+    void DebugDisplay(QString error_message, bool active = false);
+
+public:
+    QString GetDatabaseName();
+
+    QString WhatDriver();
+
+    bool CheckTableExists(QString table_name);
 };
 
 #endif // DRCDB_H

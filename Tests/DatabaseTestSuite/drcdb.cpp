@@ -7,14 +7,6 @@ using std::vector;
 
 #define db_driver "QSQLITE"
 
-void DRCDB::DebugDisplay(QString error_message, bool active)
-{
-    if (active)
-    {
-        qDebug() << "\n" << error_message;
-    }
-}
-
 DRCDB::DRCDB()
 {
 }
@@ -22,12 +14,6 @@ DRCDB::DRCDB()
 DRCDB::DRCDB(QString database_name)
 {
     this->OpenDatabase(database_name);
-}
-
-
-QString DRCDB::GetDatabaseName()
-{
-    return database.databaseName();
 }
 
 bool DRCDB::OpenDatabase(QString database_name)
@@ -42,42 +28,12 @@ bool DRCDB::OpenDatabase(QString database_name)
     return database.open();
 }
 
-
-//The driver is the SQL driver being used by the program.
-//In our case, the driver we're using is called "QSQLITE",
-//which is the sqlite3 driver for Qt.
-QString DRCDB::WhatDriver()
-{
-    return database.driverName();
-}
-
 bool DRCDB::CloseDatabase()
 {
     database.close();
     return database.isOpen();
 }
 
-
-//Code could be written in one line; however, the return value isn't
-//what you'd expect these kind of methods to return.  By explictly
-//stating the return type, those who read this code later will have
-//a better idea of what's going on as opposed to spending time sifting
-//through additional documentation.
-bool DRCDB::CheckTableExists(QString table_name)
-{
-    QStringList table_list = database.tables();
-
-    return table_list.contains(table_name);
-}
-
-
-//Query object can be implicitly initialized without passing
-//the QSQLDatabase object to the constructor.  However, it is
-//slightly more obvious as to where it's getting its information.
-
-//Prepare checks the potential SQL command for validity.  While it seems
-//tedious, it apparently is more efficient than letting an erroneous
-//command be executed directly.
 bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 {
     QString command_string = QString("create table %1 ").arg(table_name);
@@ -108,11 +64,6 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
     return this->ExecuteCommand(command_string);
 }
 
-void DRCDB::WhatLastError(const QSqlQuery &query_object)
-{
-    qDebug() << "\n" << query_object.lastError();
-}
-
 bool DRCDB::ExecuteCommand(QString command_string)
 {
     QSqlQuery query_object(database);
@@ -124,6 +75,56 @@ bool DRCDB::ExecuteCommand(QString command_string)
         this->WhatLastError(query_object);
     return query_object.exec();
 }
+
+//Methods below this line are necessarily vital, but are helpful for testing.
+//=======================================================================================================
+
+void DRCDB::DebugDisplay(QString error_message, bool active)
+{
+    if (active)
+    {
+        qDebug() << "\n" << error_message;
+    }
+}
+
+QString DRCDB::GetDatabaseName()
+{
+    return database.databaseName();
+}
+
+//The driver is the SQL driver being used by the program.
+//In our case, the driver we're using is called "QSQLITE",
+//which is the sqlite3 driver for Qt.
+QString DRCDB::WhatDriver()
+{
+    return database.driverName();
+}
+
+//Code could be written in one line; however, the return value isn't
+//what you'd expect these kind of methods to return.  By explictly
+//stating the return type, those who read this code later will have
+//a better idea of what's going on as opposed to spending time sifting
+//through additional documentation.
+bool DRCDB::CheckTableExists(QString table_name)
+{
+    QStringList table_list = database.tables();
+
+    return table_list.contains(table_name);
+}
+
+void DRCDB::WhatLastError(const QSqlQuery &query_object)
+{
+    qDebug() << "\n" << query_object.lastError();
+}
+
+//Query object can be implicitly initialized without passing
+//the QSQLDatabase object to the constructor.  However, it is
+//slightly more obvious as to where it's getting its information.
+
+//Prepare checks the potential SQL command for validity.  While it seems
+//tedious, it apparently is more efficient than letting an erroneous
+//command be executed directly.
+
 
 //vector<string>* DRCDB::SelectAllField()
 //{
