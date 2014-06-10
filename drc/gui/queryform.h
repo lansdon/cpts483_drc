@@ -47,6 +47,7 @@ private:
     // Async Calls to DB
     AsyncMediatorCall* _asyncQueryPerson;
 
+    PersonVector* _personResults;
 
 };
 

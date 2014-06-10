@@ -57,11 +57,13 @@ void QueryForm::on_searchButton_clicked()
 {
     if(_searchType == SEARCH_T_PERSON)
     {
+        qDebug() << "Searching Person";
         PersonDetailsForm* f = (PersonDetailsForm*)_currentInputForm;
         f->SetEditMode(false); // causes save
         f->SetEditMode(true);
 
         _asyncQueryPerson->GetMediatorArg().SetArg(f->GetPerson());
+        _asyncQueryPerson->Send();
     }
 }
 
@@ -180,5 +182,14 @@ void QueryForm::ResultCellSelected(int nRow, int nCol)
 
 void QueryForm::RecievedPersonResult(MediatorArg arg)
 {
+    qDebug() << "Person Results recieved!";
 
+    if(arg.IsSuccessful())
+    {
+
+    }
+    else
+    {
+//        qDebug() << "Person Results error:" << arg.ErrorMessage();
+    }
 }
