@@ -46,7 +46,8 @@ SOURCES += main.cpp\
     gui/attorneyandsupportformediationsessionview.cpp \
     gui/detailsview.cpp \
     gui/childrenview.cpp \
-    drc_shared/models/CurrentUser.cpp
+    drc_shared/models/CurrentUser.cpp \
+    bl/personvalidator.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -85,7 +86,8 @@ HEADERS  += \
     gui/attorneyandsupportformediationsessionview.h \
     gui/detailsview.h \
     gui/childrenview.h \
-    drc_shared/models/CurrentUser.h
+    drc_shared/models/CurrentUser.h \
+    bl/personvalidator.h
 
 FORMS    += \
     DRCClient.ui \
