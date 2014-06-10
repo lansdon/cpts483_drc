@@ -19,14 +19,17 @@ enum PersonTableColumns
     PCOL_ADDRESS,
     PCOL_COUNTY,
     PCOL_ATTORNEY
-
 };
 
 enum MediationTableColumns
 {
-    OCOL_ID = 0,
-    OCOL_NAME,
-    OCOL_ROLE
+    MCOL_ID = 0,
+    MCOL_PARTY1,
+    MCOL_PARTY2,
+    MCOL_STATUS,
+    MCOL_DISPUTE_TYPE,
+    MCOL_CREATE_DATE,
+    MCOL_OUTCOME
 };
 
 
@@ -34,7 +37,8 @@ QueryForm::QueryForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QueryForm),
     _currentInputForm(nullptr),
-    _resultsTable(nullptr)
+    _resultsTable(nullptr),
+    _mediationResults(nullptr)
 {
     ui->setupUi(this);
 
@@ -44,6 +48,7 @@ QueryForm::QueryForm(QWidget *parent) :
 
 
     _asyncQueryPerson = new AsyncMediatorCall(MKEY_GUI_QUERY_PERSON, MKEY_DB_QUERY_PERSON, [this](MediatorArg arg){RecievedPersonResult(arg);}, nullptr, true);
+    _asyncQueryMediation = new AsyncMediatorCall(MKEY_GUI_QUERY_MEDIATION, MKEY_DB_QUERY_MEDIATION, [this](MediatorArg arg){RecievedMediationResult(arg);}, nullptr, true);
 
 }
 
@@ -83,6 +88,16 @@ void QueryForm::on_searchButton_clicked()
 
         _asyncQueryPerson->GetMediatorArg().SetArg(f->GetPerson());
         _asyncQueryPerson->Send();
+    }
+    else if(_searchType == SEARCH_T_MEDIATION)
+    {
+        qDebug() << "Searching Mediation";
+        MediationProcessView* f = (MediationProcessView*)_currentInputForm;
+//        f->SetEditMode(false); // causes save
+//        f->SetEditMode(true);
+
+        _asyncQueryMediation->GetMediatorArg().SetArg(f->GetMediationProcess());
+        _asyncQueryMediation->Send();
     }
 }
 
@@ -142,7 +157,7 @@ void QueryForm::ConfigResultsTable()
         break;
 
     case SEARCH_T_MEDIATION:
-        _resultsTableHeader <<"#"<<"Party 1"<<"Party 2"<<"Status"<<"Next Date"<<"Creation Date"<<"Outcome";
+        _resultsTableHeader <<"#"<<"Party 1"<<"Party 2"<<"Status"<<"Dispute Type"<<"Creation Date"<<"Outcome";
         _resultsTable->setColumnCount(7);
         break;
 
@@ -196,6 +211,25 @@ void QueryForm::PopulateResultsTable()
         }
     }
 
+    if(_searchType == SEARCH_T_MEDIATION)
+    {
+        qDebug() << "Mediation result size=" << _mediationResults->size();
+        _resultsTable->setRowCount(_mediationResults->size());
+        for(int row=0; row < (int)_mediationResults->size(); ++row)
+        {
+            //insert data
+            MediationProcess* o = (*_mediationResults)[row];
+            qDebug() << "Mediation name=" << o->GetParty1()->GetPrimary().FullName();
+            _resultsTable->setItem(row, MCOL_ID, new QTableWidgetItem(QString::number(row+1)));
+            _resultsTable->setItem(row, MCOL_CREATE_DATE, new QTableWidgetItem(o->GetCreationDate().toString("MM-dd-yy")));
+            _resultsTable->setItem(row, MCOL_DISPUTE_TYPE, new QTableWidgetItem(o->GetDisputeType()));
+//            _resultsTable->setItem(row, MCOL_OUTCOME, new QTableWidgetItem(QString::fromStdString(o->())));
+            _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(o->GetParty1()->GetPrimary().FullName()));
+            _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(o->GetParty2()->GetPrimary().FullName()));
+            _resultsTable->setItem(row, MCOL_STATUS, new QTableWidgetItem(o->GetCurrentState()));
+        }
+    }
+
 }
 
 void QueryForm::ResultCellSelected(int nRow, int nCol)
@@ -219,6 +253,30 @@ void QueryForm::RecievedPersonResult(MediatorArg arg)
         if(result)
         {
             _personResults = new PersonVector(*result);
+            PopulateResultsTable();
+        }
+        else
+        {
+            qDebug() << "Query person - invalid results";
+        }
+    }
+    else
+    {
+        qDebug() << "Person Results error:" <<  QString::fromStdString( arg.ErrorMessage() );
+    }
+}
+
+
+void QueryForm::RecievedMediationResult(MediatorArg arg)
+{
+    qDebug() << "Mediation Results recieved!";
+
+    if(arg.IsSuccessful())
+    {
+        MediationProcessVector* result = arg.getArg<MediationProcessVector*>();
+        if(result)
+        {
+            _mediationResults = new MediationProcessVector(*result);
             PopulateResultsTable();
         }
         else

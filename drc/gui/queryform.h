@@ -26,6 +26,7 @@ private slots:
     void on_searchButton_clicked();
 
     void RecievedPersonResult(MediatorArg arg);
+    void RecievedMediationResult(MediatorArg arg);
 
 public slots:
      void ResultCellSelected(int nRow, int nCol);
@@ -46,9 +47,10 @@ private:
 
     // Async Calls to DB
     AsyncMediatorCall* _asyncQueryPerson;
+    AsyncMediatorCall* _asyncQueryMediation;
 
     PersonVector* _personResults;
-
+    MediationProcessVector* _mediationResults;
 };
 
 #endif // QUERYFORM_H

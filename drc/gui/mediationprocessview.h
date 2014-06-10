@@ -22,6 +22,8 @@ public:
     ~MediationProcessView();
     int getNumberOfParty();
 
+    MediationProcess* GetMediationProcess() { return _mediationProcess; }
+
 private slots:
 
     void on_toolBox_currentChanged(int index);
