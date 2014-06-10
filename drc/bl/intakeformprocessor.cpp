@@ -30,7 +30,7 @@ void IntakeFormProcessor::Process(MediatorArg arg)
         success = ValidateIntakeForm(intake, errorMessage);
     }
 
-    qDebug() << "BL -> ValidateSaveIntakeRequest Complete";
+    qDebug() << "BL -> "+ QString::fromStdString(_regProcess) +" Complete";
     Mediator::Call(_sendProcess, intake, success, errorMessage);
 }
 
@@ -47,7 +47,7 @@ void IntakeFormProcessor::Load(MediatorArg arg)
         success = ValidateIntakeForm(intake, errorMessage);
     }
 
-    qDebug() << "BL -> ValidateLoadIntakeRequest Complete";
+    qDebug() << "BL -> "+ QString::fromStdString(_regLoad) +" Complete";
     Mediator::Call(_sendLoad, intake, success, errorMessage);
 }
 

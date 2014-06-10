@@ -8,6 +8,7 @@
 #include "fruitnameprocessor.h"
 #include "intakeformprocessor.h"
 #include "userloginprocessor.h"
+#include "personprocessor.h"
 
 class MediatorArg;
 
@@ -23,6 +24,7 @@ private:
     FruitNameProcessor  _fruitNameProcessor;
     IntakeFormProcessor _intakeFormProcessor;
     UserLoginProcessor _userLoginProcessor;
+    PersonProcessor _personProcessor;
 };
 
 //}   // end namespace
