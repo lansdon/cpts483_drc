@@ -35,8 +35,8 @@ private:
     void ConfigureInputForm();
 
     // Results Table
-    QTableWidget* _resultTable;
-    QStringList _resultTableHeader;
+    QTableWidget* _resultsTable;
+    QStringList _resultsTableHeader;
     void ConfigResultsTable();
     void PopulateResultsTable();
 

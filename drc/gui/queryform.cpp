@@ -9,11 +9,15 @@
 QueryForm::QueryForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::QueryForm),
-    _currentInputForm(nullptr)
+    _currentInputForm(nullptr),
+    _resultsTable(nullptr)
 {
     ui->setupUi(this);
-    QVBoxLayout* layout = new QVBoxLayout(ui->parametersGroupBox);
-    ui->parametersGroupBox->setLayout(layout);
+
+    ui->parametersGroupBox->setLayout(new QVBoxLayout(ui->parametersGroupBox));
+
+    ui->resultsTable->setLayout(new QVBoxLayout(ui->resultsTable));
+
 }
 
 QueryForm::~QueryForm()
@@ -87,48 +91,53 @@ void QueryForm::ConfigureInputForm()
 ///////////////////////////////////////////////////////
 void QueryForm::ConfigResultsTable()
 {
-    _resultTable = new QTableWidget();
+    if(_resultsTable)
+    {
+        delete _resultsTable;
+        _resultsTable = nullptr;
+    }
+
+    _resultsTable = new QTableWidget();
+    _resultsTableHeader.clear();
     switch(_searchType)
     {
     case SEARCH_T_CALL_LOG:
-        _resultTableHeader <<"#"<<"Date"<<"Caller"<<"Operator"<<"Phone #"<<"Reason"<<"Message";
-  //      _resultTable->setRowCount(10);
-        _resultTable->setColumnCount(7);
+        _resultsTableHeader <<"#"<<"Date"<<"Caller"<<"Operator"<<"Phone #"<<"Reason"<<"Message";
+        _resultsTable->setColumnCount(7);
         break;
 
     case SEARCH_T_MEDIATION:
-        _resultTableHeader <<"#"<<"Party 1"<<"Party 2"<<"Status"<<"Next Date"<<"Creation Date"<<"Outcome";
-//        _resultTable->setRowCount(10);
-        _resultTable->setColumnCount(7);
+        _resultsTableHeader <<"#"<<"Party 1"<<"Party 2"<<"Status"<<"Next Date"<<"Creation Date"<<"Outcome";
+        _resultsTable->setColumnCount(7);
         break;
 
     case SEARCH_T_PERSON:
-        _resultTableHeader <<"#"<<"Name"<<"Phone"<<"Email"<<"Address"<<"County"<<"Attorney";
-//        _resultTable->setRowCount(10);
-        _resultTable->setColumnCount(7);
+        _resultsTableHeader <<"#"<<"Name"<<"Phone"<<"Email"<<"Address"<<"County"<<"Attorney";
+        _resultsTable->setColumnCount(7);
         break;
 
     default:
         break;
     }
 
-//    _resultTable = ui->childrenTable;
-    _resultTable->setHorizontalHeaderLabels(_resultTableHeader);
-    _resultTable->verticalHeader()->setVisible(false);
+    _resultsTable->setHorizontalHeaderLabels(_resultsTableHeader);
+    _resultsTable->verticalHeader()->setVisible(false);
 //    _resultTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    _resultTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-    _resultTable->setSelectionMode(QAbstractItemView::SingleSelection);
-    _resultTable->setShowGrid(false);
-    _resultTable->setStyleSheet("QTableView {selection-background-color: red;}");
+    _resultsTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+    _resultsTable->setSelectionMode(QAbstractItemView::SingleSelection);
+    _resultsTable->setShowGrid(false);
+    _resultsTable->setStyleSheet("QTableView {selection-background-color: red;}");
 
-    for (int c = 0; c < _resultTable->horizontalHeader()->count(); ++c)
+    for (int c = 0; c < _resultsTable->horizontalHeader()->count(); ++c)
     {
-        _resultTable->horizontalHeader()->setSectionResizeMode(
+        _resultsTable->horizontalHeader()->setSectionResizeMode(
             c, QHeaderView::Stretch);
     }
 
-    connect( _resultTable, SIGNAL( cellDoubleClicked (int, int) ),
+    connect( _resultsTable, SIGNAL( cellDoubleClicked (int, int) ),
              this, SLOT( ResultCellSelected( int, int ) ) );
+
+    ui->resultsTable->layout()->addWidget(_resultsTable);
 }
 
 void QueryForm::PopulateResultsTable()
