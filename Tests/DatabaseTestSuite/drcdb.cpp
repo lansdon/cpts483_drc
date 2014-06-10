@@ -83,30 +83,20 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
     QString command_string = QString("create table %1 ").arg(table_name);
 
     command_string += "(";
-    foreach(QString column, column_data)
+
+    for (auto index = column_data.begin() ; index < column_data.end() ; ++index)
     {
-        command_string += column;
+        if (index != column_data.begin())
+            command_string += ", ";
+
+        command_string += *index;
     }
+
     command_string += ")";
 
-    QSqlQuery query_object(database);
-
-    this->DebugDisplay(command_string);
-
-    if (!query_object.prepare(command_string))
-        this->WhatLastError(query_object);
-    return query_object.exec();
+    return this->ExecuteCommand(command_string);
 }
 
-//Code could be written in one line; however, the return value isn't
-//what you'd expect these kind of methods to return.  By explictly
-//stating the return type, those who read this code later will have
-//a better idea of what's going on as opposed to spending time sifting
-//through additional documentation.
-void DRCDB::WhatLastError(const QSqlQuery &query_object)
-{
-    qDebug() << "\n" << query_object.lastError();
-}
 
 bool DRCDB::InsertObject(DBBaseObject* db_object)
 {
@@ -115,16 +105,25 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
             .arg(db_object->Parse())
             .arg("null");
 
-    this->DebugDisplay(command_string);
+    return this->ExecuteCommand(command_string);
+}
 
+void DRCDB::WhatLastError(const QSqlQuery &query_object)
+{
+    qDebug() << "\n" << query_object.lastError();
+}
+
+bool DRCDB::ExecuteCommand(QString command_string)
+{
     QSqlQuery query_object(database);
 
+    this->DebugDisplay(command_string);
+
     if (!query_object.prepare(command_string))
+
         this->WhatLastError(query_object);
     return query_object.exec();
 }
-
-
 
 //vector<string>* DRCDB::SelectAllField()
 //{

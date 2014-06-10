@@ -11,6 +11,10 @@ class DRCDB
 private:
     QSqlDatabase database;
 
+    bool ExecuteCommand(QString command_string);
+
+    void DebugDisplay(QString error_message, bool active = true);
+
 public:
     DRCDB();
 
@@ -32,7 +36,6 @@ public:
 
     void WhatLastError(const QSqlQuery &query_object);
 
-    void DebugDisplay(QString error_message, bool active = false);
 };
 
 #endif // DRCDB_H

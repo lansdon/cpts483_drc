@@ -51,7 +51,7 @@ private slots:
 
         //For the sake of this Test Suite, we delete database after every run.
         //Comment out if undesirable; IE, looking inside file directly.
-        //QCOMPARE(QFile::remove(database_name), true);
+        QCOMPARE(QFile::remove(database_name), true);
     }
 };
 
@@ -59,6 +59,7 @@ private slots:
 //======================================================
 DatabaseTestSuite::DatabaseTestSuite()
 {
+    //In the event that we have an existing .db with the same name.
     QFile::remove(database_name);
 
     //Name of the database we're using / creating.
@@ -71,8 +72,8 @@ DatabaseTestSuite::DatabaseTestSuite()
     table_name = QString("Albertsons");
 
     //Name and Datatypes of all Table columns
-    column_container.push_back(QString("time_stamp int not null, "));
-    column_container.push_back(QString("fruit_name char(50) not null, "));
+    column_container.push_back(QString("time_stamp int not null"));
+    column_container.push_back(QString("fruit_name char(50) not null"));
     column_container.push_back(QString("id integer primary key autoincrement null"));
 
 }
@@ -121,7 +122,6 @@ void DatabaseTestSuite::InsertObject()
     QCOMPARE(_db.InsertObject(&Apple), true);
     QCOMPARE(_db.InsertObject(&Orange), true);
     QCOMPARE(_db.InsertObject(&Peach), true);
-
 }
 
     //So far, can't figure out how to trigger the last error method.
