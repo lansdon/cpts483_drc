@@ -3,7 +3,7 @@
 
 Mock_Server::Mock_Server()
 {
-    Mediator::Register(MKEY_GUI_SEARCH_FOR_USERNAME, [this](MediatorArg arg){SendResults(arg); });
+    Mediator::Register(MKEY_GUI_QUERY_PERSON, [this](MediatorArg arg){SendResults(arg); });
 }
 void Mock_Server::PrintPerson(Person *input, std::fstream &file)
 {
@@ -12,9 +12,9 @@ void Mock_Server::PrintPerson(Person *input, std::fstream &file)
     file.open("test.out",std::fstream::out | std::fstream::app);
     if(file.is_open())
     {
-        file << std::ctime(&tm) << std::endl;
-        file << input->FullName().toUtf8().constData() <<std::endl;
-        file << input->getState()<<std::endl<<std::endl;
+        file << "Time tested: " << std::ctime(&tm) << std::endl;
+        file << "Test data(Full Name): " << input->FullName().toUtf8().constData() <<std::endl;
+        file << "Test data(get state): " << input->getState()<<std::endl<<std::endl;
         file << "------------------------------------------------------------------"<<std::endl<<std::endl;
         file.close();
     }
@@ -30,5 +30,5 @@ void Mock_Server::SendResults(MediatorArg Myarg)
         Person *temp = Person::SampleData();
         _personVector.push_back(temp);
     }
-    Mediator::Call(MKEY_BL_RETURN_SEARCH_RESULTS,&_personVector);
+    Mediator::Call(MKEY_DB_QUERY_PERSON,&_personVector);
 }
