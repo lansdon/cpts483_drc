@@ -4,44 +4,44 @@ PersonValidator::PersonValidator()
 {
 }
 
-bool PersonValidator::Validate(Person* person) const
+bool PersonValidator::Validate(Person* person, QString& errorMessage) const
 {
     bool success = true;
-    QString errorMessage = "";
 
-    success &= validateName(person->getFirstName(), errorMessage);
-    success &= validateName(person->getMiddleName(), errorMessage);
-    success &= validateName(person->getLastName(), errorMessage);
-    success &= validateStreet(person->getStreet(), errorMessage);
-    success &= validateUnit(person->getUnit(), errorMessage);
-    success &= validate
+    success &= ValidateName(person->getFirstName(), errorMessage);
+    success &= ValidateName(person->getMiddleName(), errorMessage);
+    success &= ValidateName(person->getLastName(), errorMessage);
+    success &= ValidateStreet(person->getStreet(), errorMessage);
+    success &= ValidateUnit(person->getUnit(), errorMessage);
+
+    return success;
 }
 
-bool PersonValidator::validateName(QString name, QString& errorMessage) const
+bool PersonValidator::ValidateName(std::string name, QString& errorMessage) const
 {
     return true;
 }
-bool PersonValidator::validateEmail(QString email, QString& errorMessage) const
+bool PersonValidator::ValidateEmail(std::string email, QString& errorMessage) const
 {
     return true;
 }
-bool PersonValidator::ValidatePhoneNumber(QString number, QString& errorMessage) const
+bool PersonValidator::ValidatePhoneNumber(std::string number, QString& errorMessage) const
 {
     return true;
 }
-bool PersonValidator::ValidateCity(QString city, QString& errorMessage) const
+bool PersonValidator::ValidateCity(std::string city, QString& errorMessage) const
 {
     return true;
 }
-bool PersonValidator::ValidateZip(QString zip, QString& errorMessage) const
+bool PersonValidator::ValidateZip(std::string zip, QString& errorMessage) const
 {
     return true;
 }
-bool PersonValidator::ValidateStreet(QString zip, QString& errorMessage) const
+bool PersonValidator::ValidateStreet(std::string zip, QString& errorMessage) const
 {
     return true;
 }
-bool PersonValidator::ValidateUnit(QString unit, QString& errorMessage) const
+bool PersonValidator::ValidateUnit(std::string unit, QString& errorMessage) const
 {
     return true;
 }

@@ -2,20 +2,21 @@
 #define PERSONVALIDATOR_H
 
 #include <QString>
+#include "Person.h"
 
 class PersonValidator
 {
 public:
     PersonValidator();
-    Validate(Person* person) const;
+    bool Validate(Person* person, QString& errorMessage) const;
 private:
-    bool validateName(QString name, QString& errorMessage) const;
-    bool validateEmail(QString email, QString& errorMessage) const;
-    bool ValidatePhoneNumber(QString number, QString& errorMessage) const;
-    bool ValidateCity(QString city, QString& errorMessage) const;
-    bool ValidateZip(QString zip, QString& errorMessage) const;
-    bool ValidateStreet(QString zip, QString& errorMessage) const;
-    bool ValidateUnit(QString unit, QString& errorMessage) const;
+    bool ValidateName(std::string name, QString& errorMessage) const;
+    bool ValidateEmail(std::string email, QString& errorMessage) const;
+    bool ValidatePhoneNumber(std::string number, QString& errorMessage) const;
+    bool ValidateCity(std::string city, QString& errorMessage) const;
+    bool ValidateZip(std::string zip, QString& errorMessage) const;
+    bool ValidateStreet(std::string zip, QString& errorMessage) const;
+    bool ValidateUnit(std::string unit, QString& errorMessage) const;
     bool ValidateNumberInHousehold(int num, QString& errorMessage) const;
 };
 
