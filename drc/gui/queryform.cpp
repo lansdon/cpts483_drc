@@ -179,10 +179,13 @@ void QueryForm::PopulateResultsTable()
 {
     if(_searchType == SEARCH_T_PERSON)
     {
+        qDebug() << "Person result size=" << _personResults->size();
+        _resultsTable->setRowCount(_personResults->size());
         for(int row=0; row < (int)_personResults->size(); ++row)
         {
             //insert data
             Person* o = (*_personResults)[row];
+            qDebug() << "Person name=" << o->FullName();
             _resultsTable->setItem(row, PCOL_ID, new QTableWidgetItem(QString::number(row+1)));
             _resultsTable->setItem(row, PCOL_NAME, new QTableWidgetItem(o->FullName()));
             _resultsTable->setItem(row, PCOL_ADDRESS, new QTableWidgetItem(QString::fromStdString(o->getStreet())));
@@ -192,6 +195,7 @@ void QueryForm::PopulateResultsTable()
             _resultsTable->setItem(row, PCOL_PHONE, new QTableWidgetItem(QString::fromStdString(o->getPrimaryPhone())));
         }
     }
+
 }
 
 void QueryForm::ResultCellSelected(int nRow, int nCol)
