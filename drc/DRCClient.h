@@ -6,7 +6,7 @@
 #include "drcbl.h"
 #include "drcdb.h"
 #include "fruitnameform.h"
-#include "contactrecordview.h"
+#include "mediationprocessview.h"
 
 namespace Ui {
 class DRCClient;
@@ -20,6 +20,9 @@ public:
     explicit DRCClient(QWidget *parent = 0);
     ~DRCClient();
 
+    // This will update the gui menus based on current user status.
+    void CurrentUserChanged(MediatorArg arg);
+
 private slots:
 
     void on_actionNew_Fruit_Submission_triggered();
@@ -28,7 +31,11 @@ private slots:
 
     void on_actionNew_search_form_triggered();
 
-    void on_actionOpen_contact_view_triggered();
+    void on_actionOpen_mediation_view_triggered();
+
+    void on_actionMediation_Process_triggered();
+
+    void on_actionFruit_Test_triggered();
 
 private:
     Ui::DRCClient *ui;
@@ -42,6 +49,8 @@ private:
     //FruitNameForm* _fruitForm;
 
     void SetMainView(QWidget* widget);
+    void SetMenusEnabled(bool enableMenus, bool showAdmin);
+
 };
 
 #endif // DRCClient_H

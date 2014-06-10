@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PartyDetailsForm</class>
- <widget class="QWidget" name="PartyDetailsForm">
+ <class>PersonDetailsForm</class>
+ <widget class="QWidget" name="PersonDetailsForm">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -23,7 +23,7 @@
    <item row="0" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Party Contact Information</string>
+      <string>Contact Information</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>

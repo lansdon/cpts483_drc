@@ -1,13 +1,14 @@
-#include "partydetailsform.h"
-#include "ui_partydetailsform.h"
+#include "persondetailsform.h"
+#include "ui_persondetailsform.h"
 #include "Person.h"
 #include <QDebug>
 
-PartyDetailsForm::PartyDetailsForm(QWidget *parent, Person* person)
+PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopup)
     : QWidget(parent)
-    , ui(new Ui::PartyDetailsForm)
+    , ui(new Ui::PersonDetailsForm)
     , _person(person ? person : new Person())
     , _shouldCleanPersonPointer(person == nullptr)
+    , _bPopup(bPopup)
 {
     ui->setupUi(this);
 
@@ -15,19 +16,23 @@ PartyDetailsForm::PartyDetailsForm(QWidget *parent, Person* person)
     ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
     ui->numInHomeLineEdit->setValidator(new QIntValidator(ui->numInHomeLineEdit));
 
-    SetEditMode(true);
+    // If a valid person object was passed, display it and don't go into edit mode.
+    if(person)
+        UpdateLabels();
+    else
+        SetEditMode(true);      // Blank record, start in edit mode.
+
 }
 
-PartyDetailsForm::~PartyDetailsForm()
+PersonDetailsForm::~PersonDetailsForm()
 {
     delete ui;
-    if(_shouldCleanPersonPointer)
-        delete _person;
+    cleanPerson();
 }
 
 
 
-void PartyDetailsForm::UpdateLabels()
+void PersonDetailsForm::UpdateLabels()
 {
     ui->firstLineEdit->setText(QString::fromStdString(_person->getFirstName()));
     ui->middleLineEdit->setText(QString::fromStdString(_person->getMiddleName()));
@@ -39,33 +44,33 @@ void PartyDetailsForm::UpdateLabels()
     ui->countyLineEdit->setText(QString::fromStdString(_person->getCounty()));
     ui->zipLineEdit->setText(QString::fromStdString(_person->getZip()));
     ui->emailLineEdit->setText(QString::fromStdString(_person->getEmail()));
-    ui->homeLineEdit->setText(QString::fromStdString(_person->getHomePhone()));
-    ui->homeExtLineEdit->setText(QString::fromStdString(_person->getHomePhoneExt()));
-    ui->workLineEdit->setText(QString::fromStdString(_person->getWorkPhone()));
-    ui->workExtLineEdit->setText(QString::fromStdString(_person->getWorkPhoneExt()));
-    ui->mobileLineEdit->setText(QString::fromStdString(_person->getMobilePhone()));
-    ui->mobileExtLineEdit->setText(QString::fromStdString(_person->getMobilePhoneExt()));
+    ui->homeLineEdit->setText(QString::fromStdString(_person->getPrimaryPhone()));
+    ui->homeExtLineEdit->setText(QString::fromStdString(_person->getPrimaryPhoneExt()));
+    ui->workLineEdit->setText(QString::fromStdString(_person->getSecondaryPhone()));
+    ui->workExtLineEdit->setText(QString::fromStdString(_person->getSecondaryPhoneExt()));
+//    ui->mobileLineEdit->setText(QString::fromStdString(_person->getMobilePhone()));
+//    ui->mobileExtLineEdit->setText(QString::fromStdString(_person->getMobilePhoneExt()));
     ui->numInHomeLineEdit->setText(QString::number(_person->getNumberInHousehold()));
     ui->attorneyLineEdit->setText(QString::fromStdString(_person->getAttorney()));
 
     SetEditMode(false);
 }
 
-void PartyDetailsForm::SetWidgetInvalid(QWidget *widget)
+void PersonDetailsForm::SetWidgetInvalid(QWidget *widget)
 {
     QPalette palette;
     palette.setColor( widget->foregroundRole(), Qt::red );
     widget->setPalette(palette);
 }
 
-void PartyDetailsForm::SetWidgetValid(QWidget *widget)
+void PersonDetailsForm::SetWidgetValid(QWidget *widget)
 {
     QPalette palette;
     palette.setColor( widget->foregroundRole(), Qt::black );
     widget->setPalette(palette);
 }
 
-bool PartyDetailsForm::ValidateForm()
+bool PersonDetailsForm::ValidateForm()
 {
     // Check every field and return true if they all pass, else false.
 
@@ -85,12 +90,12 @@ bool PartyDetailsForm::ValidateForm()
     return false;
 }
 
-void PartyDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
 {
    ProcessEmail(arg1, ui->emailLineEdit);
 }
 
-bool PartyDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
+bool PersonDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
 {
     // email validation - <something>@<something>.<two to three letters>
     QRegExp rx("(^.*@.*[.][a-z]{2,3})");
@@ -106,7 +111,7 @@ bool PartyDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
     }
 }
 
-bool PartyDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* widget)
+bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* widget)
 {
     if(string.length() == 0) return true;
 
@@ -135,22 +140,22 @@ bool PartyDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* widg
     }
 }
 
-void PartyDetailsForm::on_workLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_workLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->workLineEdit);
 }
 
-void PartyDetailsForm::on_homeLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_homeLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->homeLineEdit);
 }
 
-void PartyDetailsForm::on_mobileLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_mobileLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->mobileLineEdit);
 }
 
-void PartyDetailsForm::on_saveButton_clicked()
+void PersonDetailsForm::on_saveButton_clicked()
 {
     SetEditMode(false);
 
@@ -164,34 +169,43 @@ void PartyDetailsForm::on_saveButton_clicked()
     _person->setCounty(ui->countyLineEdit->text().toStdString());
     _person->setZip(ui->zipLineEdit->text().toStdString());
     _person->setEmail(ui->emailLineEdit->text().toStdString());
-    _person->setHomePhone(ui->homeLineEdit->text().toStdString());
-    _person->setHomePhoneExt(ui->homeExtLineEdit->text().toStdString());
-    _person->setWorkPhone(ui->workLineEdit->text().toStdString());
-    _person->setWorkPhoneExt(ui->workExtLineEdit->text().toStdString());
-    _person->setMobilePhone(ui->mobileLineEdit->text().toStdString());
-    _person->setMobilePhoneExt(ui->mobileExtLineEdit->text().toStdString());
+    _person->setPrimaryPhone(ui->homeLineEdit->text().toStdString());
+    _person->setPrimaryPhoneExt(ui->homeExtLineEdit->text().toStdString());
+    _person->setSecondaryPhone(ui->workLineEdit->text().toStdString());
+    _person->setSecondaryPhoneExt(ui->workExtLineEdit->text().toStdString());
+//    _person->setMobilePhone(ui->mobileLineEdit->text().toStdString());
+//    _person->setMobilePhoneExt(ui->mobileExtLineEdit->text().toStdString());
     _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
     _person->setAttorney(ui->attorneyLineEdit->text().toStdString());
 
-    // To do - Send Save Party signal
+    emit PersonSaved(_person);
 
+    if(_bPopup)
+    {
+        this->close();
+    }
 }
 
-void PartyDetailsForm::on_editButton_clicked()
+void PersonDetailsForm::on_editButton_clicked()
 {
     SetEditMode(true);
 }
 
-void PartyDetailsForm::on_deleteButton_clicked()
+void PersonDetailsForm::on_deleteButton_clicked()
 {
+    emit PersonDeleted(_person);
+
     SetEditMode(true);
     _person = new Person();
     UpdateLabels();
 
-    // To do, send Delete Party signal
+    if(_bPopup)
+    {
+        this->close();
+    }
 }
 
-void PartyDetailsForm::SetEditMode(bool editModeOn)
+void PersonDetailsForm::SetEditMode(bool editModeOn)
 {
     ui->firstLineEdit->setEnabled(editModeOn);
     ui->middleLineEdit->setEnabled(editModeOn);
@@ -219,19 +233,19 @@ void PartyDetailsForm::SetEditMode(bool editModeOn)
 
 }
 
-void PartyDetailsForm::cleanPerson()
+void PersonDetailsForm::cleanPerson()
 {
     if(_shouldCleanPersonPointer)
         delete _person;
     _shouldCleanPersonPointer = false;
 }
 
-void PartyDetailsForm::on_firstLineEdit_returnPressed()
+void PersonDetailsForm::on_firstLineEdit_returnPressed()
 {
 
 }
 
-void PartyDetailsForm::SetPerson(Person *p)
+void PersonDetailsForm::SetPerson(Person *p)
 {
     cleanPerson();
     _person = p;

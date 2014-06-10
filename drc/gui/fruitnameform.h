@@ -2,7 +2,7 @@
 #define FRUITNAMEFORM_H
 
 #include <QWidget>
-#include "partydetailsform.h"
+#include "persondetailsform.h"
 #include "Mediator.h"
 #include "AsyncMediatorCall.h"
 #include "DRCModels.h"
@@ -49,7 +49,7 @@ private:
     AsyncMediatorCall *asyncSendSearch;
     void SendSearchName(QString name);
     void SendFruitName(Fruit* fruit);
-    PartyDetailsForm *claiment;
+    PersonDetailsForm *claiment;
 };
 
 #endif // FRUITNAMEFORM_H

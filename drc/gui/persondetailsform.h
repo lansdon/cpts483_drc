@@ -7,20 +7,21 @@
 
 
 namespace Ui {
-class PartyDetailsForm;
+class PersonDetailsForm;
 }
 
 
-class PartyDetailsForm : public QWidget
+class PersonDetailsForm : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PartyDetailsForm(QWidget *parent = 0, Person* person = nullptr);
-    ~PartyDetailsForm();
+    explicit PersonDetailsForm(QWidget *parent = 0, Person* person = nullptr, bool bPopup = false);
+    ~PersonDetailsForm();
 
     void SetPerson(Person *p);
     Person *GetPerson() { return _person; }
+
 private slots:
     void on_emailLineEdit_textChanged(const QString &arg1);
 
@@ -38,8 +39,13 @@ private slots:
 
     void on_firstLineEdit_returnPressed();
 
+signals:
+
+    void PersonSaved(Person* person);
+    void PersonDeleted(Person* person);
+
 private:
-    Ui::PartyDetailsForm *ui;
+    Ui::PersonDetailsForm *ui;
 
     Person *_person;
 
@@ -59,6 +65,7 @@ private:
     bool _shouldCleanPersonPointer; // This tracks if person was created internally
     void cleanPerson();             // This will delete _person if it was created internally
 
+    bool _bPopup;
 };
 
 #endif // PARTYDETAILSFORM_H

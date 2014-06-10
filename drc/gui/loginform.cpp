@@ -5,6 +5,7 @@
 #include "AsyncMediatorCall.h"
 #include "MediatorKeys.h"
 #include <QDebug>
+#include "CurrentUser.h"
 
 
 LoginForm::LoginForm(QWidget *parent) :
@@ -35,6 +36,11 @@ void LoginForm::on_loginButton_clicked()
     ui->statusLabel->setText("Authenticating...");
     _asyncAuthenticate->GetMediatorArg().SetArg(new User(_username, _password));
     _asyncAuthenticate->Send();
+
+    // TEMPORARY! Set the user object on CurrentUser to trigger a login sequence.
+    // This will effectively bypass authenticating with the db until it's implemented.
+    // But let us get to the menus and see the gui change post-login.
+    UserInfo::LoginUser(new User(_username, _password));
 }
 
 void LoginForm::authenticateResponse(MediatorArg arg)

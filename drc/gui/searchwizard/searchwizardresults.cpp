@@ -1,91 +1,32 @@
-#include "queryform.h"
-#include "ui_queryform.h"
-#include <QDebug>
+#include "searchwizardresults.h"
+
 #include <QVBoxLayout>
-#include "mediationprocessview.h"
-#include "persondetailsform.h"
+#include <QTableWidget>
+#include "searchwizard.h"
+#include <QHeaderView>
+#include <persondetailsform.h>
 #include "drctypes.h"
 
-QueryForm::QueryForm(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::QueryForm),
-    _currentInputForm(nullptr)
+SearchWizardResults::SearchWizardResults(QWidget *parent)
 {
-    ui->setupUi(this);
-    QVBoxLayout* layout = new QVBoxLayout(ui->parametersGroupBox);
-    ui->parametersGroupBox->setLayout(layout);
+    setTitle("Search Results");
+//    setSubTitle("Enter fields to search with. More parameters will result in fewer results.");
+
+
 }
 
-QueryForm::~QueryForm()
-{
-    delete ui;
-}
 
-void QueryForm::on_comboBox_currentIndexChanged(const QString &arg1)
+void SearchWizardResults::initializePage()
 {
-    // Set the search type (for convenience...)
-    if(arg1 == "Mediation")
-    {
-        _searchType = SEARCH_T_MEDIATION;
-     }
-    else if(arg1 == "Person")
-    {
-        _searchType = SEARCH_T_PERSON;
-    }
-    else if(arg1 == "Call Log")
-    {
-        _searchType = SEARCH_T_CALL_LOG;
-    }
+    _searchType = field(FIELD_SEARCH_TYPE).toInt();
 
-    ConfigureInputForm();
+    QVBoxLayout* layout = new QVBoxLayout();
     ConfigResultsTable();
+    layout->addWidget(_resultTable);
+    setLayout(layout);
 }
 
-void QueryForm::on_searchButton_clicked()
-{
-
-
-}
-
-void QueryForm::ConfigureInputForm()
-{
-    // Delete the old
-    if(_currentInputForm)
-    {
-        delete _currentInputForm;
-        _currentInputForm = nullptr;
-    }
-
-    // Set the new form
-    switch(_searchType)
-    {
-    case SEARCH_T_CALL_LOG:
-        break;
-
-    case SEARCH_T_MEDIATION:
-        _currentInputForm = new MediationProcessView(ui->parametersGroupBox);
-        break;
-
-    case SEARCH_T_PERSON:
-        _currentInputForm = new PersonDetailsForm(ui->parametersGroupBox);
-        break;
-
-    default:
-        break;
-    }
-
-    // Add the new
-    if(_currentInputForm)
-    {
-        ui->parametersGroupBox->layout()->addWidget(_currentInputForm);
-    }
-
-}
-
-////////////////////////////////////////////////////////
-//          Results - Table View
-///////////////////////////////////////////////////////
-void QueryForm::ConfigResultsTable()
+void SearchWizardResults::ConfigResultsTable()
 {
     _resultTable = new QTableWidget();
     switch(_searchType)
@@ -131,7 +72,7 @@ void QueryForm::ConfigResultsTable()
              this, SLOT( ResultCellSelected( int, int ) ) );
 }
 
-void QueryForm::PopulateResultsTable()
+void SearchWizardResults::PopulateResultsTable()
 {
 //    for(int row=0; row < (int)_party->GetChildren().size(); ++row)
 //    {
@@ -144,7 +85,7 @@ void QueryForm::PopulateResultsTable()
 //    }
 }
 
-void QueryForm::ResultCellSelected(int nRow, int nCol)
+void SearchWizardResults::ResultCellSelected(int nRow, int nCol)
 {
 //    PersonDetailsForm* editWindow = new PersonDetailsForm(this, _party->GetChildren()[nRow], true);
 //    editWindow->setWindowFlags(Qt::Popup);

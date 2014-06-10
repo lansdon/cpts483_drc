@@ -54,7 +54,6 @@ void Intake::clearParties()
 
 void Intake::setParties(Person *p, int index)
 {
-
     if(_parties.size() - 1 > index)
         _parties.at(index) = p;
     else

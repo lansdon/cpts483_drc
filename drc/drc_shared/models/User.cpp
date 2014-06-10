@@ -4,7 +4,7 @@ User::User(string name, string pass)
 {
     m_userName = name;
     m_password = pass;
-    m_type = ADMIN;
+    m_type = USER_T_ADMIN;
 }
 
 string User::GetName(void)
@@ -31,14 +31,14 @@ string User::GetTypeString(void)
 {
     switch(m_type)
     {
-        case SUPER_USER: return "Super User"; break;
-        case ADMIN: return "Admin"; break;
-        case NORMAL_USER: return "User"; break;
+        case USER_T_SUPER_USER: return "Super User"; break;
+        case USER_T_ADMIN: return "Admin"; break;
+        case USER_T_NORMAL: return "User"; break;
         default: return "Invalid"; break;
     }
 }
 
-UserType User::GetType(void)
+UserTypes User::GetType(void)
 {
     return m_type;
 }

@@ -42,6 +42,13 @@ const std::string MKEY_BL_AUTHENTICATE_USER_DONE = "MKEY_BL_AUTHENTICATE_USER_DO
 const std::string MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";        // std::vector<User*>*
 
 //////////////////////////////////////////////////////////////////
+//				CURRENT USER CHANGED
+// This is a global event called by the Authentication Singleton
+// To allow for handling when a user logs in and out. (for example gui menus on/off)
+//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
+const std::string MKEY_CURRENT_USER_CHANGED = "MKEY_CURRENT_USER_CHANGED";                  // User*
+
+//////////////////////////////////////////////////////////////////
 //				SAVE INTAKE FORM
 // Save an intake form to the database
 //////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
