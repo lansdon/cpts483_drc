@@ -5,7 +5,6 @@
 #include <QTabWidget>
 #include <QDebug>
 #include "contactrecorddataview.h"
-#include "intakeform.h"
 #include "mediationsession.h"
 #include "detailsview.h"
 #include "mediationprocess.h"

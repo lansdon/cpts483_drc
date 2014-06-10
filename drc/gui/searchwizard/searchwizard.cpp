@@ -14,7 +14,7 @@ SearchWizard::SearchWizard(QWidget *parent) :
     addPage(new SearchWizardResults);
 
     setWindowTitle(tr("Search Wizard"));
-    setWindowState(Qt::WindowMaximized);
+//    setWindowState(Qt::WindowFullScreen);
 }
 
 
@@ -29,5 +29,5 @@ void SearchWizard::accept()
 //    QString header = field("header").toString();
 //    QString implementation = field("implementation").toString();
 //    ...
-//    QDialog::accept();
+    QDialog::accept();
 }

@@ -53,4 +53,12 @@ enum UserTypes
     USER_T_NORMAL
 };
 
+enum SearchTypes
+{
+    SEARCH_T_NONE,
+    SEARCH_T_PERSON,
+    SEARCH_T_MEDIATION,
+    SEARCH_T_CALL_LOG
+};
+
 #endif // DRCTYPES_H

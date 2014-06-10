@@ -34,12 +34,12 @@ Person *Person::SampleData()
     result->setZip("zip" + strId);
     result->setCounty("county" + strId);
     result->setState("state" + strId);
-    result->setHomePhone("homephone" + strId);
-    result->setHomePhoneExt("homeext" + strId);
-    result->setWorkPhone("workophone" + strId);
-    result->setWorkPhoneExt("workext" + strId);
-    result->setMobilePhone("mobilephone" + strId);
-    result->setMobilePhoneExt("mobileext" + strId);
+    result->setPrimaryPhone("PPhone" + strId);
+    result->setPrimaryPhoneExt("PPhoneExt" + strId);
+    result->setSecondaryPhone("SPhone" + strId);
+    result->setSecondaryPhoneExt("SPhoneExt" + strId);
+    result->setAssistantPhone("APhone" + strId);
+    result->setAssistantPhoneExt("APhoneExt" + strId);
     result->setEmail("email" + strId);
     result->setNumberInHousehold((unsigned int)_SAMPLE_INDEX);
     result->setAttorney("attorney" + strId);

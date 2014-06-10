@@ -17,18 +17,22 @@ private:
     std::string _zip;
     std::string _county;
 
-    std::string _home;
-    std::string _homeExt;
-    std::string _work;
-    std::string _workExt;
-    std::string _mobile;
-    std::string _mobileExt;
+    std::string _primaryPhone;
+    std::string _primaryPhoneExt;
+    std::string _secondaryPhone;
+    std::string _secondaryPhoneExt;
 
     std::string _email;
 
     unsigned int _numberInHousehold;
 
     std::string _attorney;
+
+    bool _isAttorney;
+    std::string _assistantName;
+    std::string _assistantEmail;
+    std::string _assistantNumber;
+    std::string _assistantNumberExt;
 
 public:
     Person();
@@ -56,20 +60,20 @@ public:
     std::string getCounty() const { return _county; }
     void setCounty(std::string value) { _county = value; }
 
-    std::string getHomePhone() const { return _home; }
-    void setHomePhone(std::string value) { _home = value; }
-    std::string getHomePhoneExt() const { return _homeExt; }
-    void setHomePhoneExt(std::string value) { _homeExt = value; }
+    std::string getPrimaryPhone() const { return _primaryPhone; }
+    void setPrimaryPhone(std::string value) { _primaryPhone = value; }
+    std::string getPrimaryPhoneExt() const { return _primaryPhoneExt; }
+    void setPrimaryPhoneExt(std::string value) { _primaryPhoneExt = value; }
 
-    std::string getWorkPhone() const { return _work; }
-    void setWorkPhone(std::string value) { _work = value; }
-    std::string getWorkPhoneExt() const { return _workExt; }
-    void setWorkPhoneExt(std::string value) { _workExt = value; }
+    std::string getSecondaryPhone() const { return _secondaryPhone; }
+    void setSecondaryPhone(std::string value) { _secondaryPhone = value; }
+    std::string getSecondaryPhoneExt() const { return _secondaryPhoneExt; }
+    void setSecondaryPhoneExt(std::string value) { _secondaryPhoneExt = value; }
 
-    std::string getMobilePhone() const { return _mobile; }
-    void setMobilePhone(std::string value) { _mobile = value; }
-    std::string getMobilePhoneExt() const { return _mobileExt; }
-    void setMobilePhoneExt(std::string value) { _mobileExt = value; }
+    std::string getAssistantPhone() const { return _assistantNumber; }
+    void setAssistantPhone(std::string value) { _assistantNumber = value; }
+    std::string getAssistantPhoneExt() const { return _assistantNumberExt; }
+    void setAssistantPhoneExt(std::string value) { _assistantNumberExt = value; }
 
     std::string getEmail() const { return _email; }
     void setEmail(std::string value) { _email = value; }

@@ -7,13 +7,7 @@
 
 const QString FIELD_SEARCH_TYPE = "FIELD_SEARCH_TYPE";
 
-enum SearchTypes
-{
-    SEARCH_T_NONE,
-    SEARCH_T_PERSON,
-    SEARCH_T_MEDIATION,
-    SEARCH_T_CALL_LOG
-};
+
 
 class SearchWizard : public QWizard
 {

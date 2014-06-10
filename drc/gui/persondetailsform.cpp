@@ -44,12 +44,12 @@ void PersonDetailsForm::UpdateLabels()
     ui->countyLineEdit->setText(QString::fromStdString(_person->getCounty()));
     ui->zipLineEdit->setText(QString::fromStdString(_person->getZip()));
     ui->emailLineEdit->setText(QString::fromStdString(_person->getEmail()));
-    ui->homeLineEdit->setText(QString::fromStdString(_person->getHomePhone()));
-    ui->homeExtLineEdit->setText(QString::fromStdString(_person->getHomePhoneExt()));
-    ui->workLineEdit->setText(QString::fromStdString(_person->getWorkPhone()));
-    ui->workExtLineEdit->setText(QString::fromStdString(_person->getWorkPhoneExt()));
-    ui->mobileLineEdit->setText(QString::fromStdString(_person->getMobilePhone()));
-    ui->mobileExtLineEdit->setText(QString::fromStdString(_person->getMobilePhoneExt()));
+    ui->homeLineEdit->setText(QString::fromStdString(_person->getPrimaryPhone()));
+    ui->homeExtLineEdit->setText(QString::fromStdString(_person->getPrimaryPhoneExt()));
+    ui->workLineEdit->setText(QString::fromStdString(_person->getSecondaryPhone()));
+    ui->workExtLineEdit->setText(QString::fromStdString(_person->getSecondaryPhoneExt()));
+//    ui->mobileLineEdit->setText(QString::fromStdString(_person->getMobilePhone()));
+//    ui->mobileExtLineEdit->setText(QString::fromStdString(_person->getMobilePhoneExt()));
     ui->numInHomeLineEdit->setText(QString::number(_person->getNumberInHousehold()));
     ui->attorneyLineEdit->setText(QString::fromStdString(_person->getAttorney()));
 
@@ -169,12 +169,12 @@ void PersonDetailsForm::on_saveButton_clicked()
     _person->setCounty(ui->countyLineEdit->text().toStdString());
     _person->setZip(ui->zipLineEdit->text().toStdString());
     _person->setEmail(ui->emailLineEdit->text().toStdString());
-    _person->setHomePhone(ui->homeLineEdit->text().toStdString());
-    _person->setHomePhoneExt(ui->homeExtLineEdit->text().toStdString());
-    _person->setWorkPhone(ui->workLineEdit->text().toStdString());
-    _person->setWorkPhoneExt(ui->workExtLineEdit->text().toStdString());
-    _person->setMobilePhone(ui->mobileLineEdit->text().toStdString());
-    _person->setMobilePhoneExt(ui->mobileExtLineEdit->text().toStdString());
+    _person->setPrimaryPhone(ui->homeLineEdit->text().toStdString());
+    _person->setPrimaryPhoneExt(ui->homeExtLineEdit->text().toStdString());
+    _person->setSecondaryPhone(ui->workLineEdit->text().toStdString());
+    _person->setSecondaryPhoneExt(ui->workExtLineEdit->text().toStdString());
+//    _person->setMobilePhone(ui->mobileLineEdit->text().toStdString());
+//    _person->setMobilePhoneExt(ui->mobileExtLineEdit->text().toStdString());
     _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
     _person->setAttorney(ui->attorneyLineEdit->text().toStdString());
 

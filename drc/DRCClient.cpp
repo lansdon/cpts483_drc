@@ -6,9 +6,7 @@
 // GUI STUFF
 #include <QGridLayout>
 #include <QTabWidget>
-#include "intakeform.h"
 #include "fruitnameform.h"
-#include "intakeform.h"
 #include "loginform.h"
 #include "queryform.h"
 #include "Mediator.h"
@@ -91,12 +89,13 @@ void DRCClient::on_actionNew_Fruit_Submission_triggered()
 
 void DRCClient::on_actionNew_Form_triggered()
 {
-    setCentralWidget(new IntakeForm(this));
+//    setCentralWidget(new IntakeForm(this));
 }
 
 void DRCClient::on_actionNew_search_form_triggered()
 {
-    setCentralWidget(new SearchWizard(this));
+ //   setCentralWidget(new SearchWizard(this));
+    setCentralWidget(new QueryForm(this));
 }
 
 void DRCClient::on_actionOpen_mediation_view_triggered()

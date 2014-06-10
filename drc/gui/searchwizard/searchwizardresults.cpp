@@ -5,7 +5,7 @@
 #include "searchwizard.h"
 #include <QHeaderView>
 #include <persondetailsform.h>
-
+#include "drctypes.h"
 
 SearchWizardResults::SearchWizardResults(QWidget *parent)
 {

@@ -26,12 +26,14 @@ void DRCDB::OpenDatabase(string database_name)
 {
     database =  QSqlDatabase::addDatabase("QSQLITE");
     database.setDatabaseName(QString::fromStdString(database_name));
-    if(database.open())
+    DB_ERROR = database.open();
+    if(!DB_ERROR)
     {
         //Success
         qDebug()<<"Database creation success";
     }
-    DB_ERROR = database.open();
+    else qDebug() << "Database creation FAILBOT";
+
 }
 
 bool DRCDB::isError()

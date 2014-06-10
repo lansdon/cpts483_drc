@@ -10,7 +10,10 @@ SearchWizardParameters::SearchWizardParameters(QWidget *parent)
     setSubTitle("Enter fields to search with. More parameters will result in fewer results.");
 //    setPixmap(QWizard::LogoPixmap, QPixmap(":/images/logo2.png"));
 
-
+    _mediationForm = new MediationProcessView(this);
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->addWidget(_mediationForm);
+    setLayout(layout);
 }
 
 void SearchWizardParameters::initializePage()
@@ -28,6 +31,8 @@ void SearchWizardParameters::initializePage()
     case SEARCH_T_MEDIATION:
             _mediationForm = new MediationProcessView(this);
             layout->addWidget(_mediationForm);
+            adjustSize();
+            wizard()->adjustSize();
         break;
 
     case SEARCH_T_PERSON:

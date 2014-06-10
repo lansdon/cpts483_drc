@@ -28,7 +28,6 @@ SOURCES += main.cpp\
     DRCClient.cpp \
     drc_shared/models/Intake.cpp \
     gui/fruitnameform.cpp \
-    gui/intakeform.cpp \
     gui/particapants.cpp \
     bl/fruitnameprocessor.cpp \
     bl/intakeformprocessor.cpp \
@@ -70,7 +69,6 @@ HEADERS  += \
     drc_shared/models/Intake.h \
     gui/fruitnameform.h \
     drc_shared/models/DRCModels.h \
-    gui/intakeform.h \
     gui/particapants.h \
     bl/fruitnameprocessor.h \
     bl/intakeformprocessor.h \
@@ -110,7 +108,6 @@ HEADERS  += \
 FORMS    += \
     DRCClient.ui \
     gui/fruitnameform.ui \
-    gui/intakeform.ui \
     gui/particapants.ui \
     gui/loginform.ui \
     gui/queryform.ui \
