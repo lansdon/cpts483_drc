@@ -4,6 +4,7 @@
 #include <QString>
 #include <QVector>
 #include <QtSql/QtSql>
+#include "DBBaseObject.h"
 
 class DRCDB
 {
@@ -27,39 +28,9 @@ public:
 
     bool CreateTable(QString table_name, QVector<QString> column_data);
 
-    QString WhatLastError();
+    bool InsertObject(DBBaseObject* db_object);
+
+    void WhatLastError(const QSqlQuery &query_object);
 };
 
-//private:
-//    QSqlDatabase database;
-
-//    QString db_name;
-
-//    bool DB_ERROR;
-
-//    bool CreateTable(QString table_name, QString table_columns);
-
-//public:
-
-//    DRCDB();
-
-//    bool OpenDatabase(QString database_name);
-
-//    QString WhatDatabase();
-
-//    QString WhatDriver();
-
-//    void InsertFruit(int time, std::string name);
-
-//    void InsertString(std::string Command);
-
-//    std::vector<std::string> *SelectAllField();
-
-//	bool isError();
-
-//    bool isOpen();
-
-//	std::string errorMessage();
-
-//    void CloseDatabase();
 #endif // DRCDB_H

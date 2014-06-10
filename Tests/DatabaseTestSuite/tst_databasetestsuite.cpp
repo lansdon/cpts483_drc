@@ -4,8 +4,8 @@
 #include <QFile>
 #include <QVector>
 
-#include <iostream>
 #include "drcdb.h"
+#include "Fruit.h"
 
 //Tests:
 //
@@ -42,6 +42,7 @@ private Q_SLOTS:
     void OpenDatabase();
     void CreateTable();
     void CreateDuplicateTable();
+    void InsertObject();
 
 private slots:
     void cleanupTestCase()
@@ -50,7 +51,7 @@ private slots:
 
         //For the sake of this Test Suite, we delete database after every run.
         //Comment out if undesirable; IE, looking inside file directly.
-        //QCOMPARE(QFile::remove(database_name), true);
+        QCOMPARE(QFile::remove(database_name), true);
     }
 };
 
@@ -65,10 +66,11 @@ DatabaseTestSuite::DatabaseTestSuite()
     database_driver = QString("QSQLITE");
 
     //Name of the table we're creating.
-    table_name = QString("Safeway");
+    table_name = QString("Albertsons");
 
     //Name and Datatypes of all Table columns
-    column_container.push_back(QString("fruit_name char(50)"));
+    column_container.push_back(QString("fruit_name char(50) not null, "));
+    column_container.push_back(QString("time_stamp int primary key not null"));
 
 }
 //=======================================================
@@ -92,27 +94,26 @@ void DatabaseTestSuite::CreateTable()
 
     //Create table with name and column data.
     QCOMPARE(_db.CreateTable(table_name, column_container), true);
-
-    //Error should be an empty string.
-    QCOMPARE(_db.WhatLastError(), QString(""));
 }
 
 void DatabaseTestSuite::CreateDuplicateTable()
 {
-    //Table already exists.
+    //Table already exists.  (If DB not deleted, run tests twice.)
     QCOMPARE(_db.CheckTableExists(table_name), true);
 
     //Create table with same name.  (Should fail)
     QCOMPARE(_db.CreateTable(table_name, empty_container), false);
+}
 
+
+void DatabaseTestSuite::InsertObject()
+{
+    //Where will the new object be deleted?
+    QCOMPARE(_db.InsertObject(new Fruit("Banana")), true);
 }
 
     //So far, can't figure out how to trigger the last error method.
     //QCOMPARE(_db.WhatLastError(), QString("Should be an error here."));
-
-
-
-
 
 
 

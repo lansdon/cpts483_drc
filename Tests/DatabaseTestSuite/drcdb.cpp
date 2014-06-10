@@ -1,5 +1,6 @@
 #include "drcdb.h"
 #include <QtSql/QtSql>
+#include <QDebug>
 
 using std::string;
 using std::vector;
@@ -66,22 +67,20 @@ bool DRCDB::CheckTableExists(QString table_name)
 //command be executed directly.
 bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 {
-
     QString command_string = QString("create table %1 ").arg(table_name);
 
     command_string += "(";
     foreach(QString column, column_data)
     {
-        command_string += column + " ";
+        command_string += column;
     }
     command_string += ")";
 
     QSqlQuery query_object(database);
 
-    bool create_success = query_object.prepare(command_string);
-    if (create_success)
-        query_object.exec();
-    return create_success;
+    if (!query_object.prepare(command_string))
+        qDebug() << query_object.lastError();
+    return query_object.exec();
 }
 
 //Code could be written in one line; however, the return value isn't
@@ -89,41 +88,25 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 //stating the return type, those who read this code later will have
 //a better idea of what's going on as opposed to spending time sifting
 //through additional documentation.
-QString DRCDB::WhatLastError()
+void DRCDB::WhatLastError(const QSqlQuery &query_object)
 {
-    QSqlError recent_error = database.lastError();
 
-    return recent_error.databaseText();
+}
+
+bool DRCDB::InsertObject(DBBaseObject* db_object)
+{
+    QSqlQuery query_object(database);
+
+    QString command_string("insert into %1 %2");
+    command_string.arg(db_object->table());
+    command_string.arg(db_object->Parse());
+
+    if (!query_object.prepare(command_string))
+        qDebug() << query_object.lastError();
+    return query_object.exec();
 }
 
 
-//bool DRCDB::CreateTable(QString table_name, QString table_columns)
-//{
-//    bool create_success = false;
-
-//    if (database.isOpen())
-//    {
-//        QSqlQuery query_object;
-//        create_success = query_object.exec(QString("CREATE TABLE %1 (%2)").arg(table_name).arg(table_columns));
-//    }
-
-//    return create_success;
-//}
-
-//void DRCDB::InsertObject(DBBaseObject* db_object)
-//{
-//    if(database.isOpen())
-//    {
-//        QSqlQuery qObject;
-
-//        QString qCmd;
-//        string cmd("insert into Albertsons");
-//        cmd += db_object->Parse();
-//        qCmd.fromStdString(cmd);
-
-//        qObject.exec(qCmd);
-//    }
-//}
 
 //vector<string>* DRCDB::SelectAllField()
 //{

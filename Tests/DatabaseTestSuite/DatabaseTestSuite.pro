@@ -16,11 +16,13 @@ TEMPLATE = app
 
 
 SOURCES += tst_databasetestsuite.cpp \
-    drcdb.cpp
+    drcdb.cpp \
+    Fruit.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     DBBaseObject.h \
     drcdb.h \
+    Fruit.h
 
 CONFIG += C++11
