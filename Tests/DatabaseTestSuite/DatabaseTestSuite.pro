@@ -22,8 +22,5 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 HEADERS += \
     DBBaseObject.h \
     drcdb.h \
-    Fruit.h \
-    User.h \
-    UserType.h
 
 CONFIG += C++11
