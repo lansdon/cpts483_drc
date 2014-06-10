@@ -22,6 +22,8 @@ public:
     void SetPerson(Person *p);
     Person *GetPerson() { return _person; }
 
+    void SetEditMode(bool editModeOn);
+
 private slots:
     void on_emailLineEdit_textChanged(const QString &arg1);
 
@@ -57,7 +59,6 @@ private:
     void SetWidgetValid(QWidget *widget);
     bool ProcessPhoneNumber(const QString& string, QLineEdit *widget);
     bool ProcessEmail(const QString& string, QLineEdit* widget);
-    void SetEditMode(bool editModeOn);
     bool ValidateForm();
 
     bool _editModeOn;

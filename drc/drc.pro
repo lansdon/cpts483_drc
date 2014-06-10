@@ -57,7 +57,8 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardselecttype.cpp \
     gui/searchwizard/searchwizardparameters.cpp \
     gui/searchwizard/searchwizardresults.cpp \
-    bl/personprocessor.cpp
+    bl/personprocessor.cpp \
+    gui/Mock_Server/mock_server.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -107,7 +108,8 @@ HEADERS  += \
     gui/searchwizard/searchwizardselecttype.h \
     gui/searchwizard/searchwizardparameters.h \
     gui/searchwizard/searchwizardresults.h \
-    bl/personprocessor.h
+    bl/personprocessor.h \
+    gui/Mock_Server/mock_server.h
 
 FORMS    += \
     DRCClient.ui \

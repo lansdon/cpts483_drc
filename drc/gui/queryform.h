@@ -5,6 +5,8 @@
 #include "persondetailsform.h"
 #include <QTableWidget>
 #include "drctypes.h"
+#include "AsyncMediatorCall.h"
+
 
 namespace Ui {
 class QueryForm;
@@ -23,6 +25,9 @@ private slots:
 
     void on_searchButton_clicked();
 
+    void RecievedPersonResult(MediatorArg arg);
+    void RecievedMediationResult(MediatorArg arg);
+
 public slots:
      void ResultCellSelected(int nRow, int nCol);
 
@@ -35,11 +40,17 @@ private:
     void ConfigureInputForm();
 
     // Results Table
-    QTableWidget* _resultTable;
-    QStringList _resultTableHeader;
+    QTableWidget* _resultsTable;
+    QStringList _resultsTableHeader;
     void ConfigResultsTable();
     void PopulateResultsTable();
 
+    // Async Calls to DB
+    AsyncMediatorCall* _asyncQueryPerson;
+    AsyncMediatorCall* _asyncQueryMediation;
+
+    PersonVector* _personResults;
+    MediationProcessVector* _mediationResults;
 };
 
 #endif // QUERYFORM_H

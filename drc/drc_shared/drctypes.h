@@ -8,7 +8,10 @@
 //////////////////////////////////////////////
 
 class Person;
+class MediationProcess;
+
 typedef std::vector<Person*> PersonVector;
+typedef std::vector<MediationProcess*> MediationProcessVector;
 
 enum DisputeTypes
 {
