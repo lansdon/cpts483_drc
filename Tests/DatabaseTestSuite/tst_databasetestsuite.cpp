@@ -48,9 +48,9 @@ private slots:
     {
         QCOMPARE(_db.CloseDatabase(), false);
 
-        //For the sake of this Test Suite, we delete database after run.
+        //For the sake of this Test Suite, we delete database after every run.
         //Comment out if undesirable; IE, looking inside file directly.
-        QCOMPARE(QFile::remove(database_name), true);
+        //QCOMPARE(QFile::remove(database_name), true);
     }
 };
 

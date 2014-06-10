@@ -29,6 +29,10 @@ bool DRCDB::OpenDatabase(QString database_name)
     return database.open();
 }
 
+
+//The driver is the SQL driver being used by the program.
+//In our case, the driver we're using is called "QSQLITE",
+//which is the sqlite3 driver for Qt.
 QString DRCDB::WhatDriver()
 {
     return database.driverName();
@@ -53,6 +57,14 @@ bool DRCDB::CheckTableExists(QString table_name)
     return table_list.contains(table_name);
 }
 
+
+//Query object can be implicitly initialized without passing
+//the QSQLDatabase object to the constructor.  However, it is
+//slightly more obvious as to where it's getting its information.
+
+//Prepare checks the potential SQL command for validity.  While it seems
+//tedious, it apparently is more efficient than letting an erroneous
+//command be executed directly.
 bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 {
 
@@ -65,22 +77,11 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
     }
     command_string += ")";
 
-
-    //Query object can be implicitly initialized without passing
-    //the QSQLDatabase object to the constructor.  However, it is
-    //slightly more obvious as to where it's getting its information.
     QSqlQuery query_object(database);
 
-
-    //Prepare checks the potential SQL command for validity.  While it seems
-    //tedious, it apparently is more efficient than letting an erroneous
-    //command be executed directly.
     bool create_success = query_object.prepare(command_string);
-
-
     if (create_success)
-        query_object.exec(command_string);
-
+        query_object.exec();
     return create_success;
 }
 
