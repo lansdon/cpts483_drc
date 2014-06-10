@@ -7,6 +7,7 @@
 #include "drcdb.h"
 #include "fruitnameform.h"
 #include "mediationprocessview.h"
+#include "Mock_Server/mock_server.h"
 
 namespace Ui {
 class DRCClient;
@@ -44,7 +45,7 @@ private:
     // They need to be instantiated at startup to register events properly.
     DRCBL _bl;  // Business Logic
     DRCDB _db;  // Database
-
+    Mock_Server _ms; // mock server for gui testing
     // Sub views
     //FruitNameForm* _fruitForm;
 
