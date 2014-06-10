@@ -1,6 +1,5 @@
 #include "drcdb.h"
 #include <QtSql/QtSql>
-#include "Fruit.h"    // temp.. not sure why it's having circular dependency.
 
 using std::string;
 using std::vector;
