@@ -15,8 +15,7 @@ public:
     void Load(MediatorArg arg);
 
 private:
-    bool ValidateIntakeForm(const Intake& intake, std::string& errorMessage) const;
-    bool ValidatePerson(const Person& person, std::string& errorMessage) const;
+    bool ValidateIntakeForm(Intake* intake, std::string& errorMessage) const;
     bool ValidateTime(time_t time, std::string& errorMessage) const;
 
     std::string _regProcess;

@@ -1,5 +1,7 @@
 #include "intakeformprocessor.h"
-#include "../drc_shared/mediator/Mediator.h"
+#include "Mediator.h"
+#include "personvalidator.h"
+
 
 #include <qstring.h>
 #include <qdebug.h>
@@ -25,7 +27,7 @@ void IntakeFormProcessor::Process(MediatorArg arg)
     if (success)
     {
         intake = arg.getArg<Intake*>();
-        success = ValidateIntakeForm(*intake, errorMessage);
+        success = ValidateIntakeForm(intake, errorMessage);
     }
 
     qDebug() << "BL -> ValidateSaveIntakeRequest Complete";
@@ -42,54 +44,32 @@ void IntakeFormProcessor::Load(MediatorArg arg)
     if (success)
     {
         intake = arg.getArg<Intake*>();
-        success = ValidateIntakeForm(*intake, errorMessage);
+        success = ValidateIntakeForm(intake, errorMessage);
     }
 
     qDebug() << "BL -> ValidateLoadIntakeRequest Complete";
     Mediator::Call(_sendLoad, intake, success, errorMessage);
 }
 
-bool IntakeFormProcessor::ValidateIntakeForm(const Intake& intake, std::string& errorMessage) const
+bool IntakeFormProcessor::ValidateIntakeForm(Intake* intake, std::string& errorMessage) const
 {
     qDebug() << "BL -> Validate Intake Form";
     bool success = true;
-    auto persons = intake.getParties();
-    auto claimant = intake.getClaimant();
-    auto time = intake.getTime();
-    success &= ValidatePerson(claimant, errorMessage);
-    for (unsigned int i = 0; i < persons.size(); i++)
+    if (intake)
     {
-        success &= ValidatePerson(*persons[i], errorMessage);
-        if (!success) break;
-    }
-    success &= ValidateTime(time, errorMessage);
-    return success;
-}
-
-bool IntakeFormProcessor::ValidatePerson(const Person& person, std::string& errorMessage) const
-{
-    qDebug() << "BL -> Validate Person "+ QString(person.getFirstName().c_str());
-    bool success = true;
-    std::string pattern = "^[a-zA-Z]+$";
-    auto name = person.getFirstName();
-//    success = std::regex_match(name, std::regex(pattern));
-    if (name.size() == 0)
-    {
-        success = false;
-        errorMessage = "Empty person name.";
-    }
-    for (unsigned int i = 0; i < name.size(); i++)
-    {
-        if (!((name[i] >= 65 && name[i] <= 90) || (name[i] >= 97 && name[i] <= 122) || (name[i] == ' ')))
+        auto persons = intake->getParties();
+        auto time = intake->getTime();
+        PersonValidator pVal;
+        for (unsigned int i = 0; i < persons.size(); i++)
         {
-            success = false;
-            errorMessage = "Invalid character in person name.";
-            break;
+            success &= pVal.Validate(persons[i], errorMessage);
+            if (!success) break;
         }
+        success &= ValidateTime(time, errorMessage);
     }
-    if (!success)
+    else
     {
-        errorMessage = "Person name contains invalid characters.";
+        errorMessage = "Null intake form received.";
         success = false;
     }
     return success;
