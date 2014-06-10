@@ -7,6 +7,14 @@ using std::vector;
 
 #define db_driver "QSQLITE"
 
+void DRCDB::DebugDisplay(QString error_message, bool active)
+{
+    if (active)
+    {
+        qDebug() << "\n" << error_message;
+    }
+}
+
 DRCDB::DRCDB()
 {
 }
@@ -26,6 +34,11 @@ bool DRCDB::OpenDatabase(QString database_name)
 {
     database = QSqlDatabase::addDatabase(db_driver);
     database.setDatabaseName(database_name);
+
+    this->DebugDisplay(QString("Database Name: %1\nDatabase Driver: %2")
+                       .arg(database_name)
+                       .arg(this->WhatDriver()));
+
     return database.open();
 }
 
@@ -78,8 +91,10 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 
     QSqlQuery query_object(database);
 
+    this->DebugDisplay(command_string);
+
     if (!query_object.prepare(command_string))
-        qDebug() << query_object.lastError();
+        this->WhatLastError(query_object);
     return query_object.exec();
 }
 
@@ -90,19 +105,22 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 //through additional documentation.
 void DRCDB::WhatLastError(const QSqlQuery &query_object)
 {
-
+    qDebug() << "\n" << query_object.lastError();
 }
 
 bool DRCDB::InsertObject(DBBaseObject* db_object)
 {
+    QString command_string = QString("insert into %1 values ( %2 , %3 )")
+            .arg(db_object->table())
+            .arg(db_object->Parse())
+            .arg("null");
+
+    this->DebugDisplay(command_string);
+
     QSqlQuery query_object(database);
 
-    QString command_string("insert into %1 %2");
-    command_string.arg(db_object->table());
-    command_string.arg(db_object->Parse());
-
     if (!query_object.prepare(command_string))
-        qDebug() << query_object.lastError();
+        this->WhatLastError(query_object);
     return query_object.exec();
 }
 

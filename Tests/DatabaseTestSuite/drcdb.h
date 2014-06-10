@@ -31,6 +31,8 @@ public:
     bool InsertObject(DBBaseObject* db_object);
 
     void WhatLastError(const QSqlQuery &query_object);
+
+    void DebugDisplay(QString error_message, bool active = false);
 };
 
 #endif // DRCDB_H
