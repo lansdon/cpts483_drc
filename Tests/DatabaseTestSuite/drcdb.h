@@ -1,43 +1,45 @@
 #ifndef DRCDB_H
 #define DRCDB_H
 
-#include <string>
-#include <vector>
+#include <QString>
+#include <QVector>
 #include <QtSql/QtSql>
+#include "DBBaseObject.h"
 
 class DRCDB
 {
 private:
     QSqlDatabase database;
 
-    bool DB_ERROR;
-
-    bool CreateTable(QString table_name, QString table_columns);
-
 public:
-
     DRCDB();
-	
+
+    DRCDB(QString database_name);
+
     bool OpenDatabase(QString database_name);
 
-    QString WhatDatabase();
+    bool CloseDatabase();
+
+    bool CreateTable(QString table_name, QVector<QString> column_data);
+
+    bool InsertObject(DBBaseObject* db_object);
+
+    void WhatLastError(const QSqlQuery &query_object);
+
+
+    //  Methods that aren't necessary, but are helpful for testing.
+    //======================================================================
+private:
+    bool ExecuteCommand(QString command_string);
+
+    void DebugDisplay(QString error_message, bool active = false);
+
+public:
+    QString GetDatabaseName();
 
     QString WhatDriver();
-	
-    void InsertFruit(int time, std::string name);
 
-    void InsertString(std::string Command);
-
-    std::vector<std::string> *SelectAllField();
-
-	bool isError();
-
-    bool isOpen();
-
-	std::string errorMessage();
-
-    void CloseDatabase();
-
+    bool CheckTableExists(QString table_name);
 };
 
 #endif // DRCDB_H
