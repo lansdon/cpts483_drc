@@ -5,6 +5,11 @@
 #include "mediationprocessview.h"
 #include "persondetailsform.h"
 #include "drctypes.h"
+#include "Mediator.h"
+#include "AsyncMediatorCall.h"
+#include "MediatorKeys.h"
+#include "MediatorArg.h"
+
 
 QueryForm::QueryForm(QWidget *parent) :
     QWidget(parent),
@@ -17,6 +22,9 @@ QueryForm::QueryForm(QWidget *parent) :
     ui->parametersGroupBox->setLayout(new QVBoxLayout(ui->parametersGroupBox));
 
     ui->resultsTable->setLayout(new QVBoxLayout(ui->resultsTable));
+
+
+    _asyncQueryPerson = new AsyncMediatorCall(MKEY_GUI_QUERY_PERSON, MKEY_DB_QUERY_PERSON, [this](MediatorArg arg){RecievedPersonResult(arg);}, nullptr, true);
 
 }
 
@@ -47,8 +55,14 @@ void QueryForm::on_comboBox_currentIndexChanged(const QString &arg1)
 
 void QueryForm::on_searchButton_clicked()
 {
+    if(_searchType == SEARCH_T_PERSON)
+    {
+        PersonDetailsForm* f = (PersonDetailsForm*)_currentInputForm;
+        f->SetEditMode(false); // causes save
+        f->SetEditMode(true);
 
-
+        _asyncQueryPerson->GetMediatorArg().SetArg(f->GetPerson());
+    }
 }
 
 void QueryForm::ConfigureInputForm()
@@ -162,4 +176,9 @@ void QueryForm::ResultCellSelected(int nRow, int nCol)
 //    connect(editWindow, SIGNAL(PersonSaved(Person*)), this, SLOT(ChildChanged(Person*)));
 
 //    editWindow->show();
+}
+
+void QueryForm::RecievedPersonResult(MediatorArg arg)
+{
+
 }
