@@ -47,17 +47,11 @@ QString Fruit::Parse()
 
     QString toReturn;
 
-    toReturn += " values";
-
-    toReturn += "(";
-
     toReturn += this->GetTime();
 
     toReturn += ", ";
 
     toReturn += single_quote + this->GetName() + single_quote;
-
-    toReturn += ")";
 
     return toReturn;
 
