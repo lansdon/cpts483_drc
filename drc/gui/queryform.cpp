@@ -10,6 +10,25 @@
 #include "MediatorKeys.h"
 #include "MediatorArg.h"
 
+enum PersonTableColumns
+{
+    PCOL_ID = 0,
+    PCOL_NAME,
+    PCOL_PHONE,
+    PCOL_EMAIL,
+    PCOL_ADDRESS,
+    PCOL_COUNTY,
+    PCOL_ATTORNEY
+
+};
+
+enum MediationTableColumns
+{
+    OCOL_ID = 0,
+    OCOL_NAME,
+    OCOL_ROLE
+};
+
 
 QueryForm::QueryForm(QWidget *parent) :
     QWidget(parent),
@@ -158,15 +177,21 @@ void QueryForm::ConfigResultsTable()
 
 void QueryForm::PopulateResultsTable()
 {
-//    for(int row=0; row < (int)_party->GetChildren().size(); ++row)
-//    {
-//        //insert data
-//        Person* o = _party->GetChildren()[row];
-
-//        _childrenTable->setItem(row, CCOL_ID, new QTableWidgetItem(QString::number(row+1)));
-
-//        _childrenTable->setItem(row, CCOL_NAME, new QTableWidgetItem(o->FullName()));
-//    }
+    if(_searchType == SEARCH_T_PERSON)
+    {
+        for(int row=0; row < (int)_personResults->size(); ++row)
+        {
+            //insert data
+            Person* o = (*_personResults)[row];
+            _resultsTable->setItem(row, PCOL_ID, new QTableWidgetItem(QString::number(row+1)));
+            _resultsTable->setItem(row, PCOL_NAME, new QTableWidgetItem(o->FullName()));
+            _resultsTable->setItem(row, PCOL_ADDRESS, new QTableWidgetItem(QString::fromStdString(o->getStreet())));
+            _resultsTable->setItem(row, PCOL_ATTORNEY, new QTableWidgetItem(QString::fromStdString(o->getAttorney())));
+            _resultsTable->setItem(row, PCOL_COUNTY, new QTableWidgetItem(QString::fromStdString(o->getCounty())));
+            _resultsTable->setItem(row, PCOL_EMAIL, new QTableWidgetItem(QString::fromStdString(o->getEmail())));
+            _resultsTable->setItem(row, PCOL_PHONE, new QTableWidgetItem(QString::fromStdString(o->getPrimaryPhone())));
+        }
+    }
 }
 
 void QueryForm::ResultCellSelected(int nRow, int nCol)
@@ -186,10 +211,19 @@ void QueryForm::RecievedPersonResult(MediatorArg arg)
 
     if(arg.IsSuccessful())
     {
-
+        PersonVector* result = arg.getArg<PersonVector*>();
+        if(result)
+        {
+            _personResults = new PersonVector(*result);
+            PopulateResultsTable();
+        }
+        else
+        {
+            qDebug() << "Query person - invalid results";
+        }
     }
     else
     {
-//        qDebug() << "Person Results error:" << arg.ErrorMessage();
+        qDebug() << "Person Results error:" <<  QString::fromStdString( arg.ErrorMessage() );
     }
 }
