@@ -2,6 +2,8 @@
 #define MEDIATIONSESSION_H
 
 #include <QWidget>
+#include <QTableWidget>
+#include <QStringList>
 #include "attorneyandsupportformediationsessionview.h"
 #include <vector>
 #include "drc_shared/models/Person.h"
@@ -39,7 +41,12 @@ private slots:
 private:
     Ui::MediationSession *ui;
     std::vector<AttorneyAndSupportForMediationSessionView *> _attorneyAndSupportVector;
-    MediationSessionClass _localMediationSessionClass;
+    std::vector<MediationSessionClass> _localMediationSessionClassVector;
+    QTableWidget *_sessionTable;
+    QStringList _sessionTableHeader;
+    void configSessionTable();
+    void PopulateSessionTable();
+
 };
 
 #endif // MEDIATIONSESSION_H

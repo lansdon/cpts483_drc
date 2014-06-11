@@ -6,100 +6,97 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1004</width>
-    <height>377</height>
+    <width>1037</width>
+    <height>548</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>377</height>
+    <height>600</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="3" column="1">
-    <widget class="QGroupBox" name="groupBox_4">
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="MediationScheduleGroupBox">
      <property name="title">
-      <string>Mediators and Observers</string>
+      <string>Mediation schedule</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QGroupBox" name="groupBox_5">
-        <property name="title">
-         <string>Mediators</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_6">
-           <property name="text">
-            <string>One</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="MediatorLineEdit"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>Two</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="Mediator2LineEdit"/>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
-       <widget class="QGroupBox" name="groupBox_6">
-        <property name="title">
-         <string>Observers</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>One</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="Observe1LineEdit"/>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_9">
-           <property name="text">
-            <string>Two</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QLineEdit" name="Observer2lineEdit"/>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QGroupBox" name="SupportGroupBox">
-     <property name="title">
-      <string>Support Persons and Attorneys</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_5">
+     <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="0">
-       <widget class="QTabWidget" name="SupportTabWidget"/>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Date of Mediation:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QGroupBox" name="statusGroupBox">
+        <property name="title">
+         <string/>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <widget class="QRadioButton" name="confirmedRadioButton">
+           <property name="text">
+            <string>Confirmed</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QRadioButton" name="rescheduledRadioButton">
+           <property name="text">
+            <string>Rescheduled</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QRadioButton" name="PendingRadioButton">
+           <property name="text">
+            <string>Pending</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QRadioButton" name="CancelledRadioButton">
+           <property name="text">
+            <string>Cancelled</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QDateTimeEdit" name="dateTimeEdit">
+        <property name="minimumDate">
+         <date>
+          <year>2014</year>
+          <month>6</month>
+          <day>5</day>
+         </date>
+        </property>
+        <property name="calendarPopup">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="1" column="1">
+   <item row="2" column="1">
     <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
       <string>Fees and Income</string>
@@ -206,74 +203,93 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="MediationScheduleGroupBox">
+   <item row="4" column="1">
+    <widget class="QGroupBox" name="groupBox_4">
      <property name="title">
-      <string>Mediation schedule</string>
+      <string>Mediators and Observers</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="0" column="0">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Date of Mediation:</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QGroupBox" name="statusGroupBox">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QGroupBox" name="groupBox_5">
         <property name="title">
-         <string/>
+         <string>Mediators</string>
         </property>
-        <layout class="QGridLayout" name="gridLayout_7">
+        <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">
-          <widget class="QRadioButton" name="confirmedRadioButton">
+          <widget class="QLabel" name="label_6">
            <property name="text">
-            <string>Confirmed</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QRadioButton" name="rescheduledRadioButton">
-           <property name="text">
-            <string>Rescheduled</string>
+            <string>One</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QRadioButton" name="PendingRadioButton">
+          <widget class="QLineEdit" name="MediatorLineEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_7">
            <property name="text">
-            <string>Pending</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
+            <string>Two</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QRadioButton" name="CancelledRadioButton">
-           <property name="text">
-            <string>Cancelled</string>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="Mediator2LineEdit"/>
          </item>
         </layout>
        </widget>
       </item>
-      <item row="0" column="4">
-       <widget class="QDateTimeEdit" name="dateTimeEdit">
-        <property name="minimumDate">
-         <date>
-          <year>2014</year>
-          <month>6</month>
-          <day>5</day>
-         </date>
+      <item>
+       <widget class="QGroupBox" name="groupBox_6">
+        <property name="title">
+         <string>Observers</string>
         </property>
-        <property name="calendarPopup">
-         <bool>true</bool>
-        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_8">
+           <property name="text">
+            <string>One</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="Observe1LineEdit"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_9">
+           <property name="text">
+            <string>Two</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="Observer2lineEdit"/>
+         </item>
+        </layout>
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QGroupBox" name="SupportGroupBox">
+     <property name="title">
+      <string>Support Persons and Attorneys</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_5">
+      <item row="0" column="0">
+       <widget class="QTabWidget" name="SupportTabWidget"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="1" column="0" colspan="2">
+    <widget class="QTableWidget" name="sessiontTableWidget">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>200</height>
+      </size>
+     </property>
     </widget>
    </item>
   </layout>
