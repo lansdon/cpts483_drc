@@ -22,7 +22,7 @@ public:
     CountyIds GetCountyId() { return _countyOfMediation; }
     std::vector<QString>& GetNotes() { return _mediationNotes; }
     ReferralTypes GetReferralType() { return _referalSource; }
-    QDate GetCreationDate() { return _creationDate; }
+    QDateTime GetCreationDate() { return _creationDate; }
     DisputeProcessStates GetCurrentState() { return _processState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
 
@@ -32,7 +32,7 @@ public:
     void SetCountyId(CountyIds countyId) { _countyOfMediation = countyId; }
     void AddNote(QString note) { _mediationNotes.push_back(note); }
     void SetReferralType(ReferralTypes type) { _referalSource = type; }
-    void SetCreationDate(QDate date) { _creationDate = date; }
+    void SetCreationDate(QDateTime date) { _creationDate = date; }
     void SetProcessState(DisputeProcessStates state) { _processState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
 
@@ -46,7 +46,7 @@ private:
 
     DisputeTypes _disputeType;
 
-    QDate _creationDate;
+    QDateTime _creationDate;
 
     DisputeProcessStates _processState;
 
