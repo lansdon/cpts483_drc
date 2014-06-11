@@ -35,6 +35,9 @@ public:
     void SetCreationDate(QDate date) { _creationDate = date; }
     void SetProcessState(DisputeProcessStates state) { _processState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
+
+    // Helpers
+    int GetAffectedChildrenCount() { return _party1.GetAffectedChildren() + _party2.GetAffectedChildren(); }
 private:
 
     Party _party1;

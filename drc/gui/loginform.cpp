@@ -19,7 +19,8 @@ LoginForm::LoginForm(QWidget *parent) :
                 MKEY_DB_AUTHENTICATE_USER_DONE,
                 [this](MediatorArg arg){authenticateResponse(arg);},
                 nullptr,
-                true
+                true,
+                1
             );
 
     ui->statusLabel->setText("stuff");

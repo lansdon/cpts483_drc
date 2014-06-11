@@ -56,7 +56,8 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardparameters.cpp \
     gui/searchwizard/searchwizardresults.cpp \
     gui/Mock_Server/mock_server.cpp \
-    drc_shared/CurrentUser.cpp
+    drc_shared/CurrentUser.cpp \
+    drc_shared/drctypes.cpp
 
 HEADERS  += \
     bl/drcbl.h \
