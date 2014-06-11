@@ -56,7 +56,8 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardparameters.cpp \
     gui/searchwizard/searchwizardresults.cpp \
     gui/Mock_Server/mock_server.cpp \
-    drc_shared/CurrentUser.cpp
+    drc_shared/CurrentUser.cpp \
+    drc_shared/models/mediationsessionclass.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -106,7 +107,8 @@ HEADERS  += \
     gui/searchwizard/searchwizardparameters.h \
     gui/searchwizard/searchwizardresults.h \
     gui/Mock_Server/mock_server.h \
-    drc_shared/CurrentUser.h
+    drc_shared/CurrentUser.h \
+    drc_shared/models/mediationsessionclass.h
 
 FORMS    += \
     DRCClient.ui \
