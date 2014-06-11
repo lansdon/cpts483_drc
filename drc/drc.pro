@@ -43,7 +43,6 @@ SOURCES += main.cpp\
     gui/attorneyandsupportformediationsessionview.cpp \
     gui/detailsview.cpp \
     gui/childrenview.cpp \
-    drc_shared/models/CurrentUser.cpp \
     gui/persondetailsform.cpp \
     gui/mediationprocessview.cpp \
     gui/partyform.cpp \
@@ -56,7 +55,8 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardselecttype.cpp \
     gui/searchwizard/searchwizardparameters.cpp \
     gui/searchwizard/searchwizardresults.cpp \
-    gui/Mock_Server/mock_server.cpp
+    gui/Mock_Server/mock_server.cpp \
+    drc_shared/CurrentUser.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -105,7 +105,8 @@ HEADERS  += \
     gui/searchwizard/searchwizardselecttype.h \
     gui/searchwizard/searchwizardparameters.h \
     gui/searchwizard/searchwizardresults.h \
-    gui/Mock_Server/mock_server.h
+    gui/Mock_Server/mock_server.h \
+    drc_shared/CurrentUser.h
 
 FORMS    += \
     DRCClient.ui \

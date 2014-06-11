@@ -8,6 +8,7 @@
 #include "fruitnameform.h"
 #include "mediationprocessview.h"
 #include "Mock_Server/mock_server.h"
+#include "drc_shared/CurrentUser.h"
 
 namespace Ui {
 class DRCClient;
@@ -37,6 +38,10 @@ private slots:
     void on_actionMediation_Process_triggered();
 
     void on_actionFruit_Test_triggered();
+
+    void on_actionLock_Account_triggered();
+
+    void on_actionLogout_User_triggered();
 
 private:
     Ui::DRCClient *ui;
