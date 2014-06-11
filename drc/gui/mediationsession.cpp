@@ -148,4 +148,5 @@ void MediationSession::PopulateSessionTable()
 
         _sessionTable->setItem(row, 2, new QTableWidgetItem(o.getStatus()));
     }
+    _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session.");
 }
