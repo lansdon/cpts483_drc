@@ -1,7 +1,7 @@
 #ifndef DBBASEOBJECT_H
 #define DBBASEOBJECT_H
 
-#include <string>
+#include <QString>
 
 class DBBaseObject
 {
@@ -11,7 +11,9 @@ public:
     //for insertion into a database.
 
     //Object is still subject to change pending discussion with DB Team.
-    virtual std::string Parse(void) = 0;
+    virtual QString Parse(void) = 0;
+
+    virtual QString table() = 0;
 };
 
 

@@ -79,7 +79,7 @@ HEADERS  += \
     db/FilterTypes.h \
     drc_shared/models/Fruit.h \
     drc_shared/models/User.h \
-    db/sqlite3.h \
+    drc_shared/models/UserType.h \
     bl/Processor.h \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \

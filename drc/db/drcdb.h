@@ -2,7 +2,9 @@
 #define DRCDB_H
 #include "Mediator.h"
 
-#include "sqlite3.h"
+//#include "sqlite3.h"
+
+#include "DBBaseObject.h"
 #include <string>
 #include <vector>
 #include <QtSql/QtSql>
@@ -21,6 +23,8 @@ public:
     DRCDB();
 	
 	void OpenDatabase(std::string database_name);
+
+    void InsertObject(DBBaseObject* db_object);
 	
     void InsertFruit(int time, std::string name);
 
