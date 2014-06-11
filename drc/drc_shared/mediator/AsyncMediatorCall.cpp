@@ -112,8 +112,15 @@ void AsyncMediatorCall::DoCallbackOnMainThread()
 {
     if(_callback)
     {
-        qDebug() << "Async -> Doing callback on main thread";
-        _callback(_recieveMediatorArg);
+        try
+        {
+            qDebug() << "Async -> Doing callback on main thread";
+            _callback(_recieveMediatorArg);
+        }
+        catch(std::exception e)
+        {
+            qDebug() << QString("Callback exception: ") << e.what();
+        }
     }
 }
 
