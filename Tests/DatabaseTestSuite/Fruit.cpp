@@ -1,5 +1,7 @@
 #include "Fruit.h"
 
+#define table_name "Albertsons"
+
 Fruit::Fruit()
 {
     time_t createTime;
@@ -7,7 +9,7 @@ Fruit::Fruit()
     m_timestamp = createTime;
 }
 
-Fruit::Fruit(string name)
+Fruit::Fruit(QString name)
 {
     m_name = name;
     time_t createTime;
@@ -15,7 +17,7 @@ Fruit::Fruit(string name)
     m_timestamp = createTime;
 }
 
-Fruit::Fruit(string* name)
+Fruit::Fruit(QString* name)
 {
     m_name = *name;
     time_t createTime;
@@ -23,31 +25,27 @@ Fruit::Fruit(string* name)
     m_timestamp = createTime;
 }
 
-void Fruit::SetName(string name)
+void Fruit::SetName(QString name)
 {
     m_name = name;
 }
 
-string Fruit::GetName(void)
+QString Fruit::GetName(void)
 {
     return m_name;
 }
 
-string Fruit::GetTime(void)
+QString Fruit::GetTime(void)
 {
-    return to_string(m_timestamp);
+    return QString::number(m_timestamp);
 }
 
 //For the sake of readbility.  A lot of code though.
-string Fruit::Parse()
+QString Fruit::Parse()
 {
-    static string single_quote("\'");
+    static QString single_quote("\'");
 
-    string toReturn;
-
-    toReturn += " values";
-
-    toReturn += "(";
+    QString toReturn;
 
     toReturn += this->GetTime();
 
@@ -55,9 +53,12 @@ string Fruit::Parse()
 
     toReturn += single_quote + this->GetName() + single_quote;
 
-    toReturn += ")";
-
     return toReturn;
 
-    //return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetTime() + " );");
+    //return QString("VALUES (\'" + this->GetName() + "\', \'" + this->GetTime() + " );");
+}
+
+QString Fruit::table(void)
+{
+    return QString(table_name);
 }
