@@ -1,6 +1,7 @@
 #include "mediationsession.h"
 #include "ui_mediationsession.h"
 #include <QDebug>
+#include "persondetailsform.h"
 
 MediationSession::MediationSession(QWidget *parent) :
     QWidget(parent),
@@ -19,6 +20,7 @@ MediationSession::MediationSession(QWidget *parent) :
     sessionCurrentRow = 0;
     FillingFields = false;
     fillFields(_localMediationSessionClassVector[sessionCurrentRow]);
+    ui->sessiontTableWidget->setCurrentCell(0,0);
 
 }
 
@@ -133,19 +135,13 @@ void MediationSession::on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime
 void MediationSession::on_Fee1LineEdit_editingFinished()
 {
     if(!FillingFields)
-    {
         _localMediationSessionClassVector[sessionCurrentRow].setFee1(ui->Fee1LineEdit->text());
-        PopulateSessionTable();
-    }
 }
 
 void MediationSession::on_Fee1PaidCheckBox_toggled(bool checked)
 {
     if(!FillingFields)
-    {
         _localMediationSessionClassVector[sessionCurrentRow].setFee1Paid(checked);
-        PopulateSessionTable();
-    }
 }
 
 void MediationSession::configSessionTable()
@@ -213,6 +209,10 @@ void MediationSession::fillFields(MediationSessionClass input)
     ui->Fee1PaidCheckBox->setChecked(input.getFee1Paid());
     ui->Fee2PaidCheckBox->setChecked(input.getFee2Paid());
     ui->OtherFeePaidCheckBox->setChecked(input.getFeeOtherPaid());
+    ui->incomeFee1LineEdit->setText(input.getIncomeFee1());
+    ui->incomeFee2LineEdit->setText(input.getIncomeFee2());
+    ui->incomeFeeFamilyLineEdit->setText(input.getIncomeFeeFamily());
+    ui->incomeFeeOtherLineEdit->setText(input.getIncomeFeeOther());
     if(input.getMediator1()!=NULL)
         ui->Mediator2LineEdit->setText(input.getMediator2()->FullName());
     if(input.getMediator2()!=NULL)
@@ -235,4 +235,121 @@ void MediationSession::on_sessiontTableWidget_doubleClicked(const QModelIndex &i
    ui->sessiontTableWidget->setCurrentCell(_localMediationSessionClassVector.size()-1,0);
    fillFields(_localMediationSessionClassVector[_localMediationSessionClassVector.size() - 1]);
 
+}
+
+void MediationSession::on_Fee2LineEdit_editingFinished()
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setFee2(ui->Fee2LineEdit->text());
+}
+
+void MediationSession::on_FamilyFeeLineEdit_editingFinished()
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setFeeFamily(ui->FamilyFeeLineEdit->text());
+}
+
+void MediationSession::on_OtherFeeLineEdit_editingFinished()
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setFeeOther(ui->OtherFeeLineEdit->text());
+}
+
+void MediationSession::on_Fee2PaidCheckBox_toggled(bool checked)
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setFee2Paid(checked);
+}
+
+void MediationSession::on_FamilyFeePaidCheckBox_toggled(bool checked)
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setFeeFamilyPaid(checked);
+}
+
+void MediationSession::on_OtherFeePaidCheckBox_toggled(bool checked)
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setFeeOtherPaid(checked);
+}
+
+void MediationSession::on_incomeFee1LineEdit_editingFinished()
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setIncomeFee1(ui->incomeFee1LineEdit->text());
+}
+
+void MediationSession::on_incomeFee2LineEdit_editingFinished()
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setIncomeFee2(ui->incomeFee2LineEdit->text());
+}
+
+void MediationSession::on_incomeFeeFamilyLineEdit_editingFinished()
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setIncomeFeeFamily(ui->incomeFeeFamilyLineEdit->text());
+}
+
+void MediationSession::on_incomeFeeOtherLineEdit_editingFinished()
+{
+    if(!FillingFields)
+        _localMediationSessionClassVector[sessionCurrentRow].setIncomeFeeOther(ui->incomeFeeOtherLineEdit->text());
+}
+
+void MediationSession::on_mediator1EditPushButton_clicked()
+{
+    PersonDetailsForm *popup = new PersonDetailsForm(this,_localMediationSessionClassVector[sessionCurrentRow].getMediator1(),true);
+    popup->setWindowFlags(Qt::Popup);
+    popup->SetEditMode(true);
+    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
+    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
+    popup->show();
+    //delete popup;
+
+}
+
+void MediationSession::on_mediator2EditPushButton_clicked()
+{
+    PersonDetailsForm *popup = new PersonDetailsForm(this,_localMediationSessionClassVector[sessionCurrentRow].getMediator2(),true);
+    popup->setWindowFlags(Qt::Popup);
+    popup->SetEditMode(true);
+    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
+    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
+    popup->show();
+    //delete popup;
+}
+
+void MediationSession::on_observer1EditPushButton_clicked()
+{
+    PersonDetailsForm *popup = new PersonDetailsForm(0,_localMediationSessionClassVector[sessionCurrentRow].getObserver1());
+    popup->setWindowFlags(Qt::Popup);
+    popup->SetEditMode(true);
+    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
+    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
+    popup->show();
+    //delete popup;
+}
+
+void MediationSession::on_observer2EditPushButton_clicked()
+{
+    PersonDetailsForm *popup = new PersonDetailsForm(0,_localMediationSessionClassVector[sessionCurrentRow].getObserver2());
+    popup->setWindowFlags(Qt::Popup);
+    popup->SetEditMode(true);
+    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
+    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
+    popup->show();
+    //delete popup;
+}
+
+void MediationSession::savePersonContact(Person *value)
+{
+    if(value)
+        fillFields(_localMediationSessionClassVector[sessionCurrentRow]);
+}
+
+void MediationSession::deletePersonContact(Person *value)
+{
+    if(value)
+        fillFields(_localMediationSessionClassVector[sessionCurrentRow]);
 }

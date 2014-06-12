@@ -185,16 +185,16 @@
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="QLineEdit" name="lineEdit_9"/>
+          <widget class="QLineEdit" name="incomeFee1LineEdit"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_10"/>
+          <widget class="QLineEdit" name="incomeFee2LineEdit"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_11"/>
+          <widget class="QLineEdit" name="incomeFeeFamilyLineEdit"/>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_12"/>
+          <widget class="QLineEdit" name="incomeFeeOtherLineEdit"/>
          </item>
         </layout>
        </widget>
@@ -234,6 +234,20 @@
          <item row="1" column="1">
           <widget class="QLineEdit" name="Mediator2LineEdit"/>
          </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="mediator1EditPushButton">
+           <property name="text">
+            <string>Edit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="mediator2EditPushButton">
+           <property name="text">
+            <string>Edit</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -262,6 +276,20 @@
          </item>
          <item row="1" column="1">
           <widget class="QLineEdit" name="Observer2lineEdit"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QPushButton" name="observer1EditPushButton">
+           <property name="text">
+            <string>Edit</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="2">
+          <widget class="QPushButton" name="observer2EditPushButton">
+           <property name="text">
+            <string>Edit</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>

@@ -42,6 +42,38 @@ private slots:
 
     void on_sessiontTableWidget_doubleClicked(const QModelIndex &index);
 
+    void on_Fee2LineEdit_editingFinished();
+
+    void on_FamilyFeeLineEdit_editingFinished();
+
+    void on_OtherFeeLineEdit_editingFinished();
+
+    void on_Fee2PaidCheckBox_toggled(bool checked);
+
+    void on_FamilyFeePaidCheckBox_toggled(bool checked);
+
+    void on_OtherFeePaidCheckBox_toggled(bool checked);
+
+    void on_incomeFee1LineEdit_editingFinished();
+
+    void on_incomeFee2LineEdit_editingFinished();
+
+    void on_incomeFeeFamilyLineEdit_editingFinished();
+
+    void on_incomeFeeOtherLineEdit_editingFinished();
+
+    void on_mediator1EditPushButton_clicked();
+
+    void on_mediator2EditPushButton_clicked();
+
+    void on_observer1EditPushButton_clicked();
+
+    void on_observer2EditPushButton_clicked();
+
+    void deletePersonContact(Person *value);
+
+    void savePersonContact(Person *value);
+
 private:
     Ui::MediationSession *ui;
     std::vector<AttorneyAndSupportForMediationSessionView *> _attorneyAndSupportVector;

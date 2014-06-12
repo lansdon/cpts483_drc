@@ -57,7 +57,9 @@ MediationSessionClass MediationSessionClass::SampleData()
     result.setFee1Paid(true);
     result.setFee2Paid(true);
     result.setIncomeFee1(QString::fromStdString(strId));
-
+    result.setIncomeFee2(QString::fromStdString(strId));
+    result.setIncomeFeeFamily(QString::fromStdString(strId));
+    result.setIncomeFeeOther(QString::fromStdString(strId));
     result.setMediator1(Person::SampleData());
     result.setMediator2(Person::SampleData());
     result.setObserver1(Person::SampleData());
