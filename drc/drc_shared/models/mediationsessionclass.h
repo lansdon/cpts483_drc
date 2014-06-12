@@ -63,7 +63,7 @@ public:
     void setObserver2(Person *value) {_observer2 = value; }
 
     QString getStatus() const;
-    MediationSessionClass SampleData();
+    static MediationSessionClass *SampleData();
 };
 
 #endif // MEDIATIONSESSIONCLASS_H

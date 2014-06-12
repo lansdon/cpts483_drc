@@ -21,7 +21,7 @@ public:
     explicit MediationSession(QWidget *parent = 0);
     ~MediationSession();
     void setParties(int input);
-    void updateTabs(std::vector<Person *> input);
+    void updateTabs(std::vector<Person *> *input);
 
 private slots:
     void on_CancelledRadioButton_toggled(bool checked);
@@ -76,13 +76,13 @@ private slots:
 
 private:
     Ui::MediationSession *ui;
-    std::vector<AttorneyAndSupportForMediationSessionView *> _attorneyAndSupportVector;
-    std::vector<MediationSessionClass> _localMediationSessionClassVector;
+    std::vector<AttorneyAndSupportForMediationSessionView *> *_attorneyAndSupportVector;
+    std::vector<MediationSessionClass*> *_localMediationSessionClassVector;
     QTableWidget *_sessionTable;
     QStringList _sessionTableHeader;
     void configSessionTable();
     void PopulateSessionTable();
-    void fillFields(MediationSessionClass input);
+    void fillFields(MediationSessionClass *input);
     int sessionCurrentRow;
     bool FillingFields;
 

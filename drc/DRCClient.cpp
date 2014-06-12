@@ -25,6 +25,9 @@ DRCClient::DRCClient(QWidget *parent) :
    ui(new Ui::DRCClient)
 {
     ui->setupUi(this);
+    // set up a seed for any random numbers generated with qrand()
+    qsrand( QDateTime::currentMSecsSinceEpoch()/1000);
+
 
     setCentralWidget(new LoginForm(this));
 

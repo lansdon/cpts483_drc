@@ -18,7 +18,7 @@ DetailsView::~DetailsView()
 
 }
 
-void DetailsView::updateTabs(std::vector<Person *> input)
+void DetailsView::updateTabs(std::vector<Person *> *input)
 {
     _localMediationSession->updateTabs(input);
 }
