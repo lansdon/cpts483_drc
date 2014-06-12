@@ -7,6 +7,7 @@
 
 MediationProcess::MediationProcess()
 {
+    _mediationSessionClassVector = new MediationSessionClassVector();
 }
 
 
