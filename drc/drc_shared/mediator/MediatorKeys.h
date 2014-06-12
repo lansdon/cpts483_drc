@@ -60,7 +60,7 @@ const std::string MKEY_DB_LOAD_INTAKE_FORM_DONE = "MKEY_DB_LOAD_INTAKE_FORM_DONE
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const std::string MKEY_GUI_AUTHENTICATE_USER = "MKEY_GUI_AUTHENTICATE_USER";                // User*
 const std::string MKEY_BL_AUTHENTICATE_USER_DONE = "MKEY_BL_AUTHENTICATE_USER_DONE";        // User*
-const std::string MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";        // std::vector<User*>*
+const std::string MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";        // User*
 
 //////////////////////////////////////////////////////////////////
 //				CURRENT USER CHANGED
@@ -71,7 +71,7 @@ const std::string MKEY_CURRENT_USER_CHANGED = "MKEY_CURRENT_USER_CHANGED";      
 
 //////////////////////////////////////////////////////////////////
 //				SAVE MEDIATION PROCESS
-// Save an intake form to the database
+// Save mediation process form to the database
 //////////////////////////////////////////////////////////////////                                                              ARGUMENT TYPE
 const std::string MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM = "MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM";                          // MediationProcess*
 const std::string MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE";    // MediationProcess*
@@ -79,7 +79,7 @@ const std::string MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE = "MKEY_DB_PERSIST
 
 //////////////////////////////////////////////////////////////////
 //				LOAD MEDIATION PROCESS
-// Load an intake form from the database
+// Load an mediation process from the database
 //////////////////////////////////////////////////////////////////                                                              ARGUMENT TYPE
 const std::string MKEY_GUI_LOAD_MEDIATION_PROCESS_FORM = "MKEY_GUI_LOAD_MEDIATION_PROCESS_FORM";                              // MediationProcess*
 const std::string MKEY_BL_VALIDATE_LOAD_MEDIATION_PROCESS_FORM_DONE = "MKEY_BL_VALIDATE_LOAD_MEDIATION_PROCESS_FORM_DONE";    // MediationProcess*
@@ -118,7 +118,7 @@ const std::string MKEY_DB_QUERY_PERSON = "MKEY_DB_QUERY_PERSON";                
 
 //////////////////////////////////////////////////////////////////
 //				QUERY MEDIATION PROCESS
-// Query for a list of persons based on a single input person
+// Query for a list of mediation processes based on a single mediation process
 //////////////////////////////////////////////////////////////////                              ARGUMENT TYPE
 const std::string MKEY_GUI_QUERY_MEDIATION = "MKEY_GUI_QUERY_MEDIATION";                        // MediationProcess*
 const std::string MKEY_BL_QUERY_MEDIATION = "MKEY_BL_QUERY_MEDIATION";                          // MediationProcess*
