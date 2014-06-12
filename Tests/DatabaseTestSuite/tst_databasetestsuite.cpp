@@ -43,12 +43,13 @@ private Q_SLOTS:
     void CreateTable();
     void CreateDuplicateTable();
     void InsertObject();
+    void CheckDuplicate();
     void SelectName();
 
 private slots:
     void cleanupTestCase()
     {
-        QCOMPARE(_db.CloseDatabase(), false);
+        QCOMPARE(_db.CloseDatabase(), true);
 
         //For the sake of this Test Suite, we delete database after every run.
         //Comment out if undesirable; IE, looking inside file directly.
@@ -104,10 +105,16 @@ void DatabaseTestSuite::CreateDuplicateTable()
 }
 
 
+void DatabaseTestSuite::CheckDuplicate()
+{
+
+}
+
 void DatabaseTestSuite::InsertObject()
 {
     Fruit Banana("Banana");
     Fruit OtherBanana("Banana");
+
     Fruit Apple("Apple");
     Fruit Orange("Orange");
     Fruit OtherOrange("Orange");
@@ -115,12 +122,14 @@ void DatabaseTestSuite::InsertObject()
     Fruit Peach("Peach");
 
     QCOMPARE(_db.InsertObject(&Banana), true);
-    QCOMPARE(_db.InsertObject(&OtherBanana), true);
-    QCOMPARE(_db.InsertObject(&Apple), true);
-    QCOMPARE(_db.InsertObject(&Orange), true);
-    QCOMPARE(_db.InsertObject(&OtherOrange), true);
-    QCOMPARE(_db.InsertObject(&AnotherOrange), true);
-    QCOMPARE(_db.InsertObject(&Peach), true);
+
+    //Duplicate Fruit Name, should fail.
+    QCOMPARE(_db.InsertObject(&OtherBanana), false);
+//    QCOMPARE(_db.InsertObject(&Apple), true);
+//    QCOMPARE(_db.InsertObject(&Orange), true);
+//    QCOMPARE(_db.InsertObject(&OtherOrange), true);
+//    QCOMPARE(_db.InsertObject(&AnotherOrange), true);
+//    QCOMPARE(_db.InsertObject(&Peach), true);
 }
 
 

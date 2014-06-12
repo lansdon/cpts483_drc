@@ -14,6 +14,8 @@ public:
     virtual QString Parse(void) = 0;
 
     virtual QString table() = 0;
+
+    virtual QString GetName() = 0;
 };
 
 

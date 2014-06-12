@@ -101,14 +101,55 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 //------------------------------------------------------------------------
 bool DRCDB::InsertObject(DBBaseObject* db_object)
 {
-    QString command_string = QString("insert into %1 values ( %2 , %3 )")
-            .arg(db_object->table())
-            .arg("null")
-            .arg(db_object->Parse());
+    bool insert_success = false;
 
-    return this->ExecuteCommand(command_string);
+    if (!this->DuplicateInsert(db_object))
+    {
+        QString command_string = QString("insert into %1 values ( %2 , %3 )")
+                .arg(db_object->table())
+                .arg("null")
+                .arg(db_object->Parse());
+        insert_success = this->ExecuteCommand(command_string);
+    }
+
+    return insert_success;
+
+}
+//========================================================================
+
+
+
+//========================================================================
+//A simple query to determine whether or not a similar name already exists
+//inside the database.
+
+//Note: It seems QSqlQuery.size() is not compatible with SQLITE3, which
+//      resulted in my using QSqlQuery.next() instead.
+
+//Note: Focused on getting this damn thing to work, so it's sloppy.
+
+//Note: This method has no extensibility whatsoever.  The moment even
+//      "one" thing changes, we're doomed.  That's it.  Done.  Kaput.
+//------------------------------------------------------------------------
+bool DRCDB::DuplicateInsert(DBBaseObject* db_object)
+{
+    bool duplicate_exists = false;
+
+    QSqlQuery query_object(database);
+    query_object.prepare(QString("select count(1) from %1 where fruit_name = \'%2\'")
+                         .arg(db_object->table()).arg(db_object->GetName()));
+    query_object.exec();
+
+    //Lazy implementation.
+    if (query_object.next() && query_object.value(0).toInt() == 1)
+    {
+        duplicate_exists = true;
+    }
+
+    return duplicate_exists;
 }
 
+//========================================================================
 
 //========================================================================
 //Query object can be implicitly initialized without passing
@@ -130,6 +171,8 @@ bool DRCDB::ExecuteCommand(QString command_string)
 
     return query_object.exec();
 }
+//========================================================================
+
 
 
 //========================================================================
@@ -166,9 +209,12 @@ QVector<QString> DRCDB::SelectAllFields(QString table_name)
 
     return return_vec;
 }
+//========================================================================
 
+
+//========================================================================
 //Methods below this line are necessarily vital, but are helpful for testing.
-//=======================================================================================================
+//========================================================================
 
 void DRCDB::DebugDisplay(QString error_message, bool active)
 {
@@ -207,28 +253,3 @@ void DRCDB::WhatLastError(const QSqlQuery &query_object)
 {
     qDebug() << "\n" << query_object.lastError();
 }
-
-
-
-//vector<string>* DRCDB::SelectAllField()
-//{
-//    vector<string>* empty = new vector<string>();
-
-//    if(database.isOpen())
-//    {
-//        QSqlQuery query;
-//        query.exec("select * from Albertsons");
-
-//        while(query.next())
-//        {
-//            string name(query.value(1).toString().toStdString());
-//            string time(query.value(0).toString().toStdString());
-//            empty->push_back(name);
-//            empty->push_back(time);
-//        }
-//    }
-
-
-//    return empty;
-
-//}

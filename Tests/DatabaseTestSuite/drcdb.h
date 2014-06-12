@@ -24,6 +24,8 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
+    bool DuplicateInsert(DBBaseObject* db_object);
+
     QVector<QString> SelectAllFields(QString table_name);
 
     void WhatLastError(const QSqlQuery &query_object);
