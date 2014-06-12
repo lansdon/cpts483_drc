@@ -70,9 +70,9 @@ DatabaseTestSuite::DatabaseTestSuite()
     table_name = QString("Albertsons");
 
     //Name and Datatypes of all Table columns
-    column_container.push_back(QString("time_stamp int not null"));
-    column_container.push_back(QString("fruit_name char(50) not null"));
     column_container.push_back(QString("id integer primary key autoincrement null"));
+    column_container.push_back(QString("fruit_name char(50) not null"));
+    column_container.push_back(QString("time_stamp int not null"));
 
 }
 //=======================================================

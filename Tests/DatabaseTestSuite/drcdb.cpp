@@ -9,13 +9,30 @@ using std::vector;
 
 DRCDB::DRCDB()
 {
+
 }
 
+//========================================================================
+//Constructor takes in a database_name, and opens it.
+//------------------------------------------------------------------------
 DRCDB::DRCDB(QString database_name)
 {
     this->OpenDatabase(database_name);
 }
+//========================================================================
 
+
+
+//========================================================================
+//It first sets the driver that our database will be using (in this case,
+//"QSQLITE", which is the driver for sqlite3.  It'll then set the name of
+//the database file to the QString that was passed to this method.
+
+//Lastly, after everything has been set on the database object, we attempt
+//to open a database; the result of that will be returned as a boolean.
+//True:     Open
+//False:    Failed to Open
+//------------------------------------------------------------------------
 bool DRCDB::OpenDatabase(QString database_name)
 {
     database = QSqlDatabase::addDatabase(db_driver);
@@ -27,13 +44,34 @@ bool DRCDB::OpenDatabase(QString database_name)
 
     return database.open();
 }
+//========================================================================
 
+
+
+//========================================================================
+//Method closes our database object, and returns the boolean indicating
+//whether or not the database was successfully closed.
+//True:     Closed
+//False:    Still Open
+//------------------------------------------------------------------------
 bool DRCDB::CloseDatabase()
 {
     database.close();
-    return database.isOpen();
+    return !database.isOpen();
 }
+//========================================================================
 
+
+
+//========================================================================
+//Consolidates a command_string with all the individual elements from the
+//QVector that will make up the columns of this new table.
+
+//Lastly we use the ExecuteCommand method of our database class to generate
+//the tables, and returns a boolean indicating whether or not it was successful.
+//True:     Command Executed
+//False:    Command Failed to Execute
+//------------------------------------------------------------------------
 bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 {
     QString command_string = QString("create table %1 ").arg(table_name);
@@ -52,18 +90,35 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 
     return this->ExecuteCommand(command_string);
 }
+//========================================================================
 
 
+
+//========================================================================
+//Takes a generic Database object, and parses a valid command_string.
+//This string is then sent to our ExecuteCommand method of our database
+//class to insert the values of the object.
+//------------------------------------------------------------------------
 bool DRCDB::InsertObject(DBBaseObject* db_object)
 {
     QString command_string = QString("insert into %1 values ( %2 , %3 )")
             .arg(db_object->table())
-            .arg(db_object->Parse())
-            .arg("null");
+            .arg("null")
+            .arg(db_object->Parse());
 
     return this->ExecuteCommand(command_string);
 }
 
+
+//========================================================================
+//Query object can be implicitly initialized without passing
+//the QSQLDatabase object to the constructor.  However, it is
+//slightly more obvious as to where it's getting its information.
+
+//Prepare checks the potential SQL command for validity.  While it seems
+//tedious, it apparently is more efficient than letting an erroneous
+//command be executed directly.
+//------------------------------------------------------------------------
 bool DRCDB::ExecuteCommand(QString command_string)
 {
     QSqlQuery query_object(database);
@@ -76,6 +131,18 @@ bool DRCDB::ExecuteCommand(QString command_string)
     return query_object.exec();
 }
 
+
+//========================================================================
+//A simple query that returns all values currently contained within the
+//table indicated.
+
+//Unlike previous database methods, this method is unable to use the
+//ExecuteCommand method due to the fact that it needs to return an object
+//as opposed to a simple boolean.  In this case, an empty object represents
+//a failed attempt to return anything from the database.
+//QVector.count > 0:        Success
+//QVector.count == 0:       Failure
+//------------------------------------------------------------------------
 QVector<QString> DRCDB::SelectAllFields(QString table_name)
 {
     QVector<QString> return_vec;
@@ -141,13 +208,6 @@ void DRCDB::WhatLastError(const QSqlQuery &query_object)
     qDebug() << "\n" << query_object.lastError();
 }
 
-//Query object can be implicitly initialized without passing
-//the QSQLDatabase object to the constructor.  However, it is
-//slightly more obvious as to where it's getting its information.
-
-//Prepare checks the potential SQL command for validity.  While it seems
-//tedious, it apparently is more efficient than letting an erroneous
-//command be executed directly.
 
 
 //vector<string>* DRCDB::SelectAllField()
