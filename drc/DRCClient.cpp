@@ -64,26 +64,9 @@ void DRCClient::CurrentUserChanged(MediatorArg arg)
 void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
 {
     ui->menuBar->setEnabled(enableMenus);
+    ui->menuHelp->setEnabled(enableMenus);
     ui->toolBar->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-
-    if(enableMenus)
-    {
-        ui->menuHelp->setEnabled(enableMenus);
-        ui->toolBar->setEnabled(enableMenus);
-        if(showAdmin)
-        {
-
-        }
-    }
-    else
-    {
-
-    }
+    ui->menuAdmin->menuAction()->setVisible(showAdmin);
 }
 
 

@@ -55,7 +55,7 @@ bool UserInfo::LogoutUser()
 {
 	// More error checking possibly?
 	// Will have to do more than just set the pointer to null.
-	// 
+    // Some kind of mediator call?
 	Instance().CurrentUser = nullptr;
 	return true;
 }
