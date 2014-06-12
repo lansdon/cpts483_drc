@@ -24,8 +24,9 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
-    void WhatLastError(const QSqlQuery &query_object);
+    QVector<QString> SelectAllFields(QString table_name);
 
+    void WhatLastError(const QSqlQuery &query_object);
 
     //  Methods that aren't necessary, but are helpful for testing.
     //======================================================================
@@ -39,7 +40,7 @@ public:
 
     QString WhatDriver();
 
-    bool CheckTableExists(QString table_name);
+    //bool CheckTableExists(QString table_name);
 };
 
 #endif // DRCDB_H

@@ -71,9 +71,33 @@ bool DRCDB::ExecuteCommand(QString command_string)
     this->DebugDisplay(command_string);
 
     if (!query_object.prepare(command_string))
-
         this->WhatLastError(query_object);
+
     return query_object.exec();
+}
+
+QVector<QString> DRCDB::SelectAllFields(QString table_name)
+{
+    QVector<QString> return_vec;
+
+    QString command_string = QString("select * from %1")
+            .arg(table_name);
+
+    QSqlQuery query_object(database);
+    query_object.prepare(command_string);
+    query_object.exec();
+
+    while(query_object.next())
+    {
+        QString time(query_object.value(0).toString());
+        QString name(query_object.value(1).toString());
+        QString id(query_object.value(2).toString());
+        return_vec.push_back(time);
+        return_vec.push_back(name);
+        return_vec.push_back(id);
+    }
+
+    return return_vec;
 }
 
 //Methods below this line are necessarily vital, but are helpful for testing.
@@ -105,12 +129,12 @@ QString DRCDB::WhatDriver()
 //stating the return type, those who read this code later will have
 //a better idea of what's going on as opposed to spending time sifting
 //through additional documentation.
-bool DRCDB::CheckTableExists(QString table_name)
-{
-    QStringList table_list = database.tables();
+//bool DRCDB::CheckTableExists(QString table_name)
+//{
+//    QStringList table_list = database.tables();
 
-    return table_list.contains(table_name);
-}
+//    return table_list.contains(table_name);
+//}
 
 void DRCDB::WhatLastError(const QSqlQuery &query_object)
 {

@@ -43,6 +43,7 @@ private Q_SLOTS:
     void CreateTable();
     void CreateDuplicateTable();
     void InsertObject();
+    void SelectName();
 
 private slots:
     void cleanupTestCase()
@@ -59,9 +60,6 @@ private slots:
 //======================================================
 DatabaseTestSuite::DatabaseTestSuite()
 {
-    //In the event that we have an existing .db with the same name.
-    QFile::remove(database_name);
-
     //Name of the database we're using / creating.
     database_name = QString("database_test_name.db");
 
@@ -93,52 +91,48 @@ void DatabaseTestSuite::OpenDatabase()
 
 void DatabaseTestSuite::CreateTable()
 {
-    //Does table shouldn't already exist.
-    QCOMPARE(_db.CheckTableExists(table_name), false);
-
     //Create table with name and column data.
     QCOMPARE(_db.CreateTable(table_name, column_container), true);
 }
 
 void DatabaseTestSuite::CreateDuplicateTable()
 {
-    //Table already exists.  (If DB not deleted, run tests twice.)
-    QCOMPARE(_db.CheckTableExists(table_name), true);
 
     //Create table with same name.  (Should fail)
     //The test passes, but an error code "will" still be displayed.
-    //QCOMPARE(_db.CreateTable(table_name, empty_container), false);
+    QCOMPARE(_db.CreateTable(table_name, empty_container), false);
 }
 
 
 void DatabaseTestSuite::InsertObject()
 {
     Fruit Banana("Banana");
+    Fruit OtherBanana("Banana");
     Fruit Apple("Apple");
     Fruit Orange("Orange");
+    Fruit OtherOrange("Orange");
+    Fruit AnotherOrange("Orange");
     Fruit Peach("Peach");
 
     QCOMPARE(_db.InsertObject(&Banana), true);
+    QCOMPARE(_db.InsertObject(&OtherBanana), true);
     QCOMPARE(_db.InsertObject(&Apple), true);
     QCOMPARE(_db.InsertObject(&Orange), true);
+    QCOMPARE(_db.InsertObject(&OtherOrange), true);
+    QCOMPARE(_db.InsertObject(&AnotherOrange), true);
     QCOMPARE(_db.InsertObject(&Peach), true);
 }
 
-    //So far, can't figure out how to trigger the last error method.
-    //QCOMPARE(_db.WhatLastError(), QString("Should be an error here."));
 
+void DatabaseTestSuite::SelectName()
+{
+    QVector<QString> table_data = _db.SelectAllFields(table_name);
 
-
-
-
-
-
-
-
-
-
-
-
+    foreach(QString item, table_data)
+    {
+        qDebug() << item;
+    }
+}
 
 QTEST_APPLESS_MAIN(DatabaseTestSuite)
 
