@@ -8,6 +8,7 @@
 #include <vector>
 #include "drc_shared/models/Person.h"
 #include "drc_shared/models/mediationsessionclass.h"
+#include "drc_shared/drctypes.h"
 
 namespace Ui {
 class MediationSession;
@@ -18,7 +19,7 @@ class MediationSession : public QWidget
     Q_OBJECT
 
 public:
-    explicit MediationSession(QWidget *parent = 0);
+    explicit MediationSession(QWidget *parent = 0,MediationSessionClassVector * MSC = nullptr);
     ~MediationSession();
     void setParties(int input);
     void updateTabs(std::vector<Person *> *input);
@@ -77,7 +78,7 @@ private slots:
 private:
     Ui::MediationSession *ui;
     std::vector<AttorneyAndSupportForMediationSessionView *> *_attorneyAndSupportVector;
-    std::vector<MediationSessionClass*> *_localMediationSessionClassVector;
+    MediationSessionClassVector *_localMediationSessionClassVector;
     QTableWidget *_sessionTable;
     QStringList _sessionTableHeader;
     void configSessionTable();

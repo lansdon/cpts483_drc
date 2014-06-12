@@ -3,20 +3,21 @@
 #include <QDebug>
 #include "persondetailsform.h"
 
-MediationSession::MediationSession(QWidget *parent) :
+MediationSession::MediationSession(QWidget *parent, MediationSessionClassVector *MSC) :
     QWidget(parent),
-    ui(new Ui::MediationSession)
+    ui(new Ui::MediationSession),
+    _localMediationSessionClassVector(MSC ? MSC : new MediationSessionClassVector)
 {
     ui->setupUi(this);
     ui->dateTimeEdit->setVisible(false);
-    _localMediationSessionClassVector = new std::vector<MediationSessionClass*>();
+    //_localMediationSessionClassVector = new std::vector<MediationSessionClass*>();
 
-    for(int i = 0; i < 3; i++)
-    {
-        MediationSessionClass *a = MediationSessionClass::SampleData();
+//    for(int i = 0; i < 3; i++)
+//    {
+//        MediationSessionClass *a = MediationSessionClass::SampleData();
 
-        _localMediationSessionClassVector->push_back(a);
-    }
+//        _localMediationSessionClassVector->push_back(a);
+//    }
     configSessionTable();
     PopulateSessionTable();
     sessionCurrentRow = 0;
