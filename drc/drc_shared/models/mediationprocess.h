@@ -5,6 +5,7 @@
 #include "drctypes.h"
 #include <QDate>
 #include "party.h"
+#include "mediationsessionclass.h"
 
 class Person;
 
@@ -25,6 +26,7 @@ public:
     QDateTime GetCreationDate() { return _creationDate; }
     DisputeProcessStates GetCurrentState() { return _processState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
+    MediationSessionClassVector getMediationSessionVector() const {return _mediationSessionClassVector;}
 
     void SetParty1(Party* party) { _party1 = *party; }
     void SetParty2(Party* party) { _party2 = *party; }
@@ -35,6 +37,8 @@ public:
     void SetCreationDate(QDateTime date) { _creationDate = date; }
     void SetProcessState(DisputeProcessStates state) { _processState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
+    void setMediationSessionClassVector(MediationSessionClassVector value) {_mediationSessionClassVector = value;}
+
 
     // Helpers
     int GetAffectedChildrenCount() { return _party1.GetAffectedChildren() + _party2.GetAffectedChildren(); }
@@ -57,6 +61,8 @@ private:
     ReferralTypes _referalSource;
 
     bool _requiresSpanish;
+
+    MediationSessionClassVector _mediationSessionClassVector;
 
 };
 

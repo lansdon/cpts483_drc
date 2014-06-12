@@ -81,12 +81,11 @@
       </item>
       <item row="0" column="4">
        <widget class="QDateTimeEdit" name="dateTimeEdit">
-        <property name="minimumDate">
-         <date>
-          <year>2014</year>
-          <month>6</month>
-          <day>5</day>
-         </date>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>3</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="calendarPopup">
          <bool>true</bool>

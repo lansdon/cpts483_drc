@@ -7,7 +7,7 @@ MediationSession::MediationSession(QWidget *parent) :
     ui(new Ui::MediationSession)
 {
     ui->setupUi(this);
-    ui->dateTimeEdit->clear();
+    ui->dateTimeEdit->setVisible(false);
     for(int i = 0; i < 3; i++)
     {
         MediationSessionClass a;
@@ -16,6 +16,9 @@ MediationSession::MediationSession(QWidget *parent) :
     }
     configSessionTable();
     PopulateSessionTable();
+    sessionCurrentRow = 0;
+    FillingFields = false;
+    fillFields(_localMediationSessionClassVector[sessionCurrentRow]);
 
 }
 
@@ -84,45 +87,73 @@ void MediationSession::updateTabs(std::vector<Person *> input)
 
 void MediationSession::on_CancelledRadioButton_toggled(bool checked)
 {
-    //_localMediationSessionClass.setCancelledRB(checked);
+    if(!FillingFields)
+    {
+        _localMediationSessionClassVector[sessionCurrentRow].setCancelledRB(checked);
+        PopulateSessionTable();
+    }
 }
 
 void MediationSession::on_PendingRadioButton_toggled(bool checked)
 {
-   // _localMediationSessionClass.setPendingRB(checked);
+    if(!FillingFields)
+    {
+        _localMediationSessionClassVector[sessionCurrentRow].setPendingRB(checked);
+        PopulateSessionTable();
+    }
 }
 
 void MediationSession::on_confirmedRadioButton_toggled(bool checked)
 {
-   // _localMediationSessionClass.setConfirmedRB(checked);
+    if(!FillingFields)
+    {
+        _localMediationSessionClassVector[sessionCurrentRow].setConfirmedRB(checked);
+        PopulateSessionTable();
+    }
 }
 
 void MediationSession::on_rescheduledRadioButton_toggled(bool checked)
 {
-   // _localMediationSessionClass.setRescheduledRB(checked);
+    if(!FillingFields)
+    {
+        _localMediationSessionClassVector[sessionCurrentRow].setRescheduledRB(checked);
+        PopulateSessionTable();
+    }
 }
 
 void MediationSession::on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
-   // _localMediationSessionClass.setMediationTime(dateTime);
+    if(!FillingFields)
+    {
+        _localMediationSessionClassVector[sessionCurrentRow].setMediationTime(dateTime);
+        PopulateSessionTable();
+    }
 }
 
 void MediationSession::on_Fee1LineEdit_editingFinished()
 {
-    //_localMediationSessionClass.setFee1(ui->Fee1LineEdit->text());
+    if(!FillingFields)
+    {
+        _localMediationSessionClassVector[sessionCurrentRow].setFee1(ui->Fee1LineEdit->text());
+        PopulateSessionTable();
+    }
 }
 
 void MediationSession::on_Fee1PaidCheckBox_toggled(bool checked)
 {
-    //_localMediationSessionClass.setFee1Paid(checked);
+    if(!FillingFields)
+    {
+        _localMediationSessionClassVector[sessionCurrentRow].setFee1Paid(checked);
+        PopulateSessionTable();
+    }
 }
 
 void MediationSession::configSessionTable()
 {
     _sessionTable = ui->sessiontTableWidget;
     _sessionTable->setColumnCount(3);
-    _sessionTable->setRowCount(5);
-    _sessionTableHeader <<"Date Time"<<"Name"<<"Status";
+    _sessionTable->setRowCount(_localMediationSessionClassVector.size() + 1);
+    _sessionTableHeader <<"Date Time"<<" "<<"Status";
     _sessionTable->setHorizontalHeaderLabels(_sessionTableHeader);
     _sessionTable->verticalHeader()->setVisible(false);
     _sessionTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -151,4 +182,57 @@ void MediationSession::PopulateSessionTable()
 
     }
     _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session."));
+    //ui->sessiontTableWidget->setCurrentCell(0,0);
+}
+
+void MediationSession::on_sessiontTableWidget_itemSelectionChanged()
+{
+
+    if(sessionCurrentRow != ui->sessiontTableWidget->currentRow())
+    {
+        sessionCurrentRow = ui->sessiontTableWidget->currentRow();
+
+        if((uint)sessionCurrentRow<_localMediationSessionClassVector.size())
+            fillFields(_localMediationSessionClassVector[sessionCurrentRow]);
+    }
+
+}
+
+void MediationSession::fillFields(MediationSessionClass input)
+{
+    FillingFields = true;
+    ui->CancelledRadioButton->setChecked(input.getCancelledRB());
+    ui->confirmedRadioButton->setChecked(input.getConfirmedRB());
+    ui->dateTimeEdit->setDateTime(input.getMediationTime());
+    ui->dateTimeEdit->setVisible(true);
+    ui->FamilyFeeLineEdit->setText(input.getFeeFamily());
+    ui->FamilyFeePaidCheckBox->setChecked(input.getFeeFamilyPaid());
+    ui->Fee1LineEdit->setText(input.getFee1());
+    ui->Fee2LineEdit->setText(input.getFee2());
+    ui->OtherFeeLineEdit->setText(input.getFeeOther());
+    ui->Fee1PaidCheckBox->setChecked(input.getFee1Paid());
+    ui->Fee2PaidCheckBox->setChecked(input.getFee2Paid());
+    ui->OtherFeePaidCheckBox->setChecked(input.getFeeOtherPaid());
+    if(input.getMediator1()!=NULL)
+        ui->Mediator2LineEdit->setText(input.getMediator2()->FullName());
+    if(input.getMediator2()!=NULL)
+        ui->MediatorLineEdit->setText(input.getMediator1()->FullName());
+    ui->PendingRadioButton->setChecked(input.getPendingRB());
+    ui->rescheduledRadioButton->setChecked(input.getRescheduledRB());
+    if(input.getObserver1()!=NULL)
+        ui->Observe1LineEdit->setText(input.getObserver1()->FullName());
+    if(input.getObserver2()!=NULL)
+        ui->Observer2lineEdit->setText(input.getObserver2()->FullName());
+    FillingFields = false;
+}
+
+void MediationSession::on_sessiontTableWidget_doubleClicked(const QModelIndex &index)
+{
+    MediationSessionClass temp;
+   _localMediationSessionClassVector.push_back(temp);
+   configSessionTable();
+   PopulateSessionTable();
+   ui->sessiontTableWidget->setCurrentCell(_localMediationSessionClassVector.size()-1,0);
+   fillFields(_localMediationSessionClassVector[_localMediationSessionClassVector.size() - 1]);
+
 }

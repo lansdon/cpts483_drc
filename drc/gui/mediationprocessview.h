@@ -26,7 +26,7 @@ public:
 
 private slots:
 
-    void on_toolBox_currentChanged(int index);
+//    void on_toolBox_currentChanged(int index);
 
 private:
     Ui::MediationProcessView *ui;

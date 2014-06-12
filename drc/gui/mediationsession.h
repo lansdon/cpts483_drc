@@ -38,6 +38,10 @@ private slots:
 
     void on_Fee1PaidCheckBox_toggled(bool checked);
 
+    void on_sessiontTableWidget_itemSelectionChanged();
+
+    void on_sessiontTableWidget_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MediationSession *ui;
     std::vector<AttorneyAndSupportForMediationSessionView *> _attorneyAndSupportVector;
@@ -46,6 +50,9 @@ private:
     QStringList _sessionTableHeader;
     void configSessionTable();
     void PopulateSessionTable();
+    void fillFields(MediationSessionClass input);
+    int sessionCurrentRow;
+    bool FillingFields;
 
 };
 

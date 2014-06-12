@@ -40,16 +40,16 @@ MediationProcessView::~MediationProcessView()
 //    return _numberOfParties;
 //}
 
-void MediationProcessView::on_toolBox_currentChanged(int index)
-{
-    if(index == 1)
-    {
+//void MediationProcessView::on_toolBox_currentChanged(int index)
+//{
+//    if(index == 1)
+//    {
 
-        //temp.insert(temp.begin(),_localIntakeForm->getCurrentIntake().getClaimant());
+//        //temp.insert(temp.begin(),_localIntakeForm->getCurrentIntake().getClaimant());
 
-//        _numberOfParties = _localIntakeForm->totalParties();
-        //qDebug() << QString::fromStdString(std::to_string(temp.size()));
-//        _localDetailsView->updateTabs(_localIntakeForm->getCurrentIntake().getParties());
+////        _numberOfParties = _localIntakeForm->totalParties();
+//        //qDebug() << QString::fromStdString(std::to_string(temp.size()));
+////        _localDetailsView->updateTabs(_localIntakeForm->getCurrentIntake().getParties());
 
-    }
-}
+//    }
+//}
