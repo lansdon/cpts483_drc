@@ -141,6 +141,27 @@ void DatabaseTestSuite::InsertObject()
 
 void DatabaseTestSuite::SelectName()
 {
+    //Set to a timestamp that is set up above in the gui filtering
+    Fruit NarrowSearch("Banana");
+    NarrowSearch.SetTime(10000);
+
+    Fruit BananaNameSearch("Banana");
+    BananaNameSearch.SetTime(0);
+
+    Fruit NoNameSearch("");
+    NoNameSearch.SetTime(10000);
+
+    Fruit CatchAllSearch("");
+    CatchAllSearch.SetTime(0);
+
+    QString strongQuery = NarrowSearch.SearchQuery();
+
+    QString nameQuery = BananaNameSearch.SearchQuery();
+
+    QString timeQuery = NoNameSearch.SearchQuery();
+
+    QString looseQuery = CatchAllSearch.SearchQuery();
+
     QVector<QString> table_data = _db.SelectAllFields(table_name);
 
     foreach(QString item, table_data)

@@ -25,6 +25,8 @@ public:
 
     void SetName(QString name);
 
+    void SetTime(int time);
+
     QString GetName(void);
     
     QString GetTime(void);
@@ -36,6 +38,8 @@ public:
     QString table(void);
 
     QString DuplicateQuery(void);
+
+    QString SearchQuery(void);
     
 };
 

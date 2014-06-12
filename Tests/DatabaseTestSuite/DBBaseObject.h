@@ -16,6 +16,8 @@ public:
     virtual QString table() = 0;
 
     virtual QString DuplicateQuery() = 0;
+
+    virtual QString SearchQuery() = 0;
 };
 
 
