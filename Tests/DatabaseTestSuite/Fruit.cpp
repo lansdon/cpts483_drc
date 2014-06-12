@@ -62,3 +62,21 @@ QString Fruit::table(void)
 {
     return QString(table_name);
 }
+
+QString Fruit::DuplicateQuery(void)
+{
+    static QString single_quote("\'");
+
+    QString toReturn;
+
+    toReturn += "SELECT * FROM ";
+    toReturn += table_name;
+    toReturn += " WHERE fruit_name like ";
+    toReturn += single_quote + this->GetName() + single_quote;
+    toReturn += " AND time_stamp = ";
+    toReturn += this->GetTime();
+
+    return toReturn;
+
+    //return QString("Select * from table_name where name like \'" + this->GetName() + "\' and where time = " + this->GetTime()
+}

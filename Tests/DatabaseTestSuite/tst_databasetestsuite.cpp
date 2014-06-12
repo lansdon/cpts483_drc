@@ -113,6 +113,9 @@ void DatabaseTestSuite::CheckDuplicate()
 void DatabaseTestSuite::InsertObject()
 {
     Fruit Banana("Banana");
+
+    this->thread()->sleep(5);
+
     Fruit OtherBanana("Banana");
 
     Fruit Apple("Apple");
@@ -123,8 +126,11 @@ void DatabaseTestSuite::InsertObject()
 
     QCOMPARE(_db.InsertObject(&Banana), true);
 
-    //Duplicate Fruit Name, should fail.
-    QCOMPARE(_db.InsertObject(&OtherBanana), false);
+    //Duplicate Fruit Name, should not fail, different timestamp.
+    QCOMPARE(_db.InsertObject(&OtherBanana), true);
+
+    //Duplicate Fruit, should fail since this is the exact same fruit.
+    QCOMPARE(_db.InsertObject(&Banana), false);
 //    QCOMPARE(_db.InsertObject(&Apple), true);
 //    QCOMPARE(_db.InsertObject(&Orange), true);
 //    QCOMPARE(_db.InsertObject(&OtherOrange), true);

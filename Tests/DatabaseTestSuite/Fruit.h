@@ -34,6 +34,8 @@ public:
     QString Parse(void);
     
     QString table(void);
+
+    QString DuplicateQuery(void);
     
 };
 

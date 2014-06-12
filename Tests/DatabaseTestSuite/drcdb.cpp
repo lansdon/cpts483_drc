@@ -136,12 +136,17 @@ bool DRCDB::DuplicateInsert(DBBaseObject* db_object)
     bool duplicate_exists = false;
 
     QSqlQuery query_object(database);
+    /*
     query_object.prepare(QString("select count(1) from %1 where fruit_name = \'%2\'")
                          .arg(db_object->table()).arg(db_object->GetName()));
+    */
+
+    query_object.prepare(QString(db_object->DuplicateQuery()));
+
     query_object.exec();
 
     //Lazy implementation.
-    if (query_object.next() && query_object.value(0).toInt() == 1)
+    if (query_object.next())
     {
         duplicate_exists = true;
     }

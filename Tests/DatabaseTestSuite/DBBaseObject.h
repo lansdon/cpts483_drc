@@ -15,7 +15,7 @@ public:
 
     virtual QString table() = 0;
 
-    virtual QString GetName() = 0;
+    virtual QString DuplicateQuery() = 0;
 };
 
 
