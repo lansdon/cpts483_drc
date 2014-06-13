@@ -27,7 +27,9 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
         foreach(Party* party, *parties)
         {
             if(party)
+            {
                 ui->partyTabWidget->addTab(new PartyForm(ui->partyTabWidget, party), party->GetPrimary()->FullName());
+            }
         }
     }
 }

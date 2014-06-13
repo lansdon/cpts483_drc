@@ -62,7 +62,6 @@ void MediationProcessView::PopulateView(MediationProcess *value)
 
 void MediationProcessView::configMediationProcecssViewTable()
 {
-
         //MediationProcessTableView = ui->sessiontTableWidget;
         MediationProcessTableView->setColumnCount(3);
         MediationProcessTableView->setRowCount(11);
@@ -80,7 +79,6 @@ void MediationProcessView::configMediationProcecssViewTable()
             MediationProcessTableView->horizontalHeader()->setSectionResizeMode(
                 c, QHeaderView::Stretch);
         }
-
 }
 void MediationProcessView::PopulateMediationProcessTable()
 {
