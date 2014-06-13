@@ -2,6 +2,7 @@
 #define PARTIESCONTAINERFORM_H
 
 #include <QWidget>
+#include "partyform.h"
 
 class Party;
 
@@ -16,13 +17,13 @@ class PartiesContainerForm : public QWidget
 public:
     explicit PartiesContainerForm(QWidget *parent = 0, Party* party1 = nullptr, Party* party2 = nullptr);
     ~PartiesContainerForm();
-
+    void SetParty1View(Party* party);
+    void SetParty2View(Party* party);
 
 private:
     Ui::PartiesContainerForm *ui;
-
-    void SetParty1View(Party* party);
-    void SetParty2View(Party* party);
+    PartyForm *p1;
+    PartyForm *p2;
 
 };
 

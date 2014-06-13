@@ -18,8 +18,7 @@ MediationSession::MediationSession(QWidget *parent, MediationSessionClassVector 
 
 //        _localMediationSessionClassVector->push_back(a);
 //    }
-    configSessionTable();
-    PopulateSessionTable();
+
     sessionCurrentRow = 0;
     FillingFields = false;
     if(_localMediationSessionClassVector->size() > 0)
@@ -32,6 +31,19 @@ MediationSession::~MediationSession()
 {
     delete ui;
 }
+
+void MediationSession::setMediationSessionClassVector(MediationSessionClassVector *value)
+{
+    _localMediationSessionClassVector = value;
+    configSessionTable();
+    PopulateSessionTable();
+    sessionCurrentRow = 0;
+    FillingFields = false;
+    if(_localMediationSessionClassVector->size() > 0)
+        fillFields(_localMediationSessionClassVector->at(sessionCurrentRow));
+    ui->sessiontTableWidget->setCurrentCell(0,0);
+}
+
 void MediationSession::setParties(int input)
 {
     ui->SupportTabWidget->clear();

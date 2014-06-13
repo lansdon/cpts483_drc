@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QStringList>
+#include "persondetailsform.h"
 
 class Party;
 class Person;
@@ -35,7 +36,7 @@ class PartyForm : public QWidget
 public:
     explicit PartyForm(QWidget *parent = 0, Party* party = nullptr);
     ~PartyForm();
-
+    void setParty(Party *value);
 private slots:
     void ObserverCellSelected(int nRow, int nCol);
     void ChildCellSelected(int nRow, int nCol);
@@ -46,7 +47,7 @@ private slots:
 
 private:
     Ui::PartyForm *ui;
-
+    PersonDetailsForm *_localPersonDetailsForm;
     Party* _party;
 
     QTableWidget* _observerTable;

@@ -35,7 +35,7 @@ void Mock_Server::PrintMediationProcess(MediationProcess *input, std::fstream &f
     {
         file << "Test from mediation process querry\n";
         file << "Time tested: " << std::ctime(&tm);
-        file << "Test data(Primary party Full Name): " << input->GetParty1()->GetPrimary().FullName().toUtf8().constData() <<std::endl;
+        file << "Test data(Primary party Full Name): " << input->GetParty1()->GetPrimary()->FullName().toUtf8().constData() <<std::endl;
         file << "Test data(Attorny full name): " << input->GetParty2()->GetAttorney().FullName().toUtf8().constData() <<std::endl<<std::endl;
         file << "------------------------------------------------------------------"<<std::endl<<std::endl;
         file.close();

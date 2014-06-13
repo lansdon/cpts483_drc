@@ -8,6 +8,8 @@
 MediationProcess::MediationProcess()
 {
     _mediationSessionClassVector = new MediationSessionClassVector();
+    _party1 = new Party();
+    _party2 = new Party();
 }
 
 
@@ -22,8 +24,8 @@ MediationProcess *MediationProcess::SampleData()
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
 
-    result->_party1 = *Party::SampleData();
-    result->_party2 = *Party::SampleData();
+    result->_party1 = Party::SampleData();
+    result->_party2 = Party::SampleData();
     result->_countyOfMediation = COUNTY_BENTON;
     result->_disputeType = DISPUTE_T_NEIGHBORHOOD;
     result->_requiresSpanish = true;

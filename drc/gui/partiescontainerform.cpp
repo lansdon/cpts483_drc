@@ -8,11 +8,18 @@ PartiesContainerForm::PartiesContainerForm(QWidget *parent, Party* party1, Party
     , ui(new Ui::PartiesContainerForm)
 {
     ui->setupUi(this);
-
-    if(party1)
-        SetParty1View(party1);
-    if(party2)
-        SetParty2View(party2);
+    p1 = new PartyForm();
+    p2 = new PartyForm();
+//    if(party1)
+//        SetParty1View(party1);
+//    if(party2)
+//        SetParty2View(party2);
+    QGridLayout* gLayout = new QGridLayout;
+    gLayout->addWidget(p1);
+    ui->party1Frame->setLayout(gLayout);
+    gLayout = new QGridLayout;
+    gLayout->addWidget(p2);
+    ui->party2Frame->setLayout(gLayout);
 }
 
 PartiesContainerForm::~PartiesContainerForm()
@@ -30,9 +37,10 @@ void PartiesContainerForm::SetParty1View(Party* party)
 
     if(party)
     {
-        QGridLayout* gLayout = new QGridLayout;
-        gLayout->addWidget(new PartyForm(ui->party1Frame, party));
-        ui->party1Frame->setLayout(gLayout);
+//        QGridLayout* gLayout = new QGridLayout;
+//        gLayout->addWidget(new PartyForm(ui->party1Frame, party));
+//        ui->party1Frame->setLayout(gLayout);
+        p1->setParty(party);
     }
 }
 
@@ -46,8 +54,9 @@ void PartiesContainerForm::SetParty2View(Party* party)
 
     if(party)
     {
-        QGridLayout* gLayout = new QGridLayout;
-        gLayout->addWidget(new PartyForm(ui->party1Frame, party));
-        ui->party2Frame->setLayout(gLayout);
+//        QGridLayout* gLayout = new QGridLayout;
+//        gLayout->addWidget(new PartyForm(ui->party1Frame, party));
+//        ui->party2Frame->setLayout(gLayout);
+        p2->setParty(party);
     }
 }

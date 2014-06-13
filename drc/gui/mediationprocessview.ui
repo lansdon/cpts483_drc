@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>909</width>
-    <height>462</height>
+    <width>764</width>
+    <height>455</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,7 +25,31 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout"/>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QTableWidget" name="MediationProcessTableWidget"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QToolBox" name="MediationProcessToolBox">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="page_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>746</width>
+        <height>188</height>
+       </rect>
+      </property>
+      <attribute name="label">
+       <string>Page 2</string>
+      </attribute>
+     </widget>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

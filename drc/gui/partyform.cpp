@@ -19,7 +19,10 @@ PartyForm::PartyForm(QWidget *parent, Party* party) :
 
     QGridLayout *gridLayout = new QGridLayout();
 //    PersonDetailsForm* primaryForm = new PersonDetailsForm(this);
-    gridLayout->addWidget(new PersonDetailsForm(ui->primaryFrame, &(_party->GetPrimary())));
+   //gridLayout->addWidget(new PersonDetailsForm(ui->primaryFrame, &(_party->GetPrimary())));
+    _localPersonDetailsForm = new PersonDetailsForm();
+      gridLayout->addWidget(_localPersonDetailsForm);
+
     ui->primaryFrame->setLayout(gridLayout);
 
     ConfigObserverTable();
@@ -35,7 +38,17 @@ PartyForm::~PartyForm()
     delete ui;
 }
 
+void PartyForm::setParty(Party *value)
+{
+    _party = value;
+    _localPersonDetailsForm->SetPerson(_party->GetPrimary());
+    ConfigObserverTable();
+    PopulateObserverTable();
 
+    ConfigChildrenTable();
+    PopulateChildrenTable();
+
+}
 
 void PartyForm::ObserverCellSelected(int nRow, int nCol)
 {

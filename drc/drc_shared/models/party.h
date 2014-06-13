@@ -14,8 +14,8 @@ public:
     Party();
 
     // Accessors
-    void SetPrimary(Person primary) { _primary = primary; }
-    Person& GetPrimary() { return _primary; }
+    void SetPrimary(Person *primary) { _primary = primary; }
+    Person *GetPrimary() { return _primary; }
     void SetObservers(PersonVector& observers) { _observers = observers; }
     PersonVector& GetObservers() { return _observers; }
     void SetChildren(PersonVector& children) { _children = children; }
@@ -35,7 +35,7 @@ public:
     static Party* SampleData();
 
 private:
-    Person _primary;
+    Person *_primary;
     PersonVector _observers;
     PersonVector _children;
     Person _attorney;

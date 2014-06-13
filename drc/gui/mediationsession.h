@@ -23,6 +23,7 @@ public:
     ~MediationSession();
     void setParties(int input);
     void updateTabs(std::vector<Person *> *input);
+    void setMediationSessionClassVector(MediationSessionClassVector *value);
 
 private slots:
     void on_CancelledRadioButton_toggled(bool checked);
