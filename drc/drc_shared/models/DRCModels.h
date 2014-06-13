@@ -9,10 +9,10 @@
 ///
 
 
-#include "drc_shared/models/Intake.h"
-#include "drc_shared/models/Person.h"
-#include "drc_shared/models/Fruit.h"
+#include "Intake.h"
+#include "Person.h"
+#include "Fruit.h"
 //#include "drc_shared/models/User.h"
-#include "drc_shared/models/party.h"
+#include "party.h"
 
 #endif // DRCMODELS_H

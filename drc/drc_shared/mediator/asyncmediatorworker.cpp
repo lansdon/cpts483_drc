@@ -45,7 +45,7 @@ AsyncMediatorWorker::~AsyncMediatorWorker()
 // --- Start ---
 // This will send the outgoing event, and optionally wait for a response.
 // When a response is reached the supplied callback will be called.
-void AsyncMediatorWorker::AsyncMediatorWorker::Start()
+void AsyncMediatorWorker::Start()
 {
     qDebug() << "AsyncMediatorWorker -> thread running...";
 

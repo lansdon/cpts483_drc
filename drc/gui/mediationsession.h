@@ -4,7 +4,7 @@
 #include <QWidget>
 #include "attorneyandsupportformediationsessionview.h"
 #include <vector>
-#include "drc_shared/models/Person.h"
+#include "Person.h"
 namespace Ui {
 class MediationSession;
 }
