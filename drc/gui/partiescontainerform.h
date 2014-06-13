@@ -22,10 +22,13 @@ public:
     void SetParty2View(Party* party);
 
     void AddPartyTabs(PartyVector* parties);
-
+private slots:
+    void savePersonContactFromFar(Person *value);
 private:
     Ui::PartiesContainerForm *ui;
-
+    std::vector<PartyForm*> PartyFormVector;
+signals:
+    void PassItOnAgain(Person *);
 
 };
 

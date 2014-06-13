@@ -12,6 +12,7 @@ PartiesContainerForm::PartiesContainerForm(QWidget *parent, PartyVector* parties
     ui->setupUi(this);
 
     AddPartyTabs(parties);
+
 }
 
 PartiesContainerForm::~PartiesContainerForm()
@@ -23,14 +24,28 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
 {
     if(parties)
     {
+
         ui->partyTabWidget->clear();
+        PartyFormVector.clear();
         foreach(Party* party, *parties)
         {
             if(party)
             {
-                ui->partyTabWidget->addTab(new PartyForm(ui->partyTabWidget, party), party->GetPrimary()->FullName());
-            }
+                PartyFormVector.push_back(new PartyForm(ui->partyTabWidget, party));
+
+
+
+             }
+        }
+        foreach(PartyForm* p, PartyFormVector)
+        {
+            ui->partyTabWidget->addTab(p, p->getFullName() );
+            connect(p,SIGNAL(PassItOn(Person*)),this,SLOT(savePersonContactFromFar(Person*)));
         }
     }
 }
 
+void PartiesContainerForm::savePersonContactFromFar(Person *value)
+{
+    PassItOnAgain(value);
+}

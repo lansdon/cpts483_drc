@@ -49,11 +49,18 @@ MediationProcessView::~MediationProcessView()
 {
     delete ui;
 }
+void MediationProcessView::savePersonContactFromFarAway(Person *value)
+{
+    PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
+    PopulateMediationProcessTable();
+}
+
 void MediationProcessView::PopulateView(MediationProcess *value)
 {
     _localMediationProcessStatusForm->setMediationProcess(value);
     _localMediationSession->setMediationSessionClassVector(value->getMediationSessionVector());
     _localPartiesContainerForm->AddPartyTabs(&value->GetParties());
+    connect(_localPartiesContainerForm,SIGNAL(PassItOnAgain(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
 }
 
 void MediationProcessView::configMediationProcecssViewTable()
@@ -133,5 +140,7 @@ void MediationProcessView::on_MediationProcessTableWidget_doubleClicked(const QM
         MediationProcessCurrentRow = 1;
         PopulateMediationProcessTable();
         PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
+        //PersonDetailsForm *child = _localPartiesContainerForm->findChild<PersonDetailsForm *>();
+        //connect(child,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
     }
 }

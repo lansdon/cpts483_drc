@@ -33,7 +33,7 @@ private slots:
 
 //    void on_toolBox_currentChanged(int index);
 
-
+    void savePersonContactFromFarAway(Person*value);
 
 
     void on_MediationProcessTableWidget_itemSelectionChanged();

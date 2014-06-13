@@ -28,7 +28,11 @@ PartyForm::PartyForm(QWidget *parent, Party* party) :
 
     ConfigChildrenTable();
     PopulateChildrenTable();
-
+    connect(_localPersonDetailsForm,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContactFromclose(Person*)));
+}
+void PartyForm::savePersonContactFromclose(Person *value)
+{
+    emit PassItOn(value);
 }
 
 PartyForm::~PartyForm()
