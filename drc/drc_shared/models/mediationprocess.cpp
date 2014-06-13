@@ -7,6 +7,7 @@
 
 MediationProcess::MediationProcess()
 {
+    _mediationSessionClassVector = new MediationSessionClassVector();
 }
 
 
@@ -29,7 +30,10 @@ MediationProcess *MediationProcess::SampleData()
     result->_processState = PROCESS_STATE_INITIATED;
     result->_referalSource = REFERRAL_T_INTERNET;
     result->SetCreationDate(QDateTime::currentDateTime());
-
+    MediationSessionClassVector *temp = new MediationSessionClassVector;
+    for(int i = 0; i< 3; i++)
+        temp->push_back(MediationSessionClass::SampleData());
+    result->setMediationSessionClassVector(temp);
     for(int i=0; i < 25; ++i)
         result->GetNotes().push_back("Some more mediation notes " + QString::number(i));
 

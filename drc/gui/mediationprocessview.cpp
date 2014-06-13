@@ -26,7 +26,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     toolBox->addItem(new PartiesContainerForm(toolBox, _mediationProcess->GetParty1(), _mediationProcess->GetParty2()), "Parties");
 
     _MediationSessionTabWidget = new QTabWidget();
-    toolBox->addItem(new MediationSession(toolBox),"Mediation Sessions");
+    toolBox->addItem(new MediationSession(toolBox,_mediationProcess->getMediationSessionVector()),"Mediation Sessions");
 
     ui->gridLayout->addWidget(toolBox);
 

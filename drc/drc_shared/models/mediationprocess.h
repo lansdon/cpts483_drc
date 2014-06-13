@@ -26,7 +26,7 @@ public:
     QDateTime GetCreationDate() { return _creationDate; }
     DisputeProcessStates GetCurrentState() { return _processState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
-    MediationSessionClassVector getMediationSessionVector() const {return _mediationSessionClassVector;}
+    MediationSessionClassVector *getMediationSessionVector() const {return _mediationSessionClassVector;}
 
     void SetParty1(Party* party) { _party1 = *party; }
     void SetParty2(Party* party) { _party2 = *party; }
@@ -37,7 +37,7 @@ public:
     void SetCreationDate(QDateTime date) { _creationDate = date; }
     void SetProcessState(DisputeProcessStates state) { _processState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
-    void setMediationSessionClassVector(MediationSessionClassVector value) {_mediationSessionClassVector = value;}
+    void setMediationSessionClassVector(MediationSessionClassVector *value) {_mediationSessionClassVector = value;}
 
 
     // Helpers
@@ -62,7 +62,7 @@ private:
 
     bool _requiresSpanish;
 
-    MediationSessionClassVector _mediationSessionClassVector;
+    MediationSessionClassVector *_mediationSessionClassVector;
 
 };
 
