@@ -25,9 +25,9 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     for(int i = 0; i < 7; i++)
         _localMediationProcessVector->push_back(MediationProcess::SampleData());
 
-    QToolBox* toolBox = new QToolBox(this);
-    toolBox->addItem(new MediationProcessStatusForm(toolBox, _mediationProcess), "Mediation Overview");
-    toolBox->addItem(new PartiesContainerForm(toolBox, &_mediationProcess->GetParties()), "Parties");
+   // QToolBox* toolBox = new QToolBox(this);
+    //toolBox->addItem(new MediationProcessStatusForm(toolBox, _mediationProcess), "Mediation Overview");
+    //toolBox->addItem(new PartiesContainerForm(toolBox, &_mediationProcess->GetParties()), "Parties");
 
     MediationProcessTableView = ui->MediationProcessTableWidget;
     MediationProcessTableView->setMaximumHeight(200);
@@ -137,4 +137,15 @@ void MediationProcessView::SearchForMediationPressed()
 {
 
 
+}
+
+void MediationProcessView::on_MediationProcessTableWidget_doubleClicked(const QModelIndex &index)
+{
+    if(index.row() == 0)
+    {
+        _localMediationProcessVector->insert(_localMediationProcessVector->begin(),new MediationProcess());
+        ui->MediationProcessTableWidget->setCurrentCell(1,0);
+        MediationProcessCurrentRow = 1;
+        PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow));
+    }
 }

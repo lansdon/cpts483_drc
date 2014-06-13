@@ -25,11 +25,26 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QTableWidget" name="MediationProcessTableWidget"/>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>200</height>
+      </size>
+     </property>
+     <property name="title">
+      <string>Selection area</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QTableWidget" name="MediationProcessTableWidget"/>
+      </item>
+     </layout>
+    </widget>
    </item>
-   <item row="1" column="0">
+   <item>
     <widget class="QToolBox" name="MediationProcessToolBox">
      <property name="currentIndex">
       <number>0</number>
@@ -40,7 +55,7 @@
         <x>0</x>
         <y>0</y>
         <width>746</width>
-        <height>188</height>
+        <height>204</height>
        </rect>
       </property>
       <attribute name="label">
