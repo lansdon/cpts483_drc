@@ -19,30 +19,24 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     _mediationProcess(mediationProcess ? mediationProcess : new MediationProcess)
 {
     ui->setupUi(this);
+
     _localMediationProcessVector = new MediationProcessVector();
     // TEMP SAMPLE DATA
     for(int i = 0; i < 7; i++)
         _localMediationProcessVector->push_back(MediationProcess::SampleData());
 
-
-
-//    QToolBox* toolBox = new QToolBox(this);
-//    toolBox->addItem(new MediationProcessStatusForm(toolBox, _mediationProcess), "Mediation Overview");
-//    toolBox->addItem(new PartiesContainerForm(toolBox, &_mediationProcess->GetParties()), "Parties");
-
-
-    //_mediationProcess = MediationProcess::SampleData();
-
-
+    QToolBox* toolBox = new QToolBox(this);
+    toolBox->addItem(new MediationProcessStatusForm(toolBox, _mediationProcess), "Mediation Overview");
+    toolBox->addItem(new PartiesContainerForm(toolBox, &_mediationProcess->GetParties()), "Parties");
 
     MediationProcessTableView = ui->MediationProcessTableWidget;
     MediationProcessTableView->setMaximumHeight(200);
     configMediationProcecssViewTable();
     PopulateMediationProcessTable();
     toolBox = ui->MediationProcessToolBox;
-    _localMediationProcessStatusForm = new MediationProcessStatusForm();
-    _localPartiesContainerForm = new PartiesContainerForm();
-    _localMediationSession = new MediationSession();
+    _localMediationProcessStatusForm = new MediationProcessStatusForm(this, _mediationProcess);
+    _localPartiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
+    _localMediationSession = new MediationSession(this);
     ui->MediationProcessToolBox->removeItem(0);
     //ui->verticalLayout->addWidget(MediationProcessTableView);
     //ui->verticalLayout->addWidget(toolBox);
@@ -50,7 +44,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     toolBox->addItem(_localMediationProcessStatusForm, "Mediation Overview");
     toolBox->addItem(_localPartiesContainerForm, "Parties");
     toolBox->addItem(_localMediationSession,"Mediation Sessions");
-   PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow));
+    PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow));
 
     ConfigureToolbar();
 }
@@ -62,12 +56,8 @@ MediationProcessView::~MediationProcessView()
 void MediationProcessView::PopulateView(MediationProcess *value)
 {
     _localMediationProcessStatusForm->setMediationProcess(value);
-//    _localPartiesContainerForm->SetParty1View(value->GetParty1());
-//    _localPartiesContainerForm->SetParty2View(value->GetParty2());
     _localMediationSession->setMediationSessionClassVector(value->getMediationSessionVector());
-    //_localMediationProcessStatusForm->repaint();
-   // _localPartiesContainerForm->repaint();
-   // _localMediationSession->repaint();
+    _localPartiesContainerForm->AddPartyTabs(&value->GetParties());
 }
 
 void MediationProcessView::configMediationProcecssViewTable()
@@ -122,7 +112,6 @@ void MediationProcessView::ConfigureToolbar()
     toolbar.Clear();
     toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()));
     toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
-
 }
 
 void MediationProcessView::SaveMediationPressed()

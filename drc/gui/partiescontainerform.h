@@ -21,13 +21,11 @@ public:
     void SetParty1View(Party* party);
     void SetParty2View(Party* party);
 
+    void AddPartyTabs(PartyVector* parties);
+
 private:
     Ui::PartiesContainerForm *ui;
-    PartyForm *p1;
-    PartyForm *p2;
 
-
-    void AddPartyTabs(PartyVector* parties);
 
 };
 
