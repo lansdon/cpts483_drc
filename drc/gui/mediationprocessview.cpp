@@ -84,21 +84,12 @@ void MediationProcessView::PopulateMediationProcessTable()
     {
         //insert data
         MediationProcess *o = _localMediationProcessVector->at(row-1);
-
         MediationProcessTableView->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));
-
         MediationProcessTableView->setItem(row, 1, new QTableWidgetItem(o->GetPartyAtIndex(0)->GetPrimary()->FullName()));
         MediationProcessTableView->setItem(row, 2, new QTableWidgetItem(o->GetCurrentState()));
 
     }
-
-    //ui->sessiontTableWidget->setCurrentCell(0,0);
 }
-//int MediationProcessView::getNumberOfParty()
-//{
-//    return _numberOfParties;
-//}
-
 
 void MediationProcessView::ConfigureToolbar()
 {
@@ -107,15 +98,6 @@ void MediationProcessView::ConfigureToolbar()
     toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()));
     toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
 }
-
-void MediationProcessView::SaveMediationPressed()
-{
-    qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
-}
-
-
-//    }
-//}
 
 
 
@@ -129,9 +111,16 @@ void MediationProcessView::on_MediationProcessTableWidget_itemSelectionChanged()
             PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
     }
 }
+
+void MediationProcessView::SaveMediationPressed()
+{
+    qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
+
+}
+
 void MediationProcessView::SearchForMediationPressed()
 {
-
+    qDebug() << "SEARCH MEDIATION PRESSED - Toolbar manager.";
 
 }
 
