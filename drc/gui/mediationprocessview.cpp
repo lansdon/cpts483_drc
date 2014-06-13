@@ -40,7 +40,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     toolBox->addItem(_localMediationProcessStatusForm, "Mediation Overview");
     toolBox->addItem(_localPartiesContainerForm, "Parties");
     toolBox->addItem(_localMediationSession,"Mediation Sessions");
-    PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow));
+    PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
 
     ConfigureToolbar();
 }
@@ -87,7 +87,7 @@ void MediationProcessView::PopulateMediationProcessTable()
 
         MediationProcessTableView->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));
 
-
+        MediationProcessTableView->setItem(row, 1, new QTableWidgetItem(o->GetPartyAtIndex(0)->GetPrimary()->FullName()));
         MediationProcessTableView->setItem(row, 2, new QTableWidgetItem(o->GetCurrentState()));
 
     }
@@ -125,8 +125,8 @@ void MediationProcessView::on_MediationProcessTableWidget_itemSelectionChanged()
     {
         MediationProcessCurrentRow = ui->MediationProcessTableWidget->currentRow();
 
-        if((uint)MediationProcessCurrentRow < _localMediationProcessVector->size())
-            PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow));
+        if((uint)MediationProcessCurrentRow < _localMediationProcessVector->size() && MediationProcessCurrentRow > 0)
+            PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
     }
 }
 void MediationProcessView::SearchForMediationPressed()
@@ -142,6 +142,7 @@ void MediationProcessView::on_MediationProcessTableWidget_doubleClicked(const QM
         _localMediationProcessVector->insert(_localMediationProcessVector->begin(),new MediationProcess());
         ui->MediationProcessTableWidget->setCurrentCell(1,0);
         MediationProcessCurrentRow = 1;
-        PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow));
+        PopulateMediationProcessTable();
+        PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
     }
 }

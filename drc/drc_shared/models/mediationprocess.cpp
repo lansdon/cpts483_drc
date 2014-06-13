@@ -8,6 +8,9 @@
 MediationProcess::MediationProcess()
 {
     _mediationSessionClassVector = new MediationSessionClassVector();
+    //_parties = new PartyVector();
+    _parties.push_back(new Party());
+    _parties.push_back(new Party());
 //    _party1 = new Party();
 //    _party2 = new Party();
 }
@@ -23,7 +26,7 @@ MediationProcess *MediationProcess::SampleData()
     std::stringstream ss;
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
-
+    result->GetParties().clear();
     for(int i=0; i < rand() % 4 + 1; ++i)
         result->AddParty(Party::SampleData());
 
