@@ -43,6 +43,7 @@ void MediationProcessStatusForm::Update()
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
     ui->spanishCheckBox->setChecked(_mediationProcess->GetRequiresSpanish());
 
+    ui->notesListWidget->clear();
     foreach(auto note, _mediationProcess->GetNotes())
         ui->notesListWidget->addItem(note);
 

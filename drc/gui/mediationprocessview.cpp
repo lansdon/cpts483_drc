@@ -25,10 +25,13 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     for(int i = 0; i < 7; i++)
         _localMediationProcessVector->push_back(MediationProcess::SampleData());
 
+<<<<<<< HEAD
    // QToolBox* toolBox = new QToolBox(this);
     //toolBox->addItem(new MediationProcessStatusForm(toolBox, _mediationProcess), "Mediation Overview");
     //toolBox->addItem(new PartiesContainerForm(toolBox, &_mediationProcess->GetParties()), "Parties");
 
+=======
+>>>>>>> origin/GUI_Branch_5-30-14
     MediationProcessTableView = ui->MediationProcessTableWidget;
     MediationProcessTableView->setMaximumHeight(200);
     configMediationProcecssViewTable();
