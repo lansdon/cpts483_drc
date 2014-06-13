@@ -23,7 +23,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
 
     QToolBox* toolBox = new QToolBox(this);
     toolBox->addItem(new MediationProcessStatusForm(toolBox, _mediationProcess), "Mediation Overview");
-    toolBox->addItem(new PartiesContainerForm(toolBox, _mediationProcess->GetParty1(), _mediationProcess->GetParty2()), "Parties");
+    toolBox->addItem(new PartiesContainerForm(toolBox, &_mediationProcess->GetParties()), "Parties");
 
     _MediationSessionTabWidget = new QTabWidget();
     toolBox->addItem(new MediationSession(toolBox,_mediationProcess->getMediationSessionVector()),"Mediation Sessions");

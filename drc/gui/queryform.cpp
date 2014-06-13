@@ -221,13 +221,24 @@ void QueryForm::PopulateResultsTable()
         {
             //insert data
             MediationProcess* o = (*_mediationResults)[row];
-            qDebug() << "Mediation name=" << o->GetParty1()->GetPrimary().FullName();
+
+            Party* p1 = o->GetPartyAtIndex(1);
+            if(p1)
+            {
+                qDebug() << "Mediation name=" << p1->GetPrimary().FullName();
+                _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(p1->GetPrimary().FullName()));
+            }
+
+            Party* p2 = o->GetPartyAtIndex(2);
+            if(p2)
+            {
+                _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(p2->GetPrimary().FullName()));
+            }
+
             _resultsTable->setItem(row, MCOL_ID, new QTableWidgetItem(QString::number(row+1)));
             _resultsTable->setItem(row, MCOL_CREATE_DATE, new QTableWidgetItem(o->GetCreationDate().toString("MM-dd-yy")));
             _resultsTable->setItem(row, MCOL_DISPUTE_TYPE, new QTableWidgetItem(o->GetDisputeType()));
 //            _resultsTable->setItem(row, MCOL_OUTCOME, new QTableWidgetItem(QString::fromStdString(o->())));
-            _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(o->GetParty1()->GetPrimary().FullName()));
-            _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(o->GetParty2()->GetPrimary().FullName()));
             _resultsTable->setItem(row, MCOL_STATUS, new QTableWidgetItem(o->GetCurrentState()));
         }
     }

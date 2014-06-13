@@ -26,11 +26,11 @@ void MediationProcessStatusForm::Update()
     ui->createdDateLabel->setText(_mediationProcess->GetCreationDate().toString("MM/dd/yyyy"));
     ui->statusComboBox->setCurrentIndex(_mediationProcess->GetCurrentState());
     ui->spanishCheckBox->setChecked(_mediationProcess->GetRequiresSpanish());
-    ui->party1Fullname->setText(_mediationProcess->GetParty1()->GetPrimary().FullName());
-    ui->party2Fullname->setText(_mediationProcess->GetParty2()->GetPrimary().FullName());
+//    ui->party1Fullname->setText(_mediationProcess->GetParty1()->GetPrimary().FullName());
+//    ui->party2Fullname->setText(_mediationProcess->GetParty2()->GetPrimary().FullName());
 
-    ui->childrenEffectedLabel1->setText(QString( _mediationProcess->GetParty1()->GetAffectedChildren()));
-    ui->childrenEffectedLabel2->setText(QString( _mediationProcess->GetParty2()->GetAffectedChildren()));
+//    ui->childrenEffectedLabel1->setText(QString( _mediationProcess->GetParty1()->GetAffectedChildren()));
+//    ui->childrenEffectedLabel2->setText(QString( _mediationProcess->GetParty2()->GetAffectedChildren()));
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());

@@ -17,8 +17,8 @@ public:
     static MediationProcess* SampleData();
 
     // Accessors
-    Party* GetParty1() { return &_party1; }
-    Party* GetParty2() { return &_party2; }
+    PartyVector& GetParties() { return _parties; }
+    Party* GetPartyAtIndex(int index) { return _parties.size() > index ? _parties[index] : nullptr; }
     DisputeTypes GetDisputeType() { return _disputeType; }
     CountyIds GetCountyId() { return _countyOfMediation; }
     std::vector<QString>& GetNotes() { return _mediationNotes; }
@@ -28,8 +28,7 @@ public:
     bool GetRequiresSpanish() { return _requiresSpanish; }
     MediationSessionClassVector *getMediationSessionVector() const {return _mediationSessionClassVector;}
 
-    void SetParty1(Party* party) { _party1 = *party; }
-    void SetParty2(Party* party) { _party2 = *party; }
+    void AddParty(Party* party) { _parties.push_back(party); }
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }
     void SetCountyId(CountyIds countyId) { _countyOfMediation = countyId; }
     void AddNote(QString note) { _mediationNotes.push_back(note); }
@@ -41,12 +40,10 @@ public:
 
 
     // Helpers
-    int GetAffectedChildrenCount() { return _party1.GetAffectedChildren() + _party2.GetAffectedChildren(); }
+    int GetAffectedChildrenCount();
 private:
 
-    Party _party1;
-
-    Party _party2;
+    PartyVector _parties;
 
     DisputeTypes _disputeType;
 
