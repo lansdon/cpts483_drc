@@ -3,7 +3,7 @@
 #include <sstream>
 #include "DRCModels.h"
 #include "drctypes.h"
-
+#include <random>
 
 MediationProcess::MediationProcess()
 {
@@ -24,21 +24,17 @@ MediationProcess *MediationProcess::SampleData()
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
 
-//proably needs to be removed
-//    result->_party1 = Party::SampleData();
-//    result->_party2 = Party::SampleData();
+    for(int i=0; i < rand() % 4 + 1; ++i)
+        result->AddParty(Party::SampleData());
 
-    result->AddParty(Party::SampleData());
-    result->AddParty(Party::SampleData());
-
-    result->_countyOfMediation = COUNTY_BENTON;
-    result->_disputeType = DISPUTE_T_NEIGHBORHOOD;
-    result->_requiresSpanish = true;
-    result->_processState = PROCESS_STATE_INITIATED;
-    result->_referalSource = REFERRAL_T_INTERNET;
+    result->_countyOfMediation = (CountyIds)(rand() % 4 + 1);
+    result->_disputeType = (DisputeTypes)(rand() % 7 + 1);
+    result->_requiresSpanish = rand() % 2;
+    result->_processState = (DisputeProcessStates)( rand() % 5 + 1 );
+    result->_referalSource = (ReferralTypes)(rand() % 8 + 1);
     result->SetCreationDate(QDateTime::currentDateTime());
     MediationSessionClassVector *temp = new MediationSessionClassVector;
-    for(int i = 0; i< 3; i++)
+    for(int i = 0; i< rand() % 5 + 1; i++)
         temp->push_back(MediationSessionClass::SampleData());
     result->setMediationSessionClassVector(temp);
     for(int i=0; i < 25; ++i)

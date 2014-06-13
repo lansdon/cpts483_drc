@@ -23,7 +23,7 @@ public:
     void SetType(PartyTypes type) { _type = type; }
     void SetAttorney(Person attorney) { _attorney = attorney; }
     Person& GetAttorney() { return _attorney; }
-
+    bool GetSpanishRequired();
 
     void AddObserver(Person* person) { if(person) _observers.push_back(person); }
     void RemoveObserver(Person* person);

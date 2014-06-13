@@ -63,3 +63,12 @@ int Party::GetAffectedChildren()
     // TODO - Use party member pointers and party member type to identify affected children.
     return _children.size();
 }
+
+bool Party::GetSpanishRequired()
+{
+    bool result = rand() % 2;
+
+    // Todo Check all party members!
+
+    return result;
+}
