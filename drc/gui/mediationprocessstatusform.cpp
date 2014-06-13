@@ -1,5 +1,7 @@
 #include "mediationprocessstatusform.h"
 #include "ui_mediationprocessstatusform.h"
+#include "toolbarmanager.h"
+
 
 MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, MediationProcess* mediationProcess) :
     QWidget(parent),
@@ -11,6 +13,7 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     ConfigureComboBoxes();
 
     Update();
+
 }
 
 MediationProcessStatusForm::~MediationProcessStatusForm()

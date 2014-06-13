@@ -9,6 +9,7 @@
 #include "AsyncMediatorCall.h"
 #include "MediatorKeys.h"
 #include "MediatorArg.h"
+#include "toolbarmanager.h"
 
 enum PersonTableColumns
 {
@@ -50,6 +51,7 @@ QueryForm::QueryForm(QWidget *parent) :
     _asyncQueryPerson = new AsyncMediatorCall(MKEY_GUI_QUERY_PERSON, MKEY_DB_QUERY_PERSON, [this](MediatorArg arg){RecievedPersonResult(arg);}, nullptr, true);
     _asyncQueryMediation = new AsyncMediatorCall(MKEY_GUI_QUERY_MEDIATION, MKEY_DB_QUERY_MEDIATION, [this](MediatorArg arg){RecievedMediationResult(arg);}, nullptr, true);
 
+    ConfigureToolbar();
 }
 
 QueryForm::~QueryForm()
@@ -288,4 +290,23 @@ void QueryForm::RecievedMediationResult(MediatorArg arg)
     {
         qDebug() << "Person Results error:" <<  QString::fromStdString( arg.ErrorMessage() );
     }
+}
+
+void QueryForm::ConfigureToolbar()
+{
+    ToolbarManager& toolbar = ToolbarManager::Instance();
+    toolbar.Clear();
+    toolbar.AddAction("New Mediation Search", this, SLOT(NewMediationSearchSelected()));
+    toolbar.AddAction("New Person Search", this, SLOT(NewPersonSearchSelected()));
+
+}
+
+void QueryForm::NewMediationSearchSelected()
+{
+
+}
+
+void QueryForm::NewPersonSearchSelected()
+{
+
 }

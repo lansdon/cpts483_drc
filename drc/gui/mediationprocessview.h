@@ -25,18 +25,20 @@ public:
     MediationProcess* GetMediationProcess() { return _mediationProcess; }
 
 private slots:
+    void SaveMediationPressed();
+    void SearchForMediationPressed();
 
 //    void on_toolBox_currentChanged(int index);
 
 private:
     Ui::MediationProcessView *ui;
-//    IntakeForm *_localIntakeForm;
+
     QTabWidget *_MediationSessionTabWidget;
-//    MediationSession *_localMediationSession;
-//    DetailsView *_localDetailsView;
-//    int _numberOfParties;
 
     MediationProcess* _mediationProcess;
+
+    void ConfigureToolbar();
+
 };
 
 #endif // CONTACTRECORDVIEW_H

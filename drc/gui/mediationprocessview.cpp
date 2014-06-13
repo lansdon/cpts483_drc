@@ -7,6 +7,8 @@
 #include "party.h"
 #include <QToolBox>
 #include "mediationprocessstatusform.h"
+#include <QDebug>
+#include "toolbarmanager.h"
 
 
 MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* mediationProcess) :
@@ -28,6 +30,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
 
     ui->gridLayout->addWidget(toolBox);
 
+    ConfigureToolbar();
 }
 
 MediationProcessView::~MediationProcessView()
@@ -35,21 +38,22 @@ MediationProcessView::~MediationProcessView()
     delete ui;
 }
 
-//int MediationProcessView::getNumberOfParty()
-//{
-//    return _numberOfParties;
-//}
 
-//void MediationProcessView::on_toolBox_currentChanged(int index)
-//{
-//    if(index == 1)
-//    {
+void MediationProcessView::ConfigureToolbar()
+{
+    ToolbarManager& toolbar = ToolbarManager::Instance();
+    toolbar.Clear();
+    toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()));
+    toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
 
-//        //temp.insert(temp.begin(),_localIntakeForm->getCurrentIntake().getClaimant());
+}
 
-////        _numberOfParties = _localIntakeForm->totalParties();
-//        //qDebug() << QString::fromStdString(std::to_string(temp.size()));
-////        _localDetailsView->updateTabs(_localIntakeForm->getCurrentIntake().getParties());
+void MediationProcessView::SaveMediationPressed()
+{
+    qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
+}
 
-//    }
-//}
+void MediationProcessView::SearchForMediationPressed()
+{
+
+}

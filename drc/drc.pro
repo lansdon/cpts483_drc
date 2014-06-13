@@ -58,7 +58,9 @@ SOURCES += main.cpp\
     gui/Mock_Server/mock_server.cpp \
     drc_shared/CurrentUser.cpp \
     drc_shared/models/mediationsessionclass.cpp \
-    drc_shared/drctypes.cpp
+    drc_shared/drctypes.cpp \
+    gui/toolbarmanager.cpp \
+    gui/Mock_Server/dummy.cpp
 
 
 HEADERS  += \
@@ -110,7 +112,9 @@ HEADERS  += \
     gui/searchwizard/searchwizardresults.h \
     gui/Mock_Server/mock_server.h \
     drc_shared/CurrentUser.h \
-    drc_shared/models/mediationsessionclass.h
+    drc_shared/models/mediationsessionclass.h \
+    gui/toolbarmanager.h \
+    gui/Mock_Server/dummy.h
 
 FORMS    += \
     DRCClient.ui \
