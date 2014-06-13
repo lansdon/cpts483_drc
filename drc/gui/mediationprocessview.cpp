@@ -7,6 +7,10 @@
 #include "party.h"
 #include <QToolBox>
 
+#include "mediationprocessstatusform.h"
+#include <QDebug>
+#include "toolbarmanager.h"
+
 
 
 MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* mediationProcess) :
@@ -20,6 +24,11 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     for(int i = 0; i < 7; i++)
         _localMediationProcessVector->push_back(MediationProcess::SampleData());
 
+
+
+//    QToolBox* toolBox = new QToolBox(this);
+//    toolBox->addItem(new MediationProcessStatusForm(toolBox, _mediationProcess), "Mediation Overview");
+//    toolBox->addItem(new PartiesContainerForm(toolBox, &_mediationProcess->GetParties()), "Parties");
 
 
     //_mediationProcess = MediationProcess::SampleData();
@@ -43,6 +52,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     toolBox->addItem(_localMediationSession,"Mediation Sessions");
    PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow));
 
+    ConfigureToolbar();
 }
 
 MediationProcessView::~MediationProcessView()
@@ -52,8 +62,8 @@ MediationProcessView::~MediationProcessView()
 void MediationProcessView::PopulateView(MediationProcess *value)
 {
     _localMediationProcessStatusForm->setMediationProcess(value);
-    _localPartiesContainerForm->SetParty1View(value->GetParty1());
-    _localPartiesContainerForm->SetParty2View(value->GetParty2());
+//    _localPartiesContainerForm->SetParty1View(value->GetParty1());
+//    _localPartiesContainerForm->SetParty2View(value->GetParty2());
     _localMediationSession->setMediationSessionClassVector(value->getMediationSessionVector());
     //_localMediationProcessStatusForm->repaint();
    // _localPartiesContainerForm->repaint();
@@ -93,6 +103,7 @@ void MediationProcessView::PopulateMediationProcessTable()
 
         MediationProcessTableView->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));
 
+
         MediationProcessTableView->setItem(row, 2, new QTableWidgetItem(o->GetCurrentState()));
 
     }
@@ -104,16 +115,21 @@ void MediationProcessView::PopulateMediationProcessTable()
 //    return _numberOfParties;
 //}
 
-//void MediationProcessView::on_toolBox_currentChanged(int index)
-//{
-//    if(index == 1)
-//    {
 
-//        //temp.insert(temp.begin(),_localIntakeForm->getCurrentIntake().getClaimant());
+void MediationProcessView::ConfigureToolbar()
+{
+    ToolbarManager& toolbar = ToolbarManager::Instance();
+    toolbar.Clear();
+    toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()));
+    toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
 
-////        _numberOfParties = _localIntakeForm->totalParties();
-//        //qDebug() << QString::fromStdString(std::to_string(temp.size()));
-////        _localDetailsView->updateTabs(_localIntakeForm->getCurrentIntake().getParties());
+}
+
+void MediationProcessView::SaveMediationPressed()
+{
+    qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
+}
+
 
 //    }
 //}
@@ -129,4 +145,9 @@ void MediationProcessView::on_MediationProcessTableWidget_itemSelectionChanged()
         if((uint)MediationProcessCurrentRow < _localMediationProcessVector->size())
             PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow));
     }
+}
+void MediationProcessView::SearchForMediationPressed()
+{
+
+
 }

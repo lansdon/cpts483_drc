@@ -29,7 +29,9 @@ private slots:
     void RecievedMediationResult(MediatorArg arg);
 
 public slots:
-     void ResultCellSelected(int nRow, int nCol);
+    void ResultCellSelected(int nRow, int nCol);
+    void NewMediationSearchSelected();
+    void NewPersonSearchSelected();
 
 private:
     Ui::QueryForm *ui;
@@ -51,6 +53,8 @@ private:
 
     PersonVector* _personResults;
     MediationProcessVector* _mediationResults;
+
+    void ConfigureToolbar();
 };
 
 #endif // QUERYFORM_H

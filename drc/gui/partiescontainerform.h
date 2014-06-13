@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "partyform.h"
+#include "drctypes.h"
 
 class Party;
 
@@ -15,7 +16,7 @@ class PartiesContainerForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit PartiesContainerForm(QWidget *parent = 0, Party* party1 = nullptr, Party* party2 = nullptr);
+    explicit PartiesContainerForm(QWidget *parent = 0, PartyVector* parties = nullptr);
     ~PartiesContainerForm();
     void SetParty1View(Party* party);
     void SetParty2View(Party* party);
@@ -24,6 +25,9 @@ private:
     Ui::PartiesContainerForm *ui;
     PartyForm *p1;
     PartyForm *p2;
+
+
+    void AddPartyTabs(PartyVector* parties);
 
 };
 

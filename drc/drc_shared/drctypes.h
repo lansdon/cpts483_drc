@@ -11,11 +11,17 @@
 class Person;
 class MediationProcess;
 class MediationSessionClass;
+class Party;
 
-// Vector Typedefs
+// Typedefs
 typedef std::vector<Person*> PersonVector;
 typedef std::vector<MediationProcess*> MediationProcessVector;
 typedef std::vector<MediationSessionClass*> MediationSessionClassVector;
+typedef std::vector<Party*> PartyVector;
+
+
+
+// ENUMS FOREVAH
 
 enum DisputeTypes
 {

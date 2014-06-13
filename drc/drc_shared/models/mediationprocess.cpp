@@ -8,8 +8,8 @@
 MediationProcess::MediationProcess()
 {
     _mediationSessionClassVector = new MediationSessionClassVector();
-    _party1 = new Party();
-    _party2 = new Party();
+//    _party1 = new Party();
+//    _party2 = new Party();
 }
 
 
@@ -24,8 +24,13 @@ MediationProcess *MediationProcess::SampleData()
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
 
-    result->_party1 = Party::SampleData();
-    result->_party2 = Party::SampleData();
+//proably needs to be removed
+//    result->_party1 = Party::SampleData();
+//    result->_party2 = Party::SampleData();
+
+    result->AddParty(Party::SampleData());
+    result->AddParty(Party::SampleData());
+
     result->_countyOfMediation = COUNTY_BENTON;
     result->_disputeType = DISPUTE_T_NEIGHBORHOOD;
     result->_requiresSpanish = true;
@@ -42,4 +47,12 @@ MediationProcess *MediationProcess::SampleData()
 
 
     return result;
+}
+
+int MediationProcess::GetAffectedChildrenCount()
+{
+    int total = 0;
+    foreach(auto p, _parties)
+        total += p->GetAffectedChildren();
+    return total;
 }

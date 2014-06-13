@@ -9,6 +9,7 @@
 #include "AsyncMediatorCall.h"
 #include "MediatorKeys.h"
 #include "MediatorArg.h"
+#include "toolbarmanager.h"
 
 enum PersonTableColumns
 {
@@ -50,6 +51,7 @@ QueryForm::QueryForm(QWidget *parent) :
     _asyncQueryPerson = new AsyncMediatorCall(MKEY_GUI_QUERY_PERSON, MKEY_DB_QUERY_PERSON, [this](MediatorArg arg){RecievedPersonResult(arg);}, nullptr, true);
     _asyncQueryMediation = new AsyncMediatorCall(MKEY_GUI_QUERY_MEDIATION, MKEY_DB_QUERY_MEDIATION, [this](MediatorArg arg){RecievedMediationResult(arg);}, nullptr, true);
 
+    ConfigureToolbar();
 }
 
 QueryForm::~QueryForm()
@@ -219,13 +221,33 @@ void QueryForm::PopulateResultsTable()
         {
             //insert data
             MediationProcess* o = (*_mediationResults)[row];
-            qDebug() << "Mediation name=" << o->GetParty1()->GetPrimary()->FullName();
+//<<<<<<< HEAD
+//            qDebug() << "Mediation name=" << o->GetParty1()->GetPrimary()->FullName();
+//=======
+
+//            Party* p1 = o->GetPartyAtIndex(1);
+//            if(p1)
+//            {
+//                qDebug() << "Mediation name=" << p1->GetPrimary().FullName();
+//                _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(p1->GetPrimary().FullName()));
+//            }
+
+//            Party* p2 = o->GetPartyAtIndex(2);
+//            if(p2)
+//            {
+//                _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(p2->GetPrimary().FullName()));
+//            }
+
+//>>>>>>> origin/GUI_Branch_5-30-14
             _resultsTable->setItem(row, MCOL_ID, new QTableWidgetItem(QString::number(row+1)));
             _resultsTable->setItem(row, MCOL_CREATE_DATE, new QTableWidgetItem(o->GetCreationDate().toString("MM-dd-yy")));
             _resultsTable->setItem(row, MCOL_DISPUTE_TYPE, new QTableWidgetItem(o->GetDisputeType()));
 //            _resultsTable->setItem(row, MCOL_OUTCOME, new QTableWidgetItem(QString::fromStdString(o->())));
-            _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(o->GetParty1()->GetPrimary()->FullName()));
-            _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(o->GetParty2()->GetPrimary()->FullName()));
+//<<<<<<< HEAD
+ //           _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(o->GetParty1()->GetPrimary()->FullName()));
+ //           _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(o->GetParty2()->GetPrimary()->FullName()));
+//=======
+//>>>>>>> origin/GUI_Branch_5-30-14
             _resultsTable->setItem(row, MCOL_STATUS, new QTableWidgetItem(o->GetCurrentState()));
         }
     }
@@ -288,4 +310,23 @@ void QueryForm::RecievedMediationResult(MediatorArg arg)
     {
         qDebug() << "Person Results error:" <<  QString::fromStdString( arg.ErrorMessage() );
     }
+}
+
+void QueryForm::ConfigureToolbar()
+{
+    ToolbarManager& toolbar = ToolbarManager::Instance();
+    toolbar.Clear();
+    toolbar.AddAction("New Mediation Search", this, SLOT(NewMediationSearchSelected()));
+    toolbar.AddAction("New Person Search", this, SLOT(NewPersonSearchSelected()));
+
+}
+
+void QueryForm::NewMediationSearchSelected()
+{
+
+}
+
+void QueryForm::NewPersonSearchSelected()
+{
+
 }

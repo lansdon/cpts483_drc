@@ -12,6 +12,7 @@
 #include "Mediator.h"
 #include "drctypes.h"
 #include "searchwizard/searchwizard.h"
+#include "toolbarmanager.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -36,6 +37,11 @@ DRCClient::DRCClient(QWidget *parent) :
 
     // Listen for
     Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){CurrentUserChanged(arg);});
+
+    // Toolbar manager setup
+    ToolbarManager::Instance().SetToolbar(ui->toolBar);
+    ToolbarManager::Instance().Clear();
+
 
     // Disable Menus Until Logged In
     SetMenusEnabled(false, false);

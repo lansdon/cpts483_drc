@@ -17,21 +17,17 @@
    <item row="1" column="0">
     <widget class="QGroupBox" name="observerGroup">
      <property name="title">
-      <string>Observers</string>
+      <string>Support</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="0" column="0">
        <widget class="QTableWidget" name="observerTable"/>
       </item>
      </layout>
-     <zorder>observerTable</zorder>
-     <zorder>observerTable</zorder>
     </widget>
    </item>
    <item row="0" column="0" colspan="2">
-    <widget class="QWidget" name="primaryFrame" native="true">
-     <zorder>observerTable</zorder>
-    </widget>
+    <widget class="QWidget" name="primaryFrame" native="true"/>
    </item>
    <item row="2" column="0" colspan="2">
     <widget class="QGroupBox" name="detailsGroup">
