@@ -11,6 +11,7 @@ MediationProcess::MediationProcess()
     //_parties = new PartyVector();
     _parties.push_back(new Party());
     _parties.push_back(new Party());
+    _creationDate = QDateTime::currentDateTime();
 //    _party1 = new Party();
 //    _party2 = new Party();
 }
