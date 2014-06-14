@@ -23,7 +23,7 @@ LoginForm::LoginForm(QWidget *parent) :
                 1
             );
 
-    ui->statusLabel->setText("stuff");
+    ui->statusLabel->setText("Please enter your credentials");
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 }
 
