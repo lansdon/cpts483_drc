@@ -28,7 +28,7 @@ void BLTestSuit::testPersonValidator()
 {
     PersonValidator pVal;
     bool success = true;
-    QString errorMessage = "";
+    std::string errorMessage = "";
     Person person;
     success = pVal.Validate(&person, errorMessage);
 
