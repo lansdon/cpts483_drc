@@ -15,7 +15,7 @@ DRCDB::DRCDB()
 //========================================================================
 //Constructor takes in a database_name, and opens it.
 //------------------------------------------------------------------------
-DRCDB::DRCDB(QString database_name)
+DRCDB::DRCDB(QString database_name) : ErrorOccurred(false)
 {
     this->OpenDatabase(database_name);
 }
@@ -28,21 +28,25 @@ DRCDB::DRCDB(QString database_name)
 //"QSQLITE", which is the driver for sqlite3.  It'll then set the name of
 //the database file to the QString that was passed to this method.
 
-//Lastly, after everything has been set on the database object, we attempt
-//to open a database; the result of that will be returned as a boolean.
-//True:     Open
+//After everything has been set on the database object, we attempt
+//to open a database; we check if an error has occurred in the process of
+//opening the database.  If an error had occurred, then we pass a
+//QSqlError object to the GetError method.
+
+//Return Values
+//True:     Successfully Opened
 //False:    Failed to Open
 //------------------------------------------------------------------------
 bool DRCDB::OpenDatabase(QString database_name)
 {
     database = QSqlDatabase::addDatabase(db_driver);
     database.setDatabaseName(database_name);
+    database.open();
 
-    this->DebugDisplay(QString("Database Name: %1\nDatabase Driver: %2")
-                       .arg(database_name)
-                       .arg(this->WhatDriver()));
+    if(database.isOpenError())
+        this->ExtractError(database.lastError());
 
-    return database.open();
+    return database.isOpen();
 }
 //========================================================================
 
@@ -51,6 +55,7 @@ bool DRCDB::OpenDatabase(QString database_name)
 //========================================================================
 //Method closes our database object, and returns the boolean indicating
 //whether or not the database was successfully closed.
+
 //True:     Closed
 //False:    Still Open
 //------------------------------------------------------------------------
@@ -88,7 +93,8 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 
     command_string += ")";
 
-    return this->ExecuteCommand(command_string);
+    QSqlQuery query_object(database);
+    return this->ExecuteCommand(command_string, query_object);
 }
 //========================================================================
 
@@ -103,17 +109,18 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
 {
     bool insert_success = false;
 
-    if (!this->DuplicateInsert(db_object))
+    if (!this->DuplicateInsert(db_object->DuplicateQuery()))
     {
         QString command_string = QString("insert into %1 values ( %2 , %3 )")
                 .arg(db_object->table())
                 .arg("null")
                 .arg(db_object->Parse());
-        insert_success = this->ExecuteCommand(command_string);
+
+        QSqlQuery query_object(database);
+        insert_success = this->ExecuteCommand(command_string, query_object);
     }
 
     return insert_success;
-
 }
 //========================================================================
 
@@ -124,37 +131,33 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
 //inside the database.
 
 //Note: It seems QSqlQuery.size() is not compatible with SQLITE3, which
-//      resulted in my using QSqlQuery.next() instead.
+//      resulted in using QSqlQuery.next() instead.
 
-//Note: Focused on getting this damn thing to work, so it's sloppy.
-
-//Note: This method has no extensibility whatsoever.  The moment even
-//      "one" thing changes, we're doomed.  That's it.  Done.  Kaput.
+//Note: Unfortunately we can't use ExecuteCommand method to prevent
+//      duplicate code due to the fact that we still need the
+//      query_object that goes out of scope.
 //------------------------------------------------------------------------
-bool DRCDB::DuplicateInsert(DBBaseObject* db_object)
+bool DRCDB::DuplicateInsert(const QString &duplicate_query)
 {
     bool duplicate_exists = false;
 
     QSqlQuery query_object(database);
-    /*
-    query_object.prepare(QString("select count(1) from %1 where fruit_name = \'%2\'")
-                         .arg(db_object->table()).arg(db_object->GetName()));
-    */
-
-    query_object.prepare(QString(db_object->DuplicateQuery()));
-
-    query_object.exec();
-
-    //Lazy implementation.
-    if (query_object.next())
+    if(this->ExecuteCommand(duplicate_query, query_object))
     {
-        duplicate_exists = true;
+        if (query_object.next())
+        {
+            duplicate_exists = true;
+            ErrorOccurred = true;
+            LastErrors.push_back(QString("Duplicate Insert Was Attempted: %1.")
+                                 .arg(duplicate_query));
+        }
     }
 
     return duplicate_exists;
 }
-
 //========================================================================
+
+
 
 //========================================================================
 //Query object can be implicitly initialized without passing
@@ -164,15 +167,12 @@ bool DRCDB::DuplicateInsert(DBBaseObject* db_object)
 //Prepare checks the potential SQL command for validity.  While it seems
 //tedious, it apparently is more efficient than letting an erroneous
 //command be executed directly.
+
 //------------------------------------------------------------------------
-bool DRCDB::ExecuteCommand(QString command_string)
+bool DRCDB::ExecuteCommand(QString command_string, QSqlQuery &query_object)
 {
-    QSqlQuery query_object(database);
-
-    this->DebugDisplay(command_string);
-
-    if (!query_object.prepare(command_string))
-        this->WhatLastError(query_object);
+    if(!query_object.prepare(command_string))
+        this->ExtractError(query_object.lastError());
 
     return query_object.exec();
 }
@@ -199,8 +199,7 @@ QVector<QString> DRCDB::SelectAllFields(QString table_name)
             .arg(table_name);
 
     QSqlQuery query_object(database);
-    query_object.prepare(command_string);
-    query_object.exec();
+    this->ExecuteCommand(command_string, query_object);
 
     while(query_object.next())
     {
@@ -217,44 +216,63 @@ QVector<QString> DRCDB::SelectAllFields(QString table_name)
 //========================================================================
 
 
+
 //========================================================================
-//Methods below this line are necessarily vital, but are helpful for testing.
+//Takes a QSqlError object, and checks to make sure an error has been set
+//in the error_object before the error string is appended to the LastError
+//vector.
+
+//Return Values
+//True:     ErrorOccurred
+//False:    No Error Occurred / Detected
+//------------------------------------------------------------------------
+bool DRCDB::ExtractError(const QSqlError &error_object)
+{
+    ErrorOccurred = error_object.isValid();
+
+    if (ErrorOccurred)
+        LastErrors.push_back(error_object.text());
+
+    return ErrorOccurred;
+}
 //========================================================================
 
-void DRCDB::DebugDisplay(QString error_message, bool active)
+
+
+//========================================================================
+//Return Values
+//True:     Error has occurred
+//False:    Error has not occurred
+//------------------------------------------------------------------------
+bool DRCDB::GetErrorOccurred()
 {
-    if (active)
-    {
-        qDebug() << "\n" << error_message;
-    }
+    return ErrorOccurred;
 }
+//========================================================================
 
-QString DRCDB::GetDatabaseName()
+
+
+//========================================================================
+//Returns a vector containing all the errors that has occurred since its
+//last call.
+
+//Note:     It's sloppy, but currently the method sets the ErrorOccurred
+//          back to false whenever this method is called.
+
+//          If ErrorOccurred was set to true due to a SqlQueryError, the
+//          problem was likely resolved when the query_object went out
+//          of scope.
+
+//          If ErrorOccurred was set to true due to open database failing,
+//          then the problem is more permenant.
+//------------------------------------------------------------------------
+QVector<QString> DRCDB::GetLastErrors()
 {
-    return database.databaseName();
+    ErrorOccurred = !database.isOpenError();
+
+    QVector<QString> retVec = LastErrors;
+    LastErrors.clear();
+
+    return retVec;
 }
-
-//The driver is the SQL driver being used by the program.
-//In our case, the driver we're using is called "QSQLITE",
-//which is the sqlite3 driver for Qt.
-QString DRCDB::WhatDriver()
-{
-    return database.driverName();
-}
-
-//Code could be written in one line; however, the return value isn't
-//what you'd expect these kind of methods to return.  By explictly
-//stating the return type, those who read this code later will have
-//a better idea of what's going on as opposed to spending time sifting
-//through additional documentation.
-//bool DRCDB::CheckTableExists(QString table_name)
-//{
-//    QStringList table_list = database.tables();
-
-//    return table_list.contains(table_name);
-//}
-
-void DRCDB::WhatLastError(const QSqlQuery &query_object)
-{
-    qDebug() << "\n" << query_object.lastError();
-}
+//========================================================================

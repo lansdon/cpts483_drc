@@ -43,7 +43,6 @@ private Q_SLOTS:
     void CreateTable();
     void CreateDuplicateTable();
     void InsertObject();
-    void CheckDuplicate();
     void SelectName();
 
 private slots:
@@ -82,12 +81,6 @@ void DatabaseTestSuite::OpenDatabase()
 {
     //Did the database open?
     QCOMPARE(_db.OpenDatabase(database_name), true);
-
-    //Does the name of the database match the name we used to open it.
-    QCOMPARE(_db.GetDatabaseName(), database_name);
-
-    //Is the driver used SQLITE3?
-    QCOMPARE(_db.WhatDriver(), database_driver);
 }
 
 void DatabaseTestSuite::CreateTable()
@@ -100,29 +93,20 @@ void DatabaseTestSuite::CreateDuplicateTable()
 {
 
     //Create table with same name.  (Should fail)
-    //The test passes, but an error code "will" still be displayed.
     QCOMPARE(_db.CreateTable(table_name, empty_container), false);
-}
+    QCOMPARE(_db.GetErrorOccurred(), true);
 
-
-void DatabaseTestSuite::CheckDuplicate()
-{
-
+    QVector<QString> RecentError = _db.GetLastErrors();
+    QCOMPARE(RecentError.first(), QString("table Albertsons already exists Unable to execute statement"));
 }
 
 void DatabaseTestSuite::InsertObject()
 {
     Fruit Banana("Banana");
 
-    this->thread()->sleep(5);
+    this->thread()->sleep(1);
 
     Fruit OtherBanana("Banana");
-
-    Fruit Apple("Apple");
-    Fruit Orange("Orange");
-    Fruit OtherOrange("Orange");
-    Fruit AnotherOrange("Orange");
-    Fruit Peach("Peach");
 
     QCOMPARE(_db.InsertObject(&Banana), true);
 
@@ -131,11 +115,14 @@ void DatabaseTestSuite::InsertObject()
 
     //Duplicate Fruit, should fail since this is the exact same fruit.
     QCOMPARE(_db.InsertObject(&Banana), false);
-//    QCOMPARE(_db.InsertObject(&Apple), true);
-//    QCOMPARE(_db.InsertObject(&Orange), true);
-//    QCOMPARE(_db.InsertObject(&OtherOrange), true);
-//    QCOMPARE(_db.InsertObject(&AnotherOrange), true);
-//    QCOMPARE(_db.InsertObject(&Peach), true);
+
+    //Error should've occurred from the last method.
+    QCOMPARE(_db.GetErrorOccurred(), true);
+
+    QVector<QString> RecentError = _db.GetLastErrors();
+    QCOMPARE(RecentError.first(), QString("Duplicate Insert Was Attempted: SELECT * FROM Albertsons WHERE fruit_name like '%1' AND time_stamp = %2.")
+             .arg(Banana.GetName())
+             .arg(Banana.GetTime()));
 }
 
 
