@@ -68,7 +68,7 @@ bool IntakeFormProcessor::ValidateIntakeForm(const Intake& intake, std::string& 
 
 bool IntakeFormProcessor::ValidatePerson(const Person& person, std::string& errorMessage) const
 {
-    qDebug() << "BL -> Validate Person "+ QString(person.getFirstName().c_str());
+    qDebug() << "BL -> Validate Person "+ person.getFirstName();
     bool success = true;
     std::string pattern = "^[a-zA-Z]+$";
     auto name = person.getFirstName();

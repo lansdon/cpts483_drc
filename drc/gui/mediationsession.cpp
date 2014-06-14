@@ -97,8 +97,8 @@ void MediationSession::updateTabs(std::vector<Person *> *input)
         for(uint i = 0; i < _attorneyAndSupportVector->size(); i++)
         {
             qDebug() << i;
-            qDebug() << QString::fromStdString(input->at(i)->getAttorney());
-            _attorneyAndSupportVector->at(i)->setAttorney(QString::fromStdString(input->at(i)->getAttorney()));
+            qDebug() << input->at(i)->getAttorney();
+            _attorneyAndSupportVector->at(i)->setAttorney((input->at(i)->getAttorney()));
         }
     }
 }

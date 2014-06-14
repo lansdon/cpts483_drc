@@ -17,7 +17,7 @@ void Mock_Server::PrintPerson(Person *input, std::fstream &file)
         file << "Test from Person querry\n";
         file << "Time tested: " << std::ctime(&tm);
         file << "Test data(Full Name): " << input->FullName().toUtf8().constData() <<std::endl;
-        file << "Test data(get state): " << input->getState()<<std::endl<<std::endl;
+        file << "Test data(get state): " << input->getState().toStdString()<<std::endl<<std::endl;
         file << "------------------------------------------------------------------"<<std::endl<<std::endl;
         file.close();
     }

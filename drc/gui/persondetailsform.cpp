@@ -34,24 +34,24 @@ PersonDetailsForm::~PersonDetailsForm()
 
 void PersonDetailsForm::UpdateLabels()
 {
-    ui->firstLineEdit->setText(QString::fromStdString(_person->getFirstName()));
-    ui->middleLineEdit->setText(QString::fromStdString(_person->getMiddleName()));
-    ui->lastLineEdit->setText(QString::fromStdString(_person->getLastName()));
-    ui->streetLineEdit->setText(QString::fromStdString(_person->getStreet()));
-    ui->unitLineEdit->setText(QString::fromStdString(_person->getUnit()));
-    ui->cityLineEdit->setText(QString::fromStdString(_person->getCity()));
-    ui->stateLineEdit->setText(QString::fromStdString(_person->getState()));
-    ui->countyLineEdit->setText(QString::fromStdString(_person->getCounty()));
-    ui->zipLineEdit->setText(QString::fromStdString(_person->getZip()));
-    ui->emailLineEdit->setText(QString::fromStdString(_person->getEmail()));
-    ui->homeLineEdit->setText(QString::fromStdString(_person->getPrimaryPhone()));
-    ui->homeExtLineEdit->setText(QString::fromStdString(_person->getPrimaryPhoneExt()));
-    ui->workLineEdit->setText(QString::fromStdString(_person->getSecondaryPhone()));
-    ui->workExtLineEdit->setText(QString::fromStdString(_person->getSecondaryPhoneExt()));
-//    ui->mobileLineEdit->setText(QString::fromStdString(_person->getMobilePhone()));
-//    ui->mobileExtLineEdit->setText(QString::fromStdString(_person->getMobilePhoneExt()));
+    ui->firstLineEdit->setText((_person->getFirstName()));
+    ui->middleLineEdit->setText((_person->getMiddleName()));
+    ui->lastLineEdit->setText((_person->getLastName()));
+    ui->streetLineEdit->setText((_person->getStreet()));
+    ui->unitLineEdit->setText((_person->getUnit()));
+    ui->cityLineEdit->setText((_person->getCity()));
+    ui->stateLineEdit->setText((_person->getState()));
+    ui->countyLineEdit->setText((_person->getCounty()));
+    ui->zipLineEdit->setText((_person->getZip()));
+    ui->emailLineEdit->setText((_person->getEmail()));
+    ui->homeLineEdit->setText((_person->getPrimaryPhone()));
+    ui->homeExtLineEdit->setText((_person->getPrimaryPhoneExt()));
+    ui->workLineEdit->setText((_person->getSecondaryPhone()));
+    ui->workExtLineEdit->setText((_person->getSecondaryPhoneExt()));
+//    ui->mobileLineEdit->setText((_person->getMobilePhone()));
+//    ui->mobileExtLineEdit->setText((_person->getMobilePhoneExt()));
     ui->numInHomeLineEdit->setText(QString::number(_person->getNumberInHousehold()));
-    ui->attorneyLineEdit->setText(QString::fromStdString(_person->getAttorney()));
+    ui->attorneyLineEdit->setText((_person->getAttorney()));
 
     SetEditMode(false);
 }
@@ -159,24 +159,24 @@ void PersonDetailsForm::on_saveButton_clicked()
 {
     SetEditMode(false);
 
-    _person->setFirstName(ui->firstLineEdit->text().toStdString());
-    _person->setMiddleName(ui->middleLineEdit->text().toStdString());
-    _person->setLastName(ui->lastLineEdit->text().toStdString());
-    _person->setStreet(ui->streetLineEdit->text().toStdString());
-    _person->setUnit(ui->unitLineEdit->text().toStdString());
-    _person->setCity(ui->cityLineEdit->text().toStdString());
-    _person->setState(ui->stateLineEdit->text().toStdString());
-    _person->setCounty(ui->countyLineEdit->text().toStdString());
-    _person->setZip(ui->zipLineEdit->text().toStdString());
-    _person->setEmail(ui->emailLineEdit->text().toStdString());
-    _person->setPrimaryPhone(ui->homeLineEdit->text().toStdString());
-    _person->setPrimaryPhoneExt(ui->homeExtLineEdit->text().toStdString());
-    _person->setSecondaryPhone(ui->workLineEdit->text().toStdString());
-    _person->setSecondaryPhoneExt(ui->workExtLineEdit->text().toStdString());
-//    _person->setMobilePhone(ui->mobileLineEdit->text().toStdString());
-//    _person->setMobilePhoneExt(ui->mobileExtLineEdit->text().toStdString());
+    _person->setFirstName(ui->firstLineEdit->text());
+    _person->setMiddleName(ui->middleLineEdit->text());
+    _person->setLastName(ui->lastLineEdit->text());
+    _person->setStreet(ui->streetLineEdit->text());
+    _person->setUnit(ui->unitLineEdit->text());
+    _person->setCity(ui->cityLineEdit->text());
+    _person->setState(ui->stateLineEdit->text());
+    _person->setCounty(ui->countyLineEdit->text());
+    _person->setZip(ui->zipLineEdit->text());
+    _person->setEmail(ui->emailLineEdit->text());
+    _person->setPrimaryPhone(ui->homeLineEdit->text());
+    _person->setPrimaryPhoneExt(ui->homeExtLineEdit->text());
+    _person->setSecondaryPhone(ui->workLineEdit->text());
+    _person->setSecondaryPhoneExt(ui->workExtLineEdit->text());
+//    _person->setMobilePhone(ui->mobileLineEdit->text());
+//    _person->setMobilePhoneExt(ui->mobileExtLineEdit->text());
     _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
-    _person->setAttorney(ui->attorneyLineEdit->text().toStdString());
+    _person->setAttorney(ui->attorneyLineEdit->text());
 
     emit PersonSaved(_person);
 

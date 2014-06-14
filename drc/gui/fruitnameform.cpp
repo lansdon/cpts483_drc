@@ -54,7 +54,7 @@ void FruitNameForm::on_sendButton_clicked()
 
    UpdateNameField("Sending name: " + (claiment->GetPerson()->getFirstName()));
    //send info to logic to store into database
-   SendFruitName(new Fruit(QString::fromStdString( claiment->GetPerson()->getFirstName())));
+   SendFruitName(new Fruit( claiment->GetPerson()->getFirstName()));
 }
 void FruitNameForm::UpdateForm(MediatorArg arg)
 {
