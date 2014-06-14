@@ -30,10 +30,11 @@ DRCClient::DRCClient(QWidget *parent) :
     qsrand( QDateTime::currentMSecsSinceEpoch()/1000);
 
 
-    setCentralWidget(new LoginForm(this));
 
     // Set the window to max size.
     this->setWindowState(Qt::WindowMaximized);
+
+    setCentralWidget(new LoginForm(this));
 
     // Listen for
     Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){CurrentUserChanged(arg);});

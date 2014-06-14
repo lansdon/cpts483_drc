@@ -31,7 +31,7 @@ MediationProcess *MediationProcess::SampleData()
     for(int i=0; i < rand() % 4 + 1; ++i)
         result->AddParty(Party::SampleData());
 
-    result->_countyOfMediation = (CountyIds)(rand() % 4 + 1);
+    result->_countyOfMediation = (CountyIds)(rand() % 3 + 1);
     result->_disputeType = (DisputeTypes)(rand() % 7 + 1);
     result->_requiresSpanish = rand() % 2;
     result->_processState = (DisputeProcessStates)( rand() % 5 + 1 );
