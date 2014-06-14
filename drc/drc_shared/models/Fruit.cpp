@@ -2,48 +2,42 @@
 
 Fruit::Fruit()
 {
-    time_t createTime;
-    time(&createTime);
-    m_timestamp = createTime;
+    m_created = QDateTime::currentDateTime();
 }
 
-Fruit::Fruit(string name)
+Fruit::Fruit(QString name)
 {
     m_name = name;
-    time_t createTime;
-    time(&createTime);
-    m_timestamp = createTime;
+    m_created = QDateTime::currentDateTime();
 }
 
-Fruit::Fruit(string* name)
+Fruit::Fruit(QString* name)
 {
     m_name = *name;
-    time_t createTime;
-    time(&createTime);
-    m_timestamp = createTime;
+    m_created = QDateTime::currentDateTime();
 }
 
-void Fruit::SetName(string name)
+void Fruit::SetName(QString name)
 {
     m_name = name;
 }
 
-string Fruit::GetName(void)
+QString Fruit::GetName(void)
 {
     return m_name;
 }
 
-string Fruit::GetTime(void)
+QString Fruit::GetTime(void)
 {
-    return to_string(m_timestamp);
+    return m_created.toString("MM/dd/yy");
 }
 
 //For the sake of readbility.  A lot of code though.
-string Fruit::Parse()
+QString Fruit::Parse()
 {
-    static string single_quote("\'");
+    static QString single_quote("\'");
 
-    string toReturn;
+    QString toReturn;
 
     toReturn += " values";
 

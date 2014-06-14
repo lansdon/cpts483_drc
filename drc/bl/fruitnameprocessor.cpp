@@ -38,9 +38,9 @@ void FruitNameProcessor::Process(MediatorArg arg)
 
         if (fruit)
         {
-            qDebug() << QString("BL -> Processing Fruit Name -> ") << QString::fromStdString(fruit->GetName());
+            qDebug() << QString("BL -> Processing Fruit Name -> ") << fruit->GetName();
 
-            auto fruitLower = fruit->GetName();
+            auto fruitLower = fruit->GetName().toStdString();
             std::transform(fruitLower.begin(), fruitLower.end(), fruitLower.begin(), ::tolower);
             if (_fruitNames.find(fruitLower) == _fruitNames.end())
             {

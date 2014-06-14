@@ -1,33 +1,33 @@
 #include "User.h"
 
-User::User(string name, string pass)
+User::User(QString name, QString pass)
 {
     m_userName = name;
     m_password = pass;
     m_type = USER_T_ADMIN;
 }
 
-string User::GetName(void)
+QString User::GetName(void)
 {
     return m_userName;
 }
 
-string User::GetPass(void)
+QString User::GetPass(void)
 {
     return m_password;
 }
 
-void User::SetName(string name)
+void User::SetName(QString name)
 {
     m_userName = name;
 }
 
-void User::SetPassword(string password)
+void User::SetPassword(QString password)
 {
     m_password = password;
 }
 
-string User::GetTypeString(void)
+QString User::GetTypeString(void)
 {
     switch(m_type)
     {
@@ -43,7 +43,7 @@ UserTypes User::GetType(void)
     return m_type;
 }
 
-string User::Parse()
+QString User::Parse()
 {
-    return string("VALUES (\'" + this->GetName() + "\', \'" + this->GetPass() + "\', \'" + this->GetTypeString() + " );");
+    return QString("VALUES (\'" + this->GetName() + "\', \'" + this->GetPass() + "\', \'" + this->GetTypeString() + " );");
 }

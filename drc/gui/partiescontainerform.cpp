@@ -12,7 +12,6 @@ PartiesContainerForm::PartiesContainerForm(QWidget *parent, PartyVector* parties
     ui->setupUi(this);
 
     AddPartyTabs(parties);
-
 }
 
 PartiesContainerForm::~PartiesContainerForm()
@@ -24,7 +23,6 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
 {
     if(parties)
     {
-
         ui->partyTabWidget->clear();
         PartyFormVector.clear();
         foreach(Party* party, *parties)
@@ -32,10 +30,7 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
             if(party)
             {
                 PartyFormVector.push_back(new PartyForm(ui->partyTabWidget, party));
-
-
-
-             }
+            }
         }
         foreach(PartyForm* p, PartyFormVector)
         {

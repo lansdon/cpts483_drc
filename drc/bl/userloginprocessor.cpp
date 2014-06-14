@@ -28,7 +28,7 @@ void UserLoginProcessor::Authenticate(MediatorArg arg)
         {
             _user = user;
             CleanUserName();
-            _userName = new std::string(user->GetName());
+            _userName = new std::string(user->GetName().toStdString());
         }
         else
         {
@@ -52,8 +52,8 @@ void UserLoginProcessor::ReceiveSalt(MediatorArg arg)
         {
             if (_user)
             {
-                auto encryptedPw = sha256(_user->GetPass(), *salt);
-                _user->SetPassword(encryptedPw);
+                auto encryptedPw = sha256(_user->GetPass().toStdString(), *salt);
+                _user->SetPassword(QString::fromStdString(encryptedPw));
             }
             else
             {

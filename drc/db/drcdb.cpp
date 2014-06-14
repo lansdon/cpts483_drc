@@ -66,11 +66,10 @@ void DRCDB::InsertObject(DBBaseObject* db_object)
     {
         QSqlQuery qObject;
 
-        string cmd("insert into Albertsons");
+        QString cmd("insert into Albertsons");
         cmd += db_object->Parse();
-        QString qCmd = QString::fromStdString(cmd);
 
-        insertSuccess = qObject.exec(qCmd);
+        insertSuccess = qObject.exec(cmd);
     }
 }
 
