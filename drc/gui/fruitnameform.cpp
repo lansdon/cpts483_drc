@@ -52,7 +52,7 @@ void FruitNameForm::on_sendButton_clicked()
        temp.addRespondents(*tempRespond->GetPerson());
    }
 
-   UpdateNameField("Sending name: " + QString::fromStdString(claiment->GetPerson()->getFirstName()));
+   UpdateNameField("Sending name: " + (claiment->GetPerson()->getFirstName()));
    //send info to logic to store into database
    SendFruitName(new Fruit(QString::fromStdString( claiment->GetPerson()->getFirstName())));
 }
@@ -68,7 +68,7 @@ void FruitNameForm::UpdateForm(MediatorArg arg)
         {
             //claiment->SetPerson(recieved->getClaimant());
             //claiment->repaint();
-            qDebug() << QString::fromStdString(recieved->getClaimant().getFirstName());
+            qDebug() << (recieved->getClaimant().getFirstName());
             //qDebug() << QString::fromStdString(recieved->getParties()[0].getFirstName());
             std::vector<Person *> tempVec = recieved->getParties();
             ui->tabWidget->clear();
