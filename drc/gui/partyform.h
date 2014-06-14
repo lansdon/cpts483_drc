@@ -4,7 +4,8 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QStringList>
-
+#include "persondetailsform.h"
+#include "party.h"
 class Party;
 class Person;
 
@@ -35,7 +36,8 @@ class PartyForm : public QWidget
 public:
     explicit PartyForm(QWidget *parent = 0, Party* party = nullptr);
     ~PartyForm();
-
+    void setParty(Party *value);
+    QString getFullName() const {return _party->GetPrimary()->FullName();}
 private slots:
     void ObserverCellSelected(int nRow, int nCol);
     void ChildCellSelected(int nRow, int nCol);
@@ -43,10 +45,11 @@ private slots:
     void ObserverDeleted(Person* p);
     void ChildChanged(Person* p);
     void ChildDeleted(Person* p);
+    void savePersonContactFromclose(Person *value);
 
 private:
     Ui::PartyForm *ui;
-
+    PersonDetailsForm *_localPersonDetailsForm;
     Party* _party;
 
     QTableWidget* _observerTable;
@@ -58,6 +61,8 @@ private:
     void PopulateObserverTable();
     void ConfigChildrenTable();
     void PopulateChildrenTable();
+signals:
+    void PassItOn(Person *);
 };
 
 #endif // PARTYFORM_H

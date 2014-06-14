@@ -16,7 +16,7 @@ class DetailsView : public QWidget
 public:
     explicit DetailsView(QWidget *parent = 0);
     ~DetailsView();
-    void updateTabs(std::vector<Person *> input);
+    void updateTabs(std::vector<Person *> *input);
 
 private:
     Ui::DetailsView *ui;

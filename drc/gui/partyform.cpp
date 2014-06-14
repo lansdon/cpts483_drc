@@ -18,8 +18,9 @@ PartyForm::PartyForm(QWidget *parent, Party* party) :
     ui->setupUi(this);
 
     QGridLayout *gridLayout = new QGridLayout();
-//    PersonDetailsForm* primaryForm = new PersonDetailsForm(this);
-    gridLayout->addWidget(new PersonDetailsForm(ui->primaryFrame, &(_party->GetPrimary())));
+    _localPersonDetailsForm = new PersonDetailsForm(this, party->GetPrimary());
+      gridLayout->addWidget(_localPersonDetailsForm);
+
     ui->primaryFrame->setLayout(gridLayout);
 
     ConfigObserverTable();
@@ -27,7 +28,11 @@ PartyForm::PartyForm(QWidget *parent, Party* party) :
 
     ConfigChildrenTable();
     PopulateChildrenTable();
-
+    connect(_localPersonDetailsForm,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContactFromclose(Person*)));
+}
+void PartyForm::savePersonContactFromclose(Person *value)
+{
+    emit PassItOn(value);
 }
 
 PartyForm::~PartyForm()
@@ -35,7 +40,16 @@ PartyForm::~PartyForm()
     delete ui;
 }
 
+void PartyForm::setParty(Party *value)
+{
+    _party = value;
+    _localPersonDetailsForm->SetPerson(_party->GetPrimary());
+    ConfigObserverTable();
+    PopulateObserverTable();
 
+    ConfigChildrenTable();
+    PopulateChildrenTable();
+}
 
 void PartyForm::ObserverCellSelected(int nRow, int nCol)
 {
@@ -62,7 +76,7 @@ void PartyForm::ChildCellSelected(int nRow, int nCol)
 void PartyForm::ConfigObserverTable()
 {
     _observerTable = ui->observerTable;
-    _observerTable->setRowCount(10);
+    _observerTable->setRowCount(_party->GetObservers().size());
     _observerTable->setColumnCount(3);
     _observerTableHeader <<"#"<<"Name"<<"Role";
     _observerTable->setHorizontalHeaderLabels(_observerTableHeader);
@@ -99,7 +113,7 @@ void PartyForm::PopulateObserverTable()
 void PartyForm::ConfigChildrenTable()
 {
     _childrenTable = ui->childrenTable;
-    _childrenTable->setRowCount(10);
+    _childrenTable->setRowCount(_party->GetChildren().size());
     _childrenTable->setColumnCount(3);
     _childrenTableHeader <<"#"<<"Name"<<"Directly Involved";
     _childrenTable->setHorizontalHeaderLabels(_childrenTableHeader);

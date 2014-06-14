@@ -2,6 +2,8 @@
 #define PARTIESCONTAINERFORM_H
 
 #include <QWidget>
+#include "partyform.h"
+#include "drctypes.h"
 
 class Party;
 
@@ -14,15 +16,19 @@ class PartiesContainerForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit PartiesContainerForm(QWidget *parent = 0, Party* party1 = nullptr, Party* party2 = nullptr);
+    explicit PartiesContainerForm(QWidget *parent = 0, PartyVector* parties = nullptr);
     ~PartiesContainerForm();
-
-
-private:
-    Ui::PartiesContainerForm *ui;
-
     void SetParty1View(Party* party);
     void SetParty2View(Party* party);
+
+    void AddPartyTabs(PartyVector* parties);
+private slots:
+    void savePersonContactFromFar(Person *value);
+private:
+    Ui::PartiesContainerForm *ui;
+    std::vector<PartyForm*> PartyFormVector;
+signals:
+    void PassItOnAgain(Person *);
 
 };
 

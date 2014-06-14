@@ -7,6 +7,7 @@
 
 Party::Party()
 {
+    _primary = new Person();
 }
 
 
@@ -21,7 +22,7 @@ Party *Party::SampleData()
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
 
-    result->SetPrimary(*Person::SampleData());
+    result->SetPrimary(Person::SampleData());
     result->SetAttorney(*Person::SampleData());
     result->AddObserver(Person::SampleData());
     result->AddObserver(Person::SampleData());
@@ -55,4 +56,19 @@ void Party::RemoveChild(Person *person)
             break;
         }
     }
+}
+
+int Party::GetAffectedChildren()
+{
+    // TODO - Use party member pointers and party member type to identify affected children.
+    return _children.size();
+}
+
+bool Party::GetSpanishRequired()
+{
+    bool result = rand() % 2;
+
+    // Todo Check all party members!
+
+    return result;
 }

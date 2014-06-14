@@ -38,6 +38,7 @@ bool PersonValidator::Validate(Person* person, std::string &errorMessage) const
 
 bool PersonValidator::ValidateName(std::string name, std::string& errorMessage) const
 {
+    std::string test = errorMessage;
     return true;
 }
 bool PersonValidator::ValidateEmail(std::string email, std::string &errorMessage) const

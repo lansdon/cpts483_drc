@@ -59,7 +59,14 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardresults.cpp \
     bl/personprocessor.cpp \
     gui/Mock_Server/mock_server.cpp \
-    bl/partyvalidator.cpp
+    bl/partyvalidator.cpp \
+    gui/Mock_Server/mock_server.cpp \
+    drc_shared/CurrentUser.cpp \
+    drc_shared/models/mediationsessionclass.cpp \
+    drc_shared/drctypes.cpp \
+    gui/toolbarmanager.cpp \
+    gui/Mock_Server/dummy.cpp \
+    gui/partysummaryform.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -111,7 +118,13 @@ HEADERS  += \
     gui/searchwizard/searchwizardresults.h \
     bl/personprocessor.h \
     gui/Mock_Server/mock_server.h \
-    bl/partyvalidator.h
+    bl/partyvalidator.h \
+    gui/Mock_Server/mock_server.h \
+    drc_shared/CurrentUser.h \
+    drc_shared/models/mediationsessionclass.h \
+    gui/toolbarmanager.h \
+    gui/Mock_Server/dummy.h \
+    gui/partysummaryform.h
 
 FORMS    += \
     DRCClient.ui \
@@ -128,7 +141,8 @@ FORMS    += \
     gui/mediationprocessview.ui \
     gui/partyform.ui \
     gui/partiescontainerform.ui \
-    gui/mediationprocessstatusform.ui
+    gui/mediationprocessstatusform.ui \
+    gui/partysummaryform.ui
 
 
 CONFIG += c++11

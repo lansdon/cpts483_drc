@@ -2,17 +2,17 @@
 #include "ui_partiescontainerform.h"
 #include "DRCModels.h"
 #include "partyform.h"
+#include "drctypes.h"
+#include <QTabWidget>
 
-PartiesContainerForm::PartiesContainerForm(QWidget *parent, Party* party1, Party* party2)
+PartiesContainerForm::PartiesContainerForm(QWidget *parent, PartyVector* parties)
     : QWidget(parent)
     , ui(new Ui::PartiesContainerForm)
 {
     ui->setupUi(this);
 
-    if(party1)
-        SetParty1View(party1);
-    if(party2)
-        SetParty2View(party2);
+    AddPartyTabs(parties);
+
 }
 
 PartiesContainerForm::~PartiesContainerForm()
@@ -20,34 +20,32 @@ PartiesContainerForm::~PartiesContainerForm()
     delete ui;
 }
 
-void PartiesContainerForm::SetParty1View(Party* party)
+void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
 {
-    // Testing
-    if(!party)
+    if(parties)
     {
-        party = Party::SampleData();
-    }
 
-    if(party)
-    {
-        QGridLayout* gLayout = new QGridLayout;
-        gLayout->addWidget(new PartyForm(ui->party1Frame, party));
-        ui->party1Frame->setLayout(gLayout);
+        ui->partyTabWidget->clear();
+        PartyFormVector.clear();
+        foreach(Party* party, *parties)
+        {
+            if(party)
+            {
+                PartyFormVector.push_back(new PartyForm(ui->partyTabWidget, party));
+
+
+
+             }
+        }
+        foreach(PartyForm* p, PartyFormVector)
+        {
+            ui->partyTabWidget->addTab(p, p->getFullName() );
+            connect(p,SIGNAL(PassItOn(Person*)),this,SLOT(savePersonContactFromFar(Person*)));
+        }
     }
 }
 
-void PartiesContainerForm::SetParty2View(Party* party)
+void PartiesContainerForm::savePersonContactFromFar(Person *value)
 {
-    // Testing
-    if(!party)
-    {
-        party = Party::SampleData();
-    }
-
-    if(party)
-    {
-        QGridLayout* gLayout = new QGridLayout;
-        gLayout->addWidget(new PartyForm(ui->party1Frame, party));
-        ui->party2Frame->setLayout(gLayout);
-    }
+    PassItOnAgain(value);
 }

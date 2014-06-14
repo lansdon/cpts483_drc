@@ -12,6 +12,7 @@
 #include "Mediator.h"
 #include "drctypes.h"
 #include "searchwizard/searchwizard.h"
+#include "toolbarmanager.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -25,6 +26,9 @@ DRCClient::DRCClient(QWidget *parent) :
    ui(new Ui::DRCClient)
 {
     ui->setupUi(this);
+    // set up a seed for any random numbers generated with qrand()
+    qsrand( QDateTime::currentMSecsSinceEpoch()/1000);
+
 
     setCentralWidget(new LoginForm(this));
 
@@ -33,6 +37,11 @@ DRCClient::DRCClient(QWidget *parent) :
 
     // Listen for
     Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){CurrentUserChanged(arg);});
+
+    // Toolbar manager setup
+    ToolbarManager::Instance().SetToolbar(ui->toolBar);
+    ToolbarManager::Instance().Clear();
+
 
     // Disable Menus Until Logged In
     SetMenusEnabled(false, false);
@@ -61,24 +70,9 @@ void DRCClient::CurrentUserChanged(MediatorArg arg)
 void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
 {
     ui->menuBar->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-//    ui->menuHelp->setEnabled(enableMenus);
-
-    if(enableMenus)
-    {
-        ui->menuHelp->setEnabled(enableMenus);
-        if(showAdmin)
-        {
-
-        }
-    }
-    else
-    {
-
-    }
+    ui->menuHelp->setEnabled(enableMenus);
+    ui->toolBar->setEnabled(enableMenus);
+    ui->menuAdmin->menuAction()->setVisible(showAdmin);
 }
 
 
@@ -111,4 +105,16 @@ void DRCClient::on_actionMediation_Process_triggered()
 void DRCClient::on_actionFruit_Test_triggered()
 {
     setCentralWidget(new FruitNameForm(this));
+}
+
+void DRCClient::on_actionLock_Account_triggered()
+{
+    SetMenusEnabled(false, false);
+    setCentralWidget(new LoginForm());
+}
+
+void DRCClient::on_actionLogout_User_triggered()
+{
+    SetMenusEnabled(false, false);
+    setCentralWidget(new LoginForm());
 }

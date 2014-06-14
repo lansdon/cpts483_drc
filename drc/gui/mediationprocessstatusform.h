@@ -15,6 +15,7 @@ class MediationProcessStatusForm : public QWidget
 public:
     explicit MediationProcessStatusForm(QWidget *parent = 0, MediationProcess* mediationProcess = nullptr);
     ~MediationProcessStatusForm();
+    void setMediationProcess(MediationProcess* value);
 
 private:
     Ui::MediationProcessStatusForm *ui;
@@ -23,6 +24,7 @@ private:
 
     void Update();
 
+    void ConfigureComboBoxes(); // Sets the values based on enums.
 };
 
 #endif // MEDIATIONPROCESSSTATUSFORM_H

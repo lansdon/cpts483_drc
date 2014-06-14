@@ -15,17 +15,17 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QGroupBox" name="party1Frame">
-     <property name="title">
-      <string>Party1</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="party2Frame">
-     <property name="title">
-      <string>Party2</string>
-     </property>
+    <widget class="QTabWidget" name="partyTabWidget">
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Tab 1</string>
+      </attribute>
+     </widget>
+     <widget class="QWidget" name="tab_2">
+      <attribute name="title">
+       <string>Tab 2</string>
+      </attribute>
+     </widget>
     </widget>
    </item>
   </layout>

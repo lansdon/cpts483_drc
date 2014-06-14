@@ -11,7 +11,7 @@ public:
     bool Validate(Party* party, std::string& errorMessage) const;
 
 private:
-    bool Validate
+    bool _validate;
 };
 
 #endif // PARTYVALIDATOR_H
