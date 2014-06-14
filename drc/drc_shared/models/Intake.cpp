@@ -52,7 +52,7 @@ void Intake::clearParties()
     _parties.clear();
 }
 
-void Intake::setParties(Person *p, int index)
+void Intake::setParties(Person *p, size_t index)
 {
     if(_parties.size() - 1 > index)
         _parties.at(index) = p;

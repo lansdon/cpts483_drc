@@ -78,7 +78,7 @@ bool IntakeFormProcessor::ValidatePerson(const Person& person, std::string& erro
         success = false;
         errorMessage = "Empty person name.";
     }
-    for (unsigned int i = 0; i < name.size(); i++)
+    for (int i = 0; i < name.size(); i++)
     {
         if (!((name[i] >= 65 && name[i] <= 90) || (name[i] >= 97 && name[i] <= 122) || (name[i] == ' ')))
         {

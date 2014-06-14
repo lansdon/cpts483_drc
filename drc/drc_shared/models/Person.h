@@ -28,7 +28,7 @@ private:
 
     QString _attorney;
 
-    bool _isAttorney;
+    //bool _isAttorney;
     QString _assistantName;
     QString _assistantEmail;
     QString _assistantNumber;

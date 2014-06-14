@@ -70,6 +70,13 @@ QString StringForReferralTypes(ReferralTypes id)
     case REFERRAL_T_DCFS_JJC_GOVT_AGENCY: result = "Govt Agency"; break;
     case REFERRAL_T_FAMILY_FRIEND: result = "Family/Friend"; break;
     case REFERRAL_T_INTERNET: result = "Internet"; break;
+    case REFERRAL_T_LAW_ENFORCEMENT: result = "Law Enforcement"; break;
+    case REFERRAL_T_LEGAL_SERVICES: result = "Legal Services"; break;
+    case REFERRAL_T_OTHER_NONE: result = "Other"; break;
+    case REFERRAL_T_PHONEBOOK: result = "Phonebook"; break;
+    case REFERRAL_T_PRESENTATION_TRAINING: result = "Presentation/Training"; break;
+    case REFERRAL_T_PRIVATE_AGENCY: result = "Private Agency"; break;
+    case REFERRAL_T_RETURN_CLIENTS: result = "Return Client"; break;
     default: result = "None Selected"; break;
     }
     return result;

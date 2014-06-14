@@ -35,7 +35,7 @@ public:
     std::vector<Person* > getParties() const;
     void clearRespondents();
     void clearParties();
-    void setParties(Person *p, int index);
+    void setParties(Person *p, size_t index);
 
 };
 

@@ -166,7 +166,7 @@ void DRCDB::LoadFruit(MediatorArg arg)
     vector<string>* results = new vector<string>();
     results = SelectAllField();
     qDebug() << "Data stored in database; name then timestamp\n";
-    for(int i = 0; i < results->size(); i++)
+    for(unsigned int i = 0; i < results->size(); i++)
     {
         qDebug() << results->at(i).c_str() << endl;
     }

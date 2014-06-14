@@ -22,7 +22,7 @@ public:
 //    Party* GetParty2() { return _party2; }
 
     PartyVector& GetParties() { return _parties; }
-    Party* GetPartyAtIndex(int index) { return _parties.size() > index ? _parties[index] : nullptr; }
+    Party* GetPartyAtIndex(unsigned int index) { return _parties.size() > index ? _parties[index] : nullptr; }
 
     DisputeTypes GetDisputeType() { return _disputeType; }
     CountyIds GetCountyId() { return _countyOfMediation; }

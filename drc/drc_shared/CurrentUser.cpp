@@ -6,7 +6,7 @@
 
 bool UserInfo::IsTimedOut()
 {
-	return ((clock() - Instance().TimeOfLastAction) / CLOCKS_PER_SEC > Instance().TimeOutTheshold);
+    return ((clock() - Instance().TimeOfLastAction) / CLOCKS_PER_SEC > (unsigned int)Instance().TimeOutTheshold);
 }
 
 

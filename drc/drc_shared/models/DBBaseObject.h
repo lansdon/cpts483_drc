@@ -7,6 +7,7 @@
 class DBBaseObject
 {
 protected:
+    unsigned int m_id;
     QDateTime m_created;
     QDateTime m_updated;
 
