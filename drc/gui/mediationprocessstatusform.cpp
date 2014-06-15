@@ -90,3 +90,17 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
 }
 
 
+
+void MediationProcessStatusForm::on_notesToggleBtn_clicked()
+{
+    if(ui->notesFrame->isVisible())
+    {
+        ui->notesFrame->setHidden(true);
+        ui->notesToggleBtn->setText("Show Notes");
+    }
+    else
+    {
+        ui->notesFrame->setHidden(false);
+        ui->notesToggleBtn->setText("Hide Notes");
+    }
+}

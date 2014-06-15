@@ -17,6 +17,9 @@ public:
     ~MediationProcessStatusForm();
     void setMediationProcess(MediationProcess* value);
 
+private slots:
+    void on_notesToggleBtn_clicked();
+
 private:
     Ui::MediationProcessStatusForm *ui;
 
