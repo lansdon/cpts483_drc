@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>662</height>
+    <height>668</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -54,7 +54,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuInquiries">
@@ -62,14 +62,12 @@
      <string>Inquiries</string>
     </property>
     <addaction name="actionNew"/>
-    <addaction name="actionSave_2"/>
+    <addaction name="separator"/>
     <addaction name="actionFind"/>
     <addaction name="separator"/>
     <addaction name="actionRecent"/>
     <addaction name="actionStatus_List"/>
     <addaction name="separator"/>
-    <addaction name="actionDelete_2"/>
-    <addaction name="actionPrint_2"/>
    </widget>
    <widget class="QMenu" name="menuReports">
     <property name="title">
@@ -96,6 +94,7 @@
      <string>Mediation</string>
     </property>
     <addaction name="actionOpen_mediation_view"/>
+    <addaction name="actionFindMediation"/>
    </widget>
    <widget class="QMenu" name="menuAdmin">
     <property name="title">
@@ -105,7 +104,7 @@
    </widget>
    <widget class="QMenu" name="menuUser">
     <property name="title">
-     <string>User</string>
+     <string>Logout</string>
     </property>
     <addaction name="actionLock_Account"/>
     <addaction name="actionLogout_User"/>
@@ -135,36 +134,6 @@
    <addaction name="actionFruit_Test"/>
    <addaction name="actionCase_Summary"/>
   </widget>
-  <action name="actionNew_Form">
-   <property name="text">
-    <string>New</string>
-   </property>
-  </action>
-  <action name="actionFind_Form">
-   <property name="text">
-    <string>Load</string>
-   </property>
-  </action>
-  <action name="actionReset_Form">
-   <property name="text">
-    <string>Clear</string>
-   </property>
-  </action>
-  <action name="actionDelete">
-   <property name="text">
-    <string>Delete</string>
-   </property>
-  </action>
-  <action name="actionPrint">
-   <property name="text">
-    <string>Print</string>
-   </property>
-  </action>
-  <action name="actionSave">
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </action>
   <action name="actionNew">
    <property name="text">
     <string>New</string>
@@ -185,29 +154,9 @@
     <string>Status List</string>
    </property>
   </action>
-  <action name="actionDelete_2">
-   <property name="text">
-    <string>Delete</string>
-   </property>
-  </action>
-  <action name="actionSave_2">
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </action>
-  <action name="actionPrint_2">
-   <property name="text">
-    <string>Print</string>
-   </property>
-  </action>
   <action name="actionCase_Summary">
    <property name="text">
     <string>Res Washington</string>
-   </property>
-  </action>
-  <action name="actionNew_Fruit_Submission">
-   <property name="text">
-    <string>Open</string>
    </property>
   </action>
   <action name="actionNew_search_form">
@@ -220,7 +169,10 @@
   </action>
   <action name="actionOpen_mediation_view">
    <property name="text">
-    <string>open</string>
+    <string>Open</string>
+   </property>
+   <property name="toolTip">
+    <string>Open mediation editor.</string>
    </property>
   </action>
   <action name="actionCreate_new_User">
@@ -246,6 +198,14 @@
   <action name="actionLogout_User">
    <property name="text">
     <string>Logout User</string>
+   </property>
+  </action>
+  <action name="actionFindMediation">
+   <property name="text">
+    <string>Find</string>
+   </property>
+   <property name="toolTip">
+    <string>Find an existing Mediation Record</string>
    </property>
   </action>
  </widget>

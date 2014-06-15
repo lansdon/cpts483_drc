@@ -7,9 +7,9 @@
 class DBBaseObject
 {
 protected:
-    unsigned int m_id;
-    QDateTime m_created;
-    QDateTime m_updated;
+    unsigned int m_id;      // properties shared by all db objects
+    QDateTime m_created;    // properties shared by all db objects
+    QDateTime m_updated;    // properties shared by all db objects
 
 public:
     //Outputs field data into a SQLite appropriate string format
@@ -20,6 +20,17 @@ public:
 
     QDateTime GetCreated() { return m_created; }
     QDateTime GetUpdated() { return m_updated; }
+
+    unsigned int GetId() { return m_id; }
+    void SetId(unsigned int id) { m_id = id; }
+
+    QDateTime GetCreatedDate() { return m_created; }
+    void SetCreatedDate(QDateTime created) { m_created = created; }
+
+    QDateTime GetUpdatedDate() { return m_updated; }
+    void SetUpdatedDate(QDateTime updated) { m_updated = updated; }
+    void SetUpdatedDate() { m_updated = QDateTime::currentDateTime(); } // helper for current date
+
 };
 
 
