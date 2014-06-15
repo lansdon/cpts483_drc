@@ -56,3 +56,9 @@ void Party::RemoveChild(Person *person)
         }
     }
 }
+
+int Party::GetAffectedChildren()
+{
+    // TODO - Use party member pointers and party member type to identify affected children.
+    return _children.size();
+}

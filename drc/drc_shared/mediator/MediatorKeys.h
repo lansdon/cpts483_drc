@@ -18,6 +18,8 @@
 // Please follow this convention for clarity and ease of debugging.
 //////////////////////////////////////////////////////////////////
 
+
+// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
 //////////////////////////////////////////////////////////////////
 //				SUBMIT FRUIT NAME
 // Test function to save a fruit in the database
@@ -26,12 +28,31 @@ const QString MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";        
 const QString MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";      // Fruit*
 const QString MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";      // Fruit
 
+// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
 //////////////////////////////////////////////////////////////////
 //				SEARCH FOR USER BY NAME ????? Test Function ???
 // Test function to load test records on fruit page
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const QString MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";            // QString*
 const QString MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
+
+// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
+//////////////////////////////////////////////////////////////////
+//				SAVE INTAKE FORM
+// Save an intake form to the database
+//////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
+const std::string MKEY_GUI_SUBMIT_INTAKE_FORM = "MKEY_GUI_SUBMIT_INTAKE_FORM";                          // Intake*
+const std::string MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE";    // Intake*
+const std::string MKEY_DB_PERSIST_INTAKE_FORM_DONE = "MKEY_DB_PERSIST_INTAKE_FORM_DONE";                // Intake*
+
+// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
+//////////////////////////////////////////////////////////////////
+//				LOAD INTAKE FORM
+// Load an intake form from the database
+//////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
+const std::string MKEY_GUI_LOAD_INTAKE_FORM = "MKEY_GUI_LOAD_INTAKE_FORM";                              // Intake*
+const std::string MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE";   // Intake*
+const std::string MKEY_DB_LOAD_INTAKE_FORM_DONE = "MKEY_DB_LOAD_INTAKE_FORM_DONE";                      // std::vector<Intake*>*
 
 //////////////////////////////////////////////////////////////////
 //				AUTHENTICATE USER
@@ -49,7 +70,7 @@ const QString MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";
 const QString MKEY_CURRENT_USER_CHANGED = "MKEY_CURRENT_USER_CHANGED";                  // User*
 
 //////////////////////////////////////////////////////////////////
-//				SAVE INTAKE FORM
+//				SAVE MEDIATION PROCESS
 // Save an intake form to the database
 //////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
 const QString MKEY_GUI_SUBMIT_INTAKE_FORM = "MKEY_GUI_SUBMIT_INTAKE_FORM";                          // Intake*
@@ -57,7 +78,7 @@ const QString MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE = "MKEY_BL_VALIDATE_SAVE_IN
 const QString MKEY_DB_PERSIST_INTAKE_FORM_DONE = "MKEY_DB_PERSIST_INTAKE_FORM_DONE";                // Intake*
 
 //////////////////////////////////////////////////////////////////
-//				LOAD INTAKE FORM
+//				LOAD MEDIATION PROCESS
 // Load an intake form from the database
 //////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
 const QString MKEY_GUI_LOAD_INTAKE_FORM = "MKEY_GUI_LOAD_INTAKE_FORM";                              // Intake*

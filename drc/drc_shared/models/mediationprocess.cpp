@@ -24,9 +24,16 @@ MediationProcess *MediationProcess::SampleData()
     result->_party1 = *Party::SampleData();
     result->_party2 = *Party::SampleData();
     result->_countyOfMediation = COUNTY_BENTON;
-    result->_disputeType = DISPUTE_T_NONE;
-    result->_processState = PROCESS_STATE_NONE;
-    result->_referalSource = REFERRAL_T_NONE;
+    result->_disputeType = DISPUTE_T_NEIGHBORHOOD;
+    result->_requiresSpanish = true;
+    result->_processState = PROCESS_STATE_INITIATED;
+    result->_referalSource = REFERRAL_T_INTERNET;
+    result->SetCreationDate(QDateTime::currentDateTime());
+
+    for(int i=0; i < 25; ++i)
+        result->GetNotes().push_back("Some more mediation notes " + QString::number(i));
+
+
 
     return result;
 }
