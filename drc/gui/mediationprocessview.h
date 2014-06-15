@@ -28,13 +28,12 @@ public:
     MediationProcess* GetMediationProcess() { return _mediationProcess; }
 
 private slots:
+    // Toolbar Buttons
     void SaveMediationPressed();
     void SearchForMediationPressed();
-
-//    void on_toolBox_currentChanged(int index);
+    void ShowRecentPressed();
 
     void savePersonContactFromFarAway(Person*value);
-
 
     void on_MediationProcessTableWidget_itemSelectionChanged();
 
@@ -43,29 +42,30 @@ private slots:
 private:
     Ui::MediationProcessView *ui;
 
-    QTabWidget *_MediationSessionTabWidget;
+//    QTabWidget *_MediationSessionTabWidget;
 
-//    MediationSession *_localMediationSession;
-//    DetailsView *_localDetailsView;
-//    int _numberOfParties;
-    QTableWidget *MediationProcessTableView;
-    QStringList MediationProcessTableViewHeader;
-    void configMediationProcecssViewTable();
-    void PopulateMediationProcessTable();
-    void PopulateView(MediationProcess *value);
     MediationProcess* _mediationProcess;
+
+    // Recent Table
     MediationProcessVector *_localMediationProcessVector;
+    QTableWidget *MediationProcessTableView;
+    QStringList MediationProcessTableViewHeader;    
+     int _currentProcessRow;
+
+     // Toolbox + Children (pages)
      QToolBox* toolBox;
-     int MediationProcessCurrentRow;
      MediationProcessStatusForm *_localMediationProcessStatusForm;
      PartiesContainerForm *_localPartiesContainerForm;
      MediationSession *_localMediationSession;
 
-
-   // MediationProcess* _mediationProcess;
-
+     // Setup GUI Helpers
     void ConfigureToolbar();
+    void ConfigureToolbox();
+    void configMediationProcecssViewTable();
 
+    // Populate Views
+    void PopulateMediationProcessTable();
+    void PopulateView(MediationProcess *value);
 
 };
 

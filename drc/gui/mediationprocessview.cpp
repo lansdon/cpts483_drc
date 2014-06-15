@@ -25,22 +25,21 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     for(int i = 0; i < 7; i++)
         _localMediationProcessVector->push_back(MediationProcess::SampleData());
 
+    // Recent records table
     MediationProcessTableView = ui->MediationProcessTableWidget;
     MediationProcessTableView->setMaximumHeight(200);
     configMediationProcecssViewTable();
     PopulateMediationProcessTable();
-    toolBox = ui->MediationProcessToolBox;
+    _currentProcessRow= 1;
+
     _localMediationProcessStatusForm = new MediationProcessStatusForm(this, _mediationProcess);
     _localPartiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
     _localMediationSession = new MediationSession(this);
-    ui->MediationProcessToolBox->removeItem(0);
-    //ui->verticalLayout->addWidget(MediationProcessTableView);
-    //ui->verticalLayout->addWidget(toolBox);
-    MediationProcessCurrentRow= 1;
-    toolBox->addItem(_localMediationProcessStatusForm, "Mediation Overview");
-    toolBox->addItem(_localPartiesContainerForm, "Parties");
-    toolBox->addItem(_localMediationSession,"Mediation Sessions");
-    PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
+
+    ConfigureToolbox();
+
+    // Update Fields for current record
+    PopulateView(_localMediationProcessVector->at(_currentProcessRow-1));
 
     ConfigureToolbar();
 }
@@ -49,9 +48,23 @@ MediationProcessView::~MediationProcessView()
 {
     delete ui;
 }
+
+void MediationProcessView::ConfigureToolbox()
+{
+    toolBox = ui->MediationProcessToolBox;
+    ui->MediationProcessToolBox->removeItem(0);
+    toolBox->addItem(_localMediationProcessStatusForm, "Mediation Overview");
+    toolBox->addItem(_localPartiesContainerForm, "Parties");
+    toolBox->addItem(_localMediationSession,"Mediation Sessions");
+
+    foreach(QWidget* child, toolBox->findChildren<QWidget*>())
+        if( child->inherits("QToolBoxButton") )
+            child->setFont(QFont("Helvetica", 28, 5));
+}
+
 void MediationProcessView::savePersonContactFromFarAway(Person *value)
 {
-    PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
+    PopulateView(_localMediationProcessVector->at(_currentProcessRow-1));
     PopulateMediationProcessTable();
 }
 
@@ -104,18 +117,19 @@ void MediationProcessView::ConfigureToolbar()
     toolbar.Clear();
     toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()));
     toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
+    toolbar.AddAction("Show Recent Records", this, SLOT(ShowRecentPressed()));
 }
 
 
 
 void MediationProcessView::on_MediationProcessTableWidget_itemSelectionChanged()
 {
-    if(MediationProcessCurrentRow != ui->MediationProcessTableWidget->currentRow())
+    if(_currentProcessRow != ui->MediationProcessTableWidget->currentRow())
     {
-        MediationProcessCurrentRow = ui->MediationProcessTableWidget->currentRow();
+        _currentProcessRow = ui->MediationProcessTableWidget->currentRow();
 
-        if((uint)MediationProcessCurrentRow < _localMediationProcessVector->size() && MediationProcessCurrentRow > 0)
-            PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
+        if((uint)_currentProcessRow < _localMediationProcessVector->size() && _currentProcessRow > 0)
+            PopulateView(_localMediationProcessVector->at(_currentProcessRow-1));
     }
 }
 
@@ -137,10 +151,19 @@ void MediationProcessView::on_MediationProcessTableWidget_doubleClicked(const QM
     {
         _localMediationProcessVector->insert(_localMediationProcessVector->begin(),new MediationProcess());
         ui->MediationProcessTableWidget->setCurrentCell(1,0);
-        MediationProcessCurrentRow = 1;
+        _currentProcessRow = 1;
         PopulateMediationProcessTable();
-        PopulateView(_localMediationProcessVector->at(MediationProcessCurrentRow-1));
+        PopulateView(_localMediationProcessVector->at(_currentProcessRow-1));
         //PersonDetailsForm *child = _localPartiesContainerForm->findChild<PersonDetailsForm *>();
         //connect(child,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
     }
 }
+
+void MediationProcessView::ShowRecentPressed()
+{
+    if(ui->recentGroupBox->isVisible())
+        ui->recentGroupBox->hide();
+    else
+        ui->recentGroupBox->show();
+}
+
