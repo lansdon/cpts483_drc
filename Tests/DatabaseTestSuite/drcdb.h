@@ -15,7 +15,7 @@ private:
     //Though it shouldn't happen if we're doing accurate checks.
     QVector<QString> LastErrors;
 
-    bool ErrorOccurred;
+    bool DB_ERROR;
 
     bool ExecuteCommand(QString command_string, QSqlQuery &query_object);
 

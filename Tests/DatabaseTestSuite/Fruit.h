@@ -10,6 +10,7 @@ using namespace std;
 
 class Fruit : public DBBaseObject
 {
+private:
     QString m_name;
 
     time_t m_timestamp;

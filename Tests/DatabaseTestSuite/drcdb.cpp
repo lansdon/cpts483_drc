@@ -15,7 +15,7 @@ DRCDB::DRCDB()
 //========================================================================
 //Constructor takes in a database_name, and opens it.
 //------------------------------------------------------------------------
-DRCDB::DRCDB(QString database_name) : ErrorOccurred(false)
+DRCDB::DRCDB(QString database_name) : DB_ERROR(false)
 {
     this->OpenDatabase(database_name);
 }
@@ -147,7 +147,7 @@ bool DRCDB::DuplicateInsert(const QString &duplicate_query)
         if (query_object.next())
         {
             duplicate_exists = true;
-            ErrorOccurred = true;
+            DB_ERROR = true;
             LastErrors.push_back(QString("Duplicate Insert Was Attempted: %1.")
                                  .arg(duplicate_query));
         }
@@ -223,17 +223,17 @@ QVector<QString> DRCDB::SelectAllFields(QString table_name)
 //vector.
 
 //Return Values
-//True:     ErrorOccurred
+//True:     Error Occurred
 //False:    No Error Occurred / Detected
 //------------------------------------------------------------------------
 bool DRCDB::ExtractError(const QSqlError &error_object)
 {
-    ErrorOccurred = error_object.isValid();
+    DB_ERROR = error_object.isValid();
 
-    if (ErrorOccurred)
+    if (DB_ERROR)
         LastErrors.push_back(error_object.text());
 
-    return ErrorOccurred;
+    return DB_ERROR;
 }
 //========================================================================
 
@@ -246,7 +246,7 @@ bool DRCDB::ExtractError(const QSqlError &error_object)
 //------------------------------------------------------------------------
 bool DRCDB::GetErrorOccurred()
 {
-    return ErrorOccurred;
+    return DB_ERROR;
 }
 //========================================================================
 
@@ -256,19 +256,19 @@ bool DRCDB::GetErrorOccurred()
 //Returns a vector containing all the errors that has occurred since its
 //last call.
 
-//Note:     It's sloppy, but currently the method sets the ErrorOccurred
+//Note:     It's sloppy, but currently the method sets the DB_ERROR
 //          back to false whenever this method is called.
 
-//          If ErrorOccurred was set to true due to a SqlQueryError, the
+//          If DB_ERROR was set to true due to a SqlQueryError, the
 //          problem was likely resolved when the query_object went out
 //          of scope.
 
-//          If ErrorOccurred was set to true due to open database failing,
+//          If DB_ERROR was set to true due to open database failing,
 //          then the problem is more permenant.
 //------------------------------------------------------------------------
 QVector<QString> DRCDB::GetLastErrors()
 {
-    ErrorOccurred = !database.isOpenError();
+    DB_ERROR = !database.isOpenError();
 
     QVector<QString> retVec = LastErrors;
     LastErrors.clear();

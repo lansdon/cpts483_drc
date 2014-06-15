@@ -97,6 +97,7 @@ void DatabaseTestSuite::CreateDuplicateTable()
     QCOMPARE(_db.GetErrorOccurred(), true);
 
     QVector<QString> RecentError = _db.GetLastErrors();
+    QCOMPARE(RecentError.size(), 1);
     QCOMPARE(RecentError.first(), QString("table Albertsons already exists Unable to execute statement"));
 }
 
@@ -120,6 +121,8 @@ void DatabaseTestSuite::InsertObject()
     QCOMPARE(_db.GetErrorOccurred(), true);
 
     QVector<QString> RecentError = _db.GetLastErrors();
+
+    QCOMPARE(RecentError.size(), 1);
     QCOMPARE(RecentError.first(), QString("Duplicate Insert Was Attempted: SELECT * FROM Albertsons WHERE fruit_name like '%1' AND time_stamp = %2.")
              .arg(Banana.GetName())
              .arg(Banana.GetTime()));
