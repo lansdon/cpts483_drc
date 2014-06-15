@@ -24,10 +24,13 @@ public:
     void SetAttorney(Person attorney) { _attorney = attorney; }
     Person& GetAttorney() { return _attorney; }
 
+
     void AddObserver(Person* person) { if(person) _observers.push_back(person); }
     void RemoveObserver(Person* person);
     void AddChild(Person* person) { if(person) _children.push_back(person); }
     void RemoveChild(Person* person);
+    int GetAffectedChildren();
+    int GetTotalChildren() { return _children.size(); }
     // Test Data - Fill the object with test values in every field.
     static Party* SampleData();
 

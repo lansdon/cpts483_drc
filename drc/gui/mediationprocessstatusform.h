@@ -23,6 +23,7 @@ private:
 
     void Update();
 
+    void ConfigureComboBoxes(); // Sets the values based on enums.
 };
 
 #endif // MEDIATIONPROCESSSTATUSFORM_H

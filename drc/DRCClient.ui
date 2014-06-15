@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>643</height>
+    <height>662</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -54,7 +54,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuInquiries">
@@ -103,12 +103,20 @@
     </property>
     <addaction name="actionCreate_new_User"/>
    </widget>
+   <widget class="QMenu" name="menuUser">
+    <property name="title">
+     <string>User</string>
+    </property>
+    <addaction name="actionLock_Account"/>
+    <addaction name="actionLogout_User"/>
+   </widget>
    <addaction name="menu_mediationProcess"/>
    <addaction name="menuSearch"/>
    <addaction name="menuInquiries"/>
    <addaction name="menuReports"/>
    <addaction name="menuHelp"/>
    <addaction name="menuAdmin"/>
+   <addaction name="menuUser"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
@@ -228,6 +236,16 @@
   <action name="actionFruit_Test">
    <property name="text">
     <string>Fruit Test</string>
+   </property>
+  </action>
+  <action name="actionLock_Account">
+   <property name="text">
+    <string>Lock Account</string>
+   </property>
+  </action>
+  <action name="actionLogout_User">
+   <property name="text">
+    <string>Logout User</string>
    </property>
   </action>
  </widget>

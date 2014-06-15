@@ -61,6 +61,7 @@ void DRCClient::CurrentUserChanged(MediatorArg arg)
 void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
 {
     ui->menuBar->setEnabled(enableMenus);
+    ui->toolBar->setEnabled(enableMenus);
 //    ui->menuHelp->setEnabled(enableMenus);
 //    ui->menuHelp->setEnabled(enableMenus);
 //    ui->menuHelp->setEnabled(enableMenus);
@@ -70,6 +71,7 @@ void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
     if(enableMenus)
     {
         ui->menuHelp->setEnabled(enableMenus);
+        ui->toolBar->setEnabled(enableMenus);
         if(showAdmin)
         {
 
@@ -111,4 +113,16 @@ void DRCClient::on_actionMediation_Process_triggered()
 void DRCClient::on_actionFruit_Test_triggered()
 {
     setCentralWidget(new FruitNameForm(this));
+}
+
+void DRCClient::on_actionLock_Account_triggered()
+{
+    SetMenusEnabled(false, false);
+    setCentralWidget(new LoginForm());
+}
+
+void DRCClient::on_actionLogout_User_triggered()
+{
+    SetMenusEnabled(false, false);
+    setCentralWidget(new LoginForm());
 }

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>881</width>
-    <height>300</height>
+    <height>523</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,24 +20,132 @@
       <string>Mediation Status</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_3">
+      <item row="3" column="2" colspan="2">
+       <widget class="QGroupBox" name="groupBox_5">
+        <property name="title">
+         <string>Party 2</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="0" column="0">
+          <widget class="QLabel" name="party2Fullname">
+           <property name="text">
+            <string>&lt;fullname here&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="childrenEffectedLabel1">
+           <property name="text">
+            <string>&lt;# children affected&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QCheckBox" name="spanishCheckBox">
+           <property name="text">
+            <string>Spanish Required</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lastActivityLabel">
         <property name="text">
-         <string>Upcoming Dates:</string>
+         <string>Last Activity:</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="1">
+      <item row="0" column="3">
+       <widget class="QComboBox" name="conflictComboBox">
+        <item>
+         <property name="text">
+          <string>&lt;Select Conflict Type&gt;</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Consumer/Merchant</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Family</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Neighborhood</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Parenting Plan</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Property/Business</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Parent/Teen</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Small Claims</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Tenant/Landlord</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Victim/Offender</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Workplace</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Other</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="1">
        <widget class="QLabel" name="createdDateLabel">
         <property name="text">
          <string>&lt;date&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_4">
+      <item row="2" column="1">
+       <widget class="QLabel" name="lastActivityDisplayLabel">
         <property name="text">
-         <string>Party1:</string>
+         <string>&lt;date&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="_creationLabel">
+        <property name="text">
+         <string>Creation Date:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="_conflictLabel">
+        <property name="text">
+         <string>Conflict Type</string>
         </property>
        </widget>
       </item>
@@ -45,73 +153,221 @@
        <widget class="QComboBox" name="statusComboBox">
         <item>
          <property name="text">
-          <string>Pending</string>
+          <string>&lt;Select Status&gt;</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Confirmed</string>
+          <string>Initiated</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Cancelled</string>
+          <string>Scheduled</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Reschedule</string>
+          <string>Outcome Reached</string>
          </property>
         </item>
         <item>
          <property name="text">
-          <string>Follow-up</string>
+          <string>Outcome Not Reached</string>
          </property>
         </item>
        </widget>
       </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_6">
+      <item row="1" column="2">
+       <widget class="QLabel" name="_referralLabel">
         <property name="text">
-         <string>Party2:</string>
+         <string>Referral Source:</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
-       <widget class="QLabel" name="party2Fullname">
-        <property name="text">
-         <string>&lt;fullname here&gt;</string>
+      <item row="8" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_3">
+        <property name="title">
+         <string>Notes:</string>
         </property>
-       </widget>
-      </item>
-      <item row="4" column="0" colspan="2">
-       <widget class="QTableWidget" name="upcomingDateTable"/>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLabel" name="party1Fullname">
-        <property name="text">
-         <string>&lt;fullname here&gt;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="spanishCheckBox">
-        <property name="text">
-         <string>Spanish speaking</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Creation Date:</string>
-        </property>
+        <layout class="QGridLayout" name="gridLayout_4">
+         <item row="0" column="0">
+          <widget class="QListWidget" name="notesListWidget"/>
+         </item>
+        </layout>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="QLabel" name="_currentStatusLabel">
         <property name="text">
          <string>Current Status:</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="2">
+       <widget class="QGroupBox" name="groupBox_4">
+        <property name="title">
+         <string>Party 1</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="0">
+          <widget class="QLabel" name="party1Fullname">
+           <property name="text">
+            <string>&lt;fullname here&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="childrenEffectedLabel2">
+           <property name="text">
+            <string>&lt;# children affected&gt;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QCheckBox" name="checkBox">
+           <property name="text">
+            <string>Spanish Required</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="8" column="2" colspan="2">
+       <widget class="QGroupBox" name="groupBox_2">
+        <property name="title">
+         <string>Upcoming Dates:</string>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QListWidget" name="updcomingDatesList"/>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QComboBox" name="countyComboBox">
+        <item>
+         <property name="text">
+          <string>&lt;Select County&gt;</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Franklin</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Benton</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Grant</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Adams</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Other</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QComboBox" name="referralComboBox">
+        <item>
+         <property name="text">
+          <string>&lt;Select Referral Source&gt;</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Family/Friend</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Attorney</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Legal Services</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Return Client</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Private Agency</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Courts</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Court Solicited</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Law Enforcement</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>DCFS JJC Govt Agency</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Attorney Generals Office</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Presentation Training</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Advertising</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Phonebook</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Internet</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>Other/None</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLabel" name="_countyLabel">
+        <property name="text">
+         <string>County of Mediation:</string>
         </property>
        </widget>
       </item>
