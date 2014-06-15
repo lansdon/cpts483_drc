@@ -14,27 +14,37 @@ class DRCDB
 private:
     QSqlDatabase database;
 
+    //Made it a vector in the event that multiple errors have occurred.
+    //Though it shouldn't happen if we're doing accurate checks.
+    QVector<QString> LastErrors;
+
     bool DB_ERROR;
 
-    bool CreateTable(QString table_name, QString table_columns);
+    bool ExecuteCommand(QString command_string, QSqlQuery &query_object);
+
+    bool CreateTable(QString table_name, QVector<QString> column_data);
 
 public:
-
     DRCDB();
-	
-	void OpenDatabase(std::string database_name);
 
-    void InsertObject(DBBaseObject* db_object);
-	
-    void InsertFruit(int time, std::string name);
+    DRCDB(QString database_name);
 
-    void InsertString(std::string Command);
+    bool OpenDatabase(QString database_name);
 
-    std::vector<std::string> *SelectAllField();
+    bool CloseDatabase();
 
-	bool isError();
 
-	std::string errorMessage();
+    bool InsertObject(DBBaseObject* db_object);
+
+    bool DuplicateInsert(const QString &duplicate_query);
+
+    QVector<QString> SelectAllFields(QString table_name);
+
+    bool ExtractError(const QSqlError &error_object);
+
+    bool GetErrorOccurred();
+
+    QVector<QString> GetLastErrors();
 
 
     // Incoming Events

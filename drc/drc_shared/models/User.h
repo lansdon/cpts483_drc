@@ -3,7 +3,7 @@
 
 #include "DBBaseObject.h"
 
-#include <string>
+#include <QString>
 #include "drctypes.h"
 
 using namespace std;
@@ -11,23 +11,29 @@ using namespace std;
 class User : public DBBaseObject
 {
 private:
-	string m_userName;
-	string m_password;
+	QString m_userName;
+	QString m_password;
     UserTypes m_type;
 
 public:
 	User();
-	User(string name, string pass);
+	User(QString name, QString pass);
 
-	string GetName(void);
-	void SetName(string name);
-	string GetPass(void);
-	void SetPassword(string password);
+    QString GetName(void);
+	void SetName(QString name);
+    QString GetPass(void);
+	void SetPassword(QString password);
 
     UserTypes GetType(void);
-	string GetTypeString(void);
+    QString GetTypeString(void);
 
-	string Parse(void);
+    QString Parse(void);
+
+    QString table(void);
+
+    QString DuplicateQuery(void);
+
+    QString SearchQuery(void);
 };
 
 #endif

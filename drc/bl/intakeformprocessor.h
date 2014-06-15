@@ -9,20 +9,20 @@
 class IntakeFormProcessor: public Processor
 {
 public:
-    IntakeFormProcessor(std::string regProcess="", std::string sendProcess="",
-                                             std::string regLoad="", std::string sendLoad="");
+    IntakeFormProcessor(QString regProcess="", QString sendProcess="",
+                                             QString regLoad="", QString sendLoad="");
     void Process(MediatorArg arg);
     void Load(MediatorArg arg);
 
 private:
-    bool ValidateIntakeForm(const Intake& intake, std::string& errorMessage) const;
-    bool ValidatePerson(const Person& person, std::string& errorMessage) const;
-    bool ValidateTime(time_t time, std::string& errorMessage) const;
+    bool ValidateIntakeForm(const Intake& intake, QString& errorMessage) const;
+    bool ValidatePerson(const Person& person, QString& errorMessage) const;
+    bool ValidateTime(time_t time, QString& errorMessage) const;
 
-    std::string _regProcess;
-    std::string _sendProcess;
-    std::string _regLoad;
-    std::string _sendLoad;
+    QString _regProcess;
+    QString _sendProcess;
+    QString _regLoad;
+    QString _sendLoad;
 };
 
 #endif // INTAKEFORMPROCESSOR_H

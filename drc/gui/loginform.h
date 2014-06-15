@@ -23,8 +23,8 @@ private slots:
 
 private:
     Ui::LoginForm *ui;
-    std::string _username;
-    std::string _password;
+    QString _username;
+    QString _password;
 
     AsyncMediatorCall* _asyncAuthenticate;
     void authenticateResponse(MediatorArg arg);

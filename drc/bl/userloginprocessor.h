@@ -12,8 +12,8 @@ class SHA256_Crypto;
 class UserLoginProcessor: Processor
 {
 public:
-    UserLoginProcessor(std::string authUser, std::string sendUser,
-                       std::string requestSalt, std::string receiveSalt);
+    UserLoginProcessor(QString authUser, QString sendUser,
+                       QString requestSalt, QString receiveSalt);
     void Process(MediatorArg arg);
     void Load(MediatorArg arg);
 
@@ -24,10 +24,10 @@ private:
     void ReceiveSalt(MediatorArg arg);
     void CleanUserName();
 
-    std::string _sendUser;
-    std::string _requestSalt;
+    QString _sendUser;
+    QString _requestSalt;
     User* _user;
-    std::string* _userName;
+    QString* _userName;
 };
 
 #endif // USERLOGINPROCESSOR_H

@@ -54,7 +54,7 @@ void FruitNameForm::on_sendButton_clicked()
 
    UpdateNameField("Sending name: " + QString::fromStdString(claiment->GetPerson()->getFirstName()));
    //send info to logic to store into database
-   SendFruitName(new Fruit(claiment->GetPerson()->getFirstName()));
+   SendFruitName(new Fruit(QString::fromStdString(claiment->GetPerson()->getFirstName())));
 }
 void FruitNameForm::UpdateForm(MediatorArg arg)
 {
@@ -83,13 +83,13 @@ void FruitNameForm::UpdateForm(MediatorArg arg)
         else
         {
             qDebug() << "GUI -> INTAKE ARGUMENT ERROR";
-            qDebug() << QString::fromStdString(arg.ErrorMessage());
+            qDebug() << arg.ErrorMessage();
         }
     }
     else
     {
         qDebug() << "RESPONSE NOT SUCCESSFUL!";
-        qDebug() << QString::fromStdString(arg.ErrorMessage());
+        qDebug() << arg.ErrorMessage();
     }
 }
 
@@ -103,8 +103,8 @@ void FruitNameForm::UpdateNameField(QString str)
 
 void FruitNameForm::SendFruitName(Fruit *fruit)
 {
-    qDebug() << "Gui -> Submit fruit name asynchronously" << QString::fromStdString(fruit->GetName());
-    qDebug() <<  QString::fromStdString(fruit->GetName());
+    qDebug() << "Gui -> Submit fruit name asynchronously" << fruit->GetName();
+    qDebug() <<  fruit->GetName();
     asyncSendFruitName->GetMediatorArg().SetArg((Fruit*)fruit);
     asyncSendFruitName->Send();
 }
@@ -120,7 +120,7 @@ void FruitNameForm::RecieveFruitNameResult(MediatorArg arg)
     else
     {
         QString error = QString("Submit Name Error: ");
-        error.append(QString::fromStdString(arg.ErrorMessage()));
+        error.append(arg.ErrorMessage());
         UpdateNameField(error);
     }
 }
