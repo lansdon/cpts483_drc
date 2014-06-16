@@ -2,8 +2,9 @@
 #define PERSON_H
 #include <QString>
 #include <string>
+#include "DBBaseObject.h"
 
-class Person
+class Person : public DBBaseObject
 {
 private:
     QString _firstName;
@@ -37,6 +38,11 @@ private:
 public:
     Person();
     Person(QString n);
+    virtual ~Person();
+
+    // Base Class Virtual Overrides
+    QString Parse(void);
+
 
     // Accessors
      void setName(QString fName, QString mName, QString lName) { _firstName=fName; _middleName=mName; _lastName=lName;}

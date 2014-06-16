@@ -13,6 +13,11 @@ Person::Person(QString n)
     _numberInHousehold = 0;
 }
 
+Person::~Person()
+{
+
+}
+
 bool Person::operator==(const Person &rhs)
 {
     bool result = true;
@@ -29,6 +34,11 @@ bool Person::operator!=(const Person &rhs)
     return !(*this==rhs);
 }
 
+#warning TODO - PARSE UNIMPLEMENTED!!!!
+QString Person::Parse(void)
+{
+    // TO DO - PARSE THIS MOFO!!
+}
 
 // Test Data - Fill the object with test values in every field.
 Person *Person::SampleData()

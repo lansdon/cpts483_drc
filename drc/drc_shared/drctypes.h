@@ -10,13 +10,13 @@
 
 class Person;
 class MediationProcess;
-class MediationSessionClass;
+class MediationSession;
 class Party;
 
 // Typedefs
 typedef std::vector<Person*> PersonVector;
 typedef std::vector<MediationProcess*> MediationProcessVector;
-typedef std::vector<MediationSessionClass*> MediationSessionClassVector;
+typedef std::vector<MediationSession*> MediationSessionVector;
 typedef std::vector<Party*> PartyVector;
 
 

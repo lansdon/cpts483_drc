@@ -6,10 +6,10 @@ DetailsView::DetailsView(QWidget *parent) :
     ui(new Ui::DetailsView)
 {
     ui->setupUi(this);
-    _localMediationSession = new MediationSession();
-    _localChildrenView = new ChildrenView();
-    ui->MediationSessiontabWidget->addTab(_localMediationSession,"Session 1");
-    ui->ChildrenTabWidget->addTab(_localChildrenView, "Children");
+    _mediationSessionForm = new MediationSessionForm();
+    _childrenView = new ChildrenView();
+    ui->MediationSessiontabWidget->addTab(_mediationSessionForm,"Session 1");
+    ui->ChildrenTabWidget->addTab(_childrenView, "Children");
 }
 
 DetailsView::~DetailsView()
@@ -18,7 +18,7 @@ DetailsView::~DetailsView()
 
 }
 
-void DetailsView::updateTabs(std::vector<Person *> *input)
+void DetailsView::updateTabs(PersonVector *input)
 {
-    _localMediationSession->updateTabs(input);
+    _mediationSessionForm->updateTabs(input);
 }

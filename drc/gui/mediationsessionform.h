@@ -1,29 +1,28 @@
-#ifndef MEDIATIONSESSION_H
-#define MEDIATIONSESSION_H
+#ifndef MEDIATIONSESSIONFORM_H
+#define MEDIATIONSESSIONFORM_H
 
 #include <QWidget>
 #include <QTableWidget>
 #include <QStringList>
 #include "attorneyandsupportformediationsessionview.h"
 #include <vector>
-#include "drc_shared/models/Person.h"
-#include "drc_shared/models/mediationsessionclass.h"
+#include "drc_shared/models/mediationprocess.h"
 #include "drc_shared/drctypes.h"
 
 namespace Ui {
-class MediationSession;
+class MediationSessionForm;
 }
 
-class MediationSession : public QWidget
+class MediationSessionForm : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MediationSession(QWidget *parent = 0,MediationSessionClassVector * MSC = nullptr);
-    ~MediationSession();
+    explicit MediationSessionForm(QWidget *parent = 0, MediationSessionVector * MSC = nullptr);
+    ~MediationSessionForm();
     void setParties(int input);
     void updateTabs(std::vector<Person *> *input);
-    void setMediationSessionClassVector(MediationSessionClassVector *value);
+    void setMediationSessionVector(MediationSessionVector *value);
 
 private slots:
     void on_CancelledRadioButton_toggled(bool checked);
@@ -77,17 +76,18 @@ private slots:
     void savePersonContact(Person *value);
 
 private:
-    Ui::MediationSession *ui;
+    Ui::MediationSessionForm *ui;
     std::vector<AttorneyAndSupportForMediationSessionView *> *_attorneyAndSupportVector;
-    MediationSessionClassVector *_localMediationSessionClassVector;
+    MediationSessionVector *_mediationSessions;
     QTableWidget *_sessionTable;
     QStringList _sessionTableHeader;
+
     void configSessionTable();
     void PopulateSessionTable();
-    void fillFields(MediationSessionClass *input);
+    void fillFields(MediationSession *input);
     int sessionCurrentRow;
     bool FillingFields;
 
 };
 
-#endif // MEDIATIONSESSION_H
+#endif // MEDIATIONSESSIONFORM_H

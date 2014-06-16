@@ -1,9 +1,9 @@
-#include "mediationsessionclass.h"
+#include "mediationsession.h"
 #include <sstream>
 #include <QDateTime>
 #include <QDebug>
 
-MediationSessionClass::MediationSessionClass()
+MediationSession::MediationSession()
 {
     _mediationTime = QDateTime::currentDateTime();
     _pendingRB = true;
@@ -15,15 +15,15 @@ MediationSessionClass::MediationSessionClass()
 
 }
 
-QString MediationSessionClass::getStatus() const
+QString MediationSession::getStatus() const
 {
     return _pendingRB ? "Pending" : _cancelledRB ? "Cancelled" : _rescheduledRB ? "Reschecduled" : _confirmedRB ? "Confirmed" : "Error In Reading Status";
 }
 
-MediationSessionClass *MediationSessionClass::SampleData()
+MediationSession *MediationSession::SampleData()
 {
 
-    MediationSessionClass *result = new MediationSessionClass();
+    MediationSession *result = new MediationSession();
 
      // unique string to append to fields
     static int _SAMPLE_INDEX = 0;

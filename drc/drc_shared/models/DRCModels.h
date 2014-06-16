@@ -12,7 +12,9 @@
 #include "drc_shared/models/Intake.h"
 #include "drc_shared/models/Person.h"
 #include "drc_shared/models/Fruit.h"
-//#include "drc_shared/models/User.h"
+#include "drc_shared/models/User.h"
 #include "drc_shared/models/party.h"
+#include "drc_shared/models/mediationsession.h"
+#include "drc_shared/models/mediationprocess.h"
 
 #endif // DRCMODELS_H

@@ -3,6 +3,7 @@
 #include "toolbarmanager.h"
 #include "partysummaryform.h"
 #include <QLayout>
+#include "DRCModels.h"
 
 MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, MediationProcess* mediationProcess) :
     QWidget(parent),

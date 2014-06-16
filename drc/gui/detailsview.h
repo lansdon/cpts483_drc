@@ -2,8 +2,9 @@
 #define DETAILSVIEW_H
 
 #include <QWidget>
-#include "mediationsession.h"
+#include "mediationsessionform.h"
 #include "childrenview.h"
+#include "drctypes.h"
 
 namespace Ui {
 class DetailsView;
@@ -16,12 +17,12 @@ class DetailsView : public QWidget
 public:
     explicit DetailsView(QWidget *parent = 0);
     ~DetailsView();
-    void updateTabs(std::vector<Person *> *input);
+    void updateTabs(PersonVector *input);
 
 private:
     Ui::DetailsView *ui;
-    MediationSession *_localMediationSession;
-    ChildrenView *_localChildrenView;
+    MediationSessionForm *_mediationSessionForm;
+    ChildrenView *_childrenView;
 };
 
 #endif // DETAILSVIEW_H

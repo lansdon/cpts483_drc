@@ -39,7 +39,6 @@ SOURCES += main.cpp\
     gui/contactrecorddataview.cpp \
     bl/userloginprocessor.cpp \
     drc_shared/models/User.cpp \
-    gui/mediationsession.cpp \
     gui/attorneyandsupportformediationsessionview.cpp \
     gui/detailsview.cpp \
     gui/childrenview.cpp \
@@ -57,11 +56,12 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardresults.cpp \
     gui/Mock_Server/mock_server.cpp \
     drc_shared/CurrentUser.cpp \
-    drc_shared/models/mediationsessionclass.cpp \
     drc_shared/drctypes.cpp \
     gui/toolbarmanager.cpp \
     gui/Mock_Server/dummy.cpp \
-    gui/partysummaryform.cpp
+    gui/partysummaryform.cpp \
+    drc_shared/models/mediationsession.cpp \
+    gui/mediationsessionform.cpp
 
 
 HEADERS  += \
@@ -93,7 +93,6 @@ HEADERS  += \
     gui/queryform.h \
     gui/contactrecorddataview.h \
     drc_shared/models/DBBaseObject.h \
-    gui/mediationsession.h \
     gui/attorneyandsupportformediationsessionview.h \
     gui/detailsview.h \
     gui/childrenview.h \
@@ -113,10 +112,11 @@ HEADERS  += \
     gui/searchwizard/searchwizardresults.h \
     gui/Mock_Server/mock_server.h \
     drc_shared/CurrentUser.h \
-    drc_shared/models/mediationsessionclass.h \
     gui/toolbarmanager.h \
     gui/Mock_Server/dummy.h \
-    gui/partysummaryform.h
+    gui/partysummaryform.h \
+    drc_shared/models/mediationsession.h \
+    gui/mediationsessionform.h
 
 FORMS    += \
     DRCClient.ui \
@@ -125,7 +125,6 @@ FORMS    += \
     gui/loginform.ui \
     gui/queryform.ui \
     gui/contactrecorddataview.ui \
-    gui/mediationsession.ui \
     gui/attorneyandsupportformediationsessionview.ui \
     gui/detailsview.ui \
     gui/childrenview.ui \
@@ -134,7 +133,8 @@ FORMS    += \
     gui/partyform.ui \
     gui/partiescontainerform.ui \
     gui/mediationprocessstatusform.ui \
-    gui/partysummaryform.ui
+    gui/partysummaryform.ui \
+    gui/mediationsessionform.ui
 
 
 CONFIG += c++11

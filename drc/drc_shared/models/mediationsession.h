@@ -1,11 +1,11 @@
-#ifndef MEDIATIONSESSIONCLASS_H
-#define MEDIATIONSESSIONCLASS_H
+#ifndef MEDIATIONSESSION_H
+#define MEDIATIONSESSION_H
 
 #include <QDateTime>
 #include <QString>
 #include "Person.h"
 
-class MediationSessionClass
+class MediationSession
 {
 private:
     QDateTime _mediationTime;
@@ -14,7 +14,7 @@ private:
     Person *_mediator1, *_mediator2, *_observer1, *_observer2;
 
 public:
-    MediationSessionClass();
+    MediationSession();
 
     //getters
     QDateTime getMediationTime() const {return _mediationTime;}
@@ -63,7 +63,7 @@ public:
     void setObserver2(Person *value) {_observer2 = value; }
 
     QString getStatus() const;
-    static MediationSessionClass *SampleData();
+    static MediationSession *SampleData();
 };
 
-#endif // MEDIATIONSESSIONCLASS_H
+#endif // MEDIATIONSESSION_H

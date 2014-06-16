@@ -20,26 +20,26 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
 {
     ui->setupUi(this);
 
-    _localMediationProcessVector = new MediationProcessVector();
+    _mediationProcessVector = new MediationProcessVector();
     // TEMP SAMPLE DATA
     for(int i = 0; i < 7; i++)
-        _localMediationProcessVector->push_back(MediationProcess::SampleData());
+        _mediationProcessVector->push_back(MediationProcess::SampleData());
 
     // Recent records table
-    MediationProcessTableView = ui->MediationProcessTableWidget;
-    MediationProcessTableView->setMaximumHeight(200);
+    _mediationProcessTableView = ui->MediationProcessTableWidget;
+    _mediationProcessTableView->setMaximumHeight(200);
     configMediationProcecssViewTable();
     PopulateMediationProcessTable();
     _currentProcessRow= 1;
 
-    _localMediationProcessStatusForm = new MediationProcessStatusForm(this, _mediationProcess);
-    _localPartiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
-    _localMediationSession = new MediationSession(this);
+    _mediationProcessStatusForm = new MediationProcessStatusForm(this, _mediationProcess);
+    _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
+    _mediationSessionForm = new MediationSessionForm(this);
 
     ConfigureToolbox();
 
     // Update Fields for current record
-    PopulateView(_localMediationProcessVector->at(_currentProcessRow-1));
+    PopulateView(_mediationProcessVector->at(_currentProcessRow-1));
 
     ConfigureToolbar();
 }
@@ -51,62 +51,62 @@ MediationProcessView::~MediationProcessView()
 
 void MediationProcessView::ConfigureToolbox()
 {
-    toolBox = ui->MediationProcessToolBox;
+    _toolBox = ui->MediationProcessToolBox;
     ui->MediationProcessToolBox->removeItem(0);
-    toolBox->addItem(_localMediationProcessStatusForm, "Mediation Overview");
-    toolBox->addItem(_localPartiesContainerForm, "Parties");
-    toolBox->addItem(_localMediationSession,"Mediation Sessions");
+    _toolBox->addItem(_mediationProcessStatusForm, "Mediation Overview");
+    _toolBox->addItem(_partiesContainerForm, "Parties");
+    _toolBox->addItem(_mediationSessionForm,"Mediation Sessions");
 
-    foreach(QWidget* child, toolBox->findChildren<QWidget*>())
-        if( child->inherits("QToolBoxButton") )
+    foreach(QWidget* child, _toolBox->findChildren<QWidget*>())
+        if( child->inherits("Q_toolBoxButton") )
             child->setFont(QFont("Helvetica", 28, 5));
 }
 
 void MediationProcessView::savePersonContactFromFarAway(Person *value)
 {
-    PopulateView(_localMediationProcessVector->at(_currentProcessRow-1));
+    PopulateView(_mediationProcessVector->at(_currentProcessRow-1));
     PopulateMediationProcessTable();
 }
 
 void MediationProcessView::PopulateView(MediationProcess *value)
 {
-    _localMediationProcessStatusForm->setMediationProcess(value);
-    _localMediationSession->setMediationSessionClassVector(value->getMediationSessionVector());
-    _localPartiesContainerForm->AddPartyTabs(&value->GetParties());
-    connect(_localPartiesContainerForm,SIGNAL(PassItOnAgain(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
+    _mediationProcessStatusForm->setMediationProcess(value);
+    _mediationSessionForm->setMediationSessionVector(value->getMediationSessionVector());
+    _partiesContainerForm->AddPartyTabs(&value->GetParties());
+    connect(_partiesContainerForm,SIGNAL(PassItOnAgain(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
 }
 
 void MediationProcessView::configMediationProcecssViewTable()
 {
-        //MediationProcessTableView = ui->sessiontTableWidget;
-        MediationProcessTableView->setColumnCount(3);
-        MediationProcessTableView->setRowCount(11);
-        MediationProcessTableViewHeader <<"Date Time"<<" "<<"Status";
-        MediationProcessTableView->setHorizontalHeaderLabels(MediationProcessTableViewHeader);
-        MediationProcessTableView->verticalHeader()->setVisible(false);
-        MediationProcessTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
-        MediationProcessTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
-        MediationProcessTableView->setSelectionMode(QAbstractItemView::SingleSelection);
-        MediationProcessTableView->setShowGrid(true);
-        MediationProcessTableView->setStyleSheet("QTableView {selection-background-color: red;}");
+        //_mediationProcessTableView = ui->sessiontTableWidget;
+        _mediationProcessTableView->setColumnCount(3);
+        _mediationProcessTableView->setRowCount(11);
+        _mediationProcessTableViewHeader <<"Date Time"<<" "<<"Status";
+        _mediationProcessTableView->setHorizontalHeaderLabels(_mediationProcessTableViewHeader);
+        _mediationProcessTableView->verticalHeader()->setVisible(false);
+        _mediationProcessTableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
+        _mediationProcessTableView->setSelectionBehavior(QAbstractItemView::SelectRows);
+        _mediationProcessTableView->setSelectionMode(QAbstractItemView::SingleSelection);
+        _mediationProcessTableView->setShowGrid(true);
+        _mediationProcessTableView->setStyleSheet("QTableView {selection-background-color: red;}");
 
-        for (int c = 0; c < MediationProcessTableView->horizontalHeader()->count(); ++c)
+        for (int c = 0; c < _mediationProcessTableView->horizontalHeader()->count(); ++c)
         {
-            MediationProcessTableView->horizontalHeader()->setSectionResizeMode(
+            _mediationProcessTableView->horizontalHeader()->setSectionResizeMode(
                 c, QHeaderView::Stretch);
         }
 }
 void MediationProcessView::PopulateMediationProcessTable()
 {
     int row=0;
-     MediationProcessTableView->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
-    for(row=1; row < (int)_localMediationProcessVector->size()+1; ++row)
+     _mediationProcessTableView->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
+    for(row=1; row < (int)_mediationProcessVector->size()+1; ++row)
     {
         //insert data
-        MediationProcess *o = _localMediationProcessVector->at(row-1);
-        MediationProcessTableView->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));
-        MediationProcessTableView->setItem(row, 1, new QTableWidgetItem(o->GetPartyAtIndex(0)->GetPrimary()->FullName()));
-        MediationProcessTableView->setItem(row, 2, new QTableWidgetItem(o->GetCurrentState()));
+        MediationProcess *o = _mediationProcessVector->at(row-1);
+        _mediationProcessTableView->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));
+        _mediationProcessTableView->setItem(row, 1, new QTableWidgetItem(o->GetPartyAtIndex(0)->GetPrimary()->FullName()));
+        _mediationProcessTableView->setItem(row, 2, new QTableWidgetItem(o->GetCurrentState()));
 
     }
 }
@@ -128,8 +128,8 @@ void MediationProcessView::on_MediationProcessTableWidget_itemSelectionChanged()
     {
         _currentProcessRow = ui->MediationProcessTableWidget->currentRow();
 
-        if((uint)_currentProcessRow < _localMediationProcessVector->size() && _currentProcessRow > 0)
-            PopulateView(_localMediationProcessVector->at(_currentProcessRow-1));
+        if((uint)_currentProcessRow < _mediationProcessVector->size() && _currentProcessRow > 0)
+            PopulateView(_mediationProcessVector->at(_currentProcessRow-1));
     }
 }
 
@@ -149,11 +149,11 @@ void MediationProcessView::on_MediationProcessTableWidget_doubleClicked(const QM
 {
     if(index.row() == 0)
     {
-        _localMediationProcessVector->insert(_localMediationProcessVector->begin(),new MediationProcess());
+        _mediationProcessVector->insert(_mediationProcessVector->begin(),new MediationProcess());
         ui->MediationProcessTableWidget->setCurrentCell(1,0);
         _currentProcessRow = 1;
         PopulateMediationProcessTable();
-        PopulateView(_localMediationProcessVector->at(_currentProcessRow-1));
+        PopulateView(_mediationProcessVector->at(_currentProcessRow-1));
         //PersonDetailsForm *child = _localPartiesContainerForm->findChild<PersonDetailsForm *>();
         //connect(child,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
     }

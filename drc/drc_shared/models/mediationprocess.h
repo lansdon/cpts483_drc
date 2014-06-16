@@ -4,25 +4,24 @@
 #include <vector>
 #include "drctypes.h"
 #include <QDate>
-#include "party.h"
-#include "mediationsessionclass.h"
+#include "DBBaseObject.h"
 
-class Person;
 
-class MediationProcess
+class MediationProcess : DBBaseObject
 {
 public:
     MediationProcess();
+    virtual ~MediationProcess();
+
+    // Abstract Overrides
+    QString Parse();
 
     static MediationProcess* SampleData();
 
     // Accessors
-//probably need to be removed
-//    Party* GetParty1() { return _party1; }
-//    Party* GetParty2() { return _party2; }
-
     PartyVector& GetParties() { return _parties; }
     Party* GetPartyAtIndex(unsigned int index) { return _parties.size() > index ? _parties[index] : nullptr; }
+    void AddParty(Party* party) { _parties.push_back(party); }
 
     DisputeTypes GetDisputeType() { return _disputeType; }
     CountyIds GetCountyId() { return _countyOfMediation; }
@@ -31,13 +30,7 @@ public:
     QDateTime GetCreationDate() { return _creationDate; }
     DisputeProcessStates GetCurrentState() { return _processState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
-    MediationSessionClassVector *getMediationSessionVector() const {return _mediationSessionClassVector;}
-
-//probably need to be removed
-//    void SetParty1(Party* party) { _party1 = party; }
-//    void SetParty2(Party* party) { _party2 = party; }
-
-    void AddParty(Party* party) { _parties.push_back(party); }
+    MediationSessionVector *getMediationSessionVector() const {return _mediationSessionVector;}
 
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }
     void SetCountyId(CountyIds countyId) { _countyOfMediation = countyId; }
@@ -46,23 +39,14 @@ public:
     void SetCreationDate(QDateTime date) { _creationDate = date; }
     void SetProcessState(DisputeProcessStates state) { _processState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
-    void setMediationSessionClassVector(MediationSessionClassVector *value) {_mediationSessionClassVector = value;}
-
+    void setMediationSessionVector(MediationSessionVector *value) {_mediationSessionVector = value;}
 
     // Helpers
-
-//    int GetAffectedChildrenCount() { return _party1->GetAffectedChildren() + _party2->GetAffectedChildren(); }
-//private:
-
-//    Party *_party1;
-
-//    Party *_party2;
-
     int GetAffectedChildrenCount();
+
 private:
 
     PartyVector _parties;
-
 
     DisputeTypes _disputeType;
 
@@ -78,7 +62,7 @@ private:
 
     bool _requiresSpanish;
 
-    MediationSessionClassVector *_mediationSessionClassVector;
+    MediationSessionVector *_mediationSessionVector;
 
 };
 

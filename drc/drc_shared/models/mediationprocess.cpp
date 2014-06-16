@@ -4,16 +4,25 @@
 #include "DRCModels.h"
 #include "drctypes.h"
 #include <random>
+#include "DBBaseObject.h"
 
-MediationProcess::MediationProcess()
+MediationProcess::MediationProcess() : DBBaseObject()
 {
-    _mediationSessionClassVector = new MediationSessionClassVector();
-    //_parties = new PartyVector();
-    _parties.push_back(new Party());
-    _parties.push_back(new Party());
+    _mediationSessionVector = new MediationSessionVector();
+//    _parties.push_back(new Party());
+//    _parties.push_back(new Party());
     _creationDate = QDateTime::currentDateTime();
-//    _party1 = new Party();
-//    _party2 = new Party();
+}
+
+MediationProcess::~MediationProcess()
+{
+}
+
+// Abstract Overrides
+#warning TODO - PARSE UNIMPLEMENTED!!!!
+QString MediationProcess::Parse()
+{
+
 }
 
 
@@ -37,10 +46,10 @@ MediationProcess *MediationProcess::SampleData()
     result->_processState = (DisputeProcessStates)( rand() % 5 + 1 );
     result->_referalSource = (ReferralTypes)(rand() % 8 + 1);
     result->SetCreationDate(QDateTime::currentDateTime());
-    MediationSessionClassVector *temp = new MediationSessionClassVector;
+    MediationSessionVector *temp = new MediationSessionVector;
     for(int i = 0; i< rand() % 5 + 1; i++)
-        temp->push_back(MediationSessionClass::SampleData());
-    result->setMediationSessionClassVector(temp);
+        temp->push_back(MediationSession::SampleData());
+    result->setMediationSessionVector(temp);
     for(int i=0; i < 25; ++i)
         result->GetNotes().push_back("Some more mediation notes " + QString::number(i));
 

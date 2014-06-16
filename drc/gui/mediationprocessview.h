@@ -47,16 +47,16 @@ private:
     MediationProcess* _mediationProcess;
 
     // Recent Table
-    MediationProcessVector *_localMediationProcessVector;
-    QTableWidget *MediationProcessTableView;
-    QStringList MediationProcessTableViewHeader;    
+    MediationProcessVector *_mediationProcessVector;
+    QTableWidget *_mediationProcessTableView;
+    QStringList _mediationProcessTableViewHeader;
      int _currentProcessRow;
 
      // Toolbox + Children (pages)
-     QToolBox* toolBox;
-     MediationProcessStatusForm *_localMediationProcessStatusForm;
-     PartiesContainerForm *_localPartiesContainerForm;
-     MediationSession *_localMediationSession;
+     QToolBox* _toolBox;
+     MediationProcessStatusForm *_mediationProcessStatusForm;
+     PartiesContainerForm *_partiesContainerForm;
+     MediationSessionForm *_mediationSessionForm;
 
      // Setup GUI Helpers
     void ConfigureToolbar();
