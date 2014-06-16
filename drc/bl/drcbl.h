@@ -4,9 +4,9 @@
 //namespace drc {
 //namespace bl {
 
+#include "mediationprocess.h"
 #include "Mediator.h"
 #include "fruitnameprocessor.h"
-#include "intakeformprocessor.h"
 #include "userloginprocessor.h"
 #include "personprocessor.h"
 
@@ -22,7 +22,6 @@ public:
 
 private:
     FruitNameProcessor  _fruitNameProcessor;
-    IntakeFormProcessor _intakeFormProcessor;
     UserLoginProcessor _userLoginProcessor;
     PersonProcessor _personProcessor;
 };

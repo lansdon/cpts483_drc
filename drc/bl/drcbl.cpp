@@ -2,7 +2,7 @@
 #include <qdebug.h>
 
 #include "drcbl.h"
-
+#include "mediationprocess.h"
 #include "Mediator.h"
 #include "MediatorArg.h"
 #include "MediatorKeys.h"
@@ -18,13 +18,12 @@
 //namespace drc {
 //namespace bl {
 
-
 DRCBL::DRCBL()
       : _fruitNameProcessor(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_BL_VALIDATE_FRUITNAME_DONE, "", ""),
-        _intakeFormProcessor(MKEY_GUI_SUBMIT_INTAKE_FORM, MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE,
-                             MKEY_GUI_LOAD_INTAKE_FORM, MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE),
         _userLoginProcessor(MKEY_GUI_AUTHENTICATE_USER, MKEY_BL_AUTHENTICATE_USER_DONE, MKEY_BL_REQUEST_SALT, MKEY_DB_SEND_SALT),
         _personProcessor(MKEY_GUI_SUBMIT_PERSON_FORM, MKEY_BL_VALIDATE_SAVE_PERSON_FORM_DONE, MKEY_GUI_LOAD_PERSON_FORM, MKEY_BL_VALIDATE_LOAD_PERSON_FORM_DONE)
+//      _queryMediationProcessor(MKEY_GUI_QUERY_MEDIATION, MKEY_BL_QUERY_MEDIATION),
+//      _queryPersonProcessor(MKEY_GUI_QUERY_PERSON, MKEY_BL_QUERY_PERSON)
 {
 	// Test function - returns sample date to fruit page.
     Mediator::Register(MKEY_GUI_SEARCH_FOR_USERNAME, [this](MediatorArg arg){SendResults(arg); });
@@ -33,7 +32,7 @@ DRCBL::DRCBL()
 //  TEST FUNCTION - Returns sample data to the fruitname test page.
 void DRCBL::SendResults(MediatorArg arg)
 {
-    Intake temp;
+/*    MedationProcess temp;
     Person *claimant = Person::SampleData();
     claimant->setFirstName("apple");
     temp.addParty(claimant);
@@ -51,7 +50,7 @@ void DRCBL::SendResults(MediatorArg arg)
     temp.addParty(p3);
 
     Mediator::Call(MKEY_BL_RETURN_SEARCH_RESULTS,new Intake(temp));
-}
+*/}
 
 // end namespaces
 //}

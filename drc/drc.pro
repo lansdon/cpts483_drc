@@ -30,7 +30,6 @@ SOURCES += main.cpp\
     gui/fruitnameform.cpp \
     gui/particapants.cpp \
     bl/fruitnameprocessor.cpp \
-    bl/intakeformprocessor.cpp \
     gui/loginform.cpp \
     bl/Crypto/SHA256_Crypto.cpp \
     drc_shared/mediator/asyncmediatorworker.cpp \
@@ -82,7 +81,6 @@ HEADERS  += \
     drc_shared/models/DRCModels.h \
     gui/particapants.h \
     bl/fruitnameprocessor.h \
-    bl/intakeformprocessor.h \
     db/Filter.h \
     db/FilterTypes.h \
     drc_shared/models/Fruit.h \
