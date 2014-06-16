@@ -58,7 +58,7 @@ void MediationProcessView::ConfigureToolbox()
     _toolBox->addItem(_mediationSessionForm,"Mediation Sessions");
 
     foreach(QWidget* child, _toolBox->findChildren<QWidget*>())
-        if( child->inherits("Q_toolBoxButton") )
+        if( child->inherits("QToolBoxButton") )
             child->setFont(QFont("Helvetica", 28, 5));
 }
 
