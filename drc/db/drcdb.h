@@ -24,15 +24,17 @@ private:
 
     bool CreateTable(QString table_name, QVector<QString> column_data);
 
+    bool ExtractError(const QSqlError &error_object);
+
+    bool CloseDatabase();
 public:
     DRCDB();
 
     DRCDB(QString database_name);
 
+    ~DRCDB();
+
     bool OpenDatabase(QString database_name);
-
-    bool CloseDatabase();
-
 
     bool InsertObject(DBBaseObject* db_object);
 
@@ -40,12 +42,9 @@ public:
 
     QVector<QString> SelectAllFields(QString table_name);
 
-    bool ExtractError(const QSqlError &error_object);
-
-    bool GetErrorOccurred();
+    bool DidErrorOccur();
 
     QVector<QString> GetLastErrors();
-
 
     // Incoming Events
     void PersistIntakeForm(MediatorArg arg) const;

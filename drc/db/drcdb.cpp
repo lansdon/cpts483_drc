@@ -29,12 +29,25 @@ DRCDB::DRCDB() : DB_ERROR(false)
 //    Mediator::Register(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, [this](MediatorArg arg){PersistIntakeForm(arg);});
 }
 
+
+
 //========================================================================
 //Constructor takes in a database_name, and opens it.
 //------------------------------------------------------------------------
 DRCDB::DRCDB(QString database_name) : DB_ERROR(false)
 {
     this->OpenDatabase(database_name);
+}
+//========================================================================
+
+
+
+//========================================================================
+//
+//------------------------------------------------------------------------
+DRCDB::~DRCDB()
+{
+    this->CloseDatabase();
 }
 //========================================================================
 
@@ -261,7 +274,7 @@ bool DRCDB::ExtractError(const QSqlError &error_object)
 //True:     Error has occurred
 //False:    Error has not occurred
 //------------------------------------------------------------------------
-bool DRCDB::GetErrorOccurred()
+bool DRCDB::DidErrorOccur()
 {
     return DB_ERROR;
 }
