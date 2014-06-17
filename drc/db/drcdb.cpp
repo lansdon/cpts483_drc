@@ -22,18 +22,18 @@ DRCDB::DRCDB() : DB_ERROR(false)
     person_table_columns.push_back(QString("first_name char(50)"));
     person_table_columns.push_back(QString("middle_name char(50)"));
     person_table_columns.push_back(QString("last_name char(50) not null"));
-//    person_table_columns.push_back(QString("street_name char(50)"));
-//    person_table_columns.push_back(QString("unit_name char(50)"));
-//    person_table_columns.push_back(QString("city_name char(50)"));
-//    person_table_columns.push_back(QString("state_name char(50)"));
-//    person_table_columns.push_back(QString("zip_code char(50)"));
-//    person_table_columns.push_back(QString("county_name char(50)"));
-//    person_table_columns.push_back(QString("primary_phone char(50)"));  //Confirm Phone Format
-//    person_table_columns.push_back(QString("secondary_phone char(50)"));
-//    person_table_columns.push_back(QString("assistance_phone char(50)"));
-//    person_table_columns.push_back(QString("email_address char(50)"));
-//    person_table_columns.push_back(QString("number_in_house int"));
-//    person_table_columns.push_back(QString("attorney_name char(50)"));
+    person_table_columns.push_back(QString("street_name char(50)"));
+    person_table_columns.push_back(QString("unit_name char(50)"));
+    person_table_columns.push_back(QString("city_name char(50)"));
+    person_table_columns.push_back(QString("state_name char(50)"));
+    person_table_columns.push_back(QString("zip_code char(50)"));
+    person_table_columns.push_back(QString("county_name char(50)"));
+    person_table_columns.push_back(QString("primary_phone char(50)"));  //Confirm Phone Format
+    person_table_columns.push_back(QString("secondary_phone char(50)"));
+    person_table_columns.push_back(QString("assistance_phone char(50)"));
+    person_table_columns.push_back(QString("email_address char(50)"));
+    person_table_columns.push_back(QString("number_in_house int"));
+    person_table_columns.push_back(QString("attorney_name char(50)"));
 
 
     CreateTable(person_table_name, person_table_columns);

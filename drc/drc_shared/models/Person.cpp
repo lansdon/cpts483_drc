@@ -96,25 +96,34 @@ Person *Person::SampleData()
 
 QString Person::Parse(void)
 {
-    return QString("'%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9', '%10', '%11', '%12', '%13', '%14', '%15', '%16', %17, '%18")
+    //Name
+    QString toReturn = QString("'%1', '%2', '%3',")
             .arg(this->getFirstName())
             .arg(this->getMiddleName())
-            .arg(this->getLastName())
+            .arg(this->getLastName());
+
+    //Address
+    toReturn += QString(" '%1', '%2', '%3', '%4', '%5', '%6',")
             .arg(this->getStreet())
             .arg(this->getUnit())
             .arg(this->getCity())
             .arg(this->getState())
             .arg(this->getZip())
-            .arg(this->getCounty())
+            .arg(this->getCounty());
+
+    //Phone Number
+    toReturn += QString(" '%1', '%2', '%3',")
             .arg(this->getPrimaryPhone())
-            .arg(this->getPrimaryPhoneExt())
             .arg(this->getSecondaryPhone())
-            .arg(this->getSecondaryPhoneExt())
-            .arg(this->getAssistantPhone())
-            .arg(this->getAssistantPhoneExt())
+            .arg(this->getAssistantPhone());
+
+    //Other
+    toReturn += QString(" '%1', %2, '%3'")
             .arg(this->getEmail())
             .arg(this->getNumberInHousehold())
             .arg(this->getAttorney());
+
+    return toReturn;
 }
 
 QString Person::table(void)

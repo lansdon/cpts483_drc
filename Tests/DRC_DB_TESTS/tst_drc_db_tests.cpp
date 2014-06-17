@@ -42,10 +42,18 @@ private:
 private Q_SLOTS:
     void OpenDatabase();
     void CreateTable();
+    void CheckColumn();
     void InsertObject();
     void CheckErrors();
 
 private slots:
+    void initTestCase()
+    {
+        //If file delete is commented out in cleanupTestCase, then
+        //uncomment this line.
+        //QCOMPARE(QFile::remove(database_name), true);
+    }
+
     void cleanupTestCase()
     {
         QCOMPARE(_db.CloseDatabase(), true);
@@ -84,6 +92,12 @@ void DRC_DB_TESTS::CreateTable()
     //Table should already be created in the default constructor.
     QCOMPARE(_db.DoesTableExist(table_name), true);
 
+
+}
+
+
+void DRC_DB_TESTS::CheckColumn()
+{
     //Verify all columns that should be inside table are there.
     QCOMPARE(_db.DoesColumnExist(QString("person_id"), table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("first_name"), table_name), true);
@@ -101,7 +115,6 @@ void DRC_DB_TESTS::CreateTable()
     QCOMPARE(_db.DoesColumnExist(QString("email_address"), table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("number_in_house"), table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("attorney_name"), table_name), true);
-
 }
 
 void DRC_DB_TESTS::InsertObject()
@@ -114,8 +127,8 @@ void DRC_DB_TESTS::InsertObject()
 
 void DRC_DB_TESTS::CheckErrors()
 {
-    //QVector<QString> RecentError = _db.GetLastErrors();
-    //QCOMPARE(RecentError.first(), QString("Something here."));
+    QVector<QString> RecentError = _db.GetLastErrors();
+    qDebug() << RecentError.first();
 }
 
 QTEST_APPLESS_MAIN(DRC_DB_TESTS)
