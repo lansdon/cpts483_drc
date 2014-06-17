@@ -19,9 +19,27 @@ MediationProcess::~MediationProcess()
 }
 
 // Abstract Overrides
-#warning TODO - PARSE UNIMPLEMENTED!!!!
 QString MediationProcess::Parse()
 {
+#warning TODO - PARSE UNIMPLEMENTED!!!!
+
+}
+
+QString MediationProcess::table()
+{
+#warning TODO - table() UNIMPLEMENTED!!!!
+
+}
+
+QString MediationProcess::DuplicateQuery()
+{
+#warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
+
+}
+
+QString MediationProcess::SearchQuery()
+{
+#warning TODO - SearchQuery() UNIMPLEMENTED!!!!
 
 }
 

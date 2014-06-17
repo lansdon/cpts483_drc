@@ -52,8 +52,8 @@ void UserLoginProcessor::ReceiveSalt(MediatorArg arg)
         {
             if (_user)
             {
-                auto encryptedPw = sha256(_user->GetPass().toStdString(), *salt);
-                _user->SetPassword(QString::fromStdString(encryptedPw));
+                auto encryptedPw = sha256(_user->GetPass(), *salt);
+                _user->SetPassword(encryptedPw);
             }
             else
             {

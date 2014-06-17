@@ -25,8 +25,8 @@ DRCDB::DRCDB() : DB_ERROR(false)
     // Register to Listen for events.
     Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
     Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
-    Mediator::Register(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){LoadIntake(arg);});
-    Mediator::Register(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, [this](MediatorArg arg){PersistIntakeForm(arg);});
+//    Mediator::Register(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){LoadIntake(arg);});
+//    Mediator::Register(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, [this](MediatorArg arg){PersistIntakeForm(arg);});
 }
 
 //========================================================================
@@ -294,23 +294,23 @@ QVector<QString> DRCDB::GetLastErrors()
 }
 //========================================================================
 
-void DRCDB::PersistIntakeForm(MediatorArg arg) const
-{
-    bool success = arg.IsSuccessful();
-    QString errorMessage = arg.ErrorMessage();
+//void DRCDB::PersistIntakeForm(MediatorArg arg) const
+//{
+//    bool success = arg.IsSuccessful();
+//    QString errorMessage = arg.ErrorMessage();
 
-    Intake* intake = nullptr;       // Unpackaged argument
-    if (success)
-    {
-        intake = arg.getArg<Intake*>();
+//    Intake* intake = nullptr;       // Unpackaged argument
+//    if (success)
+//    {
+//        intake = arg.getArg<Intake*>();
 
-        // SUCCESS!! INSERT CODE HERE
-    }
+//        // SUCCESS!! INSERT CODE HERE
+//    }
 
 
-    qDebug() << "DB -> PersistIntakeForm Complete";
-    Mediator::Call(MKEY_DB_PERSIST_INTAKE_FORM_DONE, intake, success, errorMessage);
-}
+//    qDebug() << "DB -> PersistIntakeForm Complete";
+//    Mediator::Call(MKEY_DB_PERSIST_INTAKE_FORM_DONE, intake, success, errorMessage);
+//}
 
 void DRCDB::PersistFruit(MediatorArg arg)
 {
@@ -333,31 +333,31 @@ void DRCDB::LoadFruit(MediatorArg arg)
 {
     QVector<QString> results = SelectAllFields(QString("Albertsons"));
     qDebug() << "Data stored in database; name then timestamp\n";
-    for(unsigned int i = 0; i < results->size(); i++)
+    for(unsigned int i = 0; i < results.size(); i++)
     {
         qDebug() << results.at(i) << endl;
     }
     qDebug() << "DB -> LoadFruit Complete";
 }
 
-void DRCDB::LoadIntake(MediatorArg arg) const
-{
-    bool success = arg.IsSuccessful();
-    QString errorMessage = arg.ErrorMessage();
+//void DRCDB::LoadIntake(MediatorArg arg) const
+//{
+//    bool success = arg.IsSuccessful();
+//    QString errorMessage = arg.ErrorMessage();
 
-    Intake* intake = nullptr;       // Unpackaged argument
-    if (success)
-    {
-        // Returning a test object... This should be deleted!!!
-        intake = new Intake();
-        intake->addClaimant(Person("CLAIMENT DB TEST"));
-        intake->addRespondents(Person("Respondent1"));
-        intake->addRespondents(Person("Respondent2"));
-        intake->addRespondents(Person("Respondent3"));
+//    Intake* intake = nullptr;       // Unpackaged argument
+//    if (success)
+//    {
+//        // Returning a test object... This should be deleted!!!
+//        intake = new Intake();
+//        intake->addClaimant(Person("CLAIMENT DB TEST"));
+//        intake->addRespondents(Person("Respondent1"));
+//        intake->addRespondents(Person("Respondent2"));
+//        intake->addRespondents(Person("Respondent3"));
 
-        // SUCCESS!! INSERT CODE HERE
-    }
+//        // SUCCESS!! INSERT CODE HERE
+//    }
 
-    qDebug() << "DB -> PersistIntakeForm Complete";
-    Mediator::Call(MKEY_DB_LOAD_INTAKE_FORM_DONE, intake, success, errorMessage);
-}
+//    qDebug() << "DB -> PersistIntakeForm Complete";
+//    Mediator::Call(MKEY_DB_LOAD_INTAKE_FORM_DONE, intake, success, errorMessage);
+//}

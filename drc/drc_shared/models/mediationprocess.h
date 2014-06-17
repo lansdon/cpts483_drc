@@ -13,8 +13,11 @@ public:
     MediationProcess();
     virtual ~MediationProcess();
 
-    // Abstract Overrides
+    // Required Overrides
     QString Parse();
+    QString table();
+    QString DuplicateQuery();
+    QString SearchQuery();
 
     static MediationProcess* SampleData();
 

@@ -34,11 +34,30 @@ bool Person::operator!=(const Person &rhs)
     return !(*this==rhs);
 }
 
-#warning TODO - PARSE UNIMPLEMENTED!!!!
 QString Person::Parse(void)
 {
+#warning TODO - Parse() UNIMPLEMENTED!!!!
     // TO DO - PARSE THIS MOFO!!
 }
+
+QString Person::table()
+{
+#warning TODO - table() UNIMPLEMENTED!!!!
+
+}
+
+QString Person::DuplicateQuery()
+{
+#warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
+
+}
+
+QString Person::SearchQuery()
+{
+#warning TODO - SearchQuery() UNIMPLEMENTED!!!!
+
+}
+
 
 // Test Data - Fill the object with test values in every field.
 Person *Person::SampleData()
