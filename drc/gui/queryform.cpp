@@ -284,7 +284,7 @@ void QueryForm::RecievedPersonResult(MediatorArg arg)
     }
     else
     {
-        qDebug() << "Person Results error:" <<  QString::fromStdString( arg.ErrorMessage() );
+        qDebug() << "Person Results error:" <<  arg.ErrorMessage();
     }
 }
 
@@ -308,7 +308,7 @@ void QueryForm::RecievedMediationResult(MediatorArg arg)
     }
     else
     {
-        qDebug() << "Person Results error:" <<  QString::fromStdString( arg.ErrorMessage() );
+        qDebug() << "Person Results error:" <<  arg.ErrorMessage();
     }
 }
 

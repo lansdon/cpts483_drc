@@ -31,6 +31,11 @@ public:
     void SetUpdatedDate(QDateTime updated) { m_updated = updated; }
     void SetUpdatedDate() { m_updated = QDateTime::currentDateTime(); } // helper for current date
 
+    virtual QString table() = 0;
+
+    virtual QString DuplicateQuery() = 0;
+
+    virtual QString SearchQuery() = 0;
 };
 
 

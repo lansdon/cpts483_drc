@@ -24,8 +24,8 @@ class AsyncMediatorCall : QObject
     Q_OBJECT
 
 public:
-    AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, void* argObject, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
-    AsyncMediatorCall(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg _sendMediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
+    AsyncMediatorCall(QString sendEventMediatorKey, QString recieveEventMediatorKey, MediatorCallbackFunc callback, void* argObject, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
+    AsyncMediatorCall(QString sendEventMediatorKey, QString recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg _sendMediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
     virtual ~AsyncMediatorCall();
 
     // Accessors
@@ -35,8 +35,8 @@ public:
 
 private:
     // Settings - This list of parameters is saved, and passed to each new thread when they are spawned.
-	std::string _sendEventMediatorKey;		// Send Event Key
-	std::string _recieveEventMediatorKey;	// Listen for this result Key
+	QString _sendEventMediatorKey;		// Send Event Key
+	QString _recieveEventMediatorKey;	// Listen for this result Key
     MediatorCallbackFunc _callback;			// This is called when a response is received.
     MediatorArg _sendMediatorArg;			// This is the argument being sent.
     MediatorArg _recieveMediatorArg;        // This is the argument being recieved.

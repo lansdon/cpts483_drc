@@ -12,7 +12,7 @@
 #include <assert.h>
 #include <typeinfo>
 #include <type_traits>
-#include <string>
+#include <QString>
 #include <iostream>
 
 //namespace drc {
@@ -30,7 +30,7 @@
 class MediatorArg
 {
 public:
-	MediatorArg(void* arg = nullptr, bool success = true, std::string errorMessage = "")
+	MediatorArg(void* arg = nullptr, bool success = true, QString errorMessage = "")
 	: _arg(arg)
 	, _success(success)
 	, _errorMessage(errorMessage)
@@ -40,9 +40,9 @@ public:
 	// Accessors
     bool IsSuccessful() { return _success; }
 	void SetSuccessful(bool isSuccessful) { _success = isSuccessful; }
-	std::string ErrorMessage() { return _errorMessage; }
-	void SetErrorMsg(std::string errorMessage) { _errorMessage = errorMessage; }
-    void SetArg(void* arg = nullptr, bool success=true, std::string error = "") { _arg = arg; _success = success; _errorMessage = error;}
+	QString ErrorMessage() { return _errorMessage; }
+	void SetErrorMsg(QString errorMessage) { _errorMessage = errorMessage; }
+    void SetArg(void* arg = nullptr, bool success=true, QString error = "") { _arg = arg; _success = success; _errorMessage = error;}
 	
 	// Cast the argument to expected type (Must be a pointer!)
     // Example:
@@ -77,7 +77,7 @@ private:
 	
 	// Meta data
 	bool _success;				// Success or fail status of the caller
-	std::string _errorMessage;	// Reason for the error
+	QString _errorMessage;	// Reason for the error
 	
 	// ... We can add other meta as desired
 	

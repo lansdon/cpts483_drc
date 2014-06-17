@@ -7,10 +7,10 @@
 
 class Fruit : public DBBaseObject
 {
+private:
     QString m_name;
 
 public:
-
     Fruit();
 
     Fruit(QString name);
@@ -19,6 +19,8 @@ public:
 
     void SetName(QString name);
 
+    void SetTime(int time);
+
     QString GetName(void);
 
     QString GetTime(void);
@@ -26,6 +28,12 @@ public:
     QString BreakApart(void);
 
     QString Parse(void);
+
+    QString table(void);
+
+    QString DuplicateQuery(void);
+
+    QString SearchQuery(void);
 };
 
 #endif

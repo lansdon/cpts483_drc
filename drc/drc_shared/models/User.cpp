@@ -44,6 +44,24 @@ UserTypes User::GetType(void)
 }
 
 QString User::Parse()
+{   
+    return QString("('%1', '%2', '%3')")
+            .arg(this->GetName())
+            .arg(this->GetPass())
+            .arg(this->GetTypeString());
+}
+
+QString User::table(void)
 {
-    return QString("VALUES (\'" + this->GetName() + "\', \'" + this->GetPass() + "\', \'" + this->GetTypeString() + " );");
+    return QString("This method in User.cpp has yet to be implemented.");
+}
+
+QString User::DuplicateQuery(void)
+{
+    return QString("This method in User.cpp has yet to be implemented.");
+}
+
+QString User::SearchQuery(void)
+{
+    return QString("This method in User.cpp has yet to be implemented.");
 }

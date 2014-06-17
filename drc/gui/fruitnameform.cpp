@@ -83,13 +83,13 @@ void FruitNameForm::UpdateForm(MediatorArg arg)
         else
         {
             qDebug() << "GUI -> INTAKE ARGUMENT ERROR";
-            qDebug() << QString::fromStdString(arg.ErrorMessage());
+            qDebug() << arg.ErrorMessage();
         }
     }
     else
     {
         qDebug() << "RESPONSE NOT SUCCESSFUL!";
-        qDebug() << QString::fromStdString(arg.ErrorMessage());
+        qDebug() << arg.ErrorMessage();
     }
 }
 
@@ -120,7 +120,7 @@ void FruitNameForm::RecieveFruitNameResult(MediatorArg arg)
     else
     {
         QString error = QString("Submit Name Error: ");
-        error.append(QString::fromStdString(arg.ErrorMessage()));
+        error.append(arg.ErrorMessage());
         UpdateNameField(error);
     }
 }

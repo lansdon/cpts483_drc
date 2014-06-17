@@ -11,6 +11,14 @@ class DRCDB
 private:
     QSqlDatabase database;
 
+    //Made it a vector in the event that multiple errors have occurred.
+    //Though it shouldn't happen if we're doing accurate checks.
+    QVector<QString> LastErrors;
+
+    bool DB_ERROR;
+
+    bool ExecuteCommand(QString command_string, QSqlQuery &query_object);
+
 public:
     DRCDB();
 
@@ -24,22 +32,15 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
-    void WhatLastError(const QSqlQuery &query_object);
+    bool DuplicateInsert(const QString &duplicate_query);
 
+    QVector<QString> SelectAllFields(QString table_name);
 
-    //  Methods that aren't necessary, but are helpful for testing.
-    //======================================================================
-private:
-    bool ExecuteCommand(QString command_string);
+    bool ExtractError(const QSqlError &error_object);
 
-    void DebugDisplay(QString error_message, bool active = false);
+    bool GetErrorOccurred();
 
-public:
-    QString GetDatabaseName();
-
-    QString WhatDriver();
-
-    bool CheckTableExists(QString table_name);
+    QVector<QString> GetLastErrors();
 };
 
 #endif // DRCDB_H

@@ -14,6 +14,10 @@ public:
     virtual QString Parse(void) = 0;
 
     virtual QString table() = 0;
+
+    virtual QString DuplicateQuery() = 0;
+
+    virtual QString SearchQuery() = 0;
 };
 
 

@@ -43,11 +43,12 @@ private Q_SLOTS:
     void CreateTable();
     void CreateDuplicateTable();
     void InsertObject();
+    void SelectName();
 
 private slots:
     void cleanupTestCase()
     {
-        QCOMPARE(_db.CloseDatabase(), false);
+        QCOMPARE(_db.CloseDatabase(), true);
 
         //For the sake of this Test Suite, we delete database after every run.
         //Comment out if undesirable; IE, looking inside file directly.
@@ -59,9 +60,6 @@ private slots:
 //======================================================
 DatabaseTestSuite::DatabaseTestSuite()
 {
-    //In the event that we have an existing .db with the same name.
-    QFile::remove(database_name);
-
     //Name of the database we're using / creating.
     database_name = QString("database_test_name.db");
 
@@ -72,9 +70,9 @@ DatabaseTestSuite::DatabaseTestSuite()
     table_name = QString("Albertsons");
 
     //Name and Datatypes of all Table columns
-    column_container.push_back(QString("time_stamp int not null"));
-    column_container.push_back(QString("fruit_name char(50) not null"));
     column_container.push_back(QString("id integer primary key autoincrement null"));
+    column_container.push_back(QString("fruit_name char(50) not null"));
+    column_container.push_back(QString("time_stamp int not null"));
 
 }
 //=======================================================
@@ -83,62 +81,84 @@ void DatabaseTestSuite::OpenDatabase()
 {
     //Did the database open?
     QCOMPARE(_db.OpenDatabase(database_name), true);
-
-    //Does the name of the database match the name we used to open it.
-    QCOMPARE(_db.GetDatabaseName(), database_name);
-
-    //Is the driver used SQLITE3?
-    QCOMPARE(_db.WhatDriver(), database_driver);
 }
 
 void DatabaseTestSuite::CreateTable()
 {
-    //Does table shouldn't already exist.
-    QCOMPARE(_db.CheckTableExists(table_name), false);
-
     //Create table with name and column data.
     QCOMPARE(_db.CreateTable(table_name, column_container), true);
 }
 
 void DatabaseTestSuite::CreateDuplicateTable()
 {
-    //Table already exists.  (If DB not deleted, run tests twice.)
-    QCOMPARE(_db.CheckTableExists(table_name), true);
 
     //Create table with same name.  (Should fail)
-    //The test passes, but an error code "will" still be displayed.
-    //QCOMPARE(_db.CreateTable(table_name, empty_container), false);
-}
+    QCOMPARE(_db.CreateTable(table_name, empty_container), false);
+    QCOMPARE(_db.GetErrorOccurred(), true);
 
+    QVector<QString> RecentError = _db.GetLastErrors();
+    QCOMPARE(RecentError.size(), 1);
+    QCOMPARE(RecentError.first(), QString("table Albertsons already exists Unable to execute statement"));
+}
 
 void DatabaseTestSuite::InsertObject()
 {
     Fruit Banana("Banana");
-    Fruit Apple("Apple");
-    Fruit Orange("Orange");
-    Fruit Peach("Peach");
+
+    this->thread()->sleep(1);
+
+    Fruit OtherBanana("Banana");
 
     QCOMPARE(_db.InsertObject(&Banana), true);
-    QCOMPARE(_db.InsertObject(&Apple), true);
-    QCOMPARE(_db.InsertObject(&Orange), true);
-    QCOMPARE(_db.InsertObject(&Peach), true);
+
+    //Duplicate Fruit Name, should not fail, different timestamp.
+    QCOMPARE(_db.InsertObject(&OtherBanana), true);
+
+    //Duplicate Fruit, should fail since this is the exact same fruit.
+    QCOMPARE(_db.InsertObject(&Banana), false);
+
+    //Error should've occurred from the last method.
+    QCOMPARE(_db.GetErrorOccurred(), true);
+
+    QVector<QString> RecentError = _db.GetLastErrors();
+
+    QCOMPARE(RecentError.size(), 1);
+    QCOMPARE(RecentError.first(), QString("Duplicate Insert Was Attempted: SELECT * FROM Albertsons WHERE fruit_name like '%1' AND time_stamp = %2.")
+             .arg(Banana.GetName())
+             .arg(Banana.GetTime()));
 }
 
-    //So far, can't figure out how to trigger the last error method.
-    //QCOMPARE(_db.WhatLastError(), QString("Should be an error here."));
 
+void DatabaseTestSuite::SelectName()
+{
+    //Set to a timestamp that is set up above in the gui filtering
+    Fruit NarrowSearch("Banana");
+    NarrowSearch.SetTime(10000);
 
+    Fruit BananaNameSearch("Banana");
+    BananaNameSearch.SetTime(0);
 
+    Fruit NoNameSearch("");
+    NoNameSearch.SetTime(10000);
 
+    Fruit CatchAllSearch("");
+    CatchAllSearch.SetTime(0);
 
+    QString strongQuery = NarrowSearch.SearchQuery();
 
+    QString nameQuery = BananaNameSearch.SearchQuery();
 
+    QString timeQuery = NoNameSearch.SearchQuery();
 
+    QString looseQuery = CatchAllSearch.SearchQuery();
 
+    QVector<QString> table_data = _db.SelectAllFields(table_name);
 
-
-
-
+    foreach(QString item, table_data)
+    {
+        qDebug() << item;
+    }
+}
 
 QTEST_APPLESS_MAIN(DatabaseTestSuite)
 

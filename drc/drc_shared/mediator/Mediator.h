@@ -2,7 +2,7 @@
 #define MEDIATOR_H
 
 #include <map>
-#include <string>
+#include <QString>
 #include <vector>
 #include <functional>
 #include "MediatorArg.h"
@@ -38,7 +38,7 @@ public:
     MediatorCallback(MediatorCallbackFunc callback) :  _callback(callback) {_id = ++__MEDIATOR_UNIQUE_ID;}
     void Run(MediatorArg &arg) { _callback(arg); }
     unsigned int GetId() { return _id; }
-    std::string toString() { return _callback.target_type().name(); }
+    QString toString() { return _callback.target_type().name(); }
 
 private:
     MediatorId _id;
@@ -73,19 +73,19 @@ private:
 	static Mediator& Instance();
 
     typedef std::vector<MediatorCallback*> MediatorCallbackVector;
-    typedef std::map<std::string, MediatorCallbackVector> MediatorCallbackMap;
+    typedef std::map<QString, MediatorCallbackVector> MediatorCallbackMap;
     MediatorCallbackMap MediatorMap;
 
 public:
 
-    static MediatorId Register(std::string key, MediatorCallbackFunc function);
-    static MediatorId Register(std::string key, MediatorCallback* callback);
+    static MediatorId Register(QString key, MediatorCallbackFunc function);
+    static MediatorId Register(QString key, MediatorCallback* callback);
 
-    static void Unregister(std::string Key, MediatorId callbackId);
+    static void Unregister(QString Key, MediatorId callbackId);
 
 	// Call Override to package arguments into a MediatorArg
-	static void Call(std::string key, void* object = nullptr, bool success = true, std::string errorMessage = "");
-	static void Call(std::string Key, MediatorArg Object);
+	static void Call(QString key, void* object = nullptr, bool success = true, QString errorMessage = "");
+	static void Call(QString Key, MediatorArg Object);
 
 	static void Clear();
 };

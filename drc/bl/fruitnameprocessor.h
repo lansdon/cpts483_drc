@@ -10,17 +10,17 @@
 class FruitNameProcessor: public Processor
 {
 public:
-    FruitNameProcessor(std::string regProcess="", std::string sendProcess="",
-                                           std::string regLoad="", std::string sendLoad="");
+    FruitNameProcessor(QString regProcess="", QString sendProcess="",
+                                           QString regLoad="", QString sendLoad="");
     void Process(MediatorArg arg);
     void Load(MediatorArg arg);
 
 private:
-    std::set<std::string> _fruitNames;
-    std::string _regProcess;
-    std::string _sendProcess;
-    std::string _regLoad;
-    std::string _sendLoad;
+    std::set<QString> _fruitNames;
+    QString _regProcess;
+    QString _sendProcess;
+    QString _regLoad;
+    QString _sendLoad;
 };
 
 #endif // FRUITNAMEPROCESSOR_H

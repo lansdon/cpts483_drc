@@ -5,8 +5,8 @@
 
 // --- CONSTRUCTOR ---
 AsyncMediatorWorker::AsyncMediatorWorker(
-        std::string sendEventMediatorKey,
-        std::string recieveEventMediatorKey,
+        QString sendEventMediatorKey,
+        QString recieveEventMediatorKey,
         MediatorCallbackFunc callback,
         void* argObject,
         bool waitForResponse,
@@ -21,8 +21,8 @@ AsyncMediatorWorker::AsyncMediatorWorker(
 }
 // --- CONSTRUCTOR ---
 AsyncMediatorWorker::AsyncMediatorWorker(
-        std::string sendEventMediatorKey,
-        std::string recieveEventMediatorKey,
+        QString sendEventMediatorKey,
+        QString recieveEventMediatorKey,
         MediatorCallbackFunc callback,
         MediatorArg sendMediatorArg,
         bool waitForResponse,

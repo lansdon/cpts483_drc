@@ -12,8 +12,8 @@ class AsyncMediatorWorker : public QObject {
     Q_OBJECT
 
 public:
-    AsyncMediatorWorker(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, void* argObject, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
-    AsyncMediatorWorker(std::string sendEventMediatorKey, std::string recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg sendMediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
+    AsyncMediatorWorker(QString sendEventMediatorKey, QString recieveEventMediatorKey, MediatorCallbackFunc callback, void* argObject, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
+    AsyncMediatorWorker(QString sendEventMediatorKey, QString recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg sendMediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
     ~AsyncMediatorWorker();
 
 public slots:
@@ -31,8 +31,8 @@ private:
     bool _waiting;						// This will block additional calls to Send() if a Send is already in progress.
     bool WaitForResponse();             // The loop handles timeouts while waiting
 
-    std::string _sendEventMediatorKey;		// Send Event Key
-    std::string _recieveEventMediatorKey;	// Listen for this result Key
+    QString _sendEventMediatorKey;		// Send Event Key
+    QString _recieveEventMediatorKey;	// Listen for this result Key
 
     MediatorCallbackFunc _callback;			// NOT USED - Handled by AsynchMediatorCall
 

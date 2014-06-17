@@ -6,8 +6,8 @@
 
 #include <regex>
 
-IntakeFormProcessor::IntakeFormProcessor(std::string regProcess, std::string sendProcess,
-                    std::string regLoad,    std::string sendLoad)
+IntakeFormProcessor::IntakeFormProcessor(QString regProcess, QString sendProcess,
+                    QString regLoad,    QString sendLoad)
                     : _regProcess(regProcess), _sendProcess(sendProcess),
                       _regLoad(regLoad), _sendLoad(sendLoad)
 {
@@ -19,7 +19,7 @@ void IntakeFormProcessor::Process(MediatorArg arg)
 {
     qDebug() << "BL -> Processing Intake Form.";
     bool success = arg.IsSuccessful();
-    std::string errorMessage = arg.ErrorMessage();
+    QString errorMessage = arg.ErrorMessage();
 
     Intake* intake = nullptr;
     if (success)
@@ -36,7 +36,7 @@ void IntakeFormProcessor::Load(MediatorArg arg)
 {
     qDebug() << "BL -> Loading Intake Form.";
     bool success = arg.IsSuccessful();
-    std::string errorMessage = arg.ErrorMessage();
+    QString errorMessage = arg.ErrorMessage();
 
     Intake* intake = nullptr;
     if (success)
@@ -49,7 +49,7 @@ void IntakeFormProcessor::Load(MediatorArg arg)
     Mediator::Call(_sendLoad, intake, success, errorMessage);
 }
 
-bool IntakeFormProcessor::ValidateIntakeForm(const Intake& intake, std::string& errorMessage) const
+bool IntakeFormProcessor::ValidateIntakeForm(const Intake& intake, QString& errorMessage) const
 {
     qDebug() << "BL -> Validate Intake Form";
     bool success = true;
@@ -66,11 +66,11 @@ bool IntakeFormProcessor::ValidateIntakeForm(const Intake& intake, std::string& 
     return success;
 }
 
-bool IntakeFormProcessor::ValidatePerson(const Person& person, std::string& errorMessage) const
+bool IntakeFormProcessor::ValidatePerson(const Person& person, QString& errorMessage) const
 {
     qDebug() << "BL -> Validate Person "+ person.getFirstName();
     bool success = true;
-    std::string pattern = "^[a-zA-Z]+$";
+    QString pattern = "^[a-zA-Z]+$";
     auto name = person.getFirstName();
 //    success = std::regex_match(name, std::regex(pattern));
     if (name.size() == 0)
@@ -95,7 +95,7 @@ bool IntakeFormProcessor::ValidatePerson(const Person& person, std::string& erro
     return success;
 }
 
-bool IntakeFormProcessor::ValidateTime(time_t time, std::string& errorMessage) const
+bool IntakeFormProcessor::ValidateTime(time_t time, QString& errorMessage) const
 {
     qDebug() << "BL -> Validate time";
     bool success = true;

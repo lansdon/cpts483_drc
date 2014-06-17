@@ -10,6 +10,7 @@ using namespace std;
 
 class Fruit : public DBBaseObject
 {
+private:
     QString m_name;
 
     time_t m_timestamp;
@@ -25,6 +26,8 @@ public:
 
     void SetName(QString name);
 
+    void SetTime(int time);
+
     QString GetName(void);
     
     QString GetTime(void);
@@ -34,6 +37,10 @@ public:
     QString Parse(void);
     
     QString table(void);
+
+    QString DuplicateQuery(void);
+
+    QString SearchQuery(void);
     
 };
 

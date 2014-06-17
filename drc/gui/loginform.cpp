@@ -65,6 +65,6 @@ void LoginForm::authenticateResponse(MediatorArg arg)
     else
     {
         // Set the error label.
-        ui->statusLabel->setText(QString::fromStdString(arg.ErrorMessage()));
+        ui->statusLabel->setText(arg.ErrorMessage());
     }
 }
