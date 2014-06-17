@@ -20,9 +20,11 @@ INCLUDEPATH += ../../drc/drc_shared/models/ \
 
 
 SOURCES += tst_drc_db_tests.cpp \
-    ../../drc/db/drcdb.cpp
+    ../../drc/db/drcdb.cpp \
+    ../../drc/drc_shared/models/Person.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     ../../drc/db/drcdb.h \
-    ../../drc/drc_shared/models/DBBaseObject.h
+    ../../drc/drc_shared/models/DBBaseObject.h \
+    ../../drc/drc_shared/models/Person.h

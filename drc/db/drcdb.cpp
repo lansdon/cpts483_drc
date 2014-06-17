@@ -7,20 +7,36 @@
 
 #define db_driver "QSQLITE"
 
+//Commented out for the sake of testing.
 DRCDB::DRCDB() : DB_ERROR(false)
 {
-    OpenDatabase("../drc/drc_db.db3");
+    OpenDatabase("drc_db.db3");
 
     //Name of the table we're creating.
-    QString table_name = QString("Albertsons");
+    QString person_table_name = QString("Person_Table");
+
 
     //Name and Datatypes of all Table columns
-    QVector<QString> column_container;
-    column_container.push_back(QString("id integer primary key autoincrement null"));
-    column_container.push_back(QString("fruit_name char(50) not null"));
-    column_container.push_back(QString("time_stamp int not null"));
+    QVector<QString> person_table_columns;
+    person_table_columns.push_back(QString("person_id integer primary key autoincrement null"));
+    person_table_columns.push_back(QString("first_name char(50)"));
+    person_table_columns.push_back(QString("middle_name char(50)"));
+    person_table_columns.push_back(QString("last_name char(50) not null"));
+//    person_table_columns.push_back(QString("street_name char(50)"));
+//    person_table_columns.push_back(QString("unit_name char(50)"));
+//    person_table_columns.push_back(QString("city_name char(50)"));
+//    person_table_columns.push_back(QString("state_name char(50)"));
+//    person_table_columns.push_back(QString("zip_code char(50)"));
+//    person_table_columns.push_back(QString("county_name char(50)"));
+//    person_table_columns.push_back(QString("primary_phone char(50)"));  //Confirm Phone Format
+//    person_table_columns.push_back(QString("secondary_phone char(50)"));
+//    person_table_columns.push_back(QString("assistance_phone char(50)"));
+//    person_table_columns.push_back(QString("email_address char(50)"));
+//    person_table_columns.push_back(QString("number_in_house int"));
+//    person_table_columns.push_back(QString("attorney_name char(50)"));
 
-    CreateTable(table_name, column_container);
+
+    CreateTable(person_table_name, person_table_columns);
 
     // Register to Listen for events.
 //    Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
@@ -28,7 +44,65 @@ DRCDB::DRCDB() : DB_ERROR(false)
 //    Mediator::Register(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){LoadIntake(arg);});
 //    Mediator::Register(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, [this](MediatorArg arg){PersistIntakeForm(arg);});
 }
+//========================================================================
+//------------------------------------------------------------------------
+//========================================================================
 
+
+
+
+//========================================================================
+//------------------------------------------------------------------------
+bool DRCDB::DoesColumnExist(QString column_name, QString table_name)
+{
+    QSqlRecord column_list = database.record(table_name);
+    return column_list.contains(column_name);
+}
+//========================================================================
+
+
+
+//========================================================================
+//Qt::CaseSensitive is unnecessary, but made explicit for readability.
+//------------------------------------------------------------------------
+bool DRCDB::DoesTableExist(QString table_name)
+{
+    QStringList database_tables = database.tables();
+    return database_tables.contains(table_name, Qt::CaseSensitive);
+}
+
+//========================================================================
+
+
+
+//========================================================================
+//------------------------------------------------------------------------
+bool DRCDB::IsDatabaseEmpty()
+{
+    QStringList database_tables = database.tables();
+    return database_tables.size() == 0;
+}
+
+//========================================================================
+
+
+//========================================================================
+//------------------------------------------------------------------------
+QString DRCDB::WhatDatabaseName()
+{
+    return database.databaseName();
+}
+
+//========================================================================
+
+
+//========================================================================
+//------------------------------------------------------------------------
+bool DRCDB::IsDatabaseOpen()
+{
+    return database.isOpen();
+}
+//========================================================================
 
 
 //========================================================================
@@ -139,9 +213,10 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
 {
     bool insert_success = false;
 
-    if (!this->DuplicateInsert(db_object->DuplicateQuery()))
+    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
+    if (true)
     {
-        QString command_string = QString("insert into %1 values ( %2 , %3 )")
+        QString command_string = QString("insert into %1 values ( %2, %3 )")
                 .arg(db_object->table())
                 .arg("null")
                 .arg(db_object->Parse());

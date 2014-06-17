@@ -31,6 +31,18 @@ public:
     bool ExtractError(const QSqlError &error_object);
 
     bool CloseDatabase();
+
+    bool IsDatabaseOpen();
+
+    QString WhatDatabaseName();
+
+    bool IsDatabaseEmpty();
+
+    bool DoesTableExist(QString table_name);
+
+    bool DoesColumnExist(QString column_name, QString table_name);
+    
+    bool DuplicateInsert(const QString &duplicate_query);
     //==========================================================================
     DRCDB();
 
@@ -42,7 +54,6 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
-    bool DuplicateInsert(const QString &duplicate_query);
 
     QVector<QString> SelectAllFields(QString table_name);
 

@@ -2,6 +2,7 @@
 #include <QtTest>
 
 #include "drcdb.h"
+#include "Person.h"
 
 //Tests:
 //
@@ -16,6 +17,9 @@
 //3.  Does the name of the Table already exist?
 //3a.   Seems redundant, but it maybe more efficient to find a table name
 //      rather than to have the SQL DBMS discover it on compiling the command.
+//4.  Is the database even open?
+//5.  Was a table name parameter passed?
+//6.  Does the column vector parameter have any values?
 
 
 class DRC_DB_TESTS : public QObject
@@ -29,18 +33,17 @@ private:
     DRCDB _db;
 
     QString database_name;
-    QString database_driver;
+//    QString database_driver;
     QString table_name;
-    QVector<QString> column_container;
+//    QVector<QString> column_container;
     QVector<QString> empty_container;
 
 
 private Q_SLOTS:
     void OpenDatabase();
     void CreateTable();
-    void CreateDuplicateTable();
     void InsertObject();
-    void SelectName();
+    void CheckErrors();
 
 private slots:
     void cleanupTestCase()
@@ -49,7 +52,8 @@ private slots:
 
         //For the sake of this Test Suite, we delete database after every run.
         //Comment out if undesirable; IE, looking inside file directly.
-        QCOMPARE(QFile::remove(database_name), true);
+        //Be sure to manually delete if you do comment this line out.
+        //QCOMPARE(QFile::remove(database_name), true);
     }
 };
 
@@ -57,103 +61,61 @@ private slots:
 //======================================================
 DRC_DB_TESTS::DRC_DB_TESTS()
 {
-    //Name of the database we're using / creating.
-    database_name = QString("database_test_name.db");
-
-    //Name of the driver we're using.
-    database_driver = QString("QSQLITE");
-
-    //Name of the table we're creating.
-    table_name = QString("Albertsons");
-
-    //Name and Datatypes of all Table columns
-    column_container.push_back(QString("id integer primary key autoincrement null"));
-    column_container.push_back(QString("fruit_name char(50) not null"));
-    column_container.push_back(QString("time_stamp int not null"));
-
+    database_name = QString("drc_db.db3");
+    table_name = "Person_Table";
 }
 //=======================================================
 
 void DRC_DB_TESTS::OpenDatabase()
 {
-    //Did the database open?
-    QCOMPARE(_db.OpenDatabase(database_name), true);
+    //Default constructor should've opened the database.
+    QCOMPARE(_db.IsDatabaseOpen(), true);
+
+    //Just making sure the database is named what it's supposed to.
+    QCOMPARE(_db.WhatDatabaseName(), database_name);
+
 }
 
 void DRC_DB_TESTS::CreateTable()
 {
-    //Create table with name and column data.
-    QCOMPARE(_db.CreateTable(table_name, column_container), true);
-}
+    //Database should start out empty.
+    QCOMPARE(_db.IsDatabaseEmpty(), false);
 
-void DRC_DB_TESTS::CreateDuplicateTable()
-{
-    //Create table with same name.  (Should fail)
-    QCOMPARE(_db.CreateTable(table_name, empty_container), false);
-    QCOMPARE(_db.DidErrorOccur(), true);
+    //Table should already be created in the default constructor.
+    QCOMPARE(_db.DoesTableExist(table_name), true);
 
-    QVector<QString> RecentError = _db.GetLastErrors();
-    QCOMPARE(RecentError.size(), 1);
-    QCOMPARE(RecentError.first(), QString("table Albertsons already exists Unable to execute statement"));
+    //Verify all columns that should be inside table are there.
+    QCOMPARE(_db.DoesColumnExist(QString("person_id"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("first_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("middle_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("last_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("street_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("unit_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("city_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("state_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("zip_code"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("county_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("primary_phone"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("assistance_phone"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("email_address"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("number_in_house"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("attorney_name"), table_name), true);
+
 }
 
 void DRC_DB_TESTS::InsertObject()
 {
-//    Fruit Banana("Banana");
+    Person Tim_Schafer(QString("Tim"));
 
-//    this->thread()->sleep(1);
+    QCOMPARE(_db.InsertObject(&Tim_Schafer), true);
 
-//    Fruit OtherBanana("Banana");
-
-//    QCOMPARE(_db.InsertObject(&Banana), true);
-
-//    //Duplicate Fruit Name, should not fail, different timestamp.
-//    QCOMPARE(_db.InsertObject(&OtherBanana), true);
-
-//    //Duplicate Fruit, should fail since this is the exact same fruit.
-//    QCOMPARE(_db.InsertObject(&Banana), false);
-
-//    //Error should've occurred from the last method.
-//    QCOMPARE(_db.GetErrorOccurred(), true);
-
-//    QVector<QString> RecentError = _db.GetLastErrors();
-
-//    QCOMPARE(RecentError.size(), 1);
-//    QCOMPARE(RecentError.first(), QString("Duplicate Insert Was Attempted: SELECT * FROM Albertsons WHERE fruit_name like '%1' AND time_stamp = %2.")
-//             .arg(Banana.GetName())
-//             .arg(Banana.GetTime()));
 }
 
-
-void DRC_DB_TESTS::SelectName()
+void DRC_DB_TESTS::CheckErrors()
 {
-//    //Set to a timestamp that is set up above in the gui filtering
-//    Fruit NarrowSearch("Banana");
-//    NarrowSearch.SetTime(10000);
-
-//    Fruit BananaNameSearch("Banana");
-//    BananaNameSearch.SetTime(0);
-
-//    Fruit NoNameSearch("");
-//    NoNameSearch.SetTime(10000);
-
-//    Fruit CatchAllSearch("");
-//    CatchAllSearch.SetTime(0);
-
-//    QString strongQuery = NarrowSearch.SearchQuery();
-
-//    QString nameQuery = BananaNameSearch.SearchQuery();
-
-//    QString timeQuery = NoNameSearch.SearchQuery();
-
-//    QString looseQuery = CatchAllSearch.SearchQuery();
-
-//    QVector<QString> table_data = _db.SelectAllFields(table_name);
-
-//    foreach(QString item, table_data)
-//    {
-//        qDebug() << item;
-//    }
+    //QVector<QString> RecentError = _db.GetLastErrors();
+    //QCOMPARE(RecentError.first(), QString("Something here."));
 }
 
 QTEST_APPLESS_MAIN(DRC_DB_TESTS)
