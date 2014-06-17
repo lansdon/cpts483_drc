@@ -4,22 +4,17 @@
 #include "drcdb.h"
 #include "Person.h"
 
-//Tests:
-//
-//Open Database
-//1.  Ensure database file is named the name we named it.
-//2.  To check database name, database must be opened first.
-//3.  Is the database using the driver we needed?
-//
-//Create Table  (In truth, schema is largely pre-determined; but might as well)
-//1.  Was the Table successfully created?
-//2.  Does the Schema of the table match with what we intended?
-//3.  Does the name of the Table already exist?
-//3a.   Seems redundant, but it maybe more efficient to find a table name
-//      rather than to have the SQL DBMS discover it on compiling the command.
-//4.  Is the database even open?
-//5.  Was a table name parameter passed?
-//6.  Does the column vector parameter have any values?
+//Tests Still Needed
+//1.  Check for Duplicate Insert
+//1a.   How can we be sure that they're duplicates and not just different persons?
+//2.  Need to prevent table creation if table already exists
+//3.  Need to prevent column generation if columns already exist.
+//4.  Need a retrieve by first name method
+//5.  Need a retrieve by last name method
+
+//Questions / Confirmations
+//1.  What is phone number format
+//2.  How are extensions to be dealt with
 
 
 class DRC_DB_TESTS : public QObject
@@ -47,21 +42,15 @@ private Q_SLOTS:
     void CheckErrors();
 
 private slots:
-    void initTestCase()
-    {
-        //If file delete is commented out in cleanupTestCase, then
-        //uncomment this line.
-        //QCOMPARE(QFile::remove(database_name), true);
-    }
-
     void cleanupTestCase()
     {
         QCOMPARE(_db.CloseDatabase(), true);
 
-        //For the sake of this Test Suite, we delete database after every run.
-        //Comment out if undesirable; IE, looking inside file directly.
-        //Be sure to manually delete if you do comment this line out.
-        //QCOMPARE(QFile::remove(database_name), true);
+        //*******For the sake of this Test Suite, we delete database after every run.*******
+        //*******Comment out if undesirable; IE, looking inside file directly.       *******
+        //*******Be sure to manually delete if you do comment this line out.         *******
+
+        QCOMPARE(QFile::remove(database_name), true);
     }
 };
 
@@ -91,7 +80,6 @@ void DRC_DB_TESTS::CreateTable()
 
     //Table should already be created in the default constructor.
     QCOMPARE(_db.DoesTableExist(table_name), true);
-
 
 }
 
@@ -123,12 +111,31 @@ void DRC_DB_TESTS::InsertObject()
 
     QCOMPARE(_db.InsertObject(&Tim_Schafer), true);
 
+    Person Bruce_Lee(QString("Bruce"));
+    Bruce_Lee.setMiddleName(QString("Chan"));
+    Bruce_Lee.setLastName(QString("Lee"));
+    Bruce_Lee.setStreet(QString("55555 Huntington Place"));
+    Bruce_Lee.setUnit(QString("#6"));
+    Bruce_Lee.setCity(QString("New York"));
+    Bruce_Lee.setState(QString("Alaska"));
+    Bruce_Lee.setZip(QString("55555"));
+    Bruce_Lee.setCounty(QString("Benton"));
+    Bruce_Lee.setPrimaryPhone(QString("111-111-1111"));
+    Bruce_Lee.setSecondaryPhone(QString("222-222-2222"));
+    Bruce_Lee.setAssistantPhone("333-333-3333");
+    Bruce_Lee.setEmail(QString("EnterTheDragon@BruceLee.com"));
+    Bruce_Lee.setNumberInHousehold(8);
+    Bruce_Lee.setAttorney(QString("Bird Man"));
+
+    QCOMPARE(_db.InsertObject(&Bruce_Lee), true);
+
 }
 
 void DRC_DB_TESTS::CheckErrors()
 {
     QVector<QString> RecentError = _db.GetLastErrors();
-    qDebug() << RecentError.first();
+    if (!RecentError.isEmpty())
+        qDebug() << RecentError.first();
 }
 
 QTEST_APPLESS_MAIN(DRC_DB_TESTS)
