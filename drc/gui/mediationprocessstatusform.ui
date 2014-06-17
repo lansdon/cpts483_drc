@@ -14,8 +14,136 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_5">
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="title">
+      <string>Mediation Details</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="3" column="0" colspan="3">
+       <widget class="QFrame" name="mediationFrame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="2">
+          <layout class="QFormLayout" name="medForm3"/>
+         </item>
+         <item row="0" column="1">
+          <layout class="QFormLayout" name="medForm2">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+           </property>
+          </layout>
+         </item>
+         <item row="0" column="0">
+          <layout class="QFormLayout" name="medForm1">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+           </property>
+           <item row="0" column="1">
+            <widget class="QComboBox" name="conflictComboBox">
+             <item>
+              <property name="text">
+               <string>&lt;Select Conflict Type&gt;</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Consumer/Merchant</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Family</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Neighborhood</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Parenting Plan</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Property/Business</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Parent/Teen</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Small Claims</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Tenant/Landlord</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Victim/Offender</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Workplace</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Other</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="_conflictLabel">
+             <property name="text">
+              <string>Conflict Type</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="0" column="3">
+          <widget class="QPushButton" name="notesToggleBtn">
+           <property name="text">
+            <string>Hide Notes</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="0" column="0">
     <widget class="QFrame" name="managerFrame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -251,135 +379,7 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Mediation Details</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="3" column="0" colspan="3">
-       <widget class="QFrame" name="mediationFrame">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="2">
-          <layout class="QFormLayout" name="medForm3"/>
-         </item>
-         <item row="0" column="1">
-          <layout class="QFormLayout" name="medForm2">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-           </property>
-          </layout>
-         </item>
-         <item row="0" column="0">
-          <layout class="QFormLayout" name="medForm1">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-           </property>
-           <item row="0" column="1">
-            <widget class="QComboBox" name="conflictComboBox">
-             <item>
-              <property name="text">
-               <string>&lt;Select Conflict Type&gt;</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Consumer/Merchant</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Family</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Neighborhood</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Parenting Plan</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Property/Business</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Parent/Teen</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Small Claims</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Tenant/Landlord</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Victim/Offender</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Workplace</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Other</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="0" column="0">
-            <widget class="QLabel" name="_conflictLabel">
-             <property name="text">
-              <string>Conflict Type</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="3">
-          <widget class="QPushButton" name="notesToggleBtn">
-           <property name="text">
-            <string>View Notes</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="6" column="0" colspan="3">
-       <widget class="QGroupBox" name="notesFrame">
-        <property name="title">
-         <string>Notes:</string>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
-          <widget class="QListWidget" name="notesListWidget"/>
-         </item>
-        </layout>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0">
+   <item row="3" column="0">
     <widget class="QTabWidget" name="partyTabs">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -406,6 +406,12 @@
       <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
         <widget class="QGroupBox" name="groupBox_4">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="title">
           <string>GroupBox</string>
          </property>
@@ -427,6 +433,18 @@
        <string>Tab 2</string>
       </attribute>
      </widget>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="notesFrame">
+     <property name="title">
+      <string>Notes:</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="0">
+       <widget class="QListWidget" name="notesListWidget"/>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>
