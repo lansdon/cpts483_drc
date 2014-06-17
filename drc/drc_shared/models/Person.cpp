@@ -68,7 +68,7 @@ Person *Person::SampleData()
     static int _SAMPLE_INDEX = 0;
     std::stringstream ss;
     ss << ++_SAMPLE_INDEX;
-    std::string strId = ss.str();
+    QString strId = QString::fromStdString(ss.str());
 
     result->setFirstName(QString::fromStdString("firstname" + strId));
     result->setMiddleName(QString::fromStdString("middlename" + strId));

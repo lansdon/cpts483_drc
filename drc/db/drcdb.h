@@ -20,6 +20,10 @@ private:
 
     bool DB_ERROR;
 
+public:
+    //==========================================================================
+    //These methods are made public for the sake of easier testing.
+    //--------------------------------------------------------------------------
     bool ExecuteCommand(QString command_string, QSqlQuery &query_object);
 
     bool CreateTable(QString table_name, QVector<QString> column_data);
@@ -27,7 +31,7 @@ private:
     bool ExtractError(const QSqlError &error_object);
 
     bool CloseDatabase();
-public:
+    //==========================================================================
     DRCDB();
 
     DRCDB(QString database_name);

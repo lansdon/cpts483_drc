@@ -1,6 +1,8 @@
 #include <QString>
 #include <QtTest>
 
+#include "drcdb.h"
+
 //Tests:
 //
 //Open Database
@@ -21,7 +23,7 @@ class DRC_DB_TESTS : public QObject
     Q_OBJECT
 
 public:
-    DatabaseTestSuite();
+    DRC_DB_TESTS();
 
 private:
     DRCDB _db;
@@ -53,7 +55,7 @@ private slots:
 
 //  Change information to accomodate new circumstances.
 //======================================================
-DatabaseTestSuite::DatabaseTestSuite()
+DRC_DB_TESTS::DRC_DB_TESTS()
 {
     //Name of the database we're using / creating.
     database_name = QString("database_test_name.db");
@@ -72,87 +74,86 @@ DatabaseTestSuite::DatabaseTestSuite()
 }
 //=======================================================
 
-void DatabaseTestSuite::OpenDatabase()
+void DRC_DB_TESTS::OpenDatabase()
 {
     //Did the database open?
     QCOMPARE(_db.OpenDatabase(database_name), true);
 }
 
-void DatabaseTestSuite::CreateTable()
+void DRC_DB_TESTS::CreateTable()
 {
     //Create table with name and column data.
     QCOMPARE(_db.CreateTable(table_name, column_container), true);
 }
 
-void DatabaseTestSuite::CreateDuplicateTable()
+void DRC_DB_TESTS::CreateDuplicateTable()
 {
-
     //Create table with same name.  (Should fail)
     QCOMPARE(_db.CreateTable(table_name, empty_container), false);
-    QCOMPARE(_db.GetErrorOccurred(), true);
+    QCOMPARE(_db.DidErrorOccur(), true);
 
     QVector<QString> RecentError = _db.GetLastErrors();
     QCOMPARE(RecentError.size(), 1);
     QCOMPARE(RecentError.first(), QString("table Albertsons already exists Unable to execute statement"));
 }
 
-void DatabaseTestSuite::InsertObject()
+void DRC_DB_TESTS::InsertObject()
 {
-    Fruit Banana("Banana");
+//    Fruit Banana("Banana");
 
-    this->thread()->sleep(1);
+//    this->thread()->sleep(1);
 
-    Fruit OtherBanana("Banana");
+//    Fruit OtherBanana("Banana");
 
-    QCOMPARE(_db.InsertObject(&Banana), true);
+//    QCOMPARE(_db.InsertObject(&Banana), true);
 
-    //Duplicate Fruit Name, should not fail, different timestamp.
-    QCOMPARE(_db.InsertObject(&OtherBanana), true);
+//    //Duplicate Fruit Name, should not fail, different timestamp.
+//    QCOMPARE(_db.InsertObject(&OtherBanana), true);
 
-    //Duplicate Fruit, should fail since this is the exact same fruit.
-    QCOMPARE(_db.InsertObject(&Banana), false);
+//    //Duplicate Fruit, should fail since this is the exact same fruit.
+//    QCOMPARE(_db.InsertObject(&Banana), false);
 
-    //Error should've occurred from the last method.
-    QCOMPARE(_db.GetErrorOccurred(), true);
+//    //Error should've occurred from the last method.
+//    QCOMPARE(_db.GetErrorOccurred(), true);
 
-    QVector<QString> RecentError = _db.GetLastErrors();
+//    QVector<QString> RecentError = _db.GetLastErrors();
 
-    QCOMPARE(RecentError.size(), 1);
-    QCOMPARE(RecentError.first(), QString("Duplicate Insert Was Attempted: SELECT * FROM Albertsons WHERE fruit_name like '%1' AND time_stamp = %2.")
-             .arg(Banana.GetName())
-             .arg(Banana.GetTime()));
+//    QCOMPARE(RecentError.size(), 1);
+//    QCOMPARE(RecentError.first(), QString("Duplicate Insert Was Attempted: SELECT * FROM Albertsons WHERE fruit_name like '%1' AND time_stamp = %2.")
+//             .arg(Banana.GetName())
+//             .arg(Banana.GetTime()));
 }
 
 
-void DatabaseTestSuite::SelectName()
+void DRC_DB_TESTS::SelectName()
 {
-    //Set to a timestamp that is set up above in the gui filtering
-    Fruit NarrowSearch("Banana");
-    NarrowSearch.SetTime(10000);
+//    //Set to a timestamp that is set up above in the gui filtering
+//    Fruit NarrowSearch("Banana");
+//    NarrowSearch.SetTime(10000);
 
-    Fruit BananaNameSearch("Banana");
-    BananaNameSearch.SetTime(0);
+//    Fruit BananaNameSearch("Banana");
+//    BananaNameSearch.SetTime(0);
 
-    Fruit NoNameSearch("");
-    NoNameSearch.SetTime(10000);
+//    Fruit NoNameSearch("");
+//    NoNameSearch.SetTime(10000);
 
-    Fruit CatchAllSearch("");
-    CatchAllSearch.SetTime(0);
+//    Fruit CatchAllSearch("");
+//    CatchAllSearch.SetTime(0);
 
-    QString strongQuery = NarrowSearch.SearchQuery();
+//    QString strongQuery = NarrowSearch.SearchQuery();
 
-    QString nameQuery = BananaNameSearch.SearchQuery();
+//    QString nameQuery = BananaNameSearch.SearchQuery();
 
-    QString timeQuery = NoNameSearch.SearchQuery();
+//    QString timeQuery = NoNameSearch.SearchQuery();
 
-    QString looseQuery = CatchAllSearch.SearchQuery();
+//    QString looseQuery = CatchAllSearch.SearchQuery();
 
-    QVector<QString> table_data = _db.SelectAllFields(table_name);
+//    QVector<QString> table_data = _db.SelectAllFields(table_name);
 
-    foreach(QString item, table_data)
-    {
-        qDebug() << item;
-    }
+//    foreach(QString item, table_data)
+//    {
+//        qDebug() << item;
+//    }
 }
 
 QTEST_APPLESS_MAIN(DRC_DB_TESTS)

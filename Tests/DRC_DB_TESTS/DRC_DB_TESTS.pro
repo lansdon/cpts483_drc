@@ -15,7 +15,8 @@ CONFIG   += C++11
 
 TEMPLATE = app
 
-INCLUDEPATH += ../../drc/drc_shared/models/
+INCLUDEPATH += ../../drc/drc_shared/models/ \
+    ../../drc/db/
 
 
 SOURCES += tst_drc_db_tests.cpp \
