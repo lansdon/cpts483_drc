@@ -1,9 +1,9 @@
 #include "drcdb.h"
 #include <QtSql/QtSql>
-#include "Mediator.h"
-#include "MediatorKeys.h"
-#include "DRCModels.h"
-#include "Fruit.h"    // temp.. not sure why it's having circular dependency.
+//#include "Mediator.h"
+//#include "MediatorKeys.h"
+//#include "DRCModels.h"
+//#include "Fruit.h"    // temp.. not sure why it's having circular dependency.
 
 #define db_driver "QSQLITE"
 
@@ -23,8 +23,8 @@ DRCDB::DRCDB() : DB_ERROR(false)
     CreateTable(table_name, column_container);
 
     // Register to Listen for events.
-    Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
-    Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
+//    Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
+//    Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
 //    Mediator::Register(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){LoadIntake(arg);});
 //    Mediator::Register(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, [this](MediatorArg arg){PersistIntakeForm(arg);});
 }
@@ -325,33 +325,33 @@ QVector<QString> DRCDB::GetLastErrors()
 //    Mediator::Call(MKEY_DB_PERSIST_INTAKE_FORM_DONE, intake, success, errorMessage);
 //}
 
-void DRCDB::PersistFruit(MediatorArg arg)
-{
-    bool success = arg.IsSuccessful();
-    QString errorMessage = arg.ErrorMessage();
+//void DRCDB::PersistFruit(MediatorArg arg)
+//{
+//    bool success = arg.IsSuccessful();
+//    QString errorMessage = arg.ErrorMessage();
 
-    Fruit* fruit = nullptr;       // Unpackaged argument
-    if (success)
-    {
-        fruit = arg.getArg<Fruit*>();
+//    Fruit* fruit = nullptr;       // Unpackaged argument
+//    if (success)
+//    {
+//        fruit = arg.getArg<Fruit*>();
 
-        InsertObject(fruit);
-    }
+//        InsertObject(fruit);
+//    }
 
-    qDebug() << "DB -> PersistFruit Complete";
-    Mediator::Call(MKEY_DB_PERSIST_FRUIT_NAME_DONE, fruit, success, errorMessage);
-}
+//    qDebug() << "DB -> PersistFruit Complete";
+//    Mediator::Call(MKEY_DB_PERSIST_FRUIT_NAME_DONE, fruit, success, errorMessage);
+//}
 
-void DRCDB::LoadFruit(MediatorArg arg)
-{
-    QVector<QString> results = SelectAllFields(QString("Albertsons"));
-    qDebug() << "Data stored in database; name then timestamp\n";
-    for(unsigned int i = 0; i < results.size(); i++)
-    {
-        qDebug() << results.at(i) << endl;
-    }
-    qDebug() << "DB -> LoadFruit Complete";
-}
+//void DRCDB::LoadFruit(MediatorArg arg)
+//{
+//    QVector<QString> results = SelectAllFields(QString("Albertsons"));
+//    qDebug() << "Data stored in database; name then timestamp\n";
+//    for(int i = 0; i < results.size(); i++)
+//    {
+//        qDebug() << results.at(i) << endl;
+//    }
+//    qDebug() << "DB -> LoadFruit Complete";
+//}
 
 //void DRCDB::LoadIntake(MediatorArg arg) const
 //{

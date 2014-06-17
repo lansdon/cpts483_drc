@@ -1,12 +1,12 @@
 #ifndef DRCDB_H
 #define DRCDB_H
-#include "Mediator.h"
+//#include "Mediator.h"
 
 //#include "sqlite3.h"
 
 #include "DBBaseObject.h"
-#include <string>
-#include <vector>
+//#include <string>
+//#include <vector>
 #include <QtSql/QtSql>
 
 class DRCDB
@@ -47,13 +47,13 @@ public:
     QVector<QString> GetLastErrors();
 
     // Incoming Events
-    void PersistIntakeForm(MediatorArg arg) const;
+//    void PersistIntakeForm(MediatorArg arg) const;
 
-    void PersistFruit(MediatorArg arg);
+//    void PersistFruit(MediatorArg arg);
 
-    void LoadIntake(MediatorArg arg) const;
+//    void LoadIntake(MediatorArg arg) const;
 
-    void LoadFruit(MediatorArg arg);
+//    void LoadFruit(MediatorArg arg);
 
 };
 
