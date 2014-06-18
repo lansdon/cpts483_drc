@@ -36,13 +36,13 @@ void MediationProcessStatusForm::Update()
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
 
-    ui->notesListWidget->clear();
-    foreach(auto note, _mediationProcess->GetNotes())
-        ui->notesListWidget->addItem(note);
+//    ui->notesListWidget->clear();
+//    foreach(auto note, _mediationProcess->GetNotes())
+//        ui->notesListWidget->addItem(note);
 
-    ui->partyTabs->clear();
-    foreach(Party* party, _mediationProcess->GetParties())
-        ui->partyTabs->addTab(new PartySummaryForm(this, party), party->GetPrimary()->FullName());
+//    ui->partyTabs->clear();
+//    foreach(Party* party, _mediationProcess->GetParties())
+//        ui->partyTabs->addTab(new PartySummaryForm(this, party), party->GetPrimary()->FullName());
 
 }
 
@@ -94,14 +94,14 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
 
 void MediationProcessStatusForm::on_notesToggleBtn_clicked()
 {
-    if(ui->notesFrame->isVisible())
-    {
-        ui->notesFrame->setHidden(true);
-        ui->notesToggleBtn->setText("Show Notes");
-    }
-    else
-    {
-        ui->notesFrame->setHidden(false);
-        ui->notesToggleBtn->setText("Hide Notes");
-    }
+//    if(ui->notesFrame->isVisible())
+//    {
+//        ui->notesFrame->setHidden(true);
+//        ui->notesToggleBtn->setText("Show Notes");
+//    }
+//    else
+//    {
+//        ui->notesFrame->setHidden(false);
+//        ui->notesToggleBtn->setText("Hide Notes");
+//    }
 }
