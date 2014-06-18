@@ -104,4 +104,12 @@ void MediationProcessStatusForm::on_notesToggleBtn_clicked()
 //        ui->notesFrame->setHidden(false);
 //        ui->notesToggleBtn->setText("Hide Notes");
 //    }
+    emit hovered();
+}
+
+
+
+void MediationProcessStatusForm::on_Last10Label_linkHovered(const QString &link)
+{
+    emit hovered();
 }

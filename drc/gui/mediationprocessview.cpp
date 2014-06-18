@@ -43,13 +43,19 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
-
+    connect(_mediationProcessStatusForm,SIGNAL(hovered()),this, SLOT(onHovered()));
     ConfigureToolbox();
 
     // Update Fields for current record
     PopulateView(_mediationProcessVector->at(_currentProcessRow-1));
 
     ConfigureToolbar();
+}
+void MediationProcessView::onHovered()
+{
+
+   _mediationProcessTableView->setParent(this);
+    _mediationProcessTableView->show();
 }
 
 MediationProcessView::~MediationProcessView()
@@ -169,9 +175,9 @@ void MediationProcessView::on_MediationProcessTableWidget_doubleClicked(const QM
 
 void MediationProcessView::ShowRecentPressed()
 {
-    if(ui->recentGroupBox->isVisible())
-        ui->recentGroupBox->hide();
-    else
-        ui->recentGroupBox->show();
+//    if(ui->recentGroupBox->isVisible())
+//        ui->recentGroupBox->hide();
+//    else
+//        ui->recentGroupBox->show();
 }
 

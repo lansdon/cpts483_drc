@@ -27,57 +27,13 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QGroupBox" name="recentGroupBox">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="minimumSize">
-      <size>
-       <width>0</width>
-       <height>100</height>
-      </size>
-     </property>
+    <widget class="QFrame" name="overviewContainer">
      <property name="maximumSize">
       <size>
        <width>16777215</width>
        <height>200</height>
       </size>
      </property>
-     <property name="title">
-      <string>Recent Mediation Records</string>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QWidget" name="MediationOverviewWidget" native="true">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>100</height>
-         </size>
-        </property>
-        <layout class="QGridLayout" name="gridLayout_2"/>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="overviewContainer">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -96,8 +52,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>740</width>
-        <height>219</height>
+        <width>746</width>
+        <height>394</height>
        </rect>
       </property>
       <property name="font">

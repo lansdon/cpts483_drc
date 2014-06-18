@@ -42,7 +42,15 @@
         </property>
         <layout class="QGridLayout" name="gridLayout">
          <item row="0" column="2">
-          <layout class="QFormLayout" name="medForm3"/>
+          <layout class="QFormLayout" name="medForm3">
+           <item row="0" column="1">
+            <widget class="QLabel" name="Last10Label">
+             <property name="text">
+              <string>Show last 10</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item row="0" column="1">
           <layout class="QFormLayout" name="medForm2">

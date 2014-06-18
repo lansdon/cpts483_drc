@@ -38,6 +38,7 @@ private slots:
     void on_MediationProcessTableWidget_itemSelectionChanged();
 
     void on_MediationProcessTableWidget_doubleClicked(const QModelIndex &index);
+    void onHovered();
 
 private:
     Ui::MediationProcessView *ui;
