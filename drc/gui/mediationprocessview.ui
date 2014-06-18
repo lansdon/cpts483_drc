@@ -28,10 +28,16 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QGroupBox" name="recentGroupBox">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>300</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>16777215</width>
-       <height>200</height>
+       <height>700</height>
       </size>
      </property>
      <property name="title">
@@ -39,7 +45,15 @@
      </property>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="0">
-       <widget class="QTableWidget" name="MediationProcessTableWidget"/>
+       <widget class="QWidget" name="MediationOverviewWidget" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>300</height>
+         </size>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_2"/>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -54,8 +68,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>740</width>
-        <height>194</height>
+        <width>746</width>
+        <height>71</height>
        </rect>
       </property>
       <property name="font">

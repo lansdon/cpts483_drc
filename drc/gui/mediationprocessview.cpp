@@ -26,13 +26,16 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
         _mediationProcessVector->push_back(MediationProcess::SampleData());
 
     // Recent records table
-    _mediationProcessTableView = ui->MediationProcessTableWidget;
+    //_mediationProcessTableView = ui->MediationProcessTableWidget;
+    _mediationProcessTableView = new QTableWidget();
     _mediationProcessTableView->setMaximumHeight(200);
+    _mediationProcessTableView->setMaximumWidth(400);
     configMediationProcecssViewTable();
     PopulateMediationProcessTable();
     _currentProcessRow= 1;
-
-    _mediationProcessStatusForm = new MediationProcessStatusForm(this, _mediationProcess);
+    ui->recentGroupBox->setMinimumHeight(500);
+    ui->MediationOverviewWidget->setMinimumHeight(400);
+    _mediationProcessStatusForm = new MediationProcessStatusForm(ui->MediationOverviewWidget, _mediationProcess);
     _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
     _mediationSessionForm = new MediationSessionForm(this);
 
@@ -53,7 +56,7 @@ void MediationProcessView::ConfigureToolbox()
 {
     _toolBox = ui->MediationProcessToolBox;
     ui->MediationProcessToolBox->removeItem(0);
-    _toolBox->addItem(_mediationProcessStatusForm, "Mediation Overview");
+    //_toolBox->addItem(_mediationProcessStatusForm, "Mediation Overview");
     _toolBox->addItem(_partiesContainerForm, "Parties");
     _toolBox->addItem(_mediationSessionForm,"Mediation Sessions");
 
@@ -124,9 +127,9 @@ void MediationProcessView::ConfigureToolbar()
 
 void MediationProcessView::on_MediationProcessTableWidget_itemSelectionChanged()
 {
-    if(_currentProcessRow != ui->MediationProcessTableWidget->currentRow())
+    if(_currentProcessRow != _mediationProcessTableView->currentRow())
     {
-        _currentProcessRow = ui->MediationProcessTableWidget->currentRow();
+        _currentProcessRow = _mediationProcessTableView->currentRow();
 
         if((uint)_currentProcessRow < _mediationProcessVector->size() && _currentProcessRow > 0)
             PopulateView(_mediationProcessVector->at(_currentProcessRow-1));
@@ -150,7 +153,7 @@ void MediationProcessView::on_MediationProcessTableWidget_doubleClicked(const QM
     if(index.row() == 0)
     {
         _mediationProcessVector->insert(_mediationProcessVector->begin(),new MediationProcess());
-        ui->MediationProcessTableWidget->setCurrentCell(1,0);
+        _mediationProcessTableView->setCurrentCell(1,0);
         _currentProcessRow = 1;
         PopulateMediationProcessTable();
         PopulateView(_mediationProcessVector->at(_currentProcessRow-1));
