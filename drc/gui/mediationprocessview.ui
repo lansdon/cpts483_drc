@@ -49,8 +49,8 @@
      <property name="title">
       <string>Recent Mediation Records</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="0">
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
        <widget class="QWidget" name="MediationOverviewWidget" native="true">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -67,13 +67,23 @@
         <property name="maximumSize">
          <size>
           <width>16777215</width>
-          <height>200</height>
+          <height>100</height>
          </size>
         </property>
         <layout class="QGridLayout" name="gridLayout_2"/>
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="overviewContainer">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
     </widget>
    </item>
    <item>
@@ -86,8 +96,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>746</width>
-        <height>271</height>
+        <width>740</width>
+        <height>219</height>
        </rect>
       </property>
       <property name="font">

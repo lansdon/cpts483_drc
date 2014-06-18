@@ -33,11 +33,16 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     configMediationProcecssViewTable();
     PopulateMediationProcessTable();
     _currentProcessRow= 1;
-    ui->recentGroupBox->setMinimumHeight(500);
-    ui->MediationOverviewWidget->setMinimumHeight(400);
-    _mediationProcessStatusForm = new MediationProcessStatusForm(ui->MediationOverviewWidget, _mediationProcess);
+//    ui->recentGroupBox->setMinimumHeight(500);
+//    ui->MediationOverviewWidget->setMinimumHeight(400);
+    _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
     _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
     _mediationSessionForm = new MediationSessionForm(this);
+
+    // Set the overview container
+    QVBoxLayout* layout = new QVBoxLayout();
+    layout->addWidget(_mediationProcessStatusForm);
+    ui->overviewContainer->setLayout(layout);
 
     ConfigureToolbox();
 
