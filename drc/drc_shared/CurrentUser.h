@@ -5,29 +5,23 @@
 #include <time.h>
 
 #include "User.h"
+#include "MediatorArg.h"
 
-class UserInfo
+class CurrentUser
 {
 private:
-	UserInfo();
-	UserInfo(const UserInfo &);
+    CurrentUser();
+    CurrentUser(const CurrentUser &);
 
-	User	*CurrentUser;
-	clock_t	TimeOfLastAction;
-	int		TimeOutTheshold;
+    User	*_currentUser;
 
-	static void ResetTime();
 public:
-	static UserInfo& Instance();
+    static CurrentUser& Instance();
 
 	static bool LoginUser(User *NewUser);
+    static bool LoginUser(MediatorArg arg);
 	static bool LogoutUser();
 	static bool IsLoggedIn();
-
-	static void SetTimeoutTheshold(int Time);
-
-	static bool IsTimedOut();
-
 };
 
 #endif

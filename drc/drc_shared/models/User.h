@@ -5,6 +5,7 @@
 
 #include <QString>
 #include "drctypes.h"
+#include "Crypto/SHA256_Crypto.h"
 
 class User : public DBBaseObject
 {
