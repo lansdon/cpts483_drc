@@ -13,6 +13,7 @@
 #include "drctypes.h"
 #include "searchwizard/searchwizard.h"
 #include "toolbarmanager.h"
+#include "mediationprocesstableform.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -20,6 +21,7 @@
 
 // MISC
 #include <QDebug>
+#include <QDockWidget>
 
 DRCClient::DRCClient(QWidget *parent) :
    QMainWindow(parent),
@@ -29,7 +31,11 @@ DRCClient::DRCClient(QWidget *parent) :
     // set up a seed for any random numbers generated with qrand()
     qsrand( QDateTime::currentMSecsSinceEpoch()/1000);
 
-
+    // Recent Mediations Dock Widget
+    QDockWidget* dock = new QDockWidget("Mediations", this);
+    MediationProcessTableForm* mpTable = new MediationProcessTableForm(dock);
+    dock->setWidget(mpTable);
+    addDockWidget(Qt::BottomDockWidgetArea, dock);
 
     // Set the window to max size.
     this->setWindowState(Qt::WindowMaximized);

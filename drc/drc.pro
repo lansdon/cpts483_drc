@@ -61,7 +61,8 @@ SOURCES += main.cpp\
     gui/Mock_Server/dummy.cpp \
     gui/partysummaryform.cpp \
     drc_shared/models/mediationsession.cpp \
-    gui/mediationsessionform.cpp
+    gui/mediationsessionform.cpp \
+    gui/mediationprocesstableform.cpp
 
 
 HEADERS  += \
@@ -116,7 +117,8 @@ HEADERS  += \
     gui/Mock_Server/dummy.h \
     gui/partysummaryform.h \
     drc_shared/models/mediationsession.h \
-    gui/mediationsessionform.h
+    gui/mediationsessionform.h \
+    gui/mediationprocesstableform.h
 
 FORMS    += \
     DRCClient.ui \
@@ -134,7 +136,8 @@ FORMS    += \
     gui/partiescontainerform.ui \
     gui/mediationprocessstatusform.ui \
     gui/partysummaryform.ui \
-    gui/mediationsessionform.ui
+    gui/mediationsessionform.ui \
+    gui/mediationprocesstableform.ui
 
 
 CONFIG += c++11
