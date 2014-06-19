@@ -41,7 +41,7 @@ void LoginForm::on_loginButton_clicked()
     // TEMPORARY! Set the user object on CurrentUser to trigger a login sequence.
     // This will effectively bypass authenticating with the db until it's implemented.
     // But let us get to the menus and see the gui change post-login.
-    UserInfo::LoginUser(new User(_username, _password));
+    CurrentUser::LoginUser(new User(_username, _password));
 }
 
 void LoginForm::authenticateResponse(MediatorArg arg)
@@ -55,6 +55,7 @@ void LoginForm::authenticateResponse(MediatorArg arg)
             // SUCCESS
             qDebug() << "Authentication successful!";
             ui->statusLabel->setText("Authentication successful!");
+            Mediator::Call(MKEY_CURRENT_USER_CHANGED, arg);
         }
         else
         {

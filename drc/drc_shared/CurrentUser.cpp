@@ -3,64 +3,48 @@
 #include "MediatorKeys.h"
 #include "drctypes.h"
 
-
-bool UserInfo::IsTimedOut()
+CurrentUser::CurrentUser()
 {
-    return ((clock() - Instance().TimeOfLastAction) / CLOCKS_PER_SEC > (unsigned int)Instance().TimeOutTheshold);
+    Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){LoginUser(arg);});
+    _currentUser = nullptr;
 }
 
-
-void UserInfo::ResetTime()
-{
-	Instance().TimeOfLastAction = clock();
-}
-
-void UserInfo::SetTimeoutTheshold(int Time)
-{
-	Instance().TimeOutTheshold = Time;
-	Instance().ResetTime();
-}
-
-UserInfo::UserInfo()
-{
-//	Instance().ResetTime();
-    CurrentUser = nullptr;
-}
-
-UserInfo::UserInfo(const UserInfo& User)
+CurrentUser::CurrentUser(const CurrentUser& User)
 {
 	// Filler
 }
 
-UserInfo& UserInfo::Instance()
+CurrentUser& CurrentUser::Instance()
 {
-	static UserInfo instance;
+    static CurrentUser instance;
 	return instance;
 }
 
 
-bool UserInfo::LoginUser(User* NewUser)
+bool CurrentUser::LoginUser(User* NewUser)
 {
     // Maybe do some error checking here.  Maybe make sure the permissions are set right?  IDK...
-    Instance().CurrentUser = NewUser;
-//	Instance().ResetTime();
-
-    // Signal an event that the current user changed.
-    Mediator::Call(MKEY_CURRENT_USER_CHANGED, NewUser);
+    Instance()._currentUser = NewUser;
 
 	return true;
 }
 
-bool UserInfo::LogoutUser()
+bool CurrentUser::LoginUser(MediatorArg arg)
+{
+    Instance()._currentUser = arg.getArg<User*>();
+    return arg.IsSuccessful();
+}
+
+bool CurrentUser::LogoutUser()
 {
 	// More error checking possibly?
 	// Will have to do more than just set the pointer to null.
     // Some kind of mediator call?
-	Instance().CurrentUser = nullptr;
+    Instance()._currentUser = nullptr;
 	return true;
 }
 
-bool UserInfo::IsLoggedIn()
+bool CurrentUser::IsLoggedIn()
 {
-	return (Instance().CurrentUser == nullptr);
+    return (Instance()._currentUser == nullptr);
 }
