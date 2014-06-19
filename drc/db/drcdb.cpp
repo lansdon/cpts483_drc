@@ -22,7 +22,16 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     CreateTable(table_name, column_container);
 
+    //Name and DataTypes of all Table Columns
+    QVector<QString> user_columns;
+    user_columns.push_back(QString("username char(50) not null"));
+    user_columns.push_back(QString("password char(50) nut null"));
+
+    CreateTable(QString("Users"), user_columns);
+
     // Register to Listen for events.
+    //Mediator::Register(MKEY_GUI_AUTHENTICATE_USER)
+
     Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
     Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
 //    Mediator::Register(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){LoadIntake(arg);});
