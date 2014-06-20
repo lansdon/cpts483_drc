@@ -56,6 +56,8 @@ public:
 
     void LoadFruit(MediatorArg arg);
 
+
+
 };
 
 #endif // DRCDB_H
