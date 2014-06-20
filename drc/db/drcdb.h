@@ -20,7 +20,8 @@ private:
 
 public:
     //==========================================================================
-    //These methods are made public for the sake of easier testing.
+    //These methods are used only by methods inside this database class.
+    //They should be made private when in main project.
     //--------------------------------------------------------------------------
     bool ExecuteCommand(QString command_string, QSqlQuery &query_object);
 
@@ -30,25 +31,25 @@ public:
 
     bool CloseDatabase();
 
+    bool DoesTableExist(QString table_name);
+
+    bool CreatePersonTable(const QString &person_table_name);
+    //==========================================================================
+
+    //==========================================================================
+    //These methods are only used for testing purposes.  Comment them out
+    //when in the main project.
+    //--------------------------------------------------------------------------
     bool IsDatabaseOpen();
 
     QString WhatDatabaseName();
 
-
-
-    bool DoesTableExist(QString table_name);
-
-    bool DoesColumnExist(QString column_name, QString table_name);
-    
-    bool DuplicateInsert(const QString &duplicate_query);
-
-    bool CreatePersonTable(const QString &person_table_name);
+    bool DoesColumnExist(QString column_name, QString table_name);    
 
     QString WhatOptionsEnabled();
     //==========================================================================
-    DRCDB();
 
-    //DRCDB(QString database_name);
+    DRCDB();
 
     ~DRCDB();
 
@@ -56,25 +57,28 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
-
     QVector<QString> SelectAllFields(QString table_name);
 
     bool DidErrorOccur();
 
     QVector<QString> GetLastErrors();
 
-    // Incoming Events
-//    void PersistIntakeForm(MediatorArg arg) const;
+//  Incoming Events
+//  void PersistIntakeForm(MediatorArg arg) const;
 
-//    void PersistFruit(MediatorArg arg);
+//  void PersistFruit(MediatorArg arg);
 
-//    void LoadIntake(MediatorArg arg) const;
+//  void LoadIntake(MediatorArg arg) const;
 
-//    void LoadFruit(MediatorArg arg);
+//  void LoadFruit(MediatorArg arg);
 
+//  DRCDB(QString database_name);
 
-    //********************************Deprecated Methods********************************
-    //    bool IsDatabaseEmpty();
+//********************************Deprecated Methods********************************
+//  bool DuplicateInsert(const QString &duplicate_query);
+//  bool IsDatabaseEmpty();
+//********************************Deprecated Methods********************************
+
 };
 
 #endif // DRCDB_H
