@@ -2,21 +2,19 @@
 #define DRCDB_H
 //#include "Mediator.h"
 
-//#include "sqlite3.h"
-
 #include "DBBaseObject.h"
-//#include <string>
-//#include <vector>
 #include <QtSql/QtSql>
+
+//--Note:   I don't know how to create a scenario where a database can
+//          fail to open.  As such, the error mechanism currently isn't
+//          tested against that.
 
 class DRCDB
 {
 private:
     QSqlDatabase database;
 
-    //Made it a vector in the event that multiple errors have occurred.
-    //Though it shouldn't happen if we're doing accurate checks.
-    QVector<QString> LastErrors;
+    QVector<QString> ErrorMessageVec;
 
     bool DB_ERROR;
 
@@ -36,17 +34,21 @@ public:
 
     QString WhatDatabaseName();
 
-    bool IsDatabaseEmpty();
+
 
     bool DoesTableExist(QString table_name);
 
     bool DoesColumnExist(QString column_name, QString table_name);
     
     bool DuplicateInsert(const QString &duplicate_query);
+
+    bool CreatePersonTable(const QString &person_table_name);
+
+    QString WhatOptionsEnabled();
     //==========================================================================
     DRCDB();
 
-    DRCDB(QString database_name);
+    //DRCDB(QString database_name);
 
     ~DRCDB();
 
@@ -70,6 +72,9 @@ public:
 
 //    void LoadFruit(MediatorArg arg);
 
+
+    //********************************Deprecated Methods********************************
+    //    bool IsDatabaseEmpty();
 };
 
 #endif // DRCDB_H

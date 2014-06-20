@@ -16,6 +16,9 @@
 //1.  What is phone number format
 //2.  How are extensions to be dealt with
 
+//Notes
+//1.  Removed duplicate table check | This check is made in the default constructor
+
 
 class DRC_DB_TESTS : public QObject
 {
@@ -36,14 +39,17 @@ private:
 
 private Q_SLOTS:
     void OpenDatabase();
+    void CorrectDatabaseName();
+    void ForeignKeysActive();
     void CreateTable();
-    void CheckColumn();
+    void CheckPersonColumn();
     void InsertObject();
     void CheckErrors();
 
 private slots:
     void cleanupTestCase()
     {
+        //Database should've closed successfully.
         QCOMPARE(_db.CloseDatabase(), true);
 
         //*******For the sake of this Test Suite, we delete database after every run.*******
@@ -63,28 +69,33 @@ DRC_DB_TESTS::DRC_DB_TESTS()
 }
 //=======================================================
 
+
+
+
 void DRC_DB_TESTS::OpenDatabase()
 {
     //Default constructor should've opened the database.
     QCOMPARE(_db.IsDatabaseOpen(), true);
-
+}
+void DRC_DB_TESTS::CorrectDatabaseName()
+{
     //Just making sure the database is named what it's supposed to.
     QCOMPARE(_db.WhatDatabaseName(), database_name);
+}
 
+void DRC_DB_TESTS::ForeignKeysActive()
+{
+    //Make sure Foreign keys were enabled.
+    QCOMPARE(_db.WhatOptionsEnabled(), QString("foreign_keys = ON"));
 }
 
 void DRC_DB_TESTS::CreateTable()
 {
-    //Database should start out empty.
-    QCOMPARE(_db.IsDatabaseEmpty(), false);
-
-    //Table should already be created in the default constructor.
+    //Table should be created by the default constructor.
     QCOMPARE(_db.DoesTableExist(table_name), true);
-
 }
 
-
-void DRC_DB_TESTS::CheckColumn()
+void DRC_DB_TESTS::CheckPersonColumn()
 {
     //Verify all columns that should be inside table are there.
     QCOMPARE(_db.DoesColumnExist(QString("person_id"), table_name), true);
@@ -134,8 +145,13 @@ void DRC_DB_TESTS::InsertObject()
 void DRC_DB_TESTS::CheckErrors()
 {
     QVector<QString> RecentError = _db.GetLastErrors();
+
     if (!RecentError.isEmpty())
-        qDebug() << RecentError.first();
+    {
+        foreach (QString error_msg, RecentError)
+            qDebug() << error_msg;
+    }
+
 }
 
 QTEST_APPLESS_MAIN(DRC_DB_TESTS)
