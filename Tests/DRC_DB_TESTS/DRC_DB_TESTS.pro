@@ -27,4 +27,5 @@ DEFINES += SRCDIR=\\\"$$PWD/\\\"
 HEADERS += \
     ../../drc/db/drcdb.h \
     ../../drc/drc_shared/models/DBBaseObject.h \
-    ../../drc/drc_shared/models/Person.h
+    ../../drc/drc_shared/models/Person.h \
+    ../../drc/db/Filter.h

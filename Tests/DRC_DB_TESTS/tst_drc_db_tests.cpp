@@ -45,6 +45,7 @@ private Q_SLOTS:
     void CheckPersonColumn();
     void InsertObject();
     void CheckErrors();
+    void FindFirstName();
 
 private slots:
     void cleanupTestCase()
@@ -56,7 +57,7 @@ private slots:
         //*******Comment out if undesirable; IE, looking inside file directly.       *******
         //*******Be sure to manually delete if you do comment this line out.         *******
 
-        QCOMPARE(QFile::remove(database_name), true);
+        //QCOMPARE(QFile::remove(database_name), true);
     }
 };
 
@@ -138,8 +139,39 @@ void DRC_DB_TESTS::InsertObject()
     Bruce_Lee.setNumberInHousehold(8);
     Bruce_Lee.setAttorney(QString("Bird Man"));
 
-    QCOMPARE(_db.InsertObject(&Bruce_Lee), true);
+    Person Bruce_Chan(QString("Bruce"));
+    Bruce_Chan.setMiddleName(QString("Lee"));
+    Bruce_Chan.setLastName(QString("Chan"));
+    Bruce_Chan.setStreet(QString("4444 Chapelhill Blvd"));
+    Bruce_Chan.setUnit(QString("#5"));
+    Bruce_Chan.setCity(QString("Austin"));
+    Bruce_Chan.setState(QString("Texas"));
+    Bruce_Chan.setZip(QString("44444"));
+    Bruce_Chan.setCounty(QString("Franklin"));
+    Bruce_Chan.setPrimaryPhone(QString("222-222-2222"));
+    Bruce_Chan.setSecondaryPhone(QString("111-111-1111"));
+    Bruce_Chan.setAssistantPhone("444-444-4444");
+    Bruce_Chan.setEmail(QString("RushHour@JackieChan.com"));
+    Bruce_Chan.setNumberInHousehold(8);
+    Bruce_Chan.setAttorney(QString("Pheonix Wright"));
 
+    QCOMPARE(_db.InsertObject(&Bruce_Lee), true);
+    QCOMPARE(_db.InsertObject(&Bruce_Chan), true);
+
+}
+
+//Sloppy Initial Test
+void DRC_DB_TESTS::FindFirstName()
+{
+    QVector<QString> EnterTheDragon = _db.SelectPersonField(QString("first_name"), QString("Person_Table"), QString("="), QString("Bruce"));
+
+    QVERIFY(EnterTheDragon.size() > 0);
+    qDebug() << EnterTheDragon.size();
+    if (!EnterTheDragon.isEmpty())
+    {
+        foreach (QString first_name, EnterTheDragon)
+            qDebug() << first_name;
+    }
 }
 
 void DRC_DB_TESTS::CheckErrors()

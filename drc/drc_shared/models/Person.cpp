@@ -131,12 +131,12 @@ QString Person::table(void)
     return QString("Person_Table");
 }
 
-QString Person::DuplicateQuery(void)
-{
-    return QString("");
-}
+//QString Person::DuplicateQuery(void)
+//{
+//    return QString("");
+//}
 
-QString Person::SearchQuery(void)
-{
-    return QString("");
-}
+//QString Person::SearchQuery(void)
+//{
+//    return QString("");
+//}

@@ -59,6 +59,9 @@ public:
 
     QVector<QString> SelectAllFields(QString table_name);
 
+    //Parameters are temporary until Filter Object finalized.
+    QVector<QString> SelectPersonField(QString column_name, QString table_name, QString compare_value, QString find_value);
+
     bool DidErrorOccur();
 
     QVector<QString> GetLastErrors();

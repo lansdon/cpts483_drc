@@ -256,6 +256,38 @@ bool DRCDB::ExecuteCommand(QString command_string, QSqlQuery &query_object)
 
 
 //========================================================================
+//Initial attempt at a generic search function for the Person Table.
+//May not even be relevant depending on the way the DB tables change.
+
+//--Note:   Untested.
+//------------------------------------------------------------------------
+//QVector<QString> DRCDB::SelectField(Filter filter_object)
+QVector<QString> DRCDB::SelectPersonField(QString column_name, QString table_name, QString comparison_symbol, QString find_value)
+{
+    QVector<QString> return_vec;
+
+    QString command_string = QString("select %1 from %2 where %3%4'%5'")
+            .arg(column_name)
+            .arg(table_name)
+            .arg(column_name)
+            .arg(comparison_symbol)
+            .arg(find_value);
+
+    QSqlQuery query_object(database);
+    this->ExecuteCommand(command_string, query_object);
+
+    while(query_object.next())
+    {
+        return_vec.push_back(query_object.value(0).toString());
+    }
+
+    return return_vec;
+}
+//========================================================================
+
+
+
+//========================================================================
 //A simple query that returns all values currently contained within the
 //table indicated.
 
