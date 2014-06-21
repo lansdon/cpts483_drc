@@ -7,6 +7,9 @@ using std::vector;
 
 #define db_driver "QSQLITE"
 
+//Change this to the real table fpr joins
+#define db_join_table "FruitBasket"
+
 DRCDB::DRCDB()
 {
 
@@ -118,7 +121,41 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
 
         QSqlQuery query_object(database);
         insert_success = this->ExecuteCommand(command_string, query_object);
+        if(insert_success)
+        {
+            int id = query_object.lastInsertId().toInt();
+            db_object->SetID(id);
+        }
     }
+
+
+
+    return insert_success;
+}
+//========================================================================
+
+
+//========================================================================
+//Takes a generic Database object, and parses a valid command_string.
+//This string is then sent to our ExecuteCommand method of our database
+//class to insert the values of the object.
+//------------------------------------------------------------------------
+bool DRCDB::InsertJoinedObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
+{
+    bool insert_success = false;
+
+    //if (!this->DuplicateInsert(db_object1->DuplicateQuery()))
+    {
+        QString command_string = QString("insert into %1 values ( %2 , %3, %4 )")
+                .arg(db_join_table)
+                .arg("null")
+                .arg(db_object1->GetID())
+                .arg(db_object2->GetID());
+
+        QSqlQuery query_object(database);
+        insert_success = this->ExecuteCommand(command_string, query_object);
+    }
+
 
     return insert_success;
 }
