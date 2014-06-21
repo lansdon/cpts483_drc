@@ -93,6 +93,13 @@ void DatabaseTestSuite::CreateTable()
     column_container.push_back(QString("id integer primary key autoincrement null"));
     column_container.push_back(QString("basket_name char(50) not null"));
     _db.CreateTable(table_name, column_container);
+    table_name = "FruitBasket";
+    column_container.clear();
+    column_container.push_back(QString("id integer primary key autoincrement null"));
+    column_container.push_back(QString("basket_id int not null"));
+    column_container.push_back(QString("fruit_id int not null"));
+    _db.CreateTable(table_name, column_container);
+    table_name = "Albertsons";
 }
 
 void DatabaseTestSuite::CreateDuplicateTable()
@@ -104,7 +111,7 @@ void DatabaseTestSuite::CreateDuplicateTable()
 
     QVector<QString> RecentError = _db.GetLastErrors();
     QCOMPARE(RecentError.size(), 1);
-    QCOMPARE(RecentError.first(), QString("table Basket already exists Unable to execute statement"));
+    QCOMPARE(RecentError.first(), QString("table Albertsons already exists Unable to execute statement"));
 }
 
 void DatabaseTestSuite::InsertObject()
