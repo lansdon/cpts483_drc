@@ -127,9 +127,18 @@ void DatabaseTestSuite::InsertObject()
     //Duplicate Fruit Name, should not fail, different timestamp.
     QCOMPARE(_db.InsertObject(&OtherBanana), true);
 
+    vector<Fruit> fruitBasket;
+    fruitBasket.push_back(Banana);
+    fruitBasket.push_back(OtherBanana);
+
     Basket TestBasket("Tester");
 
     QCOMPARE(_db.InsertObject(&TestBasket), true);
+
+    for(int i = 0; i < fruitBasket.size(); i++)
+    {
+        QCOMPARE(_db.InsertJoinedObject(&TestBasket, &fruitBasket[i]), true);
+    }
 
     //Duplicate Fruit, should fail since this is the exact same fruit.
     QCOMPARE(_db.InsertObject(&Banana), false);
