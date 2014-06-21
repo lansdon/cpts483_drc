@@ -6,6 +6,8 @@
 class Basket : public DBBaseObject
 {
 private:
+    int m_id;
+
     QString m_name;
 
 public:
@@ -15,6 +17,10 @@ public:
     Basket(QString name);
 
     Basket(QString *name);
+
+    void SetID(int id);
+
+    int GetID(void);
 
     void SetName(QString name);
 

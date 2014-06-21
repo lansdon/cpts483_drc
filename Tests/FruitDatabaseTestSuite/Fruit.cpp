@@ -25,6 +25,16 @@ Fruit::Fruit(QString* name)
     m_timestamp = createTime;
 }
 
+void Fruit::SetID(int id)
+{
+    m_id = id;
+}
+
+int Fruit::GetID(void)
+{
+    return m_id;
+}
+
 void Fruit::SetName(QString name)
 {
     m_name = name;

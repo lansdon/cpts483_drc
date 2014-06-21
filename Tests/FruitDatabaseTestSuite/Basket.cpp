@@ -16,6 +16,16 @@ Basket::Basket(QString* name)
     m_name = *name;
 }
 
+void Basket::SetID(int id)
+{
+    m_id = id;
+}
+
+int Basket::GetID(void)
+{
+    return m_id;
+}
+
 void Basket::SetName(QString name)
 {
     m_name = name;
