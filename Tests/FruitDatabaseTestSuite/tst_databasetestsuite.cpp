@@ -6,6 +6,7 @@
 
 #include "drcdb.h"
 #include "Fruit.h"
+#include "Basket.h"
 
 //Tests:
 //
@@ -87,6 +88,11 @@ void DatabaseTestSuite::CreateTable()
 {
     //Create table with name and column data.
     QCOMPARE(_db.CreateTable(table_name, column_container), true);
+    table_name = "Basket";
+    column_container.clear();
+    column_container.push_back(QString("id integer primary key autoincrement null"));
+    column_container.push_back(QString("basket_name char(50) not null"));
+    _db.CreateTable(table_name, column_container);
 }
 
 void DatabaseTestSuite::CreateDuplicateTable()
@@ -98,7 +104,7 @@ void DatabaseTestSuite::CreateDuplicateTable()
 
     QVector<QString> RecentError = _db.GetLastErrors();
     QCOMPARE(RecentError.size(), 1);
-    QCOMPARE(RecentError.first(), QString("table Albertsons already exists Unable to execute statement"));
+    QCOMPARE(RecentError.first(), QString("table Basket already exists Unable to execute statement"));
 }
 
 void DatabaseTestSuite::InsertObject()
@@ -113,6 +119,10 @@ void DatabaseTestSuite::InsertObject()
 
     //Duplicate Fruit Name, should not fail, different timestamp.
     QCOMPARE(_db.InsertObject(&OtherBanana), true);
+
+    Basket TestBasket("Tester");
+
+    QCOMPARE(_db.InsertObject(&TestBasket), true);
 
     //Duplicate Fruit, should fail since this is the exact same fruit.
     QCOMPARE(_db.InsertObject(&Banana), false);
