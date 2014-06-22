@@ -35,10 +35,10 @@ private slots:
 
     void savePersonContactFromFarAway(Person*value);
 
-    void on_MediationProcessTableWidget_itemSelectionChanged();
+//    void on_MediationProcessTableWidget_itemSelectionChanged();
 
-    void on_MediationProcessTableWidget_doubleClicked(const QModelIndex &index);
-    void onHovered();
+ //   void on_MediationProcessTableWidget_doubleClicked(const QModelIndex &index);
+ //   void onHovered();
 
 private:
     Ui::MediationProcessView *ui;
@@ -48,10 +48,10 @@ private:
     MediationProcess* _mediationProcess;
 
     // Recent Table
-    MediationProcessVector *_mediationProcessVector;
-    QTableWidget *_mediationProcessTableView;
-    QStringList _mediationProcessTableViewHeader;
-     int _currentProcessRow;
+//    MediationProcessVector *_mediationProcessVector;
+//    QTableWidget *_mediationProcessTableView;
+//    QStringList _mediationProcessTableViewHeader;
+ //    int _currentProcessRow;
 
      // Toolbox + Children (pages)
      QToolBox* _toolBox;
@@ -62,10 +62,10 @@ private:
      // Setup GUI Helpers
     void ConfigureToolbar();
     void ConfigureToolbox();
-    void configMediationProcecssViewTable();
+ //   void configMediationProcecssViewTable();
 
     // Populate Views
-    void PopulateMediationProcessTable();
+//    void PopulateMediationProcessTable();
     void PopulateView(MediationProcess *value);
 
 };
