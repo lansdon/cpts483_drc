@@ -4,7 +4,6 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QStringList>
-#include "attorneyandsupportformediationsessionview.h"
 #include <vector>
 #include "drc_shared/models/mediationprocess.h"
 #include "drc_shared/drctypes.h"
@@ -77,7 +76,7 @@ private slots:
 
 private:
     Ui::MediationSessionForm *ui;
-    std::vector<AttorneyAndSupportForMediationSessionView *> *_attorneyAndSupportVector;
+//    std::vector<AttorneyAndSupportForMediationSessionView *> *_attorneyAndSupportVector;
     MediationSessionVector *_mediationSessions;
     QTableWidget *_sessionTable;
     QStringList _sessionTableHeader;

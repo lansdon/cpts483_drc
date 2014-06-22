@@ -40,14 +40,14 @@ void MediationSessionForm::setMediationSessionVector(MediationSessionVector *val
 
 void MediationSessionForm::setParties(int input)
 {
-    ui->SupportTabWidget->clear();
-    _attorneyAndSupportVector->clear();
-    for(int i = 0; i < input;i++)
-    {
-        _attorneyAndSupportVector->push_back(new AttorneyAndSupportForMediationSessionView());
-        ui->SupportTabWidget->addTab(_attorneyAndSupportVector->at(i),QString::fromStdString("Party " + std::to_string(ui->SupportTabWidget->count() + 1)));
+//    ui->SupportTabWidget->clear();
+//    _attorneyAndSupportVector->clear();
+//    for(int i = 0; i < input;i++)
+//    {
+//        _attorneyAndSupportVector->push_back(new AttorneyAndSupportForMediationSessionView());
+//        ui->SupportTabWidget->addTab(_attorneyAndSupportVector->at(i),QString::fromStdString("Party " + std::to_string(ui->SupportTabWidget->count() + 1)));
 
-    }
+//    }
 }
 
 void MediationSessionForm::updateTabs(std::vector<Person *> *input)
@@ -58,8 +58,8 @@ void MediationSessionForm::updateTabs(std::vector<Person *> *input)
             for(uint i = (ui->SupportTabWidget->count()); i < input->size(); i++)
             {
                 qDebug() << i;
-                _attorneyAndSupportVector->push_back(new AttorneyAndSupportForMediationSessionView());
-                ui->SupportTabWidget->addTab(_attorneyAndSupportVector->at(i),QString::fromStdString("Party " + std::to_string(ui->SupportTabWidget->count() + 1)));
+//                _attorneyAndSupportVector->push_back(new AttorneyAndSupportForMediationSessionView());
+//                ui->SupportTabWidget->addTab(_attorneyAndSupportVector->at(i),QString::fromStdString("Party " + std::to_string(ui->SupportTabWidget->count() + 1)));
             }
         }
         else
@@ -69,16 +69,16 @@ void MediationSessionForm::updateTabs(std::vector<Person *> *input)
         }
 
     qDebug() << "input size: " << input->size();
-    qDebug() << "attorney Vector size: " << _attorneyAndSupportVector->size();
-    if(input->size() == _attorneyAndSupportVector->size())
-    {
-        for(uint i = 0; i < _attorneyAndSupportVector->size(); i++)
-        {
-            qDebug() << i;
-            qDebug() << input->at(i)->getAttorney();
-            _attorneyAndSupportVector->at(i)->setAttorney((input->at(i)->getAttorney()));
-        }
-    }
+//    qDebug() << "attorney Vector size: " << _attorneyAndSupportVector->size();
+//    if(input->size() == _attorneyAndSupportVector->size())
+//    {
+//        for(uint i = 0; i < _attorneyAndSupportVector->size(); i++)
+//        {
+//            qDebug() << i;
+//            qDebug() << input->at(i)->getAttorney();
+//            _attorneyAndSupportVector->at(i)->setAttorney((input->at(i)->getAttorney()));
+//        }
+//    }
 }
 
 void MediationSessionForm::on_CancelledRadioButton_toggled(bool checked)

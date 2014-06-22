@@ -4,13 +4,13 @@
 #include <QWidget>
 #include <QTabWidget>
 #include <QDebug>
+#include <QToolBox>
 #include "contactrecorddataview.h"
 #include "mediationsession.h"
-#include "detailsview.h"
 #include "mediationprocess.h"
-#include <QToolBox>
 #include "mediationprocessstatusform.h"
 #include "partiescontainerform.h"
+#include "mediationsessionform.h"
 
 namespace Ui {
 class MediationProcessView;

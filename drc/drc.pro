@@ -28,7 +28,6 @@ SOURCES += main.cpp\
     DRCClient.cpp \
     drc_shared/models/Intake.cpp \
     gui/fruitnameform.cpp \
-    gui/particapants.cpp \
     bl/fruitnameprocessor.cpp \
     bl/intakeformprocessor.cpp \
     gui/loginform.cpp \
@@ -39,9 +38,6 @@ SOURCES += main.cpp\
     gui/contactrecorddataview.cpp \
     bl/userloginprocessor.cpp \
     drc_shared/models/User.cpp \
-    gui/attorneyandsupportformediationsessionview.cpp \
-    gui/detailsview.cpp \
-    gui/childrenview.cpp \
     gui/persondetailsform.cpp \
     gui/mediationprocessview.cpp \
     gui/partyform.cpp \
@@ -59,7 +55,6 @@ SOURCES += main.cpp\
     drc_shared/drctypes.cpp \
     gui/toolbarmanager.cpp \
     gui/Mock_Server/dummy.cpp \
-    gui/partysummaryform.cpp \
     drc_shared/models/mediationsession.cpp \
     gui/mediationsessionform.cpp \
     gui/mediationprocesstableform.cpp
@@ -77,7 +72,6 @@ HEADERS  += \
     drc_shared/models/Intake.h \
     gui/fruitnameform.h \
     drc_shared/models/DRCModels.h \
-    gui/particapants.h \
     bl/fruitnameprocessor.h \
     bl/intakeformprocessor.h \
     db/Filter.h \
@@ -94,9 +88,6 @@ HEADERS  += \
     gui/queryform.h \
     gui/contactrecorddataview.h \
     drc_shared/models/DBBaseObject.h \
-    gui/attorneyandsupportformediationsessionview.h \
-    gui/detailsview.h \
-    gui/childrenview.h \
     drc_shared/models/CurrentUser.h \
     gui/persondetailsform.h \
     gui/mediationprocessview.h \
@@ -115,7 +106,6 @@ HEADERS  += \
     drc_shared/CurrentUser.h \
     gui/toolbarmanager.h \
     gui/Mock_Server/dummy.h \
-    gui/partysummaryform.h \
     drc_shared/models/mediationsession.h \
     gui/mediationsessionform.h \
     gui/mediationprocesstableform.h
@@ -123,19 +113,14 @@ HEADERS  += \
 FORMS    += \
     DRCClient.ui \
     gui/fruitnameform.ui \
-    gui/particapants.ui \
     gui/loginform.ui \
     gui/queryform.ui \
     gui/contactrecorddataview.ui \
-    gui/attorneyandsupportformediationsessionview.ui \
-    gui/detailsview.ui \
-    gui/childrenview.ui \
     gui/persondetailsform.ui \
     gui/mediationprocessview.ui \
     gui/partyform.ui \
     gui/partiescontainerform.ui \
     gui/mediationprocessstatusform.ui \
-    gui/partysummaryform.ui \
     gui/mediationsessionform.ui \
     gui/mediationprocesstableform.ui
 

@@ -1,7 +1,6 @@
 #include "mediationprocessstatusform.h"
 #include "ui_mediationprocessstatusform.h"
 #include "toolbarmanager.h"
-#include "partysummaryform.h"
 #include <QLayout>
 #include "DRCModels.h"
 
