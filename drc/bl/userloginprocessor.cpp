@@ -5,12 +5,9 @@
 #include <qstring.h>
 #include <qdebug.h>
 
-UserLoginProcessor::UserLoginProcessor(QString authUser, QString sendUser,
-                                       QString requestSalt, QString receiveSalt)
-              : _sendUser(sendUser), _requestSalt(requestSalt)
+UserLoginProcessor::UserLoginProcessor(QString authUser, QString sendUser): _sendUser(sendUser)
 {
     Mediator::Register(authUser, [this](MediatorArg arg){ Authenticate(arg); });
-    Mediator::Register(receiveSalt, [this](MediatorArg arg){ ReceiveSalt(arg); });
     _user = nullptr;
     _userName = nullptr;
 }

@@ -32,6 +32,11 @@ bool CurrentUser::LoginUser(User* NewUser)
 bool CurrentUser::LoginUser(MediatorArg arg)
 {
     Instance()._currentUser = arg.getArg<User*>();
+    Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+    if (Instance()._currentUser->GetType() == USER_T_ADMIN)
+    {
+        Mediator::Call(MKEY_GUI_SHOW_ADMIN);
+    }
     return arg.IsSuccessful();
 }
 
@@ -41,6 +46,8 @@ bool CurrentUser::LogoutUser()
 	// Will have to do more than just set the pointer to null.
     // Some kind of mediator call?
     Instance()._currentUser = nullptr;
+    Mediator::Call(MKEY_GUI_DISABLE_MENUS);
+    Mediator::Call(MKEY_GUI_HIDE_ADMIN);
 	return true;
 }
 

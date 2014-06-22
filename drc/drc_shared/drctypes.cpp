@@ -101,7 +101,6 @@ QString StringForUserTypes(UserTypes id)
     {
     case USER_T_ADMIN: result = "Administrator"; break;
     case USER_T_NORMAL: result = "Normal"; break;
-    case USER_T_SUPER_USER: result = "Super User"; break;
     default: result = "None Selected"; break;
     }
     return result;

@@ -90,8 +90,6 @@ enum PartyTypes
 
 enum UserTypes
 {
-    USER_T_NONE,
-    USER_T_SUPER_USER,
     USER_T_ADMIN,
     USER_T_NORMAL
 };

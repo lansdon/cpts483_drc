@@ -4,7 +4,7 @@ User::User(QString name, QString pass)
 {
     m_userName = name;
     m_password = sha256(pass, "");
-    m_type = USER_T_ADMIN;
+    m_type = USER_T_NORMAL;
 }
 
 QString User::GetName(void)
@@ -20,6 +20,11 @@ QString User::GetPass(void)
 void User::SetName(QString name)
 {
     m_userName = name;
+}
+
+void User::SetType(UserTypes Type)
+{
+    m_type = Type;
 }
 
 void User::SetPassword(QString password)

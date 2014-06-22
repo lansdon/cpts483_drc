@@ -34,6 +34,7 @@ LoginForm::~LoginForm()
 
 void LoginForm::on_loginButton_clicked()
 {
+
     ui->statusLabel->setText("Authenticating...");
     _asyncAuthenticate->GetMediatorArg().SetArg(new User(_username, _password));
     _asyncAuthenticate->Send();
@@ -66,6 +67,20 @@ void LoginForm::authenticateResponse(MediatorArg arg)
     else
     {
         // Set the error label.
-        ui->statusLabel->setText(arg.ErrorMessage());
+        ui->statusLabel->setText("Authentication failed!");
+        _username.clear();
+        _password.clear();
+        ui->usernameLineEdit->setText("");
+        ui->passwordLineEdit->setText("");
     }
+}
+
+void LoginForm::on_usernameLineEdit_editingFinished()
+{
+    _username = ui->usernameLineEdit->text();
+}
+
+void LoginForm::on_passwordLineEdit_editingFinished()
+{
+    _password = ui->passwordLineEdit->text();
 }

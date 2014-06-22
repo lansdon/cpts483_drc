@@ -43,6 +43,11 @@ const QString MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";  
 const QString MKEY_GUI_AUTHENTICATE_USER = "MKEY_GUI_AUTHENTICATE_USER";                // User*
 const QString MKEY_BL_AUTHENTICATE_USER_DONE = "MKEY_BL_AUTHENTICATE_USER_DONE";        // User*
 const QString MKEY_DB_AUTHENTICATE_USER_DONE = "MKEY_DB_AUTHENTICATE_USER_DONE";        // std::vector<User*>*
+const QString MKEY_GUI_ENABLE_MENUS = "MKEY_GUI_ENABLE_MENUS";                          // None
+const QString MKEY_GUI_DISABLE_MENUS = "MKEY_GUI_DISABLE_MENUS";                        // None
+const QString MKEY_GUI_SHOW_ADMIN = "MKEY_GUI_SHOW_ADMIN";                              // None
+const QString MKEY_GUI_HIDE_ADMIN = "MKEY_GUI_HIDE_ADMIN";                              // None
+
 
 //////////////////////////////////////////////////////////////////
 //				CURRENT USER CHANGED
@@ -87,8 +92,8 @@ const QString MKEY_DB_LOAD_PERSON_FORM_DONE = "MKEY_DB_LOAD_PERSON_FORM_DONE";  
 //				REQUEST SALT
 // Request salt for a particular user
 //////////////////////////////////////////////////////////////////                              ARGUMENT TYPE
-const QString MKEY_BL_REQUEST_SALT = "MKEY_BL_REQUEST_SALT";                            		// QString*
-const QString MKEY_DB_SEND_SALT = "MKEY_DB_SEND_SALT";                              			// QString*
+//const QString MKEY_BL_REQUEST_SALT = "MKEY_BL_REQUEST_SALT";                            		// QString*
+//const QString MKEY_DB_SEND_SALT = "MKEY_DB_SEND_SALT";                              			// QString*
 
 //////////////////////////////////////////////////////////////////
 //				QUERY PERSON
