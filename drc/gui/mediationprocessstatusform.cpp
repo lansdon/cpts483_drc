@@ -1,7 +1,6 @@
 #include "mediationprocessstatusform.h"
 #include "ui_mediationprocessstatusform.h"
 #include "toolbarmanager.h"
-#include "partysummaryform.h"
 #include <QLayout>
 #include "DRCModels.h"
 
@@ -35,14 +34,6 @@ void MediationProcessStatusForm::Update()
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
-
-//    ui->notesListWidget->clear();
-//    foreach(auto note, _mediationProcess->GetNotes())
-//        ui->notesListWidget->addItem(note);
-
-//    ui->partyTabs->clear();
-//    foreach(Party* party, _mediationProcess->GetParties())
-//        ui->partyTabs->addTab(new PartySummaryForm(this, party), party->GetPrimary()->FullName());
 
 }
 

@@ -35,6 +35,12 @@ private slots:
 
     void on_closedButton_clicked();
 
+    void on_tableWidget_doubleClicked(const QModelIndex &index);
+
+signals:
+
+    void on_mediationProcessSelected(MediationProcess* process);
+
 private:
     Ui::MediationProcessTableForm *ui;
 

@@ -54,6 +54,12 @@ private slots:
 
     void on_actionLogout_User_triggered();
 
+public slots:
+
+    void on_toggle_mediation_table_dock();
+
+    void on_mediationProcessSelected(MediationProcess* process);
+
 private:
     Ui::DRCClient *ui;
 
@@ -62,8 +68,12 @@ private:
     DRCBL _bl;  // Business Logic
     DRCDB _db;  // Database
     Mock_Server _ms; // mock server for gui testing
-    // Sub views
-    //FruitNameForm* _fruitForm;
+
+    // Primary Views
+    MediationProcessView* _mediationProcessView;
+    void LoadMediationProcessView(MediationProcess* process = nullptr);
+    // Dock views
+    QDockWidget* _mediationTableDock;
 
     void SetMainView(QWidget* widget);
     void SetMenusEnabled(bool enableMenus, bool showAdmin);

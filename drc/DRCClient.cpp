@@ -31,12 +31,6 @@ DRCClient::DRCClient(QWidget *parent) :
     // set up a seed for any random numbers generated with qrand()
     qsrand( QDateTime::currentMSecsSinceEpoch()/1000);
 
-    // Recent Mediations Dock Widget
-    QDockWidget* dock = new QDockWidget("Mediations", this);
-    MediationProcessTableForm* mpTable = new MediationProcessTableForm(dock);
-    dock->setWidget(mpTable);
-    addDockWidget(Qt::BottomDockWidgetArea, dock);
-
     // Set the window to max size.
     this->setWindowState(Qt::WindowMaximized);
 
@@ -49,14 +43,14 @@ DRCClient::DRCClient(QWidget *parent) :
     Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){SetMenuHelpDisabled();});
     Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){SetMenuAdminShow();});
     Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){SetMenuAdminHide();});
+    Mediator::Register(MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK, [this](MediatorArg arg){on_toggle_mediation_table_dock();});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
     ToolbarManager::Instance().Clear();
 
-
     // Disable Menus Until Logged In
-    SetMenusEnabled(false, false);
+    SetMenusEnabled(true, false);
 }
 
 DRCClient::~DRCClient()
@@ -120,7 +114,7 @@ void DRCClient::on_actionNew_search_form_triggered()
 
 void DRCClient::on_actionOpen_mediation_view_triggered()
 {
-    setCentralWidget(new MediationProcessView());
+    LoadMediationProcessView();
 }
 
 void DRCClient::on_actionMediation_Process_triggered()
@@ -138,3 +132,44 @@ void DRCClient::on_actionLogout_User_triggered()
     SetMenusEnabled(false, false);
     setCentralWidget(new LoginForm());
 }
+
+void DRCClient::on_toggle_mediation_table_dock()
+{
+    bool shouldDisplayTable = _mediationTableDock ? !_mediationTableDock->isVisible() : true;
+
+    // Clear existing table everytime.
+    if(_mediationTableDock)
+    {
+        _mediationTableDock->close();
+        removeDockWidget(_mediationTableDock);
+        _mediationTableDock = nullptr;
+    }
+
+    if(shouldDisplayTable)
+    {
+        _mediationTableDock = new QDockWidget("Mediations", this);
+        MediationProcessTableForm* mpTable = new MediationProcessTableForm(_mediationTableDock);
+        connect(mpTable, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
+        _mediationTableDock->setWidget(mpTable);
+        addDockWidget(Qt::RightDockWidgetArea, _mediationTableDock);
+    }
+
+}
+
+void DRCClient::on_mediationProcessSelected(MediationProcess* process)
+{
+    qDebug() << "DRC Client - on_mediationProcessSelected!";
+
+    LoadMediationProcessView(process);
+}
+
+void DRCClient::LoadMediationProcessView(MediationProcess* process)
+{
+    if(!_mediationProcessView)
+        _mediationProcessView = new MediationProcessView(this);
+    _mediationProcessView->SetMediationProcess(process);
+    setCentralWidget(_mediationProcessView);
+
+}
+
+
