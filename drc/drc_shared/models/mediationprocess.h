@@ -47,7 +47,8 @@ public:
     void SetProcessState(DisputeProcessStates state) { _processState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
     void setMediationSessionClassVector(MediationSessionClassVector *value) {_mediationSessionClassVector = value;}
-
+    uint getStateTransition() {return _stateTransition;}
+    void setStateTransition(uint input) {_stateTransition = input;}
 
     // Helpers
 
@@ -63,7 +64,7 @@ private:
 
     PartyVector _parties;
 
-
+    uint _stateTransition;
     DisputeTypes _disputeType;
 
     QDateTime _creationDate;

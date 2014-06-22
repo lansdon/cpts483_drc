@@ -86,6 +86,7 @@ public:
 
     // Helpers
     QString FullName() { return QString::fromStdString(_firstName + " " + _lastName); }
+    bool isName() {return !_firstName.empty();}
 
     // Test Data - Fill the object with test values in every field.
     static Person *SampleData();
