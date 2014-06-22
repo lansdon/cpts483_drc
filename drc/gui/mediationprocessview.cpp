@@ -1,15 +1,19 @@
 #include "mediationprocessview.h"
 #include "ui_mediationprocessview.h"
+
+// QT
 #include <QWidget>
 #include <QListWidget>
-#include "mediationprocess.h"
-#include "partiescontainerform.h"
-#include "party.h"
 #include <QToolBox>
-
-#include "mediationprocessstatusform.h"
 #include <QDebug>
+
+// DRC
+#include "mediationprocessstatusform.h"
 #include "toolbarmanager.h"
+#include "DRCModels.h"
+#include "partiescontainerform.h"
+#include "MediatorKeys.h"
+
 
 
 
@@ -175,9 +179,6 @@ void MediationProcessView::on_MediationProcessTableWidget_doubleClicked(const QM
 
 void MediationProcessView::ShowRecentPressed()
 {
-//    if(ui->recentGroupBox->isVisible())
-//        ui->recentGroupBox->hide();
-//    else
-//        ui->recentGroupBox->show();
+    Mediator::Call(MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK);
 }
 

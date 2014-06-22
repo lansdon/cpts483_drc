@@ -8,8 +8,8 @@ MediationProcessTableForm::MediationProcessTableForm(QWidget *parent, MediationT
     ui(new Ui::MediationProcessTableForm)
 {
     ui->setupUi(this);
-
-//    LoadTableData(sortType);
+    ConfigMediationProcecssViewTable();
+    LoadTableData(sortType);
 }
 
 MediationProcessTableForm::~MediationProcessTableForm()

@@ -106,5 +106,10 @@ const QString MKEY_GUI_QUERY_MEDIATION = "MKEY_GUI_QUERY_MEDIATION";            
 const QString MKEY_BL_QUERY_MEDIATION = "MKEY_BL_QUERY_MEDIATION";                              // QString
 const QString MKEY_DB_QUERY_MEDIATION = "MKEY_DB_QUERY_MEDIATION";                              // MediationProcessVector* (see drctypes.h)
 
+//////////////////////////////////////////////////////////////////
+//				TOGGLE MEDIATION PROCESS TABLE DOCK
+// Query for a list of mediation processes based on a single mediation process
+//////////////////////////////////////////////////////////////////                              ARGUMENT TYPE
+const QString MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK = "MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK";    // null
 
 #endif
