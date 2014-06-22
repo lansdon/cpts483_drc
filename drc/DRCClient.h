@@ -47,6 +47,8 @@ public slots:
 
     void on_toggle_mediation_table_dock();
 
+    void on_mediationProcessSelected(MediationProcess* process);
+
 private:
     Ui::DRCClient *ui;
 
@@ -56,6 +58,9 @@ private:
     DRCDB _db;  // Database
     Mock_Server _ms; // mock server for gui testing
 
+    // Primary Views
+    MediationProcessView* _mediationProcessView;
+    void LoadMediationProcessView(MediationProcess* process = nullptr);
     // Dock views
     QDockWidget* _mediationTableDock;
 

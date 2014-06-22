@@ -95,7 +95,7 @@ void DRCClient::on_actionNew_search_form_triggered()
 
 void DRCClient::on_actionOpen_mediation_view_triggered()
 {
-    setCentralWidget(new MediationProcessView());
+    LoadMediationProcessView();
 }
 
 void DRCClient::on_actionMediation_Process_triggered()
@@ -136,7 +136,27 @@ void DRCClient::on_toggle_mediation_table_dock()
     {
         _mediationTableDock = new QDockWidget("Mediations", this);
         MediationProcessTableForm* mpTable = new MediationProcessTableForm(_mediationTableDock);
+        connect(mpTable, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
         _mediationTableDock->setWidget(mpTable);
-        addDockWidget(Qt::BottomDockWidgetArea, _mediationTableDock);
+        addDockWidget(Qt::RightDockWidgetArea, _mediationTableDock);
     }
+
 }
+
+void DRCClient::on_mediationProcessSelected(MediationProcess* process)
+{
+    qDebug() << "DRC Client - on_mediationProcessSelected!";
+
+    LoadMediationProcessView(process);
+}
+
+void DRCClient::LoadMediationProcessView(MediationProcess* process)
+{
+    if(!_mediationProcessView)
+        _mediationProcessView = new MediationProcessView(this);
+    _mediationProcessView->SetMediationProcess(process);
+    setCentralWidget(_mediationProcessView);
+
+}
+
+

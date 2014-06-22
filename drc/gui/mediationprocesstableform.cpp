@@ -89,3 +89,13 @@ void MediationProcessTableForm::MakeSampleTable()
     _mediationsVector.push_back(MediationProcess::SampleData());
     _mediationsVector.push_back(MediationProcess::SampleData());
 }
+
+void MediationProcessTableForm::on_tableWidget_doubleClicked(const QModelIndex &index)
+{
+    qDebug() << "on_tableWidget_doubleClicked row=" << index.row();
+    if(index.row() >= 0 && index.row() < _mediationsVector.size())
+
+    emit on_mediationProcessSelected(_mediationsVector.at(index.row()));
+
+}
+
