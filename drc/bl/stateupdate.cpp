@@ -14,50 +14,114 @@ StateUpdate::StateUpdate(MediationProcess *arg)
 //this function calls the method for the state transition the mediation process is in
 void StateUpdate::StateCheck(MediationProcess *arg)
 {
-    switch(arg->getStateTransition())
+    unsigned int targetState = arg->getStateTransition();
+    bool success = true;
+    arg->setStateTransition(PROCESS_STATE_NONE);
+    do
     {
-    case PROCESS_STATE_NONE:
-        startState(arg);
-        break;
-    case PROCESS_STATE_INITIATED:
-        readyToSchedule(arg);
-        break;
-    case PROCESS_STATE_SCHEDULED:
-        scheduled(arg);
-        break;
-    case PROCESS_STATE_OUTCOME_REACHED:
-        closed(arg);
-        break;
+        switch(arg->getStateTransition())
+        {
+        case PROCESS_STATE_NONE:
+            success = startState(arg);
+            break;
+        case PROCESS_STATE_INITIATED:
+            success = initiated(arg);
+            break;
+        case PROCESS_STATE_READY_TO_SCHEDULE:
+            success = readyToSchedule(arg);
+            break;
+        case PROCESS_STATE_SCHEDULED:
+            success = scheduled(arg);
+            break;
+        case PROCESS_STATE_OUTCOME_REACHED:
+            success = closed(arg);
+            break;
+        }
+    } while (success);
+
+    if (arg->getStateTransition() < targetState)
+    {
+
     }
 }
 
 //this is the start state. all that is required is something in the name field
-void StateUpdate::startState(MediationProcess *arg)
+bool StateUpdate::startState(MediationProcess *arg)
 {
     if(arg->GetPartyAtIndex(0)->GetPrimary()->isName())
     {
         arg->setStateTransition(PROCESS_STATE_INITIATED);
-        StateCheck(arg);
+        return true;
     }
+    return false;
 }
 
-//this function checks if a schedule is added to the mediation process
-void StateUpdate::scheduled(MediationProcess *arg)
+/* initiated state
+ * checks to see if party1 primary == party2 primary
+ * success: state = PROCESS_STATE_READY_TO_SCHEDULE
+ * failure: state = PROCESS_STATE_NONE
+ */
+bool StateUpdate::initiated(MediationProcess* arg)
 {
-    if(arg)//just so that the argument not used warning doesn't show up
-    {}
+    auto parties = arg->GetParties();
+    auto name = arg->GetPartyAtIndex(0)->GetPrimary()->FullName();
+    bool success = true;
+    if (parties.size() > 1)
+    {
+        for (unsigned int i = 0; i < parties.size(); i++)
+        {
+            if (parties[0]->GetPrimary()->FullName() == name)
+            {
+                success = false;
+                break;
+            }
+        }
+    }
+    if      (success) arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
+    else    arg->setStateTransition(PROCESS_STATE_NONE);
+    return success;
 }
 
-//this function checks if there is sufficent contact information to schedule
-void StateUpdate::readyToSchedule(MediationProcess *arg)
+/* readyToSchedule state
+ * checks to see if there is sufficient contact information for
+ * the primary person of each party.
+ * success: state = PROCESS_STATE_SCHEDULED
+ * failure: state = PROCESS_STATE_INITIATED
+ */
+bool StateUpdate::readyToSchedule(MediationProcess *arg)
 {
-    if(arg)//just so that the argument not used warning doesn't show up
-    {}
+    bool success = true;
+    auto parties = arg->GetParties();
+    if (parties.size() < 2)     success = false;
+    for (unsigned int i=0; i < parties.size(); i++)
+    {
+        auto primary = parties[i]->GetPrimary();
+        // check to see if primary person has either an address or email
+    }
+    return false;
 }
 
-//this function is to check if it meets the requirements to move to the move state or back to ready to schedule
-void StateUpdate::closed(MediationProcess *arg)
+
+/* scheduled state
+ * checks to see if a mediation date has been set
+ */
+bool StateUpdate::scheduled(MediationProcess *arg)
 {
     if(arg)//just so that the argument not used warning doesn't show up
-    {}
+    {
+        return true;
+    }
+    return false;
+}
+
+/*
+ * closed state
+ */
+bool StateUpdate::closed(MediationProcess *arg)
+{
+    if(arg)//just so that the argument not used warning doesn't show up
+    {
+        return true;
+    }
+    return false;
 }

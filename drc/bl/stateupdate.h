@@ -17,10 +17,11 @@ public:
     StateUpdate(MediationProcess *arg);
 private:
     void StateCheck(MediationProcess *arg);
-    void startState(MediationProcess *arg);
-    void readyToSchedule(MediationProcess *arg);
-    void scheduled(MediationProcess *arg);
-    void closed(MediationProcess *arg);
+    bool startState(MediationProcess *arg);
+    bool initiated(MediationProcess* arg);
+    bool readyToSchedule(MediationProcess *arg);
+    bool scheduled(MediationProcess *arg);
+    bool closed(MediationProcess *arg);
 };
 
 #endif // STATEUPDATE_H
