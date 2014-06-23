@@ -18,23 +18,18 @@ PartyForm::PartyForm(QWidget *parent, Party* party) :
     ui->setupUi(this);
 
     QGridLayout *gridLayout = new QGridLayout();
-    _localPersonDetailsForm = new PersonDetailsForm(this, party->GetPrimary());
-      gridLayout->addWidget(_localPersonDetailsForm);
+    PersonDetailsForm* personDetailsForm = new PersonDetailsForm(this, party->GetPrimary());
+    connect(personDetailsForm,SIGNAL(SaveSignaled()),this,SLOT(DoSaveSignal()));
+    connect(personDetailsForm,SIGNAL(EditSignaled()),this,SLOT(DoEditSignal()));
+    gridLayout->addWidget(personDetailsForm);
 
     ui->primaryFrame->setLayout(gridLayout);
 
-//    ConfigObserverTable();
-//    PopulateObserverTable();
-
-//    ConfigChildrenTable();
-//    PopulateChildrenTable();
-
-    connect(_localPersonDetailsForm,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContactFromclose(Person*)));
 }
-void PartyForm::savePersonContactFromclose(Person *value)
-{
-    emit PassItOn(value);
-}
+//void PartyForm::savePersonContactFromclose(Person *value)
+//{
+////    emit PassItOn(value);
+//}
 
 PartyForm::~PartyForm()
 {
@@ -44,7 +39,7 @@ PartyForm::~PartyForm()
 void PartyForm::setParty(Party *value)
 {
     _party = value;
-    _localPersonDetailsForm->SetPerson(_party->GetPrimary());
+    _personDetailsForm->SetPerson(_party->GetPrimary());
 //    ConfigObserverTable();
 //    PopulateObserverTable();
 

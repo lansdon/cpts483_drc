@@ -45,12 +45,13 @@ private slots:
 //    void ObserverDeleted(Person* p);
 //    void ChildChanged(Person* p);
 //    void ChildDeleted(Person* p);
-    void savePersonContactFromclose(Person *value);
-
+//    void savePersonContactFromclose(Person *value);
+    void DoSaveSignal() { emit SaveSignaled(); }
+    void DoEditSignal() { emit EditSignaled(); }
 private:
     Ui::PartyForm *ui;
-    PersonDetailsForm *_localPersonDetailsForm;
     Party* _party;
+    PersonDetailsForm *_personDetailsForm;
 
 //    QTableWidget* _observerTable;
 //    QStringList _observerTableHeader;
@@ -62,7 +63,9 @@ private:
 //    void ConfigChildrenTable();
 //    void PopulateChildrenTable();
 signals:
-    void PassItOn(Person *);
+//    void PassItOn(Person *);
+    void SaveSignaled();    // Passes save events to parent
+    void EditSignaled();    // Passes edit events to parent
 };
 
 #endif // PARTYFORM_H

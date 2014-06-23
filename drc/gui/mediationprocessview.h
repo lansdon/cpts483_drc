@@ -54,6 +54,9 @@ private:
     // Populate Views
     void PopulateView(MediationProcess *value);
 
+    // Clients/Parties Tabs
+    void AddPartyTabs(PartyVector* parties);
+
     // Sessions Table
     QTableWidget* _sessionTable;
     void configSessionTable();

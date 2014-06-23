@@ -297,3 +297,16 @@ void MediationSessionForm::deletePersonContact(Person *value)
     if(value)
         fillFields(_mediationSession);
 }
+
+
+// When a child has signaled a save event
+void MediationSessionForm::SaveSignaled()
+{
+
+}
+
+// When a child has signaled an edit was made.
+void MediationSessionForm::EditSignaled()
+{
+
+}

@@ -70,6 +70,9 @@ private slots:
 
     void savePersonContact(Person *value);
 
+    void SaveSignaled();
+    void EditSignaled();
+
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;

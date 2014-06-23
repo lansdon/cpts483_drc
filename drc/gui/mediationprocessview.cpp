@@ -97,8 +97,6 @@ void MediationProcessView::SearchForMediationPressed()
     qDebug() << "SEARCH MEDIATION PRESSED - Toolbar manager.";
 }
 
-
-
 void MediationProcessView::ShowRecentPressed()
 {
     Mediator::Call(MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK);
@@ -161,4 +159,27 @@ void MediationProcessView::on_sessiontTableWidget_itemSelectionChanged()
 //            fillFields(_mediationSessions->at(sessionCurrentRow));
 //    }
 
+}
+
+
+void MediationProcessView::AddPartyTabs(PartyVector* parties)
+{
+    if(parties)
+    {
+        ui->partyTabWidget->clear();
+        foreach(Party* party, *parties)
+        {
+            if(party)
+            {
+                PartyForm* pForm = new PartyForm(ui->partyTabWidget, party);
+                ui->partyTabWidget->addTab(pForm, party->GetPrimary()->FullName() );
+                connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
+            }
+        }
+//        foreach(PartyForm* p, PartyFormVector)
+//        {
+//            ui->partyTabWidget->addTab(p, p->getFullName() );
+//            connect(p,SIGNAL(PassItOn(Person*)),this,SLOT(savePersonContactFromFar(Person*)));
+//        }
+    }
 }
