@@ -50,8 +50,6 @@ private slots:
 
     void on_actionFruit_Test_triggered();
 
-    void on_actionLock_Account_triggered();
-
     void on_actionLogout_User_triggered();
 
 public slots:

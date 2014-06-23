@@ -17,11 +17,11 @@ class MediationSessionForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit MediationSessionForm(QWidget *parent = 0, MediationSessionVector * MSC = nullptr);
+    explicit MediationSessionForm(QWidget *parent = 0, MediationSession * MSC = nullptr);
     ~MediationSessionForm();
     void setParties(int input);
     void updateTabs(std::vector<Person *> *input);
-    void setMediationSessionVector(MediationSessionVector *value);
+    void setMediationSession(MediationSession *value);
 
 private slots:
     void on_CancelledRadioButton_toggled(bool checked);
@@ -37,10 +37,6 @@ private slots:
     void on_Fee1LineEdit_editingFinished();
 
     void on_Fee1PaidCheckBox_toggled(bool checked);
-
-    void on_sessiontTableWidget_itemSelectionChanged();
-
-    void on_sessiontTableWidget_doubleClicked(const QModelIndex &index);
 
     void on_Fee2LineEdit_editingFinished();
 
@@ -76,15 +72,9 @@ private slots:
 
 private:
     Ui::MediationSessionForm *ui;
-//    std::vector<AttorneyAndSupportForMediationSessionView *> *_attorneyAndSupportVector;
-    MediationSessionVector *_mediationSessions;
-    QTableWidget *_sessionTable;
-    QStringList _sessionTableHeader;
+    MediationSession *_mediationSession;
 
-    void configSessionTable();
-    void PopulateSessionTable();
     void fillFields(MediationSession *input);
-    int sessionCurrentRow;
     bool FillingFields;
 
 };

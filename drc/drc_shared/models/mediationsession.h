@@ -3,7 +3,7 @@
 
 #include <QDateTime>
 #include <QString>
-#include "Person.h"
+#include "drctypes.h"
 
 class MediationSession
 {

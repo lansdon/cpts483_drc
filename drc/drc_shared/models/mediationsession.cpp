@@ -2,6 +2,7 @@
 #include <sstream>
 #include <QDateTime>
 #include <QDebug>
+#include "DRCModels.h"
 
 MediationSession::MediationSession()
 {
@@ -30,9 +31,6 @@ MediationSession *MediationSession::SampleData()
     std::stringstream ss;
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
-
-
-
 
     int randomNumber = qrand() * 100000;
     int randomStatus = qrand() % 4;

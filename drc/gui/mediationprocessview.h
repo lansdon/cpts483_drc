@@ -44,8 +44,8 @@ private:
 
      // Toolbox + Children (pages)
      MediationProcessStatusForm *_mediationProcessStatusForm;
-     PartiesContainerForm *_partiesContainerForm;
-     MediationSessionForm *_mediationSessionForm;
+//     PartiesContainerForm *_partiesContainerForm;
+//     MediationSessionForm *_mediationSessionForm;
 
      // Setup GUI Helpers
     void ConfigureToolbar();
@@ -54,6 +54,11 @@ private:
     // Populate Views
     void PopulateView(MediationProcess *value);
 
+    // Sessions Table
+    QTableWidget* _sessionTable;
+    void configSessionTable();
+    void PopulateSessionTable();
+    void on_sessiontTableWidget_itemSelectionChanged();
 };
 
 #endif // CONTACTRECORDVIEW_H
