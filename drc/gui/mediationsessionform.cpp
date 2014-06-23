@@ -17,7 +17,7 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSessionVect
     FillingFields = false;
     if(_mediationSessions->size() > 0)
         fillFields(_mediationSessions->at(sessionCurrentRow));
-    ui->sessiontTableWidget->setCurrentCell(0,0);
+//    ui->sessiontTableWidget->setCurrentCell(0,0);
 
 }
 
@@ -35,7 +35,7 @@ void MediationSessionForm::setMediationSessionVector(MediationSessionVector *val
     FillingFields = false;
     if(_mediationSessions->size() > 0)
         fillFields(_mediationSessions->at(sessionCurrentRow));
-    ui->sessiontTableWidget->setCurrentCell(0,0);
+//    ui->sessiontTableWidget->setCurrentCell(0,0);
 }
 
 void MediationSessionForm::setParties(int input)
@@ -52,23 +52,23 @@ void MediationSessionForm::setParties(int input)
 
 void MediationSessionForm::updateTabs(std::vector<Person *> *input)
 {
-        qDebug() << "tab widget size " << ui->SupportTabWidget->count();
-        if(input->size() > (uint)ui->SupportTabWidget->count())
-        {
-            for(uint i = (ui->SupportTabWidget->count()); i < input->size(); i++)
-            {
-                qDebug() << i;
-//                _attorneyAndSupportVector->push_back(new AttorneyAndSupportForMediationSessionView());
-//                ui->SupportTabWidget->addTab(_attorneyAndSupportVector->at(i),QString::fromStdString("Party " + std::to_string(ui->SupportTabWidget->count() + 1)));
-            }
-        }
-        else
-        {
-            for(int i = input->size();i < ui->SupportTabWidget->count(); i++)
-                ui->SupportTabWidget->removeTab(ui->SupportTabWidget->count()-1);
-        }
+//        qDebug() << "tab widget size " << ui->SupportTabWidget->count();
+//        if(input->size() > (uint)ui->SupportTabWidget->count())
+//        {
+//            for(uint i = (ui->SupportTabWidget->count()); i < input->size(); i++)
+//            {
+//                qDebug() << i;
+////                _attorneyAndSupportVector->push_back(new AttorneyAndSupportForMediationSessionView());
+////                ui->SupportTabWidget->addTab(_attorneyAndSupportVector->at(i),QString::fromStdString("Party " + std::to_string(ui->SupportTabWidget->count() + 1)));
+//            }
+//        }
+//        else
+//        {
+//            for(int i = input->size();i < ui->SupportTabWidget->count(); i++)
+//                ui->SupportTabWidget->removeTab(ui->SupportTabWidget->count()-1);
+//        }
 
-    qDebug() << "input size: " << input->size();
+//    qDebug() << "input size: " << input->size();
 //    qDebug() << "attorney Vector size: " << _attorneyAndSupportVector->size();
 //    if(input->size() == _attorneyAndSupportVector->size())
 //    {
@@ -140,51 +140,51 @@ void MediationSessionForm::on_Fee1PaidCheckBox_toggled(bool checked)
 
 void MediationSessionForm::configSessionTable()
 {
-    _sessionTable = ui->sessiontTableWidget;
-    _sessionTable->setColumnCount(3);
-    _sessionTable->setRowCount(_mediationSessions->size() + 1);
-    _sessionTableHeader <<"Date Time"<<" "<<"Status";
-    _sessionTable->setHorizontalHeaderLabels(_sessionTableHeader);
-    _sessionTable->verticalHeader()->setVisible(false);
-    _sessionTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    _sessionTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-    _sessionTable->setSelectionMode(QAbstractItemView::SingleSelection);
-    _sessionTable->setShowGrid(true);
-    _sessionTable->setStyleSheet("QTableView {selection-background-color: red;}");
+//    _sessionTable = ui->sessiontTableWidget;
+//    _sessionTable->setColumnCount(3);
+//    _sessionTable->setRowCount(_mediationSessions->size() + 1);
+//    _sessionTableHeader <<"Date Time"<<" "<<"Status";
+//    _sessionTable->setHorizontalHeaderLabels(_sessionTableHeader);
+//    _sessionTable->verticalHeader()->setVisible(false);
+//    _sessionTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
+//    _sessionTable->setSelectionBehavior(QAbstractItemView::SelectRows);
+//    _sessionTable->setSelectionMode(QAbstractItemView::SingleSelection);
+//    _sessionTable->setShowGrid(true);
+//    _sessionTable->setStyleSheet("QTableView {selection-background-color: red;}");
 
-    for (int c = 0; c < _sessionTable->horizontalHeader()->count(); ++c)
-    {
-        _sessionTable->horizontalHeader()->setSectionResizeMode(
-            c, QHeaderView::Stretch);
-    }
+//    for (int c = 0; c < _sessionTable->horizontalHeader()->count(); ++c)
+//    {
+//        _sessionTable->horizontalHeader()->setSectionResizeMode(
+//            c, QHeaderView::Stretch);
+//    }
 }
 void MediationSessionForm::PopulateSessionTable()
 {
-    int row;
-    for(row=0; row < (int)_mediationSessions->size(); ++row)
-    {
-        //insert data
-        MediationSession *o = _mediationSessions->at(row);
+//    int row;
+//    for(row=0; row < (int)_mediationSessions->size(); ++row)
+//    {
+//        //insert data
+//        MediationSession *o = _mediationSessions->at(row);
 
-        _sessionTable->setItem(row, 0, new QTableWidgetItem(o->getMediationTime().toString()));
+//        _sessionTable->setItem(row, 0, new QTableWidgetItem(o->getMediationTime().toString()));
 
-        _sessionTable->setItem(row, 2, new QTableWidgetItem(o->getStatus()));
+//        _sessionTable->setItem(row, 2, new QTableWidgetItem(o->getStatus()));
 
-    }
-    _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
+//    }
+//    _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
     //ui->sessiontTableWidget->setCurrentCell(0,0);
 }
 
 void MediationSessionForm::on_sessiontTableWidget_itemSelectionChanged()
 {
 
-    if(sessionCurrentRow != ui->sessiontTableWidget->currentRow())
-    {
-        sessionCurrentRow = ui->sessiontTableWidget->currentRow();
+//    if(sessionCurrentRow != ui->sessiontTableWidget->currentRow())
+//    {
+//        sessionCurrentRow = ui->sessiontTableWidget->currentRow();
 
-        if((uint)sessionCurrentRow<_mediationSessions->size())
-            fillFields(_mediationSessions->at(sessionCurrentRow));
-    }
+//        if((uint)sessionCurrentRow<_mediationSessions->size())
+//            fillFields(_mediationSessions->at(sessionCurrentRow));
+//    }
 
 }
 
@@ -193,8 +193,8 @@ void MediationSessionForm::fillFields(MediationSession *input)
     if(input)
     {
         FillingFields = true;
-        ui->CancelledRadioButton->setChecked(input->getCancelledRB());
-        ui->confirmedRadioButton->setChecked(input->getConfirmedRB());
+//        ui->CancelledRadioButton->setChecked(input->getCancelledRB());
+//        ui->confirmedRadioButton->setChecked(input->getConfirmedRB());
         ui->dateTimeEdit->setDateTime(input->getMediationTime());
         ui->dateTimeEdit->setVisible(true);
         ui->FamilyFeeLineEdit->setText(input->getFeeFamily());
@@ -213,8 +213,8 @@ void MediationSessionForm::fillFields(MediationSession *input)
             ui->Mediator2LineEdit->setText(input->getMediator2()->FullName());
         if(input->getMediator2()!=NULL)
             ui->MediatorLineEdit->setText(input->getMediator1()->FullName());
-        ui->PendingRadioButton->setChecked(input->getPendingRB());
-        ui->rescheduledRadioButton->setChecked(input->getRescheduledRB());
+//        ui->PendingRadioButton->setChecked(input->getPendingRB());
+//        ui->rescheduledRadioButton->setChecked(input->getRescheduledRB());
         if(input->getObserver1()!=NULL)
             ui->Observe1LineEdit->setText(input->getObserver1()->FullName());
         if(input->getObserver2()!=NULL)
@@ -231,7 +231,7 @@ void MediationSessionForm::on_sessiontTableWidget_doubleClicked(const QModelInde
         _mediationSessions->push_back(temp);
         configSessionTable();
         PopulateSessionTable();
-        ui->sessiontTableWidget->setCurrentCell(_mediationSessions->size()-1,0);
+ //       ui->sessiontTableWidget->setCurrentCell(_mediationSessions->size()-1,0);
         fillFields(_mediationSessions->at(_mediationSessions->size() - 1));
     }
 

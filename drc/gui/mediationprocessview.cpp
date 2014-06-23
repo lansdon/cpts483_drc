@@ -34,40 +34,26 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     ui->overviewContainer->setLayout(layout);
 //    connect(_mediationProcessStatusForm,SIGNAL(hovered()),this, SLOT(onHovered()));
 
-    // Set the overview container
+    // Set the parties container
     QVBoxLayout* pLayout = new QVBoxLayout();
     pLayout->addWidget(_partiesContainerForm);
     ui->clientsContainer->setLayout(pLayout);
 
-    // Set the overview container
+    // Set the sessions container
     QVBoxLayout* sLayout = new QVBoxLayout();
     sLayout->addWidget(_mediationSessionForm);
     ui->sessionsContainer->setLayout(sLayout);
 
-    ConfigureToolbox();
-
     // Update Fields for current record
     PopulateView(_mediationProcess);
 
+    // Each View can setup it's own toolbar buttons
     ConfigureToolbar();
 }
 
 MediationProcessView::~MediationProcessView()
 {
     delete ui;
-}
-
-void MediationProcessView::ConfigureToolbox()
-{
-//    _toolBox = ui->MediationProcessToolBox;
-//    ui->MediationProcessToolBox->removeItem(0);
-//    //_toolBox->addItem(_mediationProcessStatusForm, "Mediation Overview");
-//    _toolBox->addItem(_partiesContainerForm, "Parties");
-//    _toolBox->addItem(_mediationSessionForm,"Mediation Sessions");
-
-//    foreach(QWidget* child, _toolBox->findChildren<QWidget*>())
-//        if( child->inherits("QToolBoxButton") )
-//            child->setFont(QFont("Helvetica", 28, 5));
 }
 
 void MediationProcessView::savePersonContactFromFarAway(Person *value)

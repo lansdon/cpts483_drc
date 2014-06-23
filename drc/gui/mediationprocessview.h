@@ -43,7 +43,6 @@ private:
     MediationProcess* _mediationProcess;
 
      // Toolbox + Children (pages)
-     QToolBox* _toolBox;
      MediationProcessStatusForm *_mediationProcessStatusForm;
      PartiesContainerForm *_partiesContainerForm;
      MediationSessionForm *_mediationSessionForm;

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>764</width>
-    <height>455</height>
+    <width>1272</width>
+    <height>567</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -46,6 +46,22 @@
        <property name="title">
         <string>Clients</string>
        </property>
+       <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QTabWidget" name="partyTabWidget">
+          <widget class="QWidget" name="tab">
+           <attribute name="title">
+            <string>Tab 1</string>
+           </attribute>
+          </widget>
+          <widget class="QWidget" name="tab_2">
+           <attribute name="title">
+            <string>Tab 2</string>
+           </attribute>
+          </widget>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </item>
      <item>
@@ -53,6 +69,11 @@
        <property name="title">
         <string>Sessions</string>
        </property>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <item row="0" column="0">
+         <widget class="QTableWidget" name="sessionsTable"/>
+        </item>
+       </layout>
       </widget>
      </item>
     </layout>
