@@ -11,8 +11,7 @@ class SHA256_Crypto;
 class UserLoginProcessor: Processor
 {
 public:
-    UserLoginProcessor(QString authUser, QString sendUser,
-                       QString requestSalt, QString receiveSalt);
+    UserLoginProcessor(QString authUser, QString sendUser);
     void Process(MediatorArg arg);
     void Load(MediatorArg arg);
 

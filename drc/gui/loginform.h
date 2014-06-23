@@ -22,6 +22,10 @@ public:
 private slots:
     void on_loginButton_clicked();
 
+    void on_usernameLineEdit_editingFinished();
+
+    void on_passwordLineEdit_editingFinished();
+
 private:
     Ui::LoginForm *ui;
     QString _username;

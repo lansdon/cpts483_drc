@@ -22,8 +22,19 @@ public:
     explicit DRCClient(QWidget *parent = 0);
     ~DRCClient();
 
-    // This will update the gui menus based on current user status.
-    void CurrentUserChanged(MediatorArg arg);
+    // This will enable our GUI menus
+    void SetMenuBarEnabled();
+    void SetMenuHelpEnabled();
+
+    // This will disable our GUI menus
+    void SetMenuBarDisabled();
+    void SetMenuHelpDisabled();
+
+    // This will set our Admin menu options to visible
+    void SetMenuAdminShow();
+
+    // This will set our Admin menu options to invisible
+    void SetMenuAdminHide();
 
 private slots:
 

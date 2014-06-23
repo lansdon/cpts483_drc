@@ -5,8 +5,10 @@
 //#include "sqlite3.h"
 
 #include "DBBaseObject.h"
+#include "Crypto/SHA256_Crypto.h"
 #include <string>
 #include <vector>
+#include <map>
 #include <QtSql/QtSql>
 
 class DRCDB
@@ -17,6 +19,8 @@ private:
     //Made it a vector in the event that multiple errors have occurred.
     //Though it shouldn't happen if we're doing accurate checks.
     QVector<QString> LastErrors;
+
+    std::map<QString, QString> UserMap;
 
     bool DB_ERROR;
 
@@ -56,7 +60,7 @@ public:
 
     void LoadFruit(MediatorArg arg);
 
-
+    void AuthenticateUser(MediatorArg arg);
 
 };
 

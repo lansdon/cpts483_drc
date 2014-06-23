@@ -22,15 +22,13 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     CreateTable(table_name, column_container);
 
-    //Name and DataTypes of all Table Columns
-    QVector<QString> user_columns;
-    user_columns.push_back(QString("username char(50) not null"));
-    user_columns.push_back(QString("password char(50) nut null"));
-
-    CreateTable(QString("Users"), user_columns);
+    // Populate our fake user list.  Delete this later!!
+    UserMap["Admin"] = sha256("adminpassword", "");
+    UserMap["Normal"] = sha256("normalpassword", "");
+    UserMap[""] = sha256("", "");
 
     // Register to Listen for events.
-    //Mediator::Register(MKEY_GUI_AUTHENTICATE_USER)
+    Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
 
     Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
     Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
@@ -47,7 +45,52 @@ DRCDB::DRCDB(QString database_name) : DB_ERROR(false)
 }
 //========================================================================
 
+//========================================================================
+//Database authentication test code.  Not really touching the database,
+//mostly emulating the appropriate Mediator calls we'll be needing.
+//This will be the method called when authenticating a new user login.
+//========================================================================
+void DRCDB::AuthenticateUser(MediatorArg arg)
+{
+    User* user = nullptr;
+    if(arg.IsSuccessful())
+    {
+        // Set arg.IsSuccessful() to false as default
+        // Will only change to true when the user has been authenticated
+        arg.SetSuccessful(false);
 
+        user = arg.getArg<User*>();
+        if(user)
+        {
+            // arg value type was a User
+            if (UserMap.find(user->GetName()) != UserMap.end())
+            {
+                // Username found in UserMap
+                if (user->GetPass() == UserMap[user->GetName()])
+                {
+                    // Set arg.IsSuccessful() to true
+                    arg.SetSuccessful(true);
+                    if (user->GetName() == "Admin")
+                    {
+                        user->SetType(USER_T_ADMIN);
+                    }
+
+                    // Reset arg value to the user.
+                    // Assume the user object has been modified as needed
+                    arg.SetArg(user);
+                }
+            }
+        }
+    }
+    else
+    {
+        // Set the error label.
+        //ui->statusLabel->setText(arg.ErrorMessage());
+    }
+    // Signal authentication has been completed
+    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
+}
+//========================================================================
 
 //========================================================================
 //It first sets the driver that our database will be using (in this case,

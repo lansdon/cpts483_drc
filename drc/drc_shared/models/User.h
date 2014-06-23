@@ -24,6 +24,7 @@ public:
     void SetPassword(QString password);
 
     UserTypes GetType(void);
+    void SetType(UserTypes Type);
     QString GetTypeString(void);
 
     QString Parse(void);

@@ -37,7 +37,12 @@ DRCClient::DRCClient(QWidget *parent) :
     setCentralWidget(new LoginForm(this));
 
     // Listen for
-    Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){CurrentUserChanged(arg);});
+    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuBarEnabled();});
+    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuHelpEnabled();});
+    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){SetMenuBarDisabled();});
+    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){SetMenuHelpDisabled();});
+    Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){SetMenuAdminShow();});
+    Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){SetMenuAdminHide();});
     Mediator::Register(MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK, [this](MediatorArg arg){on_toggle_mediation_table_dock();});
 
     // Toolbar manager setup
@@ -53,21 +58,6 @@ DRCClient::~DRCClient()
    delete ui;
 }
 
-// This will update the gui menus based on current user status.
-void DRCClient::CurrentUserChanged(MediatorArg arg)
-{
-    bool isAdmin = false;
-    bool showMenus = false;
-
-    User* tmpUser = arg.getArg<User*>();
-    if(arg.IsSuccessful() && tmpUser)
-    {
-        isAdmin = (tmpUser->GetType() == USER_T_SUPER_USER || tmpUser->GetType() == USER_T_ADMIN);
-        showMenus = (isAdmin || tmpUser->GetType() == USER_T_NORMAL);
-    }
-    SetMenusEnabled(showMenus, isAdmin);
-}
-
 void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
 {
     ui->menuBar->setEnabled(enableMenus);
@@ -76,6 +66,35 @@ void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
     ui->menuAdmin->menuAction()->setVisible(showAdmin);
 }
 
+void DRCClient::SetMenuBarEnabled()
+{
+    ui->menuBar->setEnabled(true);
+}
+
+void DRCClient::SetMenuHelpEnabled()
+{
+    ui->menuHelp->setEnabled(true);
+}
+
+void DRCClient::SetMenuBarDisabled()
+{
+    ui->menuBar->setEnabled(false);
+}
+
+void DRCClient::SetMenuHelpDisabled()
+{
+    ui->menuHelp->setEnabled(false);
+}
+
+void DRCClient::SetMenuAdminShow()
+{
+    ui->menuAdmin->menuAction()->setVisible(true);
+}
+
+void DRCClient::SetMenuAdminHide()
+{
+    ui->menuAdmin->menuAction()->setVisible(false);
+}
 
 void DRCClient::on_actionNew_Fruit_Submission_triggered()
 {
@@ -106,12 +125,6 @@ void DRCClient::on_actionMediation_Process_triggered()
 void DRCClient::on_actionFruit_Test_triggered()
 {
     setCentralWidget(new FruitNameForm(this));
-}
-
-void DRCClient::on_actionLock_Account_triggered()
-{
-    SetMenusEnabled(false, false);
-    setCentralWidget(new LoginForm());
 }
 
 void DRCClient::on_actionLogout_User_triggered()
