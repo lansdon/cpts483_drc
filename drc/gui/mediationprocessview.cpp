@@ -26,6 +26,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
 
 //    ui->clientSessionsContainer->
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
+    _sessionOverview = new SessionOverview(ui->sessionOverviewContainer);
 //    _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
 //    _mediationSessionForm = new MediationSessionForm(this);
 
@@ -33,6 +34,9 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
+
+
+
 //    connect(_mediationProcessStatusForm,SIGNAL(hovered()),this, SLOT(onHovered()));
 
     // Set the parties container

@@ -63,6 +63,7 @@ public:
     void setObserver2(Person *value) {_observer2 = value; }
 
     QString getStatus() const;
+    QString getFeeStatus() const;
     static MediationSession *SampleData();
 };
 
