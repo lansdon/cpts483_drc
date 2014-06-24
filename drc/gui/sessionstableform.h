@@ -17,6 +17,7 @@ public:
     explicit SessionsTableForm(QWidget *parent = 0, MediationSessionVector* sessions = nullptr);
     ~SessionsTableForm();
 
+    void SetSessions(MediationSessionVector* sessions);
 private:
     Ui::SessionsTableForm *ui;
 

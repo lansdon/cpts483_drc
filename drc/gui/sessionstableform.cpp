@@ -69,3 +69,9 @@ void SessionsTableForm::on_sessiontTableWidget_itemSelectionChanged()
 //    }
 
 }
+
+void SessionsTableForm::SetSessions(MediationSessionVector* sessions)
+{
+    _sessions = sessions ? sessions : new MediationSessionVector;
+    PopulateSessionTable();
+}

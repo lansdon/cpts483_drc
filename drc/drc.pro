@@ -59,7 +59,8 @@ SOURCES += main.cpp\
     gui/mediationsessionform.cpp \
     gui/mediationprocesstableform.cpp \
     gui/sessionstableform.cpp \
-    gui/sessionoverview.cpp
+    gui/sessionoverview.cpp \
+    gui/mptoolbox.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -111,7 +112,8 @@ HEADERS  += \
     gui/mediationsessionform.h \
     gui/mediationprocesstableform.h \
     gui/sessionstableform.h \
-    gui/sessionoverview.h
+    gui/sessionoverview.h \
+    gui/mptoolbox.h
 
 FORMS    += \
     DRCClient.ui \
@@ -127,7 +129,8 @@ FORMS    += \
     gui/mediationsessionform.ui \
     gui/mediationprocesstableform.ui \
     gui/sessionstableform.ui \
-    gui/sessionoverview.ui
+    gui/sessionoverview.ui \
+    gui/mptoolbox.ui
 
 
 CONFIG += c++11

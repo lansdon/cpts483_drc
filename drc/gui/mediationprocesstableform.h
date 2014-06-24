@@ -5,14 +5,7 @@
 #include "drctypes.h"
 #include <vector>
 
-enum MediationTableSortTypes
-{
-    MEDIATION_SORT_T_NONE,
-    MEDIATION_SORT_T_PENDING,
-    MEDIATION_SORT_T_RECENT,
-    MEDIATION_SORT_T_SCHEDULED,
-    MEDIATION_SORT_T_CLOSED
-};
+
 
 namespace Ui {
 class MediationProcessTableForm;
@@ -25,6 +18,8 @@ class MediationProcessTableForm : public QWidget
 public:
     explicit MediationProcessTableForm(QWidget *parent = 0, MediationTableSortTypes sortType = MEDIATION_SORT_T_RECENT);
     ~MediationProcessTableForm();
+
+    void LoadTableData(MediationTableSortTypes sortType);
 
 private slots:
     void on_recentButton_clicked();
@@ -49,7 +44,6 @@ private:
     void ConfigMediationProcecssViewTable();
     void PopulateMediationProcessTable();
 
-    void LoadTableData(MediationTableSortTypes sortType);
     void MakeSampleTable();
 };
 

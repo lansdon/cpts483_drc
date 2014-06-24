@@ -14,6 +14,7 @@
 #include "searchwizard/searchwizard.h"
 #include "toolbarmanager.h"
 #include "mediationprocesstableform.h"
+#include "mptoolbox.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -147,13 +148,13 @@ void DRCClient::on_toggle_mediation_table_dock()
 
     if(shouldDisplayTable)
     {
-        _mediationTableDock = new QDockWidget("Mediations", this);
-        MediationProcessTableForm* mpTable = new MediationProcessTableForm(_mediationTableDock);
-        connect(mpTable, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
-        _mediationTableDock->setWidget(mpTable);
+        _mediationTableDock = new QDockWidget("Mediation Tools", this);
+        MPToolBox* mpToolbox = new MPToolBox(_mediationTableDock);
+//        MediationProcessTableForm* mpTable = new MediationProcessTableForm(_mediationTableDock);
+//        connect(mpTable, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
+        _mediationTableDock->setWidget(mpToolbox);
         addDockWidget(Qt::RightDockWidgetArea, _mediationTableDock);
     }
-
 }
 
 void DRCClient::on_mediationProcessSelected(MediationProcess* process)
@@ -169,7 +170,6 @@ void DRCClient::LoadMediationProcessView(MediationProcess* process)
         _mediationProcessView = new MediationProcessView(this);
     _mediationProcessView->SetMediationProcess(process);
     setCentralWidget(_mediationProcessView);
-
 }
 
 

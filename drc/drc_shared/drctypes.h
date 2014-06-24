@@ -12,12 +12,14 @@ class Person;
 class MediationProcess;
 class MediationSession;
 class Party;
+class MediationNote;
 
 // Typedefs
 typedef std::vector<Person*> PersonVector;
 typedef std::vector<MediationProcess*> MediationProcessVector;
 typedef std::vector<MediationSession*> MediationSessionVector;
 typedef std::vector<Party*> PartyVector;
+typedef std::vector<MediationNote*> MediationNotesVector;
 
 
 
@@ -102,6 +104,14 @@ enum SearchTypes
     SEARCH_T_CALL_LOG
 };
 
+enum MediationTableSortTypes
+{
+    MEDIATION_SORT_T_NONE,
+    MEDIATION_SORT_T_PENDING,
+    MEDIATION_SORT_T_RECENT,
+    MEDIATION_SORT_T_SCHEDULED,
+    MEDIATION_SORT_T_CLOSED
+};
 
 // String Helpers
 QString StringForCountyIds(CountyIds id);
