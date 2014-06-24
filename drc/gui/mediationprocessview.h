@@ -35,7 +35,7 @@ private slots:
     void SearchForMediationPressed();
     void ShowRecentPressed();
 
-    void savePersonContactFromFarAway(Person*value);
+//    void savePersonContactFromFarAway(Person*value);
 
 private:
     Ui::MediationProcessView *ui;

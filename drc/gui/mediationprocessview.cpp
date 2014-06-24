@@ -24,6 +24,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
 {
     ui->setupUi(this);
 
+//    ui->clientSessionsContainer->
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
 //    _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
 //    _mediationSessionForm = new MediationSessionForm(this);
@@ -58,10 +59,10 @@ MediationProcessView::~MediationProcessView()
     delete ui;
 }
 
-void MediationProcessView::savePersonContactFromFarAway(Person *value)
-{
-    PopulateView(_mediationProcess);
-}
+//void MediationProcessView::savePersonContactFromFarAway(Person *value)
+//{
+//    PopulateView(_mediationProcess);
+//}
 
 void MediationProcessView::PopulateView(MediationProcess *process)
 {
@@ -73,6 +74,8 @@ void MediationProcessView::PopulateView(MediationProcess *process)
 //    _mediationSessionForm->setMediationSessionVector(_mediationProcess->getMediationSessionVector());
 //    _partiesContainerForm->AddPartyTabs(&_mediationProcess->GetParties());
 //    connect(_partiesContainerForm,SIGNAL(PassItOnAgain(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
+
+    AddPartyTabs(&_mediationProcess->GetParties());
 
     PopulateSessionTable();
 }
