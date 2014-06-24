@@ -1,12 +1,13 @@
 #include "sessionoverview.h"
 #include "ui_sessionoverview.h"
 
-SessionOverview::SessionOverview(QWidget *parent, MediationSession *mediationSession) :
-    QWidget(parent),
-    _mediationSession(mediationSession ? mediationSession : new MediationSession()),
-    ui(new Ui::SessionOverview)
+SessionOverview::SessionOverview(QWidget *parent, MediationSessionVector *mediationSessionVector) :
+    QWidget(parent),  
+    ui(new Ui::SessionOverview),
+    _mediationSessionVector(mediationSessionVector ? mediationSessionVector : new MediationSessionVector())
 {
     ui->setupUi(this);
+
     updateView();
 }
 
@@ -17,7 +18,24 @@ SessionOverview::~SessionOverview()
 
 void SessionOverview::updateView()
 {
-    ui->sessionDateDisplayLabel->setText(_mediationSession->getMediationTime().toString());
-    ui->sessionFeeStatusDisplayLabel->setText(_mediationSession->getFeeStatus());
-    ui->sessionStatusDisplayLabel->setText(_mediationSession->getStatus());
+     _numberOfSessions = _mediationSessionVector->size();
+    if(_numberOfSessions > 0)
+    {
+        ui->sessionDateDisplayLabel->setText(_mediationSessionVector->at(0)->getMediationTime().toString());
+        ui->sessionFeeStatusDisplayLabel->setText(_mediationSessionVector->at(0)->getFeeStatus());
+        ui->sessionStatusDisplayLabel->setText(_mediationSessionVector->at(0)->getStatus());
+    }
+        ui->numSessionsDisplayLabel->setText(QString::number(_numberOfSessions));
+}
+
+void SessionOverview::setNumberOfSessions(uint value)
+{
+    _numberOfSessions = value;
+}
+
+void SessionOverview::on_pushButton_clicked()
+{
+    MediationSession *temp = new MediationSession();
+    _mediationSessionVector->push_back(temp);
+    updateView();
 }
