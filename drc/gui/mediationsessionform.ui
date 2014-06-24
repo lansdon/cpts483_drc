@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>587</width>
+    <width>616</width>
     <height>154</height>
    </rect>
   </property>
@@ -422,6 +422,27 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>dateTimeEdit</tabstop>
+  <tabstop>stateComboBox</tabstop>
+  <tabstop>comboBox</tabstop>
+  <tabstop>Fee1LineEdit</tabstop>
+  <tabstop>Fee1PaidCheckBox</tabstop>
+  <tabstop>Fee2LineEdit</tabstop>
+  <tabstop>Fee2PaidCheckBox</tabstop>
+  <tabstop>FamilyFeeLineEdit</tabstop>
+  <tabstop>FamilyFeePaidCheckBox</tabstop>
+  <tabstop>OtherFeeLineEdit</tabstop>
+  <tabstop>OtherFeePaidCheckBox</tabstop>
+  <tabstop>incomeFee1LineEdit</tabstop>
+  <tabstop>incomeFee2LineEdit</tabstop>
+  <tabstop>incomeFeeFamilyLineEdit</tabstop>
+  <tabstop>incomeFeeOtherLineEdit</tabstop>
+  <tabstop>MediatorLineEdit</tabstop>
+  <tabstop>Mediator2LineEdit</tabstop>
+  <tabstop>Observe1LineEdit</tabstop>
+  <tabstop>Observer2lineEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

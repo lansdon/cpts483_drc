@@ -18,6 +18,7 @@ class LoginForm : public QWidget
 public:
     explicit LoginForm(QWidget *parent = 0);
     ~LoginForm();
+    void keyPressEvent(QKeyEvent *pe);
 
 private slots:
     void on_loginButton_clicked();

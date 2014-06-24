@@ -6,6 +6,7 @@
 #include "MediatorKeys.h"
 #include <QDebug>
 #include "CurrentUser.h"
+#include <QKeyEvent>
 
 
 LoginForm::LoginForm(QWidget *parent) :
@@ -22,9 +23,13 @@ LoginForm::LoginForm(QWidget *parent) :
                 true,
                 1
             );
-
     ui->statusLabel->setText("Please enter your credentials");
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
+}
+
+void LoginForm::keyPressEvent(QKeyEvent *pe)
+{
+    if(pe->key() == Qt::Key_Return) on_loginButton_clicked();
 }
 
 LoginForm::~LoginForm()
