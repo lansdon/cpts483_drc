@@ -21,6 +21,38 @@ QString MediationSession::getStatus() const
     return _pendingRB ? "Pending" : _cancelledRB ? "Cancelled" : _rescheduledRB ? "Reschecduled" : _confirmedRB ? "Confirmed" : "Error In Reading Status";
 }
 
+QString MediationSession::getFeeStatus() const
+{
+//    if(!_fee1.isEmpty() && !_fee2.isEmpty() && !_feeFamily.isEmpty() && !_feeOther.isEmpty())
+//    {
+//        if(_fee1Paid && _fee2Paid && _feeFamilyPaid && _feeOtherPaid)
+//            return "Paid";
+//        else
+//            return "Partial";
+//    }
+//    else if(!_fee1.isEmpty() && !_fee2.isEmpty() && !_feeFamily.isEmpty())
+    bool partial1, partial2, partial3, partial4, paidInFull;
+    partial1 = partial2 = partial3 = partial4 = paidInFull = true;
+    if(!_fee1.isEmpty() && !_fee1Paid)
+        partial1 = false;
+    if(!_fee2.isEmpty() && !_fee2Paid)
+        partial2 = false;
+    if(!_feeFamily.isEmpty() && !_feeFamilyPaid)
+        partial3 = false;
+    if(!_feeOther.isEmpty() && !_feeOtherPaid)
+        partial4 = false;
+    if(!partial1 || !partial2 || !partial3 || !partial4)
+        paidInFull = false;
+    if(paidInFull && !_fee1Paid || !_fee2Paid || !_feeFamilyPaid || !_feeOtherPaid)
+        return "No fees added";
+    else if(paidInFull)
+        return "Paid In Full";
+    else if(partial1 || partial2 || partial3 || partial4)
+        return "Partial Payment";
+    else
+        return "Not Paid";
+}
+
 MediationSession *MediationSession::SampleData()
 {
 

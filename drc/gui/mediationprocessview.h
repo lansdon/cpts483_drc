@@ -11,6 +11,7 @@
 #include "mediationprocessstatusform.h"
 #include "partiescontainerform.h"
 #include "mediationsessionform.h"
+#include "sessionoverview.h"
 
 namespace Ui {
 class MediationProcessView;
@@ -44,6 +45,7 @@ private:
 
      // Toolbox + Children (pages)
      MediationProcessStatusForm *_mediationProcessStatusForm;
+     SessionOverview *_sessionOverview;
 //     PartiesContainerForm *_partiesContainerForm;
 //     MediationSessionForm *_mediationSessionForm;
 
