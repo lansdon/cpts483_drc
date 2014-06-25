@@ -119,3 +119,18 @@ QString StringForSearchTypes(SearchTypes id)
     return result;
 }
 
+QString StringForSessionStates(SessionStates id)
+{
+    QString result;
+    switch(id)
+    {
+    case SESSION_STATE_CANCELLED: result = "Cancelled"; break;
+    case SESSION_STATE_CONFIRMED: result = "Confirmed"; break;
+    case SESSION_STATE_NONE: result = "None"; break;
+    case SESSION_STATE_PENDING: result = "Pending"; break;
+    case SESSION_STATE_RESCHEDULED: result = "Rescheduled"; break;
+    default: result = "Invalid"; break;
+    }
+    return result;
+}
+

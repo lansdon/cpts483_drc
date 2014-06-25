@@ -7,8 +7,7 @@
 MediationSession::MediationSession()
 {
     _mediationCreation = QDateTime::currentDateTime();
-    _pendingRB = true;
-    _cancelledRB = _rescheduledRB = _confirmedRB = _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
+    _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
     _mediator1 = new Person();
     _mediator2 = new Person();
     _observer1 = new Person();
@@ -18,7 +17,7 @@ MediationSession::MediationSession()
 
 QString MediationSession::getStatus() const
 {
-    return _pendingRB ? "Pending" : _cancelledRB ? "Cancelled" : _rescheduledRB ? "Reschecduled" : _confirmedRB ? "Confirmed" : "Error In Reading Status";
+    return StringForSessionStates(_state);
 }
 
 QString MediationSession::getFeeStatus() const
@@ -65,23 +64,7 @@ MediationSession *MediationSession::SampleData()
     std::string strId = ss.str();
 
     int randomNumber = qrand() * 100000;
-    int randomStatus = qrand() % 4;
-    result->setPendingRB(false);
-    switch(randomStatus)
-    {
-    case 0:
-        result->setPendingRB(true);
-        break;
-    case 1:
-        result->setConfirmedRB(true);
-        break;
-    case 2:
-        result->setCancelledRB(true);
-        break;
-    case 3:
-        result->setRescheduledRB(true);
-    }
-
+    result->SetState((SessionStates)(qrand() % 5));
     result->setMediationTime(QDateTime::fromTime_t(randomNumber));
     result->setFee1(QString::fromStdString(strId));
     result->setFee2(QString::fromStdString(strId));

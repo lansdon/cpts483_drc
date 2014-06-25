@@ -24,11 +24,8 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
 {
     ui->setupUi(this);
 
-//    ui->clientSessionsContainer->
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
-    //_sessionOverview = new SessionOverview(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector());
 
-//    _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
     if(_mediationProcess->getMediationSessionVector()->size() > 0)
         _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector()->at(0));
     else
@@ -39,21 +36,8 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
 
-
-
-//    connect(_mediationProcessStatusForm,SIGNAL(hovered()),this, SLOT(onHovered()));
-
-    // Set the parties container
-//    QVBoxLayout* pLayout = new QVBoxLayout();
-//    pLayout->addWidget(_partiesContainerForm);
-//    ui->clientsContainer->setLayout(pLayout);
-
-    // Set the sessions container
-//    QVBoxLayout* sLayout = new QVBoxLayout();
-//    sLayout->addWidget(_mediationSessionForm);
-//    ui->sessionsContainer->setLayout(sLayout);
-
     configSessionTable();
+    ui->sessionsContainer->hide();
 
     // Update Fields for current record
     PopulateView(_mediationProcess);
@@ -67,11 +51,6 @@ MediationProcessView::~MediationProcessView()
     delete ui;
 }
 
-//void MediationProcessView::savePersonContactFromFarAway(Person *value)
-//{
-//    PopulateView(_mediationProcess);
-//}
-
 void MediationProcessView::PopulateView(MediationProcess *process)
 {
     _mediationProcess = process;
@@ -83,9 +62,16 @@ void MediationProcessView::PopulateView(MediationProcess *process)
 //    _partiesContainerForm->AddPartyTabs(&_mediationProcess->GetParties());
 //    connect(_partiesContainerForm,SIGNAL(PassItOnAgain(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
 
+    // PARTY!
     AddPartyTabs(&_mediationProcess->GetParties());
 
-    PopulateSessionTable();
+
+//    PopulateSessionTable();
+
+    // DOCK Sesssions
+    Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
+
+    // Session detail.
     if(_mediationProcess->getMediationSessionVector()->size() > 0 )
         _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
 }

@@ -4,6 +4,7 @@
 #include "persondetailsform.h"
 #include "drctypes.h"
 #include "DRCModels.h"
+#include "Mediator.h"
 
 MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *session) :
     QWidget(parent),
@@ -18,6 +19,7 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     fillFields(_mediationSession);
 //    ui->sessiontTableWidget->setCurrentCell(0,0);
 
+    Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
 }
 
 MediationSessionForm::~MediationSessionForm()
@@ -29,6 +31,11 @@ void MediationSessionForm::setMediationSession(MediationSession *session)
 {
     _mediationSession = session;
     fillFields(_mediationSession);
+}
+
+void MediationSessionForm::SetSessionEvent(MediatorArg arg)
+{
+    setMediationSession(arg.getArg<MediationSession*>());
 }
 
 void MediationSessionForm::setParties(int input)
@@ -74,6 +81,7 @@ void MediationSessionForm::updateTabs(std::vector<Person *> *input)
 //    }
 }
 
+
 //void MediationSessionForm::on_CancelledRadioButton_toggled(bool checked)
 //{
 //    if(!FillingFields)
@@ -109,6 +117,7 @@ void MediationSessionForm::updateTabs(std::vector<Person *> *input)
 ////        PopulateSessionTable();
 //    }
 //}
+
 
 void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {

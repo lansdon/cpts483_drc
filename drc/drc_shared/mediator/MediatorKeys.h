@@ -111,10 +111,17 @@ const QString MKEY_GUI_QUERY_MEDIATION = "MKEY_GUI_QUERY_MEDIATION";            
 const QString MKEY_BL_QUERY_MEDIATION = "MKEY_BL_QUERY_MEDIATION";                              // QString
 const QString MKEY_DB_QUERY_MEDIATION = "MKEY_DB_QUERY_MEDIATION";                              // MediationProcessVector* (see drctypes.h)
 
+
 //////////////////////////////////////////////////////////////////
-//				TOGGLE MEDIATION PROCESS TABLE DOCK
-// Query for a list of mediation processes based on a single mediation process
-//////////////////////////////////////////////////////////////////                              ARGUMENT TYPE
+//				DOCK WIDGET
+//////////////////////////////////////////////////////////////////
+//	toggle MPToolbox Dock Widget
 const QString MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK = "MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK";    // null
+// Set Sessions for Session Table
+const QString MKEY_DOCK_SET_SESSIONS = "MKEY_DOCK_SET_SESSIONS";                                // MediationSessionsVector*
+// Session Table - selected a session
+const QString MKEY_DOCK_SESSION_CHANGED = "MKEY_DOCK_SESSION_CHANGED";                                // MediationSessionsVector*
+
+
 
 #endif
