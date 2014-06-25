@@ -29,7 +29,10 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     //_sessionOverview = new SessionOverview(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector());
 
 //    _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
-    _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer);
+    if(_mediationProcess->getMediationSessionVector()->size() > 0)
+        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector()->at(0));
+    else
+        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer);
 
     // Set the overview container
     QVBoxLayout* layout = new QVBoxLayout();
@@ -83,6 +86,8 @@ void MediationProcessView::PopulateView(MediationProcess *process)
     AddPartyTabs(&_mediationProcess->GetParties());
 
     PopulateSessionTable();
+    if(_mediationProcess->getMediationSessionVector()->size() > 0 )
+        _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
 }
 
 void MediationProcessView::ConfigureToolbar()
@@ -136,6 +141,7 @@ void MediationProcessView::configSessionTable()
         _sessionTable->horizontalHeader()->setSectionResizeMode(
             c, QHeaderView::Stretch);
     }
+
 }
 
 void MediationProcessView::PopulateSessionTable()
