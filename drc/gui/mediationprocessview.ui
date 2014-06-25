@@ -40,6 +40,11 @@
        <height>200</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
      <property name="title">
       <string>Mediation Details (Choose a mediation to view from the Mediation Browser)</string>
      </property>
@@ -53,6 +58,11 @@
        <height>150</height>
       </size>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>18</pointsize>
+      </font>
+     </property>
      <property name="title">
       <string>Session Details (Choose a session to view from the Session Browser)</string>
      </property>
@@ -62,8 +72,13 @@
     <layout class="QGridLayout" name="gridLayout_3">
      <item row="0" column="0">
       <widget class="QGroupBox" name="clientsContainer">
+       <property name="font">
+        <font>
+         <pointsize>18</pointsize>
+        </font>
+       </property>
        <property name="title">
-        <string>Clients</string>
+        <string>Clients (Select clients using the tabs)</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <item row="0" column="0">
