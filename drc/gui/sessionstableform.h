@@ -20,6 +20,10 @@ public:
 
     void SetSessions(MediationSessionVector* sessions);
     void SetSessionsEvent(MediatorArg arg);
+
+protected slots:
+    void on_tableWidget_itemSelectionChanged();
+
 private:
     Ui::SessionsTableForm *ui;
 
@@ -29,7 +33,6 @@ private:
     QTableWidget* _sessionTable;
     void configSessionTable();
     void PopulateSessionTable();
-    void on_sessiontTableWidget_itemSelectionChanged();
 
 };
 

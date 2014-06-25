@@ -7,6 +7,8 @@
 #include <vector>
 #include "drc_shared/models/mediationprocess.h"
 #include "drc_shared/drctypes.h"
+#include "mediator.h"
+
 
 namespace Ui {
 class MediationSessionForm;
@@ -73,6 +75,7 @@ private slots:
     void SaveSignaled();
     void EditSignaled();
 
+    void SetSessionEvent(MediatorArg arg);
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;

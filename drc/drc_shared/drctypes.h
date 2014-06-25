@@ -113,6 +113,15 @@ enum MediationTableSortTypes
     MEDIATION_SORT_T_CLOSED
 };
 
+enum SessionStates
+{
+    SESSION_STATE_NONE,
+    SESSION_STATE_PENDING,
+    SESSION_STATE_CONFIRMED,
+    SESSION_STATE_CANCELLED,
+    SESSION_STATE_RESCHEDULED
+};
+
 // String Helpers
 QString StringForCountyIds(CountyIds id);
 QString StringForDisputeProcessStates(DisputeProcessStates id);
@@ -121,6 +130,7 @@ QString StringForReferralTypes(ReferralTypes id);
 QString StringForPartyTypes(PartyTypes id);
 QString StringForUserTypes(UserTypes id);
 QString StringForSearchTypes(SearchTypes id);
+QString StringForSessionStates(SessionStates id);
 
 
 

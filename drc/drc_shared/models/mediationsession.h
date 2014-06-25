@@ -9,7 +9,8 @@ class MediationSession
 {
 private:
     QDateTime _mediationTime, _mediationCreation;
-    bool _pendingRB, _cancelledRB, _confirmedRB, _rescheduledRB, _fee1Paid, _fee2Paid, _feeFamilyPaid, _feeOtherPaid;
+    SessionStates _state;
+    bool _fee1Paid, _fee2Paid, _feeFamilyPaid, _feeOtherPaid;
     QString _fee1, _fee2, _feeFamily, _feeOther, _incomeFee1, _incomeFee2, _incomeFeeFamily, _incomeFeeOther;
     Person *_mediator1, *_mediator2, *_observer1, *_observer2;
 
@@ -19,10 +20,10 @@ public:
     //getters
     QDateTime getMediationTime() const {return _mediationTime;}
     QDateTime getMediationCreation() const { return _mediationCreation; }
-    bool getPendingRB() const {return _pendingRB;}
-    bool getCancelledRB() const{return _cancelledRB;}
-    bool getConfirmedRB() const{return _confirmedRB;}
-    bool getRescheduledRB() const {return _rescheduledRB;}
+//    bool getPendingRB() const {return _pendingRB;}
+//    bool getCancelledRB() const{return _cancelledRB;}
+//    bool getConfirmedRB() const{return _confirmedRB;}
+//    bool getRescheduledRB() const {return _rescheduledRB;}
     bool getFee1Paid() const { return _fee1Paid; }
     bool getFee2Paid() const { return _fee2Paid; }
     bool getFeeFamilyPaid() const { return _feeFamilyPaid; }
@@ -39,13 +40,14 @@ public:
     Person *getMediator2() const { return _mediator2; }
     Person *getObserver1() const { return _observer1; }
     Person *getObserver2() const { return _observer2; }
+    SessionStates GetState() { return _state; }
 
     //setters
     void setMediationTime(QDateTime value) { _mediationTime = value; }
-    void setPendingRB(bool value) { _pendingRB = value; }
-    void setCancelledRB(bool value) { _cancelledRB = value; }
-    void setConfirmedRB(bool value) { _confirmedRB = value; }
-    void setRescheduledRB(bool value) { _rescheduledRB = value; }
+//    void setPendingRB(bool value) { _pendingRB = value; }
+//    void setCancelledRB(bool value) { _cancelledRB = value; }
+//    void setConfirmedRB(bool value) { _confirmedRB = value; }
+//    void setRescheduledRB(bool value) { _rescheduledRB = value; }
     void setFee1Paid(bool value) { _fee1Paid = value; }
     void setFee2Paid(bool value) { _fee2Paid = value; }
     void setFeeFamilyPaid(bool value) { _feeFamilyPaid = value; }
@@ -62,6 +64,7 @@ public:
     void setMediator2(Person *value) { _mediator2 = value; }
     void setObserver1(Person *value) {_observer1 = value; }
     void setObserver2(Person *value) {_observer2 = value; }
+    void SetState(SessionStates state) { _state = state; }
 
     QString getStatus() const;
     QString getFeeStatus() const;

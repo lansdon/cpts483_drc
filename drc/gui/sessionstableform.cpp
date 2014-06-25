@@ -3,6 +3,8 @@
 #include "mediationsessionform.h"
 #include "Mediator.h"
 #include "MediatorKeys.h"
+#include "QDebug"
+#include "sessioncell.h"
 
 SessionsTableForm::SessionsTableForm(QWidget *parent, MediationSessionVector* sessions) :
     QWidget(parent),
@@ -36,6 +38,12 @@ void SessionsTableForm::configSessionTable()
     _sessionTable->setShowGrid(true);
     _sessionTable->setStyleSheet("QTableView {selection-background-color: red;}");
 
+    connect(
+      _sessionTable->selectionModel(),
+      SIGNAL(selectionChanged(const QItemSelection &, const QItemSelection &)),
+      SLOT(on_tableWidget_itemSelectionChanged())
+     );
+
     for (int c = 0; c < _sessionTable->horizontalHeader()->count(); ++c)
     {
         _sessionTable->horizontalHeader()->setSectionResizeMode(
@@ -51,7 +59,7 @@ void SessionsTableForm::PopulateSessionTable()
     int row;
     for(row=0; row < (int)_sessions->size(); ++row)
     {
-        MediationSessionForm* sessionForm = new MediationSessionForm(_sessionTable, _sessions->at(row));
+        SessionCell* sessionForm = new SessionCell(_sessionTable, _sessions->at(row));
         _sessionTable->insertRow(row);
         _sessionTable->setRowHeight(row, 100);
         _sessionTable->setCellWidget(row, 0, sessionForm);
@@ -61,16 +69,14 @@ void SessionsTableForm::PopulateSessionTable()
     _sessionTable->setCurrentCell(0,0);
 }
 
-void SessionsTableForm::on_sessiontTableWidget_itemSelectionChanged()
+void SessionsTableForm::on_tableWidget_itemSelectionChanged()
 {
+    qDebug() << "Look ma! Session changed!";
 
-//    if(sessionCurrentRow != ui->sessiontTableWidget->currentRow())
-//    {
-//        sessionCurrentRow = ui->sessiontTableWidget->currentRow();
+    if(_sessionTable->rowCount() <= 1) return;
 
-//        if((uint)sessionCurrentRow<_mediationSessions->size())
-//            fillFields(_mediationSessions->at(sessionCurrentRow));
-//    }
+    SessionCell* sessionForm = (SessionCell*)_sessionTable->cellWidget(_sessionTable->currentRow(), 0);
+    Mediator::Call(MKEY_DOCK_SESSION_CHANGED, sessionForm->GetSession());
 
 }
 

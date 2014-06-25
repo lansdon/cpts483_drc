@@ -4,6 +4,7 @@
 #include "persondetailsform.h"
 #include "drctypes.h"
 #include "DRCModels.h"
+#include "Mediator.h"
 
 MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *session) :
     QWidget(parent),
@@ -18,6 +19,7 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     fillFields(_mediationSession);
 //    ui->sessiontTableWidget->setCurrentCell(0,0);
 
+    Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
 }
 
 MediationSessionForm::~MediationSessionForm()
@@ -29,6 +31,11 @@ void MediationSessionForm::setMediationSession(MediationSession *session)
 {
     _mediationSession = session;
     fillFields(_mediationSession);
+}
+
+void MediationSessionForm::SetSessionEvent(MediatorArg arg)
+{
+    setMediationSession(arg.getArg<MediationSession*>());
 }
 
 void MediationSessionForm::setParties(int input)
@@ -78,7 +85,7 @@ void MediationSessionForm::on_CancelledRadioButton_toggled(bool checked)
 {
     if(!FillingFields)
     {
-        _mediationSession->setCancelledRB(checked);
+//        _mediationSession->setCancelledRB(checked);
 //        PopulateSessionTable();
     }
 }
@@ -87,7 +94,7 @@ void MediationSessionForm::on_PendingRadioButton_toggled(bool checked)
 {
     if(!FillingFields)
     {
-        _mediationSession->setPendingRB(checked);
+//        _mediationSession->setPendingRB(checked);
 //        PopulateSessionTable();
     }
 }
@@ -96,7 +103,7 @@ void MediationSessionForm::on_confirmedRadioButton_toggled(bool checked)
 {
     if(!FillingFields)
     {
-        _mediationSession->setConfirmedRB(checked);
+//        _mediationSession->setConfirmedRB(checked);
 //        PopulateSessionTable();
     }
 }
@@ -105,7 +112,7 @@ void MediationSessionForm::on_rescheduledRadioButton_toggled(bool checked)
 {
     if(!FillingFields)
     {
-        _mediationSession->setRescheduledRB(checked);
+//        _mediationSession->setRescheduledRB(checked);
 //        PopulateSessionTable();
     }
 }
