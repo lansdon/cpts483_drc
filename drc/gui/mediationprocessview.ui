@@ -56,7 +56,6 @@
      <property name="title">
       <string>Session Details (Choose a session to view from the Session Browser)</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3"/>
     </widget>
    </item>
    <item>

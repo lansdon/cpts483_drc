@@ -38,10 +38,10 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
 
     // Set the session container
     QVBoxLayout* layout2 = new QVBoxLayout();
-    layout->addWidget(_mediationSessionForm);
-    ui->sessionOverviewGroupBox->setLayout(layout);
+    layout2->addWidget(_mediationSessionForm);
+    ui->sessionOverviewGroupBox->setLayout(layout2);
 
-    configSessionTable();
+//    configSessionTable();
     ui->sessionsContainer->hide();
 
     // Update Fields for current record
