@@ -132,6 +132,7 @@ void MediationSessionForm::on_Fee1LineEdit_editingFinished()
 {
     if(!FillingFields)
         _mediationSession->setFee1(ui->Fee1LineEdit->text());
+     fillFields(_mediationSession);
 }
 
 void MediationSessionForm::on_Fee1PaidCheckBox_toggled(bool checked)
@@ -198,18 +199,21 @@ void MediationSessionForm::on_Fee2LineEdit_editingFinished()
 {
     if(!FillingFields)
         _mediationSession->setFee2(ui->Fee2LineEdit->text());
+     fillFields(_mediationSession);
 }
 
 void MediationSessionForm::on_FamilyFeeLineEdit_editingFinished()
 {
     if(!FillingFields)
         _mediationSession->setFeeFamily(ui->FamilyFeeLineEdit->text());
+     fillFields(_mediationSession);
 }
 
 void MediationSessionForm::on_OtherFeeLineEdit_editingFinished()
 {
     if(!FillingFields)
         _mediationSession->setFeeOther(ui->OtherFeeLineEdit->text());
+     fillFields(_mediationSession);
 }
 
 void MediationSessionForm::on_Fee2PaidCheckBox_toggled(bool checked)

@@ -31,18 +31,23 @@ QString MediationSession::getFeeStatus() const
 //    }
 //    else if(!_fee1.isEmpty() && !_fee2.isEmpty() && !_feeFamily.isEmpty())
     bool partial1, partial2, partial3, partial4, paidInFull;
-    partial1 = partial2 = partial3 = partial4 = paidInFull = true;
-    if(!_fee1.isEmpty() && !_fee1Paid)
-        partial1 = false;
-    if(!_fee2.isEmpty() && !_fee2Paid)
-        partial2 = false;
-    if(!_feeFamily.isEmpty() && !_feeFamilyPaid)
-        partial3 = false;
-    if(!_feeOther.isEmpty() && !_feeOtherPaid)
-        partial4 = false;
-    if(!partial1 || !partial2 || !partial3 || !partial4)
+    partial1 = partial2 = partial3 = partial4 = false;
+    paidInFull = true;
+    if(!_fee1.isEmpty() && _fee1Paid)
+        partial1 = true;
+    if(!_fee2.isEmpty() && _fee2Paid)
+        partial2 = true;
+    if(!_feeFamily.isEmpty() && _feeFamilyPaid)
+        partial3 = true;
+    if(!_feeOther.isEmpty() && _feeOtherPaid)
+        partial4 = true;
+
+
+    if((!_fee1.isEmpty() && !partial1) || (!_fee2.isEmpty() && !partial2) || (!_feeFamily.isEmpty() && !partial3) || (!_feeOther.isEmpty() && !partial4))
         paidInFull = false;
-    if(paidInFull && (!_fee1Paid || !_fee2Paid || !_feeFamilyPaid || !_feeOtherPaid))
+
+
+    if(_fee1.isEmpty() && _fee2.isEmpty() && _feeFamily.isEmpty() && _feeOther.isEmpty())
         return "No fees added";
     else if(paidInFull)
         return "Paid In Full";
