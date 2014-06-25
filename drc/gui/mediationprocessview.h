@@ -12,6 +12,7 @@
 #include "partiescontainerform.h"
 #include "mediationsessionform.h"
 #include "sessionoverview.h"
+#include "nosessionsview.h"
 
 namespace Ui {
 class MediationProcessView;
@@ -46,6 +47,7 @@ private:
      MediationProcessStatusForm *_mediationProcessStatusForm;
      SessionOverview *_sessionOverview;
      MediationSessionForm *_mediationSessionForm;
+     NoSessionsView *_noSession;
 
      // Setup GUI Helpers
     void ConfigureToolbar();

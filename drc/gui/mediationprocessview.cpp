@@ -13,6 +13,7 @@
 #include "DRCModels.h"
 #include "partiescontainerform.h"
 #include "MediatorKeys.h"
+#include "nosessionsview.h"
 
 
 
@@ -26,20 +27,26 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
 
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
 
-    if(_mediationProcess->getMediationSessionVector()->size() > 0)
-        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox, _mediationProcess->getMediationSessionVector()->at(0));
-    else
+
         _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
+        // Set the session container
+        QVBoxLayout* layout2 = new QVBoxLayout();
+        layout2->addWidget(_mediationSessionForm);
+        ui->sessionOverviewGroupBox->setLayout(layout2);
+        _mediationSessionForm->hide();
+        _noSession = new NoSessionsView(ui->sessionOverviewGroupBox);
+        // Set the No session container
+        QVBoxLayout* layout3 = new QVBoxLayout();
+        layout2->addWidget(_noSession);
+        ui->sessionOverviewGroupBox->setLayout(layout3);
+
 
     // Set the overview container
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
 
-    // Set the session container
-    QVBoxLayout* layout2 = new QVBoxLayout();
-    layout2->addWidget(_mediationSessionForm);
-    ui->sessionOverviewGroupBox->setLayout(layout2);
+
 
 //    configSessionTable();
     ui->sessionsContainer->hide();
@@ -78,7 +85,24 @@ void MediationProcessView::PopulateView(MediationProcess *process)
 
     // Session detail.
     if(_mediationProcess->getMediationSessionVector()->size() > 0 )
-        _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
+    {
+        if(_noSession)
+        {
+            _noSession->hide();
+            //_mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox, _mediationProcess->getMediationSessionVector()->at(0));
+            // Set the session container
+//            QVBoxLayout* layout2 = new QVBoxLayout();
+//            layout2->addWidget(_mediationSessionForm);
+//            ui->sessionOverviewGroupBox->setLayout(layout2);
+//            ui->sessionOverviewGroupBox->repaint();
+            _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
+            _mediationSessionForm->show();
+            delete _noSession;
+            _noSession = nullptr;
+        }
+        else
+            _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
+    }
 }
 
 void MediationProcessView::ConfigureToolbar()

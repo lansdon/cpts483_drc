@@ -61,7 +61,8 @@ SOURCES += main.cpp\
     gui/sessionstableform.cpp \
     gui/sessionoverview.cpp \
     gui/mptoolbox.cpp \
-    gui/sessioncell.cpp
+    gui/sessioncell.cpp \
+    gui/nosessionsview.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -115,7 +116,8 @@ HEADERS  += \
     gui/sessionstableform.h \
     gui/sessionoverview.h \
     gui/mptoolbox.h \
-    gui/sessioncell.h
+    gui/sessioncell.h \
+    gui/nosessionsview.h
 
 FORMS    += \
     DRCClient.ui \
@@ -133,7 +135,8 @@ FORMS    += \
     gui/sessionstableform.ui \
     gui/sessionoverview.ui \
     gui/mptoolbox.ui \
-    gui/sessioncell.ui
+    gui/sessioncell.ui \
+    gui/nosessionsview.ui
 
 
 CONFIG += c++11
