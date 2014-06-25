@@ -24,6 +24,8 @@ void SessionOverview::updateView()
         ui->sessionCreationDateDisplayLabel->setText(_mediationSessionVector->at(0)->getMediationCreation().toString());
         ui->sessionFeeStatusDisplayLabel->setText(_mediationSessionVector->at(0)->getFeeStatus());
         ui->sessionStatusDisplayLabel->setText(_mediationSessionVector->at(0)->getStatus());
+        if(!_mediationSessionVector->at(0)->getMediationTime().isNull())
+            ui->sessionScheduleDisplayLabel->setText(_mediationSessionVector->at(0)->getMediationTime().toString());
     }
         ui->numSessionsDisplayLabel->setText(QString::number(_numberOfSessions));
 }

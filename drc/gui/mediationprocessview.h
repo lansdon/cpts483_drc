@@ -47,7 +47,7 @@ private:
      MediationProcessStatusForm *_mediationProcessStatusForm;
      SessionOverview *_sessionOverview;
 //     PartiesContainerForm *_partiesContainerForm;
-//     MediationSessionForm *_mediationSessionForm;
+     MediationSessionForm *_mediationSessionForm;
 
      // Setup GUI Helpers
     void ConfigureToolbar();
