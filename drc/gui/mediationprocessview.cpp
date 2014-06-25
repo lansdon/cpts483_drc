@@ -27,14 +27,19 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
 
     if(_mediationProcess->getMediationSessionVector()->size() > 0)
-        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector()->at(0));
+        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox, _mediationProcess->getMediationSessionVector()->at(0));
     else
-        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer);
+        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
 
     // Set the overview container
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
+
+    // Set the session container
+    QVBoxLayout* layout2 = new QVBoxLayout();
+    layout->addWidget(_mediationSessionForm);
+    ui->sessionOverviewGroupBox->setLayout(layout);
 
     configSessionTable();
     ui->sessionsContainer->hide();
