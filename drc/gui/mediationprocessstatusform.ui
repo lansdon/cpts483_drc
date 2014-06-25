@@ -7,13 +7,13 @@
     <x>0</x>
     <y>0</y>
     <width>881</width>
-    <height>168</height>
+    <height>198</height>
    </rect>
   </property>
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>168</height>
+    <height>500</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -23,7 +23,7 @@
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox">
      <property name="sizePolicy">
-      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>

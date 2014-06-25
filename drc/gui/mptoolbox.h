@@ -6,7 +6,7 @@
 #include "drctypes.h"
 #include "mediationprocesstableform.h"
 #include "sessionstableform.h"
-
+#include "mediationprocess.h"
 
 namespace Ui {
 class MPToolBox;
@@ -42,6 +42,11 @@ private:
     void DisableSessionsTable();
     void DisableNotesTable();
 
+signals:
+    void MPSelected(MediationProcess* process);
+
+public slots:
+    void DoMPSelected(MediationProcess* process) { emit MPSelected(process); }
 };
 
 #endif // MPTOOLBOX_H

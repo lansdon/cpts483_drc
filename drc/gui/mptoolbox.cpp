@@ -56,6 +56,7 @@ void MPToolBox::EnableMediationsTable(MediationTableSortTypes sortType)
     if(!_mpTable)
     {
         _mpTable = new MediationProcessTableForm(this, sortType);
+        connect(_mpTable, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(DoMPSelected(MediationProcess*)));
         _mpTableIndex = this->addItem(_mpTable, TNAME_PROCESSES);
         setItemEnabled(_mpTableIndex, true);
         setCurrentIndex(_mpTableIndex);
