@@ -24,9 +24,10 @@
 #include <QDebug>
 #include <QDockWidget>
 
-DRCClient::DRCClient(QWidget *parent) :
-   QMainWindow(parent),
-   ui(new Ui::DRCClient)
+DRCClient::DRCClient(QWidget *parent)
+    : QMainWindow(parent)
+    , ui(new Ui::DRCClient)
+    , _mediationTableDock(nullptr)
 {
     ui->setupUi(this);
     // set up a seed for any random numbers generated with qrand()
