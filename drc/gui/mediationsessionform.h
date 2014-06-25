@@ -24,13 +24,13 @@ public:
     void setMediationSession(MediationSession *value);
 
 private slots:
-    void on_CancelledRadioButton_toggled(bool checked);
+//    void on_CancelledRadioButton_toggled(bool checked);
 
-    void on_PendingRadioButton_toggled(bool checked);
+//    void on_PendingRadioButton_toggled(bool checked);
 
-    void on_confirmedRadioButton_toggled(bool checked);
+//    void on_confirmedRadioButton_toggled(bool checked);
 
-    void on_rescheduledRadioButton_toggled(bool checked);
+//    void on_rescheduledRadioButton_toggled(bool checked);
 
     void on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
@@ -58,13 +58,13 @@ private slots:
 
     void on_incomeFeeOtherLineEdit_editingFinished();
 
-    void on_mediator1EditPushButton_clicked();
+//    void on_mediator1EditPushButton_clicked();
 
-    void on_mediator2EditPushButton_clicked();
+//    void on_mediator2EditPushButton_clicked();
 
-    void on_observer1EditPushButton_clicked();
+//    void on_observer1EditPushButton_clicked();
 
-    void on_observer2EditPushButton_clicked();
+//    void on_observer2EditPushButton_clicked();
 
     void deletePersonContact(Person *value);
 

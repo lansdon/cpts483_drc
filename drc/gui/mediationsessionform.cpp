@@ -74,41 +74,41 @@ void MediationSessionForm::updateTabs(std::vector<Person *> *input)
 //    }
 }
 
-void MediationSessionForm::on_CancelledRadioButton_toggled(bool checked)
-{
-    if(!FillingFields)
-    {
-        _mediationSession->setCancelledRB(checked);
-//        PopulateSessionTable();
-    }
-}
+//void MediationSessionForm::on_CancelledRadioButton_toggled(bool checked)
+//{
+//    if(!FillingFields)
+//    {
+//        _mediationSession->setCancelledRB(checked);
+////        PopulateSessionTable();
+//    }
+//}
 
-void MediationSessionForm::on_PendingRadioButton_toggled(bool checked)
-{
-    if(!FillingFields)
-    {
-        _mediationSession->setPendingRB(checked);
-//        PopulateSessionTable();
-    }
-}
+//void MediationSessionForm::on_PendingRadioButton_toggled(bool checked)
+//{
+//    if(!FillingFields)
+//    {
+//        _mediationSession->setPendingRB(checked);
+////        PopulateSessionTable();
+//    }
+//}
 
-void MediationSessionForm::on_confirmedRadioButton_toggled(bool checked)
-{
-    if(!FillingFields)
-    {
-        _mediationSession->setConfirmedRB(checked);
-//        PopulateSessionTable();
-    }
-}
+//void MediationSessionForm::on_confirmedRadioButton_toggled(bool checked)
+//{
+//    if(!FillingFields)
+//    {
+//        _mediationSession->setConfirmedRB(checked);
+////        PopulateSessionTable();
+//    }
+//}
 
-void MediationSessionForm::on_rescheduledRadioButton_toggled(bool checked)
-{
-    if(!FillingFields)
-    {
-        _mediationSession->setRescheduledRB(checked);
-//        PopulateSessionTable();
-    }
-}
+//void MediationSessionForm::on_rescheduledRadioButton_toggled(bool checked)
+//{
+//    if(!FillingFields)
+//    {
+//        _mediationSession->setRescheduledRB(checked);
+////        PopulateSessionTable();
+//    }
+//}
 
 void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
@@ -129,6 +129,7 @@ void MediationSessionForm::on_Fee1PaidCheckBox_toggled(bool checked)
 {
     if(!FillingFields)
         _mediationSession->setFee1Paid(checked);
+    fillFields(_mediationSession);
 }
 
 
@@ -140,6 +141,7 @@ void MediationSessionForm::fillFields(MediationSession *input)
         FillingFields = true;
 //        ui->CancelledRadioButton->setChecked(input->getCancelledRB());
 //        ui->confirmedRadioButton->setChecked(input->getConfirmedRB());
+        ui->feePaidDisplayLabel->setText(_mediationSession->getFeeStatus());
         ui->dateTimeEdit->setDateTime(input->getMediationTime());
         ui->dateTimeEdit->setVisible(true);
         ui->CreationDateDisplayLabel->setText(_mediationSession->getMediationCreation().toString());
@@ -205,18 +207,21 @@ void MediationSessionForm::on_Fee2PaidCheckBox_toggled(bool checked)
 {
     if(!FillingFields)
         _mediationSession->setFee2Paid(checked);
+    fillFields(_mediationSession);
 }
 
 void MediationSessionForm::on_FamilyFeePaidCheckBox_toggled(bool checked)
 {
     if(!FillingFields)
         _mediationSession->setFeeFamilyPaid(checked);
+    fillFields(_mediationSession);
 }
 
 void MediationSessionForm::on_OtherFeePaidCheckBox_toggled(bool checked)
 {
     if(!FillingFields)
         _mediationSession->setFeeOtherPaid(checked);
+    fillFields(_mediationSession);
 }
 
 void MediationSessionForm::on_incomeFee1LineEdit_editingFinished()
@@ -243,50 +248,50 @@ void MediationSessionForm::on_incomeFeeOtherLineEdit_editingFinished()
         _mediationSession->setIncomeFeeOther(ui->incomeFeeOtherLineEdit->text());
 }
 
-void MediationSessionForm::on_mediator1EditPushButton_clicked()
-{
-    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getMediator1(),true);
-    popup->setWindowFlags(Qt::Popup);
-    popup->SetEditMode(true);
-    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
-    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
-    popup->show();
-    //delete popup;
+//void MediationSessionForm::on_mediator1EditPushButton_clicked()
+//{
+//    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getMediator1(),true);
+//    popup->setWindowFlags(Qt::Popup);
+//    popup->SetEditMode(true);
+//    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
+//    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
+//    popup->show();
+//    //delete popup;
 
-}
+//}
 
-void MediationSessionForm::on_mediator2EditPushButton_clicked()
-{
-    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getMediator2(),true);
-    popup->setWindowFlags(Qt::Popup);
-    popup->SetEditMode(true);
-    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
-    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
-    popup->show();
-    //delete popup;
-}
+//void MediationSessionForm::on_mediator2EditPushButton_clicked()
+//{
+//    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getMediator2(),true);
+//    popup->setWindowFlags(Qt::Popup);
+//    popup->SetEditMode(true);
+//    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
+//    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
+//    popup->show();
+//    //delete popup;
+//}
 
-void MediationSessionForm::on_observer1EditPushButton_clicked()
-{
-    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getObserver1(),true);
-    popup->setWindowFlags(Qt::Popup);
-    popup->SetEditMode(true);
-    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
-    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
-    popup->show();
-    //delete popup;
-}
+//void MediationSessionForm::on_observer1EditPushButton_clicked()
+//{
+//    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getObserver1(),true);
+//    popup->setWindowFlags(Qt::Popup);
+//    popup->SetEditMode(true);
+//    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
+//    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
+//    popup->show();
+//    //delete popup;
+//}
 
-void MediationSessionForm::on_observer2EditPushButton_clicked()
-{
-    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getObserver2(),true);
-    popup->setWindowFlags(Qt::Popup);
-    popup->SetEditMode(true);
-    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
-    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
-    popup->show();
-    //delete popup;
-}
+//void MediationSessionForm::on_observer2EditPushButton_clicked()
+//{
+//    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getObserver2(),true);
+//    popup->setWindowFlags(Qt::Popup);
+//    popup->SetEditMode(true);
+//    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
+//    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
+//    popup->show();
+//    //delete popup;
+//}
 
 void MediationSessionForm::savePersonContact(Person *value)
 {
