@@ -53,8 +53,9 @@ private slots:
     void on_actionLogout_User_triggered();
 
 public slots:
-
-    void on_toggle_mediation_table_dock();
+    void ShowSessionBrowser();
+    void ShowMediationBrowser();
+    void ShowNotesBrowser();
 
     void on_mediationProcessSelected(MediationProcess* process);
 
@@ -71,7 +72,7 @@ private:
     MediationProcessView* _mediationProcessView;
     void LoadMediationProcessView(MediationProcess* process = nullptr);
     // Dock views
-    QDockWidget* _mediationTableDock;
+    QDockWidget* _browserDock;
 
     void SetMainView(QWidget* widget);
     void SetMenusEnabled(bool enableMenus, bool showAdmin);

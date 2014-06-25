@@ -27,7 +27,7 @@
 DRCClient::DRCClient(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::DRCClient)
-    , _mediationTableDock(nullptr)
+    , _browserDock(nullptr)
 {
     ui->setupUi(this);
     // set up a seed for any random numbers generated with qrand()
@@ -45,7 +45,8 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){SetMenuHelpDisabled();});
     Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){SetMenuAdminShow();});
     Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){SetMenuAdminHide();});
-    Mediator::Register(MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK, [this](MediatorArg arg){on_toggle_mediation_table_dock();});
+    Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){ShowMediationBrowser();});
+    Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){ShowSessionBrowser();});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -135,29 +136,7 @@ void DRCClient::on_actionLogout_User_triggered()
     setCentralWidget(new LoginForm());
 }
 
-void DRCClient::on_toggle_mediation_table_dock()
-{
-    bool shouldDisplayTable = _mediationTableDock ? !_mediationTableDock->isVisible() : true;
 
-    // Clear existing table everytime.
-    if(_mediationTableDock)
-    {
-        if(_mediationTableDock->isVisible())
-            _mediationTableDock->close();
-        removeDockWidget(_mediationTableDock);
-        _mediationTableDock = nullptr;
-    }
-
-    if(shouldDisplayTable)
-    {
-        _mediationTableDock = new QDockWidget("Mediation Tools", this);
-        MPToolBox* mpToolbox = new MPToolBox(_mediationTableDock);
-//        MediationProcessTableForm* mpTable = new MediationProcessTableForm(_mediationTableDock);
-        connect(mpToolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
-        _mediationTableDock->setWidget(mpToolbox);
-        addDockWidget(Qt::RightDockWidgetArea, _mediationTableDock);
-    }
-}
 
 void DRCClient::on_mediationProcessSelected(MediationProcess* process)
 {
@@ -174,4 +153,36 @@ void DRCClient::LoadMediationProcessView(MediationProcess* process)
     setCentralWidget(_mediationProcessView);
 }
 
+void DRCClient::ShowNotesBrowser()
+{
 
+}
+
+void DRCClient::ShowSessionBrowser()
+{
+
+}
+
+void DRCClient::ShowMediationBrowser()
+{
+    bool shouldDisplayTable = _browserDock ? !_browserDock->isVisible() : true;
+
+    // Clear existing table everytime.
+    if(_browserDock)
+    {
+        if(_browserDock->isVisible())
+            _browserDock->close();
+        removeDockWidget(_browserDock);
+        _browserDock = nullptr;
+    }
+
+    if(shouldDisplayTable)
+    {
+        _browserDock = new QDockWidget("Browser Toolbox", this);
+        MPToolBox* mpToolbox = new MPToolBox(_browserDock);
+//        MediationProcessTableForm* mpTable = new MediationProcessTableForm(_browserDock);
+        connect(mpToolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
+        _browserDock->setWidget(mpToolbox);
+        addDockWidget(Qt::RightDockWidgetArea, _browserDock);
+    }
+}

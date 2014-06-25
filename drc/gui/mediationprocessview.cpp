@@ -82,7 +82,8 @@ void MediationProcessView::ConfigureToolbar()
     toolbar.Clear();
     toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()));
     toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
-    toolbar.AddAction("Show Recent Records", this, SLOT(ShowRecentPressed()));
+    toolbar.AddAction("Mediation Browser", this, SLOT(ShowRecentPressed()));
+    toolbar.AddAction("Session Browser", this, SLOT(ShowSessionBrowserPressed()));
 }
 
 void MediationProcessView::SaveMediationPressed()
@@ -98,7 +99,13 @@ void MediationProcessView::SearchForMediationPressed()
 
 void MediationProcessView::ShowRecentPressed()
 {
-    Mediator::Call(MKEY_GUI_TOGGLE_MEDIATION_TABLE_DOCK);
+    Mediator::Call(MKEY_GUI_SHOW_MEDIATION_BROWSER);
+}
+
+
+void MediationProcessView::ShowSessionBrowserPressed()
+{
+    Mediator::Call(MKEY_GUI_SHOW_SESSIONS_BROWSER);
 }
 
 void MediationProcessView::SetMediationProcess(MediationProcess* process)

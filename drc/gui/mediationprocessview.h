@@ -35,8 +35,7 @@ private slots:
     void SaveMediationPressed();
     void SearchForMediationPressed();
     void ShowRecentPressed();
-
-//    void savePersonContactFromFarAway(Person*value);
+    void ShowSessionBrowserPressed();
 
 private:
     Ui::MediationProcessView *ui;
@@ -46,7 +45,6 @@ private:
      // Toolbox + Children (pages)
      MediationProcessStatusForm *_mediationProcessStatusForm;
      SessionOverview *_sessionOverview;
-//     PartiesContainerForm *_partiesContainerForm;
      MediationSessionForm *_mediationSessionForm;
 
      // Setup GUI Helpers
