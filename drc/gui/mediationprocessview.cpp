@@ -24,31 +24,14 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
 {
     ui->setupUi(this);
 
-//    ui->clientSessionsContainer->
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
     //_sessionOverview = new SessionOverview(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector());
-
-//    _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
     _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer);
 
     // Set the overview container
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
-
-
-
-//    connect(_mediationProcessStatusForm,SIGNAL(hovered()),this, SLOT(onHovered()));
-
-    // Set the parties container
-//    QVBoxLayout* pLayout = new QVBoxLayout();
-//    pLayout->addWidget(_partiesContainerForm);
-//    ui->clientsContainer->setLayout(pLayout);
-
-    // Set the sessions container
-//    QVBoxLayout* sLayout = new QVBoxLayout();
-//    sLayout->addWidget(_mediationSessionForm);
-//    ui->sessionsContainer->setLayout(sLayout);
 
     configSessionTable();
 
@@ -64,11 +47,6 @@ MediationProcessView::~MediationProcessView()
     delete ui;
 }
 
-//void MediationProcessView::savePersonContactFromFarAway(Person *value)
-//{
-//    PopulateView(_mediationProcess);
-//}
-
 void MediationProcessView::PopulateView(MediationProcess *process)
 {
     _mediationProcess = process;
@@ -83,6 +61,8 @@ void MediationProcessView::PopulateView(MediationProcess *process)
     AddPartyTabs(&_mediationProcess->GetParties());
 
     PopulateSessionTable();
+
+    Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
 }
 
 void MediationProcessView::ConfigureToolbar()

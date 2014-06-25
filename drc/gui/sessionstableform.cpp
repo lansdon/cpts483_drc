@@ -1,6 +1,8 @@
 #include "sessionstableform.h"
 #include "ui_sessionstableform.h"
 #include "mediationsessionform.h"
+#include "Mediator.h"
+#include "MediatorKeys.h"
 
 SessionsTableForm::SessionsTableForm(QWidget *parent, MediationSessionVector* sessions) :
     QWidget(parent),
@@ -10,6 +12,8 @@ SessionsTableForm::SessionsTableForm(QWidget *parent, MediationSessionVector* se
     ui->setupUi(this);
 
     configSessionTable();
+
+    Mediator::Register(MKEY_DOCK_SET_SESSIONS, [this](MediatorArg arg){SetSessionsEvent(arg); });
 }
 
 SessionsTableForm::~SessionsTableForm()
@@ -74,4 +78,9 @@ void SessionsTableForm::SetSessions(MediationSessionVector* sessions)
 {
     _sessions = sessions ? sessions : new MediationSessionVector;
     PopulateSessionTable();
+}
+
+void SessionsTableForm::SetSessionsEvent(MediatorArg arg)
+{
+    SetSessions(arg.getArg<MediationSessionVector*>());
 }

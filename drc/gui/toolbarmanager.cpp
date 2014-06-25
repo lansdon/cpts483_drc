@@ -8,9 +8,6 @@ ToolbarManager::ToolbarManager(QObject *parent) : QObject(parent)
 
 }
 
-//ToolbarManager::ToolbarManager()
-//{
-//}
 ToolbarManager::~ToolbarManager()
 {
 }

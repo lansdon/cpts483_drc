@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTableWidget>
 #include "drctypes.h"
+#include "Mediator.h"
 
 namespace Ui {
 class SessionsTableForm;
@@ -18,6 +19,7 @@ public:
     ~SessionsTableForm();
 
     void SetSessions(MediationSessionVector* sessions);
+    void SetSessionsEvent(MediatorArg arg);
 private:
     Ui::SessionsTableForm *ui;
 
