@@ -1,8 +1,8 @@
 #include "mptoolbox.h"
 #include "ui_mptoolbox.h"
 
-#include "mediationprocesstableform.h"
-#include "sessionstableform.h"
+#include "mediationbrowser.h"
+#include "sessionsbrowser.h"
 
 #include <QDebug>
 
@@ -55,7 +55,7 @@ void MPToolBox::EnableMediationsTable(MediationTableSortTypes sortType)
 {
     if(!_mpTable)
     {
-        _mpTable = new MediationProcessTableForm(this, sortType);
+        _mpTable = new MediationBrowser(this, sortType);
         connect(_mpTable, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(DoMPSelected(MediationProcess*)));
         _mpTableIndex = this->addItem(_mpTable, TNAME_PROCESSES);
         setItemEnabled(_mpTableIndex, true);
@@ -79,7 +79,7 @@ void MPToolBox::EnableSessionsTable(MediationSessionVector* sessions)
 {
     if(!_sessionsTable)
     {
-        _sessionsTable = new SessionsTableForm(this, sessions);
+        _sessionsTable = new SessionsBrowser(this, sessions);
         _sessionsTableIndex = this->addItem(_sessionsTable, TNAME_SESSIONS);
         setItemEnabled(_sessionsTableIndex, true);
         qDebug() << "_sessionsTableIndex = " << _sessionsTableIndex;

@@ -4,8 +4,8 @@
 #include <QToolBox>
 
 #include "drctypes.h"
-#include "mediationprocesstableform.h"
-#include "sessionstableform.h"
+#include "mediationbrowser.h"
+#include "sessionsbrowser.h"
 #include "mediationprocess.h"
 
 namespace Ui {
@@ -24,8 +24,8 @@ public:
 private:
     Ui::MPToolBox *ui;
 
-    MediationProcessTableForm* _mpTable;
-    SessionsTableForm* _sessionsTable;
+    MediationBrowser* _mpTable;
+    SessionsBrowser* _sessionsTable;
 
     // Track which indices the tables use (for enable/disable)
     int _mpTableIndex;

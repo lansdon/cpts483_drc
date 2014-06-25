@@ -57,12 +57,12 @@ SOURCES += main.cpp\
     gui/Mock_Server/dummy.cpp \
     drc_shared/models/mediationsession.cpp \
     gui/mediationsessionform.cpp \
-    gui/mediationprocesstableform.cpp \
-    gui/sessionstableform.cpp \
     gui/sessionoverview.cpp \
     gui/mptoolbox.cpp \
     gui/sessioncell.cpp \
-    gui/nosessionsview.cpp
+    gui/nosessionsview.cpp \
+    gui/sessionsbrowser.cpp \
+    gui/mediationbrowser.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -112,12 +112,12 @@ HEADERS  += \
     gui/Mock_Server/dummy.h \
     drc_shared/models/mediationsession.h \
     gui/mediationsessionform.h \
-    gui/mediationprocesstableform.h \
-    gui/sessionstableform.h \
     gui/sessionoverview.h \
     gui/mptoolbox.h \
     gui/sessioncell.h \
-    gui/nosessionsview.h
+    gui/nosessionsview.h \
+    gui/sessionsbrowser.h \
+    gui/mediationbrowser.h
 
 FORMS    += \
     DRCClient.ui \
@@ -131,12 +131,12 @@ FORMS    += \
     gui/partiescontainerform.ui \
     gui/mediationprocessstatusform.ui \
     gui/mediationsessionform.ui \
-    gui/mediationprocesstableform.ui \
-    gui/sessionstableform.ui \
     gui/sessionoverview.ui \
     gui/mptoolbox.ui \
     gui/sessioncell.ui \
-    gui/nosessionsview.ui
+    gui/nosessionsview.ui \
+    gui/sessionsbrowser.ui \
+    gui/mediationbrowser.ui
 
 
 CONFIG += c++11

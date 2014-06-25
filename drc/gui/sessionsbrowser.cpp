@@ -1,14 +1,14 @@
-#include "sessionstableform.h"
-#include "ui_sessionstableform.h"
+#include "sessionsbrowser.h"
+#include "ui_sessionsbrowser.h"
 #include "mediationsessionform.h"
 #include "Mediator.h"
 #include "MediatorKeys.h"
 #include "QDebug"
 #include "sessioncell.h"
 
-SessionsTableForm::SessionsTableForm(QWidget *parent, MediationSessionVector* sessions) :
+SessionsBrowser::SessionsBrowser(QWidget *parent, MediationSessionVector* sessions) :
     QWidget(parent),
-    ui(new Ui::SessionsTableForm),
+    ui(new Ui::SessionsBrowser),
     _sessions(sessions ? sessions : new MediationSessionVector)
 {
     ui->setupUi(this);
@@ -18,13 +18,13 @@ SessionsTableForm::SessionsTableForm(QWidget *parent, MediationSessionVector* se
     Mediator::Register(MKEY_DOCK_SET_SESSIONS, [this](MediatorArg arg){SetSessionsEvent(arg); });
 }
 
-SessionsTableForm::~SessionsTableForm()
+SessionsBrowser::~SessionsBrowser()
 {
     delete ui;
 }
 
 
-void SessionsTableForm::configSessionTable()
+void SessionsBrowser::configSessionTable()
 {
     _sessionTable = ui->tableWidget;
     _sessionTable->setColumnCount(1);
@@ -51,7 +51,7 @@ void SessionsTableForm::configSessionTable()
     }
 }
 
-void SessionsTableForm::PopulateSessionTable()
+void SessionsBrowser::PopulateSessionTable()
 {
     _sessionTable->clearContents();
 
@@ -69,7 +69,7 @@ void SessionsTableForm::PopulateSessionTable()
     _sessionTable->setCurrentCell(0,0);
 }
 
-void SessionsTableForm::on_tableWidget_itemSelectionChanged()
+void SessionsBrowser::on_tableWidget_itemSelectionChanged()
 {
     qDebug() << "Look ma! Session changed!";
 
@@ -80,13 +80,13 @@ void SessionsTableForm::on_tableWidget_itemSelectionChanged()
 
 }
 
-void SessionsTableForm::SetSessions(MediationSessionVector* sessions)
+void SessionsBrowser::SetSessions(MediationSessionVector* sessions)
 {
     _sessions = sessions ? sessions : new MediationSessionVector;
     PopulateSessionTable();
 }
 
-void SessionsTableForm::SetSessionsEvent(MediatorArg arg)
+void SessionsBrowser::SetSessionsEvent(MediatorArg arg)
 {
     SetSessions(arg.getArg<MediationSessionVector*>());
 }

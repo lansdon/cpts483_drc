@@ -8,16 +8,16 @@
 
 
 namespace Ui {
-class MediationProcessTableForm;
+class MediationBrowser;
 }
 
-class MediationProcessTableForm : public QWidget
+class MediationBrowser : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit MediationProcessTableForm(QWidget *parent = 0, MediationTableSortTypes sortType = MEDIATION_SORT_T_RECENT);
-    ~MediationProcessTableForm();
+    explicit MediationBrowser(QWidget *parent = 0, MediationTableSortTypes sortType = MEDIATION_SORT_T_RECENT);
+    ~MediationBrowser();
 
     void LoadTableData(MediationTableSortTypes sortType);
 
@@ -37,7 +37,7 @@ signals:
     void on_mediationProcessSelected(MediationProcess* process);
 
 private:
-    Ui::MediationProcessTableForm *ui;
+    Ui::MediationBrowser *ui;
 
     MediationProcessVector _mediationsVector;
 

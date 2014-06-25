@@ -13,7 +13,7 @@
 #include "drctypes.h"
 #include "searchwizard/searchwizard.h"
 #include "toolbarmanager.h"
-#include "mediationprocesstableform.h"
+#include "mediationbrowser.h"
 #include "mptoolbox.h"
 
 // DRC COMPONENTS
@@ -182,7 +182,7 @@ void DRCClient::ShowMediationBrowser()
     {
         _browserDock = new QDockWidget("Browser Toolbox", this);
         MPToolBox* mpToolbox = new MPToolBox(_browserDock);
-//        MediationProcessTableForm* mpTable = new MediationProcessTableForm(_browserDock);
+//        MediationBrowser* mpTable = new MediationBrowser(_browserDock);
         connect(mpToolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
         _browserDock->setWidget(mpToolbox);
         addDockWidget(Qt::RightDockWidgetArea, _browserDock);

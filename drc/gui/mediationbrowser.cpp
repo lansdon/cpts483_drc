@@ -1,24 +1,24 @@
-#include "mediationprocesstableform.h"
-#include "ui_mediationprocesstableform.h"
+#include "mediationbrowser.h"
+#include "ui_mediationbrowser.h"
 #include "DRCModels.h"
 #include <QDebug>
 
-MediationProcessTableForm::MediationProcessTableForm(QWidget *parent, MediationTableSortTypes sortType) :
+MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sortType) :
     QWidget(parent),
-    ui(new Ui::MediationProcessTableForm)
+    ui(new Ui::MediationBrowser)
 {
     ui->setupUi(this);
     ConfigMediationProcecssViewTable();
     LoadTableData(sortType);
 }
 
-MediationProcessTableForm::~MediationProcessTableForm()
+MediationBrowser::~MediationBrowser()
 {
     delete ui;
 }
 
 
-void MediationProcessTableForm::ConfigMediationProcecssViewTable()
+void MediationBrowser::ConfigMediationProcecssViewTable()
 {
         //ui->tableWidget = ui->sessiontTableWidget;
         ui->tableWidget->setColumnCount(3);
@@ -39,7 +39,7 @@ void MediationProcessTableForm::ConfigMediationProcecssViewTable()
                 c, QHeaderView::Stretch);
         }
 }
-void MediationProcessTableForm::PopulateMediationProcessTable()
+void MediationBrowser::PopulateMediationProcessTable()
 {
     for(int row=0; row < (int)_mediationsVector.size(); ++row)
     {
@@ -52,27 +52,27 @@ void MediationProcessTableForm::PopulateMediationProcessTable()
     }
 }
 
-void MediationProcessTableForm::on_recentButton_clicked()
+void MediationBrowser::on_recentButton_clicked()
 {
     LoadTableData(MEDIATION_SORT_T_RECENT);
 }
 
-void MediationProcessTableForm::on_pendingButton_clicked()
+void MediationBrowser::on_pendingButton_clicked()
 {
     LoadTableData(MEDIATION_SORT_T_PENDING);
 }
 
-void MediationProcessTableForm::on_scheduledButton_clicked()
+void MediationBrowser::on_scheduledButton_clicked()
 {
     LoadTableData(MEDIATION_SORT_T_SCHEDULED);
 }
 
-void MediationProcessTableForm::on_closedButton_clicked()
+void MediationBrowser::on_closedButton_clicked()
 {
     LoadTableData(MEDIATION_SORT_T_CLOSED);
 }
 
-void MediationProcessTableForm::LoadTableData(MediationTableSortTypes sortType)
+void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
 {
     // TO DO - Setup database query!!
     MakeSampleTable();
@@ -80,7 +80,7 @@ void MediationProcessTableForm::LoadTableData(MediationTableSortTypes sortType)
     PopulateMediationProcessTable();
 }
 
-void MediationProcessTableForm::MakeSampleTable()
+void MediationBrowser::MakeSampleTable()
 {
 
 //    _mediationsVector.clear();
@@ -91,7 +91,7 @@ void MediationProcessTableForm::MakeSampleTable()
     _mediationsVector.push_back(MediationProcess::SampleData());
 }
 
-void MediationProcessTableForm::on_tableWidget_doubleClicked(const QModelIndex &index)
+void MediationBrowser::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
     qDebug() << "on_tableWidget_doubleClicked row=" << index.row();
     if(index.row() >= 0 && index.row() < _mediationsVector.size())
