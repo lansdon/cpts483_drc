@@ -26,28 +26,28 @@
       <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
      </property>
      <item row="0" column="0">
-      <widget class="QLabel" name="sessionDateLabel">
+      <widget class="QLabel" name="sessionScheduleDateLabel">
        <property name="text">
-        <string>Session Date:</string>
+        <string>Session Schedule Date:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="sessionDateDisplayLabel">
+      <widget class="QLabel" name="sessionScheduleDisplayLabel">
        <property name="text">
-        <string>No Sessions</string>
+        <string>No Session Scheduled</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QLabel" name="numSessionsLabel">
+      <widget class="QLabel" name="sessionDateLabel">
        <property name="text">
-        <string>Number of Sessions:</string>
+        <string>Session Creation Date:</string>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
-      <widget class="QLabel" name="numSessionsDisplayLabel">
+      <widget class="QLabel" name="sessionCreationDateDisplayLabel">
        <property name="text">
         <string>No Sessions</string>
        </property>
@@ -56,16 +56,16 @@
     </layout>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout_3">
+    <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="sessionStatusLabel">
+      <widget class="QLabel" name="sessionFeeLabel">
        <property name="text">
-        <string>Session Status:</string>
+        <string>Fee Status:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="sessionStatusDisplayLabel">
+      <widget class="QLabel" name="sessionFeeStatusDisplayLabel">
        <property name="text">
         <string>No Sessions</string>
        </property>
@@ -94,16 +94,30 @@
     </layout>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout">
+    <layout class="QFormLayout" name="formLayout_3">
      <item row="0" column="0">
-      <widget class="QLabel" name="sessionFeeLabel">
+      <widget class="QLabel" name="sessionStatusLabel">
        <property name="text">
-        <string>Fee Status:</string>
+        <string>Session Status:</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QLabel" name="sessionFeeStatusDisplayLabel">
+      <widget class="QLabel" name="sessionStatusDisplayLabel">
+       <property name="text">
+        <string>No Sessions</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="numSessionsLabel">
+       <property name="text">
+        <string>Number of Sessions:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="numSessionsDisplayLabel">
        <property name="text">
         <string>No Sessions</string>
        </property>

@@ -6,7 +6,7 @@
 
 MediationSession::MediationSession()
 {
-    _mediationTime = QDateTime::currentDateTime();
+    _mediationCreation = QDateTime::currentDateTime();
     _pendingRB = true;
     _cancelledRB = _rescheduledRB = _confirmedRB = _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
     _mediator1 = new Person();

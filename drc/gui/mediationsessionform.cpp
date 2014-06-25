@@ -141,6 +141,7 @@ void MediationSessionForm::fillFields(MediationSession *input)
 //        ui->confirmedRadioButton->setChecked(input->getConfirmedRB());
         ui->dateTimeEdit->setDateTime(input->getMediationTime());
         ui->dateTimeEdit->setVisible(true);
+        ui->CreationDateDisplayLabel->setText(_mediationSession->getMediationCreation().toString());
         ui->FamilyFeeLineEdit->setText(input->getFeeFamily());
         ui->FamilyFeePaidCheckBox->setChecked(input->getFeeFamilyPaid());
         ui->Fee1LineEdit->setText(input->getFee1());

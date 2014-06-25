@@ -139,7 +139,7 @@ void DRCClient::on_toggle_mediation_table_dock()
     bool shouldDisplayTable = _mediationTableDock ? !_mediationTableDock->isVisible() : true;
 
     // Clear existing table everytime.
-    if(_mediationTableDock)
+    if(_mediationTableDock->isVisible())
     {
         if(_mediationTableDock->isVisible())
             _mediationTableDock->close();

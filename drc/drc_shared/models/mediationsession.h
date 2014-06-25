@@ -8,7 +8,7 @@
 class MediationSession
 {
 private:
-    QDateTime _mediationTime;
+    QDateTime _mediationTime, _mediationCreation;
     bool _pendingRB, _cancelledRB, _confirmedRB, _rescheduledRB, _fee1Paid, _fee2Paid, _feeFamilyPaid, _feeOtherPaid;
     QString _fee1, _fee2, _feeFamily, _feeOther, _incomeFee1, _incomeFee2, _incomeFeeFamily, _incomeFeeOther;
     Person *_mediator1, *_mediator2, *_observer1, *_observer2;
@@ -18,6 +18,7 @@ public:
 
     //getters
     QDateTime getMediationTime() const {return _mediationTime;}
+    QDateTime getMediationCreation() const { return _mediationCreation; }
     bool getPendingRB() const {return _pendingRB;}
     bool getCancelledRB() const{return _cancelledRB;}
     bool getConfirmedRB() const{return _confirmedRB;}

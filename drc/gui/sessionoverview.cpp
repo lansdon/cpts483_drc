@@ -21,7 +21,7 @@ void SessionOverview::updateView()
      _numberOfSessions = _mediationSessionVector->size();
     if(_numberOfSessions > 0)
     {
-        ui->sessionDateDisplayLabel->setText(_mediationSessionVector->at(0)->getMediationTime().toString());
+        ui->sessionCreationDateDisplayLabel->setText(_mediationSessionVector->at(0)->getMediationCreation().toString());
         ui->sessionFeeStatusDisplayLabel->setText(_mediationSessionVector->at(0)->getFeeStatus());
         ui->sessionStatusDisplayLabel->setText(_mediationSessionVector->at(0)->getStatus());
     }
