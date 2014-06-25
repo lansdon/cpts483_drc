@@ -82,7 +82,8 @@ void MediationProcessTableForm::LoadTableData(MediationTableSortTypes sortType)
 
 void MediationProcessTableForm::MakeSampleTable()
 {
-    _mediationsVector.clear();
+
+//    _mediationsVector.clear();
     _mediationsVector.push_back(MediationProcess::SampleData());
     _mediationsVector.push_back(MediationProcess::SampleData());
     _mediationsVector.push_back(MediationProcess::SampleData());

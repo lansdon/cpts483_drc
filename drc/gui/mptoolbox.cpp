@@ -10,9 +10,11 @@ const QString TNAME_PROCESSES = "Mediation Record Selection";
 const QString TNAME_SESSIONS = "Mediation Sessions";
 const QString TNAME_NOTES = "Mediation Notes";
 
-MPToolBox::MPToolBox(QWidget *parent) :
-    QToolBox(parent),
-    ui(new Ui::MPToolBox)
+MPToolBox::MPToolBox(QWidget *parent)
+    : QToolBox(parent)
+    , ui(new Ui::MPToolBox)
+    , _mpTable(nullptr)
+    , _sessionsTable(nullptr)
 {
     ui->setupUi(this);
 

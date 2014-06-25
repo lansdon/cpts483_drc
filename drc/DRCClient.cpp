@@ -141,7 +141,8 @@ void DRCClient::on_toggle_mediation_table_dock()
     // Clear existing table everytime.
     if(_mediationTableDock)
     {
-        _mediationTableDock->close();
+        if(_mediationTableDock->isVisible())
+            _mediationTableDock->close();
         removeDockWidget(_mediationTableDock);
         _mediationTableDock = nullptr;
     }
@@ -151,7 +152,7 @@ void DRCClient::on_toggle_mediation_table_dock()
         _mediationTableDock = new QDockWidget("Mediation Tools", this);
         MPToolBox* mpToolbox = new MPToolBox(_mediationTableDock);
 //        MediationProcessTableForm* mpTable = new MediationProcessTableForm(_mediationTableDock);
-//        connect(mpTable, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
+//        connect(mpToolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
         _mediationTableDock->setWidget(mpToolbox);
         addDockWidget(Qt::RightDockWidgetArea, _mediationTableDock);
     }
