@@ -13,9 +13,9 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     ui->setupUi(this);
     ui->dateTimeEdit->setVisible(false);
 
-//    FillingFields = false;
+    FillingFields = false;
 //    if(_mediationSessions->size() > 0)
-//        fillFields(_mediationSession);
+    fillFields(_mediationSession);
 //    ui->sessiontTableWidget->setCurrentCell(0,0);
 
 }
@@ -28,6 +28,7 @@ MediationSessionForm::~MediationSessionForm()
 void MediationSessionForm::setMediationSession(MediationSession *session)
 {
     _mediationSession = session;
+    fillFields(_mediationSession);
 }
 
 void MediationSessionForm::setParties(int input)

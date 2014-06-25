@@ -25,8 +25,11 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     ui->setupUi(this);
 
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
-    //_sessionOverview = new SessionOverview(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector());
-    _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer);
+
+    if(_mediationProcess->getMediationSessionVector()->size() > 0)
+        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector()->at(0));
+    else
+        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewContainer);
 
     // Set the overview container
     QVBoxLayout* layout = new QVBoxLayout();
@@ -34,6 +37,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     ui->overviewContainer->setLayout(layout);
 
     configSessionTable();
+    ui->sessionsContainer->hide();
 
     // Update Fields for current record
     PopulateView(_mediationProcess);
@@ -58,11 +62,18 @@ void MediationProcessView::PopulateView(MediationProcess *process)
 //    _partiesContainerForm->AddPartyTabs(&_mediationProcess->GetParties());
 //    connect(_partiesContainerForm,SIGNAL(PassItOnAgain(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
 
+    // PARTY!
     AddPartyTabs(&_mediationProcess->GetParties());
 
-    PopulateSessionTable();
 
+//    PopulateSessionTable();
+
+    // DOCK Sesssions
     Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
+
+    // Session detail.
+    if(_mediationProcess->getMediationSessionVector()->size() > 0 )
+        _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
 }
 
 void MediationProcessView::ConfigureToolbar()
@@ -116,6 +127,7 @@ void MediationProcessView::configSessionTable()
         _sessionTable->horizontalHeader()->setSectionResizeMode(
             c, QHeaderView::Stretch);
     }
+
 }
 
 void MediationProcessView::PopulateSessionTable()
