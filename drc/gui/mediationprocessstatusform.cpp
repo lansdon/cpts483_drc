@@ -22,6 +22,7 @@ MediationProcessStatusForm::~MediationProcessStatusForm()
 }
 void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 {
+
     _mediationProcess = value;
     Update();
 }
