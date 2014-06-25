@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1286</width>
-    <height>106</height>
+    <width>1368</width>
+    <height>72</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -97,34 +97,7 @@
        </item>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="FeesPaidLabel">
-       <property name="text">
-        <string>Fees Paid:</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLabel" name="feePaidDisplayLabel">
-       <property name="text">
-        <string>No session</string>
-       </property>
-      </widget>
-     </item>
     </layout>
-   </item>
-   <item>
-    <spacer name="horizontalSpacer_4">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout_2">
@@ -247,19 +220,6 @@
       </widget>
      </item>
     </layout>
-   </item>
-   <item>
-    <spacer name="horizontalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout_9">
@@ -397,19 +357,6 @@
     </layout>
    </item>
    <item>
-    <spacer name="horizontalSpacer_2">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <layout class="QFormLayout" name="formLayout_10">
      <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
@@ -542,19 +489,6 @@
     </layout>
    </item>
    <item>
-    <spacer name="horizontalSpacer_5">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <layout class="QFormLayout" name="formLayout_3">
      <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
@@ -613,19 +547,6 @@
     </layout>
    </item>
    <item>
-    <spacer name="horizontalSpacer_6">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
     <layout class="QFormLayout" name="formLayout_4">
      <property name="sizeConstraint">
       <enum>QLayout::SetNoConstraint</enum>
@@ -675,6 +596,40 @@
         <font>
          <pointsize>10</pointsize>
         </font>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout_11">
+     <property name="formAlignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="FeesPaidLabel">
+       <property name="text">
+        <string>Fees Status:</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLabel" name="feePaidDisplayLabel">
+       <property name="text">
+        <string>No session</string>
        </property>
       </widget>
      </item>
