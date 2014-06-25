@@ -17,7 +17,7 @@
 
 
 
-MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* mediationProcess) :
+MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *mediationProcess) :
     QWidget(parent),
     ui(new Ui::MediationProcessView),
     _mediationProcess(mediationProcess ? mediationProcess : new MediationProcess)
@@ -26,7 +26,8 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess* me
 
 //    ui->clientSessionsContainer->
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
-    _sessionOverview = new SessionOverview(ui->sessionOverviewContainer);
+    _sessionOverview = new SessionOverview(ui->sessionOverviewContainer, _mediationProcess->getMediationSessionVector());
+
 //    _partiesContainerForm = new PartiesContainerForm(this, &_mediationProcess->GetParties());
 //    _mediationSessionForm = new MediationSessionForm(this);
 

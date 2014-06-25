@@ -43,7 +43,7 @@ QString MediationSession::getFeeStatus() const
         partial4 = false;
     if(!partial1 || !partial2 || !partial3 || !partial4)
         paidInFull = false;
-    if(paidInFull && !_fee1Paid || !_fee2Paid || !_feeFamilyPaid || !_feeOtherPaid)
+    if(paidInFull && (!_fee1Paid || !_fee2Paid || !_feeFamilyPaid || !_feeOtherPaid))
         return "No fees added";
     else if(paidInFull)
         return "Paid In Full";
