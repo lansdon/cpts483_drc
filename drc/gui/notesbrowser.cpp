@@ -3,7 +3,8 @@
 #include <QDateTime>
 #include <QDebug>>
 #include "Note.h"
-
+#include "Mediator.h"
+#include "MediatorKeys.h"
 
 NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
     : QWidget(parent)
@@ -12,6 +13,8 @@ NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
 
 {
     ui->setupUi(this);
+
+    Mediator::Register(MKEY_DOCK_SET_NOTES, [this](MediatorArg arg){SetNotesEvent(arg);});
 
     ConfigTable();
     PopulateTable();
@@ -32,7 +35,7 @@ void NotesBrowser::ConfigTable()
     if(!_notes) _notes = new MediationNotesVector();
 
     //ui->tableWidget = ui->sessiontTableWidget;
-    ui->tableWidget->setColumnCount(3);
+    ui->tableWidget->setColumnCount(2);
     ui->tableWidget->setRowCount(_notes->size());
     QStringList header;
     header <<"Date"<<"Note";
@@ -68,4 +71,13 @@ void NotesBrowser::SetNotes(MediationNotesVector* notes)
 {
     _notes = notes;
     PopulateTable();
+}
+
+void NotesBrowser::SetNotesEvent(MediatorArg arg)
+{
+    MediationNotesVector* notes = arg.getArg<MediationNotesVector*>();
+    if(notes)
+    {
+        SetNotes(notes);
+    }
 }
