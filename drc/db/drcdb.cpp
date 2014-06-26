@@ -18,6 +18,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     QString mediation_table_name = QString("Mediation_Table");
     QString session_table_name = QString("Session_Table");
     QString client_table_name = QString("Client_Table");
+    QString notes_table_name = QString("Notes_Table");
 
     bool result = false;
 
@@ -47,22 +48,34 @@ DRCDB::DRCDB() : DB_ERROR(false)
         result = CreateClientTable(client_table_name);
     }
 
+    result = false;
+
+    if(!this->DoesTableExist(notes_table_name))
+    {
+        result = CreateNotesTable(notes_table_name);
+    }
+
     MediationProcess* process = MediationProcess::SampleData();//NULL;
     //process = process->SampleData();
-    process->GetAffectedChildrenCount();
+    int b = process->GetAffectedChildrenCount();
     process->GetCountyId();
     //process.GetCreated();
     process->GetCreationDate();
     process->GetCurrentState();
     process->GetDisputeType();
-    //process.GetId(); //Should be 0
-    // CAUSES CRASH!!! MediationSessionVector sessions;
-    // CAUSES CRASH!!! NEED TO FIX THIS!!! >_< std::vector<MediationSession*>* sessions = new std::vector<MediationSession*>();
-    // Also causes crash... MediationSessionVector* sessions(process->getMediationSessionVector());
+
     MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
+
+    // Second, hacky way, of getting at the mediation sessions
+    /*MediationSession* session;
+
+    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
+    {
+        session = process->getMediationSessionVector()->at(i);
+    }*/
+
     process->GetNotes();
-    // ALSO CAUSES CRASH!!! PartyVector parties;// = new PartyVector;
-    process->GetParties(); // vector
+    PartyVector parties = process->GetParties(); // vector
     process->GetReferralType();
     process->GetRequiresSpanish();
 
@@ -175,6 +188,21 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
 
     return CreateTable(session_table_name, session_table_columns);
+}
+
+bool DRCDB::CreateNotesTable(const QString& Notes_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> notes_table_columns;
+    notes_table_columns.push_back(QString("Note_id integer primary key autoincrement null"));
+    notes_table_columns.push_back(QString("Process_id integer"));
+    //notes_table_columns.push_back(QString("Session_id integer")); // TO BE ADDED when notes model updated by gui
+    notes_table_columns.push_back(QString("Note char(128)"));
+    notes_table_columns.push_back(QString("CreateDate Date"));
+    notes_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
+    //notes_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
+
+    return CreateTable(Notes_table_name, notes_table_columns);
 }
 
 

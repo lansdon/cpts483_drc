@@ -51,6 +51,8 @@ public:
     bool CreateSessionTable(const QString& session_table_name);
 
     bool CreateClientTable(const QString& client_table_name);
+
+    bool CreateNotesTable(const QString& notes_table_name);
     //==========================================================================
 
     //==========================================================================
