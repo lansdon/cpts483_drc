@@ -295,6 +295,29 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>firstLineEdit</tabstop>
+  <tabstop>middleLineEdit</tabstop>
+  <tabstop>lastLineEdit</tabstop>
+  <tabstop>streetLineEdit</tabstop>
+  <tabstop>unitLineEdit</tabstop>
+  <tabstop>cityLineEdit</tabstop>
+  <tabstop>zipLineEdit</tabstop>
+  <tabstop>countyLineEdit</tabstop>
+  <tabstop>stateLineEdit</tabstop>
+  <tabstop>emailLineEdit</tabstop>
+  <tabstop>workLineEdit</tabstop>
+  <tabstop>workExtLineEdit</tabstop>
+  <tabstop>homeLineEdit</tabstop>
+  <tabstop>homeExtLineEdit</tabstop>
+  <tabstop>mobileLineEdit</tabstop>
+  <tabstop>mobileExtLineEdit</tabstop>
+  <tabstop>numInHomeLineEdit</tabstop>
+  <tabstop>attorneyLineEdit</tabstop>
+  <tabstop>saveButton</tabstop>
+  <tabstop>deleteButton</tabstop>
+  <tabstop>editButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -2,20 +2,21 @@
 #define PERSONPROCESSOR_H
 
 #include "Processor.h"
+#include "personvalidator.h"
 
 class PersonProcessor : public Processor
 {
 public:
-    PersonProcessor(std::string regProcess="", std::string sendProcess="",
-                    std::string regLoad="", std::string sendLoad="");
+    PersonProcessor(QString regProcess="", QString sendProcess="",
+                    QString regLoad="", QString sendLoad="");
     void Process(MediatorArg arg);
     void Load(MediatorArg arg);
 
 private:
-    std::string _regProcess;
-    std::string _sendProcess;
-    std::string _regLoad;
-    std::string _sendLoad;
+    QString _regProcess;
+    QString _sendProcess;
+    QString _regLoad;
+    QString _sendLoad;
 };
 
 #endif // PERSONPROCESSOR_H

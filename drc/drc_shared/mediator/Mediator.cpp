@@ -12,27 +12,27 @@ Mediator& Mediator::Instance()
 	return instance;
 }
 
-MediatorId Mediator::Register(std::string key, MediatorCallback* callback)
+MediatorId Mediator::Register(QString key, MediatorCallback* callback)
 {
     Instance().MediatorMap[key].push_back(callback);
-    QString dbug = "Mediator Register -> Key:" + QString::fromStdString(key) + "   id: " + QString::number(callback->GetId());
+    QString dbug = "Mediator Register -> Key:" + key + "   id: " + QString::number(callback->GetId());
     qDebug() << dbug;
     return callback->GetId();
 }
 
-MediatorId Mediator::Register(std::string key, MediatorCallbackFunc function)
+MediatorId Mediator::Register(QString key, MediatorCallbackFunc function)
 {
     return Register(key, new MediatorCallback(function));
 }
 
-void Mediator::Unregister(std::string key, MediatorId callbackId)
+void Mediator::Unregister(QString key, MediatorId callbackId)
 {
     if (Instance().MediatorMap.count(key) != 0)
     {
         auto vec = Instance().MediatorMap[key];
         auto found = std::find_if( vec.begin(), vec.end(), [callbackId] (MediatorCallback* lhs) { return lhs->GetId() == callbackId;} );
         if(found != vec.end())
-            qDebug() << QString("Mediator Unregister -> Key:" + QString::fromStdString(key) + "   id: " + QString::number((*found)->GetId()));
+            qDebug() << QString("Mediator Unregister -> Key:" + key + "   id: " + QString::number((*found)->GetId()));
         else qDebug() << "Mediator Unregister -> NO match!";
         vec.erase(found);
 
@@ -44,14 +44,14 @@ void Mediator::Unregister(std::string key, MediatorId callbackId)
  }
 
 // Call Override to package arguments into a MediatorArg
-void Mediator::Call(std::string key, void* object, bool success, std::string errorMessage)
+void Mediator::Call(QString key, void* object, bool success, QString errorMessage)
 {
 	Call(key, MediatorArg(object, success, errorMessage));
 }
 
-void Mediator::Call(std::string key, MediatorArg arg)
+void Mediator::Call(QString key, MediatorArg arg)
 {
-    qDebug() << "------  Medaitor Call: " << QString::fromStdString( key );
+    qDebug() << "------  Medaitor Call: " << key;
     if (Instance().MediatorMap.count(key) != 0)
 	{
         for (MediatorCallbackVector::iterator it = Instance().MediatorMap[key].begin();

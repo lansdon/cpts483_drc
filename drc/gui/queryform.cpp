@@ -205,11 +205,11 @@ void QueryForm::PopulateResultsTable()
             qDebug() << "Person name=" << o->FullName();
             _resultsTable->setItem(row, PCOL_ID, new QTableWidgetItem(QString::number(row+1)));
             _resultsTable->setItem(row, PCOL_NAME, new QTableWidgetItem(o->FullName()));
-            _resultsTable->setItem(row, PCOL_ADDRESS, new QTableWidgetItem(QString::fromStdString(o->getStreet())));
-            _resultsTable->setItem(row, PCOL_ATTORNEY, new QTableWidgetItem(QString::fromStdString(o->getAttorney())));
-            _resultsTable->setItem(row, PCOL_COUNTY, new QTableWidgetItem(QString::fromStdString(o->getCounty())));
-            _resultsTable->setItem(row, PCOL_EMAIL, new QTableWidgetItem(QString::fromStdString(o->getEmail())));
-            _resultsTable->setItem(row, PCOL_PHONE, new QTableWidgetItem(QString::fromStdString(o->getPrimaryPhone())));
+            _resultsTable->setItem(row, PCOL_ADDRESS, new QTableWidgetItem((o->getStreet())));
+            _resultsTable->setItem(row, PCOL_ATTORNEY, new QTableWidgetItem((o->getAttorney())));
+            _resultsTable->setItem(row, PCOL_COUNTY, new QTableWidgetItem((o->getCounty())));
+            _resultsTable->setItem(row, PCOL_EMAIL, new QTableWidgetItem((o->getEmail())));
+            _resultsTable->setItem(row, PCOL_PHONE, new QTableWidgetItem((o->getPrimaryPhone())));
         }
     }
 
@@ -244,9 +244,8 @@ void QueryForm::PopulateResultsTable()
             _resultsTable->setItem(row, MCOL_DISPUTE_TYPE, new QTableWidgetItem(o->GetDisputeType()));
 //            _resultsTable->setItem(row, MCOL_OUTCOME, new QTableWidgetItem(QString::fromStdString(o->())));
 //<<<<<<< HEAD
- //           _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(o->GetParty1()->GetPrimary()->FullName()));
- //           _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(o->GetParty2()->GetPrimary()->FullName()));
-//=======
+ //           _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(o->GetParty1()->GetPrimary().FullName()));
+ //           _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(o->GetParty2()->GetPrimary().FullName()));
 //>>>>>>> origin/GUI_Branch_5-30-14
             _resultsTable->setItem(row, MCOL_STATUS, new QTableWidgetItem(o->GetCurrentState()));
         }
@@ -284,7 +283,7 @@ void QueryForm::RecievedPersonResult(MediatorArg arg)
     }
     else
     {
-        qDebug() << "Person Results error:" <<  QString::fromStdString( arg.ErrorMessage() );
+        qDebug() << "Person Results error:" <<  arg.ErrorMessage();
     }
 }
 
@@ -308,7 +307,7 @@ void QueryForm::RecievedMediationResult(MediatorArg arg)
     }
     else
     {
-        qDebug() << "Person Results error:" <<  QString::fromStdString( arg.ErrorMessage() );
+        qDebug() << "Person Results error:" <<  arg.ErrorMessage();
     }
 }
 

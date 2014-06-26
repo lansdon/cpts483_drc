@@ -101,6 +101,11 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>comboBox</tabstop>
+  <tabstop>resultsTable</tabstop>
+  <tabstop>searchButton</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

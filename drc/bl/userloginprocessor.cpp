@@ -5,12 +5,9 @@
 #include <qstring.h>
 #include <qdebug.h>
 
-UserLoginProcessor::UserLoginProcessor(std::string authUser, std::string sendUser,
-                                       std::string requestSalt, std::string receiveSalt)
-              : _sendUser(sendUser), _requestSalt(requestSalt)
+UserLoginProcessor::UserLoginProcessor(QString authUser, QString sendUser): _sendUser(sendUser)
 {
     Mediator::Register(authUser, [this](MediatorArg arg){ Authenticate(arg); });
-    Mediator::Register(receiveSalt, [this](MediatorArg arg){ ReceiveSalt(arg); });
     _user = nullptr;
     _userName = nullptr;
 }
@@ -19,7 +16,7 @@ UserLoginProcessor::UserLoginProcessor(std::string authUser, std::string sendUse
 void UserLoginProcessor::Authenticate(MediatorArg arg)
 {
     bool success = arg.IsSuccessful();
-    std::string errorMessage = arg.ErrorMessage();
+    QString errorMessage = arg.ErrorMessage();
     User* user = nullptr;
     if (success)
     {
@@ -28,7 +25,7 @@ void UserLoginProcessor::Authenticate(MediatorArg arg)
         {
             _user = user;
             CleanUserName();
-            _userName = new std::string(user->GetName());
+            _userName = new QString(user->GetName());
         }
         else
         {
@@ -43,11 +40,11 @@ void UserLoginProcessor::Authenticate(MediatorArg arg)
 void UserLoginProcessor::ReceiveSalt(MediatorArg arg)
 {
     bool success = arg.IsSuccessful();
-    std::string errorMessage = arg.ErrorMessage();
-    std::string* salt = nullptr;
+    QString errorMessage = arg.ErrorMessage();
+    QString* salt = nullptr;
     if (success)
     {
-        salt = arg.getArg<std::string*>();
+        salt = arg.getArg<QString*>();
         if (salt)
         {
             if (_user)

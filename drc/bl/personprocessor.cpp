@@ -5,8 +5,8 @@
 #include <QDebug>
 #include <QString>
 
-PersonProcessor::PersonProcessor(std::string regProcess, std::string sendProcess,
-                std::string regLoad, std::string sendLoad)
+PersonProcessor::PersonProcessor(QString regProcess, QString sendProcess,
+                QString regLoad, QString sendLoad)
                 : _regProcess(regProcess), _sendProcess(sendProcess), _regLoad(regLoad),
                   _sendLoad(sendLoad)
 {
@@ -18,7 +18,7 @@ void PersonProcessor::Process(MediatorArg arg)
 {
     qDebug() << "BL -> Processing Person.";
     bool success = arg.IsSuccessful();
-    std::string errorMessage = arg.ErrorMessage();
+    QString errorMessage = arg.ErrorMessage();
 
     Person* person = nullptr;
     if (success)
@@ -28,7 +28,7 @@ void PersonProcessor::Process(MediatorArg arg)
         success = pVal.Validate(person, errorMessage);
     }
 
-    qDebug() << "BL -> "+ QString::fromStdString(_regProcess) +" Complete";
+    qDebug() << "BL -> "+ _regProcess +" Complete";
     Mediator::Call(_sendProcess, person, success, errorMessage);
 }
 
@@ -36,7 +36,7 @@ void PersonProcessor::Load(MediatorArg arg)
 {
     qDebug() << "BL -> Loading Person.";
     bool success = arg.IsSuccessful();
-    std::string errorMessage = arg.ErrorMessage();
+    QString errorMessage = arg.ErrorMessage();
 
     Person* person = nullptr;
     if (success)
@@ -46,6 +46,6 @@ void PersonProcessor::Load(MediatorArg arg)
         success = pVal.Validate(person, errorMessage);
     }
 
-    qDebug() << "BL -> "+ QString::fromStdString(_regLoad) +" Complete";
+    qDebug() << "BL -> "+ _regLoad +" Complete";
     Mediator::Call(_sendLoad, person, success, errorMessage);
 }

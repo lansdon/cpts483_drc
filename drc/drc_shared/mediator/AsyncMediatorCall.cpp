@@ -21,8 +21,8 @@
 //namespace drc_shared {
 
 AsyncMediatorCall::AsyncMediatorCall(
-    std::string sendEventMediatorKey,
-    std::string recieveEventMediatorKey,
+    QString sendEventMediatorKey,
+    QString recieveEventMediatorKey,
     MediatorCallbackFunc callback,
     void* argObject,
     bool waitForResponse,
@@ -40,8 +40,8 @@ AsyncMediatorCall::AsyncMediatorCall(
 }
 
 AsyncMediatorCall::AsyncMediatorCall(
-    std::string sendEventMediatorKey,
-    std::string recieveEventMediatorKey,
+    QString sendEventMediatorKey,
+    QString recieveEventMediatorKey,
     MediatorCallbackFunc callback,
     MediatorArg mediatorArg,
     bool waitForResponse,

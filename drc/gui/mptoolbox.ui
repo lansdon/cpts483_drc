@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MPToolBox</class>
+ <widget class="QToolBox" name="MPToolBox">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>132</width>
+    <height>273</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>ToolBox</string>
+  </property>
+  <property name="currentIndex">
+   <number>0</number>
+  </property>
+  <widget class="QWidget" name="page">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>132</width>
+     <height>205</height>
+    </rect>
+   </property>
+   <attribute name="label">
+    <string>Page 1</string>
+   </attribute>
+  </widget>
+  <widget class="QWidget" name="page">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>100</width>
+     <height>30</height>
+    </rect>
+   </property>
+   <attribute name="label">
+    <string>Page 2</string>
+   </attribute>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

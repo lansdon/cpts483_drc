@@ -70,6 +70,13 @@ QString StringForReferralTypes(ReferralTypes id)
     case REFERRAL_T_DCFS_JJC_GOVT_AGENCY: result = "Govt Agency"; break;
     case REFERRAL_T_FAMILY_FRIEND: result = "Family/Friend"; break;
     case REFERRAL_T_INTERNET: result = "Internet"; break;
+    case REFERRAL_T_LAW_ENFORCEMENT: result = "Law Enforcement"; break;
+    case REFERRAL_T_LEGAL_SERVICES: result = "Legal Services"; break;
+    case REFERRAL_T_OTHER_NONE: result = "Other"; break;
+    case REFERRAL_T_PHONEBOOK: result = "Phonebook"; break;
+    case REFERRAL_T_PRESENTATION_TRAINING: result = "Presentation/Training"; break;
+    case REFERRAL_T_PRIVATE_AGENCY: result = "Private Agency"; break;
+    case REFERRAL_T_RETURN_CLIENTS: result = "Return Client"; break;
     default: result = "None Selected"; break;
     }
     return result;
@@ -94,7 +101,6 @@ QString StringForUserTypes(UserTypes id)
     {
     case USER_T_ADMIN: result = "Administrator"; break;
     case USER_T_NORMAL: result = "Normal"; break;
-    case USER_T_SUPER_USER: result = "Super User"; break;
     default: result = "None Selected"; break;
     }
     return result;
@@ -109,6 +115,21 @@ QString StringForSearchTypes(SearchTypes id)
     case SEARCH_T_MEDIATION: result = "Mediation"; break;
     case SEARCH_T_PERSON: result = "Person"; break;
     default: result = "None Selected"; break;
+    }
+    return result;
+}
+
+QString StringForSessionStates(SessionStates id)
+{
+    QString result;
+    switch(id)
+    {
+    case SESSION_STATE_CANCELLED: result = "Cancelled"; break;
+    case SESSION_STATE_CONFIRMED: result = "Confirmed"; break;
+    case SESSION_STATE_NONE: result = "None"; break;
+    case SESSION_STATE_PENDING: result = "Pending"; break;
+    case SESSION_STATE_RESCHEDULED: result = "Rescheduled"; break;
+    default: result = "Invalid"; break;
     }
     return result;
 }

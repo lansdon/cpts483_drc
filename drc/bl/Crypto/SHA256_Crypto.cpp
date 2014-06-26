@@ -144,7 +144,7 @@ void SHA256::final(unsigned char *digest)
     }
 }
 
-std::string sha256(std::string input, std::string salt)
+QString sha256(QString input, QString salt)
 {
     input += salt;
 
@@ -153,14 +153,14 @@ std::string sha256(std::string input, std::string salt)
 
     SHA256 ctx = SHA256();
     ctx.init();
-    ctx.update((unsigned char*)input.c_str(), input.length());
+    ctx.update((unsigned char*)input.toStdString().c_str(), input.length());
     ctx.final(digest);
 
     char buf[2 * SHA256::DIGEST_SIZE + 1];
     buf[2 * SHA256::DIGEST_SIZE] = 0;
-    for (int i = 0; i < SHA256::DIGEST_SIZE; i++)
+    for (unsigned int i = 0; i < SHA256::DIGEST_SIZE; i++)
     {
         sprintf(buf + i * 2, "%02x", digest[i]);
     }
-    return std::string(buf);
+    return QString(buf);
 }

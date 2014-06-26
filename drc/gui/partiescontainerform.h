@@ -23,12 +23,12 @@ public:
 
     void AddPartyTabs(PartyVector* parties);
 private slots:
-    void savePersonContactFromFar(Person *value);
+//    void savePersonContactFromFar(Person *value);
 private:
     Ui::PartiesContainerForm *ui;
     std::vector<PartyForm*> PartyFormVector;
 signals:
-    void PassItOnAgain(Person *);
+//    void PassItOnAgain(Person *);
 
 };
 

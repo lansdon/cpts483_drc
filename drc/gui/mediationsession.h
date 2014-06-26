@@ -4,11 +4,9 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QStringList>
-#include "attorneyandsupportformediationsessionview.h"
 #include <vector>
 
 #include "Person.h"
-#include "mediationsessionclass.h"
 #include "drctypes.h"
 
 namespace Ui {
@@ -20,11 +18,11 @@ class MediationSession : public QWidget
     Q_OBJECT
 
 public:
-    explicit MediationSession(QWidget *parent = 0,MediationSessionClassVector * MSC = nullptr);
+    explicit MediationSession(QWidget *parent = 0,MediationSessionVector * MSC = nullptr);
     ~MediationSession();
     void setParties(int input);
     void updateTabs(std::vector<Person *> *input);
-    void setMediationSessionClassVector(MediationSessionClassVector *value);
+    void setMediationSessionClassVector(MediationSessionVector *value);
 
 private slots:
     void on_CancelledRadioButton_toggled(bool checked);
@@ -79,13 +77,12 @@ private slots:
 
 private:
     Ui::MediationSession *ui;
-    std::vector<AttorneyAndSupportForMediationSessionView *> *_attorneyAndSupportVector;
-    MediationSessionClassVector *_localMediationSessionClassVector;
+    MediationSessionVector *_localMediationSessionClassVector;
     QTableWidget *_sessionTable;
     QStringList _sessionTableHeader;
     void configSessionTable();
     void PopulateSessionTable();
-    void fillFields(MediationSessionClass *input);
+    void fillFields(MediationSession *input);
     int sessionCurrentRow;
     bool FillingFields;
 

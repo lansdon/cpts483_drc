@@ -2,91 +2,103 @@
 #define PERSON_H
 #include <QString>
 #include <string>
+#include "DBBaseObject.h"
 
-class Person
+class Person : public DBBaseObject
 {
 private:
-    std::string _firstName;
-    std::string _middleName;
-    std::string _lastName;
+    QString _firstName;
+    QString _middleName;
+    QString _lastName;
 
-    std::string _street;
-    std::string _unit;
-    std::string _city;
-    std::string _state;
-    std::string _zip;
-    std::string _county;
+    QString _street;
+    QString _unit;
+    QString _city;
+    QString _state;
+    QString _zip;
+    QString _county;
 
-    std::string _primaryPhone;
-    std::string _primaryPhoneExt;
-    std::string _secondaryPhone;
-    std::string _secondaryPhoneExt;
+    QString _primaryPhone;
+    QString _primaryPhoneExt;
+    QString _secondaryPhone;
+    QString _secondaryPhoneExt;
 
-    std::string _email;
+    QString _email;
 
     unsigned int _numberInHousehold;
 
-    std::string _attorney;
+    QString _attorney;
 
-    bool _isAttorney;
-    std::string _assistantName;
-    std::string _assistantEmail;
-    std::string _assistantNumber;
-    std::string _assistantNumberExt;
+    //bool _isAttorney;
+    QString _assistantName;
+    QString _assistantEmail;
+    QString _assistantNumber;
+    QString _assistantNumberExt;
 
 public:
     Person();
     Person(QString n);
+    virtual ~Person();
+
+    // Base Class Virtual Overrides
+    QString Parse(void);
+    QString table();
+    QString DuplicateQuery();
+    QString SearchQuery();
+
 
     // Accessors
-     void setName(std::string fName, std::string mName, std::string lName) { _firstName=fName; _middleName=mName; _lastName=lName;}
-    std::string getFirstName() const { return _firstName; }
-    std::string getMiddleName() const { return _middleName; }
-    std::string getLastName() const { return _lastName; }
-    void setFirstName(std::string fName) { _firstName = fName; }
-    void setMiddleName(std::string mName) { _middleName = mName; }
-    void setLastName(std::string lName) { _lastName = lName; }
+     void setName(QString fName, QString mName, QString lName) { _firstName=fName; _middleName=mName; _lastName=lName;}
+    QString getFirstName() const { return _firstName; }
+    QString getMiddleName() const { return _middleName; }
+    QString getLastName() const { return _lastName; }
+    void setFirstName(QString fName) { _firstName = fName; }
+    void setMiddleName(QString mName) { _middleName = mName; }
+    void setLastName(QString lName) { _lastName = lName; }
 
-    std::string getStreet() const { return _street; }
-    void setStreet(std::string value) { _street = value; }
-    std::string getUnit() const { return _unit; }
-    void setUnit(std::string value) { _unit = value; }
-    std::string getCity() const { return _city; }
-    void setCity(std::string value) { _city = value; }
-    std::string getState() const { return _state; }
-    void setState(std::string value) { _state = value; }
-    std::string getZip() const { return _zip; }
-    void setZip(std::string value) { _zip = value; }
-    std::string getCounty() const { return _county; }
-    void setCounty(std::string value) { _county = value; }
+    QString getStreet() const { return _street; }
+    void setStreet(QString value) { _street = value; }
+    QString getUnit() const { return _unit; }
+    void setUnit(QString value) { _unit = value; }
+    QString getCity() const { return _city; }
+    void setCity(QString value) { _city = value; }
+    QString getState() const { return _state; }
+    void setState(QString value) { _state = value; }
+    QString getZip() const { return _zip; }
+    void setZip(QString value) { _zip = value; }
+    QString getCounty() const { return _county; }
+    void setCounty(QString value) { _county = value; }
 
-    std::string getPrimaryPhone() const { return _primaryPhone; }
-    void setPrimaryPhone(std::string value) { _primaryPhone = value; }
-    std::string getPrimaryPhoneExt() const { return _primaryPhoneExt; }
-    void setPrimaryPhoneExt(std::string value) { _primaryPhoneExt = value; }
+    QString getPrimaryPhone() const { return _primaryPhone; }
+    void setPrimaryPhone(QString value) { _primaryPhone = value; }
+    QString getPrimaryPhoneExt() const { return _primaryPhoneExt; }
+    void setPrimaryPhoneExt(QString value) { _primaryPhoneExt = value; }
 
-    std::string getSecondaryPhone() const { return _secondaryPhone; }
-    void setSecondaryPhone(std::string value) { _secondaryPhone = value; }
-    std::string getSecondaryPhoneExt() const { return _secondaryPhoneExt; }
-    void setSecondaryPhoneExt(std::string value) { _secondaryPhoneExt = value; }
+    QString getSecondaryPhone() const { return _secondaryPhone; }
+    void setSecondaryPhone(QString value) { _secondaryPhone = value; }
+    QString getSecondaryPhoneExt() const { return _secondaryPhoneExt; }
+    void setSecondaryPhoneExt(QString value) { _secondaryPhoneExt = value; }
 
-    std::string getAssistantPhone() const { return _assistantNumber; }
-    void setAssistantPhone(std::string value) { _assistantNumber = value; }
-    std::string getAssistantPhoneExt() const { return _assistantNumberExt; }
-    void setAssistantPhoneExt(std::string value) { _assistantNumberExt = value; }
+    QString getAssistantPhone() const { return _assistantNumber; }
+    void setAssistantPhone(QString value) { _assistantNumber = value; }
+    QString getAssistantPhoneExt() const { return _assistantNumberExt; }
+    void setAssistantPhoneExt(QString value) { _assistantNumberExt = value; }
 
-    std::string getEmail() const { return _email; }
-    void setEmail(std::string value) { _email = value; }
+    QString getEmail() const { return _email; }
+    void setEmail(QString value) { _email = value; }
 
     unsigned int getNumberInHousehold() const { return _numberInHousehold; }
     void setNumberInHousehold(unsigned int value) { _numberInHousehold = value; }
 
-    std::string getAttorney() const { return _attorney; }
-    void setAttorney(std::string value) { _attorney = value; }
+    QString getAttorney() const { return _attorney; }
+    void setAttorney(QString value) { _attorney = value; }
 
     // Helpers
-    QString FullName() { return QString::fromStdString(_firstName + " " + _lastName); }
-    bool isName() {return !_firstName.empty();}
+    QString FullName() { return (_firstName + " " + _lastName); }
+    bool isName() {return !_firstName.isEmpty();}
+
+    bool operator == (const Person &rhs);
+    bool operator != (const Person &rhs);
 
     // Test Data - Fill the object with test values in every field.
     static Person *SampleData();

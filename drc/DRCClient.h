@@ -22,8 +22,19 @@ public:
     explicit DRCClient(QWidget *parent = 0);
     ~DRCClient();
 
-    // This will update the gui menus based on current user status.
-    void CurrentUserChanged(MediatorArg arg);
+    // This will enable our GUI menus
+    void SetMenuBarEnabled();
+    void SetMenuHelpEnabled();
+
+    // This will disable our GUI menus
+    void SetMenuBarDisabled();
+    void SetMenuHelpDisabled();
+
+    // This will set our Admin menu options to visible
+    void SetMenuAdminShow();
+
+    // This will set our Admin menu options to invisible
+    void SetMenuAdminHide();
 
 private slots:
 
@@ -39,9 +50,14 @@ private slots:
 
     void on_actionFruit_Test_triggered();
 
-    void on_actionLock_Account_triggered();
-
     void on_actionLogout_User_triggered();
+
+public slots:
+    void ShowSessionBrowser();
+    void ShowMediationBrowser();
+    void ShowNotesBrowser();
+
+    void on_mediationProcessSelected(MediationProcess* process);
 
 private:
     Ui::DRCClient *ui;
@@ -51,8 +67,12 @@ private:
     DRCBL _bl;  // Business Logic
     DRCDB _db;  // Database
     Mock_Server _ms; // mock server for gui testing
-    // Sub views
-    //FruitNameForm* _fruitForm;
+
+    // Primary Views
+    MediationProcessView* _mediationProcessView;
+    void LoadMediationProcessView(MediationProcess* process = nullptr);
+    // Dock views
+    QDockWidget* _browserDock;
 
     void SetMainView(QWidget* widget);
     void SetMenusEnabled(bool enableMenus, bool showAdmin);

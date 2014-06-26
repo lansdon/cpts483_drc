@@ -14,19 +14,19 @@ class PartyForm;
 }
 
 
-enum ObserverTableColumns
-{
-    OCOL_ID = 0,
-    OCOL_NAME,
-    OCOL_ROLE
-};
+//enum ObserverTableColumns
+//{
+//    OCOL_ID = 0,
+//    OCOL_NAME,
+//    OCOL_ROLE
+//};
 
-enum ChildrenTableColumns
-{
-    CCOL_ID = 0,
-    CCOL_NAME,
-    CCOL_INVOLVED
-};
+//enum ChildrenTableColumns
+//{
+//    CCOL_ID = 0,
+//    CCOL_NAME,
+//    CCOL_INVOLVED
+//};
 
 
 class PartyForm : public QWidget
@@ -39,30 +39,33 @@ public:
     void setParty(Party *value);
     QString getFullName() const {return _party->GetPrimary()->FullName();}
 private slots:
-    void ObserverCellSelected(int nRow, int nCol);
-    void ChildCellSelected(int nRow, int nCol);
-    void ObserverChanged(Person* p);
-    void ObserverDeleted(Person* p);
-    void ChildChanged(Person* p);
-    void ChildDeleted(Person* p);
-    void savePersonContactFromclose(Person *value);
-
+//    void ObserverCellSelected(int nRow, int nCol);
+//    void ChildCellSelected(int nRow, int nCol);
+//    void ObserverChanged(Person* p);
+//    void ObserverDeleted(Person* p);
+//    void ChildChanged(Person* p);
+//    void ChildDeleted(Person* p);
+//    void savePersonContactFromclose(Person *value);
+    void DoSaveSignal() { emit SaveSignaled(); }
+    void DoEditSignal() { emit EditSignaled(); }
 private:
     Ui::PartyForm *ui;
-    PersonDetailsForm *_localPersonDetailsForm;
     Party* _party;
+    PersonDetailsForm *_personDetailsForm;
 
-    QTableWidget* _observerTable;
-    QStringList _observerTableHeader;
-    QTableWidget* _childrenTable;
-    QStringList _childrenTableHeader;
+//    QTableWidget* _observerTable;
+//    QStringList _observerTableHeader;
+//    QTableWidget* _childrenTable;
+//    QStringList _childrenTableHeader;
 
-    void ConfigObserverTable();
-    void PopulateObserverTable();
-    void ConfigChildrenTable();
-    void PopulateChildrenTable();
+//    void ConfigObserverTable();
+//    void PopulateObserverTable();
+//    void ConfigChildrenTable();
+//    void PopulateChildrenTable();
 signals:
-    void PassItOn(Person *);
+//    void PassItOn(Person *);
+    void SaveSignaled();    // Passes save events to parent
+    void EditSignaled();    // Passes edit events to parent
 };
 
 #endif // PARTYFORM_H

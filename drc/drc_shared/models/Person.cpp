@@ -13,6 +13,39 @@ Person::Person(QString n)
     _numberInHousehold = 0;
 }
 
+Person::~Person()
+{
+
+}
+
+bool Person::operator==(const Person &rhs)
+{
+    bool result = true;
+    if(this->getFirstName() == rhs.getFirstName()
+            && this->getLastName() == rhs.getLastName()
+            && this->getMiddleName() == rhs.getMiddleName())
+        result = false;
+    return result;
+}
+
+bool Person::operator!=(const Person &rhs)
+{
+
+    return !(*this==rhs);
+}
+
+QString Person::DuplicateQuery()
+{
+#warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
+
+}
+
+QString Person::SearchQuery()
+{
+#warning TODO - SearchQuery() UNIMPLEMENTED!!!!
+
+}
+
 
 // Test Data - Fill the object with test values in every field.
 Person *Person::SampleData()
@@ -23,26 +56,75 @@ Person *Person::SampleData()
     static int _SAMPLE_INDEX = 0;
     std::stringstream ss;
     ss << ++_SAMPLE_INDEX;
-    std::string strId = ss.str();
+    QString strId = QString::fromStdString(ss.str());
 
-    result->setFirstName("firstname" + strId);
-    result->setMiddleName("middlename" + strId);
-    result->setLastName("lastname" + strId);
-    result->setStreet("street" + strId);
-    result->setUnit("unit" + strId);
-    result->setCity("city" + strId);
-    result->setZip("zip" + strId);
-    result->setCounty("county" + strId);
-    result->setState("state" + strId);
-    result->setPrimaryPhone("PPhone" + strId);
-    result->setPrimaryPhoneExt("PPhoneExt" + strId);
-    result->setSecondaryPhone("SPhone" + strId);
-    result->setSecondaryPhoneExt("SPhoneExt" + strId);
-    result->setAssistantPhone("APhone" + strId);
-    result->setAssistantPhoneExt("APhoneExt" + strId);
-    result->setEmail("email" + strId);
+    result->setFirstName(QString("firstname" + strId));
+    result->setMiddleName(QString("middlename" + strId));
+    result->setLastName(QString("lastname" + strId));
+    result->setStreet(QString("street" + strId));
+    result->setUnit(QString("unit" + strId));
+    result->setCity(QString("city" + strId));
+    result->setZip(QString("zip" + strId));
+    result->setCounty(QString("county" + strId));
+    result->setState(QString("state" + strId));
+    result->setPrimaryPhone(QString("PPhone" + strId));
+    result->setPrimaryPhoneExt(QString("PPhoneExt" + strId));
+    result->setSecondaryPhone(QString("SPhone" + strId));
+    result->setSecondaryPhoneExt(QString("SPhoneExt" + strId));
+    result->setAssistantPhone(QString("APhone" + strId));
+    result->setAssistantPhoneExt(QString("APhoneExt" + strId));
+    result->setEmail(QString("email" + strId));
     result->setNumberInHousehold((unsigned int)_SAMPLE_INDEX);
-    result->setAttorney("attorney" + strId);
+    result->setAttorney(QString("attorney" + strId));
 
     return result;
 }
+
+
+
+QString Person::Parse(void)
+{
+    //Name
+    QString toReturn = QString("'%1', '%2', '%3',")
+            .arg(this->getFirstName())
+            .arg(this->getMiddleName())
+            .arg(this->getLastName());
+
+    //Address
+    toReturn += QString(" '%1', '%2', '%3', '%4', '%5', '%6',")
+            .arg(this->getStreet())
+            .arg(this->getUnit())
+            .arg(this->getCity())
+            .arg(this->getState())
+            .arg(this->getZip())
+            .arg(this->getCounty());
+
+    //Phone Number
+    toReturn += QString(" '%1', '%2', '%3',")
+            .arg(this->getPrimaryPhone())
+            .arg(this->getSecondaryPhone())
+            .arg(this->getAssistantPhone());
+
+    //Other
+    toReturn += QString(" '%1', %2, '%3'")
+            .arg(this->getEmail())
+            .arg(this->getNumberInHousehold())
+            .arg(this->getAttorney());
+
+    return toReturn;
+}
+
+QString Person::table(void)
+{
+    return QString("Person_Table");
+}
+
+//QString Person::DuplicateQuery(void)
+//{
+//    return QString("");
+//}
+
+//QString Person::SearchQuery(void)
+//{
+//    return QString("");
+//}

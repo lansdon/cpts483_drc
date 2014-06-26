@@ -4,34 +4,36 @@
 #include "DBBaseObject.h"
 
 #include <ctime>
-#include <string>
-
-using namespace std;
 
 class Fruit : public DBBaseObject
 {
-    string m_name;
-
-    time_t m_timestamp;
+private:
+    QString m_name;
 
 public:
-
-
     Fruit();
 
-    Fruit(string name);
+    Fruit(QString name);
 
-    Fruit(string *name);
+    Fruit(QString *name);
 
-    void SetName(string name);
+    void SetName(QString name);
 
-    string GetName(void);
+    void SetTime(int time);
 
-    string GetTime(void);
+    QString GetName(void);
 
-    string BreakApart(void);
+    QString GetTime(void);
 
-    string Parse(void);
+    QString BreakApart(void);
+
+    QString Parse(void);
+
+    QString table(void);
+
+    QString DuplicateQuery(void);
+
+    QString SearchQuery(void);
 };
 
 #endif

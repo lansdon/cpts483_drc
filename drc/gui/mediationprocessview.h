@@ -4,13 +4,14 @@
 #include <QWidget>
 #include <QTabWidget>
 #include <QDebug>
-#include "contactrecorddataview.h"
-#include "mediationsession.h"
-#include "detailsview.h"
-#include "mediationprocess.h"
 #include <QToolBox>
+#include "contactrecorddataview.h"
+#include "DRCModels.h"
 #include "mediationprocessstatusform.h"
 #include "partiescontainerform.h"
+#include "mediationsessionform.h"
+#include "sessionoverview.h"
+#include "nosessionsview.h"
 
 namespace Ui {
 class MediationProcessView;
@@ -23,50 +24,45 @@ class MediationProcessView : public QWidget
 public:
     explicit MediationProcessView(QWidget *parent = 0, MediationProcess* mediationProcess = nullptr);
     ~MediationProcessView();
+
     int getNumberOfParty();
 
+    void SetMediationProcess(MediationProcess* process);
     MediationProcess* GetMediationProcess() { return _mediationProcess; }
 
 private slots:
+    // Toolbar Buttons
     void SaveMediationPressed();
     void SearchForMediationPressed();
-
-//    void on_toolBox_currentChanged(int index);
-
-    void savePersonContactFromFarAway(Person*value);
-
-
-    void on_MediationProcessTableWidget_itemSelectionChanged();
-
-    void on_MediationProcessTableWidget_doubleClicked(const QModelIndex &index);
+    void ShowRecentPressed();
+    void ShowSessionBrowserPressed();
 
 private:
     Ui::MediationProcessView *ui;
 
-    QTabWidget *_MediationSessionTabWidget;
-
-//    MediationSession *_localMediationSession;
-//    DetailsView *_localDetailsView;
-//    int _numberOfParties;
-    QTableWidget *MediationProcessTableView;
-    QStringList MediationProcessTableViewHeader;
-    void configMediationProcecssViewTable();
-    void PopulateMediationProcessTable();
-    void PopulateView(MediationProcess *value);
     MediationProcess* _mediationProcess;
-    MediationProcessVector *_localMediationProcessVector;
-     QToolBox* toolBox;
-     int MediationProcessCurrentRow;
-     MediationProcessStatusForm *_localMediationProcessStatusForm;
-     PartiesContainerForm *_localPartiesContainerForm;
-     MediationSession *_localMediationSession;
 
+     // Toolbox + Children (pages)
+     MediationProcessStatusForm *_mediationProcessStatusForm;
+     SessionOverview *_sessionOverview;
+     MediationSessionForm *_mediationSessionForm;
+     NoSessionsView *_noSession;
 
-   // MediationProcess* _mediationProcess;
-
+     // Setup GUI Helpers
     void ConfigureToolbar();
+    void ConfigureToolbox();
 
+    // Populate Views
+    void PopulateView(MediationProcess *value);
 
+    // Clients/Parties Tabs
+    void AddPartyTabs(PartyVector* parties);
+
+    // Sessions Table
+    QTableWidget* _sessionTable;
+    void configSessionTable();
+    void PopulateSessionTable();
+    void on_sessiontTableWidget_itemSelectionChanged();
 };
 
 #endif // CONTACTRECORDVIEW_H

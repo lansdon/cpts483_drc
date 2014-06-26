@@ -28,7 +28,6 @@ SOURCES += main.cpp\
     DRCClient.cpp \
     drc_shared/models/Intake.cpp \
     gui/fruitnameform.cpp \
-    gui/particapants.cpp \
     bl/fruitnameprocessor.cpp \
     gui/loginform.cpp \
     bl/Crypto/SHA256_Crypto.cpp \
@@ -38,12 +37,6 @@ SOURCES += main.cpp\
     gui/contactrecorddataview.cpp \
     bl/userloginprocessor.cpp \
     drc_shared/models/User.cpp \
-    gui/mediationsession.cpp \
-    gui/attorneyandsupportformediationsessionview.cpp \
-    gui/detailsview.cpp \
-    gui/childrenview.cpp \
-    drc_shared/models/CurrentUser.cpp \
-    bl/personvalidator.cpp \
     gui/persondetailsform.cpp \
     gui/mediationprocessview.cpp \
     gui/partyform.cpp \
@@ -57,14 +50,23 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardparameters.cpp \
     gui/searchwizard/searchwizardresults.cpp \
     bl/personprocessor.cpp \
-    gui/Mock_Server/mock_server.cpp \
+    bl/personvalidator.cpp \
     bl/partyvalidator.cpp \
-    drc_shared/models/mediationsessionclass.cpp \
+    bl/stateupdate.cpp \
+    gui/Mock_Server/mock_server.cpp \
+    drc_shared/CurrentUser.cpp \
     drc_shared/drctypes.cpp \
     gui/toolbarmanager.cpp \
     gui/Mock_Server/dummy.cpp \
-    gui/partysummaryform.cpp \
-    bl/stateupdate.cpp
+    drc_shared/models/mediationsession.cpp \
+    gui/mediationsessionform.cpp \
+    gui/sessionoverview.cpp \
+    gui/mptoolbox.cpp \
+    gui/sessioncell.cpp \
+    gui/nosessionsview.cpp \
+    gui/sessionsbrowser.cpp \
+    gui/mediationbrowser.cpp \
+    gui/notesbrowser.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -78,7 +80,6 @@ HEADERS  += \
     drc_shared/models/Intake.h \
     gui/fruitnameform.h \
     drc_shared/models/DRCModels.h \
-    gui/particapants.h \
     bl/fruitnameprocessor.h \
     db/Filter.h \
     db/FilterTypes.h \
@@ -89,17 +90,16 @@ HEADERS  += \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
-    bl/Crypto/SHA256_Crypto.h \
+    bl/partyvalidator.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/queryform.h \
     gui/contactrecorddataview.h \
     drc_shared/models/DBBaseObject.h \
-    gui/mediationsession.h \
-    gui/attorneyandsupportformediationsessionview.h \
-    gui/detailsview.h \
-    gui/childrenview.h \
     drc_shared/models/CurrentUser.h \
+    bl/personprocessor.h \
     bl/personvalidator.h \
+    bl/stateupdate.h \
+    bl/mediationformprocessor.h \
     gui/persondetailsform.h \
     gui/mediationprocessview.h \
     gui/partyform.h \
@@ -113,32 +113,39 @@ HEADERS  += \
     gui/searchwizard/searchwizardselecttype.h \
     gui/searchwizard/searchwizardparameters.h \
     gui/searchwizard/searchwizardresults.h \
-    bl/personprocessor.h \
     gui/Mock_Server/mock_server.h \
-    bl/partyvalidator.h \
-    drc_shared/models/mediationsessionclass.h \
+    drc_shared/CurrentUser.h \
     gui/toolbarmanager.h \
     gui/Mock_Server/dummy.h \
-    gui/partysummaryform.h \
-    bl/stateupdate.h
+    drc_shared/models/mediationsession.h \
+    gui/mediationsessionform.h \
+    gui/sessionoverview.h \
+    gui/mptoolbox.h \
+    gui/sessioncell.h \
+    gui/nosessionsview.h \
+    gui/sessionsbrowser.h \
+    gui/mediationbrowser.h \
+    gui/notesbrowser.h
 
 FORMS    += \
     DRCClient.ui \
     gui/fruitnameform.ui \
-    gui/particapants.ui \
     gui/loginform.ui \
     gui/queryform.ui \
     gui/contactrecorddataview.ui \
-    gui/mediationsession.ui \
-    gui/attorneyandsupportformediationsessionview.ui \
-    gui/detailsview.ui \
-    gui/childrenview.ui \
     gui/persondetailsform.ui \
     gui/mediationprocessview.ui \
     gui/partyform.ui \
     gui/partiescontainerform.ui \
     gui/mediationprocessstatusform.ui \
-    gui/partysummaryform.ui
+    gui/mediationsessionform.ui \
+    gui/sessionoverview.ui \
+    gui/mptoolbox.ui \
+    gui/sessioncell.ui \
+    gui/nosessionsview.ui \
+    gui/sessionsbrowser.ui \
+    gui/mediationbrowser.ui \
+    gui/notesbrowser.ui
 
 
 CONFIG += c++11

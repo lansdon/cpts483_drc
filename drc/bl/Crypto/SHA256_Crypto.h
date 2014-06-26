@@ -1,9 +1,9 @@
 #ifndef SHA256_H
 #define SHA256_H
 
-#include <string>
+#include <QString>
 
-std::string sha256(std::string input, std::string salt);
+QString sha256(QString input, QString salt);
 
 unsigned Time_Seed();
 
@@ -32,7 +32,7 @@ protected:
     uint32 m_h[8];
 };
 
-//std::string sha256(std::string input, std::string salt);
+//QString sha256(QString input, QString salt);
 
 #define SHA2_SHFR(x, n)    (x >> n)
 #define SHA2_ROTR(x, n)   ((x >> n) | (x << ((sizeof(x) << 3) - n)))
