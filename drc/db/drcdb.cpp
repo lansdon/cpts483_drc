@@ -17,20 +17,34 @@ DRCDB::DRCDB() : DB_ERROR(false)
     QString person_table_name = QString("Person_Table");
     QString mediation_table_name = QString("Mediation_Table");
     QString session_table_name = QString("Session_Table");
+    QString client_table_name = QString("Client_Table");
+
+    bool result = false;
 
     if (!this->DoesTableExist(person_table_name))
     {
-        CreatePersonTable(person_table_name);
+        result = CreatePersonTable(person_table_name);
     }
+
+    result = false;
 
     if (!this->DoesTableExist(mediation_table_name))
     {
-        CreatePersonTable(mediation_table_name);
+        result = CreateMediationTable(mediation_table_name);
     }
+
+    result = false;
 
     if (!this->DoesTableExist(session_table_name))
     {
-        CreatePersonTable(session_table_name);
+        result = CreateSessionTable(session_table_name);
+    }
+
+    result = false;
+
+    if (!this->DoesTableExist(client_table_name))
+    {
+        result = CreateClientTable(client_table_name);
     }
 
     // Populate our fake user list.  Delete this later!!
@@ -87,7 +101,7 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> mediation_table_columns;
-    mediation_table_columns.push_back(QString("Process_id integer primary key autoincrement null"));
+    mediation_table_columns.push_back(QString("Client_id integer primary key autoincrement null"));
     mediation_table_columns.push_back(QString("DisputeType integer"));
     mediation_table_columns.push_back(QString("CreationDate Date"));
     mediation_table_columns.push_back(QString("UpdatedDate Date"));
@@ -100,12 +114,28 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     return CreateTable(mediation_table_name, mediation_table_columns);
 }
 
+bool DRCDB::CreateClientTable(const QString& client_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> client_table_columns;
+    client_table_columns.push_back(QString("Client_id integer primary key autoincrement null"));
+    client_table_columns.push_back(QString("Process_id integer"));
+    client_table_columns.push_back(QString("Person_id integer"));
+    client_table_columns.push_back(QString("Children integer"));
+    client_table_columns.push_back(QString("Observers char(128)"));
+    client_table_columns.push_back(QString("Attorney char(128)"));
+    client_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
+    client_table_columns.push_back(QString("foreign key(Person_id) references person_Table(person_id)"));
+
+    return CreateTable(client_table_name, client_table_columns);
+}
+
 bool DRCDB::CreateSessionTable(const QString& session_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> session_table_columns;
     session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
-    session_table_columns.push_back(QString("foreign key (Process_id) references Mediation_Table(Process_id)"));
+    session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
     session_table_columns.push_back(QString("Fee1Paid double"));
     session_table_columns.push_back(QString("Fee2Paid double"));
@@ -123,6 +153,7 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
     session_table_columns.push_back(QString("Observer2 char(128)"));
+    session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
 
     return CreateTable(session_table_name, session_table_columns);
 }
@@ -249,6 +280,9 @@ bool DRCDB::OpenDatabase(QString database_name)
     database.setDatabaseName(database_name);
     database.setConnectOptions(QString("foreign_keys = ON"));
     database.open();
+
+    QSqlQuery query;
+    query.exec("PRAGMA foreign_keys = ON;");
 
     if(database.isOpenError())
         this->ExtractError(database.lastError());

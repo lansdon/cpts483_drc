@@ -49,6 +49,8 @@ public:
     bool CreateMediationTable(const QString& mediation_table_name);
 
     bool CreateSessionTable(const QString& session_table_name);
+
+    bool CreateClientTable(const QString& client_table_name);
     //==========================================================================
 
     //==========================================================================
