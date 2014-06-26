@@ -195,6 +195,7 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
             if(_browserDock->isVisible())
                 _browserDock->close();
             removeDockWidget(_browserDock);
+            disconnect(toolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
             _browserDock = nullptr;
             shouldDisplayTable = false;
         }

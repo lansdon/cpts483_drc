@@ -44,7 +44,7 @@ void MPFileMaker::getFromFile()
 
 void MPFileMaker::parseToFile(QDataStream &out)
 {
-    out << mpVector->size();
+    out << (int)mpVector->size();
     for(int i = 0; i < mpVector->size();i++)
     {
         parseProcessToFile(out,mpVector->at(i));
@@ -71,7 +71,7 @@ void MPFileMaker::parseProcessToFile(QDataStream &out, MediationProcess *mp)
 }
 void MPFileMaker::parseSessionsVector(QDataStream &out, MediationSessionVector *msv)
 {
-    out << msv->size();
+    out << (int)msv->size();
     for(int i = 0; i < msv->size(); i++)
     {
         parseSession(out,msv->at(i));
@@ -118,12 +118,11 @@ void MPFileMaker::parseNote(QDataStream &out, Note *note)
 
 void MPFileMaker::parsePartiesVector(QDataStream &out, PartyVector *parties)
 {
-    out << parties->size();
+    out << (int)parties->size();
     for(int i = 0; i < parties->size(); i++)
     {
         parseParty(out,parties->at(i));
     }
-
 }
 
 void MPFileMaker::parseParty(QDataStream &out, Party *&party)
