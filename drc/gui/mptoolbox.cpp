@@ -108,3 +108,13 @@ void MPToolBox::EnableNotesTable(MediationNotesVector* notes)
     }
 }
 
+bool IsShowingBrowser(MPBrowserTypes browserType)
+{
+
+}
+
+void ShowBrowser(MPBrowserTypes browserType)
+{
+
+}
+

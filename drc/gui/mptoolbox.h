@@ -9,6 +9,13 @@
 #include "mediationprocess.h"
 #include "notesbrowser.h"
 
+enum MPBrowserTypes
+{
+    MPBROWSER_NONE,
+    MPBROWSER_MEDIATION,
+    MPBROWSER_SESSIONS,
+    MPBROWSER_NOTES
+};
 
 namespace Ui {
 class MPToolBox;
@@ -22,6 +29,9 @@ public:
     explicit MPToolBox(QWidget *parent = 0);
 //    static MPToolBox& Instance(QWidget *parent = 0);
     ~MPToolBox();
+
+    bool IsShowingBrowser(MPBrowserTypes browserType);
+    void ShowBrowser(MPBrowserTypes browserType);
 
 private:
     Ui::MPToolBox *ui;
