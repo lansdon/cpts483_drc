@@ -47,6 +47,22 @@ DRCDB::DRCDB() : DB_ERROR(false)
         result = CreateClientTable(client_table_name);
     }
 
+    MediationProcess* process;
+    process = process->SampleData();
+    process->GetAffectedChildrenCount();
+    process->GetCountyId();
+    //process.GetCreated();
+    process->GetCreationDate();
+    process->GetCurrentState();
+    process->GetDisputeType();
+    //process.GetId(); //Should be 0
+    MediationSessionVector* sessions = new MediationSessionVector();
+    sessions = process->getMediationSessionVector(); // vector
+    process->GetNotes();
+    PartyVector parties = process->GetParties(); // vector
+    process->GetReferralType();
+    process->GetRequiresSpanish();
+
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
     UserMap["Normal"] = sha256("normalpassword", "");
