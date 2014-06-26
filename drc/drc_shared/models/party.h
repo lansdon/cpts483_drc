@@ -9,7 +9,7 @@
 
 
 
-class Party : DBBaseObject
+class Party : public DBBaseObject
 {
 public:
     Party();

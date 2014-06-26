@@ -8,7 +8,7 @@
 #include "party.h"
 
 
-class MediationProcess : DBBaseObject
+class MediationProcess : public DBBaseObject
 {
 public:
     MediationProcess();

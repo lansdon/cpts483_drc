@@ -65,7 +65,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     MediationProcess* process = MediationProcess::SampleData();//NULL;
     //process = process->SampleData();
     int b = process->GetAffectedChildrenCount();
-    process->GetCountyId();
+    int a = process->GetCountyId();
     //process.GetCreated();
     process->GetCreationDate();
     process->GetCurrentState();
@@ -73,12 +73,19 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
 
+    MediationSession* session = sessions->at(1);
+    QString parsedObject = session->Parse();
+    qDebug() << "Trying something now";
+    qDebug() << parsedObject;
+    qDebug() << "After Parsed";
+
     // Second, hacky way, of getting at the mediation sessions
     /*MediationSession* session;
 
     for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
     {
         session = process->getMediationSessionVector()->at(i);
+
     }*/
 
     process->GetNotes();
@@ -140,23 +147,6 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     //Name and Datatypes of all Table columns
     QVector<QString> mediation_table_columns;
     mediation_table_columns.push_back(QString("Process_id integer primary key autoincrement null"));
-    mediation_table_columns.push_back(QString("DisputeType integer"));
-    mediation_table_columns.push_back(QString("CreationDate Date"));
-    mediation_table_columns.push_back(QString("UpdatedDate Date"));
-    mediation_table_columns.push_back(QString("DisputeState integer"));
-    mediation_table_columns.push_back(QString("DisputeCounty integer"));
-    mediation_table_columns.push_back(QString("DisputeNotes char(128)"));
-    mediation_table_columns.push_back(QString("ReferalSource integer"));
-    mediation_table_columns.push_back(QString("TranslatorRequired Bool"));
-
-    return CreateTable(mediation_table_name, mediation_table_columns);
-}
-
-bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
-{
-    //Name and Datatypes of all Table columns
-    QVector<QString> mediation_table_columns;
-    mediation_table_columns.push_back(QString("Client_id integer primary key autoincrement null"));
     mediation_table_columns.push_back(QString("DisputeType integer"));
     mediation_table_columns.push_back(QString("CreationDate Date"));
     mediation_table_columns.push_back(QString("UpdatedDate Date"));
@@ -438,6 +428,7 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
 }
 //========================================================================
 
+/*
 // For inserting objects which link only one direction (such as dispute having many sessions)
 bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
 {
@@ -463,16 +454,16 @@ bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
 }
+*/
 
-
-
+/*
 // For inserting into the many-to-many table... might not be able to template.
 // Keeping this here incase we think of a way we can
 bool DRCDB::InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
 {
     //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
     QString command_string = QString("insert into %1 values ( %2, %3 )")
-            .arg(joinTable)
+            .arg("ARGLEBARGLECHANGEME")
             .arg("null")
             .arg(db_object1->Parse()); // NOT CHANGED! THIS WILL NOT WORK
 
@@ -490,6 +481,7 @@ bool DRCDB::InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
 }
+*/
 
 // Method to link a dispute and a party(really a person) through the client table
 bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_object)
@@ -499,8 +491,8 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
     QString observerString;
     for(int i = 0; i < party_object->GetObservers().size(); i++)
     {
-        Person temp = party_object->GetObservers().at(i);
-        observerString += temp.FullName();
+        Person* temp = party_object->GetObservers().at(i);
+        observerString += temp->FullName();
     }
 
     QString value_string = QString("%1, %2, %3, '%4', '%5'")
@@ -524,7 +516,7 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
     if(insertSuccess)
     {
         int id = query_object.lastInsertId().toInt();
-        db_object->SetId(id);
+        //db_object->SetId(id);
     }
 
     //Returning the boolean that was found before so work flow won't change

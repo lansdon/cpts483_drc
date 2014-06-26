@@ -81,9 +81,9 @@ public:
     bool InsertLinkedObject(int linkedID, DBBaseObject* db_object);
 
     // Possible method. not correctly implemented yet
-    bool InsertJoinObject(DBBaseObject* db_object);
+    bool InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2);
 
-    bool InsertJoinObject(MediationProcess* dispute_object, Party party_object);
+    bool InsertJoinObject(MediationProcess* dispute_object, Party* party_object);
 
     QVector<QString> SelectAllFields(QString table_name);
 
