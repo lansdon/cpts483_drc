@@ -22,7 +22,7 @@ void MediationBrowser::ConfigMediationProcecssViewTable()
 {
         //ui->tableWidget = ui->sessiontTableWidget;
         ui->tableWidget->setColumnCount(3);
-        ui->tableWidget->setRowCount(11);
+        ui->tableWidget->setRowCount(_mediationsVector.size());
         QStringList header;
         header <<"Date Time"<<"Party1"<<"Status";
         ui->tableWidget->setHorizontalHeaderLabels(header);
@@ -41,6 +41,8 @@ void MediationBrowser::ConfigMediationProcecssViewTable()
 }
 void MediationBrowser::PopulateMediationProcessTable()
 {
+    ui->tableWidget->setRowCount(_mediationsVector.size());
+
     for(int row=0; row < (int)_mediationsVector.size(); ++row)
     {
         qDebug() << "populate row: " << row;
@@ -48,7 +50,7 @@ void MediationBrowser::PopulateMediationProcessTable()
         MediationProcess *o = _mediationsVector.at(row);
         ui->tableWidget->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));
         ui->tableWidget->setItem(row, 1, new QTableWidgetItem(o->GetPartyAtIndex(0)->GetPrimary()->FullName()));
-        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(o->GetCurrentState()));
+        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(StringForDisputeProcessStates( o->GetCurrentState())));
     }
 }
 
