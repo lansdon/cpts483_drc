@@ -7,7 +7,7 @@
 #include <vector>
 #include "drc_shared/models/mediationprocess.h"
 #include "drc_shared/drctypes.h"
-#include "mediator.h"
+#include "Mediator.h"
 
 
 namespace Ui {
