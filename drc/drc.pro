@@ -29,7 +29,6 @@ SOURCES += main.cpp\
     drc_shared/models/Intake.cpp \
     gui/fruitnameform.cpp \
     bl/fruitnameprocessor.cpp \
-    bl/intakeformprocessor.cpp \
     gui/loginform.cpp \
     bl/Crypto/SHA256_Crypto.cpp \
     drc_shared/mediator/asyncmediatorworker.cpp \
@@ -57,8 +56,6 @@ SOURCES += main.cpp\
     gui/Mock_Server/dummy.cpp \
     drc_shared/models/mediationsession.cpp \
     gui/mediationsessionform.cpp \
-    gui/mediationprocesstableform.cpp \
-    gui/sessionstableform.cpp \
     gui/sessionoverview.cpp \
     gui/mptoolbox.cpp \
     gui/sessioncell.cpp \
@@ -77,7 +74,6 @@ HEADERS  += \
     gui/fruitnameform.h \
     drc_shared/models/DRCModels.h \
     bl/fruitnameprocessor.h \
-    bl/intakeformprocessor.h \
     db/Filter.h \
     db/FilterTypes.h \
     drc_shared/models/Fruit.h \
@@ -111,8 +107,6 @@ HEADERS  += \
     gui/Mock_Server/dummy.h \
     drc_shared/models/mediationsession.h \
     gui/mediationsessionform.h \
-    gui/mediationprocesstableform.h \
-    gui/sessionstableform.h \
     gui/sessionoverview.h \
     gui/mptoolbox.h \
     gui/sessioncell.h \
@@ -132,8 +126,6 @@ FORMS    += \
     gui/partiescontainerform.ui \
     gui/mediationprocessstatusform.ui \
     gui/mediationsessionform.ui \
-    gui/mediationprocesstableform.ui \
-    gui/sessionstableform.ui \
     gui/sessionoverview.ui \
     gui/mptoolbox.ui \
     gui/sessioncell.ui \
