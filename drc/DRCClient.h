@@ -9,6 +9,7 @@
 #include "mediationprocessview.h"
 #include "Mock_Server/mock_server.h"
 #include "drc_shared/CurrentUser.h"
+#include "mptoolbox.h"
 
 namespace Ui {
 class DRCClient;
@@ -73,6 +74,7 @@ private:
     void LoadMediationProcessView(MediationProcess* process = nullptr);
     // Dock views
     QDockWidget* _browserDock;
+    void ShowBrowser(MPBrowserTypes browserType);
 
     void SetMainView(QWidget* widget);
     void SetMenusEnabled(bool enableMenus, bool showAdmin);

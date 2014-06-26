@@ -2,16 +2,8 @@
 #include "ui_notesbrowser.h"
 #include <QDateTime>
 #include <QDebug>>
+#include "Note.h"
 
-
-class MediationNote
-{
-    MediationNote(){};
-
-public:
-    QDateTime GetCreationDate() { return QDateTime::currentDateTime(); }
-    QString GetNote() { return "Sample Note... Stuff goes here. OMG!"; }
-};
 
 NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
     : QWidget(parent)
@@ -66,9 +58,9 @@ void NotesBrowser::PopulateTable()
     {
         qDebug() << "populate row: " << row;
         //insert data
-        MediationNote *note = _notes->at(row);
-        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(note->GetCreationDate().toString("MM-dd-yyyy")));
-        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(note->GetNote()));
+        Note *note = _notes->at(row);
+        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(note->GetCreatedDate().toString("MM-dd-yyyy")));
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(note->GetMessage()));
     }
 }
 

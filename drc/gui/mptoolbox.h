@@ -32,10 +32,11 @@ public:
 
     bool IsShowingBrowser(MPBrowserTypes browserType);
     void ShowBrowser(MPBrowserTypes browserType);
-
+    MPBrowserTypes GetCurrentBrowserType() { return _currentBrowserType; }
 private:
     Ui::MPToolBox *ui;
 
+    MPBrowserTypes _currentBrowserType;
     MediationBrowser* _mpBrowser;
     SessionsBrowser* _sessionsBrowser;
     NotesBrowser* _notesBrowser;

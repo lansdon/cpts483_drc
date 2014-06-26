@@ -117,12 +117,16 @@ const QString MKEY_DB_QUERY_MEDIATION = "MKEY_DB_QUERY_MEDIATION";              
 //////////////////////////////////////////////////////////////////
 //	toggle MPToolbox Dock Widget
 const QString MKEY_GUI_SHOW_MEDIATION_BROWSER = "MKEY_GUI_SHOW_MEDIATION_BROWSER";    // null
-// Set Sessions for Session Table
+// Set Sessions for Session Browser
 const QString MKEY_DOCK_SET_SESSIONS = "MKEY_DOCK_SET_SESSIONS";                                // MediationSessionsVector*
 // Session Table - selected a session
 const QString MKEY_DOCK_SESSION_CHANGED = "MKEY_DOCK_SESSION_CHANGED";                                // MediationSessionsVector*
 // Session Table - show dock
 const QString MKEY_GUI_SHOW_SESSIONS_BROWSER = "MKEY_GUI_SHOW_SESSIONS_BROWSER";                // MediationSessionsVector*
+// Notes Table - show dock
+const QString MKEY_GUI_SHOW_NOTES_BROWSER = "MKEY_GUI_SHOW_NOTES_BROWSER";                // MediationSessionsVector*
+// Set Notes for Notes Browser
+const QString MKEY_DOCK_SET_NOTES = "MKEY_DOCK_SET_NOTES";                                // MediationSessionsVector*
 
 
 

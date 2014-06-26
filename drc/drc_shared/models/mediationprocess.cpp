@@ -8,9 +8,6 @@
 
 MediationProcess::MediationProcess() : DBBaseObject()
 {
-    _mediationSessionVector = new MediationSessionVector();
-//    _parties.push_back(new Party());
-//    _parties.push_back(new Party());
     _creationDate = QDateTime::currentDateTime();
 }
 
@@ -54,7 +51,7 @@ MediationProcess *MediationProcess::SampleData()
     std::stringstream ss;
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
-    result->GetParties().clear();
+    result->GetParties()->clear();
     for(int i=0; i < rand() % 4 + 1; ++i)
         result->AddParty(Party::SampleData());
 
@@ -69,7 +66,7 @@ MediationProcess *MediationProcess::SampleData()
         temp->push_back(MediationSession::SampleData());
     result->setMediationSessionVector(temp);
     for(int i=0; i < 25; ++i)
-        result->GetNotes().push_back("Some more mediation notes " + QString::number(i));
+        result->GetNotes()->push_back(new Note("Some more mediation notes " + QString::number(i)));
 
 
 

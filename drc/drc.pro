@@ -67,11 +67,8 @@ SOURCES += main.cpp\
     gui/mptoolbox.cpp \
     gui/sessioncell.cpp \
     gui/nosessionsview.cpp \
-<<<<<<< HEAD
-    drc_shared/mpfilemaker.cpp
-=======
+    drc_shared/mpfilemaker.cpp \
     drc_shared/models/Note.cpp
->>>>>>> origin/GUI_Branch_5-30-14
 
 HEADERS  += \
     bl/drcbl.h \
@@ -132,12 +129,8 @@ HEADERS  += \
     gui/sessioncell.h \
     gui/nosessionsview.h \
     gui/NoteForm.h \
-<<<<<<< HEAD
-    drc_shared/models/NoteForm.h \
-    drc_shared/mpfilemaker.h
-=======
+    drc_shared/mpfilemaker.h \
     drc_shared/models/Note.h
->>>>>>> origin/GUI_Branch_5-30-14
 
 FORMS    += \
     DRCClient.ui \

@@ -34,8 +34,9 @@ private slots:
     // Toolbar Buttons
     void SaveMediationPressed();
     void SearchForMediationPressed();
-    void ShowRecentPressed();
+    void ShowMediationBrowserPressed();
     void ShowSessionBrowserPressed();
+    void ShowNotesBrowserPressed();
 
 private:
     Ui::MediationProcessView *ui;
