@@ -3,12 +3,16 @@
 #include "MediatorKeys.h"
 #include "drctypes.h"
 
+
+
 CurrentUser::CurrentUser()
 {
-    Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){LoginUser(arg);});
+    // Make sure to set our _currentUser to null for future checks.
     _currentUser = nullptr;
-}
 
+    // Register our LoginUser method to calls
+    Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){LoginUser(arg);});
+}
 CurrentUser::CurrentUser(const CurrentUser& User)
 {
 	// Filler
@@ -20,12 +24,12 @@ CurrentUser& CurrentUser::Instance()
 	return instance;
 }
 
-
 bool CurrentUser::LoginUser(User* NewUser)
 {
     // Maybe do some error checking here.  Maybe make sure the permissions are set right?  IDK...
     Instance()._currentUser = NewUser;
 
+    // Signal an event that the current user changed.
 	return true;
 }
 

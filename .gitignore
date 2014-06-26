@@ -181,3 +181,4 @@ drc/gui/mainmenutabwidget.cpp
 drc/gui/mainmenutabwidget.cpp
 drc/gui/mainmenutabwidget.h
 drc/gui/mainmenutabwidget.ui
+drc/bl/intakeformprocessor.cpp

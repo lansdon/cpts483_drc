@@ -2,8 +2,9 @@
 #define SESSIONOVERVIEW_H
 
 #include <QWidget>
-#include "mediationsession.h"
 #include "drctypes.h"
+#include "DRCModels.h"
+
 
 namespace Ui {
 class SessionOverview;

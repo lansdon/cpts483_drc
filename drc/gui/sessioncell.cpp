@@ -1,6 +1,5 @@
 #include "sessioncell.h"
 #include "ui_sessioncell.h"
-#include "mediationsession.h"
 #include "drctypes.h"
 
 SessionCell::SessionCell(QWidget *parent, MediationSession* session) :

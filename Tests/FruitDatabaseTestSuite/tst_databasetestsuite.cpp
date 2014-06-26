@@ -6,6 +6,7 @@
 
 #include "drcdb.h"
 #include "Fruit.h"
+#include "Basket.h"
 
 //Tests:
 //
@@ -87,6 +88,18 @@ void DatabaseTestSuite::CreateTable()
 {
     //Create table with name and column data.
     QCOMPARE(_db.CreateTable(table_name, column_container), true);
+    table_name = "Basket";
+    column_container.clear();
+    column_container.push_back(QString("id integer primary key autoincrement null"));
+    column_container.push_back(QString("basket_name char(50) not null"));
+    _db.CreateTable(table_name, column_container);
+    table_name = "FruitBasket";
+    column_container.clear();
+    column_container.push_back(QString("id integer primary key autoincrement null"));
+    column_container.push_back(QString("basket_id int not null"));
+    column_container.push_back(QString("fruit_id int not null"));
+    _db.CreateTable(table_name, column_container);
+    table_name = "Albertsons";
 }
 
 void DatabaseTestSuite::CreateDuplicateTable()
@@ -113,6 +126,19 @@ void DatabaseTestSuite::InsertObject()
 
     //Duplicate Fruit Name, should not fail, different timestamp.
     QCOMPARE(_db.InsertObject(&OtherBanana), true);
+
+    vector<Fruit> fruitBasket;
+    fruitBasket.push_back(Banana);
+    fruitBasket.push_back(OtherBanana);
+
+    Basket TestBasket("Tester");
+
+    QCOMPARE(_db.InsertObject(&TestBasket), true);
+
+    for(int i = 0; i < fruitBasket.size(); i++)
+    {
+        QCOMPARE(_db.InsertJoinedObject(&TestBasket, &fruitBasket[i]), true);
+    }
 
     //Duplicate Fruit, should fail since this is the exact same fruit.
     QCOMPARE(_db.InsertObject(&Banana), false);

@@ -2,7 +2,7 @@
 #define SESSIONCELL_H
 
 #include <QWidget>
-#include "mediationsession.h"
+#include "DRCModels.h"
 
 namespace Ui {
 class SessionCell;

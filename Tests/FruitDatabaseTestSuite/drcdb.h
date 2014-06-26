@@ -32,6 +32,8 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
+    bool InsertJoinedObject(DBBaseObject* db_object1, DBBaseObject* db_object2);
+
     bool DuplicateInsert(const QString &duplicate_query);
 
     QVector<QString> SelectAllFields(QString table_name);

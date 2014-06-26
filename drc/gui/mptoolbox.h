@@ -4,9 +4,11 @@
 #include <QToolBox>
 
 #include "drctypes.h"
-#include "mediationprocesstableform.h"
-#include "sessionstableform.h"
+#include "mediationbrowser.h"
+#include "sessionsbrowser.h"
 #include "mediationprocess.h"
+#include "notesbrowser.h"
+
 
 namespace Ui {
 class MPToolBox;
@@ -24,13 +26,13 @@ public:
 private:
     Ui::MPToolBox *ui;
 
-    MediationProcessTableForm* _mpTable;
-    SessionsTableForm* _sessionsTable;
-
+    MediationBrowser* _mpBrowser;
+    SessionsBrowser* _sessionsBrowser;
+    NotesBrowser* _notesBrowser;
     // Track which indices the tables use (for enable/disable)
-    int _mpTableIndex;
-    int _sessionsTableIndex;
-    int _notesTableIndex;
+    int _mpBrowserIndex;
+    int _sessionsBrowserIndex;
+    int _notesBrowserIndex;
 
     void Configure();
 

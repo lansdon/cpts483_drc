@@ -49,14 +49,13 @@ void FruitNameProcessor::Process(MediatorArg arg)
             }
          }
         else
-
         {
             success = false;
             errorMessage = "No fruit name.";
         }
     }
 
-    qDebug() << "BL -> Validation Complete";
+    qDebug() << "BL -> "+ _regProcess +" Complete";
     Mediator::Call(_sendProcess, fruit, success, errorMessage);
 }
 

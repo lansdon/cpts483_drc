@@ -1,52 +1,43 @@
-#include "Fruit.h"
+#include "Basket.h"
 
-#define table_name "Albertsons"
+#define table_name "Basket"
 
-Fruit::Fruit()
+Basket::Basket()
 {
-    time_t createTime;
-    time(&createTime);
-    m_timestamp = createTime;
 }
 
-Fruit::Fruit(QString name)
+Basket::Basket(QString name)
 {
     m_name = name;
-    time_t createTime;
-    time(&createTime);
-    m_timestamp = createTime;
 }
 
-Fruit::Fruit(QString* name)
+Basket::Basket(QString* name)
 {
     m_name = *name;
-    time_t createTime;
-    time(&createTime);
-    m_timestamp = createTime;
 }
 
-void Fruit::SetName(QString name)
+void Basket::SetID(int id)
+{
+    m_id = id;
+}
+
+int Basket::GetID(void)
+{
+    return m_id;
+}
+
+void Basket::SetName(QString name)
 {
     m_name = name;
 }
 
-void Fruit::SetTime(int time)
-{
-    m_timestamp = time;
-}
-
-QString Fruit::GetName(void)
+QString Basket::GetName(void)
 {
     return m_name;
 }
 
-QString Fruit::GetTime(void)
-{
-    return QString::number(m_timestamp);
-}
-
 //For the sake of readbility.  A lot of code though.
-QString Fruit::Parse()
+QString Basket::Parse()
 {
     static QString single_quote("\'");
 
@@ -54,21 +45,17 @@ QString Fruit::Parse()
 
     toReturn += single_quote + this->GetName() + single_quote;
 
-    toReturn += ", ";
-
-    toReturn += this->GetTime();
-
     return toReturn;
 
     //return QString("VALUES (\'" + this->GetName() + "\', \'" + this->GetTime() + " );");
 }
 
-QString Fruit::table(void)
+QString Basket::table(void)
 {
     return QString(table_name);
 }
 
-QString Fruit::DuplicateQuery(void)
+QString Basket::DuplicateQuery(void)
 {
     static QString single_quote("\'");
 
@@ -76,17 +63,15 @@ QString Fruit::DuplicateQuery(void)
 
     toReturn += "SELECT * FROM ";
     toReturn += table_name;
-    toReturn += " WHERE fruit_name like ";
+    toReturn += " WHERE Basket_name like ";
     toReturn += single_quote + this->GetName() + single_quote;
-    toReturn += " AND time_stamp = ";
-    toReturn += this->GetTime();
 
     return toReturn;
 
     //return QString("Select * from table_name where name like \'" + this->GetName() + "\' and where time = " + this->GetTime()
 }
 
-QString Fruit::SearchQuery(void)
+QString Basket::SearchQuery(void)
 {
     static QString single_quote("\'");
 
@@ -96,22 +81,9 @@ QString Fruit::SearchQuery(void)
     toReturn += table_name;
     if(this->GetName() != "")
     {
-        toReturn += " WHERE fruit_name like ";
+        toReturn += " WHERE Basket_name like ";
         toReturn += single_quote + this->GetName() + single_quote;
         firstFilter = false;
-    }
-    if(this->GetTime() != "0")
-    {
-        if(!firstFilter)
-        {
-            toReturn += " AND";
-        }
-        else
-        {
-            toReturn += " WHERE";
-        }
-        toReturn += " time_stamp = ";
-        toReturn += this->GetTime();
     }
     return toReturn;
 

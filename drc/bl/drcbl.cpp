@@ -2,7 +2,7 @@
 #include <qdebug.h>
 
 #include "drcbl.h"
-
+#include "mediationprocess.h"
 #include "Mediator.h"
 #include "MediatorArg.h"
 #include "MediatorKeys.h"
@@ -18,7 +18,6 @@
 //namespace drc {
 //namespace bl {
 
-
 DRCBL::DRCBL()
       : _fruitNameProcessor(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_BL_VALIDATE_FRUITNAME_DONE, "", ""),
 //        _intakeFormProcessor(MKEY_GUI_SUBMIT_INTAKE_FORM, MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE,
@@ -32,7 +31,7 @@ DRCBL::DRCBL()
 //  TEST FUNCTION - Returns sample data to the fruitname test page.
 void DRCBL::SendResults(MediatorArg arg)
 {
-    Intake temp;
+/*    MedationProcess temp;
     Person *claimant = Person::SampleData();
     claimant->setFirstName("apple");
     temp.addParty(claimant);
@@ -50,7 +49,7 @@ void DRCBL::SendResults(MediatorArg arg)
     temp.addParty(p3);
 
     Mediator::Call(MKEY_BL_RETURN_SEARCH_RESULTS,new Intake(temp));
-}
+*/}
 
 // end namespaces
 //}

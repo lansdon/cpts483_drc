@@ -18,6 +18,10 @@ public:
     virtual QString DuplicateQuery() = 0;
 
     virtual QString SearchQuery() = 0;
+
+    virtual int GetID(void) = 0;
+
+    virtual void SetID(int id) = 0;
 };
 
 

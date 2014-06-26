@@ -7,16 +7,16 @@
 #include "Mediator.h"
 
 namespace Ui {
-class SessionsTableForm;
+class SessionsBrowser;
 }
 
-class SessionsTableForm : public QWidget
+class SessionsBrowser : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SessionsTableForm(QWidget *parent = 0, MediationSessionVector* sessions = nullptr);
-    ~SessionsTableForm();
+    explicit SessionsBrowser(QWidget *parent = 0, MediationSessionVector* sessions = nullptr);
+    ~SessionsBrowser();
 
     void SetSessions(MediationSessionVector* sessions);
     void SetSessionsEvent(MediatorArg arg);
@@ -25,7 +25,7 @@ protected slots:
     void on_tableWidget_itemSelectionChanged();
 
 private:
-    Ui::SessionsTableForm *ui;
+    Ui::SessionsBrowser *ui;
 
     MediationSessionVector* _sessions;
 

@@ -5,6 +5,7 @@
 #include "drctypes.h"
 #include <QDate>
 #include "DBBaseObject.h"
+#include "party.h"
 
 
 class MediationProcess : DBBaseObject
@@ -42,6 +43,8 @@ public:
     void SetCreationDate(QDateTime date) { _creationDate = date; }
     void SetProcessState(DisputeProcessStates state) { _processState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
+    uint getStateTransition() {return _stateTransition;}
+    void setStateTransition(uint input) {_stateTransition = input;}
     void setMediationSessionVector(MediationSessionVector *value) {_mediationSessionVector = value;}
 
     // Helpers
@@ -51,6 +54,7 @@ private:
 
     PartyVector _parties;
 
+    uint _stateTransition;
     DisputeTypes _disputeType;
 
     QDateTime _creationDate;
