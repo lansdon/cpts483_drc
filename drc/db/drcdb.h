@@ -77,6 +77,11 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
+    // Possible method. not correctly implemented yet
+    bool InsertJoinObject(DBBaseObject* db_object);
+
+    bool InsertJoinObject(MediationProcess* dispute_object, Party party_object);
+
     QVector<QString> SelectAllFields(QString table_name);
 
     //Parameters are temporary until Filter Object finalized.

@@ -421,12 +421,87 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
             .arg("null")
             .arg(db_object->Parse());
 
+    bool insertSuccess = false;
     QSqlQuery query_object(database);
 
-    return this->ExecuteCommand(command_string, query_object);
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    if(insertSuccess)
+    {
+        int id = query_object.lastInsertId().toInt();
+        db_object->SetId(id);
+    }
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
 }
 //========================================================================
 
+// For inserting into the many-to-many table... might not be able to template.
+// Keeping this here incase we think of a way we can
+bool DRCDB::InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
+{
+    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
+    QString command_string = QString("insert into %1 values ( %2, %3 )")
+            .arg(joinTable)
+            .arg("null")
+            .arg(db_object1->Parse()); // NOT CHANGED! THIS WILL NOT WORK
+
+    bool insertSuccess = false;
+    QSqlQuery query_object(database);
+
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    if(insertSuccess)
+    {
+        int id = query_object.lastInsertId().toInt();
+    }
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
+}
+
+// Method to link a dispute and a party(really a person) through the client table
+bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_object)
+{
+    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
+
+    QString observerString;
+    for(int i = 0; i < party_object->GetObservers().size(); i++)
+    {
+        Person temp = party_object->GetObservers().at(i);
+        observerString += temp.FullName();
+    }
+
+    QString value_string = QString("%1, %2, %3, '%4', '%5'")
+            .arg(dispute_object->GetId())
+            .arg(party_object->GetId())
+            .arg(party_object->GetChildren().size())
+            .arg(observerString)
+            .arg(party_object->GetAttorney().FullName());
+
+    QString command_string = QString("insert into %1 values ( %2, %3 )")
+            .arg("client_table")
+            .arg("null")
+            .arg(value_string);
+
+    bool insertSuccess = false;
+    QSqlQuery query_object(database);
+
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    if(insertSuccess)
+    {
+        int id = query_object.lastInsertId().toInt();
+        db_object->SetId(id);
+    }
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
+}
 
 
 //========================================================================
