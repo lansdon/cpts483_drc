@@ -31,6 +31,8 @@ public:
     void parseProcessNotes(QDataStream &out, MediationNotesVector *notes);
     void parseSessionsVector(QDataStream &out, MediationSessionVector *msv);
     void parseSession(QDataStream &out, MediationSession *ms);
+    void parseNote(QDataStream &out, Note *note);
+
 private:
     MediationProcessVector *mpVector;
     QString FileName;

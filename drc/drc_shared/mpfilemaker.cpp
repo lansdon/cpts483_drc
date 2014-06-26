@@ -105,8 +105,15 @@ void MPFileMaker::parseProcessNotes(QDataStream &out, MediationNotesVector *note
 {
     for(int i = 0; i < notes->size(); i++)
     {
-        out << notes->at(i);
+        parseNote(out,notes->at(i));
     }
+}
+
+void MPFileMaker::parseNote(QDataStream &out, Note *note)
+{
+    out << note->GetSessionId();
+    out << note->GetmediationId();
+    out << note->GetMessage();
 }
 
 void MPFileMaker::parsePartiesVector(QDataStream &out, PartyVector *parties)
