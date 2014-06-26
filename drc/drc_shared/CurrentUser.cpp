@@ -13,7 +13,6 @@ CurrentUser::CurrentUser()
     // Register our LoginUser method to calls
     Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){LoginUser(arg);});
 }
-
 CurrentUser::CurrentUser(const CurrentUser& User)
 {
 	// Filler
@@ -36,8 +35,12 @@ bool CurrentUser::LoginUser(User* NewUser)
 
 bool CurrentUser::LoginUser(MediatorArg arg)
 {
-    // Maybe do some error checking here.  Maybe make sure the permissions are set right?  IDK...
     Instance()._currentUser = arg.getArg<User*>();
+    Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+    if (Instance()._currentUser->GetType() == USER_T_ADMIN)
+    {
+        Mediator::Call(MKEY_GUI_SHOW_ADMIN);
+    }
     return arg.IsSuccessful();
 }
 
@@ -47,6 +50,8 @@ bool CurrentUser::LogoutUser()
 	// Will have to do more than just set the pointer to null.
     // Some kind of mediator call?
     Instance()._currentUser = nullptr;
+    Mediator::Call(MKEY_GUI_DISABLE_MENUS);
+    Mediator::Call(MKEY_GUI_HIDE_ADMIN);
 	return true;
 }
 

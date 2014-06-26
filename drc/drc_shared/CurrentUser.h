@@ -14,7 +14,6 @@ private:
     CurrentUser(const CurrentUser &);
 
     User	*_currentUser;
-
 public:
     static CurrentUser& Instance();
 

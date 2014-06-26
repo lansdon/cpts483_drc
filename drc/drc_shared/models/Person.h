@@ -94,7 +94,8 @@ public:
     void setAttorney(QString value) { _attorney = value; }
 
     // Helpers
-    QString FullName() { return _firstName + " " + _lastName; }
+    QString FullName() { return (_firstName + " " + _lastName); }
+    bool isName() {return !_firstName.isEmpty();}
 
     bool operator == (const Person &rhs);
     bool operator != (const Person &rhs);

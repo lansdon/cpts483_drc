@@ -101,7 +101,6 @@ QString StringForUserTypes(UserTypes id)
     {
     case USER_T_ADMIN: result = "Administrator"; break;
     case USER_T_NORMAL: result = "Normal"; break;
-    case USER_T_SUPER_USER: result = "Super User"; break;
     default: result = "None Selected"; break;
     }
     return result;
@@ -116,6 +115,21 @@ QString StringForSearchTypes(SearchTypes id)
     case SEARCH_T_MEDIATION: result = "Mediation"; break;
     case SEARCH_T_PERSON: result = "Person"; break;
     default: result = "None Selected"; break;
+    }
+    return result;
+}
+
+QString StringForSessionStates(SessionStates id)
+{
+    QString result;
+    switch(id)
+    {
+    case SESSION_STATE_CANCELLED: result = "Cancelled"; break;
+    case SESSION_STATE_CONFIRMED: result = "Confirmed"; break;
+    case SESSION_STATE_NONE: result = "None"; break;
+    case SESSION_STATE_PENDING: result = "Pending"; break;
+    case SESSION_STATE_RESCHEDULED: result = "Rescheduled"; break;
+    default: result = "Invalid"; break;
     }
     return result;
 }

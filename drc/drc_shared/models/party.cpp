@@ -10,6 +10,26 @@ Party::Party()
     _primary = new Person();
 }
 
+QString Party::Parse()
+{
+
+}
+
+QString Party::table()
+{
+
+}
+
+QString Party::DuplicateQuery()
+{
+
+}
+
+QString Party::SearchQuery()
+{
+
+}
+
 
 // Test Data - Fill the object with test values in every field.
 Party *Party::SampleData()

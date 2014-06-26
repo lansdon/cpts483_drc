@@ -3,7 +3,16 @@
 //#include "Mediator.h"
 
 #include "DBBaseObject.h"
+#include "Crypto/SHA256_Crypto.h"
+#include <string>
+#include <vector>
+#include <map>
 #include <QtSql/QtSql>
+#include "DRCModels.h"
+#include "MediatorArg.h"
+#include "Mediator.h"
+#include "MediatorKeys.h"
+#include "User.h"
 
 //--Note:   I don't know how to create a scenario where a database can
 //          fail to open.  As such, the error mechanism currently isn't
@@ -15,6 +24,8 @@ private:
     QSqlDatabase database;
 
     QVector<QString> ErrorMessageVec;
+
+    std::map<QString, QString> UserMap;
 
     bool DB_ERROR;
 
@@ -36,6 +47,13 @@ public:
     bool CreatePersonTable(const QString &person_table_name);
 
     bool CreateMediationTable(const QString& mediation_table_name);
+
+
+    bool CreateSessionTable(const QString& session_table_name);
+
+    bool CreateClientTable(const QString& client_table_name);
+
+    bool CreateNotesTable(const QString& notes_table_name);
     //==========================================================================
 
     //==========================================================================
@@ -83,6 +101,8 @@ public:
 //  bool DuplicateInsert(const QString &duplicate_query);
 //  bool IsDatabaseEmpty();
 //********************************Deprecated Methods********************************
+
+    void AuthenticateUser(MediatorArg arg);
 
 };
 

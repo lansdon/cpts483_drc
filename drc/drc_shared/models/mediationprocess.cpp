@@ -83,3 +83,5 @@ int MediationProcess::GetAffectedChildrenCount()
         total += p->GetAffectedChildren();
     return total;
 }
+
+

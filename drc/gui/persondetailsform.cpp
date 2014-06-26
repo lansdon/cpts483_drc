@@ -235,9 +235,9 @@ void PersonDetailsForm::SetEditMode(bool editModeOn)
 
 void PersonDetailsForm::cleanPerson()
 {
-    if(_shouldCleanPersonPointer)
-        delete _person;
-    _shouldCleanPersonPointer = false;
+//    if(_shouldCleanPersonPointer)
+//        delete _person;
+//    _shouldCleanPersonPointer = false;
 }
 
 void PersonDetailsForm::on_firstLineEdit_returnPressed()

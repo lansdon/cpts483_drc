@@ -20,6 +20,8 @@ public:
 private slots:
     void on_notesToggleBtn_clicked();
 
+    void on_Last10Label_linkHovered(const QString &link);
+
 private:
     Ui::MediationProcessStatusForm *ui;
 
@@ -28,6 +30,8 @@ private:
     void Update();
 
     void ConfigureComboBoxes(); // Sets the values based on enums.
+signals:
+    void hovered();
 };
 
 #endif // MEDIATIONPROCESSSTATUSFORM_H

@@ -40,7 +40,7 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
     }
 }
 
-void PartiesContainerForm::savePersonContactFromFar(Person *value)
-{
-    PassItOnAgain(value);
-}
+//void PartiesContainerForm::savePersonContactFromFar(Person *value)
+//{
+//    PassItOnAgain(value);
+//}

@@ -2,12 +2,12 @@
 #include <sstream>
 #include <QDateTime>
 #include <QDebug>
+#include "DRCModels.h"
 
 MediationSession::MediationSession()
 {
-    _mediationTime = QDateTime::currentDateTime();
-    _pendingRB = true;
-    _cancelledRB = _rescheduledRB = _confirmedRB = _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
+    _mediationCreation = QDateTime::currentDateTime();
+    _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
     _mediator1 = new Person();
     _mediator2 = new Person();
     _observer1 = new Person();
@@ -15,9 +15,70 @@ MediationSession::MediationSession()
 
 }
 
+
+QString MediationSession::Parse()
+{
+
+}
+
+QString MediationSession::table()
+{
+
+}
+
+QString MediationSession::DuplicateQuery()
+{
+
+}
+
+QString MediationSession::SearchQuery()
+{
+
+}
+
+
 QString MediationSession::getStatus() const
 {
-    return _pendingRB ? "Pending" : _cancelledRB ? "Cancelled" : _rescheduledRB ? "Reschecduled" : _confirmedRB ? "Confirmed" : "Error In Reading Status";
+    return StringForSessionStates(_state);
+}
+
+QString MediationSession::getFeeStatus() const
+{
+//    if(!_fee1.isEmpty() && !_fee2.isEmpty() && !_feeFamily.isEmpty() && !_feeOther.isEmpty())
+//    {
+//        if(_fee1Paid && _fee2Paid && _feeFamilyPaid && _feeOtherPaid)
+//            return "Paid";
+//        else
+//            return "Partial";
+//    }
+//    else if(!_fee1.isEmpty() && !_fee2.isEmpty() && !_feeFamily.isEmpty())
+    bool partial1, partial2, partial3, partial4, paidInFull;
+    partial1 = partial2 = partial3 = partial4 = false;
+    paidInFull = true;
+
+    //check if there is any partial payments
+    if(!_fee1.isEmpty() && _fee1Paid)
+        partial1 = true;
+    if(!_fee2.isEmpty() && _fee2Paid)
+        partial2 = true;
+    if(!_feeFamily.isEmpty() && _feeFamilyPaid)
+        partial3 = true;
+    if(!_feeOther.isEmpty() && _feeOtherPaid)
+        partial4 = true;
+
+    //check if paid in full
+    if((!_fee1.isEmpty() && !partial1) || (!_fee2.isEmpty() && !partial2) || (!_feeFamily.isEmpty() && !partial3) || (!_feeOther.isEmpty() && !partial4))
+        paidInFull = false;
+
+
+    if(_fee1.isEmpty() && _fee2.isEmpty() && _feeFamily.isEmpty() && _feeOther.isEmpty())           //check if all fees are empty
+        return "No fees added";
+    else if(paidInFull)                                                                             //check if paid in full
+        return "Paid In Full";
+    else if(partial1 || partial2 || partial3 || partial4)                                           //check if there are any partial payments
+        return "Partial Payment";
+    else                                                                                            //else it's not paid
+        return "Not Paid";
 }
 
 MediationSession *MediationSession::SampleData()
@@ -31,27 +92,8 @@ MediationSession *MediationSession::SampleData()
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
 
-
-
-
     int randomNumber = qrand() * 100000;
-    int randomStatus = qrand() % 4;
-    result->setPendingRB(false);
-    switch(randomStatus)
-    {
-    case 0:
-        result->setPendingRB(true);
-        break;
-    case 1:
-        result->setConfirmedRB(true);
-        break;
-    case 2:
-        result->setCancelledRB(true);
-        break;
-    case 3:
-        result->setRescheduledRB(true);
-    }
-
+    result->SetState((SessionStates)(qrand() % 5));
     result->setMediationTime(QDateTime::fromTime_t(randomNumber));
     result->setFee1(QString::fromStdString(strId));
     result->setFee2(QString::fromStdString(strId));

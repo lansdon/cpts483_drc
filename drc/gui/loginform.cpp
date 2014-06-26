@@ -6,6 +6,7 @@
 #include "MediatorKeys.h"
 #include <QDebug>
 #include "CurrentUser.h"
+#include <QKeyEvent>
 
 
 LoginForm::LoginForm(QWidget *parent) :
@@ -22,9 +23,13 @@ LoginForm::LoginForm(QWidget *parent) :
                 true,
                 1
             );
-
     ui->statusLabel->setText("Please enter your credentials");
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
+}
+
+void LoginForm::keyPressEvent(QKeyEvent *pe)
+{
+    if(pe->key() == Qt::Key_Return) on_loginButton_clicked();
 }
 
 LoginForm::~LoginForm()
@@ -34,9 +39,15 @@ LoginForm::~LoginForm()
 
 void LoginForm::on_loginButton_clicked()
 {
+
     ui->statusLabel->setText("Authenticating...");
     _asyncAuthenticate->GetMediatorArg().SetArg(new User(_username, _password));
     _asyncAuthenticate->Send();
+
+    // TEMPORARY! Set the user object on CurrentUser to trigger a login sequence.
+    // This will effectively bypass authenticating with the db until it's implemented.
+    // But let us get to the menus and see the gui change post-login.
+    CurrentUser::LoginUser(new User(_username, _password));
 }
 
 void LoginForm::authenticateResponse(MediatorArg arg)
@@ -61,6 +72,20 @@ void LoginForm::authenticateResponse(MediatorArg arg)
     else
     {
         // Set the error label.
-        ui->statusLabel->setText(arg.ErrorMessage());
+        ui->statusLabel->setText("Authentication failed!");
+        _username.clear();
+        _password.clear();
+        ui->usernameLineEdit->setText("");
+        ui->passwordLineEdit->setText("");
     }
+}
+
+void LoginForm::on_usernameLineEdit_editingFinished()
+{
+    _username = ui->usernameLineEdit->text();
+}
+
+void LoginForm::on_passwordLineEdit_editingFinished()
+{
+    _password = ui->passwordLineEdit->text();
 }

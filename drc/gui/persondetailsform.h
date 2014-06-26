@@ -42,6 +42,8 @@ private slots:
     void on_firstLineEdit_returnPressed();
 
 signals:
+    void SaveSignaled();
+    void EditSignaled();
 
     void PersonSaved(Person* person);
     void PersonDeleted(Person* person);

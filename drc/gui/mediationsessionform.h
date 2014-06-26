@@ -4,10 +4,11 @@
 #include <QWidget>
 #include <QTableWidget>
 #include <QStringList>
-#include "attorneyandsupportformediationsessionview.h"
 #include <vector>
 #include "drc_shared/models/mediationprocess.h"
 #include "drc_shared/drctypes.h"
+#include "Mediator.h"
+
 
 namespace Ui {
 class MediationSessionForm;
@@ -18,30 +19,26 @@ class MediationSessionForm : public QWidget
     Q_OBJECT
 
 public:
-    explicit MediationSessionForm(QWidget *parent = 0, MediationSessionVector * MSC = nullptr);
+    explicit MediationSessionForm(QWidget *parent = 0, MediationSession * MSC = nullptr);
     ~MediationSessionForm();
     void setParties(int input);
     void updateTabs(std::vector<Person *> *input);
-    void setMediationSessionVector(MediationSessionVector *value);
+    void setMediationSession(MediationSession *value);
 
 private slots:
-    void on_CancelledRadioButton_toggled(bool checked);
+//    void on_CancelledRadioButton_toggled(bool checked);
 
-    void on_PendingRadioButton_toggled(bool checked);
+//    void on_PendingRadioButton_toggled(bool checked);
 
-    void on_confirmedRadioButton_toggled(bool checked);
+//    void on_confirmedRadioButton_toggled(bool checked);
 
-    void on_rescheduledRadioButton_toggled(bool checked);
+//    void on_rescheduledRadioButton_toggled(bool checked);
 
     void on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
     void on_Fee1LineEdit_editingFinished();
 
     void on_Fee1PaidCheckBox_toggled(bool checked);
-
-    void on_sessiontTableWidget_itemSelectionChanged();
-
-    void on_sessiontTableWidget_doubleClicked(const QModelIndex &index);
 
     void on_Fee2LineEdit_editingFinished();
 
@@ -63,29 +60,27 @@ private slots:
 
     void on_incomeFeeOtherLineEdit_editingFinished();
 
-    void on_mediator1EditPushButton_clicked();
+//    void on_mediator1EditPushButton_clicked();
 
-    void on_mediator2EditPushButton_clicked();
+//    void on_mediator2EditPushButton_clicked();
 
-    void on_observer1EditPushButton_clicked();
+//    void on_observer1EditPushButton_clicked();
 
-    void on_observer2EditPushButton_clicked();
+//    void on_observer2EditPushButton_clicked();
 
     void deletePersonContact(Person *value);
 
     void savePersonContact(Person *value);
 
+    void SaveSignaled();
+    void EditSignaled();
+
+    void SetSessionEvent(MediatorArg arg);
 private:
     Ui::MediationSessionForm *ui;
-    std::vector<AttorneyAndSupportForMediationSessionView *> *_attorneyAndSupportVector;
-    MediationSessionVector *_mediationSessions;
-    QTableWidget *_sessionTable;
-    QStringList _sessionTableHeader;
+    MediationSession *_mediationSession;
 
-    void configSessionTable();
-    void PopulateSessionTable();
     void fillFields(MediationSession *input);
-    int sessionCurrentRow;
     bool FillingFields;
 
 };

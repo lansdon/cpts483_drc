@@ -12,12 +12,14 @@ class Person;
 class MediationProcess;
 class MediationSession;
 class Party;
+class MediationNote;
 
 // Typedefs
 typedef std::vector<Person*> PersonVector;
 typedef std::vector<MediationProcess*> MediationProcessVector;
 typedef std::vector<MediationSession*> MediationSessionVector;
 typedef std::vector<Party*> PartyVector;
+typedef std::vector<MediationNote*> MediationNotesVector;
 
 
 
@@ -45,6 +47,7 @@ enum DisputeProcessStates
 {
     PROCESS_STATE_NONE,
     PROCESS_STATE_INITIATED,
+    PROCESS_STATE_READY_TO_SCHEDULE,
     PROCESS_STATE_SCHEDULED,
     PROCESS_STATE_OUTCOME_REACHED,
     PROCESS_STATE_OUTCOME_NOT_REACHED
@@ -90,8 +93,6 @@ enum PartyTypes
 
 enum UserTypes
 {
-    USER_T_NONE,
-    USER_T_SUPER_USER,
     USER_T_ADMIN,
     USER_T_NORMAL
 };
@@ -104,6 +105,23 @@ enum SearchTypes
     SEARCH_T_CALL_LOG
 };
 
+enum MediationTableSortTypes
+{
+    MEDIATION_SORT_T_NONE,
+    MEDIATION_SORT_T_PENDING,
+    MEDIATION_SORT_T_RECENT,
+    MEDIATION_SORT_T_SCHEDULED,
+    MEDIATION_SORT_T_CLOSED
+};
+
+enum SessionStates
+{
+    SESSION_STATE_NONE,
+    SESSION_STATE_PENDING,
+    SESSION_STATE_CONFIRMED,
+    SESSION_STATE_CANCELLED,
+    SESSION_STATE_RESCHEDULED
+};
 
 // String Helpers
 QString StringForCountyIds(CountyIds id);
@@ -113,6 +131,7 @@ QString StringForReferralTypes(ReferralTypes id);
 QString StringForPartyTypes(PartyTypes id);
 QString StringForUserTypes(UserTypes id);
 QString StringForSearchTypes(SearchTypes id);
+QString StringForSessionStates(SessionStates id);
 
 
 
