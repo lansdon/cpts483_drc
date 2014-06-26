@@ -113,7 +113,9 @@ void MediationProcessView::ConfigureToolbar()
     ToolbarManager& toolbar = ToolbarManager::Instance();
     toolbar.Clear();
     toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()));
+    toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
+    toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Mediation Browser", this, SLOT(ShowMediationBrowserPressed()));
     toolbar.AddAction("Session Browser", this, SLOT(ShowSessionBrowserPressed()));
     toolbar.AddAction("Notes Browser", this, SLOT(ShowNotesBrowserPressed()));
