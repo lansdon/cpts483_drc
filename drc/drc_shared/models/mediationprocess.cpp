@@ -9,6 +9,7 @@
 MediationProcess::MediationProcess() : DBBaseObject()
 {
     _creationDate = QDateTime::currentDateTime();
+    AddParty(new Party());
 }
 
 MediationProcess::~MediationProcess()
@@ -39,7 +40,10 @@ QString MediationProcess::SearchQuery()
 #warning TODO - SearchQuery() UNIMPLEMENTED!!!!
 
 }
-
+void MediationProcess::addMediation()
+{
+    _mediationSessionVector.push_back(new MediationSession());
+}
 
 // Test Data - Fill the object with test values in every field.
 MediationProcess *MediationProcess::SampleData()

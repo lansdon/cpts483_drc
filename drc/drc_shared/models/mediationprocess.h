@@ -52,6 +52,7 @@ public:
 
     // Helpers
     int GetAffectedChildrenCount();
+    void addMediation();
 
 private:
 

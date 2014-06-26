@@ -40,7 +40,7 @@ DRCClient::DRCClient(QWidget *parent)
     setCentralWidget(new LoginForm(this));
     // to test the MP to file class
     MPFileMaker a;
-    for(int i = 0; i < 5; i++)
+    for(int i = 0; i < 50; i++)
         a.addMP(MediationProcess::SampleData());
     a.sendToFile();
 
@@ -80,6 +80,7 @@ void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
 void DRCClient::SetMenuBarEnabled()
 {
     ui->menuBar->setEnabled(true);
+    ui->toolBar->setEnabled(true);
 }
 
 void DRCClient::SetMenuHelpEnabled()
@@ -140,6 +141,9 @@ void DRCClient::on_actionFruit_Test_triggered()
 
 void DRCClient::on_actionLogout_User_triggered()
 {
+    ui->toolBar->clear();
+    if(_browserDock->isVisible())
+        _browserDock->close();
     SetMenusEnabled(false, false);
     delete _mediationProcessView;
     _mediationProcessView = nullptr;
@@ -193,11 +197,18 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
         if(curBrowser == browserType)
         {
             if(_browserDock->isVisible())
+            {
                 _browserDock->close();
-            removeDockWidget(_browserDock);
-            disconnect(toolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
-            _browserDock = nullptr;
-            shouldDisplayTable = false;
+                removeDockWidget(_browserDock);
+                disconnect(toolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
+                _browserDock = nullptr;
+                shouldDisplayTable = false;
+            }
+            else
+            {
+                _browserDock->show();
+                shouldDisplayTable = false;
+            }
         }
     }
 
@@ -218,5 +229,6 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
             addDockWidget(Qt::RightDockWidgetArea, _browserDock);
         }
         mpToolbox->ShowBrowser(browserType);
+        _browserDock->show();
     }
 }

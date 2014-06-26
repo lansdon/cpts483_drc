@@ -20,6 +20,8 @@ private slots:
 
 private:
     Ui::NoSessionsView *ui;
+signals:
+    void sendAddNewSession();
 };
 
 #endif // NOSESSIONSVIEW_H

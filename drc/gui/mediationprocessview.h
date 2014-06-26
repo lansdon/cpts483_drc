@@ -37,6 +37,8 @@ private slots:
     void ShowMediationBrowserPressed();
     void ShowSessionBrowserPressed();
     void ShowNotesBrowserPressed();
+    // Add new session
+    void addSession();
 
 private:
     Ui::MediationProcessView *ui;

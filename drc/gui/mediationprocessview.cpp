@@ -51,7 +51,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     PopulateView(_mediationProcess);
 
     // Each View can setup it's own toolbar buttons
-    ConfigureToolbar();
+    //ConfigureToolbar();
 }
 
 MediationProcessView::~MediationProcessView()
@@ -106,6 +106,13 @@ void MediationProcessView::PopulateView(MediationProcess *process)
         _mediationSessionForm->hide();
         _noSession->show();
     }
+    connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
+    ConfigureToolbar();
+}
+void MediationProcessView::addSession()
+{
+    _mediationProcess->addMediation();
+    PopulateView(_mediationProcess);
 }
 
 void MediationProcessView::ConfigureToolbar()
