@@ -86,7 +86,7 @@ void MediationProcessView::PopulateView(MediationProcess *process)
     // Session detail.
     if(_mediationProcess->getMediationSessionVector()->size() > 0 )
     {
-        if(_noSession)
+        if(_noSession->isVisible())
         {
             _noSession->hide();
             //_mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox, _mediationProcess->getMediationSessionVector()->at(0));
@@ -97,11 +97,16 @@ void MediationProcessView::PopulateView(MediationProcess *process)
 //            ui->sessionOverviewGroupBox->repaint();
             _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
             _mediationSessionForm->show();
-            delete _noSession;
-            _noSession = nullptr;
+//            delete _noSession;
+//            _noSession = nullptr;
         }
         else
             _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
+    }
+    else
+    {
+        _mediationSessionForm->hide();
+        _noSession->show();
     }
 }
 

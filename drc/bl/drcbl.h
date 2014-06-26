@@ -9,6 +9,7 @@
 #include "fruitnameprocessor.h"
 #include "userloginprocessor.h"
 #include "personprocessor.h"
+#include "DRCModels.h"
 
 class MediatorArg;
 

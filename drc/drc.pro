@@ -36,6 +36,10 @@ SOURCES += main.cpp\
     drc_shared/models/Fruit.cpp \
     gui/contactrecorddataview.cpp \
     bl/userloginprocessor.cpp \
+    bl/partyvalidator.cpp \
+    bl/personvalidator.cpp \
+    bl/personprocessor.cpp \
+    bl/stateupdate.cpp \
     drc_shared/models/User.cpp \
     gui/persondetailsform.cpp \
     gui/mediationprocessview.cpp \
@@ -54,6 +58,9 @@ SOURCES += main.cpp\
     drc_shared/drctypes.cpp \
     gui/toolbarmanager.cpp \
     gui/Mock_Server/dummy.cpp \
+    gui/mediationbrowser.cpp \
+    gui/sessionsbrowser.cpp \
+    gui/notesbrowser.cpp \
     drc_shared/models/mediationsession.cpp \
     gui/mediationsessionform.cpp \
     gui/sessionoverview.cpp \
@@ -83,6 +90,10 @@ HEADERS  += \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
     bl/Crypto/SHA256_Crypto.h \
+    bl/partyvalidator.h \
+    bl/personvalidator.h \
+    bl/personprocessor.h \
+    bl/stateupdate.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/queryform.h \
     gui/contactrecorddataview.h \
@@ -106,8 +117,12 @@ HEADERS  += \
     gui/toolbarmanager.h \
     gui/Mock_Server/dummy.h \
     drc_shared/models/mediationsession.h \
+    gui/loginform.h \
     gui/mediationsessionform.h \
+    gui/mediationbrowser.h \
     gui/sessionoverview.h \
+    gui/sessionsbrowser.h \
+    gui/notesbrowser.h \
     gui/mptoolbox.h \
     gui/sessioncell.h \
     gui/nosessionsview.h \
@@ -124,9 +139,12 @@ FORMS    += \
     gui/mediationprocessview.ui \
     gui/partyform.ui \
     gui/partiescontainerform.ui \
+    gui/mediationbrowser.ui \
     gui/mediationprocessstatusform.ui \
     gui/mediationsessionform.ui \
     gui/sessionoverview.ui \
+    gui/sessionsbrowser.ui \
+    gui/notesbrowser.ui \
     gui/mptoolbox.ui \
     gui/sessioncell.ui \
     gui/nosessionsview.ui
