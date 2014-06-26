@@ -15,15 +15,22 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     //Name of the table we're creating.
     QString person_table_name = QString("Person_Table");
+    QString mediation_table_name = QString("Mediation_Table");
+    QString session_table_name = QString("Session_Table");
 
     if (!this->DoesTableExist(person_table_name))
     {
         CreatePersonTable(person_table_name);
     }
 
-	if (!this->DoesTableExist(mediation_table_name))
+    if (!this->DoesTableExist(mediation_table_name))
     {
         CreatePersonTable(mediation_table_name);
+    }
+
+    if (!this->DoesTableExist(session_table_name))
+    {
+        CreatePersonTable(session_table_name);
     }
 
     // Populate our fake user list.  Delete this later!!
@@ -93,7 +100,32 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     return CreateTable(mediation_table_name, mediation_table_columns);
 }
 
+bool DRCDB::CreateSessionTable(const QString& session_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> session_table_columns;
+    session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
+    session_table_columns.push_back(QString("foreign key (Process_id) references Mediation_Table(Process_id)"));
+    session_table_columns.push_back(QString("SessionStatus integer"));
+    session_table_columns.push_back(QString("Fee1Paid double"));
+    session_table_columns.push_back(QString("Fee2Paid double"));
+    session_table_columns.push_back(QString("FeeFamilyPaid double"));
+    session_table_columns.push_back(QString("Fee1OtherPaid double"));
+    session_table_columns.push_back(QString("Fee1 double"));
+    session_table_columns.push_back(QString("Fee2 double"));
+    session_table_columns.push_back(QString("FeeFamily double"));
+    session_table_columns.push_back(QString("FeeOther double"));
+    session_table_columns.push_back(QString("IncomeFee1 double"));
+    session_table_columns.push_back(QString("IncomeFee2 double"));
+    session_table_columns.push_back(QString("IncomeFeeFamily double"));
+    session_table_columns.push_back(QString("IncomeFeeOther double"));
+    session_table_columns.push_back(QString("Mediator1 char(128)"));
+    session_table_columns.push_back(QString("Mediator2 char(128)"));
+    session_table_columns.push_back(QString("Observer1 char(128)"));
+    session_table_columns.push_back(QString("Observer2 char(128)"));
 
+    return CreateTable(session_table_name, session_table_columns);
+}
 
 
 //========================================================================
