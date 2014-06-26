@@ -128,7 +128,7 @@ HEADERS  += \
     gui/mptoolbox.h \
     gui/sessioncell.h \
     gui/nosessionsview.h \
-    gui/NoteForm.h \
+    gui/Note.h \
     drc_shared/mpfilemaker.h \
     drc_shared/models/Note.h
 
