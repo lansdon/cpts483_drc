@@ -86,7 +86,6 @@ HEADERS  += \
     bl/Processor.h \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
-    gui/loginform.h \
     bl/Crypto/SHA256_Crypto.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/queryform.h \
@@ -117,7 +116,9 @@ HEADERS  += \
     gui/sessionoverview.h \
     gui/mptoolbox.h \
     gui/sessioncell.h \
-    gui/nosessionsview.h
+    gui/nosessionsview.h \
+    gui/NoteForm.h \
+    drc_shared/models/NoteForm.h
 
 FORMS    += \
     DRCClient.ui \
