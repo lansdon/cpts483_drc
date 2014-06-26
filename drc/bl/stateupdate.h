@@ -14,9 +14,10 @@
 class StateUpdate
 {
 public:
-    StateUpdate(MediationProcess *arg);
+    StateUpdate();
+    bool StateCheck(MediationProcess *arg, QString &errorMessage);
 private:
-    void StateCheck(MediationProcess *arg);
+    QString _errorMessage;
     bool startState(MediationProcess *arg);
     bool initiated(MediationProcess* arg);
     bool readyToSchedule(MediationProcess *arg);

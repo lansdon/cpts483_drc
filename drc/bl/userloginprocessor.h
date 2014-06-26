@@ -4,11 +4,10 @@
 #include <string>
 #include "MediatorArg.h"
 #include "User.h"
-#include "Processor.h"
 
 class SHA256_Crypto;
 
-class UserLoginProcessor: Processor
+class UserLoginProcessor
 {
 public:
     UserLoginProcessor(QString authUser, QString sendUser);

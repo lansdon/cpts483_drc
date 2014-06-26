@@ -9,18 +9,41 @@
 
 #include <qstring.h>
 #include <qdebug.h>
-#include "Intake.h"
-#include "Fruit.h"
+#include "stateupdate.h"
 #include <set>
 #include <algorithm>
 
 
 DRCBL::DRCBL()
 {
+    Mediator::Register(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, [this](MediatorArg arg){ValidateMediationProcess(arg);});
 
 	// Test function - returns sample date to fruit page.
     Mediator::Register(MKEY_GUI_SEARCH_FOR_USERNAME, [this](MediatorArg arg){SendResults(arg); });
 }
+
+void DRCBL::ValidateMediationProcess(MediatorArg arg) const
+{
+    QString errorMessage = arg.ErrorMessage();
+    bool success = arg.IsSuccessful();
+    MediationProcess* mp = nullptr;
+    if (success)
+    {
+       mp = arg.getArg<MediationProcess*>();
+       if (mp)
+       {
+           StateUpdate stateUpdate;
+           success = stateUpdate.StateCheck(mp, errorMessage);
+       }
+       else
+       {
+           errorMessage = "Invalid Mediation Process";
+           success = false;
+       }
+    }
+    Mediator::Call(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, mp, success, errorMessage);
+}
+
 
 //  TEST FUNCTION - Returns sample data to the fruitname test page.
 void DRCBL::SendResults(MediatorArg arg)
@@ -44,7 +67,3 @@ void DRCBL::SendResults(MediatorArg arg)
 
     Mediator::Call(MKEY_BL_RETURN_SEARCH_RESULTS,new Intake(temp));
 */}
-
-// end namespaces
-//}
-//}

@@ -6,9 +6,6 @@
 
 #include "mediationprocess.h"
 #include "Mediator.h"
-#include "fruitnameprocessor.h"
-#include "userloginprocessor.h"
-#include "personprocessor.h"
 
 class MediatorArg;
 
@@ -17,6 +14,8 @@ class DRCBL
 public:
     DRCBL();
     void AuthenticateUser(MediatorArg arg) const;
+    void ValidateMediationProcess(MediatorArg arg) const;
+
 
     void SendResults(MediatorArg arg);
 

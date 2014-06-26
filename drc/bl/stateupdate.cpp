@@ -6,13 +6,15 @@
 
 
 #include "stateupdate.h"
+#include <set>
 
-StateUpdate::StateUpdate(MediationProcess *arg)
+StateUpdate::StateUpdate()
 {
-    StateCheck(arg);
+    _errorMessage = "";
 }
+
 //this function calls the method for the state transition the mediation process is in
-void StateUpdate::StateCheck(MediationProcess *arg)
+bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
 {
     unsigned int targetState = arg->getStateTransition();
     bool success = true;
@@ -41,8 +43,10 @@ void StateUpdate::StateCheck(MediationProcess *arg)
 
     if (arg->getStateTransition() < targetState)
     {
-
+        errorMessage = _errorMessage;
+        return success;
     }
+    else return true;
 }
 
 //this is the start state. all that is required is something in the name field
@@ -53,6 +57,7 @@ bool StateUpdate::startState(MediationProcess *arg)
         arg->setStateTransition(PROCESS_STATE_INITIATED);
         return true;
     }
+    _errorMessage = "Cannot create mediation process: Missing at least one party with a name.";
     return false;
 }
 
@@ -64,14 +69,18 @@ bool StateUpdate::startState(MediationProcess *arg)
 bool StateUpdate::initiated(MediationProcess* arg)
 {
     auto parties = arg->GetParties();
-    auto name = arg->GetPartyAtIndex(0)->GetPrimary()->FullName();
+    std::set<QString> dups;
     bool success = true;
+
     if (parties.size() > 1)
     {
         for (unsigned int i = 0; i < parties.size(); i++)
         {
-            if (parties[0]->GetPrimary()->FullName() == name)
+            auto name = parties[i]->GetPrimary()->FullName();
+            if (dups.find(name) == dups.end()) dups.insert(name);
+            else
             {
+                _errorMessage = "Cannot initiate mediation process: two or more parties contain the same person.";
                 success = false;
                 break;
             }
@@ -96,9 +105,10 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
     for (unsigned int i=0; i < parties.size(); i++)
     {
         auto primary = parties[i]->GetPrimary();
-        // check to see if primary person has either an address or email
     }
-    return false;
+    if (!success)
+        _errorMessage = "Mediation process is not ready to schedule because not all primary parties have sufficient contact information.";
+    return success;
 }
 
 
