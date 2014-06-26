@@ -5,6 +5,7 @@
 #include "drctypes.h"
 #include <QDate>
 #include "DBBaseObject.h"
+#include "party.h"
 
 
 class MediationProcess : DBBaseObject
