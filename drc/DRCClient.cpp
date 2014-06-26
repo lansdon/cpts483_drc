@@ -45,7 +45,7 @@ DRCClient::DRCClient(QWidget *parent) :
 
 
     // Disable Menus Until Logged In
-    SetMenusEnabled(false, false);
+    SetMenusEnabled(true, false);
 }
 
 DRCClient::~DRCClient()

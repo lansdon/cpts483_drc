@@ -34,18 +34,6 @@ bool Person::operator!=(const Person &rhs)
     return !(*this==rhs);
 }
 
-QString Person::Parse(void)
-{
-#warning TODO - Parse() UNIMPLEMENTED!!!!
-    // TO DO - PARSE THIS MOFO!!
-}
-
-QString Person::table()
-{
-#warning TODO - table() UNIMPLEMENTED!!!!
-
-}
-
 QString Person::DuplicateQuery()
 {
 #warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
@@ -70,24 +58,24 @@ Person *Person::SampleData()
     ss << ++_SAMPLE_INDEX;
     QString strId = QString::fromStdString(ss.str());
 
-    result->setFirstName(QString::fromStdString("firstname" + strId));
-    result->setMiddleName(QString::fromStdString("middlename" + strId));
-    result->setLastName(QString::fromStdString("lastname" + strId));
-    result->setStreet(QString::fromStdString("street" + strId));
-    result->setUnit(QString::fromStdString("unit" + strId));
-    result->setCity(QString::fromStdString("city" + strId));
-    result->setZip(QString::fromStdString("zip" + strId));
-    result->setCounty(QString::fromStdString("county" + strId));
-    result->setState(QString::fromStdString("state" + strId));
-    result->setPrimaryPhone(QString::fromStdString("PPhone" + strId));
-    result->setPrimaryPhoneExt(QString::fromStdString("PPhoneExt" + strId));
-    result->setSecondaryPhone(QString::fromStdString("SPhone" + strId));
-    result->setSecondaryPhoneExt(QString::fromStdString("SPhoneExt" + strId));
-    result->setAssistantPhone(QString::fromStdString("APhone" + strId));
-    result->setAssistantPhoneExt(QString::fromStdString("APhoneExt" + strId));
-    result->setEmail(QString::fromStdString("email" + strId));
+    result->setFirstName(QString("firstname" + strId));
+    result->setMiddleName(QString("middlename" + strId));
+    result->setLastName(QString("lastname" + strId));
+    result->setStreet(QString("street" + strId));
+    result->setUnit(QString("unit" + strId));
+    result->setCity(QString("city" + strId));
+    result->setZip(QString("zip" + strId));
+    result->setCounty(QString("county" + strId));
+    result->setState(QString("state" + strId));
+    result->setPrimaryPhone(QString("PPhone" + strId));
+    result->setPrimaryPhoneExt(QString("PPhoneExt" + strId));
+    result->setSecondaryPhone(QString("SPhone" + strId));
+    result->setSecondaryPhoneExt(QString("SPhoneExt" + strId));
+    result->setAssistantPhone(QString("APhone" + strId));
+    result->setAssistantPhoneExt(QString("APhoneExt" + strId));
+    result->setEmail(QString("email" + strId));
     result->setNumberInHousehold((unsigned int)_SAMPLE_INDEX);
-    result->setAttorney(QString::fromStdString("attorney" + strId));
+    result->setAttorney(QString("attorney" + strId));
 
     return result;
 }

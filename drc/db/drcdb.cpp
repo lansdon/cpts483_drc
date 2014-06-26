@@ -390,8 +390,40 @@ QVector<QString> DRCDB::GetLastErrors()
 
 //********************************Test Methods********************************
 //========================================================================
+//------------------------------------------------------------------------
+bool DRCDB::IsDatabaseOpen()
+{
+    return database.isOpen();
+}
+//========================================================================
 
 //========================================================================
+//Returns the name of the database with which we named it.
+//------------------------------------------------------------------------
+QString DRCDB::WhatDatabaseName()
+{
+    return database.databaseName();
+}
+//========================================================================
+
+//========================================================================
+//A way to programmically verify that a column within a table exists.
+//------------------------------------------------------------------------
+bool DRCDB::DoesColumnExist(QString column_name, QString table_name)
+{
+    QSqlRecord column_list = database.record(table_name);
+    return column_list.contains(column_name);
+}
+//========================================================================
+
+//========================================================================
+//------------------------------------------------------------------------
+QString DRCDB::WhatOptionsEnabled()
+{
+    return database.connectOptions();
+}
+//========================================================================
+//********************************Test Methods********************************
 
 //void DRCDB::PersistIntakeForm(MediatorArg arg) const
 //{
@@ -467,3 +499,50 @@ QVector<QString> DRCDB::GetLastErrors()
 //table checking method.
 //Verifies whether or not a database contains tables.
 //------------------------------------------------------------------------
+//bool DRCDB::IsDatabaseEmpty()
+//{
+// QStringList database_tables = database.tables();
+// return database_tables.size() == 0;
+//}
+//========================================================================
+//========================================================================
+//Constructor takes in a database_name, and opens it.
+//--Note: Seems largely unnecessary since we're doing things via the
+// default constructor.
+//------------------------------------------------------------------------
+//DRCDB::DRCDB(QString database_name) : DB_ERROR(false)
+//{
+// this->OpenDatabase(database_name);
+//}
+//========================================================================
+//========================================================================
+//Currently commented out due to how we may want to handle duplicate information.
+//As it stands, BL may be querying the database for duplicate information.
+
+//Note: It seems QSqlQuery.size() is not compatible with SQLITE3, which
+// resulted in using QSqlQuery.next() instead.
+
+//Note: Unfortunately we can't use ExecuteCommand method to prevent
+// duplicate code due to the fact that we still need the
+// query_object that goes out of scope.
+//------------------------------------------------------------------------
+//bool DRCDB::DuplicateInsert(const QString &duplicate_query)
+//{
+// bool duplicate_exists = false;
+
+// QSqlQuery query_object(database);
+// if(this->ExecuteCommand(duplicate_query, query_object))
+// {
+// if (query_object.next())
+// {
+// duplicate_exists = true;
+// DB_ERROR = true;
+// ErrorMessageVec.push_back(QString("Duplicate Insert Was Attempted: %1.")
+// .arg(duplicate_query));
+// }
+// }
+
+// return duplicate_exists;
+//}
+//========================================================================
+//********************************Deprecated Methods********************************
