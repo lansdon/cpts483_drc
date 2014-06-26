@@ -54,6 +54,7 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){SetMenuAdminHide();});
     Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){ShowMediationBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){ShowSessionBrowser();});
+    Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){ShowNotesBrowser();});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -164,34 +165,57 @@ void DRCClient::LoadMediationProcessView(MediationProcess* process)
 
 void DRCClient::ShowNotesBrowser()
 {
-
+    ShowBrowser(MPBROWSER_NOTES);
 }
 
 void DRCClient::ShowSessionBrowser()
 {
-
+    ShowBrowser(MPBROWSER_SESSIONS);
 }
 
 void DRCClient::ShowMediationBrowser()
 {
-    bool shouldDisplayTable = _browserDock ? !_browserDock->isVisible() : true;
+    ShowBrowser(MPBROWSER_MEDIATION);
+}
 
-    // Clear existing table everytime.
+void DRCClient::ShowBrowser(MPBrowserTypes browserType)
+{
+    // If the browser is open, and they selected the current type, close it.
+    // Otherwise, show the type they selected.
+    bool shouldDisplayTable = true;
+
+    // If the browser dock already exists - check if we're closing it.
     if(_browserDock)
     {
-        if(_browserDock->isVisible())
-            _browserDock->close();
-        removeDockWidget(_browserDock);
-        _browserDock = nullptr;
+        // Close the current window if the same browser is requested.
+        MPToolBox* toolbox = (MPToolBox*)_browserDock->widget();
+        MPBrowserTypes curBrowser = toolbox->GetCurrentBrowserType();
+        if(curBrowser == browserType)
+        {
+            if(_browserDock->isVisible())
+                _browserDock->close();
+            removeDockWidget(_browserDock);
+            _browserDock = nullptr;
+            shouldDisplayTable = false;
+        }
     }
 
     if(shouldDisplayTable)
     {
-        _browserDock = new QDockWidget("Browser Toolbox", this);
-        MPToolBox* mpToolbox = new MPToolBox(_browserDock);
-//        MediationBrowser* mpTable = new MediationBrowser(_browserDock);
-        connect(mpToolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
-        _browserDock->setWidget(mpToolbox);
-        addDockWidget(Qt::RightDockWidgetArea, _browserDock);
+        // Create a new one if it doesn't exist.
+        MPToolBox* mpToolbox = nullptr;
+        if(_browserDock)
+        {
+            mpToolbox = (MPToolBox*)_browserDock->widget();
+        }
+        else
+        {
+            _browserDock = new QDockWidget("Browser Toolbox", this);
+            mpToolbox = new MPToolBox(_browserDock);
+            connect(mpToolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
+            _browserDock->setWidget(mpToolbox);
+            addDockWidget(Qt::RightDockWidgetArea, _browserDock);
+        }
+        mpToolbox->ShowBrowser(browserType);
     }
 }

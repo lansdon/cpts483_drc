@@ -101,20 +101,20 @@ void MPFileMaker::parseSession(QDataStream &out, MediationSession *ms)
     parsePerson(out, ms->getObserver2());
 }
 
-void MPFileMaker::parseProcessNotes(QDataStream &out, std::vector<QString> notes)
+void MPFileMaker::parseProcessNotes(QDataStream &out, MediationNotesVector *notes)
 {
-    for(int i = 0; i < notes.size(); i++)
+    for(int i = 0; i < notes->size(); i++)
     {
-        out << notes.at(i);
+        out << notes->at(i);
     }
 }
 
-void MPFileMaker::parsePartiesVector(QDataStream &out, PartyVector parties)
+void MPFileMaker::parsePartiesVector(QDataStream &out, PartyVector *parties)
 {
-    out << parties.size();
-    for(int i = 0; i < parties.size(); i++)
+    out << parties->size();
+    for(int i = 0; i < parties->size(); i++)
     {
-        parseParty(out,parties.at(i));
+        parseParty(out,parties->at(i));
     }
 
 }

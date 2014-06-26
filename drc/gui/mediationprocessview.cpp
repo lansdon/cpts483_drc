@@ -27,18 +27,17 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
 
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
 
+    _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
 
-        _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
-        // Set the session container
-        QVBoxLayout* layout2 = new QVBoxLayout();
-        layout2->addWidget(_mediationSessionForm);
-        ui->sessionOverviewGroupBox->setLayout(layout2);
-        //_mediationSessionForm->hide();
-        _noSession = new NoSessionsView(ui->sessionOverviewGroupBox);
-        // Set the No session container
-        QVBoxLayout* layout3 = new QVBoxLayout();
-        layout2->addWidget(_noSession);
-        ui->sessionOverviewGroupBox->setLayout(layout3);
+    // Set the session container
+    QVBoxLayout* layout2 = new QVBoxLayout();
+    layout2->addWidget(_mediationSessionForm);
+    ui->sessionOverviewGroupBox->setLayout(layout2);
+    _noSession = new NoSessionsView(ui->sessionOverviewGroupBox);
+    // Set the No session container
+    QVBoxLayout* layout3 = new QVBoxLayout();
+    layout2->addWidget(_noSession);
+    ui->sessionOverviewGroupBox->setLayout(layout3);
 
 
     // Set the overview container
@@ -46,9 +45,6 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
 
-
-
-//    configSessionTable();
     ui->sessionsContainer->hide();
 
     // Update Fields for current record
@@ -75,13 +71,15 @@ void MediationProcessView::PopulateView(MediationProcess *process)
 //    connect(_partiesContainerForm,SIGNAL(PassItOnAgain(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
 
     // PARTY!
-    AddPartyTabs(&_mediationProcess->GetParties());
+    AddPartyTabs(_mediationProcess->GetParties());
 
 
 //    PopulateSessionTable();
 
     // DOCK Sesssions
     Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
+    // DOCK Notes
+    Mediator::Call(MKEY_DOCK_SET_NOTES, _mediationProcess->GetNotes());
 
     // Session detail.
     if(_mediationProcess->getMediationSessionVector()->size() > 0 )
@@ -116,14 +114,15 @@ void MediationProcessView::ConfigureToolbar()
     toolbar.Clear();
     toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()));
     toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
-    toolbar.AddAction("Mediation Browser", this, SLOT(ShowRecentPressed()));
+    toolbar.AddAction("Mediation Browser", this, SLOT(ShowMediationBrowserPressed()));
     toolbar.AddAction("Session Browser", this, SLOT(ShowSessionBrowserPressed()));
+    toolbar.AddAction("Notes Browser", this, SLOT(ShowNotesBrowserPressed()));
 }
 
 void MediationProcessView::SaveMediationPressed()
 {
     qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
-
+    Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
 }
 
 void MediationProcessView::SearchForMediationPressed()
@@ -131,11 +130,15 @@ void MediationProcessView::SearchForMediationPressed()
     qDebug() << "SEARCH MEDIATION PRESSED - Toolbar manager.";
 }
 
-void MediationProcessView::ShowRecentPressed()
+void MediationProcessView::ShowMediationBrowserPressed()
 {
     Mediator::Call(MKEY_GUI_SHOW_MEDIATION_BROWSER);
 }
 
+void MediationProcessView::ShowNotesBrowserPressed()
+{
+    Mediator::Call(MKEY_GUI_SHOW_NOTES_BROWSER);
+}
 
 void MediationProcessView::ShowSessionBrowserPressed()
 {

@@ -25,10 +25,10 @@ public:
     void parseToFile(QDataStream &out);
     void setFileName(QString fileName);
     void parseProcessToFile(QDataStream &out, MediationProcess *mp);
-    void parsePartiesVector(QDataStream &out, PartyVector parties);
+    void parsePartiesVector(QDataStream &out, PartyVector *parties);
     void parseParty(QDataStream &out, Party *&party);
     void parsePerson(QDataStream &out, Person *person);
-    void parseProcessNotes(QDataStream &out, std::vector<QString> notes);
+    void parseProcessNotes(QDataStream &out, MediationNotesVector *notes);
     void parseSessionsVector(QDataStream &out, MediationSessionVector *msv);
     void parseSession(QDataStream &out, MediationSession *ms);
 private:

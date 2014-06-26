@@ -38,6 +38,8 @@ void MPToolBox::Configure()
     EnableMediationsTable();
     EnableSessionsTable(nullptr);
     EnableNotesTable(nullptr);
+
+    _currentBrowserType = MPBROWSER_MEDIATION;
 }
 
 
@@ -108,13 +110,28 @@ void MPToolBox::EnableNotesTable(MediationNotesVector* notes)
     }
 }
 
-bool IsShowingBrowser(MPBrowserTypes browserType)
+bool MPToolBox::IsShowingBrowser(MPBrowserTypes browserType)
 {
-
+    switch(browserType)
+    {
+    case MPBROWSER_MEDIATION: return currentIndex() == _mpBrowserIndex;
+    case MPBROWSER_NOTES: return currentIndex() == _notesBrowserIndex;
+    case MPBROWSER_SESSIONS: return currentIndex() == _sessionsBrowserIndex;
+    default: return false;
+    }
 }
 
-void ShowBrowser(MPBrowserTypes browserType)
+void MPToolBox::ShowBrowser(MPBrowserTypes browserType)
 {
-
+    _currentBrowserType = browserType;
+    switch(browserType)
+    {
+    case MPBROWSER_NOTES: setCurrentIndex(_notesBrowserIndex); break;
+    case MPBROWSER_SESSIONS: setCurrentIndex(_sessionsBrowserIndex); break;
+    case MPBROWSER_MEDIATION:
+    default:
+        setCurrentIndex(_mpBrowserIndex);
+        _currentBrowserType = MPBROWSER_MEDIATION;
+    }
 }
 

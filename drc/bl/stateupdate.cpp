@@ -66,11 +66,11 @@ bool StateUpdate::initiated(MediationProcess* arg)
     auto parties = arg->GetParties();
     auto name = arg->GetPartyAtIndex(0)->GetPrimary()->FullName();
     bool success = true;
-    if (parties.size() > 1)
+    if (parties->size() > 1)
     {
-        for (unsigned int i = 0; i < parties.size(); i++)
+        for (unsigned int i = 0; i < parties->size(); i++)
         {
-            if (parties[0]->GetPrimary()->FullName() == name)
+            if (parties->at(0)->GetPrimary()->FullName() == name)
             {
                 success = false;
                 break;
@@ -92,10 +92,10 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
 {
     bool success = true;
     auto parties = arg->GetParties();
-    if (parties.size() < 2)     success = false;
-    for (unsigned int i=0; i < parties.size(); i++)
+    if (parties->size() < 2)     success = false;
+    for (unsigned int i=0; i < parties->size(); i++)
     {
-        auto primary = parties[i]->GetPrimary();
+        auto primary = parties->at(i)->GetPrimary();
         // check to see if primary person has either an address or email
     }
     return false;
