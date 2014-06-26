@@ -15,6 +15,28 @@ MediationSession::MediationSession()
 
 }
 
+
+QString MediationSession::Parse()
+{
+
+}
+
+QString MediationSession::table()
+{
+
+}
+
+QString MediationSession::DuplicateQuery()
+{
+
+}
+
+QString MediationSession::SearchQuery()
+{
+
+}
+
+
 QString MediationSession::getStatus() const
 {
     return StringForSessionStates(_state);
