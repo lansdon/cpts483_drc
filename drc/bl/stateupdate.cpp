@@ -35,11 +35,12 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
         case PROCESS_STATE_SCHEDULED:
             success = scheduled(arg);
             break;
-        case PROCESS_STATE_OUTCOME_REACHED:
+        case PROCESS_STATE_CLOSED:
             success = closed(arg);
+        case PROCESS_STATE_OUTCOME_REACHED:
             break;
         }
-    } while (success);
+    } while (success && arg->getStateTransition() != PROCESS_STATE_OUTCOME_REACHED);
 
     if (arg->getStateTransition() < targetState)
     {
@@ -94,7 +95,7 @@ bool StateUpdate::initiated(MediationProcess* arg)
 /* readyToSchedule state
  * checks to see if there is sufficient contact information for
  * the primary person of each party.
- * success: state = PROCESS_STATE_SCHEDULED
+ * success: state = PROCESS_STATE_READY_TO_SCHEDULE
  * failure: state = PROCESS_STATE_INITIATED
  */
 bool StateUpdate::readyToSchedule(MediationProcess *arg)
@@ -105,33 +106,53 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
     for (unsigned int i=0; i < parties.size(); i++)
     {
         auto primary = parties[i]->GetPrimary();
+        success &=
+                ((!primary->getPrimaryPhone().isEmpty()) &&
+                ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && !primary->getCounty().isEmpty()) ||
+                 (!primary->getEmail().isEmpty())));
     }
     if (!success)
+    {
         _errorMessage = "Mediation process is not ready to schedule because not all primary parties have sufficient contact information.";
+        arg->setStateTransition(PROCESS_STATE_INITIATED);
+    }
+    else arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
     return success;
 }
 
 
 /* scheduled state
  * checks to see if a mediation date has been set
+ * success: state = PROCESS_STATE_CLOSED
+ * failure: state = PROCESS_STATE_READY_TO_SCHEDULE
+ * TODO
  */
 bool StateUpdate::scheduled(MediationProcess *arg)
 {
     if(arg)//just so that the argument not used warning doesn't show up
     {
+        arg->setStateTransition(PROCESS_STATE_CLOSED);
         return true;
     }
+    arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
     return false;
 }
 
 /*
  * closed state
+ * checks to see if mediators have been selected, an outcome as been reached/not reached, and
+ * if a fee has been added
+ * success: state = PROCESS_STATE_SCHEDULED
+ * failure: state = PROCESS_STATE_OUTCOME_REACHED
+ * TODO
  */
 bool StateUpdate::closed(MediationProcess *arg)
 {
     if(arg)//just so that the argument not used warning doesn't show up
     {
+        arg->setStateTransition(PROCESS_STATE_OUTCOME_REACHED);
         return true;
     }
+    arg->setStateTransition(PROCESS_STATE_SCHEDULED);
     return false;
 }
