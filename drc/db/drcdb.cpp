@@ -15,10 +15,18 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     //Name of the table we're creating.
     QString person_table_name = QString("Person_Table");
+    QString mediation_table_name = QString("Mediation_Table");
 
     if (!this->DoesTableExist(person_table_name))
     {
         CreatePersonTable(person_table_name);
+    }
+
+    bool result = false;
+
+    if (!this->DoesTableExist(mediation_table_name))
+    {
+         result = CreatePersonTable(mediation_table_name);
     }
 
     // Register to Listen for events.
@@ -63,6 +71,22 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
 
 //========================================================================
 
+bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> mediation_table_columns;
+    mediation_table_columns.push_back(QString("Process_id integer primary key autoincrement null"));
+    mediation_table_columns.push_back(QString("DisputeType integer"));
+    mediation_table_columns.push_back(QString("CreationDate Date"));
+    mediation_table_columns.push_back(QString("UpdatedDate Date"));
+    mediation_table_columns.push_back(QString("DisputeState integer"));
+    mediation_table_columns.push_back(QString("DisputeCounty integer"));
+    mediation_table_columns.push_back(QString("DisputeNotes char(128)"));
+    mediation_table_columns.push_back(QString("ReferalSource integer"));
+    mediation_table_columns.push_back(QString("TranslatorRequired Bool"));
+
+    return CreateTable(mediation_table_name, mediation_table_columns);
+}
 
 
 
