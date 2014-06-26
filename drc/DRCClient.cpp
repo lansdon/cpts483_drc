@@ -1,6 +1,7 @@
 
 #include "DRCClient.h"
 #include "ui_DRCClient.h"
+#include "mpfilemaker.h"
 
 
 // GUI STUFF
@@ -37,6 +38,12 @@ DRCClient::DRCClient(QWidget *parent)
     this->setWindowState(Qt::WindowMaximized);
 
     setCentralWidget(new LoginForm(this));
+    // to test the MP to file class
+    MPFileMaker a;
+    for(int i = 0; i < 5; i++)
+        a.addMP(MediationProcess::SampleData());
+    a.sendToFile();
+
 
     // Listen for
     Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuBarEnabled();});
@@ -134,8 +141,8 @@ void DRCClient::on_actionFruit_Test_triggered()
 void DRCClient::on_actionLogout_User_triggered()
 {
     SetMenusEnabled(false, false);
-//    delete _mediationProcessView;
-//    _mediationProcessView = nullptr;
+    delete _mediationProcessView;
+    _mediationProcessView = nullptr;
     setCentralWidget(new LoginForm());
 }
 

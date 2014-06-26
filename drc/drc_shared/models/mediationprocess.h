@@ -9,7 +9,7 @@
 #include "Note.h"
 
 
-class MediationProcess : DBBaseObject
+class MediationProcess : public DBBaseObject
 {
 public:
     MediationProcess();
@@ -47,6 +47,8 @@ public:
     uint getStateTransition() {return _stateTransition;}
     void setStateTransition(uint input) {_stateTransition = input;}
     void setMediationSessionVector(MediationSessionVector *value) {_mediationSessionVector = *value;}
+    uint getActiveStateTransition() { return _activeStateTransition; }
+    void setActiveStateTransition(uint value) {_activeStateTransition = value; }
 
     // Helpers
     int GetAffectedChildrenCount();
@@ -56,6 +58,7 @@ private:
     PartyVector _parties;
 
     uint _stateTransition;
+    uint _activeStateTransition;
     DisputeTypes _disputeType;
 
     QDateTime _creationDate;
