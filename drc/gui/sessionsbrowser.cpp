@@ -76,7 +76,8 @@ void SessionsBrowser::on_tableWidget_itemSelectionChanged()
     if(_sessionTable->rowCount() <= 1) return;
 
     SessionCell* sessionForm = (SessionCell*)_sessionTable->cellWidget(_sessionTable->currentRow(), 0);
-    Mediator::Call(MKEY_DOCK_SESSION_CHANGED, sessionForm->GetSession());
+    if(sessionForm)
+        Mediator::Call(MKEY_DOCK_SESSION_CHANGED, sessionForm->GetSession());
 
 }
 
