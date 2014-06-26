@@ -7,7 +7,7 @@
 
 #include "DBBaseObject.h"
 
-class NoteForm: public DBBaseObject
+class Note: public DBBaseObject
 {
 private:
     QString _message;
