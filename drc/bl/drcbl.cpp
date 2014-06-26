@@ -15,15 +15,9 @@
 #include <algorithm>
 
 
-//namespace drc {
-//namespace bl {
-
 DRCBL::DRCBL()
-      : _fruitNameProcessor(MKEY_GUI_SUBMIT_FRUIT_NAME, MKEY_BL_VALIDATE_FRUITNAME_DONE, "", ""),
-//        _intakeFormProcessor(MKEY_GUI_SUBMIT_INTAKE_FORM, MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE,
-//                             MKEY_GUI_LOAD_INTAKE_FORM, MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE),
-        _userLoginProcessor(MKEY_GUI_AUTHENTICATE_USER, MKEY_BL_AUTHENTICATE_USER_DONE)
 {
+
 	// Test function - returns sample date to fruit page.
     Mediator::Register(MKEY_GUI_SEARCH_FOR_USERNAME, [this](MediatorArg arg){SendResults(arg); });
 }

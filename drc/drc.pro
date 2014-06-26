@@ -28,7 +28,6 @@ SOURCES += main.cpp\
     DRCClient.cpp \
     drc_shared/models/Intake.cpp \
     gui/fruitnameform.cpp \
-    bl/fruitnameprocessor.cpp \
     gui/loginform.cpp \
     bl/Crypto/SHA256_Crypto.cpp \
     drc_shared/mediator/asyncmediatorworker.cpp \
@@ -49,9 +48,6 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardselecttype.cpp \
     gui/searchwizard/searchwizardparameters.cpp \
     gui/searchwizard/searchwizardresults.cpp \
-    bl/personprocessor.cpp \
-    bl/personvalidator.cpp \
-    bl/partyvalidator.cpp \
     bl/stateupdate.cpp \
     gui/Mock_Server/mock_server.cpp \
     drc_shared/CurrentUser.cpp \
@@ -80,26 +76,20 @@ HEADERS  += \
     drc_shared/models/Intake.h \
     gui/fruitnameform.h \
     drc_shared/models/DRCModels.h \
-    bl/fruitnameprocessor.h \
     db/Filter.h \
     db/FilterTypes.h \
     drc_shared/models/Fruit.h \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \
-    bl/Processor.h \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
-    bl/partyvalidator.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/queryform.h \
     gui/contactrecorddataview.h \
     drc_shared/models/DBBaseObject.h \
     drc_shared/models/CurrentUser.h \
-    bl/personprocessor.h \
-    bl/personvalidator.h \
     bl/stateupdate.h \
-    bl/mediationformprocessor.h \
     gui/persondetailsform.h \
     gui/mediationprocessview.h \
     gui/partyform.h \
