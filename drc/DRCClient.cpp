@@ -133,8 +133,8 @@ void DRCClient::on_actionFruit_Test_triggered()
 void DRCClient::on_actionLogout_User_triggered()
 {
     SetMenusEnabled(false, false);
-    delete _mediationProcessView;
-    _mediationProcessView = nullptr;
+//    delete _mediationProcessView;
+//    _mediationProcessView = nullptr;
     setCentralWidget(new LoginForm());
 }
 

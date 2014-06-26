@@ -66,7 +66,8 @@ SOURCES += main.cpp\
     gui/sessionoverview.cpp \
     gui/mptoolbox.cpp \
     gui/sessioncell.cpp \
-    gui/nosessionsview.cpp
+    gui/nosessionsview.cpp \
+    drc_shared/mpfilemaker.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -127,7 +128,8 @@ HEADERS  += \
     gui/sessioncell.h \
     gui/nosessionsview.h \
     gui/NoteForm.h \
-    drc_shared/models/NoteForm.h
+    drc_shared/models/NoteForm.h \
+    drc_shared/mpfilemaker.h
 
 FORMS    += \
     DRCClient.ui \

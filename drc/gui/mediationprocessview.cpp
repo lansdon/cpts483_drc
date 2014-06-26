@@ -33,7 +33,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
         QVBoxLayout* layout2 = new QVBoxLayout();
         layout2->addWidget(_mediationSessionForm);
         ui->sessionOverviewGroupBox->setLayout(layout2);
-        _mediationSessionForm->hide();
+        //_mediationSessionForm->hide();
         _noSession = new NoSessionsView(ui->sessionOverviewGroupBox);
         // Set the No session container
         QVBoxLayout* layout3 = new QVBoxLayout();
