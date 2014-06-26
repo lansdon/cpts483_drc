@@ -438,6 +438,34 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
 }
 //========================================================================
 
+// For inserting objects which link only one direction (such as dispute having many sessions)
+bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
+{
+    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
+    QString command_string = QString("insert into %1 values ( %2, %3, %4 )")
+            .arg(db_object->table())
+            .arg("null")
+            .arg(linkedID)
+            .arg(db_object->Parse());
+
+    bool insertSuccess = false;
+    QSqlQuery query_object(database);
+
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    if(insertSuccess)
+    {
+        int id = query_object.lastInsertId().toInt();
+        db_object->SetId(id);
+    }
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
+}
+
+
+
 // For inserting into the many-to-many table... might not be able to template.
 // Keeping this here incase we think of a way we can
 bool DRCDB::InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
