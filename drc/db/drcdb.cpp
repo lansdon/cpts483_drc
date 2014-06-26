@@ -47,8 +47,8 @@ DRCDB::DRCDB() : DB_ERROR(false)
         result = CreateClientTable(client_table_name);
     }
 
-    MediationProcess* process;
-    process = process->SampleData();
+    MediationProcess* process = MediationProcess::SampleData();//NULL;
+    //process = process->SampleData();
     process->GetAffectedChildrenCount();
     process->GetCountyId();
     //process.GetCreated();
@@ -56,10 +56,13 @@ DRCDB::DRCDB() : DB_ERROR(false)
     process->GetCurrentState();
     process->GetDisputeType();
     //process.GetId(); //Should be 0
-    MediationSessionVector* sessions = new MediationSessionVector();
-    sessions = process->getMediationSessionVector(); // vector
+    // CAUSES CRASH!!! MediationSessionVector sessions;
+    // CAUSES CRASH!!! NEED TO FIX THIS!!! >_< std::vector<MediationSession*>* sessions = new std::vector<MediationSession*>();
+    // Also causes crash... MediationSessionVector* sessions(process->getMediationSessionVector());
+    MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
     process->GetNotes();
-    PartyVector parties = process->GetParties(); // vector
+    // ALSO CAUSES CRASH!!! PartyVector parties;// = new PartyVector;
+    process->GetParties(); // vector
     process->GetReferralType();
     process->GetRequiresSpanish();
 
