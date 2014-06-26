@@ -19,11 +19,12 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     fillFields(_mediationSession);
 //    ui->sessiontTableWidget->setCurrentCell(0,0);
 
-    Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
+    _mediatorid = Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
 }
 
 MediationSessionForm::~MediationSessionForm()
 {
+    Mediator::Unregister(MKEY_DOCK_SESSION_CHANGED, _mediatorid);
     delete ui;
 }
 

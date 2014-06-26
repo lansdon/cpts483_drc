@@ -10,6 +10,7 @@
 #include "mediator.h"
 
 
+
 namespace Ui {
 class MediationSessionForm;
 }
@@ -79,6 +80,7 @@ private slots:
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;
+    MediatorId _mediatorid;
 
     void fillFields(MediationSession *input);
     bool FillingFields;
