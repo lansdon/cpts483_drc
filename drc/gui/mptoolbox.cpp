@@ -6,15 +6,16 @@
 
 #include <QDebug>
 
-const QString TNAME_PROCESSES = "Mediation Record Selection";
-const QString TNAME_SESSIONS = "Mediation Sessions";
-const QString TNAME_NOTES = "Mediation Notes";
+const QString TNAME_PROCESSES = "Mediation Browser";
+const QString TNAME_SESSIONS = "Sessions Browser";
+const QString TNAME_NOTES = "Notes Browser";
 
 MPToolBox::MPToolBox(QWidget *parent)
     : QToolBox(parent)
     , ui(new Ui::MPToolBox)
-    , _mpTable(nullptr)
-    , _sessionsTable(nullptr)
+    , _mpBrowser(nullptr)
+    , _sessionsBrowser(nullptr)
+    , _notesBrowser(nullptr)
 {
     ui->setupUi(this);
 
@@ -43,57 +44,67 @@ void MPToolBox::Configure()
 //////// Mediation Process Table ///////////
 void MPToolBox::DisableMediationsTable()
 {
-    if(_mpTableIndex >= 0)
+    if(_mpBrowserIndex >= 0)
     {
-        removeItem(_mpTableIndex);
-        _mpTableIndex = -1;
-        _mpTable = nullptr;
+        removeItem(_mpBrowserIndex);
+        _mpBrowserIndex = -1;
+        _mpBrowser = nullptr;
     }
 }
 
 void MPToolBox::EnableMediationsTable(MediationTableSortTypes sortType)
 {
-    if(!_mpTable)
+    if(!_mpBrowser)
     {
-        _mpTable = new MediationBrowser(this, sortType);
-        connect(_mpTable, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(DoMPSelected(MediationProcess*)));
-        _mpTableIndex = this->addItem(_mpTable, TNAME_PROCESSES);
-        setItemEnabled(_mpTableIndex, true);
-        setCurrentIndex(_mpTableIndex);
-        qDebug() << "_mpTableIndex = " << _mpTableIndex;
+        _mpBrowser = new MediationBrowser(this, sortType);
+        connect(_mpBrowser, SIGNAL(on_mediationProcessSelected(MediationProcess*)), this, SLOT(DoMPSelected(MediationProcess*)));
+        _mpBrowserIndex = this->addItem(_mpBrowser, TNAME_PROCESSES);
+        setItemEnabled(_mpBrowserIndex, true);
+        setCurrentIndex(_mpBrowserIndex);
+        qDebug() << "_mpBrowserIndex = " << _mpBrowserIndex;
     }
     else
     {
-        _mpTable->LoadTableData(sortType);
-        setItemEnabled(_mpTableIndex, true);
+        _mpBrowser->LoadTableData(sortType);
+        setItemEnabled(_mpBrowserIndex, true);
     }
 }
 
 void MPToolBox::DisableSessionsTable()
 {
-    if(_sessionsTableIndex >= 0)
-        setItemEnabled(_sessionsTableIndex, false);
+    if(_sessionsBrowserIndex >= 0)
+        setItemEnabled(_sessionsBrowserIndex, false);
 }
 
 void MPToolBox::EnableSessionsTable(MediationSessionVector* sessions)
 {
-    if(!_sessionsTable)
+    if(!_sessionsBrowser)
     {
-        _sessionsTable = new SessionsBrowser(this, sessions);
-        _sessionsTableIndex = this->addItem(_sessionsTable, TNAME_SESSIONS);
-        setItemEnabled(_sessionsTableIndex, true);
-        qDebug() << "_sessionsTableIndex = " << _sessionsTableIndex;
+        _sessionsBrowser = new SessionsBrowser(this, sessions);
+        _sessionsBrowserIndex = this->addItem(_sessionsBrowser, TNAME_SESSIONS);
+        setItemEnabled(_sessionsBrowserIndex, true);
+        qDebug() << "_sessionsBrowserIndex = " << _sessionsBrowserIndex;
     }
     else
     {
-        _sessionsTable->SetSessions(sessions);
-        setItemEnabled(_sessionsTableIndex, true);
+        _sessionsBrowser->SetSessions(sessions);
+        setItemEnabled(_sessionsBrowserIndex, true);
     }
-
 }
 
 void MPToolBox::EnableNotesTable(MediationNotesVector* notes)
 {
-
+    if(!_notesBrowser)
+    {
+        _notesBrowser = new NotesBrowser(this, notes);
+        _notesBrowserIndex = this->addItem(_notesBrowser, TNAME_NOTES);
+        setItemEnabled(_notesBrowserIndex, true);
+        qDebug() << "_sessionsBrowserIndex = " << _notesBrowserIndex;
+    }
+    else
+    {
+        _notesBrowser->SetNotes(notes);
+        setItemEnabled(_notesBrowserIndex, true);
+    }
 }
 

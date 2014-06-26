@@ -62,7 +62,8 @@ SOURCES += main.cpp\
     gui/sessioncell.cpp \
     gui/nosessionsview.cpp \
     gui/sessionsbrowser.cpp \
-    gui/mediationbrowser.cpp
+    gui/mediationbrowser.cpp \
+    gui/notesbrowser.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -117,7 +118,8 @@ HEADERS  += \
     gui/sessioncell.h \
     gui/nosessionsview.h \
     gui/sessionsbrowser.h \
-    gui/mediationbrowser.h
+    gui/mediationbrowser.h \
+    gui/notesbrowser.h
 
 FORMS    += \
     DRCClient.ui \
@@ -136,7 +138,8 @@ FORMS    += \
     gui/sessioncell.ui \
     gui/nosessionsview.ui \
     gui/sessionsbrowser.ui \
-    gui/mediationbrowser.ui
+    gui/mediationbrowser.ui \
+    gui/notesbrowser.ui
 
 
 CONFIG += c++11
