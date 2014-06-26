@@ -77,6 +77,9 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
+    // Method to insert, for example, a session which needs to know the id of what it's linking to, the dispute
+    bool InsertLinkedObject(int linkedID, DBBaseObject* db_object);
+
     // Possible method. not correctly implemented yet
     bool InsertJoinObject(DBBaseObject* db_object);
 
