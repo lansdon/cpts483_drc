@@ -36,14 +36,14 @@ MediationProcess::~MediationProcess()
 
 QString MediationProcess::Parse()
 {
-    QString toReturn = QString("%1, '%2', '%3', %4, ")
-            .arg(QString::number(this->GetDisputeType())
-            .arg(this->GetCreationDate().toString())
-            .arg(this->GetUpdatedDate().toString())
+    QString toReturn = QString("%1, '%2', '%3', %4, %5, ")
+            .arg(QString::number(this->GetDisputeType()))
+            .arg(this->GetCreationDate().toString("yyyy-MM-dd"))
+            .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
             .arg(QString::number(this->GetCurrentState()))
             .arg(QString::number(this->GetCountyId()));
 
-    std::vector<QString>* Notebook = this->GetNotes();
+    std::vector<QString> Notebook = this->GetNotes();
 
     QString NotebookInOneLine;
 

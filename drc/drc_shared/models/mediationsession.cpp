@@ -83,7 +83,7 @@ QString MediationSession::Parse()
 
 QString MediationSession::table()
 {
-
+    return QString("Session_Table");
 }
 
 QString MediationSession::DuplicateQuery()

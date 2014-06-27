@@ -27,7 +27,7 @@
 //Person
 
 
-class MediationProcess : DBBaseObject
+class MediationProcess : public DBBaseObject
 {
 public:
     MediationProcess();

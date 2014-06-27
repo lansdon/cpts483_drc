@@ -64,6 +64,9 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     MediationProcess* process = MediationProcess::SampleData();//NULL;
 
+    qDebug() << process->Parse();
+
+    InsertObject(process);
     //MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
 
     //MediationSession* session = sessions->at(0);
@@ -76,8 +79,18 @@ DRCDB::DRCDB() : DB_ERROR(false)
     for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
     {
         session = process->getMediationSessionVector()->at(i);
-        qDebug() << session->Parse();
+        //qDebug() << session->Parse();
 
+        InsertLinkedObject(process->GetId(), session);
+
+    }
+    Party* person = NULL;
+    for(int i = 0; i < process->GetParties().size(); i++)
+    {
+        person = process->GetParties().at(i);
+
+        InsertObject(person->GetPrimary());
+        InsertJoinObject(process, person);
     }
 
     //process->GetNotes();
@@ -174,18 +187,18 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
     session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
-    session_table_columns.push_back(QString("Fee1Paid double"));
-    session_table_columns.push_back(QString("Fee2Paid double"));
-    session_table_columns.push_back(QString("FeeFamilyPaid double"));
-    session_table_columns.push_back(QString("Fee1OtherPaid double"));
-    session_table_columns.push_back(QString("Fee1 double"));
-    session_table_columns.push_back(QString("Fee2 double"));
-    session_table_columns.push_back(QString("FeeFamily double"));
-    session_table_columns.push_back(QString("FeeOther double"));
-    session_table_columns.push_back(QString("IncomeFee1 double"));
-    session_table_columns.push_back(QString("IncomeFee2 double"));
-    session_table_columns.push_back(QString("IncomeFeeFamily double"));
-    session_table_columns.push_back(QString("IncomeFeeOther double"));
+    session_table_columns.push_back(QString("Fee1Paid integer"));
+    session_table_columns.push_back(QString("Fee2Paid integer"));
+    session_table_columns.push_back(QString("FeeFamilyPaid integer"));
+    session_table_columns.push_back(QString("Fee1OtherPaid integer"));
+    session_table_columns.push_back(QString("Fee1 integer"));
+    session_table_columns.push_back(QString("Fee2 integer"));
+    session_table_columns.push_back(QString("FeeFamily integer"));
+    session_table_columns.push_back(QString("FeeOther integer"));
+    session_table_columns.push_back(QString("IncomeFee1 integer"));
+    session_table_columns.push_back(QString("IncomeFee2 integer"));
+    session_table_columns.push_back(QString("IncomeFeeFamily integer"));
+    session_table_columns.push_back(QString("IncomeFeeOther integer"));
     session_table_columns.push_back(QString("Mediator1 char(128)"));
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
@@ -475,7 +488,7 @@ bool DRCDB::InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
 }
 */
 
-/*
+
 // Method to link a dispute and a party(really a person) through the client table
 bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_object)
 {
@@ -490,7 +503,7 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
 
     QString value_string = QString("%1, %2, %3, '%4', '%5'")
             .arg(dispute_object->GetId())
-            .arg(party_object->GetId())
+            .arg(party_object->GetPrimary()->GetId())
             .arg(party_object->GetChildren().size())
             .arg(observerString)
             .arg(party_object->GetAttorney().FullName());
@@ -515,7 +528,7 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
 }
-*/
+
 
 //========================================================================
 //Prepare checks the potential SQL command for validity.  While it seems
