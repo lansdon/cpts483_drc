@@ -23,6 +23,6 @@ void SessionCell::Populate()
     {
         ui->dateLabel->setText(_session->getMediationTime().toString("MM-dd-yyyy"));
         ui->statusLabel->setText(_session->getStatus());
-        ui->paidLabel->setText("To do?");
+        ui->paidLabel->setText(_session->getFeeStatus());
     }
 }

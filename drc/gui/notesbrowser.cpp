@@ -47,11 +47,15 @@ void NotesBrowser::ConfigTable()
     ui->tableWidget->setShowGrid(true);
     ui->tableWidget->setStyleSheet("QTableView {selection-background-color: red;}");
 
-    for (int c = 0; c < ui->tableWidget->horizontalHeader()->count(); ++c)
-    {
-        ui->tableWidget->horizontalHeader()->setSectionResizeMode(
-            c, QHeaderView::Stretch);
-    }
+    // only stretch note column
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        1, QHeaderView::Stretch);
+
+//    for (int c = 0; c < ui->tableWidget->horizontalHeader()->count(); ++c)
+//    {
+//        ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+//            c, QHeaderView::Stretch);
+//    }
 }
 
 void NotesBrowser::PopulateTable()
