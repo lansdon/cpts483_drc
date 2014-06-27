@@ -14,7 +14,6 @@ MediationSession::MediationSession()
     _mediator2 = new Person();
     _observer1 = new Person();
     _observer2 = new Person();
-
 }
 
 
