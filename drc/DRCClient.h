@@ -70,7 +70,7 @@ public slots:
     void ShowSessionBrowser();
     void ShowMediationBrowser();
     void ShowNotesBrowser();
-
+    void send_mediation_vector();
     void on_mediationProcessSelected(MediationProcess* process);
 
 private:
