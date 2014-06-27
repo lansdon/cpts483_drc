@@ -23,9 +23,7 @@ public:
 private slots:
     void on_tableWidget_doubleClicked(const QModelIndex &index);
 
-
     void on_saveNoteBtn_clicked();
-
 
     void on_delNoteBtn_clicked();
 

@@ -115,3 +115,4 @@ void NotesBrowser::on_newNoteBtn_clicked()
     _editingNewNote = true;
     ui->noteInput->clear();
 }
+
