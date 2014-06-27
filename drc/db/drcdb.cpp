@@ -62,42 +62,6 @@ DRCDB::DRCDB() : DB_ERROR(false)
          result = CreatePersonTable(mediation_table_name);
     }
 
-    MediationProcess* process = MediationProcess::SampleData();//NULL;
-
-    qDebug() << process->Parse();
-
-    InsertObject(process);
-    //MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
-
-    //MediationSession* session = sessions->at(0);
-
-    //qDebug() << session->Parse();
-
-    // Second, hacky way, of getting at the mediation sessions
-    MediationSession* session = NULL;
-
-    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
-    {
-        session = process->getMediationSessionVector()->at(i);
-        //qDebug() << session->Parse();
-
-        InsertLinkedObject(process->GetId(), session);
-
-    }
-    Party* person = NULL;
-    for(int i = 0; i < process->GetParties().size(); i++)
-    {
-        person = process->GetParties().at(i);
-
-        InsertObject(person->GetPrimary());
-        InsertJoinObject(process, person);
-    }
-
-    //process->GetNotes();
-    //PartyVector parties = process->GetParties(); // vector
-    //process->GetReferralType();
-    //process->GetRequiresSpanish();
-
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
     UserMap["Normal"] = sha256("normalpassword", "");
@@ -105,6 +69,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     // Register to Listen for events.
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
+    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](Mediator arg){InsertMediation(arg);});
 
     //Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
     //Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
@@ -273,6 +238,38 @@ DRCDB::~DRCDB()
     this->CloseDatabase();
 }
 //========================================================================
+
+void DRCDB::InsertMediation(MediatorArg arg)
+{
+    // Insert the mediation process as a whole (creates a new dispute)
+    InsertObject(arg);
+
+    MediationSession* session = NULL;
+
+    for(int i = 0; i < arg->getMediationSessionVector()->size(); i++)
+    {
+        // Insert each session that has been created by the dispute so far.
+        // Linkage will be preserved through the id being linked
+        session = arg->getMediationSessionVector()->at(i);
+
+        InsertLinkedObject(arg->GetId(), session);
+
+    }
+    Party* person = NULL;
+    for(int i = 0; i < arg->GetParties().size(); i++)
+    {
+        // Insert each new person
+        // TODO: Add a check to prevent adding duplicate people
+
+        // As with above, these get passed to the join table where linkage
+        // is preserved through the IDs
+        person = arg->GetParties().at(i);
+
+        InsertObject(person->GetPrimary());
+        InsertJoinObject(arg, person);
+    }
+    Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
+}
 
 //========================================================================
 //Database authentication test code.  Not really touching the database,
@@ -561,7 +558,6 @@ bool DRCDB::ExecuteCommand(QString command_string, QSqlQuery &query_object)
     return query_object.exec();
 }
 //========================================================================
-
 
 
 //========================================================================
