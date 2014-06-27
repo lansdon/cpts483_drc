@@ -22,7 +22,7 @@ QString MediationSession::Parse()
 
     QString toReturn;
 
-    toReturn += single_quote + this->getStatus() + single_quote;
+    toReturn += this->GetState();
     toReturn += ", ";
 
     // Paid amounts
