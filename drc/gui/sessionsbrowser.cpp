@@ -54,8 +54,8 @@ void SessionsBrowser::configSessionTable()
 void SessionsBrowser::PopulateSessionTable()
 {
     _sessionTable->clearContents();
+    _sessionTable->setRowCount(_sessions->size());
 
-//    MediationSessionVector* sessionsVec = _mediationProcess->getMediationSessionVector();
     int row;
     for(row=0; row < (int)_sessions->size(); ++row)
     {
@@ -63,7 +63,6 @@ void SessionsBrowser::PopulateSessionTable()
         _sessionTable->insertRow(row);
         _sessionTable->setRowHeight(row, 100);
         _sessionTable->setCellWidget(row, 0, sessionForm);
- //       _sessionTable->setItem(row, 0, new MediationSessionForm(_sessionTable, session));
     }
     _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
     _sessionTable->setCurrentCell(0,0);
