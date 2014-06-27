@@ -2,14 +2,22 @@
 #include "ui_mediationbrowser.h"
 #include "DRCModels.h"
 #include <QDebug>
+#include "Mediator.h"
+#include "MediatorKeys.h"
+#include "drctypes.h"
 
 MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sortType) :
     QWidget(parent),
     ui(new Ui::MediationBrowser)
 {
     ui->setupUi(this);
+
     ConfigMediationProcecssViewTable();
+
+    Mediator::Register(MKEY_DOCK_SET_MEDIATIONS, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
+
     LoadTableData(sortType);
+
 }
 
 MediationBrowser::~MediationBrowser()
@@ -76,10 +84,22 @@ void MediationBrowser::on_closedButton_clicked()
 
 void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
 {
-    // TO DO - Setup database query!!
-    MakeSampleTable();
+    if(sortType == MEDIATION_SORT_T_RECENT)
+        Mediator::Call(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS);
+    else
+        MakeSampleTable();
 
     PopulateMediationProcessTable();
+}
+
+void MediationBrowser::OnRecieveMediationVector( MediatorArg arg)
+{
+    MediationProcessVector* mediations = arg.getArg<MediationProcessVector*>();
+    if(mediations)
+    {
+        _mediationsVector = *mediations;
+        PopulateMediationProcessTable();
+    }
 }
 
 void MediationBrowser::MakeSampleTable()
