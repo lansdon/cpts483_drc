@@ -253,7 +253,7 @@ void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
 
     // Have the mediation processes now. Need to build them back up.
     QString processId;
-    //MediationProcessVector* processVector = new MediationProcessVector();
+    MediationProcessVector* processVector = nullptr;//new MediationProcessVector();
     while(Mediation_query.next())
     {
         MediationProcess* process = new MediationProcess();
@@ -278,7 +278,7 @@ void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
         bool sessionResult = false;
         sessionResult = this->ExecuteCommand(session_command_string, sessionQuery);
 
-        //MediationSessionVector* sessions = new MediationSessionVector();
+        MediationSessionVector* sessions = nullptr;//new MediationSessionVector();
         while(sessionQuery.next())
         {
             // Rebuild sessions and add them to the process
@@ -306,9 +306,9 @@ void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
             //session->setObserver1(sessionQuery.value(17).toString());
             //session->setObserver2(sessionQuery.value(18).toString());
 
-            //sessions->push_back(session);
+            sessions->push_back(session);
         }
-        //process->setMediationSessionVector(sessions);
+        process->setMediationSessionVector(sessions);
 
         //Grab clients based on the mediation id
         QSqlQuery clientQuery(database);
@@ -366,14 +366,8 @@ void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
             process->AddParty(party);
         }
 
-
-
-
-
-
+        processVector->push_back(process);
     }
-
-    Mediation_command_string = "Hello World"; // So I can see what result is;
 }
 
 void DRCDB::InsertMediation(MediatorArg arg)
