@@ -241,8 +241,7 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
 void DRCClient::on_actionNew_2_triggered()
 {
     _mediationProcessView = new MediationProcessView(this);
-    _mediationProcessVector->push_back(new MediationProcess());
-    _mediationProcessView->SetMediationProcess(_mediationProcessVector->at(0));
+    _mediationProcessView->SetMediationProcess(new MediationProcess());
     Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
     setCentralWidget(_mediationProcessView);
 }
