@@ -18,10 +18,6 @@ public:
     void setMediationProcess(MediationProcess* value);
 
 private slots:
-    void on_notesToggleBtn_clicked();
-
-    void on_Last10Label_linkHovered(const QString &link);
-
     void on_conflictComboBox_currentIndexChanged(int index);
 
     void on_statusComboBox_currentIndexChanged(int index);

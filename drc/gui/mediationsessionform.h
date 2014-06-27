@@ -77,6 +77,8 @@ private slots:
     void EditSignaled();
 
     void SetSessionEvent(MediatorArg arg);
+    void on_supportNumComboBox_currentIndexChanged(int index);
+
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;
@@ -84,6 +86,7 @@ private:
 
     void fillFields(MediationSession *input);
     bool FillingFields;
+    void ConfigureComboBoxes();
 
 };
 

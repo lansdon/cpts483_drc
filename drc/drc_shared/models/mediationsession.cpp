@@ -5,6 +5,7 @@
 #include "DRCModels.h"
 
 MediationSession::MediationSession()
+    : _supportCount(0)
 {
     _mediationCreation = QDateTime::currentDateTime();
     _state = SessionStates::SESSION_STATE_PENDING;
@@ -110,6 +111,7 @@ MediationSession *MediationSession::SampleData()
     result->setMediator2(Person::SampleData());
     result->setObserver1(Person::SampleData());
     result->setObserver2(Person::SampleData());
+    result->setSupportCount(qrand()%10);
 
     return result;
 }
