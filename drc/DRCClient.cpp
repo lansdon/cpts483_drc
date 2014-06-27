@@ -240,6 +240,9 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
 void DRCClient::on_actionNew_2_triggered()
 {
     _mediationProcessView = new MediationProcessView(this);
+    _mediationProcessVector->push_back(new MediationProcess());
+    _mediationProcessView->SetMediationProcess(_mediationProcessVector->at(0));
+    Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
     setCentralWidget(_mediationProcessView);
 }
 
@@ -248,12 +251,14 @@ void DRCClient::on_actionAdd_1_MP_sample_triggered()
     if(!_mediationProcessView)
         _mediationProcessView = new MediationProcessView(this);
     _mediationProcessView->SetMediationProcess(MediationProcess::SampleData());
+    Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
     setCentralWidget(_mediationProcessView);
 }
 
 void DRCClient::on_actionAdd_to_vector_triggered()
 {
     _mediationProcessVector->push_back(_mediationProcessView->GetMediationProcess());
+    Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
 }
 
 void DRCClient::on_actionSave_to_file_triggered()
@@ -265,11 +270,14 @@ void DRCClient::on_actionSave_to_file_triggered()
 
 //    if(dialog.exec())
 //        QStringList fileName = dialog.selectedFiles();
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
-                                "",
-                                tr("*.mp"));
-    _filemaker.setFileName(fileName);
-    _filemaker.sendToFile(_mediationProcessVector);
+   if(_mediationProcessView)
+   {
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                    "",
+                                    tr("*.mp"));
+        _filemaker.setFileName(fileName);
+        _filemaker.sendToFile(_mediationProcessVector);
+   }
 }
 
 void DRCClient::on_actionLoad_from_file_triggered()
@@ -287,6 +295,7 @@ void DRCClient::on_actionLoad_from_file_triggered()
         }
         _mediationProcessView = new MediationProcessView(this);
         _mediationProcessView->SetMediationProcess(_mediationProcessVector->at(0));
+        Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
         setCentralWidget(_mediationProcessView);
     }
 
@@ -298,4 +307,9 @@ void DRCClient::on_actionAdd_5_MP_samples_triggered()
     {
         _mediationProcessVector->push_back(MediationProcess::SampleData());
     }
+    if(!_mediationProcessView)
+        _mediationProcessView = new MediationProcessView(this);
+    _mediationProcessView->SetMediationProcess(_mediationProcessVector->at(0));
+    Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
+    setCentralWidget(_mediationProcessView);
 }
