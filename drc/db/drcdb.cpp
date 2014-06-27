@@ -63,35 +63,27 @@ DRCDB::DRCDB() : DB_ERROR(false)
     }
 
     MediationProcess* process = MediationProcess::SampleData();//NULL;
-    //process = process->SampleData();
-    int b = process->GetAffectedChildrenCount();
-    int a = process->GetCountyId();
-    //process.GetCreated();
-    process->GetCreationDate();
-    process->GetCurrentState();
-    process->GetDisputeType();
 
-    MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
+    //MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
 
-    MediationSession* session = sessions->at(1);
-    QString parsedObject = session->Parse();
-    qDebug() << "Trying something now";
-    qDebug() << parsedObject;
-    qDebug() << "After Parsed";
+    //MediationSession* session = sessions->at(0);
+
+    //qDebug() << session->Parse();
 
     // Second, hacky way, of getting at the mediation sessions
-    /*MediationSession* session;
+    MediationSession* session = NULL;
 
     for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
     {
         session = process->getMediationSessionVector()->at(i);
+        qDebug() << session->Parse();
 
-    }*/
+    }
 
-    process->GetNotes();
-    PartyVector parties = process->GetParties(); // vector
-    process->GetReferralType();
-    process->GetRequiresSpanish();
+    //process->GetNotes();
+    //PartyVector parties = process->GetParties(); // vector
+    //process->GetReferralType();
+    //process->GetRequiresSpanish();
 
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
@@ -428,7 +420,7 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
 }
 //========================================================================
 
-/*
+
 // For inserting objects which link only one direction (such as dispute having many sessions)
 bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
 {
@@ -454,7 +446,7 @@ bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
 }
-*/
+
 
 /*
 // For inserting into the many-to-many table... might not be able to template.
@@ -483,6 +475,7 @@ bool DRCDB::InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
 }
 */
 
+/*
 // Method to link a dispute and a party(really a person) through the client table
 bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_object)
 {
@@ -522,7 +515,7 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
 }
-
+*/
 
 //========================================================================
 //Prepare checks the potential SQL command for validity.  While it seems
