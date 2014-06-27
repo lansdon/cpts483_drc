@@ -21,31 +21,32 @@ public:
     void sendToFile(MediationProcess *MP);
     void getFromFile();
     void getFromFile(QString fileName);
-    void fileToParse(QDataStream &in);
-    void parseToFile(QDataStream &out);
+    void fileToParse(QTextStream &in);
+    void parseToFile(QTextStream &out);
     void setFileName(QString fileName);
-    MediationProcess *fileToProcessParse(QDataStream &in);
-    void parseProcessToFile(QDataStream &out, MediationProcess *mp);
-    PartyVector partiesVectorParse(QDataStream &in);
-    void parsePartiesVector(QDataStream &out, PartyVector *parties);
-    Party *partyParse(QDataStream &in);
-    void parseParty(QDataStream &out, Party *&party);
-    Person *personParse(QDataStream &in);
-    void parsePerson(QDataStream &out, Person *person);
-    MediationNotesVector processNotesParse(QDataStream &in);
-    void parseProcessNotes(QDataStream &out, MediationNotesVector *notes);
-    MediationSessionVector sessionsVectorParse(QDataStream &in);
-    void parseSessionsVector(QDataStream &out, MediationSessionVector *msv);
-    MediationSession *sessionParse(QDataStream &in);
-    void parseSession(QDataStream &out, MediationSession *ms);
-    Note *noteParse(QDataStream &in);
-    void parseNote(QDataStream &out, Note *note);
+    MediationProcess *fileToProcessParse(QTextStream &in);
+    void parseProcessToFile(QTextStream &out, MediationProcess *mp);
+    PartyVector partiesVectorParse(QTextStream &in);
+    void parsePartiesVector(QTextStream &out, PartyVector *parties);
+    Party *partyParse(QTextStream &in);
+    void parseParty(QTextStream &out, Party *&party);
+    Person *personParse(QTextStream &in);
+    void parsePerson(QTextStream &out, Person *person);
+    MediationNotesVector processNotesParse(QTextStream &in);
+    void parseProcessNotes(QTextStream &out, MediationNotesVector *notes);
+    MediationSessionVector sessionsVectorParse(QTextStream &in);
+    void parseSessionsVector(QTextStream &out, MediationSessionVector *msv);
+    MediationSession *sessionParse(QTextStream &in);
+    void parseSession(QTextStream &out, MediationSession *ms);
+    Note *noteParse(QTextStream &in);
+    void parseNote(QTextStream &out, Note *note);
     MediationProcessVector *getMedationProcessVector() const;
 
 private:
     MediationProcessVector *mpVector;
     QString FileName;
     QString empty;
+    QString removeKeyword(QString &value);
 
 };
 

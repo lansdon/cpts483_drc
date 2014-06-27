@@ -15,9 +15,9 @@ void MPFileMaker::addMP(MediationProcess *mp)
 void MPFileMaker::sendToFile()
 {
     QFile file(FileName);
-    if(file.open(QIODevice::WriteOnly))
+    if(file.open(QIODevice::ReadWrite))
     {
-        QDataStream fileStream(&file);
+        QTextStream fileStream(&file);
         parseToFile(fileStream);
         file.close();
     }
@@ -51,7 +51,8 @@ void MPFileMaker::getFromFile()
     QFile file(FileName);
     if(file.open(QIODevice::ReadOnly))
     {
-        QDataStream fileStream(&file);
+        QTextStream fileStream(&file);
+        //QDataStream fileStream(&file);
         fileToParse(fileStream);
         file.close();
     }
@@ -65,11 +66,13 @@ void MPFileMaker::getFromFile(QString fileName)
     getFromFile();
 }
 
-void MPFileMaker::fileToParse(QDataStream &in)
+void MPFileMaker::fileToParse(QTextStream &in)
 {
-    int numberOfMPs;
+    QString line;
+     line = in.readLine();
+    int numberOfMPs = removeKeyword(line).toInt();
     //MediationProcess *temp;
-    in >> numberOfMPs;
+
     mpVector->clear();
     for(int i = 0; i < numberOfMPs; i++)
     {
@@ -78,19 +81,21 @@ void MPFileMaker::fileToParse(QDataStream &in)
     }
 }
 
-void MPFileMaker::parseToFile(QDataStream &out)
+void MPFileMaker::parseToFile(QTextStream &out)
 {
-    out << (int)mpVector->size();
-    for(int i = 0; i < mpVector->size();i++)
+    out << "NUMBER_OF_MEDIATIONS: ";
+    out << (int)mpVector->size() << "\n";
+    for(int i = 0; i < (int)mpVector->size();i++)
     {
         parseProcessToFile(out,mpVector->at(i));
     }
 }
-MediationProcess *MPFileMaker::fileToProcessParse(QDataStream &in)
+MediationProcess *MPFileMaker::fileToProcessParse(QTextStream &in)
 {
     MediationProcess *temp;
+    QString line;
     unsigned int id;
-    QDateTime creation, updated, mediationCreationDate;
+    QString creation, updated, mediationCreationDate;
     uint state, activeState;
     CountyIds countyid;
     DisputeTypes disType;
@@ -100,62 +105,101 @@ MediationProcess *MPFileMaker::fileToProcessParse(QDataStream &in)
     PartyVector parties;
     MediationNotesVector notes;
     MediationSessionVector sessions;
-    in >> id;
-    in >> creation;
-    in >> updated;
-    in >> state;
-    in >> activeState;
-    in >> mediationCreationDate;
-    in >> (qint32&)countyid;
-    in >> (qint32&)disType;
-    in >> (qint32&)reftype;
-    in >> spanish;
-    in >> (qint32&)currState;
+    line = in.readLine();
+    id = removeKeyword(line).toUInt();
+    creation = in.readLine();
+    removeKeyword(creation);
+    updated = in.readLine();
+    removeKeyword(updated);
+    line = in.readLine();
+    state = removeKeyword(line).toUInt();
+    line = in.readLine();
+    activeState = removeKeyword(line).toUInt();
+    mediationCreationDate = in.readLine();
+    removeKeyword(mediationCreationDate);
+    line = in.readLine();
+    (qint32&)countyid = removeKeyword(line).toInt();
+    line = in.readLine();
+    (qint32&)disType = removeKeyword(line).toInt();
+    line = in.readLine();
+    (qint32&)reftype = removeKeyword(line).toInt();
+    line = in.readLine();
+    (qint32&)spanish = removeKeyword(line).toInt();
+    line = in.readLine();
+    (qint32&)currState = removeKeyword(line).toInt();
+
     parties = partiesVectorParse(in);
     notes = processNotesParse(in);
     sessions = sessionsVectorParse(in);
-    temp = new MediationProcess(parties, state, activeState, disType, mediationCreationDate, currState, countyid, notes, reftype, spanish, sessions);
+    temp = new MediationProcess(parties, state, activeState, disType, QDateTime::fromString(mediationCreationDate), currState, countyid, notes, reftype, (bool)spanish, sessions);
     temp->SetId(id);
-    temp->SetCreatedDate(creation);
-    temp->SetUpdatedDate(updated);
+    temp->SetCreatedDate(QDateTime::fromString(creation));
+    temp->SetUpdatedDate(QDateTime::fromString(updated));
 
 
     return temp;
 }
-
-void MPFileMaker::parseProcessToFile(QDataStream &out, MediationProcess *mp)
+QString MPFileMaker::removeKeyword(QString &value)
 {
-    out << mp->GetId();
-    out << mp->GetCreatedDate();
-    out << mp->GetUpdated();
-    out << mp->getStateTransition();
-    out << mp->getActiveStateTransition();
-    out << mp->GetCreationDate();
-    out << mp->GetCountyId();
-    out << mp->GetDisputeType();
-    out << mp->GetReferralType();
-    out << mp->GetRequiresSpanish();
-    out << mp->GetCurrentState();
+    int count = 0;
+    while(value[count] != ' ')
+    {
+        count++;
+    }
+    count++;
+    value.remove(0,count);
+    return value;
+}
+
+void MPFileMaker::parseProcessToFile(QTextStream &out, MediationProcess *mp)
+{
+    out << "MP_ID: ";
+    out << mp->GetId() << "\n";
+    out << "MP_DATABASE_OBJ_CREATION_DATE: ";
+    out << mp->GetCreatedDate().toString() << "\n";
+    out << "MP_DATABASE_OBJ_UPDATE_DATE: ";
+    out << mp->GetUpdated().toString() << "\n";
+    out << "MP_STATE_TRANSITION: ";
+    out << mp->getStateTransition() << "\n";
+    out << "MP_ACTIVE_STATE_TRANSITION: ";
+    out << mp->getActiveStateTransition() << "\n";
+    out << "MP_CREATION_DATE: ";
+    out << mp->GetCreationDate().toString() << "\n";
+    out << "MP_COUNTY_ID: ";
+    out << mp->GetCountyId() << "\n";
+    out << "MP_DISPUTE_TYPE: ";
+    out << mp->GetDisputeType() << "\n";
+    out << "MP_REFERAL_TYPE: ";
+    out << mp->GetReferralType() << "\n";
+    out << "MP_REQUIRES_SPANISH: ";
+    out << mp->GetRequiresSpanish() << "\n";
+    out << "MP_CURRENT_STATE: ";
+    out << mp->GetCurrentState() << "\n";
     parsePartiesVector(out,mp->GetParties());
     parseProcessNotes(out, mp->GetNotes());
     parseSessionsVector(out, mp->getMediationSessionVector());
 
 }
 
-void MPFileMaker::parseSessionsVector(QDataStream &out, MediationSessionVector *msv)
+void MPFileMaker::parseSessionsVector(QTextStream &out, MediationSessionVector *msv)
 {
-    out << (int)msv->size();
-    for(int i = 0; i < msv->size(); i++)
+    out << "NUMBER_OF_SESSIONS: ";
+    out << (int)msv->size() << "\n";
+    for(int i = 0; i < (int)msv->size(); i++)
     {
         parseSession(out,msv->at(i));
     }
 }
 
-MediationSessionVector MPFileMaker::sessionsVectorParse(QDataStream &in)
+MediationSessionVector MPFileMaker::sessionsVectorParse(QTextStream &in)
 {
+    QString line;
+    MediationSessionVector temp, extra;
+    line = in.readLine();
     int numberOfSessions;
-    in >> numberOfSessions;
-    MediationSessionVector temp;
+    numberOfSessions = removeKeyword(line).toInt();
+
+
     for(int i = 0; i < numberOfSessions; i++)
     {
         temp.push_back(sessionParse(in));
@@ -164,37 +208,57 @@ MediationSessionVector MPFileMaker::sessionsVectorParse(QDataStream &in)
     return temp;
 }
 
-MediationSession *MPFileMaker::sessionParse(QDataStream &in)
+MediationSession *MPFileMaker::sessionParse(QTextStream &in)
 {
+    QString line;
     MediationSession *temp = new MediationSession();
-    QDateTime create, time;
+    MediationSession *extra = new MediationSession();
+    QString create, time;
     SessionStates state;
-    QString fee1, fee2, fee3, fee4, income1, income2, income3, income4;
+    QString fee1, fee2, fee3, fee4, income1, income2, income3;
+    QString incomeOther, extraSting;
     bool paid1, paid2, paid3, paid4;
-    Person *med1, *med2, *obs1, *obs2;
-    in >> (qint32&)state;
-    in >> create;
-    in >> time;
-    in >> fee1;
-    in >> fee2;
-    in >> fee3;
-    in >> fee4;
-    in >> paid1;
-    in >> paid2;
-    in >> paid3;
-    in >> paid4;
-    in >> income1;
-    in >> income2;
-    in >> income3;
-    in >> income4;
+    Person *med1, *med2, *obs1, *obs2, extraPointer;
+
+    line = in.readLine();
+    (qint32&)state = removeKeyword(line).toInt();
+    create = in.readLine();
+    removeKeyword(create);
+    time = in.readLine();
+    removeKeyword(time);
+    fee1 = in.readLine();
+    removeKeyword(fee1);
+    fee2 = in.readLine();
+    removeKeyword(fee2);
+    fee3 = in.readLine();
+    removeKeyword(fee3);
+    fee4 = in.readLine();
+    removeKeyword(fee4);
+    line = in.readLine();
+    (qint32&)paid1 = removeKeyword(line).toInt();
+    line = in.readLine();
+    (qint32&)paid2 = removeKeyword(line).toInt();
+    line = in.readLine();
+    (qint32&)paid3 = removeKeyword(line).toInt();
+    line = in.readLine();
+    (qint32&)paid4 = removeKeyword(line).toInt();
+    income1 = in.readLine();
+    removeKeyword(income1);
+    income2 = in.readLine();
+    removeKeyword(income2);
+    income3 = in.readLine();
+    removeKeyword(income3);
+    incomeOther = in.readLine();
+    removeKeyword(incomeOther);
+
     med1 = personParse(in);
     med2 = personParse(in);
     obs1 = personParse(in);
     obs2 = personParse(in);
 
     temp->SetState(state);
-    temp->setMediationTime(time);
-    temp->setMediationCreate(create);
+    temp->setMediationTime(QDateTime::fromString(time));
+    temp->setMediationCreate(QDateTime::fromString(create));
     temp->setFee1(fee1);
     temp->setFee1Paid(paid1);
     temp->setFee2(fee2);
@@ -206,7 +270,7 @@ MediationSession *MPFileMaker::sessionParse(QDataStream &in)
     temp->setIncomeFee1(income1);
     temp->setIncomeFee2(income2);
     temp->setIncomeFeeFamily(income3);
-    temp->setIncomeFeeOther(income4);
+    temp->setIncomeFeeOther(incomeOther);
     temp->setMediator1(med1);
     temp->setMediator2(med2);
     temp->setObserver1(obs1);
@@ -216,43 +280,62 @@ MediationSession *MPFileMaker::sessionParse(QDataStream &in)
     return temp;
 }
 
-void MPFileMaker::parseSession(QDataStream &out, MediationSession *ms)
+void MPFileMaker::parseSession(QTextStream &out, MediationSession *ms)
 {
-    out << ms->GetState();
-    out << ms->getMediationCreation();
-    out << ms->getMediationTime();
-    out << ms->getFee1();
-    out << ms->getFee2();
-    out << ms->getFeeFamily();
-    out << ms->getFeeOther();
-    out << ms->getFee1Paid();
-    out << ms->getFee2Paid();
-    out << ms->getFeeFamilyPaid();
-    out << ms->getFeeOtherPaid();
-    out << ms->getIncomeFee1();
-    out << ms->getIncomeFee2();
-    out << ms->getIncomeFeeFamily();
-    out << ms->getIncomeFeeOther();
+    out << "SESSION_STATE: ";
+    out << ms->GetState() << "\n";
+    out << "SESSION_CREATION_DATE: ";
+    out << ms->getMediationCreation().toString() << "\n";
+    out << "SESSION_SCHEDULED_DATE: ";
+    out << ms->getMediationTime().toString() << "\n";
+    out << "SESSION_FEE1: ";
+    out << ms->getFee1() << "\n";
+    out << "SESSION_FEE2: ";
+    out << ms->getFee2() << "\n";
+    out << "SESSION_FEE_FAMILY: ";
+    out << ms->getFeeFamily() << "\n";
+    out << "SESSION_FEE_OTHER: ";
+    out << ms->getFeeOther() << "\n";
+    out << "SESSION_FEE1_PAID: ";
+    out << ms->getFee1Paid() << "\n";
+    out << "SESSION_FEE2_PAID: ";
+    out << ms->getFee2Paid() << "\n";
+    out << "SESSION_FEE_FAMILY_PAID: ";
+    out << ms->getFeeFamilyPaid() << "\n";
+    out << "SESSION_FEE_OTHER_PAID: ";
+    out << ms->getFeeOtherPaid() << "\n";
+    out << "SESSION_INCOME1: ";
+    out << ms->getIncomeFee1() << "\n";
+    out << "SESSION_INCOME2: ";
+    out << ms->getIncomeFee2() << "\n";
+    out << "SESSION_INCOME_FAMILY: ";
+    out << ms->getIncomeFeeFamily() << "\n";
+    out << "SESSION_INCOME_OTHER: ";
+    out << ms->getIncomeFeeOther() << "\n";
     parsePerson(out,ms->getMediator1());
     parsePerson(out,ms->getMediator2());
     parsePerson(out,ms->getObserver1());
     parsePerson(out, ms->getObserver2());
 }
 
-void MPFileMaker::parseProcessNotes(QDataStream &out, MediationNotesVector *notes)
+void MPFileMaker::parseProcessNotes(QTextStream &out, MediationNotesVector *notes)
 {
-    out << (int)notes->size();
-    for(int i = 0; i < notes->size(); i++)
+    out << "NUMBER_OF_NOTES: ";
+    out << (int)notes->size() << "\n";
+    for(int i = 0; i < (int)notes->size(); i++)
     {
         parseNote(out,notes->at(i));
     }
 }
 
-MediationNotesVector MPFileMaker::processNotesParse(QDataStream &in)
+MediationNotesVector MPFileMaker::processNotesParse(QTextStream &in)
 {
-    int numberOFNotes;
+    QString line;
     MediationNotesVector temp;
-    in >> numberOFNotes;
+    line = in.readLine();
+    int numberOFNotes;
+
+    numberOFNotes = removeKeyword(line).toInt();
     for(int i = 0; i < numberOFNotes; i++)
     {
         temp.push_back(noteParse(in));
@@ -260,14 +343,20 @@ MediationNotesVector MPFileMaker::processNotesParse(QDataStream &in)
     return temp;
 }
 
-Note *MPFileMaker::noteParse(QDataStream &in)
+Note *MPFileMaker::noteParse(QTextStream &in)
 {
+    QString line;
     int sID, mID;
     QString mess;
     Note *temp = new Note();
-    in >> sID;
-    in >> mID;
-    in >> mess;
+
+    line = in.readLine();
+    sID = removeKeyword(line).toInt();
+    line = in.readLine();
+    mID = removeKeyword(line).toInt();
+    line = in.readLine();
+    mess = removeKeyword(line);
+
     temp->SetId(sID);
     temp->SetMediationId(mID);
     temp->SetMessage(mess);
@@ -275,17 +364,23 @@ Note *MPFileMaker::noteParse(QDataStream &in)
     return temp;
 }
 
-void MPFileMaker::parseNote(QDataStream &out, Note *note)
+void MPFileMaker::parseNote(QTextStream &out, Note *note)
 {
-    out << note->GetSessionId();
-    out << note->GetmediationId();
-    out << note->GetMessage();
+    out << "NOTE_SESSION_ID: ";
+    out << note->GetSessionId() << "\n";
+    out << "NOTE_MEDIATION_ID: ";
+    out << note->GetmediationId() << "\n";
+    out << "NOTE_MESSAGE: ";
+    out << note->GetMessage() << "\n";
 }
-PartyVector MPFileMaker::partiesVectorParse(QDataStream &in)
+PartyVector MPFileMaker::partiesVectorParse(QTextStream &in)
 {
-    int numberOfParties;
-    in >> numberOfParties;
+    QString line;
     PartyVector temp;
+    line = in.readLine();
+    int numberOfParties;
+    numberOfParties = removeKeyword(line).toInt();
+
 
     for(int i = 0; i < numberOfParties; i++)
     {
@@ -295,15 +390,16 @@ PartyVector MPFileMaker::partiesVectorParse(QDataStream &in)
     return temp;
 }
 
-void MPFileMaker::parsePartiesVector(QDataStream &out, PartyVector *parties)
+void MPFileMaker::parsePartiesVector(QTextStream &out, PartyVector *parties)
 {
-    out << (int)parties->size();
-    for(int i = 0; i < parties->size(); i++)
+    out << "NUMBER_OF_PARTIES: ";
+    out << (int)parties->size() << "\n";
+    for(int i = 0; i < (int)parties->size(); i++)
     {
         parseParty(out,parties->at(i));
     }
 }
-Party *MPFileMaker::partyParse(QDataStream &in)
+Party *MPFileMaker::partyParse(QTextStream &in)
 {
     Party *temp = new Party();
     temp->SetPrimary(personParse(in));
@@ -311,34 +407,53 @@ Party *MPFileMaker::partyParse(QDataStream &in)
     return temp;
 }
 
-void MPFileMaker::parseParty(QDataStream &out, Party *&party)
+void MPFileMaker::parseParty(QTextStream &out, Party *&party)
 {
     parsePerson(out,party->GetPrimary());
 }
 
-Person *MPFileMaker::personParse(QDataStream &in)
+Person *MPFileMaker::personParse(QTextStream &in)
 {
+    QString line;
     Person *temp = new Person();
     QString first, middle, last, street, unit, city, county, state, zip, email, atty, pPhone, pPhoneEx, sPhone, sPhoneEx, assPhone, assPhoneEx;
     uint nInHouse;
-    in >> first;
-    in >> middle;
-    in >> last;
-    in >> street;
-    in >> unit;
-    in >> city;
-    in >> county;
-    in >> state;
-    in >> zip;
-    in >> nInHouse;
-    in >> email;
-    in >> atty;
-    in >> pPhone;
-    in >> pPhoneEx;
-    in >> sPhone;
-    in >> sPhoneEx;
-    in >> assPhone;
-    in >> assPhoneEx;
+    first = in.readLine();
+    removeKeyword(first);
+    middle = in.readLine();
+    removeKeyword(middle);
+    last = in.readLine();
+    removeKeyword(last);
+    street = in.readLine();
+    removeKeyword(street);
+    unit = in.readLine();
+    removeKeyword(unit);
+    city = in.readLine();
+    removeKeyword(city);
+    county = in.readLine();
+    removeKeyword(county);
+    state = in.readLine();
+    removeKeyword(state);
+    zip = in.readLine();
+    removeKeyword(zip);
+    line = in.readLine();
+    nInHouse = removeKeyword(line).toInt();
+    email = in.readLine();
+    removeKeyword(email);
+    atty = in.readLine();
+    removeKeyword(atty);
+    pPhone = in.readLine();
+    removeKeyword(pPhone);
+    pPhoneEx = in.readLine();
+    removeKeyword(pPhoneEx);
+    sPhone = in.readLine();
+    removeKeyword(sPhone);
+    sPhoneEx = in.readLine();
+    removeKeyword(sPhoneEx);
+    assPhone = in.readLine();
+    removeKeyword(assPhone);
+    assPhoneEx = in.readLine();
+    removeKeyword(assPhoneEx);
 
     temp->setAssistantPhone(assPhone);
     temp->setAssistantPhoneExt(assPhoneEx);
@@ -360,27 +475,44 @@ Person *MPFileMaker::personParse(QDataStream &in)
     return temp;
 }
 
-void MPFileMaker::parsePerson(QDataStream &out, Person *person)
+void MPFileMaker::parsePerson(QTextStream &out, Person *person)
 {
-
-    out << person->getFirstName();
-    out << person->getMiddleName();
-    out << person->getLastName();
-    out << person->getStreet();
-    out << person->getUnit();
-    out << person->getCity();
-    out << person->getCounty();
-    out << person->getState();
-    out << person->getZip();
-    out << person->getNumberInHousehold();
-    out << person->getEmail();
-    out << person->getAttorney();
-    out << person->getPrimaryPhone();
-    out << person->getPrimaryPhoneExt();
-    out << person->getSecondaryPhone();
-    out << person->getSecondaryPhoneExt();
-    out << person->getAssistantPhone();
-    out << person->getAssistantPhoneExt();
+    out << "PERSON_FIRST_NAME: ";
+    out << person->getFirstName() << "\n";
+    out << "PERSON_MIDDLE_NAME: ";
+    out << person->getMiddleName() << "\n";
+    out << "PERSON_LAST_NAME: ";
+    out << person->getLastName() << "\n";
+    out << "PERSON_STREET: ";
+    out << person->getStreet() << "\n";
+    out << "PERSON_UNIT: ";
+    out << person->getUnit() << "\n";
+    out << "PERSON_CITY: ";
+    out << person->getCity() << "\n";
+    out << "PERSON_COUNTY: ";
+    out << person->getCounty() << "\n";
+    out << "PERSON_STATE: ";
+    out << person->getState() << "\n";
+    out << "PERSON_ZIP: ";
+    out << person->getZip() << "\n";
+    out << "PERSON_NUMBER_IN_HOUSE_HOLD: ";
+    out << person->getNumberInHousehold() << "\n";
+    out << "PERSON_EMAIL: ";
+    out << person->getEmail() << "\n";
+    out << "PERSON_ATTORNEY: ";
+    out << person->getAttorney() << "\n";
+    out << "PERSON_PRIMARY_PHONE: ";
+    out << person->getPrimaryPhone() << "\n";
+    out << "PERSON_PRIMARY_PHONE_EXT: ";
+    out << person->getPrimaryPhoneExt() << "\n";
+    out << "PERSON_SECONDARY_PHONE_EXT: ";
+    out << person->getSecondaryPhone() << "\n";
+    out << "PERSON_SECONDARY_PHONE_EXT: ";
+    out << person->getSecondaryPhoneExt() << "\n";
+    out << "PERSON_ASSISTANT_PHONE: ";
+    out << person->getAssistantPhone() << "\n";
+    out << "PERSON_ASSISTANT_PHONE: ";
+    out << person->getAssistantPhoneExt() << "\n";
 }
 
 void MPFileMaker::setFileName(QString fileName)
