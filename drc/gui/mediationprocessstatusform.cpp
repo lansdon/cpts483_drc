@@ -105,3 +105,27 @@ void MediationProcessStatusForm::on_Last10Label_linkHovered(const QString &link)
 {
     emit hovered();
 }
+
+void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
+{
+    _mediationProcess->SetDisputeType((DisputeTypes)index);
+    update();
+}
+
+void MediationProcessStatusForm::on_statusComboBox_currentIndexChanged(int index)
+{
+    _mediationProcess->SetProcessState((DisputeProcessStates)index);
+    update();
+}
+
+void MediationProcessStatusForm::on_countyComboBox_currentIndexChanged(int index)
+{
+    _mediationProcess->SetCountyId((CountyIds)index);
+    update();
+}
+
+void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int index)
+{
+    _mediationProcess->SetReferralType((ReferralTypes)index);
+    update();
+}

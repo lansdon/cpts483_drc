@@ -7,6 +7,7 @@
 MediationSession::MediationSession()
 {
     _mediationCreation = QDateTime::currentDateTime();
+    _state = SessionStates::SESSION_STATE_PENDING;
     _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
     _mediator1 = new Person();
     _mediator2 = new Person();

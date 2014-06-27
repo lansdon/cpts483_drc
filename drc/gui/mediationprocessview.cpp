@@ -43,7 +43,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
-
+    connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
     // Update Fields for current record
     PopulateView(_mediationProcess);
 
@@ -87,7 +87,7 @@ void MediationProcessView::PopulateView(MediationProcess *process)
         _mediationSessionForm->hide();
         _noSession->show();
     }
-    connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
+
 
     // Each View can setup it's own toolbar buttons
     ConfigureToolbar();
