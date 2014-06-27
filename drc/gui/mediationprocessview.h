@@ -59,9 +59,6 @@ private:
     void ConfigureToolbar();
     void ConfigureToolbox();
 
-    // Populate Views
-    void PopulateView(MediationProcess *value);
-
     // Clients/Parties Tabs
     void AddPartyTabs(PartyVector* parties);
 

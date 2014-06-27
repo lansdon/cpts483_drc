@@ -230,6 +230,10 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
         }
         mpToolbox->ShowBrowser(browserType);
 
+        // Update all the views, including the browsers
+        if(_mediationProcessView)
+            _mediationProcessView->PopulateView(_mediationProcessView->GetMediationProcess());
+
         _browserDock->show();
     }
 }
