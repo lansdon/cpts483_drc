@@ -44,8 +44,6 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
 
-    ui->sessionsContainer->hide();
-
     // Update Fields for current record
     PopulateView(_mediationProcess);
 
