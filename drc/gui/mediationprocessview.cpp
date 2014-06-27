@@ -65,10 +65,12 @@ void MediationProcessView::PopulateView()
     // PARTY!
     AddPartyTabs(_mediationProcess->GetParties());
 
-    // DOCK Sesssions
+    // Update Session Browser
     Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
-    // DOCK Notes
+    // Update Notes Browser
     Mediator::Call(MKEY_DOCK_SET_NOTES, _mediationProcess->GetNotes());
+    // Update Mediations Browser
+    Mediator::Call(MKEY_DOCK_REFRESH_MEDIATIONS);
 
     // Session detail.
     if(_mediationProcess->getMediationSessionVector()->size() > 0 )
@@ -82,7 +84,6 @@ void MediationProcessView::PopulateView()
         _mediationSessionForm->hide();
         _noSession->show();
     }
-
 
     // Each View can setup it's own toolbar buttons
     ConfigureToolbar();
@@ -166,5 +167,18 @@ void MediationProcessView::on_addCientPushButton_clicked()
 void MediationProcessView::on_removeClientPushButton_clicked()
 {
     _mediationProcess->removeParty(ui->partyTabWidget->currentIndex());
+    PopulateView();
+}
+
+void MediationProcessView::SaveSignaled()        // Child process signals a save
+{
+    Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
+    PopulateView();
+}
+
+void MediationProcessView::UpdateSignaled()      // Child process signals a change occured
+{
+    // TO DO - Send session to BL
+    //    Mediator::Call(MKEY_GUI_, _mediationProcess);
     PopulateView();
 }

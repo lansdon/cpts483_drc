@@ -63,7 +63,6 @@ void NotesBrowser::PopulateTable()
     ui->tableWidget->setRowCount(_notes->size());
     for(int row=0; row < (int)_notes->size(); ++row)
     {
-        qDebug() << "populate row: " << row;
         //insert data
         Note *note = _notes->at(row);
         ui->tableWidget->setItem(row, 0, new QTableWidgetItem(note->GetCreatedDate().toString("MM-dd-yyyy")));

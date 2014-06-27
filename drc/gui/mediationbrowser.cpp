@@ -15,6 +15,7 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
     ConfigMediationProcecssViewTable();
 
     Mediator::Register(MKEY_DOCK_SET_MEDIATIONS, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
+    Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){PopulateMediationProcessTable();});
 
     LoadTableData(sortType);
 
@@ -53,7 +54,6 @@ void MediationBrowser::PopulateMediationProcessTable()
 
     for(int row=0; row < (int)_mediationsVector.size(); ++row)
     {
-        qDebug() << "populate row: " << row;
         //insert data
         MediationProcess *o = _mediationsVector.at(row);
         ui->tableWidget->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));

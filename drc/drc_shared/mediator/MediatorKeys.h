@@ -121,6 +121,8 @@ const QString MKEY_GUI_SHOW_MEDIATION_BROWSER = "MKEY_GUI_SHOW_MEDIATION_BROWSER
 const QString MKEY_DOCK_SET_MEDIATIONS = "MKEY_DOCK_SET_MEDIATIONS";                                // MediationProcessVector*
 // Set Sessions for Session Browser
 const QString MKEY_DOCK_REQUEST_RECENT_MEDIATIONS = "MKEY_DOCK_REQUEST_RECENT_MEDIATIONS";                                // MediationProcessVector*
+// Refresh Mediations Browser
+const QString MKEY_DOCK_REFRESH_MEDIATIONS = "MKEY_DOCK_REFRESH_MEDIATIONS";
 // Set Sessions for Session Browser
 const QString MKEY_DOCK_SET_SESSIONS = "MKEY_DOCK_SET_SESSIONS";                                // MediationSessionsVector*
 // Session Table - selected a session

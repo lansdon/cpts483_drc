@@ -39,13 +39,6 @@ public:
     void setParty(Party *value);
     QString getFullName() const {return _party->GetPrimary()->FullName();}
 private slots:
-//    void ObserverCellSelected(int nRow, int nCol);
-//    void ChildCellSelected(int nRow, int nCol);
-//    void ObserverChanged(Person* p);
-//    void ObserverDeleted(Person* p);
-//    void ChildChanged(Person* p);
-//    void ChildDeleted(Person* p);
-//    void savePersonContactFromclose(Person *value);
     void DoSaveSignal() { emit SaveSignaled(); }
     void DoEditSignal() { emit EditSignaled(); }
 private:
@@ -53,17 +46,7 @@ private:
     Party* _party;
     PersonDetailsForm *_personDetailsForm;
 
-//    QTableWidget* _observerTable;
-//    QStringList _observerTableHeader;
-//    QTableWidget* _childrenTable;
-//    QStringList _childrenTableHeader;
-
-//    void ConfigObserverTable();
-//    void PopulateObserverTable();
-//    void ConfigChildrenTable();
-//    void PopulateChildrenTable();
 signals:
-//    void PassItOn(Person *);
     void SaveSignaled();    // Passes save events to parent
     void EditSignaled();    // Passes edit events to parent
 };

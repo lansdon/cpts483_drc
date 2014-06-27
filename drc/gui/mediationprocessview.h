@@ -48,6 +48,9 @@ private slots:
 
     void on_removeClientPushButton_clicked();
 
+    void SaveSignaled();        // Child process signals a save
+    void UpdateSignaled();      // Child process signals a change occured
+
 private:
     Ui::MediationProcessView *ui;
 
