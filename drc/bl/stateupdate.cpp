@@ -6,6 +6,7 @@
 
 
 #include "stateupdate.h"
+#include "DRCModels.h"
 #include <set>
 
 StateUpdate::StateUpdate()
@@ -35,7 +36,7 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
         case PROCESS_STATE_SCHEDULED:
             success = scheduled(arg);
             break;
-        case PROCESS_STATE_CLOSED:
+        case PROCESS_STATE_MEDIATION_COMPLETED:
             success = closed(arg);
         case PROCESS_STATE_OUTCOME_REACHED:
             break;
@@ -101,16 +102,21 @@ bool StateUpdate::initiated(MediationProcess* arg)
 bool StateUpdate::readyToSchedule(MediationProcess *arg)
 {
     bool success = true;
-    auto parties = arg->GetParties();
-    if (parties.size() < 2)     success = false;
-    for (unsigned int i=0; i < parties.size(); i++)
+    if (arg)
     {
-        auto primary = parties[i]->GetPrimary();
-        success &=
-                ((!primary->getPrimaryPhone().isEmpty()) &&
-                ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && !primary->getCounty().isEmpty()) ||
-                 (!primary->getEmail().isEmpty())));
+        auto parties = arg->GetParties();
+        if (parties.size() < 2)     success = false;
+        for (unsigned int i=0; i < parties.size(); i++)
+        {
+            auto primary = parties[i]->GetPrimary();
+            success &=
+                    ((!primary->getPrimaryPhone().isEmpty()) &&
+                    ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && !primary->getCounty().isEmpty()) ||
+                     (!primary->getEmail().isEmpty())));
+        }
     }
+    else success = false;
+
     if (!success)
     {
         _errorMessage = "Mediation process is not ready to schedule because not all primary parties have sufficient contact information.";
@@ -129,13 +135,22 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
  */
 bool StateUpdate::scheduled(MediationProcess *arg)
 {
-    if(arg)//just so that the argument not used warning doesn't show up
+    bool success = true;
+    if(arg)
     {
-        arg->setStateTransition(PROCESS_STATE_CLOSED);
-        return true;
+        auto sessions = arg->getMediationSessionVector();
+        if (sessions->size() < 1) success = false;
     }
-    arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
-    return false;
+    if (success)
+    {
+        arg->setStateTransition(PROCESS_STATE_MEDIATION_COMPLETED);
+    }
+    else
+    {
+        arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
+        _errorMessage = "No mediation date scheduled.";
+    }
+    return success;
 }
 
 /*
@@ -148,11 +163,30 @@ bool StateUpdate::scheduled(MediationProcess *arg)
  */
 bool StateUpdate::closed(MediationProcess *arg)
 {
-    if(arg)//just so that the argument not used warning doesn't show up
+    bool success = true;
+    if(arg)
+    {
+        auto sessions = arg->getMediationSessionVector();
+        for (unsigned int i = 0; i < sessions->size(); i++)
+        {
+            auto session = sessions[i];
+            for (unsigned int j = 0; j < session.size(); j++)
+            {
+                success &= (!session[j]->getFee1().isEmpty());
+                success &= (!session[j]->getFee2().isEmpty());
+                success &= (session[j]->getMediator1() != nullptr);
+                success &= (session[j]->getMediator2() != nullptr);
+            }
+        }
+    }
+    if (success)
     {
         arg->setStateTransition(PROCESS_STATE_OUTCOME_REACHED);
-        return true;
     }
-    arg->setStateTransition(PROCESS_STATE_SCHEDULED);
-    return false;
+    else
+    {
+        arg->setStateTransition(PROCESS_STATE_SCHEDULED);
+        _errorMessage = "Mediation session form not completed.";
+    }
+    return success;
 }

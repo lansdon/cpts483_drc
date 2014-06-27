@@ -18,6 +18,10 @@ private Q_SLOTS:
     void testInitiatedInvalid();
 
     void testReadyToScheduleValid();
+    void testReadyToScheduleInvalid();
+
+    void testScheduledValid();
+    void testScheduledInvalid();
 };
 
 BLTestSuit::BLTestSuit()
@@ -72,7 +76,7 @@ void BLTestSuit::testInitiatedInvalid()
  *      The primary person in each party should have a phone number + name or email
  * Expected result: MediationProcess should be in PROCESS_STATE_READY_TO_SCHEDULE
  */
-void BLTestSuit::testInitiatedValid()
+void BLTestSuit::testReadyToScheduleValid()
 {
     Person person;
     person.setName("SomeName", "SomeMiddle", "SomeLast");
@@ -95,7 +99,7 @@ void BLTestSuit::testInitiatedValid()
     Party party;
     party.SetPrimary(&person);
 
-    Party pary2;
+    Party party2;
     party2.SetPrimary(&person2);
 
     MediationProcess mediationProcess;
@@ -138,6 +142,89 @@ void BLTestSuit::testReadyToScheduleInvalid()
     QVERIFY2(success, "Successful: MediationProcess in state PROCESS_STATE_INITIATED");
 }
 
+/* Test Scheduled State with valid data:
+ *      The mediation sessions vector in the mediation process object should not be empty
+ * Expected result: MediationProcess should be in PROCESS_STATE_SCHEDULED
+ */
+void BLTestSuit::testScheduledValid()
+{
+    Person person;
+    person.setName("SomeName", "SomeMiddle", "SomeLast");
+    person.setPrimaryPhone("5555555555");
+    person.setCity("Kennewick");
+    person.setStreet("123 Fake Street");
+    person.setCounty("Benton");
+    person.setZip("99337");
+    person.setEmail("someguy@email.com");
+
+    Person person2;
+    person2.setName("SomeName2", "SomeMiddle2", "SomeLast2");
+    person.setPrimaryPhone("1111111111");
+    person.setCity("Pasco");
+    person.setStreet("789 NoPlace Rd");
+    person.setCounty("Franklin");
+    person.setZip("99301");
+    person.setEmail("someguy2@email.com");
+
+    Party party;
+    party.SetPrimary(&person);
+
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
+    mediationProcess.AddParty(&party2);
+
+    mediationProcess.setMediationSessionVector(new MediationSessionVector());
+
+    QString errorMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage);
+    success &= (mediationProcess.getStateTransition() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "Successful: MediationProcess in state PROCESS_STATE_SCHEDULED");
+}
+
+/* Test Scheduled State with invvalid data:
+ *      The mediation sessions vector in the mediation process object should is empty
+ * Expected result: MediationProcess should be in PROCESS_STATE_READY_TO_SCHEDULE
+ */
+void BLTestSuit::testScheduledInvalid()
+{
+    Person person;
+    person.setName("SomeName", "SomeMiddle", "SomeLast");
+    person.setPrimaryPhone("5555555555");
+    person.setCity("Kennewick");
+    person.setStreet("123 Fake Street");
+    person.setCounty("Benton");
+    person.setZip("99337");
+    person.setEmail("someguy@email.com");
+
+    Person person2;
+    person2.setName("SomeName2", "SomeMiddle2", "SomeLast2");
+    person.setPrimaryPhone("1111111111");
+    person.setCity("Pasco");
+    person.setStreet("789 NoPlace Rd");
+    person.setCounty("Franklin");
+    person.setZip("99301");
+    person.setEmail("someguy2@email.com");
+
+    Party party;
+    party.SetPrimary(&person);
+
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
+    mediationProcess.AddParty(&party2);
+
+    QString errorMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage);
+    success &= (mediationProcess.getStateTransition() == PROCESS_STATE_READY_TO_SCHEDULE);
+    QVERIFY2(success, "Successful: MediationProcess in state PROCESS_STATE_READY_TO_SCHEDULE");
+}
 
 QTEST_APPLESS_MAIN(BLTestSuit)
 
