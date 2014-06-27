@@ -8,7 +8,26 @@
 #include "party.h"
 
 
-class MediationProcess : public DBBaseObject
+//Values going into MediationProcess Table
+//id
+//disputeType
+//creationDate
+//updatedDate
+//processState
+//countyOfMediation
+//mediationNotes
+//referalSource
+//requiresSpanish
+
+//Objects to extract from MediationProcess
+//Parties
+//Mediation Sessions
+
+//Objects to extract from Parties
+//Person
+
+
+class MediationProcess : DBBaseObject
 {
 public:
     MediationProcess();
@@ -35,6 +54,7 @@ public:
     DisputeProcessStates GetCurrentState() { return _processState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
     MediationSessionVector *getMediationSessionVector() const {return _mediationSessionVector;}
+    QDateTime GetUpdatedDate() { return QDateTime::currentDateTime(); }
 
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }
     void SetCountyId(CountyIds countyId) { _countyOfMediation = countyId; }
