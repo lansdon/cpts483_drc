@@ -17,7 +17,6 @@ TEMPLATE = app
 
 INCLUDEPATH += ../../drc/bl/ \
     ../../drc/drc_shared/ \
-    ../../drc/drc_shared/mediator/ \
     ../../drc/drc_shared/models/
 
 SOURCES += tst_bltestsuit.cpp \
