@@ -12,7 +12,7 @@ protected:
     QDateTime m_updated;    // properties shared by all db objects
 
 public:
-    DBBaseObject() : m_id(-1), m_created(QDateTime::currentDateTime()), m_updated(m_created) {}
+    DBBaseObject() : m_id(0), m_created(QDateTime::currentDateTime()), m_updated(m_created) {}
     //Outputs field data into a SQLite appropriate string format
     //for insertion into a database.
 

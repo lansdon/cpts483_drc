@@ -35,6 +35,10 @@ void MediationProcessStatusForm::Update()
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
+    if(_mediationProcess->GetId() == 0)
+        ui->mediationIdDiaplayLabel->setText("NEW");
+    else
+        ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
 }
 

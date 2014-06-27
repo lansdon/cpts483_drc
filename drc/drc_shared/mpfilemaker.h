@@ -40,10 +40,12 @@ public:
     void parseSession(QDataStream &out, MediationSession *ms);
     Note *noteParse(QDataStream &in);
     void parseNote(QDataStream &out, Note *note);
+    MediationProcessVector *getMedationProcessVector() const;
 
 private:
     MediationProcessVector *mpVector;
     QString FileName;
+    QString empty;
 
 };
 

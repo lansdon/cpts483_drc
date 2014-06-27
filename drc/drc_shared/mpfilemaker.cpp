@@ -4,6 +4,7 @@ MPFileMaker::MPFileMaker()
 {
     mpVector = new MediationProcessVector();
     FileName = "test.mp";
+    empty = "NULL";
 }
 
 void MPFileMaker::addMP(MediationProcess *mp)
@@ -25,14 +26,21 @@ void MPFileMaker::sendToFile()
 
 }
 
+MediationProcessVector *MPFileMaker::getMedationProcessVector() const
+{
+    return mpVector;
+}
+
 void MPFileMaker::sendToFile(MediationProcessVector *MPVector)
 {
+
     mpVector = MPVector;
     sendToFile();
 }
 
 void MPFileMaker::sendToFile(MediationProcess *MP)
 {
+    mpVector->clear();
     mpVector->push_back(MP);
     sendToFile();
 }
@@ -49,6 +57,12 @@ void MPFileMaker::getFromFile()
     }
     else
         qDebug() << "error opening file.";
+}
+
+void MPFileMaker::getFromFile(QString fileName)
+{
+    FileName = fileName;
+    getFromFile();
 }
 
 void MPFileMaker::fileToParse(QDataStream &in)
@@ -348,6 +362,7 @@ Person *MPFileMaker::personParse(QDataStream &in)
 
 void MPFileMaker::parsePerson(QDataStream &out, Person *person)
 {
+
     out << person->getFirstName();
     out << person->getMiddleName();
     out << person->getLastName();

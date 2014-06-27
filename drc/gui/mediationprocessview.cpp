@@ -73,14 +73,9 @@ void MediationProcessView::PopulateView()
     // Session detail.
     if(_mediationProcess->getMediationSessionVector()->size() > 0 )
     {
-        if(_noSession->isVisible())
-        {
-            _noSession->hide();
-             _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
-            _mediationSessionForm->show();
-        }
-        else
-            _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
+        _noSession->hide();
+         _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
+        _mediationSessionForm->show();
     }
     else
     {

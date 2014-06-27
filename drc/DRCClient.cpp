@@ -24,6 +24,7 @@
 // MISC
 #include <QDebug>
 #include <QDockWidget>
+#include <QFileDialog>
 
 DRCClient::DRCClient(QWidget *parent)
     : QMainWindow(parent)
@@ -33,17 +34,14 @@ DRCClient::DRCClient(QWidget *parent)
     ui->setupUi(this);
     // set up a seed for any random numbers generated with qrand()
     qsrand( QDateTime::currentMSecsSinceEpoch()/1000);
-
+    //for the file save and load
+    _mediationProcessVector = new MediationProcessVector();
+    _mediationProcessView = nullptr;
     // Set the window to max size.
     this->setWindowState(Qt::WindowMaximized);
 
     setCentralWidget(new LoginForm(this));
-    // to test the MP to file class
-    MPFileMaker a;
-    for(int i = 0; i < 5; i++)
-        a.addMP(MediationProcess::SampleData());
-    a.sendToFile();
-    a.getFromFile();
+
 
     // Listen for
     Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuBarEnabled();});
@@ -138,6 +136,7 @@ void DRCClient::on_actionFruit_Test_triggered()
 {
     setCentralWidget(new FruitNameForm(this));
 }
+
 
 void DRCClient::on_actionLogout_User_triggered()
 {
@@ -235,5 +234,68 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
             _mediationProcessView->PopulateView();
 
         _browserDock->show();
+    }
+}
+
+void DRCClient::on_actionNew_2_triggered()
+{
+    _mediationProcessView = new MediationProcessView(this);
+    setCentralWidget(_mediationProcessView);
+}
+
+void DRCClient::on_actionAdd_1_MP_sample_triggered()
+{
+    if(!_mediationProcessView)
+        _mediationProcessView = new MediationProcessView(this);
+    _mediationProcessView->SetMediationProcess(MediationProcess::SampleData());
+    setCentralWidget(_mediationProcessView);
+}
+
+void DRCClient::on_actionAdd_to_vector_triggered()
+{
+    _mediationProcessVector->push_back(_mediationProcessView->GetMediationProcess());
+}
+
+void DRCClient::on_actionSave_to_file_triggered()
+{
+//    QFileDialog dialog(this);
+//    dialog.setFileMode(QFileDialog::AnyFile);
+//    dialog.setNameFilter(tr("*.mp"));
+//    dialog.setViewMode(QFileDialog::Detail);
+
+//    if(dialog.exec())
+//        QStringList fileName = dialog.selectedFiles();
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
+                                "",
+                                tr("*.mp"));
+    _filemaker.setFileName(fileName);
+    _filemaker.sendToFile(_mediationProcessVector);
+}
+
+void DRCClient::on_actionLoad_from_file_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open File"), "", tr("*.mp"));
+    if(!fileName.isEmpty())
+    {
+        _filemaker.getFromFile(fileName);
+        _mediationProcessVector = _filemaker.getMedationProcessVector();
+        if(_mediationProcessView)
+        {
+            //delete _mediationProcessView;
+            _mediationProcessView = nullptr;
+        }
+        _mediationProcessView = new MediationProcessView(this);
+        _mediationProcessView->SetMediationProcess(_mediationProcessVector->at(0));
+        setCentralWidget(_mediationProcessView);
+    }
+
+}
+
+void DRCClient::on_actionAdd_5_MP_samples_triggered()
+{
+    for(int i = 0; i < 5; i++)
+    {
+        _mediationProcessVector->push_back(MediationProcess::SampleData());
     }
 }

@@ -108,6 +108,19 @@
     </property>
     <addaction name="actionLogout_User"/>
    </widget>
+   <widget class="QMenu" name="menuTest_Area">
+    <property name="title">
+     <string>Test Area</string>
+    </property>
+    <addaction name="actionNew_2"/>
+    <addaction name="actionAdd_1_MP_sample"/>
+    <addaction name="actionAdd_to_vector"/>
+    <addaction name="separator"/>
+    <addaction name="actionAdd_5_MP_samples"/>
+    <addaction name="separator"/>
+    <addaction name="actionLoad_from_file"/>
+    <addaction name="actionSave_to_file"/>
+   </widget>
    <addaction name="menu_mediationProcess"/>
    <addaction name="menuSearch"/>
    <addaction name="menuInquiries"/>
@@ -115,6 +128,7 @@
    <addaction name="menuHelp"/>
    <addaction name="menuAdmin"/>
    <addaction name="menuUser"/>
+   <addaction name="menuTest_Area"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
@@ -200,6 +214,36 @@
    </property>
    <property name="toolTip">
     <string>Find an existing Mediation Record</string>
+   </property>
+  </action>
+  <action name="actionNew_2">
+   <property name="text">
+    <string>New</string>
+   </property>
+  </action>
+  <action name="actionAdd_5_MP_samples">
+   <property name="text">
+    <string>Add 5 MP samples to browser</string>
+   </property>
+  </action>
+  <action name="actionLoad_from_file">
+   <property name="text">
+    <string>Load from file</string>
+   </property>
+  </action>
+  <action name="actionSave_to_file">
+   <property name="text">
+    <string>save to file</string>
+   </property>
+  </action>
+  <action name="actionAdd_1_MP_sample">
+   <property name="text">
+    <string>add 1 MP sample</string>
+   </property>
+  </action>
+  <action name="actionAdd_to_vector">
+   <property name="text">
+    <string>Add current to browser</string>
    </property>
   </action>
  </widget>
