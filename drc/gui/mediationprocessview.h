@@ -30,6 +30,10 @@ public:
     void SetMediationProcess(MediationProcess* process);
     MediationProcess* GetMediationProcess() { return _mediationProcess; }
 
+    // Populate Views (allowing this to be called publicly as a central place to update all views
+    // associated with this MP)
+    void PopulateView(MediationProcess *value);
+
 private slots:
     // Toolbar Buttons
     void SaveMediationPressed();

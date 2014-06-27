@@ -229,6 +229,7 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
             addDockWidget(Qt::RightDockWidgetArea, _browserDock);
         }
         mpToolbox->ShowBrowser(browserType);
+
         _browserDock->show();
     }
 }
