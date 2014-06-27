@@ -335,7 +335,6 @@ void MPFileMaker::parsePartiesVector(QTextStream &out, PartyVector *parties)
     for(int i = 0; i < (int)parties->size(); i++)
     {
         parseParty(out,parties->at(i));
-        out << "\n";
     }
 }
 Party *MPFileMaker::partyParse(QTextStream &in)
