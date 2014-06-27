@@ -45,6 +45,14 @@ public:
     bool DoesTableExist(QString table_name);
 
     bool CreatePersonTable(const QString &person_table_name);
+
+    bool CreateMediationTable(const QString& mediation_table_name);
+
+    bool CreateSessionTable(const QString& session_table_name);
+
+    bool CreateClientTable(const QString& client_table_name);
+
+    bool CreateNotesTable(const QString& notes_table_name);
     //==========================================================================
 
     //==========================================================================

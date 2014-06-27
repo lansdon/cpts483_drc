@@ -4,8 +4,9 @@
 #include <QDateTime>
 #include <QString>
 #include "drctypes.h"
+#include "DBBaseObject.h"
 
-class MediationSession
+class MediationSession :DBBaseObject
 {
 private:
     QDateTime _mediationTime, _mediationCreation;
@@ -16,6 +17,12 @@ private:
 
 public:
     MediationSession();
+
+    //Virtual overrides
+    QString Parse();
+    QString table();
+    QString DuplicateQuery();
+    QString SearchQuery();
 
     //getters
     QDateTime getMediationTime() const {return _mediationTime;}
@@ -70,6 +77,8 @@ public:
     QString getStatus() const;
     QString getFeeStatus() const;
     static MediationSession *SampleData();
+
+
 };
 
 #endif // MEDIATIONSESSION_H
