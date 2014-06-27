@@ -1,7 +1,10 @@
 #include <QString>
 #include <QtTest>
 
-#include "personvalidator.h"
+#include "Person.h"
+#include "party.h"
+#include "mediationprocess.h"
+#include "stateupdate.h"
 
 class BLTestSuit : public QObject
 {
@@ -11,29 +14,31 @@ public:
     BLTestSuit();
 
 private Q_SLOTS:
-    void testCase1();
-    void testPersonValidator();
+    void testInitiatedValidName();
 };
 
 BLTestSuit::BLTestSuit()
 {
 }
 
-void BLTestSuit::testCase1()
+void BLTestSuit::testInitiatedValidName()
 {
-    QVERIFY2(true, "Failure");
-}
-
-void BLTestSuit::testPersonValidator()
-{
-    PersonValidator pVal;
-    bool success = true;
-    std::string errorMessage = "";
     Person person;
-    success = pVal.Validate(&person, errorMessage);
+    person.setName("SomeName", "SomeMiddle", "SomeLast");
 
-    if (success == true) QVERIFY2(true, "Success!");
+    Party party;
+    party.SetPrimary(&person);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
+
+    QString errorMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage);
+    success &= (mediationProcess.getStateTransition() == PROCESS_STATE_INITIATED);
+    QVERIFY2(success, "Successful");
 }
+
 
 QTEST_APPLESS_MAIN(BLTestSuit)
 

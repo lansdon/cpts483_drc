@@ -10,6 +10,7 @@ QT       -= gui
 
 TARGET = tst_bltestsuit
 CONFIG   += console
+CONFIG   += c++11
 CONFIG   -= app_bundle
 
 TEMPLATE = app
@@ -21,5 +22,7 @@ INCLUDEPATH += ../../drc/bl/ \
 
 SOURCES += tst_bltestsuit.cpp \
     ../../drc/drc_shared/models/Person.cpp \
-    ../../drc/bl/personvalidator.cpp
+    ../../drc/drc_shared/models/mediationprocess.cpp \
+    ../../drc/drc_shared/models/party.cpp \
+    ../../drc/bl/stateupdate.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
