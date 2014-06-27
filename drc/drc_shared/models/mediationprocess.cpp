@@ -11,6 +11,13 @@ MediationProcess::MediationProcess() : DBBaseObject()
     _creationDate = QDateTime::currentDateTime();
     AddParty(new Party());
 }
+MediationProcess::MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans, DisputeTypes disputeType,
+                                   QDateTime creationDate, DisputeProcessStates processState, CountyIds county,
+                                   MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions) :
+    _parties(parties), _stateTransition(stateTrans), _activeStateTransition(actStateTrans), _disputeType(disputeType),
+    _creationDate(creationDate), _processState(processState), _countyOfMediation(county), _mediationNotes(mediationNotes),
+    _referalSource(reftype), _requiresSpanish(spanish), _mediationSessionVector(sessions){}
+
 
 MediationProcess::~MediationProcess()
 {

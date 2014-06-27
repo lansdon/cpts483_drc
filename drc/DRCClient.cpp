@@ -40,10 +40,10 @@ DRCClient::DRCClient(QWidget *parent)
     setCentralWidget(new LoginForm(this));
     // to test the MP to file class
     MPFileMaker a;
-    for(int i = 0; i < 50; i++)
+    for(int i = 0; i < 5; i++)
         a.addMP(MediationProcess::SampleData());
     a.sendToFile();
-
+    a.getFromFile();
 
     // Listen for
     Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuBarEnabled();});

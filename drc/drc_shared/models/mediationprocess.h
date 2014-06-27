@@ -13,6 +13,9 @@ class MediationProcess : public DBBaseObject
 {
 public:
     MediationProcess();
+    MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans,
+                     DisputeTypes disputeType, QDateTime creationDate, DisputeProcessStates processState,
+                     CountyIds county, MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions);
     virtual ~MediationProcess();
 
     // Required Overrides
