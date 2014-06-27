@@ -65,6 +65,7 @@ public:
     void setObserver1(Person *value) {_observer1 = value; }
     void setObserver2(Person *value) {_observer2 = value; }
     void SetState(SessionStates state) { _state = state; }
+    void setMediationCreate(QDateTime value) { _mediationCreation = value; }
 
     QString getStatus() const;
     QString getFeeStatus() const;

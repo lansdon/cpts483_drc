@@ -151,6 +151,7 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
     if(parties)
     {
         ui->partyTabWidget->clear();
+
         foreach(Party* party, *parties)
         {
             if(party)
