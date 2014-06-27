@@ -1,4 +1,5 @@
 #include "drcdb.h"
+#include "drctypes.h"
 #include <QtSql/QtSql>
 //#include "Mediator.h"
 //#include "MediatorKeys.h"
@@ -62,6 +63,8 @@ DRCDB::DRCDB() : DB_ERROR(false)
          result = CreatePersonTable(mediation_table_name);
     }
 
+    LoadRecentMediations();
+
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
     UserMap["Normal"] = sha256("normalpassword", "");
@@ -69,7 +72,8 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     // Register to Listen for events.
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
-    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](Mediator arg){InsertMediation(arg);});
+    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertMediation(arg);});
+    //Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](Mediator arg){InsertMediation(arg);});
 
     //Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
     //Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
@@ -239,34 +243,78 @@ DRCDB::~DRCDB()
 }
 //========================================================================
 
+void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
+{
+    // sort by update date and return the most recent 10
+    QSqlQuery query(database);
+    QString command_string = "Select * from Mediation_Table order by UpdatedDate desc limit 10";
+    bool result = false;
+    result = this->ExecuteCommand(command_string, query);
+
+    // Have the mediation processes now. Need to build them back up.
+    QString processId;
+    //MediationProcessVector* processVector = new MediationProcessVector();
+    while(query.next())
+    {
+        MediationProcess* process = new MediationProcess();
+
+        processId = query.value(0).toString();
+
+        //Rebuilds the process itself based on the database
+        process->SetId(processId.toUInt());
+        process->SetDisputeType((DisputeTypes)query.value(1).toInt());
+        process->SetCreatedDate(QDateTime::fromString(query.value(2).toString()));
+        process->SetUpdatedDate(QDateTime::fromString(query.value(3).toString()));
+        process->SetProcessState((DisputeProcessStates)query.value(4).toInt());
+        process->SetCountyId((CountyIds)query.value(5).toInt());
+        process->AddNote(query.value(6).toString());
+        process->SetReferralType((ReferralTypes)query.value(7).toInt());
+        process->SetRequiresSpanish(query.value(8).toBool());
+
+        //Grab clients based on the mediation id
+        QSqlQuery clientQuery(database);
+
+        //Grab people based on the client ids
+        QSqlQuery peopleQuery(database);
+
+        //Grab sessions based on the mediation id
+        QSqlQuery sessionQuery(database);
+
+    }
+
+    command_string = "Hello World"; // So I can see what result is;
+}
+
 void DRCDB::InsertMediation(MediatorArg arg)
 {
     // Insert the mediation process as a whole (creates a new dispute)
-    InsertObject(arg);
+    MediationProcess* process = nullptr;
+    process = arg.getArg<MediationProcess*>();
+    InsertObject(process);
 
     MediationSession* session = NULL;
 
-    for(int i = 0; i < arg->getMediationSessionVector()->size(); i++)
+    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
     {
         // Insert each session that has been created by the dispute so far.
         // Linkage will be preserved through the id being linked
-        session = arg->getMediationSessionVector()->at(i);
+        session = process->getMediationSessionVector()->at(i);
 
-        InsertLinkedObject(arg->GetId(), session);
+        InsertLinkedObject(process->GetId(), session);
 
     }
     Party* person = NULL;
-    for(int i = 0; i < arg->GetParties().size(); i++)
+    for(int i = 0; i < process->GetParties().size(); i++)
     {
         // Insert each new person
         // TODO: Add a check to prevent adding duplicate people
 
         // As with above, these get passed to the join table where linkage
         // is preserved through the IDs
-        person = arg->GetParties().at(i);
+        person = process->GetParties().at(i);
 
         InsertObject(person->GetPrimary());
-        InsertJoinObject(arg, person);
+        InsertJoinObject(process, person);
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
 }

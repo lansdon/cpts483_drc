@@ -48,7 +48,6 @@ public:
 
     bool CreateMediationTable(const QString& mediation_table_name);
 
-
     bool CreateSessionTable(const QString& session_table_name);
 
     bool CreateClientTable(const QString& client_table_name);
@@ -112,6 +111,11 @@ public:
 
     void AuthenticateUser(MediatorArg arg);
 
+    void InsertMediation(MediatorArg arg);
+
+    void LoadRecentMediations(MediatorArg arg);
+
+    void LoadRecentMediations(void);
 };
 
 #endif // DRCDB_H
