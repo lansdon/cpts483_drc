@@ -24,6 +24,8 @@ private slots:
     void on_tableWidget_doubleClicked(const QModelIndex &index);
 
 
+    void on_saveNoteBtn_clicked();
+
 private:
     Ui::NotesBrowser *ui;
 

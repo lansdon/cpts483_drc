@@ -47,6 +47,8 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     // Update Fields for current record
     PopulateView();
 
+    Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg arg){UpdateSignaled();});
+
 }
 
 MediationProcessView::~MediationProcessView()

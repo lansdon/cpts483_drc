@@ -50,12 +50,6 @@ void NotesBrowser::ConfigTable()
     // only stretch note column
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         1, QHeaderView::Stretch);
-
-//    for (int c = 0; c < ui->tableWidget->horizontalHeader()->count(); ++c)
-//    {
-//        ui->tableWidget->horizontalHeader()->setSectionResizeMode(
-//            c, QHeaderView::Stretch);
-//    }
 }
 
 void NotesBrowser::PopulateTable()
@@ -82,5 +76,16 @@ void NotesBrowser::SetNotesEvent(MediatorArg arg)
     if(notes)
     {
         SetNotes(notes);
+    }
+}
+
+void NotesBrowser::on_saveNoteBtn_clicked()
+{
+    QString note = ui->noteInput->toPlainText();
+    if(note.length())
+    {
+        _notes->push_back(new Note(note));
+        ui->noteInput->clear();
+        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     }
 }

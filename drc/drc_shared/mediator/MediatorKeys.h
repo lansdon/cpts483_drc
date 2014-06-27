@@ -135,5 +135,11 @@ const QString MKEY_GUI_SHOW_NOTES_BROWSER = "MKEY_GUI_SHOW_NOTES_BROWSER";      
 const QString MKEY_DOCK_SET_NOTES = "MKEY_DOCK_SET_NOTES";                                // MediationSessionsVector*
 
 
+//////////////////////////////////////////////////////////////////
+//				MEDIATION PROCESS - (GUI INTERNAL)
+// Internal MP events to signal changes from children forms.
+//////////////////////////////////////////////////////////////////                                                              ARGUMENT TYPE
+const QString MKEY_GUI_MP_SHOULD_UPDATE = "MKEY_GUI_MP_SHOULD_UPDATE";                          // MediationProcess*
+const QString MKEY_GUI_MP_SHOULD_SAVE = "MKEY_GUI_MP_SHOULD_SAVE";                          // MediationProcess*
 
 #endif

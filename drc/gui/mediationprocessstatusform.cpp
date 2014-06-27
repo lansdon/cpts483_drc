@@ -22,13 +22,14 @@ MediationProcessStatusForm::~MediationProcessStatusForm()
 }
 void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 {
-
     _mediationProcess = value;
     Update();
 }
 
 void MediationProcessStatusForm::Update()
 {
+    if(!ui) return;
+
     ui->createdDateLabel->setText(_mediationProcess->GetCreationDate().toString("MM/dd/yyyy"));
     ui->statusComboBox->setCurrentIndex(_mediationProcess->GetCurrentState());
 
