@@ -53,6 +53,7 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){ShowMediationBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){ShowSessionBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){ShowNotesBrowser();});
+    Mediator::Register(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS, [this](MediatorArg arg){send_mediation_vector();});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -272,9 +273,11 @@ void DRCClient::on_actionSave_to_file_triggered()
 //        QStringList fileName = dialog.selectedFiles();
    if(_mediationProcessView)
    {
+        QString Filter = "Mediation Processes (*.mp)";
         QString fileName = QFileDialog::getSaveFileName(this, tr("Save File"),
                                     "",
-                                    tr("*.mp"));
+                                    Filter,&Filter);
+
         _filemaker.setFileName(fileName);
         _filemaker.sendToFile(_mediationProcessVector);
    }
@@ -312,4 +315,8 @@ void DRCClient::on_actionAdd_5_MP_samples_triggered()
     _mediationProcessView->SetMediationProcess(_mediationProcessVector->at(0));
     Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
     setCentralWidget(_mediationProcessView);
+}
+void DRCClient::send_mediation_vector()
+{
+    Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
 }
