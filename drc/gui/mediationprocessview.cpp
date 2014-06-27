@@ -56,7 +56,6 @@ MediationProcessView::~MediationProcessView()
 
 void MediationProcessView::PopulateView()
 {
-//    _mediationProcess = process;
     if(!_mediationProcess)
         _mediationProcess = new MediationProcess();
 

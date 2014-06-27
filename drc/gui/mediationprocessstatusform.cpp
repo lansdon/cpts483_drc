@@ -40,6 +40,7 @@ void MediationProcessStatusForm::Update()
     else
         ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
+    ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdated().toString("MM/dd/yyyy"));
 }
 
 // Sets the values based on enums.
@@ -84,30 +85,6 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
     ui->referralComboBox->setItemText(REFERRAL_T_INTERNET, StringForReferralTypes(REFERRAL_T_INTERNET));
     ui->referralComboBox->setItemText(REFERRAL_T_OTHER_NONE, StringForReferralTypes(REFERRAL_T_OTHER_NONE));
 
-}
-
-
-
-void MediationProcessStatusForm::on_notesToggleBtn_clicked()
-{
-//    if(ui->notesFrame->isVisible())
-//    {
-//        ui->notesFrame->setHidden(true);
-//        ui->notesToggleBtn->setText("Show Notes");
-//    }
-//    else
-//    {
-//        ui->notesFrame->setHidden(false);
-//        ui->notesToggleBtn->setText("Hide Notes");
-//    }
-    emit hovered();
-}
-
-
-
-void MediationProcessStatusForm::on_Last10Label_linkHovered(const QString &link)
-{
-    emit hovered();
 }
 
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)

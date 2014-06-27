@@ -14,6 +14,8 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     ui->setupUi(this);
     ui->dateTimeEdit->setVisible(false);
 
+    ConfigureComboBoxes();
+
     FillingFields = false;
     fillFields(_mediationSession);
 
@@ -68,6 +70,8 @@ void MediationSessionForm::fillFields(MediationSession *input)
     {
         _mediationSession = input;
         FillingFields = true;
+        ui->stateComboBox->setCurrentIndex(_mediationSession->GetState());
+        ui->supportNumComboBox->setCurrentIndex(_mediationSession->GetSupportCount());
         ui->feePaidDisplayLabel->setText(_mediationSession->getFeeStatus());
         ui->dateTimeEdit->setDateTime(input->getMediationTime());
         ui->dateTimeEdit->setVisible(true);
@@ -185,4 +189,23 @@ void MediationSessionForm::SaveSignaled()
 void MediationSessionForm::EditSignaled()
 {
 
+}
+
+
+// Sets the values based on enums.
+void MediationSessionForm::ConfigureComboBoxes()
+{
+    for(int i=0; i<4; ++i)
+        ui->stateComboBox->addItem("");
+
+    ui->stateComboBox->setItemText(SESSION_STATE_CANCELLED, StringForSessionStates(SESSION_STATE_CANCELLED));
+    ui->stateComboBox->setItemText(SESSION_STATE_CONFIRMED, StringForSessionStates(SESSION_STATE_CONFIRMED));
+    ui->stateComboBox->setItemText(SESSION_STATE_NONE, StringForSessionStates(SESSION_STATE_NONE));
+    ui->stateComboBox->setItemText(SESSION_STATE_PENDING, StringForSessionStates(SESSION_STATE_PENDING));
+    ui->stateComboBox->setItemText(SESSION_STATE_RESCHEDULED, StringForSessionStates(SESSION_STATE_RESCHEDULED));
+}
+
+void MediationSessionForm::on_supportNumComboBox_currentIndexChanged(int index)
+{
+    _mediationSession->setSupportCount(index);
 }
