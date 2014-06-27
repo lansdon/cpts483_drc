@@ -34,7 +34,6 @@ void NotesBrowser::ConfigTable()
 {
     if(!_notes) _notes = new MediationNotesVector();
 
-    //ui->tableWidget = ui->sessiontTableWidget;
     ui->tableWidget->setColumnCount(2);
     ui->tableWidget->setRowCount(_notes->size());
     QStringList header;
@@ -84,8 +83,35 @@ void NotesBrowser::on_saveNoteBtn_clicked()
     QString note = ui->noteInput->toPlainText();
     if(note.length())
     {
-        _notes->push_back(new Note(note));
+        // update the current note
+        if(ui->tableWidget->currentRow() >= 0 && !_editingNewNote)
+            _notes->at(ui->tableWidget->currentRow())->SetMessage(note);
+        // Add a new note
+        else _notes->push_back(new Note(note));
+
         ui->noteInput->clear();
         Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     }
+}
+
+void NotesBrowser::on_delNoteBtn_clicked()
+{
+    if(_notes->size() > ui->tableWidget->currentIndex().row())
+    {
+        _notes->erase(_notes->begin() + ui->tableWidget->currentIndex().row());
+        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    }
+}
+
+void NotesBrowser::on_tableWidget_itemSelectionChanged()
+{
+    Note* curNote = _notes->at(ui->tableWidget->currentRow());
+    ui->noteInput->setText(curNote->GetMessage());
+    _editingNewNote = false;
+}
+
+void NotesBrowser::on_newNoteBtn_clicked()
+{
+    _editingNewNote = true;
+    ui->noteInput->clear();
 }
