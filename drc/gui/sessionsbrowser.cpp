@@ -62,11 +62,11 @@ void SessionsBrowser::PopulateSessionTable()
         SessionCell* sessionForm = new SessionCell(_sessionTable, _sessions->at(row));
         _sessionTable->insertRow(row);
         _sessionTable->setRowHeight(row, 50);
-        _sessionTable->setCellWidget(row, 0, sessionForm);
+//        _sessionTable->setCellWidget(row, 0, sessionForm);
     }
     _sessionTable->insertRow(row);
     _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
-    _sessionTable->setCurrentCell(0,0);
+//    _sessionTable->setCurrentCell(0,0);
 }
 
 void SessionsBrowser::on_tableWidget_itemSelectionChanged()
@@ -78,11 +78,11 @@ void SessionsBrowser::on_tableWidget_itemSelectionChanged()
     SessionCell* sessionForm = (SessionCell*)_sessionTable->cellWidget(_sessionTable->currentRow(), 0);
     if(sessionForm)
     {
-           MediationSession* session = sessionForm->GetSession();
-           if(session && _sessions->size() >= 1)
-           {
-               Mediator::Call(MKEY_DOCK_SESSION_CHANGED, sessionForm->GetSession());
-           }
+       MediationSession* session = sessionForm->GetSession();
+       if(session && _sessions->size() >= 1)
+       {
+           Mediator::Call(MKEY_DOCK_SESSION_CHANGED, sessionForm->GetSession());
+       }
     }
 }
 
