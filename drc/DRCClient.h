@@ -11,6 +11,7 @@
 #include "drc_shared/CurrentUser.h"
 #include "mptoolbox.h"
 #include "mpfilemaker.h"
+#include "Mediator.h"
 
 namespace Ui {
 class DRCClient;
@@ -96,6 +97,7 @@ private:
     MediationProcessVector *_mediationProcessVector;
     MPFileMaker _filemaker;
 
+    void saveMPEvent(MediatorArg arg);
 };
 
 #endif // DRCClient_H

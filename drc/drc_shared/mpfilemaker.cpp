@@ -519,3 +519,4 @@ void MPFileMaker::setFileName(QString fileName)
 {
     FileName = fileName;
 }
+

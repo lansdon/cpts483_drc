@@ -112,6 +112,7 @@ void MediationProcessView::SaveMediationPressed()
 {
     qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
     Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
+    PopulateView();
 }
 
 void MediationProcessView::SearchForMediationPressed()
@@ -122,16 +123,19 @@ void MediationProcessView::SearchForMediationPressed()
 void MediationProcessView::ShowMediationBrowserPressed()
 {
     Mediator::Call(MKEY_GUI_SHOW_MEDIATION_BROWSER);
+    PopulateView();
 }
 
 void MediationProcessView::ShowNotesBrowserPressed()
 {
     Mediator::Call(MKEY_GUI_SHOW_NOTES_BROWSER);
+    PopulateView();
 }
 
 void MediationProcessView::ShowSessionBrowserPressed()
 {
     Mediator::Call(MKEY_GUI_SHOW_SESSIONS_BROWSER);
+    PopulateView();
 }
 
 void MediationProcessView::SetMediationProcess(MediationProcess* process)

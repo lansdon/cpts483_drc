@@ -54,6 +54,7 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){ShowSessionBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){ShowNotesBrowser();});
     Mediator::Register(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS, [this](MediatorArg arg){send_mediation_vector();});
+    Mediator::Register(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, [this](MediatorArg arg){saveMPEvent(arg);});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -259,6 +260,16 @@ void DRCClient::on_actionAdd_to_vector_triggered()
 {
     _mediationProcessVector->push_back(_mediationProcessView->GetMediationProcess());
     Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
+}
+// use to add mp via save event
+void DRCClient::saveMPEvent(MediatorArg arg)
+{
+    MediationProcess* process = arg.getArg<MediationProcess*>();
+    if(process)
+    {
+        _mediationProcessVector->push_back(process);
+        Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
+    }
 }
 
 void DRCClient::on_actionSave_to_file_triggered()
