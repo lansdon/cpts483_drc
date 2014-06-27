@@ -45,7 +45,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     ui->overviewContainer->setLayout(layout);
     connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
     // Update Fields for current record
-    PopulateView(_mediationProcess);
+    PopulateView();
 
 }
 
@@ -54,9 +54,9 @@ MediationProcessView::~MediationProcessView()
     delete ui;
 }
 
-void MediationProcessView::PopulateView(MediationProcess *process)
+void MediationProcessView::PopulateView()
 {
-    _mediationProcess = process;
+//    _mediationProcess = process;
     if(!_mediationProcess)
         _mediationProcess = new MediationProcess();
 
@@ -95,7 +95,7 @@ void MediationProcessView::PopulateView(MediationProcess *process)
 void MediationProcessView::addSession()
 {
     _mediationProcess->addMediation();
-    PopulateView(_mediationProcess);
+    PopulateView();
 }
 
 void MediationProcessView::ConfigureToolbar()
@@ -140,7 +140,7 @@ void MediationProcessView::ShowSessionBrowserPressed()
 void MediationProcessView::SetMediationProcess(MediationProcess* process)
 {
     _mediationProcess = process;
-    PopulateView(_mediationProcess);
+    PopulateView();
 }
 
 
@@ -160,4 +160,16 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
             }
         }
     }
+}
+
+void MediationProcessView::on_addCientPushButton_clicked()
+{
+    _mediationProcess->AddParty(new Party());
+    PopulateView();
+}
+
+void MediationProcessView::on_removeClientPushButton_clicked()
+{
+    _mediationProcess->removeParty(ui->partyTabWidget->currentIndex());
+    PopulateView();
 }

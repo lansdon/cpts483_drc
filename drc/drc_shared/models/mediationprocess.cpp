@@ -52,6 +52,12 @@ void MediationProcess::addMediation()
     _mediationSessionVector.push_back(new MediationSession());
 }
 
+void MediationProcess::removeParty(int value)
+{
+    if(_parties.size() > 0)
+        _parties.erase(_parties.begin()+ (value));
+}
+
 // Test Data - Fill the object with test values in every field.
 MediationProcess *MediationProcess::SampleData()
 {

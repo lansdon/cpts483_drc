@@ -32,7 +32,7 @@ public:
 
     // Populate Views (allowing this to be called publicly as a central place to update all views
     // associated with this MP)
-    void PopulateView(MediationProcess *value);
+    void PopulateView();
 
 private slots:
     // Toolbar Buttons
@@ -43,6 +43,10 @@ private slots:
     void ShowNotesBrowserPressed();
     // Add new session
     void addSession();
+
+    void on_addCientPushButton_clicked();
+
+    void on_removeClientPushButton_clicked();
 
 private:
     Ui::MediationProcessView *ui;

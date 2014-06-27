@@ -232,7 +232,7 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
 
         // Update all the views, including the browsers
         if(_mediationProcessView)
-            _mediationProcessView->PopulateView(_mediationProcessView->GetMediationProcess());
+            _mediationProcessView->PopulateView();
 
         _browserDock->show();
     }
