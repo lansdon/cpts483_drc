@@ -6,8 +6,6 @@
 #include "Person.h"
 
 
-
-
 class Party
 {
 public:
