@@ -39,7 +39,6 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     layout2->addWidget(_noSession);
     ui->sessionOverviewGroupBox->setLayout(layout3);
 
-
     // Set the overview container
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
@@ -50,8 +49,6 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     // Update Fields for current record
     PopulateView(_mediationProcess);
 
-    // Each View can setup it's own toolbar buttons
-    //ConfigureToolbar();
 }
 
 MediationProcessView::~MediationProcessView()
@@ -66,15 +63,9 @@ void MediationProcessView::PopulateView(MediationProcess *process)
         _mediationProcess = new MediationProcess();
 
     _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
-//    _mediationSessionForm->setMediationSessionVector(_mediationProcess->getMediationSessionVector());
-//    _partiesContainerForm->AddPartyTabs(&_mediationProcess->GetParties());
-//    connect(_partiesContainerForm,SIGNAL(PassItOnAgain(Person*)),this,SLOT(savePersonContactFromFarAway(Person*)));
 
     // PARTY!
     AddPartyTabs(_mediationProcess->GetParties());
-
-
-//    PopulateSessionTable();
 
     // DOCK Sesssions
     Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
@@ -87,16 +78,8 @@ void MediationProcessView::PopulateView(MediationProcess *process)
         if(_noSession->isVisible())
         {
             _noSession->hide();
-            //_mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox, _mediationProcess->getMediationSessionVector()->at(0));
-            // Set the session container
-//            QVBoxLayout* layout2 = new QVBoxLayout();
-//            layout2->addWidget(_mediationSessionForm);
-//            ui->sessionOverviewGroupBox->setLayout(layout2);
-//            ui->sessionOverviewGroupBox->repaint();
-            _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
+             _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
             _mediationSessionForm->show();
-//            delete _noSession;
-//            _noSession = nullptr;
         }
         else
             _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
@@ -107,6 +90,8 @@ void MediationProcessView::PopulateView(MediationProcess *process)
         _noSession->show();
     }
     connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
+
+    // Each View can setup it's own toolbar buttons
     ConfigureToolbar();
 }
 void MediationProcessView::addSession()
@@ -161,60 +146,6 @@ void MediationProcessView::SetMediationProcess(MediationProcess* process)
 }
 
 
-void MediationProcessView::configSessionTable()
-{
-    _sessionTable = ui->sessionsTable;
-    _sessionTable->setColumnCount(1);
-    _sessionTable->setRowCount(_mediationProcess->getMediationSessionVector()->size() + 1);
-//    QStringList _sessionTableHeader <<"Mediation Sessions";
-    _sessionTable->setHorizontalHeaderLabels({"Mediation Sessions"});
-    _sessionTable->verticalHeader()->setVisible(false);
-    _sessionTable->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    _sessionTable->setSelectionBehavior(QAbstractItemView::SelectRows);
-    _sessionTable->setSelectionMode(QAbstractItemView::SingleSelection);
-    _sessionTable->setShowGrid(true);
-    _sessionTable->setStyleSheet("QTableView {selection-background-color: red;}");
-
-    for (int c = 0; c < _sessionTable->horizontalHeader()->count(); ++c)
-    {
-        _sessionTable->horizontalHeader()->setSectionResizeMode(
-            c, QHeaderView::Stretch);
-    }
-
-}
-
-void MediationProcessView::PopulateSessionTable()
-{
-    _sessionTable->clearContents();
-
-    MediationSessionVector* sessionsVec = _mediationProcess->getMediationSessionVector();
-    int row;
-    for(row=0; row < (int)sessionsVec->size(); ++row)
-    {
-        MediationSessionForm* sessionForm = new MediationSessionForm(_sessionTable, sessionsVec->at(row));
-        _sessionTable->insertRow(row);
-        _sessionTable->setRowHeight(row, 100);
-        _sessionTable->setCellWidget(row, 0, sessionForm);
- //       _sessionTable->setItem(row, 0, new MediationSessionForm(_sessionTable, session));
-    }
-    _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
-    ui->sessionsTable->setCurrentCell(0,0);
-}
-
-void MediationProcessView::on_sessiontTableWidget_itemSelectionChanged()
-{
-
-//    if(sessionCurrentRow != ui->sessiontTableWidget->currentRow())
-//    {
-//        sessionCurrentRow = ui->sessiontTableWidget->currentRow();
-
-//        if((uint)sessionCurrentRow<_mediationSessions->size())
-//            fillFields(_mediationSessions->at(sessionCurrentRow));
-//    }
-
-}
-
-
 void MediationProcessView::AddPartyTabs(PartyVector* parties)
 {
     if(parties)
@@ -229,10 +160,5 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
                 connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
             }
         }
-//        foreach(PartyForm* p, PartyFormVector)
-//        {
-//            ui->partyTabWidget->addTab(p, p->getFullName() );
-//            connect(p,SIGNAL(PassItOn(Person*)),this,SLOT(savePersonContactFromFar(Person*)));
-//        }
     }
 }
