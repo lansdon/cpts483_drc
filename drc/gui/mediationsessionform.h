@@ -61,6 +61,10 @@ private slots:
 
     void on_stateComboBox_currentIndexChanged(int index);
 
+    void on_incomeFeeOtherLineEdit_textChanged(const QString &arg1);
+
+    void on_MediatorLineEdit_textChanged(const QString &arg1);
+
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;
