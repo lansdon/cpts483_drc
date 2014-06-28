@@ -299,10 +299,10 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
             session->setIncomeFeeOther(sessionQuery.value(14).toString());
 
             //TODO: Make these into just needing names... they're not "client" type people
-            //session->setMediator1(sessionQuery.value(15).toString());
-            //session->setMediator2(sessionQuery.value(16).toString());
-            //session->setObserver1(sessionQuery.value(17).toString());
-            //session->setObserver2(sessionQuery.value(18).toString());
+            session->setMediator1(sessionQuery.value(15).toString());
+            session->setMediator2(sessionQuery.value(16).toString());
+            session->setObserver1(sessionQuery.value(17).toString());
+            session->setObserver2(sessionQuery.value(18).toString());
 
             sessions->push_back(session);
         }

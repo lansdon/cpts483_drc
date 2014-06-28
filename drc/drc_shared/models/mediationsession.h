@@ -13,7 +13,7 @@ private:
     SessionStates _state;
     bool _fee1Paid, _fee2Paid, _feeFamilyPaid, _feeOtherPaid;
     QString _fee1, _fee2, _feeFamily, _feeOther, _incomeFee1, _incomeFee2, _incomeFeeFamily, _incomeFeeOther;
-    Person *_mediator1, *_mediator2, *_observer1, *_observer2;
+    QString _mediator1, _mediator2, _observer1, _observer2;
     int _supportCount;  // total number of support people
 public:
     MediationSession();
@@ -39,10 +39,10 @@ public:
     QString getIncomeFee2() const { return _incomeFee2; }
     QString getIncomeFeeOther() const {return _incomeFeeOther; }
     QString getIncomeFeeFamily() const { return _incomeFeeFamily; }
-    Person *getMediator1() const { return _mediator1; }
-    Person *getMediator2() const { return _mediator2; }
-    Person *getObserver1() const { return _observer1; }
-    Person *getObserver2() const { return _observer2; }
+    QString getMediator1() const { return _mediator1; }
+    QString getMediator2() const { return _mediator2; }
+    QString getObserver1() const { return _observer1; }
+    QString getObserver2() const { return _observer2; }
     SessionStates GetState() { return _state; }
     int GetSupportCount() { return _supportCount; }
 
@@ -61,10 +61,10 @@ public:
     void setIncomeFee2(QString value) { _incomeFee2 = value; }
     void setIncomeFeeFamily(QString value) { _incomeFeeFamily = value; }
     void setIncomeFeeOther(QString value)  { _incomeFeeOther = value; }
-    void setMediator1(Person *value) { _mediator1 = value; }
-    void setMediator2(Person *value) { _mediator2 = value; }
-    void setObserver1(Person *value) {_observer1 = value; }
-    void setObserver2(Person *value) {_observer2 = value; }
+    void setMediator1(QString value) { _mediator1 = value; }
+    void setMediator2(QString value) { _mediator2 = value; }
+    void setObserver1(QString value) {_observer1 = value; }
+    void setObserver2(QString value) {_observer2 = value; }
     void SetState(SessionStates state) { _state = state; }
     void setMediationCreate(QDateTime value) { _mediationCreation = value; }
 

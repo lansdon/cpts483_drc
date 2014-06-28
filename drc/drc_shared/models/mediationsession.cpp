@@ -10,10 +10,7 @@ MediationSession::MediationSession()
     _mediationCreation = QDateTime::currentDateTime();
     _state = SessionStates::SESSION_STATE_PENDING;
     _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
-    _mediator1 = new Person();
-    _mediator2 = new Person();
-    _observer1 = new Person();
-    _observer2 = new Person();
+
 }
 
 
@@ -69,13 +66,13 @@ QString MediationSession::Parse()
     toReturn += ", ";
 
     // Mediator Info
-    toReturn += single_quote + this->getMediator1()->FullName() + single_quote;
+    toReturn += single_quote + this->getMediator1() + single_quote;
     toReturn += ", ";
-    toReturn += single_quote + this->getMediator2()->FullName() + single_quote;
+    toReturn += single_quote + this->getMediator2() + single_quote;
     toReturn += ", ";
-    toReturn += single_quote + this->getObserver1()->FullName() + single_quote;
+    toReturn += single_quote + this->getObserver1() + single_quote;
     toReturn += ", ";
-    toReturn += single_quote + this->getObserver2()->FullName() + single_quote;
+    toReturn += single_quote + this->getObserver2() + single_quote;
 
     //toReturn = "Hello World";
 
@@ -166,10 +163,10 @@ MediationSession *MediationSession::SampleData()
     result->setIncomeFee2(QString::fromStdString(strId));
     result->setIncomeFeeFamily(QString::fromStdString(strId));
     result->setIncomeFeeOther(QString::fromStdString(strId));
-    result->setMediator1(Person::SampleData());
-    result->setMediator2(Person::SampleData());
-    result->setObserver1(Person::SampleData());
-    result->setObserver2(Person::SampleData());
+    result->setMediator1(QString::fromStdString("Mediator" + strId));
+    result->setMediator2(QString::fromStdString("Mediator" + strId));
+    result->setObserver1(QString::fromStdString("Observer " + strId));
+    result->setObserver2(QString::fromStdString("Observer " + strId));
     result->setSupportCount(qrand()%10);
 
     return result;

@@ -94,14 +94,10 @@ void MediationSessionForm::fillFields(MediationSession *input)
         ui->incomeFee2LineEdit->setText(input->getIncomeFee2());
         ui->incomeFeeFamilyLineEdit->setText(input->getIncomeFeeFamily());
         ui->incomeFeeOtherLineEdit->setText(input->getIncomeFeeOther());
-        if(input->getMediator1()!=NULL)
-            ui->Mediator2LineEdit->setText(input->getMediator2()->FullName());
-        if(input->getMediator2()!=NULL)
-            ui->MediatorLineEdit->setText(input->getMediator1()->FullName());
-        if(input->getObserver1()!=NULL)
-            ui->Observe1LineEdit->setText(input->getObserver1()->FullName());
-        if(input->getObserver2()!=NULL)
-            ui->Observer2lineEdit->setText(input->getObserver2()->FullName());
+        ui->Mediator2LineEdit->setText(input->getMediator2());
+        ui->MediatorLineEdit->setText(input->getMediator1());
+        ui->Observe1LineEdit->setText(input->getObserver1());
+        ui->Observer2lineEdit->setText(input->getObserver2());
         FillingFields = false;
     }
 }
