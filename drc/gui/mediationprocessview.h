@@ -30,12 +30,26 @@ public:
     void SetMediationProcess(MediationProcess* process);
     MediationProcess* GetMediationProcess() { return _mediationProcess; }
 
+    // Populate Views (allowing this to be called publicly as a central place to update all views
+    // associated with this MP)
+    void PopulateView();
+
 private slots:
     // Toolbar Buttons
     void SaveMediationPressed();
     void SearchForMediationPressed();
-    void ShowRecentPressed();
+    void ShowMediationBrowserPressed();
     void ShowSessionBrowserPressed();
+    void ShowNotesBrowserPressed();
+    // Add new session
+    void addSession();
+
+    void on_addCientPushButton_clicked();
+
+    void on_removeClientPushButton_clicked();
+
+    void SaveSignaled();        // Child process signals a save
+    void UpdateSignaled();      // Child process signals a change occured
 
 private:
     Ui::MediationProcessView *ui;
@@ -51,9 +65,6 @@ private:
      // Setup GUI Helpers
     void ConfigureToolbar();
     void ConfigureToolbox();
-
-    // Populate Views
-    void PopulateView(MediationProcess *value);
 
     // Clients/Parties Tabs
     void AddPartyTabs(PartyVector* parties);

@@ -14,16 +14,17 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     ui->setupUi(this);
     ui->dateTimeEdit->setVisible(false);
 
-    FillingFields = false;
-//    if(_mediationSessions->size() > 0)
-    fillFields(_mediationSession);
-//    ui->sessiontTableWidget->setCurrentCell(0,0);
+    ConfigureComboBoxes();
 
-    Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
+    FillingFields = false;
+    fillFields(_mediationSession);
+
+    _mediatorid = Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
 }
 
 MediationSessionForm::~MediationSessionForm()
 {
+    Mediator::Unregister(MKEY_DOCK_SESSION_CHANGED, _mediatorid);
     delete ui;
 }
 
@@ -35,96 +36,17 @@ void MediationSessionForm::setMediationSession(MediationSession *session)
 
 void MediationSessionForm::SetSessionEvent(MediatorArg arg)
 {
-    setMediationSession(arg.getArg<MediationSession*>());
+    qDebug() << "SessionForm this = " << this;
+    auto session = arg.getArg<MediationSession*>();
+    if(session)
+        setMediationSession(session);
 }
-
-void MediationSessionForm::setParties(int input)
-{
-//    ui->SupportTabWidget->clear();
-//    _attorneyAndSupportVector->clear();
-//    for(int i = 0; i < input;i++)
-//    {
-//        _attorneyAndSupportVector->push_back(new AttorneyAndSupportForMediationSessionView());
-//        ui->SupportTabWidget->addTab(_attorneyAndSupportVector->at(i),QString::fromStdString("Party " + std::to_string(ui->SupportTabWidget->count() + 1)));
-
-//    }
-}
-
-void MediationSessionForm::updateTabs(std::vector<Person *> *input)
-{
-//        qDebug() << "tab widget size " << ui->SupportTabWidget->count();
-//        if(input->size() > (uint)ui->SupportTabWidget->count())
-//        {
-//            for(uint i = (ui->SupportTabWidget->count()); i < input->size(); i++)
-//            {
-//                qDebug() << i;
-////                _attorneyAndSupportVector->push_back(new AttorneyAndSupportForMediationSessionView());
-////                ui->SupportTabWidget->addTab(_attorneyAndSupportVector->at(i),QString::fromStdString("Party " + std::to_string(ui->SupportTabWidget->count() + 1)));
-//            }
-//        }
-//        else
-//        {
-//            for(int i = input->size();i < ui->SupportTabWidget->count(); i++)
-//                ui->SupportTabWidget->removeTab(ui->SupportTabWidget->count()-1);
-//        }
-
-//    qDebug() << "input size: " << input->size();
-//    qDebug() << "attorney Vector size: " << _attorneyAndSupportVector->size();
-//    if(input->size() == _attorneyAndSupportVector->size())
-//    {
-//        for(uint i = 0; i < _attorneyAndSupportVector->size(); i++)
-//        {
-//            qDebug() << i;
-//            qDebug() << input->at(i)->getAttorney();
-//            _attorneyAndSupportVector->at(i)->setAttorney((input->at(i)->getAttorney()));
-//        }
-//    }
-}
-
-
-//void MediationSessionForm::on_CancelledRadioButton_toggled(bool checked)
-//{
-//    if(!FillingFields)
-//    {
-//        _mediationSession->setCancelledRB(checked);
-////        PopulateSessionTable();
-//    }
-//}
-
-//void MediationSessionForm::on_PendingRadioButton_toggled(bool checked)
-//{
-//    if(!FillingFields)
-//    {
-//        _mediationSession->setPendingRB(checked);
-////        PopulateSessionTable();
-//    }
-//}
-
-//void MediationSessionForm::on_confirmedRadioButton_toggled(bool checked)
-//{
-//    if(!FillingFields)
-//    {
-//        _mediationSession->setConfirmedRB(checked);
-////        PopulateSessionTable();
-//    }
-//}
-
-//void MediationSessionForm::on_rescheduledRadioButton_toggled(bool checked)
-//{
-//    if(!FillingFields)
-//    {
-//        _mediationSession->setRescheduledRB(checked);
-////        PopulateSessionTable();
-//    }
-//}
-
 
 void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
     if(!FillingFields)
     {
         _mediationSession->setMediationTime(dateTime);
-//        PopulateSessionTable();
     }
 }
 
@@ -142,15 +64,14 @@ void MediationSessionForm::on_Fee1PaidCheckBox_toggled(bool checked)
     fillFields(_mediationSession);
 }
 
-
-
 void MediationSessionForm::fillFields(MediationSession *input)
 {
     if(input)
     {
+        _mediationSession = input;
         FillingFields = true;
-//        ui->CancelledRadioButton->setChecked(input->getCancelledRB());
-//        ui->confirmedRadioButton->setChecked(input->getConfirmedRB());
+        ui->stateComboBox->setCurrentIndex(_mediationSession->GetState());
+        ui->supportNumComboBox->setCurrentIndex(_mediationSession->GetSupportCount());
         ui->feePaidDisplayLabel->setText(_mediationSession->getFeeStatus());
         ui->dateTimeEdit->setDateTime(input->getMediationTime());
         ui->dateTimeEdit->setVisible(true);
@@ -171,8 +92,6 @@ void MediationSessionForm::fillFields(MediationSession *input)
             ui->Mediator2LineEdit->setText(input->getMediator2()->FullName());
         if(input->getMediator2()!=NULL)
             ui->MediatorLineEdit->setText(input->getMediator1()->FullName());
-//        ui->PendingRadioButton->setChecked(input->getPendingRB());
-//        ui->rescheduledRadioButton->setChecked(input->getRescheduledRB());
         if(input->getObserver1()!=NULL)
             ui->Observe1LineEdit->setText(input->getObserver1()->FullName());
         if(input->getObserver2()!=NULL)
@@ -180,20 +99,6 @@ void MediationSessionForm::fillFields(MediationSession *input)
         FillingFields = false;
     }
 }
-
-//void MediationSessionForm::on_sessiontTableWidget_doubleClicked(const QModelIndex &index)
-//{
-//    if((uint)index.row() > _mediationSessions->size() - 1 || _mediationSessions->size() == 0)
-//    {
-//        MediationSession *temp = new MediationSession();
-//        _mediationSessions->push_back(temp);
-//        configSessionTable();
-//        PopulateSessionTable();
-// //       ui->sessiontTableWidget->setCurrentCell(_mediationSessions->size()-1,0);
-//        fillFields(_mediationSessions->at(_mediationSessions->size() - 1));
-//    }
-
-//}
 
 void MediationSessionForm::on_Fee2LineEdit_editingFinished()
 {
@@ -261,51 +166,6 @@ void MediationSessionForm::on_incomeFeeOtherLineEdit_editingFinished()
         _mediationSession->setIncomeFeeOther(ui->incomeFeeOtherLineEdit->text());
 }
 
-//void MediationSessionForm::on_mediator1EditPushButton_clicked()
-//{
-//    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getMediator1(),true);
-//    popup->setWindowFlags(Qt::Popup);
-//    popup->SetEditMode(true);
-//    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
-//    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
-//    popup->show();
-//    //delete popup;
-
-//}
-
-//void MediationSessionForm::on_mediator2EditPushButton_clicked()
-//{
-//    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getMediator2(),true);
-//    popup->setWindowFlags(Qt::Popup);
-//    popup->SetEditMode(true);
-//    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
-//    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
-//    popup->show();
-//    //delete popup;
-//}
-
-//void MediationSessionForm::on_observer1EditPushButton_clicked()
-//{
-//    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getObserver1(),true);
-//    popup->setWindowFlags(Qt::Popup);
-//    popup->SetEditMode(true);
-//    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
-//    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
-//    popup->show();
-//    //delete popup;
-//}
-
-//void MediationSessionForm::on_observer2EditPushButton_clicked()
-//{
-//    PersonDetailsForm *popup = new PersonDetailsForm(this,_mediationSession->getObserver2(),true);
-//    popup->setWindowFlags(Qt::Popup);
-//    popup->SetEditMode(true);
-//    connect(popup,SIGNAL(PersonDeleted(Person*)),this,SLOT(deletePersonContact(Person*)));
-//    connect(popup,SIGNAL(PersonSaved(Person*)),this,SLOT(savePersonContact(Person*)));
-//    popup->show();
-//    //delete popup;
-//}
-
 void MediationSessionForm::savePersonContact(Person *value)
 {
     if(value)
@@ -329,4 +189,23 @@ void MediationSessionForm::SaveSignaled()
 void MediationSessionForm::EditSignaled()
 {
 
+}
+
+
+// Sets the values based on enums.
+void MediationSessionForm::ConfigureComboBoxes()
+{
+    for(int i=0; i<4; ++i)
+        ui->stateComboBox->addItem("");
+
+    ui->stateComboBox->setItemText(SESSION_STATE_CANCELLED, StringForSessionStates(SESSION_STATE_CANCELLED));
+    ui->stateComboBox->setItemText(SESSION_STATE_CONFIRMED, StringForSessionStates(SESSION_STATE_CONFIRMED));
+    ui->stateComboBox->setItemText(SESSION_STATE_NONE, StringForSessionStates(SESSION_STATE_NONE));
+    ui->stateComboBox->setItemText(SESSION_STATE_PENDING, StringForSessionStates(SESSION_STATE_PENDING));
+    ui->stateComboBox->setItemText(SESSION_STATE_RESCHEDULED, StringForSessionStates(SESSION_STATE_RESCHEDULED));
+}
+
+void MediationSessionForm::on_supportNumComboBox_currentIndexChanged(int index)
+{
+    _mediationSession->setSupportCount(index);
 }

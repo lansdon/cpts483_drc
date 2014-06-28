@@ -2,16 +2,9 @@
 #include "ui_notesbrowser.h"
 #include <QDateTime>
 #include <QDebug>>
-
-
-class MediationNote
-{
-    MediationNote(){};
-
-public:
-    QDateTime GetCreationDate() { return QDateTime::currentDateTime(); }
-    QString GetNote() { return "Sample Note... Stuff goes here. OMG!"; }
-};
+#include "Note.h"
+#include "Mediator.h"
+#include "MediatorKeys.h"
 
 NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
     : QWidget(parent)
@@ -20,6 +13,8 @@ NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
 
 {
     ui->setupUi(this);
+
+    Mediator::Register(MKEY_DOCK_SET_NOTES, [this](MediatorArg arg){SetNotesEvent(arg);});
 
     ConfigTable();
     PopulateTable();
@@ -39,8 +34,7 @@ void NotesBrowser::ConfigTable()
 {
     if(!_notes) _notes = new MediationNotesVector();
 
-    //ui->tableWidget = ui->sessiontTableWidget;
-    ui->tableWidget->setColumnCount(3);
+    ui->tableWidget->setColumnCount(2);
     ui->tableWidget->setRowCount(_notes->size());
     QStringList header;
     header <<"Date"<<"Note";
@@ -52,11 +46,9 @@ void NotesBrowser::ConfigTable()
     ui->tableWidget->setShowGrid(true);
     ui->tableWidget->setStyleSheet("QTableView {selection-background-color: red;}");
 
-    for (int c = 0; c < ui->tableWidget->horizontalHeader()->count(); ++c)
-    {
-        ui->tableWidget->horizontalHeader()->setSectionResizeMode(
-            c, QHeaderView::Stretch);
-    }
+    // only stretch note column
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(
+        1, QHeaderView::Stretch);
 }
 
 void NotesBrowser::PopulateTable()
@@ -64,11 +56,10 @@ void NotesBrowser::PopulateTable()
     ui->tableWidget->setRowCount(_notes->size());
     for(int row=0; row < (int)_notes->size(); ++row)
     {
-        qDebug() << "populate row: " << row;
         //insert data
-        MediationNote *note = _notes->at(row);
-        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(note->GetCreationDate().toString("MM-dd-yyyy")));
-        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(note->GetNote()));
+        Note *note = _notes->at(row);
+        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(note->GetCreatedDate().toString("MM-dd-yyyy")));
+        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(note->GetMessage()));
     }
 }
 
@@ -77,3 +68,51 @@ void NotesBrowser::SetNotes(MediationNotesVector* notes)
     _notes = notes;
     PopulateTable();
 }
+
+void NotesBrowser::SetNotesEvent(MediatorArg arg)
+{
+    MediationNotesVector* notes = arg.getArg<MediationNotesVector*>();
+    if(notes)
+    {
+        SetNotes(notes);
+    }
+}
+
+void NotesBrowser::on_saveNoteBtn_clicked()
+{
+    QString note = ui->noteInput->toPlainText();
+    if(note.length())
+    {
+        // update the current note
+        if(ui->tableWidget->currentRow() >= 0 && !_editingNewNote)
+            _notes->at(ui->tableWidget->currentRow())->SetMessage(note);
+        // Add a new note
+        else _notes->push_back(new Note(note));
+
+        ui->noteInput->clear();
+        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    }
+}
+
+void NotesBrowser::on_delNoteBtn_clicked()
+{
+    if(_notes->size() > ui->tableWidget->currentIndex().row())
+    {
+        _notes->erase(_notes->begin() + ui->tableWidget->currentIndex().row());
+        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    }
+}
+
+void NotesBrowser::on_tableWidget_itemSelectionChanged()
+{
+    Note* curNote = _notes->at(ui->tableWidget->currentRow());
+    ui->noteInput->setText(curNote->GetMessage());
+    _editingNewNote = false;
+}
+
+void NotesBrowser::on_newNoteBtn_clicked()
+{
+    _editingNewNote = true;
+    ui->noteInput->clear();
+}
+

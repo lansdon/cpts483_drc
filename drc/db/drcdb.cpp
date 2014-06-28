@@ -15,11 +15,69 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     //Name of the table we're creating.
     QString person_table_name = QString("Person_Table");
+    QString mediation_table_name = QString("Mediation_Table");
+    QString session_table_name = QString("Session_Table");
+    QString client_table_name = QString("Client_Table");
+    QString notes_table_name = QString("Notes_Table");
+
+    bool result = false;
 
     if (!this->DoesTableExist(person_table_name))
     {
-        CreatePersonTable(person_table_name);
+        result = CreatePersonTable(person_table_name);
     }
+
+    result = false;
+
+    if (!this->DoesTableExist(mediation_table_name))
+    {
+        result = CreateMediationTable(mediation_table_name);
+    }
+
+    result = false;
+
+    if (!this->DoesTableExist(session_table_name))
+    {
+        result = CreateSessionTable(session_table_name);
+    }
+
+    result = false;
+
+    if (!this->DoesTableExist(client_table_name))
+    {
+        result = CreateClientTable(client_table_name);
+    }
+
+    result = false;
+
+    if(!this->DoesTableExist(notes_table_name))
+    {
+        result = CreateNotesTable(notes_table_name);
+    }
+
+    MediationProcess* process = MediationProcess::SampleData();//NULL;
+    //process = process->SampleData();
+    int b = process->GetAffectedChildrenCount();
+    process->GetCountyId();
+    //process.GetCreated();
+    process->GetCreationDate();
+    process->GetCurrentState();
+    process->GetDisputeType();
+
+    MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
+
+    // Second, hacky way, of getting at the mediation sessions
+    /*MediationSession* session;
+
+    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
+    {
+        session = process->getMediationSessionVector()->at(i);
+    }*/
+
+    process->GetNotes();
+    PartyVector *parties = process->GetParties(); // vector
+    process->GetReferralType();
+    process->GetRequiresSpanish();
 
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
@@ -71,9 +129,81 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
 //========================================================================
 
 
+bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> mediation_table_columns;
+    mediation_table_columns.push_back(QString("Client_id integer primary key autoincrement null"));
+    mediation_table_columns.push_back(QString("DisputeType integer"));
+    mediation_table_columns.push_back(QString("CreationDate Date"));
+    mediation_table_columns.push_back(QString("UpdatedDate Date"));
+    mediation_table_columns.push_back(QString("DisputeState integer"));
+    mediation_table_columns.push_back(QString("DisputeCounty integer"));
+    mediation_table_columns.push_back(QString("DisputeNotes char(128)"));
+    mediation_table_columns.push_back(QString("ReferalSource integer"));
+    mediation_table_columns.push_back(QString("TranslatorRequired Bool"));
 
+    return CreateTable(mediation_table_name, mediation_table_columns);
+}
 
+bool DRCDB::CreateClientTable(const QString& client_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> client_table_columns;
+    client_table_columns.push_back(QString("Client_id integer primary key autoincrement null"));
+    client_table_columns.push_back(QString("Process_id integer"));
+    client_table_columns.push_back(QString("Person_id integer"));
+    client_table_columns.push_back(QString("Children integer"));
+    client_table_columns.push_back(QString("Observers char(128)"));
+    client_table_columns.push_back(QString("Attorney char(128)"));
+    client_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
+    client_table_columns.push_back(QString("foreign key(Person_id) references person_Table(person_id)"));
 
+    return CreateTable(client_table_name, client_table_columns);
+}
+
+bool DRCDB::CreateSessionTable(const QString& session_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> session_table_columns;
+    session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
+    session_table_columns.push_back(QString("Process_id integer"));
+    session_table_columns.push_back(QString("SessionStatus integer"));
+    session_table_columns.push_back(QString("Fee1Paid double"));
+    session_table_columns.push_back(QString("Fee2Paid double"));
+    session_table_columns.push_back(QString("FeeFamilyPaid double"));
+    session_table_columns.push_back(QString("Fee1OtherPaid double"));
+    session_table_columns.push_back(QString("Fee1 double"));
+    session_table_columns.push_back(QString("Fee2 double"));
+    session_table_columns.push_back(QString("FeeFamily double"));
+    session_table_columns.push_back(QString("FeeOther double"));
+    session_table_columns.push_back(QString("IncomeFee1 double"));
+    session_table_columns.push_back(QString("IncomeFee2 double"));
+    session_table_columns.push_back(QString("IncomeFeeFamily double"));
+    session_table_columns.push_back(QString("IncomeFeeOther double"));
+    session_table_columns.push_back(QString("Mediator1 char(128)"));
+    session_table_columns.push_back(QString("Mediator2 char(128)"));
+    session_table_columns.push_back(QString("Observer1 char(128)"));
+    session_table_columns.push_back(QString("Observer2 char(128)"));
+    session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
+
+    return CreateTable(session_table_name, session_table_columns);
+}
+
+bool DRCDB::CreateNotesTable(const QString& Notes_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> notes_table_columns;
+    notes_table_columns.push_back(QString("Note_id integer primary key autoincrement null"));
+    notes_table_columns.push_back(QString("Process_id integer"));
+    //notes_table_columns.push_back(QString("Session_id integer")); // TO BE ADDED when notes model updated by gui
+    notes_table_columns.push_back(QString("Note char(128)"));
+    notes_table_columns.push_back(QString("CreateDate Date"));
+    notes_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
+    //notes_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
+
+    return CreateTable(Notes_table_name, notes_table_columns);
+}
 
 
 //========================================================================
@@ -197,6 +327,9 @@ bool DRCDB::OpenDatabase(QString database_name)
     database.setDatabaseName(database_name);
     database.setConnectOptions(QString("foreign_keys = ON"));
     database.open();
+
+    QSqlQuery query;
+    query.exec("PRAGMA foreign_keys = ON;");
 
     if(database.isOpenError())
         this->ExtractError(database.lastError());

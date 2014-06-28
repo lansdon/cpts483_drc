@@ -179,6 +179,7 @@ void PersonDetailsForm::on_saveButton_clicked()
     _person->setAttorney(ui->attorneyLineEdit->text());
 
     emit PersonSaved(_person);
+    emit SaveSignaled();
 
     if(_bPopup)
     {

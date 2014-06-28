@@ -8,11 +8,16 @@
 
 MediationProcess::MediationProcess() : DBBaseObject()
 {
-    _mediationSessionVector = new MediationSessionVector();
-//    _parties.push_back(new Party());
-//    _parties.push_back(new Party());
     _creationDate = QDateTime::currentDateTime();
+    AddParty(new Party());
 }
+MediationProcess::MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans, DisputeTypes disputeType,
+                                   QDateTime creationDate, DisputeProcessStates processState, CountyIds county,
+                                   MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions) :
+    _parties(parties), _stateTransition(stateTrans), _activeStateTransition(actStateTrans), _disputeType(disputeType),
+    _creationDate(creationDate), _processState(processState), _countyOfMediation(county), _mediationNotes(mediationNotes),
+    _referalSource(reftype), _requiresSpanish(spanish), _mediationSessionVector(sessions){}
+
 
 MediationProcess::~MediationProcess()
 {
@@ -42,7 +47,16 @@ QString MediationProcess::SearchQuery()
 #warning TODO - SearchQuery() UNIMPLEMENTED!!!!
 
 }
+void MediationProcess::addMediation()
+{
+    _mediationSessionVector.push_back(new MediationSession());
+}
 
+void MediationProcess::removeParty(int value)
+{
+    if(_parties.size() > 0)
+        _parties.erase(_parties.begin()+ (value));
+}
 
 // Test Data - Fill the object with test values in every field.
 MediationProcess *MediationProcess::SampleData()
@@ -54,7 +68,7 @@ MediationProcess *MediationProcess::SampleData()
     std::stringstream ss;
     ss << ++_SAMPLE_INDEX;
     std::string strId = ss.str();
-    result->GetParties().clear();
+    result->GetParties()->clear();
     for(int i=0; i < rand() % 4 + 1; ++i)
         result->AddParty(Party::SampleData());
 
@@ -69,7 +83,7 @@ MediationProcess *MediationProcess::SampleData()
         temp->push_back(MediationSession::SampleData());
     result->setMediationSessionVector(temp);
     for(int i=0; i < 25; ++i)
-        result->GetNotes().push_back("Some more mediation notes " + QString::number(i));
+        result->GetNotes()->push_back(new Note("Some more mediation notes " + QString::number(i)));
 
 
 

@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "drctypes.h"
+#include "MediatorArg.h"
 
 namespace Ui {
 class NotesBrowser;
@@ -17,10 +18,18 @@ public:
     ~NotesBrowser();
 
     void SetNotes(MediationNotesVector* notes);
+    void SetNotesEvent(MediatorArg arg);
 
 private slots:
     void on_tableWidget_doubleClicked(const QModelIndex &index);
 
+    void on_saveNoteBtn_clicked();
+
+    void on_delNoteBtn_clicked();
+
+    void on_tableWidget_itemSelectionChanged();
+
+    void on_newNoteBtn_clicked();
 
 private:
     Ui::NotesBrowser *ui;
@@ -30,6 +39,7 @@ private:
     void ConfigTable();
     void PopulateTable();
 
+    bool _editingNewNote;   // update or save?
 };
 
 #endif // NOTESBROWSER_H

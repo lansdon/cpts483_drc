@@ -24,6 +24,11 @@ public:
 protected slots:
     void on_tableWidget_itemSelectionChanged();
 
+private slots:
+    void on_addSessionBtn_clicked();
+
+    void on_delSessionBtn_clicked();
+
 private:
     Ui::SessionsBrowser *ui;
 

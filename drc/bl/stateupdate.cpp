@@ -73,12 +73,11 @@ bool StateUpdate::initiated(MediationProcess* arg)
     auto parties = arg->GetParties();
     std::set<QString> dups;
     bool success = true;
-
-    if (parties.size() > 1)
+    if (parties->size() > 1)
     {
-        for (unsigned int i = 0; i < parties.size(); i++)
+        for (unsigned int i = 0; i < parties->size(); i++)
         {
-            auto name = parties[i]->GetPrimary()->FullName();
+            auto name = parties->at(i)->GetPrimary()->FullName();
             if (dups.find(name) == dups.end()) dups.insert(name);
             else
             {
@@ -105,10 +104,10 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
     if (arg)
     {
         auto parties = arg->GetParties();
-        if (parties.size() < 2)     success = false;
-        for (unsigned int i=0; i < parties.size(); i++)
+        if (parties->size() < 2)     success = false;
+        for (unsigned int i=0; i < parties->size(); i++)
         {
-            auto primary = parties[i]->GetPrimary();
+            auto primary = parties->at(i)->GetPrimary();
             success &=
                     ((!primary->getPrimaryPhone().isEmpty()) &&
                     ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && !primary->getCounty().isEmpty()) ||

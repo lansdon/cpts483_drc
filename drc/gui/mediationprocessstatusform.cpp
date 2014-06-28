@@ -22,20 +22,26 @@ MediationProcessStatusForm::~MediationProcessStatusForm()
 }
 void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 {
-
     _mediationProcess = value;
     Update();
 }
 
 void MediationProcessStatusForm::Update()
 {
+    if(!ui) return;
+
     ui->createdDateLabel->setText(_mediationProcess->GetCreationDate().toString("MM/dd/yyyy"));
     ui->statusComboBox->setCurrentIndex(_mediationProcess->GetCurrentState());
 
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
+    if(_mediationProcess->GetId() == 0)
+        ui->mediationIdDiaplayLabel->setText("NEW");
+    else
+        ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
+    ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdated().toString("MM/dd/yyyy"));
 }
 
 // Sets the values based on enums.
@@ -82,26 +88,26 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
 
 }
 
-
-
-void MediationProcessStatusForm::on_notesToggleBtn_clicked()
+void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
 {
-//    if(ui->notesFrame->isVisible())
-//    {
-//        ui->notesFrame->setHidden(true);
-//        ui->notesToggleBtn->setText("Show Notes");
-//    }
-//    else
-//    {
-//        ui->notesFrame->setHidden(false);
-//        ui->notesToggleBtn->setText("Hide Notes");
-//    }
-    emit hovered();
+    _mediationProcess->SetDisputeType((DisputeTypes)index);
+    update();
 }
 
-
-
-void MediationProcessStatusForm::on_Last10Label_linkHovered(const QString &link)
+void MediationProcessStatusForm::on_statusComboBox_currentIndexChanged(int index)
 {
-    emit hovered();
+    _mediationProcess->SetProcessState((DisputeProcessStates)index);
+    update();
+}
+
+void MediationProcessStatusForm::on_countyComboBox_currentIndexChanged(int index)
+{
+    _mediationProcess->SetCountyId((CountyIds)index);
+    update();
+}
+
+void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int index)
+{
+    _mediationProcess->SetReferralType((ReferralTypes)index);
+    update();
 }

@@ -53,20 +53,32 @@ void SessionsBrowser::configSessionTable()
 
 void SessionsBrowser::PopulateSessionTable()
 {
-    _sessionTable->clearContents();
-
-//    MediationSessionVector* sessionsVec = _mediationProcess->getMediationSessionVector();
-    int row;
-    for(row=0; row < (int)_sessions->size(); ++row)
+    if(_sessions->size())
     {
-        SessionCell* sessionForm = new SessionCell(_sessionTable, _sessions->at(row));
+        ui->noSessionLabel1->setVisible(false);
+        ui->noSessionLabel2->setVisible(false);
+
+        _sessionTable->setVisible(true);
+        _sessionTable->clearContents();
+        _sessionTable->setRowCount(0);
+
+        int row;
+        for(row=0; row < (int)_sessions->size(); ++row)
+        {
+            SessionCell* sessionForm = new SessionCell(_sessionTable, _sessions->at(row));
+            _sessionTable->insertRow(row);
+            _sessionTable->setRowHeight(row, 50);
+            _sessionTable->setCellWidget(row, 0, sessionForm);
+        }
         _sessionTable->insertRow(row);
-        _sessionTable->setRowHeight(row, 100);
-        _sessionTable->setCellWidget(row, 0, sessionForm);
- //       _sessionTable->setItem(row, 0, new MediationSessionForm(_sessionTable, session));
+        _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
     }
-    _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
-    _sessionTable->setCurrentCell(0,0);
+    else    // NO SESSIONS
+    {
+        _sessionTable->setVisible(false);
+        ui->noSessionLabel1->setVisible(true);
+        ui->noSessionLabel2->setVisible(true);
+    }
 }
 
 void SessionsBrowser::on_tableWidget_itemSelectionChanged()
@@ -76,8 +88,14 @@ void SessionsBrowser::on_tableWidget_itemSelectionChanged()
     if(_sessionTable->rowCount() <= 1) return;
 
     SessionCell* sessionForm = (SessionCell*)_sessionTable->cellWidget(_sessionTable->currentRow(), 0);
-    Mediator::Call(MKEY_DOCK_SESSION_CHANGED, sessionForm->GetSession());
-
+    if(sessionForm)
+    {
+       MediationSession* session = sessionForm->GetSession();
+       if(session && _sessions->size() >= 1)
+       {
+           Mediator::Call(MKEY_DOCK_SESSION_CHANGED, sessionForm->GetSession());
+       }
+    }
 }
 
 void SessionsBrowser::SetSessions(MediationSessionVector* sessions)
@@ -89,4 +107,23 @@ void SessionsBrowser::SetSessions(MediationSessionVector* sessions)
 void SessionsBrowser::SetSessionsEvent(MediatorArg arg)
 {
     SetSessions(arg.getArg<MediationSessionVector*>());
+}
+
+void SessionsBrowser::on_addSessionBtn_clicked()
+{
+    if(_sessions)
+    {
+        _sessions->push_back(new MediationSession);
+        PopulateSessionTable();
+        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    }
+}
+
+void SessionsBrowser::on_delSessionBtn_clicked()
+{
+    if(_sessions->size() > _sessionTable->currentIndex().row())
+    {
+        _sessions->erase(_sessions->begin() + _sessionTable->currentIndex().row());
+        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    }
 }

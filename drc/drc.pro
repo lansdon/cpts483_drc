@@ -35,6 +35,7 @@ SOURCES += main.cpp\
     drc_shared/models/Fruit.cpp \
     gui/contactrecorddataview.cpp \
     bl/userloginprocessor.cpp \
+    bl/stateupdate.cpp \
     drc_shared/models/User.cpp \
     gui/persondetailsform.cpp \
     gui/mediationprocessview.cpp \
@@ -48,21 +49,22 @@ SOURCES += main.cpp\
     gui/searchwizard/searchwizardselecttype.cpp \
     gui/searchwizard/searchwizardparameters.cpp \
     gui/searchwizard/searchwizardresults.cpp \
-    bl/stateupdate.cpp \
     gui/Mock_Server/mock_server.cpp \
     drc_shared/CurrentUser.cpp \
     drc_shared/drctypes.cpp \
     gui/toolbarmanager.cpp \
     gui/Mock_Server/dummy.cpp \
+    gui/mediationbrowser.cpp \
+    gui/sessionsbrowser.cpp \
+    gui/notesbrowser.cpp \
     drc_shared/models/mediationsession.cpp \
     gui/mediationsessionform.cpp \
     gui/sessionoverview.cpp \
     gui/mptoolbox.cpp \
     gui/sessioncell.cpp \
     gui/nosessionsview.cpp \
-    gui/sessionsbrowser.cpp \
-    gui/mediationbrowser.cpp \
-    gui/notesbrowser.cpp
+    drc_shared/mpfilemaker.cpp \
+    drc_shared/models/Note.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -84,12 +86,13 @@ HEADERS  += \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
+    bl/Crypto/SHA256_Crypto.h \
+    bl/stateupdate.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/queryform.h \
     gui/contactrecorddataview.h \
     drc_shared/models/DBBaseObject.h \
     drc_shared/models/CurrentUser.h \
-    bl/stateupdate.h \
     gui/persondetailsform.h \
     gui/mediationprocessview.h \
     gui/partyform.h \
@@ -108,14 +111,18 @@ HEADERS  += \
     gui/toolbarmanager.h \
     gui/Mock_Server/dummy.h \
     drc_shared/models/mediationsession.h \
+    gui/loginform.h \
     gui/mediationsessionform.h \
+    gui/mediationbrowser.h \
     gui/sessionoverview.h \
+    gui/sessionsbrowser.h \
+    gui/notesbrowser.h \
     gui/mptoolbox.h \
     gui/sessioncell.h \
     gui/nosessionsview.h \
-    gui/sessionsbrowser.h \
-    gui/mediationbrowser.h \
-    gui/notesbrowser.h
+    gui/Note.h \
+    drc_shared/mpfilemaker.h \
+    drc_shared/models/Note.h
 
 FORMS    += \
     DRCClient.ui \
@@ -127,15 +134,15 @@ FORMS    += \
     gui/mediationprocessview.ui \
     gui/partyform.ui \
     gui/partiescontainerform.ui \
+    gui/mediationbrowser.ui \
     gui/mediationprocessstatusform.ui \
     gui/mediationsessionform.ui \
     gui/sessionoverview.ui \
+    gui/sessionsbrowser.ui \
+    gui/notesbrowser.ui \
     gui/mptoolbox.ui \
     gui/sessioncell.ui \
-    gui/nosessionsview.ui \
-    gui/sessionsbrowser.ui \
-    gui/mediationbrowser.ui \
-    gui/notesbrowser.ui
+    gui/nosessionsview.ui
 
 
 CONFIG += c++11

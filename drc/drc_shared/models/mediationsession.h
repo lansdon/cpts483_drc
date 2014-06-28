@@ -4,8 +4,9 @@
 #include <QDateTime>
 #include <QString>
 #include "drctypes.h"
+#include "DBBaseObject.h"
 
-class MediationSession
+class MediationSession :DBBaseObject
 {
 private:
     QDateTime _mediationTime, _mediationCreation;
@@ -13,9 +14,15 @@ private:
     bool _fee1Paid, _fee2Paid, _feeFamilyPaid, _feeOtherPaid;
     QString _fee1, _fee2, _feeFamily, _feeOther, _incomeFee1, _incomeFee2, _incomeFeeFamily, _incomeFeeOther;
     Person *_mediator1, *_mediator2, *_observer1, *_observer2;
-
+    int _supportCount;  // total number of support people
 public:
     MediationSession();
+
+    //Virtual overrides
+    QString Parse();
+    QString table();
+    QString DuplicateQuery();
+    QString SearchQuery();
 
     //getters
     QDateTime getMediationTime() const {return _mediationTime;}
@@ -41,13 +48,11 @@ public:
     Person *getObserver1() const { return _observer1; }
     Person *getObserver2() const { return _observer2; }
     SessionStates GetState() { return _state; }
+    int GetSupportCount() { return _supportCount; }
 
     //setters
+    void setSupportCount(int count) { _supportCount = count; }
     void setMediationTime(QDateTime value) { _mediationTime = value; }
-//    void setPendingRB(bool value) { _pendingRB = value; }
-//    void setCancelledRB(bool value) { _cancelledRB = value; }
-//    void setConfirmedRB(bool value) { _confirmedRB = value; }
-//    void setRescheduledRB(bool value) { _rescheduledRB = value; }
     void setFee1Paid(bool value) { _fee1Paid = value; }
     void setFee2Paid(bool value) { _fee2Paid = value; }
     void setFeeFamilyPaid(bool value) { _feeFamilyPaid = value; }
@@ -65,10 +70,13 @@ public:
     void setObserver1(Person *value) {_observer1 = value; }
     void setObserver2(Person *value) {_observer2 = value; }
     void SetState(SessionStates state) { _state = state; }
+    void setMediationCreate(QDateTime value) { _mediationCreation = value; }
 
     QString getStatus() const;
     QString getFeeStatus() const;
     static MediationSession *SampleData();
+
+
 };
 
 #endif // MEDIATIONSESSION_H

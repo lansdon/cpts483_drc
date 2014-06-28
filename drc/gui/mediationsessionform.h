@@ -7,7 +7,8 @@
 #include <vector>
 #include "drc_shared/models/mediationprocess.h"
 #include "drc_shared/drctypes.h"
-#include "mediator.h"
+#include "Mediator.h"
+
 
 
 namespace Ui {
@@ -76,12 +77,16 @@ private slots:
     void EditSignaled();
 
     void SetSessionEvent(MediatorArg arg);
+    void on_supportNumComboBox_currentIndexChanged(int index);
+
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;
+    MediatorId _mediatorid;
 
     void fillFields(MediationSession *input);
     bool FillingFields;
+    void ConfigureComboBoxes();
 
 };
 

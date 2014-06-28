@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "drctypes.h"
 #include <vector>
+#include "Mediator.h"
 
 
 
@@ -45,6 +46,7 @@ private:
     void PopulateMediationProcessTable();
 
     void MakeSampleTable();
+    void OnRecieveMediationVector(MediatorArg arg);
 };
 
 #endif // MEDIATIONPROCESSTABLEFORM_H

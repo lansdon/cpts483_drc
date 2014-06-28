@@ -9,6 +9,9 @@
 #include "mediationprocessview.h"
 #include "Mock_Server/mock_server.h"
 #include "drc_shared/CurrentUser.h"
+#include "mptoolbox.h"
+#include "mpfilemaker.h"
+#include "Mediator.h"
 
 namespace Ui {
 class DRCClient;
@@ -52,11 +55,23 @@ private slots:
 
     void on_actionLogout_User_triggered();
 
+    void on_actionNew_2_triggered();
+
+    void on_actionAdd_1_MP_sample_triggered();
+
+    void on_actionAdd_to_vector_triggered();
+
+    void on_actionSave_to_file_triggered();
+
+    void on_actionLoad_from_file_triggered();
+
+    void on_actionAdd_5_MP_samples_triggered();
+
 public slots:
     void ShowSessionBrowser();
     void ShowMediationBrowser();
     void ShowNotesBrowser();
-
+    void send_mediation_vector();
     void on_mediationProcessSelected(MediationProcess* process);
 
 private:
@@ -73,10 +88,16 @@ private:
     void LoadMediationProcessView(MediationProcess* process = nullptr);
     // Dock views
     QDockWidget* _browserDock;
+    void ShowBrowser(MPBrowserTypes browserType);
 
     void SetMainView(QWidget* widget);
     void SetMenusEnabled(bool enableMenus, bool showAdmin);
 
+    //for file load save
+    MediationProcessVector *_mediationProcessVector;
+    MPFileMaker _filemaker;
+
+    void saveMPEvent(MediatorArg arg);
 };
 
 #endif // DRCClient_H

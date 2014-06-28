@@ -16,4 +16,5 @@ NoSessionsView::~NoSessionsView()
 void NoSessionsView::on_clickToAddSessionPushButton_clicked()
 {
     //send signal to add a session to the mediation vector
+    emit sendAddNewSession();
 }

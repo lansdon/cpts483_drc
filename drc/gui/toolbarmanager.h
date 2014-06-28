@@ -53,8 +53,6 @@ public:
     void SetToolbar(QToolBar* toolbar) { _toolbar = toolbar; }
 
 private:
-//    ToolbarManager();
-//    ToolbarManager(ToolbarManager& ToolbarManager) {}
     virtual ~ToolbarManager();
     ToolbarTypes _currentType;
     QToolBar* _toolbar;

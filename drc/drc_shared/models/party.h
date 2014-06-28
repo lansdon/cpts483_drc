@@ -4,14 +4,21 @@
 #include <vector>
 #include "drctypes.h"
 #include "Person.h"
+#include "DBBaseObject.h"
 
 
 
 
-class Party
+class Party : DBBaseObject
 {
 public:
     Party();
+
+    //Virtual overrides
+    QString Parse();
+    QString table();
+    QString DuplicateQuery();
+    QString SearchQuery();
 
     // Accessors
     void SetPrimary(Person *primary) { _primary = primary; }
