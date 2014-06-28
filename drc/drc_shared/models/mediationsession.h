@@ -27,10 +27,6 @@ public:
     //getters
     QDateTime getMediationTime() const {return _mediationTime;}
     QDateTime getMediationCreation() const { return _mediationCreation; }
-//    bool getPendingRB() const {return _pendingRB;}
-//    bool getCancelledRB() const{return _cancelledRB;}
-//    bool getConfirmedRB() const{return _confirmedRB;}
-//    bool getRescheduledRB() const {return _rescheduledRB;}
     bool getFee1Paid() const { return _fee1Paid; }
     bool getFee2Paid() const { return _fee2Paid; }
     bool getFeeFamilyPaid() const { return _feeFamilyPaid; }

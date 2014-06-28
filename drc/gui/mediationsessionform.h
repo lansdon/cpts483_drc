@@ -27,14 +27,6 @@ public:
     void setMediationSession(MediationSession *value);
 
 private slots:
-//    void on_CancelledRadioButton_toggled(bool checked);
-
-//    void on_PendingRadioButton_toggled(bool checked);
-
-//    void on_confirmedRadioButton_toggled(bool checked);
-
-//    void on_rescheduledRadioButton_toggled(bool checked);
-
     void on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
     void on_Fee1LineEdit_editingFinished();
@@ -61,23 +53,13 @@ private slots:
 
     void on_incomeFeeOtherLineEdit_editingFinished();
 
-//    void on_mediator1EditPushButton_clicked();
-
-//    void on_mediator2EditPushButton_clicked();
-
-//    void on_observer1EditPushButton_clicked();
-
-//    void on_observer2EditPushButton_clicked();
-
-    void deletePersonContact(Person *value);
-
-    void savePersonContact(Person *value);
-
     void SaveSignaled();
     void EditSignaled();
 
     void SetSessionEvent(MediatorArg arg);
     void on_supportNumComboBox_currentIndexChanged(int index);
+
+    void on_stateComboBox_currentIndexChanged(int index);
 
 private:
     Ui::MediationSessionForm *ui;

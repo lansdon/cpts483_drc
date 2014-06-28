@@ -48,6 +48,8 @@ void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &date
     {
         _mediationSession->setMediationTime(dateTime);
     }
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_Fee1LineEdit_editingFinished()
@@ -55,6 +57,8 @@ void MediationSessionForm::on_Fee1LineEdit_editingFinished()
     if(!FillingFields)
         _mediationSession->setFee1(ui->Fee1LineEdit->text());
      fillFields(_mediationSession);
+
+     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_Fee1PaidCheckBox_toggled(bool checked)
@@ -62,6 +66,8 @@ void MediationSessionForm::on_Fee1PaidCheckBox_toggled(bool checked)
     if(!FillingFields)
         _mediationSession->setFee1Paid(checked);
     fillFields(_mediationSession);
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::fillFields(MediationSession *input)
@@ -105,6 +111,8 @@ void MediationSessionForm::on_Fee2LineEdit_editingFinished()
     if(!FillingFields)
         _mediationSession->setFee2(ui->Fee2LineEdit->text());
      fillFields(_mediationSession);
+
+     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_FamilyFeeLineEdit_editingFinished()
@@ -112,6 +120,8 @@ void MediationSessionForm::on_FamilyFeeLineEdit_editingFinished()
     if(!FillingFields)
         _mediationSession->setFeeFamily(ui->FamilyFeeLineEdit->text());
      fillFields(_mediationSession);
+
+     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_OtherFeeLineEdit_editingFinished()
@@ -119,6 +129,8 @@ void MediationSessionForm::on_OtherFeeLineEdit_editingFinished()
     if(!FillingFields)
         _mediationSession->setFeeOther(ui->OtherFeeLineEdit->text());
      fillFields(_mediationSession);
+
+     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_Fee2PaidCheckBox_toggled(bool checked)
@@ -126,6 +138,8 @@ void MediationSessionForm::on_Fee2PaidCheckBox_toggled(bool checked)
     if(!FillingFields)
         _mediationSession->setFee2Paid(checked);
     fillFields(_mediationSession);
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_FamilyFeePaidCheckBox_toggled(bool checked)
@@ -133,6 +147,8 @@ void MediationSessionForm::on_FamilyFeePaidCheckBox_toggled(bool checked)
     if(!FillingFields)
         _mediationSession->setFeeFamilyPaid(checked);
     fillFields(_mediationSession);
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_OtherFeePaidCheckBox_toggled(bool checked)
@@ -140,43 +156,42 @@ void MediationSessionForm::on_OtherFeePaidCheckBox_toggled(bool checked)
     if(!FillingFields)
         _mediationSession->setFeeOtherPaid(checked);
     fillFields(_mediationSession);
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_incomeFee1LineEdit_editingFinished()
 {
     if(!FillingFields)
         _mediationSession->setIncomeFee1(ui->incomeFee1LineEdit->text());
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_incomeFee2LineEdit_editingFinished()
 {
     if(!FillingFields)
         _mediationSession->setIncomeFee2(ui->incomeFee2LineEdit->text());
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_incomeFeeFamilyLineEdit_editingFinished()
 {
     if(!FillingFields)
         _mediationSession->setIncomeFeeFamily(ui->incomeFeeFamilyLineEdit->text());
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationSessionForm::on_incomeFeeOtherLineEdit_editingFinished()
 {
     if(!FillingFields)
         _mediationSession->setIncomeFeeOther(ui->incomeFeeOtherLineEdit->text());
+
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void MediationSessionForm::savePersonContact(Person *value)
-{
-    if(value)
-        fillFields(_mediationSession);
-}
-
-void MediationSessionForm::deletePersonContact(Person *value)
-{
-    if(value)
-        fillFields(_mediationSession);
-}
 
 
 // When a child has signaled a save event
@@ -208,4 +223,11 @@ void MediationSessionForm::ConfigureComboBoxes()
 void MediationSessionForm::on_supportNumComboBox_currentIndexChanged(int index)
 {
     _mediationSession->setSupportCount(index);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
+{
+    _mediationSession->SetState((SessionStates)index);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }

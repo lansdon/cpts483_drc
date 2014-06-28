@@ -143,7 +143,7 @@ void DRCClient::on_actionFruit_Test_triggered()
 void DRCClient::on_actionLogout_User_triggered()
 {
     ui->toolBar->clear();
-    if(_browserDock->isVisible())
+    if(_browserDock && _browserDock->isVisible())
         _browserDock->close();
     SetMenusEnabled(false, false);
     delete _mediationProcessView;

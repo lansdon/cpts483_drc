@@ -17,7 +17,6 @@
 
 
 
-
 MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *mediationProcess) :
     QWidget(parent),
     ui(new Ui::MediationProcessView),
