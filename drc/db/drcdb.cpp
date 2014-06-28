@@ -318,8 +318,8 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
 
         QString personId;
 
-//        while(clientQuery.next())
-//        {
+        while(clientQuery.next())
+        {
             // Rebuild clients and add them to the process... part of that is....
             Party* party = new Party();
             personId = clientQuery.value(2).toString();
@@ -349,6 +349,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
                 primary->setNumberInHousehold(peopleQuery.value(14).toUInt());
                 primary->setAttorney(peopleQuery.value(15).toString());
                 party->SetPrimary(primary);
+                qDebug() << "DB: Adding primary to party - " << primary->FullName();
             }
 
             // NOT FULLY IMPLEMENTED YET! these members of party have to change
@@ -362,7 +363,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
             // party->SetObservers(clientQuery.value(4).toString());
             // party->SetAttorney(clientQuery.value(5).toString());
             process->AddParty(party);
-//        }
+        }
 
         processVector->push_back(process);
     }

@@ -24,7 +24,6 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
     if(parties)
     {
         ui->partyTabWidget->clear();
-//        PartyFormVector.clear();
         foreach(Party* party, *parties)
         {
             if(party)
@@ -32,12 +31,8 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
                 auto pForm = new PartyForm(ui->partyTabWidget, party);
                 connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(DoSaveSignal()));
                 ui->partyTabWidget->addTab(pForm, party->GetPrimary()->FullName() );
-//                PartyFormVector.push_back();
             }
         }
-//        foreach(PartyForm* p, PartyFormVector)
-//        {
-//        }
     }
 }
 
