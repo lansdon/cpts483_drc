@@ -70,7 +70,8 @@ void MPFileMaker::fileToParse(QTextStream &in)
 {
     QString line;
      line = in.readLine();
-    int numberOfMPs = removeKeyword(line).toInt();
+     removeMPKeyword(line);
+    int numberOfMPs = line.toInt();
     //MediationProcess *temp;
 
     mpVector->clear();
@@ -106,27 +107,35 @@ MediationProcess *MPFileMaker::fileToProcessParse(QTextStream &in)
     MediationNotesVector notes;
     MediationSessionVector sessions;
     line = in.readLine();
-    id = removeKeyword(line).toUInt();
+    removeMPKeyword(line);
+    id = line.toUInt();
     creation = in.readLine();
-    removeKeyword(creation);
+    removeMPKeyword(creation);
     updated = in.readLine();
-    removeKeyword(updated);
+    removeMPKeyword(updated);
     line = in.readLine();
-    state = removeKeyword(line).toUInt();
+    removeMPKeyword(line);
+    state = line.toUInt();
     line = in.readLine();
-    activeState = removeKeyword(line).toUInt();
+    removeMPKeyword(line);
+    activeState = line.toUInt();
     mediationCreationDate = in.readLine();
-    removeKeyword(mediationCreationDate);
+    removeMPKeyword(mediationCreationDate);
     line = in.readLine();
-    (qint32&)countyid = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    countyid = (CountyIds)line.toInt();
     line = in.readLine();
-    (qint32&)disType = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    disType = (DisputeTypes)line.toInt();
     line = in.readLine();
-    (qint32&)reftype = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    reftype = (ReferralTypes)line.toInt();
     line = in.readLine();
-    (qint32&)spanish = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    spanish = line.toInt();
     line = in.readLine();
-    (qint32&)currState = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    currState = (DisputeProcessStates)line.toInt();
 
     parties = partiesVectorParse(in);
     notes = processNotesParse(in);
@@ -139,7 +148,7 @@ MediationProcess *MPFileMaker::fileToProcessParse(QTextStream &in)
 
     return temp;
 }
-QString MPFileMaker::removeKeyword(QString &value)
+void MPFileMaker::removeMPKeyword(QString &value)
 {
     int count = 0;
     while(value[count] != ' ')
@@ -148,7 +157,7 @@ QString MPFileMaker::removeKeyword(QString &value)
     }
     count++;
     value.remove(0,count);
-    return value;
+    //return value;
 }
 
 void MPFileMaker::parseProcessToFile(QTextStream &out, MediationProcess *mp)
@@ -194,62 +203,73 @@ void MPFileMaker::parseSessionsVector(QTextStream &out, MediationSessionVector *
 MediationSessionVector MPFileMaker::sessionsVectorParse(QTextStream &in)
 {
     QString line;
-    MediationSessionVector temp, extra;
+    MediationSessionVector *temp = new MediationSessionVector();//, extra;
     line = in.readLine();
     int numberOfSessions;
-    numberOfSessions = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    numberOfSessions = line.toInt();
 
 
     for(int i = 0; i < numberOfSessions; i++)
     {
-        temp.push_back(sessionParse(in));
+        temp->push_back(sessionParse(in));
     }
 
-    return temp;
+    return *temp;
 }
 
 MediationSession *MPFileMaker::sessionParse(QTextStream &in)
 {
-    QString line;
+    //QString line;
     MediationSession *temp = new MediationSession();
-    MediationSession *extra = new MediationSession();
+   //MediationSession *extra = new MediationSession();
     QString create, time;
     SessionStates state;
     QString fee1, fee2, fee3, fee4, income1, income2, income3;
-    QString incomeOther, extraSting;
+    QString incomeOther;//, extraSting;
+    QString stateqs, paid1qs, paid2qs, paid3qs, paid4qs;
     bool paid1, paid2, paid3, paid4;
-    Person *med1, *med2, *obs1, *obs2, extraPointer;
+    Person *med1, *med2, *obs1, *obs2;//, extraPointer;
 
-    line = in.readLine();
-    (qint32&)state = removeKeyword(line).toInt();
+    stateqs = in.readLine();
     create = in.readLine();
-    removeKeyword(create);
     time = in.readLine();
-    removeKeyword(time);
     fee1 = in.readLine();
-    removeKeyword(fee1);
     fee2 = in.readLine();
-    removeKeyword(fee2);
     fee3 = in.readLine();
-    removeKeyword(fee3);
     fee4 = in.readLine();
-    removeKeyword(fee4);
-    line = in.readLine();
-    (qint32&)paid1 = removeKeyword(line).toInt();
-    line = in.readLine();
-    (qint32&)paid2 = removeKeyword(line).toInt();
-    line = in.readLine();
-    (qint32&)paid3 = removeKeyword(line).toInt();
-    line = in.readLine();
-    (qint32&)paid4 = removeKeyword(line).toInt();
+    paid1qs = in.readLine();
+    paid2qs = in.readLine();
+    paid3qs = in.readLine();
+    paid4qs = in.readLine();
     income1 = in.readLine();
-    removeKeyword(income1);
     income2 = in.readLine();
-    removeKeyword(income2);
     income3 = in.readLine();
-    removeKeyword(income3);
     incomeOther = in.readLine();
-    removeKeyword(incomeOther);
+
+    removeMPKeyword(create);
+    removeMPKeyword(time);
+    removeMPKeyword(stateqs);
+    state = (SessionStates)stateqs.toInt();
+    removeMPKeyword(paid1qs);
+    paid1 = paid1qs.toInt();
+    removeMPKeyword(paid2qs);
+    paid2 = paid2qs.toInt();
+    removeMPKeyword(paid3qs);
+    paid3 = paid3qs.toInt();
+    removeMPKeyword(paid4qs);
+    paid4 = paid4qs.toInt();
+    removeMPKeyword(fee1);
+    removeMPKeyword(fee2);
+    removeMPKeyword(fee3);
+    removeMPKeyword(fee4);
+    removeMPKeyword(income1);
+    removeMPKeyword(income2);
+    removeMPKeyword(income3);
+    removeMPKeyword(incomeOther);
+
+
+
 
     med1 = personParse(in);
     med2 = personParse(in);
@@ -334,8 +354,8 @@ MediationNotesVector MPFileMaker::processNotesParse(QTextStream &in)
     MediationNotesVector temp;
     line = in.readLine();
     int numberOFNotes;
-
-    numberOFNotes = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    numberOFNotes = line.toInt();
     for(int i = 0; i < numberOFNotes; i++)
     {
         temp.push_back(noteParse(in));
@@ -351,11 +371,14 @@ Note *MPFileMaker::noteParse(QTextStream &in)
     Note *temp = new Note();
 
     line = in.readLine();
-    sID = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    sID = line.toInt();
     line = in.readLine();
-    mID = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    mID = line.toInt();
     line = in.readLine();
-    mess = removeKeyword(line);
+    removeMPKeyword(line);
+    mess = line;
 
     temp->SetId(sID);
     temp->SetMediationId(mID);
@@ -379,7 +402,8 @@ PartyVector MPFileMaker::partiesVectorParse(QTextStream &in)
     PartyVector temp;
     line = in.readLine();
     int numberOfParties;
-    numberOfParties = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    numberOfParties = line.toInt();
 
 
     for(int i = 0; i < numberOfParties; i++)
@@ -419,41 +443,44 @@ Person *MPFileMaker::personParse(QTextStream &in)
     QString first, middle, last, street, unit, city, county, state, zip, email, atty, pPhone, pPhoneEx, sPhone, sPhoneEx, assPhone, assPhoneEx;
     uint nInHouse;
     first = in.readLine();
-    removeKeyword(first);
+    removeMPKeyword(first);
     middle = in.readLine();
-    removeKeyword(middle);
+    removeMPKeyword(middle);
     last = in.readLine();
-    removeKeyword(last);
+    removeMPKeyword(last);
     street = in.readLine();
-    removeKeyword(street);
+    removeMPKeyword(street);
     unit = in.readLine();
-    removeKeyword(unit);
+    removeMPKeyword(unit);
     city = in.readLine();
-    removeKeyword(city);
+    removeMPKeyword(city);
     county = in.readLine();
-    removeKeyword(county);
+    removeMPKeyword(county);
     state = in.readLine();
-    removeKeyword(state);
+    removeMPKeyword(state);
     zip = in.readLine();
-    removeKeyword(zip);
+    removeMPKeyword(zip);
+
     line = in.readLine();
-    nInHouse = removeKeyword(line).toInt();
+    removeMPKeyword(line);
+    nInHouse = line.toInt();
+
     email = in.readLine();
-    removeKeyword(email);
+    removeMPKeyword(email);
     atty = in.readLine();
-    removeKeyword(atty);
+    removeMPKeyword(atty);
     pPhone = in.readLine();
-    removeKeyword(pPhone);
+    removeMPKeyword(pPhone);
     pPhoneEx = in.readLine();
-    removeKeyword(pPhoneEx);
+    removeMPKeyword(pPhoneEx);
     sPhone = in.readLine();
-    removeKeyword(sPhone);
+    removeMPKeyword(sPhone);
     sPhoneEx = in.readLine();
-    removeKeyword(sPhoneEx);
+    removeMPKeyword(sPhoneEx);
     assPhone = in.readLine();
-    removeKeyword(assPhone);
+    removeMPKeyword(assPhone);
     assPhoneEx = in.readLine();
-    removeKeyword(assPhoneEx);
+    removeMPKeyword(assPhoneEx);
 
     temp->setAssistantPhone(assPhone);
     temp->setAssistantPhoneExt(assPhoneEx);
