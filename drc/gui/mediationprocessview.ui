@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1272</width>
+    <width>505</width>
     <height>567</height>
    </rect>
   </property>
@@ -151,9 +151,14 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="noClientsLabel">
+          <property name="font">
+           <font>
+            <pointsize>20</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>This is a test</string>
+           <string>No clients have been added.</string>
           </property>
          </widget>
         </item>

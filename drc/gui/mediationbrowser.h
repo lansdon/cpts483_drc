@@ -21,7 +21,7 @@ public:
     ~MediationBrowser();
 
     void LoadTableData(MediationTableSortTypes sortType);
-
+    void Refresh();
 private slots:
     void on_recentButton_clicked();
 
@@ -41,6 +41,7 @@ private:
     Ui::MediationBrowser *ui;
 
     MediationProcessVector _mediationsVector;
+    MediationTableSortTypes _sortType;
 
     void ConfigMediationProcecssViewTable();
     void PopulateMediationProcessTable();

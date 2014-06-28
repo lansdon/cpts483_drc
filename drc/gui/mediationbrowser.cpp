@@ -16,7 +16,7 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
 
     Mediator::Register(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
     Mediator::Register(MKEY_DOCK_SET_MEDIATIONS, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
-    Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){PopulateMediationProcessTable();});
+    Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){LoadTableData(_sortType);});
 
     LoadTableData(sortType);
 
@@ -27,6 +27,10 @@ MediationBrowser::~MediationBrowser()
     delete ui;
 }
 
+void MediationBrowser::Refresh()
+{
+    LoadTableData(_sortType);
+}
 
 void MediationBrowser::ConfigMediationProcecssViewTable()
 {
@@ -57,9 +61,12 @@ void MediationBrowser::PopulateMediationProcessTable()
     {
         //insert data
         MediationProcess *o = _mediationsVector.at(row);
-        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));
-        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(o->GetPartyAtIndex(0)->GetPrimary()->FullName()));
-        ui->tableWidget->setItem(row, 2, new QTableWidgetItem(StringForDisputeProcessStates( o->GetCurrentState())));
+        if(o)
+        {
+            ui->tableWidget->setItem(row, 0, new QTableWidgetItem(o->GetCreationDate().toString()));
+            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(o->GetParties()->size() ? o->GetPartyAtIndex(0)->GetPrimary()->FullName() : "N/A"));
+            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(StringForDisputeProcessStates( o->GetCurrentState())));
+        }
     }
 }
 
@@ -85,6 +92,8 @@ void MediationBrowser::on_closedButton_clicked()
 
 void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
 {
+    _sortType = sortType;
+
     if(sortType == MEDIATION_SORT_T_RECENT)
         Mediator::Call(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS);
     else

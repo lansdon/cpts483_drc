@@ -173,8 +173,10 @@ void MediationProcessView::SetMediationProcess(MediationProcess* process)
 
 void MediationProcessView::AddPartyTabs(PartyVector* parties)
 {
-    if(parties)
+    if(parties && parties->size())
     {
+        ui->noClientsLabel->setVisible(false);
+        ui->partyTabWidget->setVisible(true);
         ui->partyTabWidget->clear();
 
         foreach(Party* party, *parties)
@@ -186,6 +188,11 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
                 connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
             }
         }
+    }
+    else
+    {
+        ui->noClientsLabel->setVisible(true);
+        ui->partyTabWidget->setVisible(false);
     }
 }
 
