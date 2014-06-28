@@ -6,6 +6,24 @@
 #include <random>
 #include "DBBaseObject.h"
 
+//Values going into MediationProcess Table
+//id
+//disputeType
+//creationDate
+//updatedDate
+//processState
+//countyOfMediation
+//mediationNotes
+//referalSource
+//requiresSpanish
+
+//Objects to extract from MediationProcess
+//Parties
+//Mediation Sessions
+
+//Objects to extract from Parties
+//Person
+
 MediationProcess::MediationProcess() : DBBaseObject()
 {
     _creationDate = QDateTime::currentDateTime();
@@ -23,29 +41,37 @@ MediationProcess::~MediationProcess()
 {
 }
 
-// Abstract Overrides
 QString MediationProcess::Parse()
 {
-#warning TODO - PARSE UNIMPLEMENTED!!!!
+    QString toReturn = QString("%1, '%2', '%3', %4, %5, ")
+            .arg(QString::number(this->GetDisputeType()))
+            .arg(this->GetCreationDate().toString("yyyy-MM-dd"))
+            .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
+            .arg(QString::number(this->GetCurrentState()))
+            .arg(QString::number(this->GetCountyId()));
 
+    std::vector<QString> Notebook;// = this->GetNotes();
+
+    Notebook.push_back("Hello World");
+    QString NotebookInOneLine = "";
+
+    //Sloppy as hell.  Forgive me.
+    foreach (QString line, Notebook)
+    {
+        NotebookInOneLine += line + "\n";
+    }
+
+    toReturn += QString("'%1', '%2', '%3'")
+            .arg(NotebookInOneLine)
+            .arg(QString::number(this->GetReferralType()))
+            .arg(QString::number(this->GetRequiresSpanish()));
+
+    return toReturn;
 }
 
 QString MediationProcess::table()
 {
-#warning TODO - table() UNIMPLEMENTED!!!!
-
-}
-
-QString MediationProcess::DuplicateQuery()
-{
-#warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
-
-}
-
-QString MediationProcess::SearchQuery()
-{
-#warning TODO - SearchQuery() UNIMPLEMENTED!!!!
-
+    return QString("Mediation_Table");
 }
 void MediationProcess::addMediation()
 {
@@ -84,8 +110,6 @@ MediationProcess *MediationProcess::SampleData()
     result->setMediationSessionVector(temp);
     for(int i=0; i < 25; ++i)
         result->GetNotes()->push_back(new Note("Some more mediation notes " + QString::number(i)));
-
-
 
     return result;
 }
