@@ -26,13 +26,10 @@ SOURCES += main.cpp\
     drc_shared/mediator/AsyncMediatorCall.cpp \
     drc_shared/models/Person.cpp \
     DRCClient.cpp \
-    drc_shared/models/Intake.cpp \
-    gui/fruitnameform.cpp \
     gui/loginform.cpp \
     bl/Crypto/SHA256_Crypto.cpp \
     drc_shared/mediator/asyncmediatorworker.cpp \
     gui/queryform.cpp \
-    drc_shared/models/Fruit.cpp \
     gui/contactrecorddataview.cpp \
     bl/userloginprocessor.cpp \
     bl/stateupdate.cpp \
@@ -75,12 +72,9 @@ HEADERS  += \
     drc_shared/mediator/AsyncMediatorCall.h \
     drc_shared/models/Person.h \
     DRCClient.h \
-    drc_shared/models/Intake.h \
-    gui/fruitnameform.h \
     drc_shared/models/DRCModels.h \
     db/Filter.h \
     db/FilterTypes.h \
-    drc_shared/models/Fruit.h \
     drc_shared/models/User.h \
     drc_shared/models/UserType.h \
     bl/userloginprocessor.h \

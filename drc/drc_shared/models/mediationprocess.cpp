@@ -26,15 +26,14 @@
 
 MediationProcess::MediationProcess() : DBBaseObject()
 {
-    _creationDate = QDateTime::currentDateTime();
-    //AddParty(new Party());
+
 }
 MediationProcess::MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans, DisputeTypes disputeType,
                                    QDateTime creationDate, DisputeProcessStates processState, CountyIds county,
                                    MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions) :
     _parties(parties), _stateTransition(stateTrans), _activeStateTransition(actStateTrans), _disputeType(disputeType),
-    _creationDate(creationDate), _processState(processState), _countyOfMediation(county), _mediationNotes(mediationNotes),
-    _referalSource(reftype), _requiresSpanish(spanish), _mediationSessionVector(sessions){}
+    _processState(processState), _countyOfMediation(county), _mediationNotes(mediationNotes),
+    _referalSource(reftype), _requiresSpanish(spanish), _mediationSessionVector(sessions){SetCreatedDate(creationDate);}
 
 
 MediationProcess::~MediationProcess()
@@ -45,7 +44,7 @@ QString MediationProcess::Parse()
 {
     QString toReturn = QString("%1, '%2', '%3', %4, %5, ")
             .arg(QString::number(this->GetDisputeType()))
-            .arg(this->GetCreationDate().toString("yyyy-MM-dd"))
+            .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
             .arg(QString::number(this->GetCurrentState()))
             .arg(QString::number(this->GetCountyId()));
@@ -103,7 +102,7 @@ MediationProcess *MediationProcess::SampleData()
     result->_requiresSpanish = rand() % 2;
     result->_processState = (DisputeProcessStates)( rand() % 5 + 1 );
     result->_referalSource = (ReferralTypes)(rand() % 8 + 1);
-    result->SetCreationDate(QDateTime::currentDateTime());
+
     MediationSessionVector *temp = new MediationSessionVector;
     for(int i = 0; i< rand() % 5 + 1; i++)
         temp->push_back(MediationSession::SampleData());

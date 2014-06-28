@@ -5,7 +5,6 @@
 #include <QString>
 #include "drcbl.h"
 #include "drcdb.h"
-#include "fruitnameform.h"
 #include "mediationprocessview.h"
 #include "Mock_Server/mock_server.h"
 #include "drc_shared/CurrentUser.h"
@@ -41,8 +40,6 @@ public:
 
 private slots:
 
-    void on_actionNew_Fruit_Submission_triggered();
-
     void on_actionNew_Form_triggered();
 
     void on_actionNew_search_form_triggered();
@@ -50,8 +47,6 @@ private slots:
     void on_actionOpen_mediation_view_triggered();
 
     void on_actionMediation_Process_triggered();
-
-    void on_actionFruit_Test_triggered();
 
     void on_actionLogout_User_triggered();
 

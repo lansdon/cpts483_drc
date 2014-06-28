@@ -9,7 +9,7 @@
 class MediationSession : public DBBaseObject
 {
 private:
-    QDateTime _mediationTime, _mediationCreation;
+    QDateTime _mediationTime;
     SessionStates _state;
     bool _fee1Paid, _fee2Paid, _feeFamilyPaid, _feeOtherPaid;
     QString _fee1, _fee2, _feeFamily, _feeOther, _incomeFee1, _incomeFee2, _incomeFeeFamily, _incomeFeeOther;
@@ -26,7 +26,7 @@ public:
 
     //getters
     QDateTime getMediationTime() const {return _mediationTime;}
-    QDateTime getMediationCreation() const { return _mediationCreation; }
+
     bool getFee1Paid() const { return _fee1Paid; }
     bool getFee2Paid() const { return _fee2Paid; }
     bool getFeeFamilyPaid() const { return _feeFamilyPaid; }
@@ -66,7 +66,7 @@ public:
     void setObserver1(QString value) {_observer1 = value; }
     void setObserver2(QString value) {_observer2 = value; }
     void SetState(SessionStates state) { _state = state; }
-    void setMediationCreate(QDateTime value) { _mediationCreation = value; }
+
 
     QString getStatus() const;
     QString getFeeStatus() const;

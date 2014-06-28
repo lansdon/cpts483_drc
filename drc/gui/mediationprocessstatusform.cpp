@@ -31,7 +31,7 @@ void MediationProcessStatusForm::Update()
 {
     if(!(ui && _mediationProcess)) return;
 
-    ui->createdDateLabel->setText(_mediationProcess->GetCreationDate().toString("MM/dd/yyyy"));
+    ui->createdDateLabel->setText(_mediationProcess->GetCreatedDate().toString("MM/dd/yyyy"));
     ui->statusComboBox->setCurrentIndex(_mediationProcess->GetCurrentState());
 
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
@@ -42,7 +42,7 @@ void MediationProcessStatusForm::Update()
     else
         ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
-    ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdated().toString("MM/dd/yyyy"));
+    ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
 }
 
 // Sets the values based on enums.
