@@ -19,12 +19,72 @@ MediationSession::MediationSession()
 
 QString MediationSession::Parse()
 {
+    static QString single_quote("\'");
 
+    QString toReturn;
+
+    toReturn += this->GetState();
+    toReturn += ", ";
+
+    // Paid amounts
+    if(this->getFee1Paid())
+        toReturn += "1";
+    else
+        toReturn += "0";
+    toReturn += ", ";
+    if(this->getFee2Paid())
+        toReturn += "1";
+    else
+        toReturn += "0";
+    toReturn += ", ";
+    if(this->getFeeFamilyPaid())
+        toReturn += "1";
+    else
+        toReturn += "0";
+    toReturn += ", ";
+    if(this->getFeeOtherPaid())
+        toReturn += "1";
+    else
+        toReturn += "0";
+    toReturn += ", ";
+
+    // Due amounts
+    toReturn += this->getFee1();
+    toReturn += ", ";
+    toReturn += this->getFee2();
+    toReturn += ", ";
+    toReturn += this->getFeeFamily();
+    toReturn += ", ";
+    toReturn += this->getFeeOther();
+    toReturn += ", ";
+
+    // Income Fee amounts
+    toReturn += this->getIncomeFee1();
+    toReturn += ", ";
+    toReturn += this->getIncomeFee2();
+    toReturn += ", ";
+    toReturn += this->getIncomeFeeFamily();
+    toReturn += ", ";
+    toReturn += this->getIncomeFeeOther();
+    toReturn += ", ";
+
+    // Mediator Info
+    toReturn += single_quote + this->getMediator1()->FullName() + single_quote;
+    toReturn += ", ";
+    toReturn += single_quote + this->getMediator2()->FullName() + single_quote;
+    toReturn += ", ";
+    toReturn += single_quote + this->getObserver1()->FullName() + single_quote;
+    toReturn += ", ";
+    toReturn += single_quote + this->getObserver2()->FullName() + single_quote;
+
+    //toReturn = "Hello World";
+
+    return toReturn;
 }
 
 QString MediationSession::table()
 {
-
+    return QString("Session_Table");
 }
 
 QString MediationSession::DuplicateQuery()

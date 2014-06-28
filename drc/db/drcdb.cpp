@@ -1,4 +1,5 @@
 #include "drcdb.h"
+#include "drctypes.h"
 #include <QtSql/QtSql>
 //#include "Mediator.h"
 //#include "MediatorKeys.h"
@@ -55,24 +56,12 @@ DRCDB::DRCDB() : DB_ERROR(false)
         result = CreateNotesTable(notes_table_name);
     }
 
-    MediationProcess* process = MediationProcess::SampleData();//NULL;
-    //process = process->SampleData();
-    int b = process->GetAffectedChildrenCount();
-    process->GetCountyId();
-    //process.GetCreated();
-    process->GetCreationDate();
-    process->GetCurrentState();
-    process->GetDisputeType();
+    result = false;
 
-    MediationSessionVector *sessions  = process->getMediationSessionVector(); // vector
-
-    // Second, hacky way, of getting at the mediation sessions
-    /*MediationSession* session;
-
-    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
+    if (!this->DoesTableExist(mediation_table_name))
     {
-        session = process->getMediationSessionVector()->at(i);
-    }*/
+         result = CreatePersonTable(mediation_table_name);
+    }
 
     process->GetNotes();
     PartyVector *parties = process->GetParties(); // vector
@@ -86,6 +75,8 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     // Register to Listen for events.
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
+    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertMediation(arg);});
+    //Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](Mediator arg){InsertMediation(arg);});
 
     //Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
     //Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
@@ -128,12 +119,11 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
 
 //========================================================================
 
-
 bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> mediation_table_columns;
-    mediation_table_columns.push_back(QString("Client_id integer primary key autoincrement null"));
+    mediation_table_columns.push_back(QString("Process_id integer primary key autoincrement null"));
     mediation_table_columns.push_back(QString("DisputeType integer"));
     mediation_table_columns.push_back(QString("CreationDate Date"));
     mediation_table_columns.push_back(QString("UpdatedDate Date"));
@@ -169,18 +159,18 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
     session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
-    session_table_columns.push_back(QString("Fee1Paid double"));
-    session_table_columns.push_back(QString("Fee2Paid double"));
-    session_table_columns.push_back(QString("FeeFamilyPaid double"));
-    session_table_columns.push_back(QString("Fee1OtherPaid double"));
-    session_table_columns.push_back(QString("Fee1 double"));
-    session_table_columns.push_back(QString("Fee2 double"));
-    session_table_columns.push_back(QString("FeeFamily double"));
-    session_table_columns.push_back(QString("FeeOther double"));
-    session_table_columns.push_back(QString("IncomeFee1 double"));
-    session_table_columns.push_back(QString("IncomeFee2 double"));
-    session_table_columns.push_back(QString("IncomeFeeFamily double"));
-    session_table_columns.push_back(QString("IncomeFeeOther double"));
+    session_table_columns.push_back(QString("Fee1Paid integer"));
+    session_table_columns.push_back(QString("Fee2Paid integer"));
+    session_table_columns.push_back(QString("FeeFamilyPaid integer"));
+    session_table_columns.push_back(QString("Fee1OtherPaid integer"));
+    session_table_columns.push_back(QString("Fee1 integer"));
+    session_table_columns.push_back(QString("Fee2 integer"));
+    session_table_columns.push_back(QString("FeeFamily integer"));
+    session_table_columns.push_back(QString("FeeOther integer"));
+    session_table_columns.push_back(QString("IncomeFee1 integer"));
+    session_table_columns.push_back(QString("IncomeFee2 integer"));
+    session_table_columns.push_back(QString("IncomeFeeFamily integer"));
+    session_table_columns.push_back(QString("IncomeFeeOther integer"));
     session_table_columns.push_back(QString("Mediator1 char(128)"));
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
@@ -255,6 +245,167 @@ DRCDB::~DRCDB()
     this->CloseDatabase();
 }
 //========================================================================
+
+void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
+{
+    // sort by update date and return the most recent 10
+    QSqlQuery Mediation_query(database);
+    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDate desc limit 10";
+    bool result = false;
+    result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
+
+    // Have the mediation processes now. Need to build them back up.
+    QString processId;
+    MediationProcessVector* processVector = nullptr;//new MediationProcessVector();
+    while(Mediation_query.next())
+    {
+        MediationProcess* process = new MediationProcess();
+
+        processId = Mediation_query.value(0).toString();
+
+        //Rebuilds the process itself based on the database
+        process->SetId(processId.toUInt());
+        process->SetDisputeType((DisputeTypes)Mediation_query.value(1).toInt());
+        process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(2).toString()));
+        process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(3).toString()));
+        process->SetProcessState((DisputeProcessStates)Mediation_query.value(4).toInt());
+        process->SetCountyId((CountyIds)Mediation_query.value(5).toInt());
+        process->AddNote(Mediation_query.value(6).toString());
+        process->SetReferralType((ReferralTypes)Mediation_query.value(7).toInt());
+        process->SetRequiresSpanish(Mediation_query.value(8).toBool());
+
+        //Grab sessions based on the mediation id
+        QSqlQuery sessionQuery(database);
+        QString session_command_string = QString("Select * from Session_Table where process_id = %1")
+                                                .arg(processId);
+        bool sessionResult = false;
+        sessionResult = this->ExecuteCommand(session_command_string, sessionQuery);
+
+        MediationSessionVector* sessions = nullptr;//new MediationSessionVector();
+        while(sessionQuery.next())
+        {
+            // Rebuild sessions and add them to the process
+            MediationSession* session = new MediationSession();
+
+            //session->SetState((SessionStates)sessionQuery.value(2).toInt());
+
+            session->setFee1Paid(sessionQuery.value(3).toBool());
+            session->setFee2Paid(sessionQuery.value(4).toBool());
+            session->setFeeFamilyPaid(sessionQuery.value(5).toBool());
+            session->setFeeOtherPaid(sessionQuery.value(6).toBool());
+
+            session->setFee1(sessionQuery.value(7).toString());
+            session->setFee2(sessionQuery.value(8).toString());
+            session->setFeeFamily(sessionQuery.value(9).toString());
+            session->setFeeOther(sessionQuery.value(10).toString());
+            session->setIncomeFee1(sessionQuery.value(11).toString());
+            session->setIncomeFee2(sessionQuery.value(12).toString());
+            session->setIncomeFeeFamily(sessionQuery.value(13).toString());
+            session->setIncomeFeeOther(sessionQuery.value(14).toString());
+
+            //TODO: Make these into just needing names... they're not "client" type people
+            //session->setMediator1(sessionQuery.value(15).toString());
+            //session->setMediator2(sessionQuery.value(16).toString());
+            //session->setObserver1(sessionQuery.value(17).toString());
+            //session->setObserver2(sessionQuery.value(18).toString());
+
+            sessions->push_back(session);
+        }
+        process->setMediationSessionVector(sessions);
+
+        //Grab clients based on the mediation id
+        QSqlQuery clientQuery(database);
+        QString client_command_string = QString("Select * from Client_table where process_id = %1")
+                                                .arg(processId);
+
+        bool clientResult = false;
+        clientResult = this->ExecuteCommand(client_command_string, clientQuery);
+
+        QString personId;
+
+        while(clientQuery.next())
+        {
+            // Rebuild clients and add them to the process... part of that is....
+            Party* party = new Party();
+            personId = clientQuery.value(2).toString();
+            Person* primary = new Person();// = nullptr;
+            //Grab people based on the column in client
+            QSqlQuery peopleQuery(database);
+            QString people_command_string = QString("Select * from Person_Table where person_id = %1").arg(personId);
+
+            bool personResult = false;
+            personResult = this->ExecuteCommand(people_command_string, peopleQuery);
+            while(peopleQuery.next())
+            {
+                // rebuild the primary client
+                primary->setFirstName(peopleQuery.value(1).toString());
+                primary->setMiddleName(peopleQuery.value(2).toString());
+                primary->setLastName(peopleQuery.value(3).toString());
+                primary->setStreet(peopleQuery.value(4).toString());
+                primary->setUnit(peopleQuery.value(5).toString());
+                primary->setCity(peopleQuery.value(6).toString());
+                primary->setState(peopleQuery.value(7).toString());
+                primary->setZip(peopleQuery.value(8).toString());
+                primary->setCounty(peopleQuery.value(9).toString());
+                primary->setPrimaryPhone(peopleQuery.value(10).toString());
+                primary->setSecondaryPhone(peopleQuery.value(11).toString());
+                primary->setAssistantPhone(peopleQuery.value(12).toString());
+                primary->setEmail(peopleQuery.value(13).toString());
+                primary->setNumberInHousehold(peopleQuery.value(14).toUInt());
+                primary->setAttorney(peopleQuery.value(15).toString());
+                party->SetPrimary(primary);
+            }
+
+            // NOT FULLY IMPLEMENTED YET! these members of party have to change
+
+            // TODO: Children in a party should be just a number
+            // TODO: Observers in a party should be just a name
+            // TODO: Attorney... This data needs to be more robust in the database.
+            //       Translation: Degan - redo that insertjoinobject method for that.
+            //
+            // party->SetChildren(clientQuery.value(3).toUInt());
+            // party->SetObservers(clientQuery.value(4).toString());
+            // party->SetAttorney(clientQuery.value(5).toString());
+            process->AddParty(party);
+        }
+
+        processVector->push_back(process);
+    }
+}
+
+void DRCDB::InsertMediation(MediatorArg arg)
+{
+    // Insert the mediation process as a whole (creates a new dispute)
+    MediationProcess* process = nullptr;
+    process = arg.getArg<MediationProcess*>();
+    InsertObject(process);
+
+    MediationSession* session = NULL;
+
+    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
+    {
+        // Insert each session that has been created by the dispute so far.
+        // Linkage will be preserved through the id being linked
+        session = process->getMediationSessionVector()->at(i);
+
+        InsertLinkedObject(process->GetId(), session);
+
+    }
+    Party* person = NULL;
+    for(int i = 0; i < process->GetParties().size(); i++)
+    {
+        // Insert each new person
+        // TODO: Add a check to prevent adding duplicate people
+
+        // As with above, these get passed to the join table where linkage
+        // is preserved through the IDs
+        person = process->GetParties().at(i);
+
+        InsertObject(person->GetPrimary());
+        InsertJoinObject(process, person);
+    }
+    Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
+}
 
 //========================================================================
 //Database authentication test code.  Not really touching the database,
@@ -398,12 +549,118 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
             .arg("null")
             .arg(db_object->Parse());
 
+    bool insertSuccess = false;
     QSqlQuery query_object(database);
 
-    return this->ExecuteCommand(command_string, query_object);
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    if(insertSuccess)
+    {
+        int id = query_object.lastInsertId().toInt();
+        db_object->SetId(id);
+    }
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
 }
 //========================================================================
 
+
+// For inserting objects which link only one direction (such as dispute having many sessions)
+bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
+{
+    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
+    QString command_string = QString("insert into %1 values ( %2, %3, %4 )")
+            .arg(db_object->table())
+            .arg("null")
+            .arg(linkedID)
+            .arg(db_object->Parse());
+
+    bool insertSuccess = false;
+    QSqlQuery query_object(database);
+
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    if(insertSuccess)
+    {
+        int id = query_object.lastInsertId().toInt();
+        db_object->SetId(id);
+    }
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
+}
+
+
+/*
+// For inserting into the many-to-many table... might not be able to template.
+// Keeping this here incase we think of a way we can
+bool DRCDB::InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
+{
+    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
+    QString command_string = QString("insert into %1 values ( %2, %3 )")
+            .arg("ARGLEBARGLECHANGEME")
+            .arg("null")
+            .arg(db_object1->Parse()); // NOT CHANGED! THIS WILL NOT WORK
+
+    bool insertSuccess = false;
+    QSqlQuery query_object(database);
+
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    if(insertSuccess)
+    {
+        int id = query_object.lastInsertId().toInt();
+    }
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
+}
+*/
+
+
+// Method to link a dispute and a party(really a person) through the client table
+bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_object)
+{
+    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
+
+    QString observerString;
+    for(int i = 0; i < party_object->GetObservers().size(); i++)
+    {
+        Person* temp = party_object->GetObservers().at(i);
+        observerString += temp->FullName();
+    }
+
+    QString value_string = QString("%1, %2, %3, '%4', '%5'")
+            .arg(dispute_object->GetId())
+            .arg(party_object->GetPrimary()->GetId())
+            .arg(party_object->GetChildren().size())
+            .arg(observerString)
+            .arg(party_object->GetAttorney().FullName());
+
+    QString command_string = QString("insert into %1 values ( %2, %3 )")
+            .arg("client_table")
+            .arg("null")
+            .arg(value_string);
+
+    bool insertSuccess = false;
+    QSqlQuery query_object(database);
+
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    if(insertSuccess)
+    {
+        int id = query_object.lastInsertId().toInt();
+        //db_object->SetId(id);
+    }
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
+}
 
 
 //========================================================================
@@ -437,7 +694,6 @@ bool DRCDB::ExecuteCommand(QString command_string, QSqlQuery &query_object)
     return query_object.exec();
 }
 //========================================================================
-
 
 
 //========================================================================
@@ -622,7 +878,15 @@ QString DRCDB::WhatOptionsEnabled()
 
 //        // SUCCESS!! INSERT CODE HERE
 //    }
-
+/*
+ * if db_error = true
+ * {
+ * arg.issuccessful = false
+ * arg.errormessage = db_error_message
+ *
+ *
+ *
+ * */
 
 //    qDebug() << "DB -> PersistIntakeForm Complete";
 //    Mediator::Call(MKEY_DB_PERSIST_INTAKE_FORM_DONE, intake, success, errorMessage);

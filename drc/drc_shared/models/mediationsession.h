@@ -6,7 +6,7 @@
 #include "drctypes.h"
 #include "DBBaseObject.h"
 
-class MediationSession :DBBaseObject
+class MediationSession : public DBBaseObject
 {
 private:
     QDateTime _mediationTime, _mediationCreation;

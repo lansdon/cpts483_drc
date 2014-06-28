@@ -76,6 +76,14 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
+    // Method to insert, for example, a session which needs to know the id of what it's linking to, the dispute
+    bool InsertLinkedObject(int linkedID, DBBaseObject* db_object);
+
+    // Possible method. not correctly implemented yet
+    bool InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2);
+
+    bool InsertJoinObject(MediationProcess* dispute_object, Party* party_object);
+
     QVector<QString> SelectAllFields(QString table_name);
 
     //Parameters are temporary until Filter Object finalized.
@@ -103,6 +111,11 @@ public:
 
     void AuthenticateUser(MediatorArg arg);
 
+    void InsertMediation(MediatorArg arg);
+
+    void LoadRecentMediations(MediatorArg arg);
+
+    void LoadRecentMediations(void);
 };
 
 #endif // DRCDB_H

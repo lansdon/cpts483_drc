@@ -5,7 +5,7 @@
 #-------------------------------------------------
 
 QT       += sql testlib
-
+QT       += widgets
 QT       -= gui
 
 TARGET = tst_drc_db_tests
@@ -16,16 +16,41 @@ CONFIG   += C++11
 TEMPLATE = app
 
 INCLUDEPATH += ../../drc/drc_shared/models/ \
-    ../../drc/db/
+    ../../drc/db/ \
+    ../../drc/gui/ \
+    ../../drc/drc_shared/mediator \
+    ../../drc/bl/ \
+    ../../drc/drc_shared/ \
+    ../../drc
 
 
 SOURCES += tst_drc_db_tests.cpp \
     ../../drc/db/drcdb.cpp \
-    ../../drc/drc_shared/models/Person.cpp
+    ../../drc/drc_shared/models/Person.cpp \
+    ../../drc/drc_shared/models/CurrentUser.cpp \
+    ../../drc/drc_shared/models/mediationprocess.cpp \
+    ../../drc/drc_shared/models/mediationsession.cpp \
+    ../../drc/drc_shared/models/party.cpp \
+    ../../drc/drc_shared/drctypes.cpp \
+    ../../drc/drc_shared/mediator/Mediator.cpp \
+    ../../drc/drc_shared/models/User.cpp \
+    ../../drc/drc_shared/models/Intake.cpp \
+    ../../drc/bl/Crypto/SHA256_Crypto.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
     ../../drc/db/drcdb.h \
     ../../drc/drc_shared/models/DBBaseObject.h \
     ../../drc/drc_shared/models/Person.h \
-    ../../drc/db/Filter.h
+    ../../drc/db/Filter.h \
+    ../../drc/drc_shared/models/mediationprocess.h \
+    ../../drc/drc_shared/models/mediationsession.h \
+    ../../drc/drc_shared/models/party.h \
+    ../../drc/drc_shared/drctypes.h \
+    ../../drc/drc_shared/mediator/Mediator.h \
+    ../../drc/drc_shared/mediator/MediatorArg.h \
+    ../../drc/drc_shared/mediator/MediatorKeys.h \
+    ../../drc/drc_shared/models/User.h \
+    ../../drc/drc_shared/models/Intake.h \
+    ../../drc/drc_shared/models/DRCModels.h \
+    ../../drc/bl/Crypto/SHA256_Crypto.h

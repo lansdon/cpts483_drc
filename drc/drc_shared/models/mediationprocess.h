@@ -38,7 +38,8 @@ public:
     QDateTime GetCreationDate() { return _creationDate; }
     DisputeProcessStates GetCurrentState() { return _processState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
-    MediationSessionVector *getMediationSessionVector() {return &_mediationSessionVector;}
+    MediationSessionVector *getMediationSessionVector() const {return _mediationSessionVector;}
+    QDateTime GetUpdatedDate() { return QDateTime::currentDateTime(); }
 
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }
     void SetCountyId(CountyIds countyId) { _countyOfMediation = countyId; }
