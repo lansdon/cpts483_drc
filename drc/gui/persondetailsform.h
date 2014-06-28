@@ -2,6 +2,7 @@
 #define PARTYDETAILSFORM_H
 
 #include <QWidget>
+#include <QKeyEvent>
 #include "Person.h"
 #include <QLineEdit>
 #include "Mediator.h"
@@ -20,7 +21,7 @@ class PersonDetailsForm : public QWidget
 public:
     explicit PersonDetailsForm(QWidget *parent = 0, Person* person = nullptr, bool bPopup = false);
     ~PersonDetailsForm();
-
+    void keyPressEvent(QKeyEvent *pe);
     void SetPerson(Person *p);
     Person *GetPerson() { return _person; }
 

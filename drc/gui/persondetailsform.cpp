@@ -30,6 +30,10 @@ PersonDetailsForm::~PersonDetailsForm()
     cleanPerson();
 }
 
+void PersonDetailsForm::keyPressEvent(QKeyEvent *pe)
+{
+    if(pe->key() == Qt::Key_Return) on_saveButton_clicked();
+}
 
 
 void PersonDetailsForm::UpdateLabels()

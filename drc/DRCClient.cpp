@@ -42,6 +42,7 @@ DRCClient::DRCClient(QWidget *parent)
     setCentralWidget(new LoginForm(this));
 
 
+
     // Listen for
     Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuBarEnabled();});
     Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuHelpEnabled();});
