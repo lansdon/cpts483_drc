@@ -27,7 +27,7 @@
 MediationProcess::MediationProcess() : DBBaseObject()
 {
     _creationDate = QDateTime::currentDateTime();
-    AddParty(new Party());
+//    AddParty(new Party());
 }
 MediationProcess::MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans, DisputeTypes disputeType,
                                    QDateTime creationDate, DisputeProcessStates processState, CountyIds county,
