@@ -81,7 +81,7 @@ void MediationSessionForm::fillFields(MediationSession *input)
         ui->feePaidDisplayLabel->setText(_mediationSession->getFeeStatus());
         ui->dateTimeEdit->setDateTime(input->getMediationTime());
         ui->dateTimeEdit->setVisible(true);
-        ui->CreationDateDisplayLabel->setText(_mediationSession->getMediationCreation().toString());
+        ui->CreationDateDisplayLabel->setText(_mediationSession->GetCreatedDate().toString());
         ui->FamilyFeeLineEdit->setText(input->getFeeFamily());
         ui->FamilyFeePaidCheckBox->setChecked(input->getFeeFamilyPaid());
         ui->Fee1LineEdit->setText(input->getFee1());

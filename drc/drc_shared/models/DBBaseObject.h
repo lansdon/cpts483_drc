@@ -19,9 +19,6 @@ public:
     //Object is still subject to change pending discussion with DB Team.
     virtual QString Parse(void) = 0;
 
-    QDateTime GetCreated() { return m_created; }
-    QDateTime GetUpdated() { return m_updated; }
-
     unsigned int GetId() { return m_id; }
     void SetId(unsigned int id) { m_id = id; }
 

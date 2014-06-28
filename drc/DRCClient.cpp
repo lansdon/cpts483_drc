@@ -7,7 +7,6 @@
 // GUI STUFF
 #include <QGridLayout>
 #include <QTabWidget>
-#include "fruitnameform.h"
 #include "loginform.h"
 #include "queryform.h"
 #include "Mediator.h"
@@ -109,11 +108,6 @@ void DRCClient::SetMenuAdminHide()
     ui->menuAdmin->menuAction()->setVisible(false);
 }
 
-void DRCClient::on_actionNew_Fruit_Submission_triggered()
-{
-    setCentralWidget(new FruitNameForm(this));
-}
-
 void DRCClient::on_actionNew_Form_triggered()
 {
 //    setCentralWidget(new IntakeForm(this));
@@ -133,11 +127,6 @@ void DRCClient::on_actionOpen_mediation_view_triggered()
 void DRCClient::on_actionMediation_Process_triggered()
 {
     setCentralWidget(new MediationProcessView());
-}
-
-void DRCClient::on_actionFruit_Test_triggered()
-{
-    setCentralWidget(new FruitNameForm(this));
 }
 
 void DRCClient::on_actionLogout_User_triggered()

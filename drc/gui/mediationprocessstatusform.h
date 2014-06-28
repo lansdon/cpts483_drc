@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include "mediationprocess.h"
+#include "Mediator.h"
+#include "MediatorKeys.h"
 
 namespace Ui {
 class MediationProcessStatusForm;

@@ -167,13 +167,13 @@ void MPFileMaker::parseProcessToFile(QTextStream &out, MediationProcess *mp)
     out << "MP_DATABASE_OBJ_CREATION_DATE: ";
     out << mp->GetCreatedDate().toString() << "\n";
     out << "MP_DATABASE_OBJ_UPDATE_DATE: ";
-    out << mp->GetUpdated().toString() << "\n";
+    out << mp->GetUpdatedDate().toString() << "\n";
     out << "MP_STATE_TRANSITION: ";
     out << mp->getStateTransition() << "\n";
     out << "MP_ACTIVE_STATE_TRANSITION: ";
     out << mp->getActiveStateTransition() << "\n";
     out << "MP_CREATION_DATE: ";
-    out << mp->GetCreationDate().toString() << "\n";
+    out << mp->GetCreatedDate().toString() << "\n";
     out << "MP_COUNTY_ID: ";
     out << mp->GetCountyId() << "\n";
     out << "MP_DISPUTE_TYPE: ";
@@ -280,7 +280,7 @@ MediationSession *MPFileMaker::sessionParse(QTextStream &in)
 
     temp->SetState(state);
     temp->setMediationTime(QDateTime::fromString(time));
-    temp->setMediationCreate(QDateTime::fromString(create));
+    temp->SetCreatedDate(QDateTime::fromString(create));
     temp->setFee1(fee1);
     temp->setFee1Paid(paid1);
     temp->setFee2(fee2);
@@ -307,7 +307,7 @@ void MPFileMaker::parseSession(QTextStream &out, MediationSession *ms)
     out << "SESSION_STATE: ";
     out << ms->GetState() << "\n";
     out << "SESSION_CREATION_DATE: ";
-    out << ms->getMediationCreation().toString() << "\n";
+    out << ms->GetCreatedDate().toString() << "\n";
     out << "SESSION_SCHEDULED_DATE: ";
     out << ms->getMediationTime().toString() << "\n";
     out << "SESSION_FEE1: ";

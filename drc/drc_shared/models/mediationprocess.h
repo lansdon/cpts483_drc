@@ -35,17 +35,17 @@ public:
     CountyIds GetCountyId() { return _countyOfMediation; }
     MediationNotesVector* GetNotes() { return &_mediationNotes; }
     ReferralTypes GetReferralType() { return _referalSource; }
-    QDateTime GetCreationDate() { return _creationDate; }
+
     DisputeProcessStates GetCurrentState() { return _processState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
     MediationSessionVector *getMediationSessionVector() {return &_mediationSessionVector;}
-    QDateTime GetUpdatedDate() { return QDateTime::currentDateTime(); }
+
 
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }
     void SetCountyId(CountyIds countyId) { _countyOfMediation = countyId; }
     void AddNote(QString note) { _mediationNotes.push_back(new Note(note)); }
     void SetReferralType(ReferralTypes type) { _referalSource = type; }
-    void SetCreationDate(QDateTime date) { _creationDate = date; }
+
     void SetProcessState(DisputeProcessStates state) { _processState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
     uint getStateTransition() {return _stateTransition;}
@@ -67,7 +67,7 @@ private:
     uint _activeStateTransition;
     DisputeTypes _disputeType;
 
-    QDateTime _creationDate;
+
 
     DisputeProcessStates _processState;
 

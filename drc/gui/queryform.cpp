@@ -240,7 +240,7 @@ void QueryForm::PopulateResultsTable()
 
 //>>>>>>> origin/GUI_Branch_5-30-14
             _resultsTable->setItem(row, MCOL_ID, new QTableWidgetItem(QString::number(row+1)));
-            _resultsTable->setItem(row, MCOL_CREATE_DATE, new QTableWidgetItem(o->GetCreationDate().toString("MM-dd-yy")));
+            _resultsTable->setItem(row, MCOL_CREATE_DATE, new QTableWidgetItem(o->GetCreatedDate().toString("MM-dd-yy")));
             _resultsTable->setItem(row, MCOL_DISPUTE_TYPE, new QTableWidgetItem(o->GetDisputeType()));
 //            _resultsTable->setItem(row, MCOL_OUTCOME, new QTableWidgetItem(QString::fromStdString(o->())));
 //<<<<<<< HEAD
