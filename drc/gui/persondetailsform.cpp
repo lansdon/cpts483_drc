@@ -21,7 +21,9 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopu
         UpdateLabels();
     else
         SetEditMode(true);      // Blank record, start in edit mode.
-
+    ui->emailFrame->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
+    ui->miscFrame->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
+    ui->addressGroupBox->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
 }
 
 PersonDetailsForm::~PersonDetailsForm()
