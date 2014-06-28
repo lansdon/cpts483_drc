@@ -34,6 +34,9 @@ private:
     void Update();
 
     void ConfigureComboBoxes(); // Sets the values based on enums.
+
+    void SetSavedLabel(bool isSaved);
+
 signals:
     void hovered();
 };

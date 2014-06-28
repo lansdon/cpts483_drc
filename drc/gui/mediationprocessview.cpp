@@ -220,3 +220,5 @@ void MediationProcessView::UpdateSignaled()      // Child process signals a chan
     //    Mediator::Call(MKEY_GUI_, _mediationProcess);
     PopulateView();
 }
+
+

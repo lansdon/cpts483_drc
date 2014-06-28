@@ -12,7 +12,8 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     ui->setupUi(this);
 
     ConfigureComboBoxes();
-    //Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg)Update(););
+    Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg){SetSavedLabel(false);});
+    Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg){SetSavedLabel(true);});
     Update();
 }
 
@@ -110,4 +111,18 @@ void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int ind
 {
     _mediationProcess->SetReferralType((ReferralTypes)index);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
+{
+    if(isSaved)
+    {
+        ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : green; }");
+        ui->saveStatusLabel->setText("Saved!");
+    }
+    else
+    {
+        ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : red; }");
+        ui->saveStatusLabel->setText("Unsaved changes!");
+    }
 }

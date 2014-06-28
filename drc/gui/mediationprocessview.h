@@ -74,6 +74,8 @@ private:
     void configSessionTable();
     void PopulateSessionTable();
     void on_sessiontTableWidget_itemSelectionChanged();
+
+
 };
 
 #endif // CONTACTRECORDVIEW_H
