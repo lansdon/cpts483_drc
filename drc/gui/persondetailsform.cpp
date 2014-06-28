@@ -178,9 +178,9 @@ void PersonDetailsForm::on_saveButton_clicked()
     _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
     _person->setAttorney(ui->attorneyLineEdit->text());
 
-    emit PersonSaved(_person);
-    emit SaveSignaled();
-
+    //emit PersonSaved(_person);
+    //emit SaveSignaled();
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     if(_bPopup)
     {
         this->close();

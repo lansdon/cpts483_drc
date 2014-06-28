@@ -12,7 +12,7 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     ui->setupUi(this);
 
     ConfigureComboBoxes();
-
+    //Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg)Update(););
     Update();
 }
 
@@ -91,23 +91,23 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetDisputeType((DisputeTypes)index);
-    update();
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationProcessStatusForm::on_statusComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetProcessState((DisputeProcessStates)index);
-    update();
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationProcessStatusForm::on_countyComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetCountyId((CountyIds)index);
-    update();
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetReferralType((ReferralTypes)index);
-    update();
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }

@@ -4,6 +4,8 @@
 #include <QWidget>
 #include "Person.h"
 #include <QLineEdit>
+#include "Mediator.h"
+#include "MediatorKeys.h"
 
 
 namespace Ui {
