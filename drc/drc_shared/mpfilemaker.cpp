@@ -229,7 +229,7 @@ MediationSession *MPFileMaker::sessionParse(QTextStream &in)
     QString incomeOther;//, extraSting;
     QString stateqs, paid1qs, paid2qs, paid3qs, paid4qs;
     bool paid1, paid2, paid3, paid4;
-    Person *med1, *med2, *obs1, *obs2;//, extraPointer;
+    QString med1, med2, obs1, obs2;//, extraPointer;
 
     stateqs = in.readLine();
     create = in.readLine();
@@ -246,6 +246,10 @@ MediationSession *MPFileMaker::sessionParse(QTextStream &in)
     income2 = in.readLine();
     income3 = in.readLine();
     incomeOther = in.readLine();
+    med1 = in.readLine();
+    med2 = in.readLine();
+    obs1 = in.readLine();
+    obs2 = in.readLine();
 
     removeMPKeyword(create);
     removeMPKeyword(time);
@@ -267,14 +271,12 @@ MediationSession *MPFileMaker::sessionParse(QTextStream &in)
     removeMPKeyword(income2);
     removeMPKeyword(income3);
     removeMPKeyword(incomeOther);
+    removeMPKeyword(med1);
+    removeMPKeyword(med2);
+    removeMPKeyword(obs1);
+    removeMPKeyword(obs2);
 
 
-
-
-    med1 = personParse(in);
-    med2 = personParse(in);
-    obs1 = personParse(in);
-    obs2 = personParse(in);
 
     temp->SetState(state);
     temp->setMediationTime(QDateTime::fromString(time));
@@ -332,10 +334,14 @@ void MPFileMaker::parseSession(QTextStream &out, MediationSession *ms)
     out << ms->getIncomeFeeFamily() << "\n";
     out << "SESSION_INCOME_OTHER: ";
     out << ms->getIncomeFeeOther() << "\n";
-    parsePerson(out,ms->getMediator1());
-    parsePerson(out,ms->getMediator2());
-    parsePerson(out,ms->getObserver1());
-    parsePerson(out, ms->getObserver2());
+    out << "SESSION_MEDIATOR_1: ";
+    out << ms->getMediator1() << "\n";
+    out << "SESSION_MEDIATOR_2: ";
+    out << ms->getMediator2() << "\n";
+    out << "SESSION_OBSERVER_1: ";
+    out << ms->getObserver1() << "\n";
+    out << "SESSION_OBSERVER_2: ";
+    out << ms->getObserver2() << "\n";
 }
 
 void MPFileMaker::parseProcessNotes(QTextStream &out, MediationNotesVector *notes)
