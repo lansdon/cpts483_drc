@@ -43,7 +43,34 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
     connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
+    ui->clientsContainer->setStyleSheet("QGroupBox {\
+                                        border: 2px solid gray;\
+                                        border-radius: 5px;\
+                                        margin-top: 15px;\
+                                       } QGroupBox::title { subcontrol-origin: margin;\
+     subcontrol-position: top left;\
+     padding:0 3px;\
+ }");
+    ui->overviewContainer->setStyleSheet("QGroupBox {\
+                                             border: 2px solid gray;\
+                                             border-radius: 5px;\
+                                             margin-top: 15px;\
+                                            } QGroupBox::title { subcontrol-origin: margin;\
+          subcontrol-position: top left;\
+          padding:0 3px;\
+      }");
+    ui->sessionOverviewGroupBox->setStyleSheet("QGroupBox {\
+                                               border: 2px solid gray;\
+                                               border-radius: 5px;\
+                                               margin-top: 15px;\
+                                              } QGroupBox::title { subcontrol-origin: margin;\
+                                                                   subcontrol-position: top left; padding:0 3px;}");
+
+
+
     // Update Fields for current record
+
+
     PopulateView();
 
     Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg arg){UpdateSignaled();});

@@ -45,8 +45,14 @@
        <pointsize>18</pointsize>
       </font>
      </property>
+     <property name="toolTip">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; (Choose a mediation to view from the Mediation Browser)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
      <property name="title">
-      <string>Mediation Details (Choose a mediation to view from the Mediation Browser)</string>
+      <string>Mediation Details</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
     </widget>
    </item>
@@ -65,8 +71,11 @@
          <pointsize>18</pointsize>
         </font>
        </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; (Select clients using the tabs)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
        <property name="title">
-        <string>Clients (Select clients using the tabs)</string>
+        <string>Clients</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
         <item row="1" column="0">
@@ -111,7 +120,7 @@
            </font>
           </property>
           <property name="title">
-           <string>Clien Controls</string>
+           <string/>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout">
            <item>
