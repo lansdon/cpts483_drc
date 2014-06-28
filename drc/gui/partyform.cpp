@@ -18,10 +18,10 @@ PartyForm::PartyForm(QWidget *parent, Party* party) :
     ui->setupUi(this);
 
     QGridLayout *gridLayout = new QGridLayout();
-//    PersonDetailsForm* personDetailsForm = new PersonDetailsForm(this, party->GetPrimary());
-//    connect(personDetailsForm,SIGNAL(SaveSignaled()),this,SLOT(DoSaveSignal()));
-//    connect(personDetailsForm,SIGNAL(EditSignaled()),this,SLOT(DoEditSignal()));
-//    gridLayout->addWidget(personDetailsForm);
+    PersonDetailsForm* personDetailsForm = new PersonDetailsForm(this, party->GetPrimary());
+    connect(personDetailsForm,SIGNAL(SaveSignaled()),this,SLOT(DoSaveSignal()));
+    connect(personDetailsForm,SIGNAL(EditSignaled()),this,SLOT(DoEditSignal()));
+    gridLayout->addWidget(personDetailsForm);
 
     ui->primaryFrame->setLayout(gridLayout);
 
