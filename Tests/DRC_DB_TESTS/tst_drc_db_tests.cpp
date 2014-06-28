@@ -246,6 +246,7 @@ void DRC_DB_TESTS::InsertMediationProcess()
     MediatorArg arg;
     arg.SetArg(object);
 
+    _db.InsertMediation(arg);
     //QCOMPARE(_db.InsertMediation(arg), true);
 }
 

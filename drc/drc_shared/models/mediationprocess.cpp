@@ -50,9 +50,10 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetCurrentState()))
             .arg(QString::number(this->GetCountyId()));
 
-    std::vector<QString> Notebook = this->GetNotes();
+    std::vector<QString> Notebook;// = this->GetNotes();
 
-    QString NotebookInOneLine;
+    Notebook.push_back("Hello World");
+    QString NotebookInOneLine = "";
 
     //Sloppy as hell.  Forgive me.
     foreach (QString line, Notebook)
@@ -109,8 +110,6 @@ MediationProcess *MediationProcess::SampleData()
     result->setMediationSessionVector(temp);
     for(int i=0; i < 25; ++i)
         result->GetNotes()->push_back(new Note("Some more mediation notes " + QString::number(i)));
-
-
 
     return result;
 }

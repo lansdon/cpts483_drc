@@ -38,7 +38,7 @@ public:
     QDateTime GetCreationDate() { return _creationDate; }
     DisputeProcessStates GetCurrentState() { return _processState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
-    MediationSessionVector *getMediationSessionVector() const {return _mediationSessionVector;}
+    MediationSessionVector *getMediationSessionVector() {return &_mediationSessionVector;}
     QDateTime GetUpdatedDate() { return QDateTime::currentDateTime(); }
 
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }

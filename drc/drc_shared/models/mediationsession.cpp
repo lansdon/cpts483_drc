@@ -23,7 +23,7 @@ QString MediationSession::Parse()
 
     QString toReturn;
 
-    toReturn += this->GetState();
+    toReturn += QString::number(this->GetState());
     toReturn += ", ";
 
     // Paid amounts

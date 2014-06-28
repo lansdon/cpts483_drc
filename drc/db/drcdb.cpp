@@ -63,11 +63,6 @@ DRCDB::DRCDB() : DB_ERROR(false)
          result = CreatePersonTable(mediation_table_name);
     }
 
-    process->GetNotes();
-    PartyVector *parties = process->GetParties(); // vector
-    process->GetReferralType();
-    process->GetRequiresSpanish();
-
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
     UserMap["Normal"] = sha256("normalpassword", "");
@@ -392,14 +387,14 @@ void DRCDB::InsertMediation(MediatorArg arg)
 
     }
     Party* person = NULL;
-    for(int i = 0; i < process->GetParties().size(); i++)
+    for(int i = 0; i < process->GetParties()->size(); i++)
     {
         // Insert each new person
         // TODO: Add a check to prevent adding duplicate people
 
         // As with above, these get passed to the join table where linkage
         // is preserved through the IDs
-        person = process->GetParties().at(i);
+        person = process->GetParties()->at(i);
 
         InsertObject(person->GetPrimary());
         InsertJoinObject(process, person);
