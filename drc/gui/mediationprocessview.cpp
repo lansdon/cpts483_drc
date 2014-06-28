@@ -46,15 +46,15 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     ui->clientsContainer->setStyleSheet("QGroupBox {\
                                         border: 2px solid gray;\
                                         border-radius: 5px;\
-                                        margin-top: 15px;\
+                                        margin-top: 1.3em;\
                                        } QGroupBox::title { subcontrol-origin: margin;\
      subcontrol-position: top left;\
      padding:0 3px;\
  }");
-    ui->overviewContainer->setStyleSheet("QGroupBox {\
+    ui->overviewContainer->setStyleSheet("QGroupBox#overviewContainer {\
                                              border: 2px solid gray;\
                                              border-radius: 5px;\
-                                             margin-top: 15px;\
+                                             margin-top: 1.3em;\
                                             } QGroupBox::title { subcontrol-origin: margin;\
           subcontrol-position: top left;\
           padding:0 3px;\
@@ -62,9 +62,9 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     ui->sessionOverviewGroupBox->setStyleSheet("QGroupBox {\
                                                border: 2px solid gray;\
                                                border-radius: 5px;\
-                                               margin-top: 15px;\
+                                               margin-top: 1.3em;\
                                               } QGroupBox::title { subcontrol-origin: margin;\
-                                                                   subcontrol-position: top left; padding:0 3px;}");
+                                                                   subcontrol-position: top left; padding:0 13px;}");
 
 
 

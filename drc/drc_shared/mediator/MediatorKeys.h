@@ -73,6 +73,14 @@ const QString MKEY_BL_VALIDATE_LOAD_MEDIATION_PROCESS_FORM_DONE = "MKEY_BL_VALID
 const QString MKEY_DB_LOAD_MEDIATION_PROCESS_FORM_DONE = "MKEY_DB_LOAD_MEDIATION_PROCESS_FORM_DONE";                      // MediationProcess*
 
 //////////////////////////////////////////////////////////////////
+//				LOAD RECENT MEDIATIONS VECTOR
+// Loads to 10 most recently updated mediations
+//////////////////////////////////////////////////////////////////                                                              ARGUMENT TYPE
+const QString MKEY_DOCK_REQUEST_RECENT_MEDIATIONS = "MKEY_DOCK_REQUEST_RECENT_MEDIATIONS";                                      // nullptr
+const QString MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE = "MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE";                                // nullptr
+const QString MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE = "MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE";                                // MediationProcessVector*
+
+//////////////////////////////////////////////////////////////////
 //				SAVE PERSON
 // Save a person the database
 //////////////////////////////////////////////////////////////////                                      ARGUMENT TYPE
@@ -119,8 +127,6 @@ const QString MKEY_DB_QUERY_MEDIATION = "MKEY_DB_QUERY_MEDIATION";              
 const QString MKEY_GUI_SHOW_MEDIATION_BROWSER = "MKEY_GUI_SHOW_MEDIATION_BROWSER";              // null
 // Set Sessions for Session Browser
 const QString MKEY_DOCK_SET_MEDIATIONS = "MKEY_DOCK_SET_MEDIATIONS";                                // MediationProcessVector*
-// Set Sessions for Session Browser
-const QString MKEY_DOCK_REQUEST_RECENT_MEDIATIONS = "MKEY_DOCK_REQUEST_RECENT_MEDIATIONS";                                // MediationProcessVector*
 // Refresh Mediations Browser
 const QString MKEY_DOCK_REFRESH_MEDIATIONS = "MKEY_DOCK_REFRESH_MEDIATIONS";
 // Set Sessions for Session Browser

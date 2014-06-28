@@ -53,8 +53,8 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){ShowMediationBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){ShowSessionBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){ShowNotesBrowser();});
-    Mediator::Register(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS, [this](MediatorArg arg){send_mediation_vector();});
-    Mediator::Register(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, [this](MediatorArg arg){saveMPEvent(arg);});
+//    Mediator::Register(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS, [this](MediatorArg arg){send_mediation_vector();});
+ //   Mediator::Register(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, [this](MediatorArg arg){saveMPEvent(arg);});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -140,7 +140,6 @@ void DRCClient::on_actionFruit_Test_triggered()
     setCentralWidget(new FruitNameForm(this));
 }
 
-
 void DRCClient::on_actionLogout_User_triggered()
 {
     ui->toolBar->clear();
@@ -151,8 +150,6 @@ void DRCClient::on_actionLogout_User_triggered()
     _mediationProcessView = nullptr;
     setCentralWidget(new LoginForm());
 }
-
-
 
 void DRCClient::on_mediationProcessSelected(MediationProcess* process)
 {

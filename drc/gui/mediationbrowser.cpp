@@ -14,6 +14,7 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
 
     ConfigMediationProcecssViewTable();
 
+    Mediator::Register(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
     Mediator::Register(MKEY_DOCK_SET_MEDIATIONS, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
     Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){PopulateMediationProcessTable();});
 

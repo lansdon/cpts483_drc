@@ -71,7 +71,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     // Register to Listen for events.
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertMediation(arg);});
-    //Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](Mediator arg){InsertMediation(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
 
     //Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
     //Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
@@ -241,7 +241,7 @@ DRCDB::~DRCDB()
 }
 //========================================================================
 
-void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
+void DRCDB::LoadRecentMediations(MediatorArg arg)
 {
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
@@ -251,7 +251,7 @@ void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
 
     // Have the mediation processes now. Need to build them back up.
     QString processId;
-    MediationProcessVector* processVector = nullptr;//new MediationProcessVector();
+    MediationProcessVector* processVector = new MediationProcessVector();
     while(Mediation_query.next())
     {
         MediationProcess* process = new MediationProcess();
@@ -276,7 +276,7 @@ void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
         bool sessionResult = false;
         sessionResult = this->ExecuteCommand(session_command_string, sessionQuery);
 
-        MediationSessionVector* sessions = nullptr;//new MediationSessionVector();
+        MediationSessionVector* sessions = new MediationSessionVector();
         while(sessionQuery.next())
         {
             // Rebuild sessions and add them to the process
@@ -318,8 +318,8 @@ void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
 
         QString personId;
 
-        while(clientQuery.next())
-        {
+//        while(clientQuery.next())
+//        {
             // Rebuild clients and add them to the process... part of that is....
             Party* party = new Party();
             personId = clientQuery.value(2).toString();
@@ -362,10 +362,11 @@ void DRCDB::LoadRecentMediations(void)//MediatorArg arg)
             // party->SetObservers(clientQuery.value(4).toString());
             // party->SetAttorney(clientQuery.value(5).toString());
             process->AddParty(party);
-        }
+//        }
 
         processVector->push_back(process);
     }
+    Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
 }
 
 void DRCDB::InsertMediation(MediatorArg arg)
@@ -637,7 +638,7 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
             .arg(party_object->GetAttorney().FullName());
 
     QString command_string = QString("insert into %1 values ( %2, %3 )")
-            .arg("client_table")
+            .arg("Client_Table")
             .arg("null")
             .arg(value_string);
 
