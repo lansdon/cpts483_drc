@@ -349,7 +349,6 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
                 primary->setNumberInHousehold(peopleQuery.value(14).toUInt());
                 primary->setAttorney(peopleQuery.value(15).toString());
                 party->SetPrimary(primary);
-                qDebug() << "DB: Adding primary to party - " << primary->FullName();
             }
 
             // NOT FULLY IMPLEMENTED YET! these members of party have to change

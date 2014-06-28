@@ -23,8 +23,6 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
 {
     if(parties)
     {
-//        ui->noClientsLabel->setVisible(true);
-//        ui->partyTabWidget->setVisible(false);
         ui->partyTabWidget->clear();
         foreach(Party* party, *parties)
         {
@@ -35,11 +33,6 @@ void PartiesContainerForm::AddPartyTabs(PartyVector* parties)
                 ui->partyTabWidget->addTab(pForm, party->GetPrimary()->FullName() );
             }
         }
-    }
-    else
-    {
-//        ui->noClientsLabel->setVisible(true);
-//        ui->partyTabWidget->setVisible(true);
     }
 }
 

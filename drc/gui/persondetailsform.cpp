@@ -21,7 +21,7 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopu
         UpdateLabels();
     else
         SetEditMode(true);      // Blank record, start in edit mode.
-    ui->emailFrame->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
+//    ui->emailFrame->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
     ui->miscFrame->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
     ui->addressGroupBox->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
 }
@@ -85,8 +85,8 @@ bool PersonDetailsForm::ValidateForm()
         &&
         ProcessPhoneNumber(ui->workLineEdit->text(), ui->workLineEdit)
         &&
-        ProcessPhoneNumber(ui->mobileLineEdit->text(), ui->mobileLineEdit)
-        &&
+//        ProcessPhoneNumber(ui->mobileLineEdit->text(), ui->mobileLineEdit)
+//        &&
         ProcessEmail(ui->emailLineEdit->text(), ui->emailLineEdit)
     )
     {
@@ -96,7 +96,7 @@ bool PersonDetailsForm::ValidateForm()
     return false;
 }
 
-void PersonDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
 {
    ProcessEmail(arg1, ui->emailLineEdit);
 }
@@ -146,20 +146,20 @@ bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* wid
     }
 }
 
-void PersonDetailsForm::on_workLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_workLineEdit_textEdited(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->workLineEdit);
+    _person->setPrimaryPhone(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void PersonDetailsForm::on_homeLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_homeLineEdit_textEdited(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->homeLineEdit);
+    _person->setSecondaryPhone(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void PersonDetailsForm::on_mobileLineEdit_textChanged(const QString &arg1)
-{
-    ProcessPhoneNumber(arg1, ui->mobileLineEdit);
-}
 
 void PersonDetailsForm::on_saveButton_clicked()
 {
@@ -228,8 +228,8 @@ void PersonDetailsForm::SetEditMode(bool editModeOn)
     ui->homeExtLineEdit->setEnabled(editModeOn);
     ui->workLineEdit->setEnabled(editModeOn);
     ui->workExtLineEdit->setEnabled(editModeOn);
-    ui->mobileLineEdit->setEnabled(editModeOn);
-    ui->mobileExtLineEdit->setEnabled(editModeOn);
+//    ui->mobileLineEdit->setEnabled(editModeOn);
+//    ui->mobileExtLineEdit->setEnabled(editModeOn);
     ui->numInHomeLineEdit->setEnabled(editModeOn);
     ui->attorneyLineEdit->setEnabled(editModeOn);
 
@@ -257,4 +257,84 @@ void PersonDetailsForm::SetPerson(Person *p)
     cleanPerson();
     _person = p;
     UpdateLabels();
+}
+
+void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
+{
+    _person->setFirstName(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::ShowButtons(bool showButtons)
+{
+    if(showButtons)
+    {
+        ui->buttonContainer->setVisible(true);
+        SetEditMode(false);
+    }
+    else
+    {
+        ui->buttonContainer->setVisible(false);
+        SetEditMode(true);
+    }
+}
+
+void PersonDetailsForm::on_middleLineEdit_textEdited(const QString &arg1)
+{
+    _person->setMiddleName(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_lastLineEdit_textEdited(const QString &arg1)
+{
+    _person->setLastName(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_streetLineEdit_textEdited(const QString &arg1)
+{
+    _person->setStreet(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_unitLineEdit_textEdited(const QString &arg1)
+{
+    _person->setUnit(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_cityLineEdit_textEdited(const QString &arg1)
+{
+    _person->setCity(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_zipLineEdit_textEdited(const QString &arg1)
+{
+    _person->setZip(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_countyLineEdit_textEdited(const QString &arg1)
+{
+    _person->setCounty(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_stateLineEdit_textEdited(const QString &arg1)
+{
+    _person->setState(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_numInHomeLineEdit_textEdited(const QString &arg1)
+{
+    _person->setNumberInHousehold(arg1.toInt());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+}
+
+void PersonDetailsForm::on_attorneyLineEdit_textEdited(const QString &arg1)
+{
+    _person->setAttorney(arg1);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }

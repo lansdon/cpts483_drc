@@ -26,15 +26,14 @@ public:
     Person *GetPerson() { return _person; }
 
     void SetEditMode(bool editModeOn);
+    void ShowButtons(bool showButtons);
 
 private slots:
-    void on_emailLineEdit_textChanged(const QString &arg1);
+    void on_emailLineEdit_textEdited(const QString &arg1);
 
-    void on_workLineEdit_textChanged(const QString &arg1);
+    void on_workLineEdit_textEdited(const QString &arg1);
 
-    void on_homeLineEdit_textChanged(const QString &arg1);
-
-    void on_mobileLineEdit_textChanged(const QString &arg1);
+    void on_homeLineEdit_textEdited(const QString &arg1);
 
     void on_saveButton_clicked();
 
@@ -43,6 +42,28 @@ private slots:
     void on_deleteButton_clicked();
 
     void on_firstLineEdit_returnPressed();
+
+    void on_firstLineEdit_textEdited(const QString &arg1);
+
+    void on_middleLineEdit_textEdited(const QString &arg1);
+
+    void on_lastLineEdit_textEdited(const QString &arg1);
+
+    void on_streetLineEdit_textEdited(const QString &arg1);
+
+    void on_unitLineEdit_textEdited(const QString &arg1);
+
+    void on_cityLineEdit_textEdited(const QString &arg1);
+
+    void on_zipLineEdit_textEdited(const QString &arg1);
+
+    void on_countyLineEdit_textEdited(const QString &arg1);
+
+    void on_stateLineEdit_textEdited(const QString &arg1);
+
+    void on_numInHomeLineEdit_textEdited(const QString &arg1);
+
+    void on_attorneyLineEdit_textEdited(const QString &arg1);
 
 signals:
     void SaveSignaled();
@@ -72,6 +93,9 @@ private:
     void cleanPerson();             // This will delete _person if it was created internally
 
     bool _bPopup;
+
+    bool _bShowButtons;
+
 };
 
 #endif // PARTYDETAILSFORM_H
