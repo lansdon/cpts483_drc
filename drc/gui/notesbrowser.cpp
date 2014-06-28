@@ -96,9 +96,12 @@ void NotesBrowser::on_saveNoteBtn_clicked()
 
 void NotesBrowser::on_delNoteBtn_clicked()
 {
-    if(_notes->size() > ui->tableWidget->currentIndex().row())
+    if((_notes->size()) > ui->tableWidget->currentIndex().row())
     {
-        _notes->erase(_notes->begin() + ui->tableWidget->currentIndex().row());
+        if(_notes->size() != 1)
+            _notes->erase(_notes->begin() + ui->tableWidget->currentIndex().row());
+        else
+            _notes = new MediationNotesVector();
         Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     }
 }

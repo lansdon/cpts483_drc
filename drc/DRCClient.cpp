@@ -39,8 +39,8 @@ DRCClient::DRCClient(QWidget *parent)
     _mediationProcessView = nullptr;
     // Set the window to max size.
     this->setWindowState(Qt::WindowMaximized);
-
     setCentralWidget(new LoginForm(this));
+
 
 
     // Listen for

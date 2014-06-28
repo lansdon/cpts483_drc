@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QString>
+#include <QKeyEvent>
 
 namespace Ui {
 class LoginForm;

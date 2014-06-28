@@ -46,7 +46,7 @@ private:
     MediationProcessVector *mpVector;
     QString FileName;
     QString empty;
-    QString removeKeyword(QString &value);
+    void removeMPKeyword(QString &value);
 
 };
 
