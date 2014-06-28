@@ -8,25 +8,6 @@
 #include "party.h"
 
 
-//Values going into MediationProcess Table
-//id
-//disputeType
-//creationDate
-//updatedDate
-//processState
-//countyOfMediation
-//mediationNotes
-//referalSource
-//requiresSpanish
-
-//Objects to extract from MediationProcess
-//Parties
-//Mediation Sessions
-
-//Objects to extract from Parties
-//Person
-
-
 class MediationProcess : public DBBaseObject
 {
 public:

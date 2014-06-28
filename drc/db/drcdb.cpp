@@ -881,7 +881,15 @@ QString DRCDB::WhatOptionsEnabled()
 
 //        // SUCCESS!! INSERT CODE HERE
 //    }
-
+/*
+ * if db_error = true
+ * {
+ * arg.issuccessful = false
+ * arg.errormessage = db_error_message
+ *
+ *
+ *
+ * */
 
 //    qDebug() << "DB -> PersistIntakeForm Complete";
 //    Mediator::Call(MKEY_DB_PERSIST_INTAKE_FORM_DONE, intake, success, errorMessage);

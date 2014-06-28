@@ -2,6 +2,7 @@
 #include <QtTest>
 
 #include "drcdb.h"
+#include "mediationprocess.h"
 #include "Person.h"
 
 //Tests Still Needed
@@ -31,9 +32,12 @@ private:
     DRCDB _db;
 
     QString database_name;
-//    QString database_driver;
-    QString table_name;
-//    QVector<QString> column_container;
+    QString person_table_name;
+    QString mediation_table_name;
+    QString session_table_name;
+    QString client_table_name;
+    QString notes_table_name;
+
     QVector<QString> empty_container;
 
 
@@ -42,8 +46,16 @@ private Q_SLOTS:
     void CorrectDatabaseName();
     void ForeignKeysActive();
     void CreateTable();
+
     void CheckPersonColumn();
-    void InsertObject();
+    void CheckMediationColumn();
+    void CheckSessionColumn();
+    void CheckClientColumn();
+    void CheckNotesColumn();
+
+    void InsertPersonObject();
+    void InsertMediationProcess();
+
     void CheckErrors();
     void FindFirstName();
 
@@ -66,7 +78,13 @@ private slots:
 DRC_DB_TESTS::DRC_DB_TESTS()
 {
     database_name = QString("drc_db.db3");
-    table_name = "Person_Table";
+
+    //Names of all the tables
+    person_table_name = QString("Person_Table");
+    mediation_table_name = QString("Mediation_Table");
+    session_table_name = QString("Session_Table");
+    client_table_name = QString("Client_Table");
+    notes_table_name = QString("Notes_Table");
 }
 //=======================================================
 
@@ -93,31 +111,92 @@ void DRC_DB_TESTS::ForeignKeysActive()
 void DRC_DB_TESTS::CreateTable()
 {
     //Table should be created by the default constructor.
-    QCOMPARE(_db.DoesTableExist(table_name), true);
+    QCOMPARE(_db.DoesTableExist(person_table_name), true);
+    QCOMPARE(_db.DoesTableExist(mediation_table_name), true);
+    QCOMPARE(_db.DoesTableExist(session_table_name), true);
+    QCOMPARE(_db.DoesTableExist(client_table_name), true);
+    QCOMPARE(_db.DoesTableExist(notes_table_name), true);
 }
 
 void DRC_DB_TESTS::CheckPersonColumn()
 {
     //Verify all columns that should be inside table are there.
-    QCOMPARE(_db.DoesColumnExist(QString("person_id"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("first_name"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("middle_name"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("last_name"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("street_name"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("unit_name"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("city_name"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("state_name"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("zip_code"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("county_name"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("primary_phone"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("assistance_phone"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("email_address"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("number_in_house"), table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("attorney_name"), table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("person_id"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("first_name"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("middle_name"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("last_name"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("street_name"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("unit_name"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("city_name"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("state_name"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("zip_code"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("county_name"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("primary_phone"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("assistance_phone"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("email_address"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("number_in_house"), person_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("attorney_name"), person_table_name), true);
 }
 
-void DRC_DB_TESTS::InsertObject()
+void DRC_DB_TESTS::CheckMediationColumn()
+{
+    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), mediation_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("DisputeType"), mediation_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("CreationDate"), mediation_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("UpdatedDate"), mediation_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("DisputeState"), mediation_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("DisputeCounty"), mediation_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("DisputeNotes"), mediation_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("ReferalSource"), mediation_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("TranslatorRequired"), mediation_table_name), true);
+}
+
+void DRC_DB_TESTS::CheckSessionColumn()
+{
+    QCOMPARE(_db.DoesColumnExist(QString("Session_id"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("SessionStatus"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Fee1Paid"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Fee2Paid"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("FeeFamilyPaid"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Fee1OtherPaid"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Fee1"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Fee2"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("FeeFamily"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("FeeOther"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("IncomeFee1"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("IncomeFee2"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("IncomeFeeFamily"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("IncomeFeeOther"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Mediator1"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Mediator2"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Observer1"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Observer2"), session_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), session_table_name), true);
+}
+
+void DRC_DB_TESTS::CheckClientColumn()
+{
+    QCOMPARE(_db.DoesColumnExist(QString("Client_id"), client_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), client_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Person_id"), client_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Children"), client_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Observers"), client_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Attorney"), client_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), client_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Person_id"), client_table_name), true);
+}
+
+void DRC_DB_TESTS::CheckNotesColumn()
+{
+    QCOMPARE(_db.DoesColumnExist(QString("Note_id"), notes_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), notes_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("Note"), notes_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("CreateDate"), notes_table_name), true);
+}
+
+void DRC_DB_TESTS::InsertPersonObject()
 {
     Person Tim_Schafer(QString("Tim"));
 
@@ -139,25 +218,35 @@ void DRC_DB_TESTS::InsertObject()
     Bruce_Lee.setNumberInHousehold(8);
     Bruce_Lee.setAttorney(QString("Bird Man"));
 
-    Person Bruce_Chan(QString("Bruce"));
-    Bruce_Chan.setMiddleName(QString("Lee"));
-    Bruce_Chan.setLastName(QString("Chan"));
-    Bruce_Chan.setStreet(QString("4444 Chapelhill Blvd"));
-    Bruce_Chan.setUnit(QString("#5"));
-    Bruce_Chan.setCity(QString("Austin"));
-    Bruce_Chan.setState(QString("Texas"));
-    Bruce_Chan.setZip(QString("44444"));
-    Bruce_Chan.setCounty(QString("Franklin"));
-    Bruce_Chan.setPrimaryPhone(QString("222-222-2222"));
-    Bruce_Chan.setSecondaryPhone(QString("111-111-1111"));
-    Bruce_Chan.setAssistantPhone("444-444-4444");
-    Bruce_Chan.setEmail(QString("RushHour@JackieChan.com"));
-    Bruce_Chan.setNumberInHousehold(8);
-    Bruce_Chan.setAttorney(QString("Pheonix Wright"));
+    Person Elvis_Presley(QString("Elvis"));
+    Elvis_Presley.setMiddleName(QString("Lee"));
+    Elvis_Presley.setLastName(QString("Chan"));
+    Elvis_Presley.setStreet(QString("4444 Chapelhill Blvd"));
+    Elvis_Presley.setUnit(QString("#5"));
+    Elvis_Presley.setCity(QString("Austin"));
+    Elvis_Presley.setState(QString("Texas"));
+    Elvis_Presley.setZip(QString("44444"));
+    Elvis_Presley.setCounty(QString("Franklin"));
+    Elvis_Presley.setPrimaryPhone(QString("222-222-2222"));
+    Elvis_Presley.setSecondaryPhone(QString("111-111-1111"));
+    Elvis_Presley.setAssistantPhone("444-444-4444");
+    Elvis_Presley.setEmail(QString("RushHour@JackieChan.com"));
+    Elvis_Presley.setNumberInHousehold(8);
+    Elvis_Presley.setAttorney(QString("Pheonix Wright"));
 
     QCOMPARE(_db.InsertObject(&Bruce_Lee), true);
-    QCOMPARE(_db.InsertObject(&Bruce_Chan), true);
+    QCOMPARE(_db.InsertObject(&Elvis_Presley), true);
 
+}
+
+void DRC_DB_TESTS::InsertMediationProcess()
+{
+    MediationProcess* object = MediationProcess::SampleData();
+
+    MediatorArg arg;
+    arg.SetArg(object);
+
+    //QCOMPARE(_db.InsertMediation(arg), true);
 }
 
 //Sloppy Initial Test
