@@ -7,6 +7,7 @@
 
 #include "stateupdate.h"
 #include "DRCModels.h"
+#include <QDebug>
 #include <set>
 
 StateUpdate::StateUpdate()
@@ -43,7 +44,8 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
         }
     } while (success && arg->getStateTransition() != PROCESS_STATE_OUTCOME_REACHED);
 
-    if (arg->getStateTransition() < targetState)
+    auto finalState = arg->getStateTransition();
+    if (finalState < targetState || finalState == PROCESS_STATE_NONE)
     {
         errorMessage = _errorMessage;
         return success;
@@ -54,13 +56,26 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
 //this is the start state. all that is required is something in the name field
 bool StateUpdate::startState(MediationProcess *arg)
 {
-    if(arg->GetPartyAtIndex(0)->GetPrimary()->isName())
+    bool success = false;
+    qDebug() << "Validating Start State.";
+    auto parties = arg->GetParties();
+    if(parties->size() > 0)
     {
-        arg->setStateTransition(PROCESS_STATE_INITIATED);
-        return true;
+        auto parties = arg->GetParties();
+        for (unsigned int i = 0; i < parties->size(); i++)
+        {
+            auto primaryName = parties->at(i)->GetPrimary()->FullName();
+            if (primaryName != "")
+            {
+                arg->setStateTransition(PROCESS_STATE_INITIATED);
+                success = true;
+                break;
+            }
+        }
     }
-    _errorMessage = "Cannot create mediation process: Missing at least one party with a name.";
-    return false;
+    qDebug() << "Validation status: " << success << " " << _errorMessage;
+    if (!success) _errorMessage = "Cannot create mediation process: Missing at least one party with a name.";
+    return success;
 }
 
 /* initiated state
@@ -70,6 +85,7 @@ bool StateUpdate::startState(MediationProcess *arg)
  */
 bool StateUpdate::initiated(MediationProcess* arg)
 {
+    qDebug() << "Validating Initiated State.";
     auto parties = arg->GetParties();
     std::set<QString> dups;
     bool success = true;
@@ -89,17 +105,19 @@ bool StateUpdate::initiated(MediationProcess* arg)
     }
     if      (success) arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
     else    arg->setStateTransition(PROCESS_STATE_NONE);
+    qDebug() << "Validation status: " << success << " " << _errorMessage;
     return success;
 }
 
 /* readyToSchedule state
  * checks to see if there is sufficient contact information for
  * the primary person of each party.
- * success: state = PROCESS_STATE_READY_TO_SCHEDULE
+ * success: state = PROCESS_STATE_READY_SCHEDULED
  * failure: state = PROCESS_STATE_INITIATED
  */
 bool StateUpdate::readyToSchedule(MediationProcess *arg)
 {
+    qDebug() << "Validating ReadyToSchedule state.";
     bool success = true;
     if (arg)
     {
@@ -108,10 +126,11 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
         for (unsigned int i=0; i < parties->size(); i++)
         {
             auto primary = parties->at(i)->GetPrimary();
-            success &=
-                    ((!primary->getPrimaryPhone().isEmpty()) &&
-                    ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && !primary->getCounty().isEmpty()) ||
-                     (!primary->getEmail().isEmpty())));
+            success &= (primary->FullName()!="");
+            success &=              // (phone not empty) AND ((address not empty) OR (email address not empty))
+               ((primary->getPrimaryPhone()!="") &&
+               ((primary->getStreet()!="" && primary->getCity()!="" && primary->getState()!="" && primary->getCounty()!="") ||
+                 primary->getEmail()!=""));
         }
     }
     else success = false;
@@ -121,7 +140,8 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
         _errorMessage = "Mediation process is not ready to schedule because not all primary parties have sufficient contact information.";
         arg->setStateTransition(PROCESS_STATE_INITIATED);
     }
-    else arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
+    else arg->setStateTransition(PROCESS_STATE_SCHEDULED);
+    qDebug() << "Validation status: " << success << " " << _errorMessage;
     return success;
 }
 
@@ -134,6 +154,7 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
  */
 bool StateUpdate::scheduled(MediationProcess *arg)
 {
+    qDebug() << "Validating Scheduled state.";
     bool success = true;
     if(arg)
     {
@@ -149,6 +170,7 @@ bool StateUpdate::scheduled(MediationProcess *arg)
         arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
         _errorMessage = "No mediation date scheduled.";
     }
+    qDebug() << "Validation status: " << success << " " << _errorMessage;
     return success;
 }
 
@@ -162,6 +184,7 @@ bool StateUpdate::scheduled(MediationProcess *arg)
  */
 bool StateUpdate::closed(MediationProcess *arg)
 {
+    qDebug() << "Validating Closed state.";
     bool success = true;
     if(arg)
     {
@@ -171,10 +194,10 @@ bool StateUpdate::closed(MediationProcess *arg)
             auto session = sessions[i];
             for (unsigned int j = 0; j < session.size(); j++)
             {
-                success &= (!session[j]->getFee1().isEmpty());
-                success &= (!session[j]->getFee2().isEmpty());
-                success &= (session[j]->getMediator1() != nullptr);
-                success &= (session[j]->getMediator2() != nullptr);
+                success &= (session[j]->getFee1()!="");
+                success &= (session[j]->getFee2()!="");
+                success &= (session[j]->getMediator1()!="");
+                success &= (session[j]->getMediator2()!="");
             }
         }
     }
@@ -187,5 +210,6 @@ bool StateUpdate::closed(MediationProcess *arg)
         arg->setStateTransition(PROCESS_STATE_SCHEDULED);
         _errorMessage = "Mediation session form not completed.";
     }
+    qDebug() << "Validation status: " << success << " " << _errorMessage;
     return success;
 }
