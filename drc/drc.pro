@@ -39,7 +39,6 @@ SOURCES += main.cpp\
     gui/partyform.cpp \
     drc_shared/models/party.cpp \
     drc_shared/models/mediationprocess.cpp \
-    gui/partiescontainerform.cpp \
     gui/mediationprocessstatusform.cpp \
     gui/searchwizard/searchwizard.cpp \
     gui/searchwizard/searchwizardintro.cpp \
@@ -93,7 +92,6 @@ HEADERS  += \
     drc_shared/models/party.h \
     drc_shared/models/mediationprocess.h \
     drc_shared/drctypes.h \
-    gui/partiescontainerform.h \
     gui/mediationprocessstatusform.h \
     gui/searchwizard/searchwizard.h \
     gui/searchwizard/searchwizardintro.h \
@@ -127,7 +125,6 @@ FORMS    += \
     gui/persondetailsform.ui \
     gui/mediationprocessview.ui \
     gui/partyform.ui \
-    gui/partiescontainerform.ui \
     gui/mediationbrowser.ui \
     gui/mediationprocessstatusform.ui \
     gui/mediationsessionform.ui \

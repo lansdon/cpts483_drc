@@ -8,7 +8,6 @@
 #include "contactrecorddataview.h"
 #include "DRCModels.h"
 #include "mediationprocessstatusform.h"
-#include "partiescontainerform.h"
 #include "mediationsessionform.h"
 #include "sessionoverview.h"
 #include "nosessionsview.h"

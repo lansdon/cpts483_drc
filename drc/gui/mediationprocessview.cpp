@@ -11,9 +11,9 @@
 #include "mediationprocessstatusform.h"
 #include "toolbarmanager.h"
 #include "DRCModels.h"
-#include "partiescontainerform.h"
 #include "MediatorKeys.h"
 #include "nosessionsview.h"
+#include "partyform.h"
 
 
 
@@ -208,12 +208,14 @@ void MediationProcessView::on_addCientPushButton_clicked()
     PartyForm* pForm = new PartyForm(ui->partyTabWidget, newParty);
     ui->partyTabWidget->addTab(pForm, newParty->GetPrimary()->FullName() );
     connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     PopulateView();
 }
 
 void MediationProcessView::on_removeClientPushButton_clicked()
 {
     _mediationProcess->removeParty(ui->partyTabWidget->currentIndex());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     PopulateView();
 }
 
