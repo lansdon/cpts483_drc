@@ -59,7 +59,7 @@ void PersonDetailsForm::UpdateLabels()
     ui->numInHomeLineEdit->setText(QString::number(_person->getNumberInHousehold()));
     ui->attorneyLineEdit->setText((_person->getAttorney()));
 
-    SetEditMode(false);
+//    SetEditMode(false);
 }
 
 void PersonDetailsForm::SetWidgetInvalid(QWidget *widget)
@@ -96,7 +96,7 @@ bool PersonDetailsForm::ValidateForm()
     return false;
 }
 
-void PersonDetailsForm::on_emailLineEdit_editingFinished()
+void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
 {
    _person->setEmail(ui->emailLineEdit->text());
 }
@@ -146,7 +146,7 @@ bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* wid
     }
 }
 
-void PersonDetailsForm::on_primaryLineEdit_editingFinished()
+void PersonDetailsForm::on_primaryLineEdit_textEdited(const QString &arg1)
 {
     _person->setPrimaryPhone(ui->primaryLineEdit->text());
 }
@@ -263,53 +263,51 @@ void PersonDetailsForm::ShowButtons(bool showButtons)
     }
 }
 
-void PersonDetailsForm::on_middleLineEdit_editingFinished()
+void PersonDetailsForm::on_middleLineEdit_textEdited(const QString &arg1)
 {
     _person->setMiddleName(ui->middleLineEdit->text());
 }
 
 
-void PersonDetailsForm::on_streetLineEdit_editingFinished()
+void PersonDetailsForm::on_streetLineEdit_textEdited(const QString &arg1)
 {
     _person->setStreet(ui->streetLabel->text());
 }
 
-void PersonDetailsForm::on_unitLineEdit_editingFinished()
+void PersonDetailsForm::on_unitLineEdit_textEdited(const QString &arg1)
 {
     _person->setUnit(ui->unitLineEdit->text());
 }
 
-void PersonDetailsForm::on_cityLineEdit_editingFinished()
+void PersonDetailsForm::on_cityLineEdit_textEdited(const QString &arg1)
 {
     _person->setCity(ui->cityLineEdit->text());
 }
 
-void PersonDetailsForm::on_zipLineEdit_editingFinished()
+void PersonDetailsForm::on_zipLineEdit_textEdited(const QString &arg1)
 {
     _person->setZip(ui->zipLineEdit->text());
 }
 
-void PersonDetailsForm::on_countyLineEdit_editingFinished()
+void PersonDetailsForm::on_countyLineEdit_textEdited(const QString &arg1)
 {
     _person->setCounty(ui->countyLineEdit->text());
 }
 
-void PersonDetailsForm::on_stateLineEdit_editingFinished()
+void PersonDetailsForm::on_stateLineEdit_textEdited(const QString &arg1)
 {
     _person->setState(ui->stateLineEdit->text());
 }
 
-void PersonDetailsForm::on_numInHomeLineEdit_editingFinished()
+void PersonDetailsForm::on_numInHomeLineEdit_textEdited(const QString &arg1)
 {
     _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
 }
 
-void PersonDetailsForm::on_attorneyLineEdit_editingFinished()
+void PersonDetailsForm::on_attorneyLineEdit_textEdited(const QString &arg1)
 {
     _person->setAttorney(ui->attorneyLineEdit->text());
 }
-
-
 
 void PersonDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
 {
@@ -326,22 +324,17 @@ void PersonDetailsForm::on_secondaryLineEdit_textChanged(const QString &arg1)
     ProcessPhoneNumber(arg1, ui->secondaryLineEdit);
 }
 
-void PersonDetailsForm::on_secondaryLineEdit_editingFinished()
+void PersonDetailsForm::on_secondaryLineEdit_textEdited(const QString &arg1)
 {
     _person->setSecondaryPhone(ui->secondaryLineEdit->text());
 }
 
 void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
 {
-
-}
-
-void PersonDetailsForm::on_firstLineEdit_editingFinished()
-{
     _person->setFirstName(ui->firstLineEdit->text());
 }
 
-void PersonDetailsForm::on_lastLineEdit_editingFinished()
+void PersonDetailsForm::on_lastLineEdit_textEdited(const QString &arg1)
 {
     _person->setLastName(ui->lastLineEdit->text());
 }
