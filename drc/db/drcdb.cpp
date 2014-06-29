@@ -261,8 +261,8 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
         //Rebuilds the process itself based on the database
         process->SetId(processId.toUInt());
         process->SetDisputeType((DisputeTypes)Mediation_query.value(1).toInt());
-        process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(2).toString()));
-        process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(3).toString()));
+        process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(2).toString(), "yyyy-MM-dd"));
+        process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(3).toString(), "yyyy-MM-dd"));
         process->SetProcessState((DisputeProcessStates)Mediation_query.value(4).toInt());
         process->SetCountyId((CountyIds)Mediation_query.value(5).toInt());
         process->AddNote(Mediation_query.value(6).toString());
