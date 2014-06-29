@@ -55,6 +55,11 @@ QString User::Parse()
             .arg(this->GetTypeString());
 }
 
+QString User::GetIdRowName()
+{
+
+}
+
 QString User::UpdateParse()
 {
     //TODO: IMPLEMENT THIS

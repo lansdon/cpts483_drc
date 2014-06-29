@@ -47,6 +47,7 @@ public:
     QString DuplicateQuery();
     QString SearchQuery();
 
+    QString GetIdRowName();
 
     // Accessors
      void setName(QString fName, QString mName, QString lName) { _firstName=fName; _middleName=mName; _lastName=lName;}

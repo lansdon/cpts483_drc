@@ -25,6 +25,8 @@ public:
     QString DuplicateQuery();
     QString SearchQuery();
 
+    QString GetIdRowName();
+
     static MediationProcess* SampleData();
 
     // Accessors

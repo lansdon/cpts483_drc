@@ -30,6 +30,8 @@ public:
     QString Parse(void);
     QString UpdateParse();
 
+    QString GetIdRowName();
+
     QString table(void);
 
     QString DuplicateQuery(void);

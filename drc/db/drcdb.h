@@ -76,6 +76,8 @@ public:
 
     bool InsertObject(DBBaseObject* db_object);
 
+    bool UpdateObject(DBBaseObject* db_object);
+
     // Method to insert, for example, a session which needs to know the id of what it's linking to, the dispute
     bool InsertLinkedObject(int linkedID, DBBaseObject* db_object);
 
@@ -83,6 +85,8 @@ public:
     bool InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2);
 
     bool InsertJoinObject(MediationProcess* dispute_object, Party* party_object);
+
+    bool UpdateJoinObject(MediationProcess* dispute_object, Party* party_object);
 
     QVector<QString> SelectAllFields(QString table_name);
 
@@ -112,6 +116,10 @@ public:
     void AuthenticateUser(MediatorArg arg);
 
     void InsertMediation(MediatorArg arg);
+
+    void UpdateMediation(MediatorArg arg);
+
+    void InsertOrUpdateMediation(MediatorArg arg);
 
     void LoadRecentMediations(MediatorArg arg);
 
