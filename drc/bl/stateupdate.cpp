@@ -65,7 +65,8 @@ bool StateUpdate::startState(MediationProcess *arg)
         for (unsigned int i = 0; i < parties->size(); i++)
         {
             auto primaryName = parties->at(i)->GetPrimary()->FullName();
-            if (primaryName != "")
+
+            if (ValidateName(primaryName))
             {
                 arg->setStateTransition(PROCESS_STATE_INITIATED);
                 success = true;
@@ -126,18 +127,18 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
         for (unsigned int i=0; i < parties->size(); i++)
         {
             auto primary = parties->at(i)->GetPrimary();
-            success &= (primary->FullName()!="");
+            success &= ValidateName(primary->FullName());
             success &=              // (phone not empty) AND ((address not empty) OR (email address not empty))
-               ((primary->getPrimaryPhone()!="") &&
-               ((primary->getStreet()!="" && primary->getCity()!="" && primary->getState()!="" && primary->getCounty()!="") ||
-                 primary->getEmail()!=""));
+               ((!primary->getPrimaryPhone().isEmpty()) &&
+               ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && !primary->getCounty().isEmpty()) ||
+                 !primary->getEmail().isEmpty()));
         }
     }
     else success = false;
 
     if (!success)
     {
-        _errorMessage = "Mediation process is not ready to schedule because not all primary parties have sufficient contact information.";
+        _errorMessage = "Mediation process is not ready to schedule because it does not have at least two clients with sufficient contact information.";
         arg->setStateTransition(PROCESS_STATE_INITIATED);
     }
     else arg->setStateTransition(PROCESS_STATE_SCHEDULED);
@@ -191,14 +192,11 @@ bool StateUpdate::closed(MediationProcess *arg)
         auto sessions = arg->getMediationSessionVector();
         for (unsigned int i = 0; i < sessions->size(); i++)
         {
-            auto session = sessions[i];
-            for (unsigned int j = 0; j < session.size(); j++)
-            {
-                success &= (session[j]->getFee1()!="");
-                success &= (session[j]->getFee2()!="");
-                success &= (session[j]->getMediator1()!="");
-                success &= (session[j]->getMediator2()!="");
-            }
+            auto session = sessions->at(i);
+            success &= (!session->getFee1().isEmpty());
+            success &= (!session->getFee2().isEmpty());
+            success &= (!session->getMediator1().isEmpty());
+            success &= (!session->getMediator2().isEmpty());
         }
     }
     if (success)
@@ -212,4 +210,10 @@ bool StateUpdate::closed(MediationProcess *arg)
     }
     qDebug() << "Validation status: " << success << " " << _errorMessage;
     return success;
+}
+
+bool StateUpdate::ValidateName(QString name)
+{
+    if (name.isEmpty() || name == " ") return false;
+    return true;
 }
