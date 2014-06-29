@@ -28,7 +28,7 @@ void SessionsBrowser::configSessionTable()
 {
     _sessionTable = ui->tableWidget;
     _sessionTable->setColumnCount(1);
-    _sessionTable->setRowCount(_sessions->size() + 1);
+    _sessionTable->setRowCount(10);
 //    QStringList _sessionTableHeader <<"Mediation Sessions";
     _sessionTable->setHorizontalHeaderLabels({"Mediation Sessions"});
     _sessionTable->verticalHeader()->setVisible(false);
@@ -60,18 +60,19 @@ void SessionsBrowser::PopulateSessionTable()
 
         _sessionTable->setVisible(true);
         _sessionTable->clearContents();
-        _sessionTable->setRowCount(0);
+        _sessionTable->setRowCount(_sessions->size());
+        _sessionTable->setStyleSheet("QTableView {selection-background-color: red;}");
 
         int row;
         for(row=0; row < (int)_sessions->size(); ++row)
         {
             SessionCell* sessionForm = new SessionCell(_sessionTable, _sessions->at(row));
-            _sessionTable->insertRow(row);
-            _sessionTable->setRowHeight(row, 50);
+//            _sessionTable->insertRow(row);
             _sessionTable->setCellWidget(row, 0, sessionForm);
+            _sessionTable->setRowHeight(row, 50);
         }
-        _sessionTable->insertRow(row);
-        _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
+ //       _sessionTable->insertRow(row);
+ //       _sessionTable->setItem(row, 0, new QTableWidgetItem("Double click here to add a new session->"));
     }
     else    // NO SESSIONS
     {
@@ -114,7 +115,11 @@ void SessionsBrowser::on_addSessionBtn_clicked()
     if(_sessions)
     {
         _sessions->push_back(new MediationSession);
-        PopulateSessionTable();
+        int row = _sessions->size()-1;
+        _sessionTable->insertRow(row);
+        _sessionTable->setCellWidget(row, 0, new SessionCell(_sessionTable, _sessions->back()));
+        _sessionTable->setRowHeight(row, 50);
+//        PopulateSessionTable();
         Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     }
 }

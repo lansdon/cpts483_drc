@@ -75,8 +75,6 @@ QString MediationSession::Parse()
     toReturn += ", ";
     toReturn += single_quote + this->getObserver2() + single_quote;
 
-    //toReturn = "Hello World";
-
     return toReturn;
 }
 
