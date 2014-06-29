@@ -673,6 +673,8 @@ bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
     {
         int id = query_object.lastInsertId().toInt();
         db_object->SetId(id);
+    } else {
+        qDebug() << GetLastErrors().first();
     }
 
     //Returning the boolean that was found before so work flow won't change

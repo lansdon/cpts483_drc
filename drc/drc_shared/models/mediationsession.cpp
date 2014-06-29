@@ -9,7 +9,9 @@ MediationSession::MediationSession()
 {
     _state = SessionStates::SESSION_STATE_PENDING;
     _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
-
+    _mediator1 = _mediator2 = _observer1 = _observer2 = "";
+    _mediationTime = QDateTime::currentDateTime();
+    _fee1 = _fee2 = _feeFamily = _feeOther = _incomeFee1 = _incomeFee2 = _incomeFeeFamily = _incomeFeeOther = "0";
 }
 
 
