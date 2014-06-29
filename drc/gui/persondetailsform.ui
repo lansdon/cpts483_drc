@@ -211,10 +211,10 @@
         </property>
         <layout class="QGridLayout" name="gridLayout_4">
          <item row="0" column="4">
-          <widget class="QLineEdit" name="workExtLineEdit"/>
+          <widget class="QLineEdit" name="primaryExtLineEdit"/>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="homeLineEdit"/>
+          <widget class="QLineEdit" name="secondaryLineEdit"/>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="homeLabel">
@@ -231,7 +231,7 @@
           </widget>
          </item>
          <item row="1" column="4">
-          <widget class="QLineEdit" name="homeExtLineEdit"/>
+          <widget class="QLineEdit" name="secondaryExtLineEdit"/>
          </item>
          <item row="1" column="3">
           <widget class="QLabel" name="homeExtLabel">
@@ -241,7 +241,7 @@
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="workLineEdit"/>
+          <widget class="QLineEdit" name="primaryLineEdit"/>
          </item>
          <item row="0" column="3">
           <widget class="QLabel" name="workExtLabel">
@@ -278,10 +278,10 @@
   <tabstop>zipLineEdit</tabstop>
   <tabstop>countyLineEdit</tabstop>
   <tabstop>stateLineEdit</tabstop>
-  <tabstop>workLineEdit</tabstop>
-  <tabstop>workExtLineEdit</tabstop>
-  <tabstop>homeLineEdit</tabstop>
-  <tabstop>homeExtLineEdit</tabstop>
+  <tabstop>primaryLineEdit</tabstop>
+  <tabstop>primaryExtLineEdit</tabstop>
+  <tabstop>secondaryLineEdit</tabstop>
+  <tabstop>secondaryExtLineEdit</tabstop>
   <tabstop>numInHomeLineEdit</tabstop>
   <tabstop>attorneyLineEdit</tabstop>
   <tabstop>saveButton</tabstop>

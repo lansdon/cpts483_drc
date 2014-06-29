@@ -29,11 +29,7 @@ public:
     void ShowButtons(bool showButtons);
 
 private slots:
-    void on_emailLineEdit_textEdited(const QString &arg1);
-
-    void on_workLineEdit_textEdited(const QString &arg1);
-
-    void on_homeLineEdit_textEdited(const QString &arg1);
+    void on_emailLineEdit_editingFinished();
 
     void on_saveButton_clicked();
 
@@ -43,27 +39,37 @@ private slots:
 
     void on_firstLineEdit_returnPressed();
 
+    void on_firstLineEdit_editingFinished();
+
+    void on_middleLineEdit_editingFinished();
+
+    void on_lastLineEdit_editingFinished();
+
+    void on_streetLineEdit_editingFinished();
+
+    void on_unitLineEdit_editingFinished();
+
+    void on_cityLineEdit_editingFinished();
+
+    void on_zipLineEdit_editingFinished();
+
+    void on_countyLineEdit_editingFinished();
+
+    void on_stateLineEdit_editingFinished();
+
+    void on_numInHomeLineEdit_editingFinished();
+
+    void on_attorneyLineEdit_editingFinished();
+
     void on_firstLineEdit_textEdited(const QString &arg1);
 
-    void on_middleLineEdit_textEdited(const QString &arg1);
+    void on_primaryLineEdit_textChanged(const QString &arg1);
 
-    void on_lastLineEdit_textEdited(const QString &arg1);
+    void on_secondaryLineEdit_textChanged(const QString &arg1);
+    void on_emailLineEdit_textChanged(const QString &arg1);
+    void on_primaryLineEdit_editingFinished();
 
-    void on_streetLineEdit_textEdited(const QString &arg1);
-
-    void on_unitLineEdit_textEdited(const QString &arg1);
-
-    void on_cityLineEdit_textEdited(const QString &arg1);
-
-    void on_zipLineEdit_textEdited(const QString &arg1);
-
-    void on_countyLineEdit_textEdited(const QString &arg1);
-
-    void on_stateLineEdit_textEdited(const QString &arg1);
-
-    void on_numInHomeLineEdit_textEdited(const QString &arg1);
-
-    void on_attorneyLineEdit_textEdited(const QString &arg1);
+    void on_secondaryLineEdit_editingFinished();
 
 signals:
     void SaveSignaled();
