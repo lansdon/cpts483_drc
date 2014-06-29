@@ -414,8 +414,61 @@ void DRCDB::InsertMediation(MediatorArg arg)
         // is preserved through the IDs
         person = process->GetParties()->at(i);
 
-        InsertObject(person->GetPrimary());
-        InsertJoinObject(process, person);
+        if(person->GetPrimary()->getLastName() != "")
+        {
+            InsertObject(person->GetPrimary());
+            InsertJoinObject(process, person);
+        }
+    }
+    Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
+}
+
+void DRCDB::UpdateMediation(MediatorArg arg)
+{
+    // Insert the mediation process as a whole (creates a new dispute)
+    MediationProcess* process = nullptr;
+    process = arg.getArg<MediationProcess*>();
+    UpdateObject(process);
+
+    MediationSession* session = NULL;
+
+    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
+    {
+        session = process->getMediationSessionVector()->at(i);
+        if(session->GetId() == 0)
+        {
+            // session newly created, need to insert
+            InsertLinkedObject(process->GetId(), session);
+        }
+        else
+        {
+            // Session already existed, just need to update with new information
+            UpdateObject(session);
+        }
+    }
+    Party* person = NULL;
+    for(int i = 0; i < process->GetParties()->size(); i++)
+    {
+        // Insert each new person
+        // TODO: Add a check to prevent adding duplicate people
+
+        // As with above, these get passed to the join table where linkage
+        // is preserved through the IDs
+        person = process->GetParties()->at(i);
+
+        if(person->GetPrimary()->GetId() == 0)
+        {
+            if(person->GetPrimary()->getLastName() != "")
+            {
+                InsertObject(person->GetPrimary());
+                InsertJoinObject(process, person);
+            }
+        }
+        else
+        {
+            UpdateObject(person->GetPrimary());
+            UpdateJoinObject(process, person);
+        }
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
 }
