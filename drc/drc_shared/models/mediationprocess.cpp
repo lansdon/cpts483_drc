@@ -42,10 +42,12 @@ MediationProcess::~MediationProcess()
 
 QString MediationProcess::Parse()
 {
-    QString toReturn = QString("%1, '%2', '%3', %4, %5, ")
+    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
+            .arg(this->GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"))
+            .arg(this->GetUpdatedDate().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(QString::number(this->GetCurrentState()))
             .arg(QString::number(this->GetCountyId()));
 

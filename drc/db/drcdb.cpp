@@ -122,6 +122,8 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     mediation_table_columns.push_back(QString("DisputeType integer"));
     mediation_table_columns.push_back(QString("CreationDate Date"));
     mediation_table_columns.push_back(QString("UpdatedDate Date"));
+    mediation_table_columns.push_back(QString("CreationDateTime DateTime"));
+    mediation_table_columns.push_back(QString("UpdatedDateTime DateTime"));
     mediation_table_columns.push_back(QString("DisputeState integer"));
     mediation_table_columns.push_back(QString("DisputeCounty integer"));
     mediation_table_columns.push_back(QString("DisputeNotes char(128)"));
@@ -245,7 +247,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
 {
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDate desc limit 10";
+    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc limit 10";
     bool result = false;
     result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
@@ -261,13 +263,13 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
         //Rebuilds the process itself based on the database
         process->SetId(processId.toUInt());
         process->SetDisputeType((DisputeTypes)Mediation_query.value(1).toInt());
-        process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(2).toString(), "yyyy-MM-dd"));
-        process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(3).toString(), "yyyy-MM-dd"));
-        process->SetProcessState((DisputeProcessStates)Mediation_query.value(4).toInt());
-        process->SetCountyId((CountyIds)Mediation_query.value(5).toInt());
-        process->AddNote(Mediation_query.value(6).toString());
-        process->SetReferralType((ReferralTypes)Mediation_query.value(7).toInt());
-        process->SetRequiresSpanish(Mediation_query.value(8).toBool());
+        process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(4).toString(), "yyyy-MM-dd hh:mm:ss"));
+        process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
+        process->SetProcessState((DisputeProcessStates)Mediation_query.value(6).toInt());
+        process->SetCountyId((CountyIds)Mediation_query.value(7).toInt());
+        process->AddNote(Mediation_query.value(8).toString());
+        process->SetReferralType((ReferralTypes)Mediation_query.value(9).toInt());
+        process->SetRequiresSpanish(Mediation_query.value(10).toBool());
 
         //Grab sessions based on the mediation id
         QSqlQuery sessionQuery(database);
