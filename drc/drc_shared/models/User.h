@@ -28,6 +28,7 @@ public:
     QString GetTypeString(void);
 
     QString Parse(void);
+    QString UpdateParse();
 
     QString table(void);
 

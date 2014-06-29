@@ -78,6 +78,11 @@ QString MediationSession::Parse()
     return toReturn;
 }
 
+QString MediationSession::UpdateParse()
+{
+    //TODO: IMPLEMENT THIS
+}
+
 QString MediationSession::table()
 {
     return QString("Session_Table");

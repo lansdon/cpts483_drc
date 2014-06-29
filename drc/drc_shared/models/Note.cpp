@@ -46,6 +46,12 @@ QString Note::Parse()
 
 }
 
+QString Note::UpdateParse()
+{
+    #warning TODO - PARSE UNIMPLEMENTED!!!!
+
+}
+
 QString Note::table()
 {
 #warning TODO - table() UNIMPLEMENTED!!!!

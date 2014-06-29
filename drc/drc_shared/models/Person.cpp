@@ -114,6 +114,11 @@ QString Person::Parse(void)
     return toReturn;
 }
 
+QString Person::UpdateParse()
+{
+    //TODO: IMPLEMENT THIS
+}
+
 QString Person::table(void)
 {
     return QString("Person_Table");
