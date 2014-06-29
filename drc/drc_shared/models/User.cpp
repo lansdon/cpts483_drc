@@ -55,6 +55,16 @@ QString User::Parse()
             .arg(this->GetTypeString());
 }
 
+QString User::GetIdRowName()
+{
+
+}
+
+QString User::UpdateParse()
+{
+    //TODO: IMPLEMENT THIS
+}
+
 QString User::table(void)
 {
     return QString("This method in User.cpp has yet to be implemented.");

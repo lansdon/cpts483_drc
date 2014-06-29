@@ -114,17 +114,44 @@ QString Person::Parse(void)
     return toReturn;
 }
 
+QString Person::UpdateParse()
+{
+    //Name
+    QString toUpdate = QString("First_Name = '%1', middle_name = '%2', last_name = '%3',")
+            .arg(this->getFirstName())
+            .arg(this->getMiddleName())
+            .arg(this->getLastName());
+
+    //Address
+    toUpdate += QString(" street_name = '%1', unit_name = '%2', city_name = '%3', state_name = '%4', zip_code = '%5', county_name = '%6',")
+            .arg(this->getStreet())
+            .arg(this->getUnit())
+            .arg(this->getCity())
+            .arg(this->getState())
+            .arg(this->getZip())
+            .arg(this->getCounty());
+
+    //Phone Number
+    toUpdate += QString(" primary_phone =  '%1', secondary_phone = '%2', assistance_phone = '%3',")
+            .arg(this->getPrimaryPhone())
+            .arg(this->getSecondaryPhone())
+            .arg(this->getAssistantPhone());
+
+    //Other
+    toUpdate += QString(" email_address = '%1', number_in_house = %2, attorney_name = '%3'")
+            .arg(this->getEmail())
+            .arg(this->getNumberInHousehold())
+            .arg(this->getAttorney());
+
+    return toUpdate;
+}
+
+QString Person::GetIdRowName()
+{
+    return "person_id";
+}
+
 QString Person::table(void)
 {
     return QString("Person_Table");
 }
-
-//QString Person::DuplicateQuery(void)
-//{
-//    return QString("");
-//}
-
-//QString Person::SearchQuery(void)
-//{
-//    return QString("");
-//}

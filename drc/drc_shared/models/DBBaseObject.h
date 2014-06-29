@@ -19,6 +19,10 @@ public:
     //Object is still subject to change pending discussion with DB Team.
     virtual QString Parse(void) = 0;
 
+    virtual QString UpdateParse(void) = 0;
+
+    virtual QString GetIdRowName(void) = 0;
+
     unsigned int GetId() { return m_id; }
     void SetId(unsigned int id) { m_id = id; }
 
