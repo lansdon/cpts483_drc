@@ -54,7 +54,7 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
 //this is the start state. all that is required is something in the name field
 bool StateUpdate::startState(MediationProcess *arg)
 {
-    if(arg->GetPartyAtIndex(0)->GetPrimary()->isName())
+    if(arg->GetParties()->size() && arg->GetPartyAtIndex(0)->GetPrimary()->isName())
     {
         arg->setStateTransition(PROCESS_STATE_INITIATED);
         return true;

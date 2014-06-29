@@ -60,12 +60,12 @@ void MediationBrowser::PopulateMediationProcessTable()
     for(int row=0; row < (int)_mediationsVector.size(); ++row)
     {
         //insert data
-        MediationProcess *o = _mediationsVector.at(row);
-        if(o)
+        MediationProcess *mp = _mediationsVector.at(row);
+        if(mp)
         {
-            ui->tableWidget->setItem(row, 0, new QTableWidgetItem(o->GetCreatedDate().toString()));
-            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(o->GetParties()->size() ? o->GetPartyAtIndex(0)->GetPrimary()->FullName() : "N/A"));
-            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(StringForDisputeProcessStates( o->GetCurrentState())));
+            ui->tableWidget->setItem(row, 0, new QTableWidgetItem(mp->GetUpdatedDate().toString("MM/dd/yyyy")));
+            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(mp->GetParties()->size() ? mp->GetPartyAtIndex(0)->GetPrimary()->FullName() : "N/A"));
+            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(StringForDisputeProcessStates( mp->GetCurrentState())));
         }
     }
 }
