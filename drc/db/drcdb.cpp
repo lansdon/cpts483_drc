@@ -414,8 +414,11 @@ void DRCDB::InsertMediation(MediatorArg arg)
         // is preserved through the IDs
         person = process->GetParties()->at(i);
 
-        InsertObject(person->GetPrimary());
-        InsertJoinObject(process, person);
+        if(person->GetPrimary()->getLastName() != "")
+        {
+            InsertObject(person->GetPrimary());
+            InsertJoinObject(process, person);
+        }
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
 }
@@ -453,10 +456,13 @@ void DRCDB::UpdateMediation(MediatorArg arg)
         // is preserved through the IDs
         person = process->GetParties()->at(i);
 
-        if(person->GetId() == 0)
+        if(person->GetPrimary()->GetId() == 0)
         {
-            InsertObject(person->GetPrimary());
-            InsertJoinObject(process, person);
+            if(person->GetPrimary()->getLastName() != "")
+            {
+                InsertObject(person->GetPrimary());
+                InsertJoinObject(process, person);
+            }
         }
         else
         {
