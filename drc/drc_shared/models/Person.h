@@ -42,6 +42,7 @@ public:
 
     // Base Class Virtual Overrides
     QString Parse(void);
+    QString UpdateParse();
     QString table();
     QString DuplicateQuery();
     QString SearchQuery();

@@ -68,6 +68,11 @@ QString MediationProcess::Parse()
     return toReturn;
 }
 
+QString MediationProcess::UpdateParse()
+{
+    QString toUpdate = QString("DisputeType = %1, '%2', '%3', %4, %5, ")
+}
+
 QString MediationProcess::table()
 {
     return QString("Mediation_Table");
