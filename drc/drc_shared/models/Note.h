@@ -26,6 +26,7 @@ public:
     // Base Class Virtual Overrides
     QString Parse(void);
     QString UpdateParse();
+    QString GetIdRowName();
     QString table();
     QString DuplicateQuery();
     QString SearchQuery();

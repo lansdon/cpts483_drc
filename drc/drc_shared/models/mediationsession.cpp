@@ -80,12 +80,49 @@ QString MediationSession::Parse()
 
 QString MediationSession::UpdateParse()
 {
-    //TODO: IMPLEMENT THIS
+    QString toUpdate;
+
+    // Status
+    toUpdate += QString("SessionStatus = %1, ").arg(QString::number(this->GetState()));
+
+    // Fee State
+    toUpdate += QString("Fee1Paid = %1, ").arg(QString::number(this->getFee1Paid()));
+    toUpdate += QString("Fee2Paid = %1, ").arg(QString::number(this->getFee2Paid()));
+    toUpdate += QString("FeeFamilyPaid = %1, ").arg(QString::number(this->getFeeFamilyPaid()));
+    toUpdate += QString("FeeOtherPaid = %1, ").arg(QString::number(this->getFeeOtherPaid()));
+
+    //Due Amounts
+    toUpdate += QString("Fee1 = %1, ").arg(this->getFee1());
+    toUpdate += QString("Fee2 = %1, ").arg(this->getFee2());
+    toUpdate += QString("FeeFamily = %1, ").arg(this->getFeeFamily());
+    toUpdate += QString("FeeOther = %1, ").arg(this->getFeeOther());
+
+    //Income Amounts
+    toUpdate += QString("IncomeFee1 = %1, ").arg(this->getIncomeFee1());
+    toUpdate += QString("IncomeFee2 = %1, ").arg(this->getIncomeFee2());
+    toUpdate += QString("IncomeFeeFamily = %1, ").arg(this->getIncomeFeeFamily());
+    toUpdate += QString("IncomeFeeOther = %1, ").arg(this->getIncomeFeeOther());
+
+    //Mediators
+    toUpdate += QString("Mediator1 = '%1', ").arg(this->getMediator1());
+    toUpdate += QString("Mediator2 = '%1', ").arg(this->getMediator2());
+
+    //Observers
+    toUpdate += QString("Observer1 = '%1', ").arg(this->getObserver1());
+    toUpdate += QString("Observer2 = '%1' ").arg(this->getObserver2());
+
+
+    return toUpdate;
 }
 
 QString MediationSession::table()
 {
     return QString("Session_Table");
+}
+
+QString MediationSession::GetIdRowName()
+{
+    return "session_id";
 }
 
 QString MediationSession::DuplicateQuery()

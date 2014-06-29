@@ -52,6 +52,11 @@ QString Note::UpdateParse()
 
 }
 
+QString Note::GetIdRowName()
+{
+#warning TODO - rowname unimplemented!!!
+}
+
 QString Note::table()
 {
 #warning TODO - table() UNIMPLEMENTED!!!!

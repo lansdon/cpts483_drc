@@ -70,7 +70,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     // Register to Listen for events.
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
-    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertMediation(arg);});
+    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
     Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
 
     //Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
@@ -157,7 +157,7 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Fee1Paid integer"));
     session_table_columns.push_back(QString("Fee2Paid integer"));
     session_table_columns.push_back(QString("FeeFamilyPaid integer"));
-    session_table_columns.push_back(QString("Fee1OtherPaid integer"));
+    session_table_columns.push_back(QString("FeeOtherPaid integer"));
     session_table_columns.push_back(QString("Fee1 integer"));
     session_table_columns.push_back(QString("Fee2 integer"));
     session_table_columns.push_back(QString("FeeFamily integer"));
@@ -369,6 +369,23 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
     Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
 }
 
+void DRCDB::InsertOrUpdateMediation(MediatorArg arg)
+{
+    MediationProcess* process = nullptr;
+    process = arg.getArg<MediationProcess*>();
+
+    if(process->GetId() == 0)
+    {
+        InsertMediation(arg);
+    }
+    else
+    {
+        UpdateMediation(arg);
+    }
+
+}
+
+
 void DRCDB::InsertMediation(MediatorArg arg)
 {
     // Insert the mediation process as a whole (creates a new dispute)
@@ -399,6 +416,53 @@ void DRCDB::InsertMediation(MediatorArg arg)
 
         InsertObject(person->GetPrimary());
         InsertJoinObject(process, person);
+    }
+    Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
+}
+
+void DRCDB::UpdateMediation(MediatorArg arg)
+{
+    // Insert the mediation process as a whole (creates a new dispute)
+    MediationProcess* process = nullptr;
+    process = arg.getArg<MediationProcess*>();
+    UpdateObject(process);
+
+    MediationSession* session = NULL;
+
+    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
+    {
+        session = process->getMediationSessionVector()->at(i);
+        if(session->GetId() == 0)
+        {
+            // session newly created, need to insert
+            InsertLinkedObject(process->GetId(), session);
+        }
+        else
+        {
+            // Session already existed, just need to update with new information
+            UpdateObject(session);
+        }
+    }
+    Party* person = NULL;
+    for(int i = 0; i < process->GetParties()->size(); i++)
+    {
+        // Insert each new person
+        // TODO: Add a check to prevent adding duplicate people
+
+        // As with above, these get passed to the join table where linkage
+        // is preserved through the IDs
+        person = process->GetParties()->at(i);
+
+        if(person->GetId() == 0)
+        {
+            InsertObject(person->GetPrimary());
+            InsertJoinObject(process, person);
+        }
+        else
+        {
+            UpdateObject(person->GetPrimary());
+            UpdateJoinObject(process, person);
+        }
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
 }
@@ -560,6 +624,25 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
 }
+
+bool DRCDB::UpdateObject(DBBaseObject* db_object)
+{
+    QString command_string = QString("update %1 set %2 where %3 = %4")
+            .arg(db_object->table())
+            .arg(db_object->UpdateParse())
+            .arg(db_object->GetIdRowName())
+            .arg(db_object->GetId());
+
+    bool insertSuccess = false;
+    QSqlQuery query_object(database);
+
+    //Need to not immediately return so we can grab that ID that was created
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
+}
+
 //========================================================================
 
 
@@ -589,40 +672,9 @@ bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
     return insertSuccess;
 }
 
-
-/*
-// For inserting into the many-to-many table... might not be able to template.
-// Keeping this here incase we think of a way we can
-bool DRCDB::InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2)
-{
-    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
-    QString command_string = QString("insert into %1 values ( %2, %3 )")
-            .arg("ARGLEBARGLECHANGEME")
-            .arg("null")
-            .arg(db_object1->Parse()); // NOT CHANGED! THIS WILL NOT WORK
-
-    bool insertSuccess = false;
-    QSqlQuery query_object(database);
-
-    //Need to not immediately return so we can grab that ID that was created
-    insertSuccess = this->ExecuteCommand(command_string, query_object);
-
-    if(insertSuccess)
-    {
-        int id = query_object.lastInsertId().toInt();
-    }
-
-    //Returning the boolean that was found before so work flow won't change
-    return insertSuccess;
-}
-*/
-
-
 // Method to link a dispute and a party(really a person) through the client table
 bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_object)
 {
-    //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
-
     QString observerString;
     for(int i = 0; i < party_object->GetObservers().size(); i++)
     {
@@ -658,6 +710,37 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
     return insertSuccess;
 }
 
+
+// Method to link a dispute and a party(really a person) through the client table
+bool DRCDB::UpdateJoinObject(MediationProcess* dispute_object, Party* party_object)
+{
+    QString observerString;
+    for(int i = 0; i < party_object->GetObservers().size(); i++)
+    {
+        Person* temp = party_object->GetObservers().at(i);
+        observerString += temp->FullName();
+    }
+
+    QString value_string = QString("children = %3, observers = '%4', attorney = '%5'")
+            .arg(party_object->GetChildren().size())
+            .arg(observerString)
+            .arg(party_object->GetAttorney().FullName());
+
+    QString command_string = QString("update %1 set %2 where Process_id = %3 and Person_id = %4 ")
+            .arg("Client_Table")
+            .arg(value_string)
+            .arg(dispute_object->GetId())
+            .arg(party_object->GetPrimary()->GetId());
+
+    bool updateSuccess = false;
+    QSqlQuery query_object(database);
+
+    //Need to not immediately return so we can grab that ID that was created
+    updateSuccess = this->ExecuteCommand(command_string, query_object);
+
+    //Returning the boolean that was found before so work flow won't change
+    return updateSuccess;
+}
 
 //========================================================================
 //Prepare checks the potential SQL command for validity.  While it seems

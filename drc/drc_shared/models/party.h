@@ -21,6 +21,8 @@ public:
     QString DuplicateQuery();
     QString SearchQuery();
 
+    QString GetIdRowName();
+
     // Accessors
     void SetPrimary(Person *primary) { _primary = primary; }
     Person *GetPrimary() { return _primary; }

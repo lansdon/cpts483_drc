@@ -70,7 +70,22 @@ QString MediationProcess::Parse()
 
 QString MediationProcess::UpdateParse()
 {
-    QString toUpdate = QString("DisputeType = %1, '%2', '%3', %4, %5, ")
+    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', DisputeState = %4, DisputeCounty = %5, ")
+            .arg(QString::number(this->GetDisputeType()))
+            .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
+            .arg(QString::number(this->GetCurrentState()))
+            .arg(QString::number(this->GetCountyId()));
+
+    toUpdate += QString(" ReferalSource = '%2', TranslatorRequired = '%3'")
+            .arg(QString::number(this->GetReferralType()))
+            .arg(QString::number(this->GetRequiresSpanish()));
+
+    return toUpdate;
+}
+
+QString MediationProcess::GetIdRowName()
+{
+    return "process_id";
 }
 
 QString MediationProcess::table()

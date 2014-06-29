@@ -15,6 +15,11 @@ QString Party::Parse()
 
 }
 
+QString Party::UpdateParse()
+{
+
+}
+
 QString Party::table()
 {
 
@@ -30,6 +35,10 @@ QString Party::SearchQuery()
 
 }
 
+QString Party::GetIdRowName()
+{
+
+}
 
 // Test Data - Fill the object with test values in every field.
 Party *Party::SampleData()
