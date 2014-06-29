@@ -66,11 +66,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
                                               } QGroupBox::title { subcontrol-origin: margin;\
                                                                    subcontrol-position: top left; padding:0 13px;}");
 
-
-
     // Update Fields for current record
-
-
     PopulateView();
 
     Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg arg){UpdateSignaled();});
@@ -169,7 +165,6 @@ void MediationProcessView::SetMediationProcess(MediationProcess* process)
     _mediationProcess = process;
     PopulateView();
 }
-
 
 void MediationProcessView::AddPartyTabs(PartyVector* parties)
 {

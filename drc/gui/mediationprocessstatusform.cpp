@@ -25,6 +25,7 @@ void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 {
     _mediationProcess = value;
     Update();
+    SetSavedLabel(true);
 }
 
 void MediationProcessStatusForm::Update()
