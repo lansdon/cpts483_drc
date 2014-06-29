@@ -51,16 +51,8 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetCurrentState()))
             .arg(QString::number(this->GetCountyId()));
 
-    std::vector<QString> Notebook;// = this->GetNotes();
-
-    Notebook.push_back("Hello World");
-    QString NotebookInOneLine = "";
-
     //Sloppy as hell.  Forgive me.
-    foreach (QString line, Notebook)
-    {
-        NotebookInOneLine += line + "\n";
-    }
+    QString NotebookInOneLine = "Hello World\n";
 
     toReturn += QString("'%1', '%2', '%3'")
             .arg(NotebookInOneLine)

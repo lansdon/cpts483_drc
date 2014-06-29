@@ -3,8 +3,8 @@
 Note::Note(QString message)
 : DBBaseObject()
 , _message(message)
-, _sessionId(-1)
-, _mediationId(-1)
+, _sessionId(0)
+, _mediationId(0)
 {
 
 }
@@ -42,25 +42,34 @@ int Note::GetSessionId()
 // Abstract Overrides
 QString Note::Parse()
 {
-#warning TODO - PARSE UNIMPLEMENTED!!!!
 
+    QString toReturn;
+
+    toReturn += QString("%1, %2, ").arg(QString::number(this->GetmediationId()))
+                                   .arg(QString::number(this->GetSessionId()));
+
+    toReturn += QString("'%1', ").arg(this->GetMessage());
+
+    toReturn += QString("'%1' ").arg(this->GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"));
+
+    return toReturn;
 }
 
 QString Note::UpdateParse()
 {
-    #warning TODO - PARSE UNIMPLEMENTED!!!!
+
+    return QString("Note = %1").arg(this->GetMessage());
 
 }
 
 QString Note::GetIdRowName()
 {
-#warning TODO - rowname unimplemented!!!
+    return QString("Note_id");
 }
 
 QString Note::table()
 {
-#warning TODO - table() UNIMPLEMENTED!!!!
-
+    return "Notes_Table";
 }
 
 QString Note::DuplicateQuery()
