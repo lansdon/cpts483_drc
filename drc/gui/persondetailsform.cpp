@@ -99,6 +99,7 @@ bool PersonDetailsForm::ValidateForm()
 void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
 {
    _person->setEmail(ui->emailLineEdit->text());
+   Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 bool PersonDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
@@ -149,6 +150,7 @@ bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* wid
 void PersonDetailsForm::on_primaryLineEdit_textEdited(const QString &arg1)
 {
     _person->setPrimaryPhone(ui->primaryLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 
@@ -266,75 +268,90 @@ void PersonDetailsForm::ShowButtons(bool showButtons)
 void PersonDetailsForm::on_middleLineEdit_textEdited(const QString &arg1)
 {
     _person->setMiddleName(ui->middleLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 
 void PersonDetailsForm::on_streetLineEdit_textEdited(const QString &arg1)
 {
     _person->setStreet(ui->streetLabel->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_unitLineEdit_textEdited(const QString &arg1)
 {
     _person->setUnit(ui->unitLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_cityLineEdit_textEdited(const QString &arg1)
 {
     _person->setCity(ui->cityLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_zipLineEdit_textEdited(const QString &arg1)
 {
     _person->setZip(ui->zipLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_countyLineEdit_textEdited(const QString &arg1)
 {
     _person->setCounty(ui->countyLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_stateLineEdit_textEdited(const QString &arg1)
 {
     _person->setState(ui->stateLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_numInHomeLineEdit_textEdited(const QString &arg1)
 {
     _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_attorneyLineEdit_textEdited(const QString &arg1)
 {
     _person->setAttorney(ui->attorneyLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
 {
     ProcessEmail(arg1, ui->emailLineEdit);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_primaryLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->primaryLineEdit);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_secondaryLineEdit_textChanged(const QString &arg1)
 {
     ProcessPhoneNumber(arg1, ui->secondaryLineEdit);
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_secondaryLineEdit_textEdited(const QString &arg1)
 {
     _person->setSecondaryPhone(ui->secondaryLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
 {
     _person->setFirstName(ui->firstLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_lastLineEdit_textEdited(const QString &arg1)
 {
     _person->setLastName(ui->lastLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }

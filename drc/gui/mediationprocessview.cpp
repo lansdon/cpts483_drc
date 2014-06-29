@@ -70,6 +70,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     PopulateView();
 
     Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg arg){UpdateSignaled();});
+    Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
 
 }
 
@@ -226,7 +227,18 @@ void MediationProcessView::UpdateSignaled()      // Child process signals a chan
 {
     // TO DO - Send session to BL
     //    Mediator::Call(MKEY_GUI_, _mediationProcess);
-    PopulateView();
+//    PopulateView();
 }
 
-
+void MediationProcessView::SaveCompleted(MediatorArg arg)
+{
+    if(arg.IsSuccessful())
+    {
+        MediationProcess* mp = arg.getArg<MediationProcess*>();
+        if(mp)
+        {
+            // Update with all the latest ID's etc.
+            SetMediationProcess(mp);
+        }
+    }
+}
