@@ -37,7 +37,10 @@ public:
     explicit PartyForm(QWidget *parent = 0, Party* party = nullptr);
     ~PartyForm();
     void setParty(Party *value);
+    Party* GetParty() { return _party; }
+
     QString getFullName() const {return _party->GetPrimary()->FullName();}
+
 private slots:
     void DoSaveSignal() { emit SaveSignaled(); }
     void DoEditSignal() { emit EditSignaled(); }

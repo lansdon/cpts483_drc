@@ -16,9 +16,12 @@ public:
 
     //Virtual overrides
     QString Parse();
+    QString UpdateParse();
     QString table();
     QString DuplicateQuery();
     QString SearchQuery();
+
+    QString GetIdRowName();
 
     // Accessors
     void SetPrimary(Person *primary) { _primary = primary; }

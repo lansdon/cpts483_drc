@@ -71,9 +71,6 @@
          <pointsize>18</pointsize>
         </font>
        </property>
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt; (Select clients using the tabs)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
        <property name="title">
         <string>Clients</string>
        </property>

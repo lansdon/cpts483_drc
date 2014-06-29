@@ -35,8 +35,11 @@ PartyForm::~PartyForm()
 
 void PartyForm::setParty(Party *value)
 {
-    _party = value;
-    _personDetailsForm->SetPerson(_party->GetPrimary());
+    if(value != _party)
+    {
+        _party = value;
+        _personDetailsForm->SetPerson(_party->GetPrimary());
+    }
 }
 
 

@@ -50,10 +50,10 @@ void PersonDetailsForm::UpdateLabels()
     ui->countyLineEdit->setText((_person->getCounty()));
     ui->zipLineEdit->setText((_person->getZip()));
     ui->emailLineEdit->setText((_person->getEmail()));
-    ui->homeLineEdit->setText((_person->getPrimaryPhone()));
-    ui->homeExtLineEdit->setText((_person->getPrimaryPhoneExt()));
-    ui->workLineEdit->setText((_person->getSecondaryPhone()));
-    ui->workExtLineEdit->setText((_person->getSecondaryPhoneExt()));
+    ui->primaryLineEdit->setText((_person->getPrimaryPhone()));
+    ui->primaryExtLineEdit->setText((_person->getPrimaryPhoneExt()));
+    ui->secondaryLineEdit->setText((_person->getSecondaryPhone()));
+    ui->secondaryExtLineEdit->setText((_person->getSecondaryPhoneExt()));
 //    ui->mobileLineEdit->setText((_person->getMobilePhone()));
 //    ui->mobileExtLineEdit->setText((_person->getMobilePhoneExt()));
     ui->numInHomeLineEdit->setText(QString::number(_person->getNumberInHousehold()));
@@ -81,9 +81,9 @@ bool PersonDetailsForm::ValidateForm()
     // Check every field and return true if they all pass, else false.
 
     if(
-        ProcessPhoneNumber(ui->homeLineEdit->text(), ui->homeLineEdit)
+        ProcessPhoneNumber(ui->primaryLineEdit->text(), ui->primaryLineEdit)
         &&
-        ProcessPhoneNumber(ui->workLineEdit->text(), ui->workLineEdit)
+        ProcessPhoneNumber(ui->secondaryLineEdit->text(), ui->secondaryLineEdit)
         &&
 //        ProcessPhoneNumber(ui->mobileLineEdit->text(), ui->mobileLineEdit)
 //        &&
@@ -96,9 +96,9 @@ bool PersonDetailsForm::ValidateForm()
     return false;
 }
 
-void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_emailLineEdit_editingFinished()
 {
-   ProcessEmail(arg1, ui->emailLineEdit);
+   _person->setEmail(ui->emailLineEdit->text());
 }
 
 bool PersonDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
@@ -146,19 +146,11 @@ bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* wid
     }
 }
 
-void PersonDetailsForm::on_workLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_primaryLineEdit_editingFinished()
 {
-    ProcessPhoneNumber(arg1, ui->workLineEdit);
-    _person->setPrimaryPhone(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setPrimaryPhone(ui->primaryLineEdit->text());
 }
 
-void PersonDetailsForm::on_homeLineEdit_textEdited(const QString &arg1)
-{
-    ProcessPhoneNumber(arg1, ui->homeLineEdit);
-    _person->setSecondaryPhone(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
-}
 
 
 void PersonDetailsForm::on_saveButton_clicked()
@@ -175,12 +167,10 @@ void PersonDetailsForm::on_saveButton_clicked()
     _person->setCounty(ui->countyLineEdit->text());
     _person->setZip(ui->zipLineEdit->text());
     _person->setEmail(ui->emailLineEdit->text());
-    _person->setPrimaryPhone(ui->homeLineEdit->text());
-    _person->setPrimaryPhoneExt(ui->homeExtLineEdit->text());
-    _person->setSecondaryPhone(ui->workLineEdit->text());
-    _person->setSecondaryPhoneExt(ui->workExtLineEdit->text());
-//    _person->setMobilePhone(ui->mobileLineEdit->text());
-//    _person->setMobilePhoneExt(ui->mobileExtLineEdit->text());
+    _person->setPrimaryPhone(ui->primaryLineEdit->text());
+    _person->setPrimaryPhoneExt(ui->secondaryExtLineEdit->text());
+    _person->setSecondaryPhone(ui->secondaryLineEdit->text());
+    _person->setSecondaryPhoneExt(ui->primaryExtLineEdit->text());
     _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
     _person->setAttorney(ui->attorneyLineEdit->text());
 
@@ -214,6 +204,7 @@ void PersonDetailsForm::on_deleteButton_clicked()
 
 void PersonDetailsForm::SetEditMode(bool editModeOn)
 {
+    editModeOn = true;
     ui->firstLineEdit->setEnabled(editModeOn);
     ui->middleLineEdit->setEnabled(editModeOn);
     ui->lastLineEdit->setEnabled(editModeOn);
@@ -224,12 +215,10 @@ void PersonDetailsForm::SetEditMode(bool editModeOn)
     ui->countyLineEdit->setEnabled(editModeOn);
     ui->zipLineEdit->setEnabled(editModeOn);
     ui->emailLineEdit->setEnabled(editModeOn);
-    ui->homeLineEdit->setEnabled(editModeOn);
-    ui->homeExtLineEdit->setEnabled(editModeOn);
-    ui->workLineEdit->setEnabled(editModeOn);
-    ui->workExtLineEdit->setEnabled(editModeOn);
-//    ui->mobileLineEdit->setEnabled(editModeOn);
-//    ui->mobileExtLineEdit->setEnabled(editModeOn);
+    ui->primaryLineEdit->setEnabled(editModeOn);
+    ui->primaryExtLineEdit->setEnabled(editModeOn);
+    ui->secondaryLineEdit->setEnabled(editModeOn);
+    ui->secondaryExtLineEdit->setEnabled(editModeOn);
     ui->numInHomeLineEdit->setEnabled(editModeOn);
     ui->attorneyLineEdit->setEnabled(editModeOn);
 
@@ -259,11 +248,6 @@ void PersonDetailsForm::SetPerson(Person *p)
     UpdateLabels();
 }
 
-void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
-{
-    _person->setFirstName(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
-}
 
 void PersonDetailsForm::ShowButtons(bool showButtons)
 {
@@ -279,62 +263,85 @@ void PersonDetailsForm::ShowButtons(bool showButtons)
     }
 }
 
-void PersonDetailsForm::on_middleLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_middleLineEdit_editingFinished()
 {
-    _person->setMiddleName(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setMiddleName(ui->middleLineEdit->text());
 }
 
-void PersonDetailsForm::on_lastLineEdit_textEdited(const QString &arg1)
+
+void PersonDetailsForm::on_streetLineEdit_editingFinished()
 {
-    _person->setLastName(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setStreet(ui->streetLabel->text());
 }
 
-void PersonDetailsForm::on_streetLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_unitLineEdit_editingFinished()
 {
-    _person->setStreet(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setUnit(ui->unitLineEdit->text());
 }
 
-void PersonDetailsForm::on_unitLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_cityLineEdit_editingFinished()
 {
-    _person->setUnit(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setCity(ui->cityLineEdit->text());
 }
 
-void PersonDetailsForm::on_cityLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_zipLineEdit_editingFinished()
 {
-    _person->setCity(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setZip(ui->zipLineEdit->text());
 }
 
-void PersonDetailsForm::on_zipLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_countyLineEdit_editingFinished()
 {
-    _person->setZip(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setCounty(ui->countyLineEdit->text());
 }
 
-void PersonDetailsForm::on_countyLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_stateLineEdit_editingFinished()
 {
-    _person->setCounty(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setState(ui->stateLineEdit->text());
 }
 
-void PersonDetailsForm::on_stateLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_numInHomeLineEdit_editingFinished()
 {
-    _person->setState(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
 }
 
-void PersonDetailsForm::on_numInHomeLineEdit_textEdited(const QString &arg1)
+void PersonDetailsForm::on_attorneyLineEdit_editingFinished()
 {
-    _person->setNumberInHousehold(arg1.toInt());
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    _person->setAttorney(ui->attorneyLineEdit->text());
 }
 
-void PersonDetailsForm::on_attorneyLineEdit_textEdited(const QString &arg1)
+
+
+void PersonDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
 {
-    _person->setAttorney(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    ProcessEmail(arg1, ui->emailLineEdit);
+}
+
+void PersonDetailsForm::on_primaryLineEdit_textChanged(const QString &arg1)
+{
+    ProcessPhoneNumber(arg1, ui->primaryLineEdit);
+}
+
+void PersonDetailsForm::on_secondaryLineEdit_textChanged(const QString &arg1)
+{
+    ProcessPhoneNumber(arg1, ui->secondaryLineEdit);
+}
+
+void PersonDetailsForm::on_secondaryLineEdit_editingFinished()
+{
+    _person->setSecondaryPhone(ui->secondaryLineEdit->text());
+}
+
+void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
+{
+
+}
+
+void PersonDetailsForm::on_firstLineEdit_editingFinished()
+{
+    _person->setFirstName(ui->firstLineEdit->text());
+}
+
+void PersonDetailsForm::on_lastLineEdit_editingFinished()
+{
+    _person->setLastName(ui->lastLineEdit->text());
 }

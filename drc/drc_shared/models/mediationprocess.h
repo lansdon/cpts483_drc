@@ -20,9 +20,12 @@ public:
 
     // Required Overrides
     QString Parse();
+    QString UpdateParse();
     QString table();
     QString DuplicateQuery();
     QString SearchQuery();
+
+    QString GetIdRowName();
 
     static MediationProcess* SampleData();
 
