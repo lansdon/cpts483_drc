@@ -29,15 +29,15 @@ public:
 private slots:
     void on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
-    void on_Fee1LineEdit_editingFinished();
+    void on_Fee1LineEdit_textEdited(const QString &arg1);
 
     void on_Fee1PaidCheckBox_toggled(bool checked);
 
-    void on_Fee2LineEdit_editingFinished();
+    void on_Fee2LineEdit_textEdited(const QString &arg1);
 
-    void on_FamilyFeeLineEdit_editingFinished();
+    void on_FamilyFeeLineEdit_textEdited(const QString &arg1);
 
-    void on_OtherFeeLineEdit_editingFinished();
+    void on_OtherFeeLineEdit_textEdited(const QString &arg1);
 
     void on_Fee2PaidCheckBox_toggled(bool checked);
 
@@ -45,13 +45,13 @@ private slots:
 
     void on_OtherFeePaidCheckBox_toggled(bool checked);
 
-    void on_incomeFee1LineEdit_editingFinished();
+    void on_incomeFee1LineEdit_textEdited(const QString &arg1);
 
-    void on_incomeFee2LineEdit_editingFinished();
+    void on_incomeFee2LineEdit_textEdited(const QString &arg1);
 
-    void on_incomeFeeFamilyLineEdit_editingFinished();
+    void on_incomeFeeFamilyLineEdit_textEdited(const QString &arg1);
 
-    void on_incomeFeeOtherLineEdit_editingFinished();
+    void on_incomeFeeOtherLineEdit_textEdited(const QString &arg1);
 
     void SaveSignaled();
     void EditSignaled();
@@ -64,6 +64,12 @@ private slots:
     void on_incomeFeeOtherLineEdit_textChanged(const QString &arg1);
 
     void on_MediatorLineEdit_textChanged(const QString &arg1);
+
+    void on_Mediator2LineEdit_textChanged(const QString &arg1);
+
+    void on_Observe1LineEdit_textChanged(const QString &arg1);
+
+    void on_Observer2lineEdit_textChanged(const QString &arg1);
 
 private:
     Ui::MediationSessionForm *ui;
