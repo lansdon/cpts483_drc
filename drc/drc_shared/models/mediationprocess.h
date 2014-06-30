@@ -68,9 +68,8 @@ private:
 
     uint _stateTransition;
     uint _activeStateTransition;
+
     DisputeTypes _disputeType;
-
-
 
     DisputeProcessStates _processState;
 

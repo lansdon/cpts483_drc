@@ -42,23 +42,17 @@ MediationProcess::~MediationProcess()
 
 QString MediationProcess::Parse()
 {
-    QString toReturn = QString("%1, '%2', '%3', %4, %5, ")
+    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
+            .arg(this->GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"))
+            .arg(this->GetUpdatedDate().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(QString::number(this->GetCurrentState()))
             .arg(QString::number(this->GetCountyId()));
 
-    std::vector<QString> Notebook;// = this->GetNotes();
-
-    Notebook.push_back("Hello World");
-    QString NotebookInOneLine = "";
-
     //Sloppy as hell.  Forgive me.
-    foreach (QString line, Notebook)
-    {
-        NotebookInOneLine += line + "\n";
-    }
+    QString NotebookInOneLine = "Hello World\n";
 
     toReturn += QString("'%1', '%2', '%3'")
             .arg(NotebookInOneLine)
@@ -127,7 +121,7 @@ MediationProcess *MediationProcess::SampleData()
     for(int i = 0; i< rand() % 5 + 1; i++)
         temp->push_back(MediationSession::SampleData());
     result->setMediationSessionVector(temp);
-    for(int i=0; i < 25; ++i)
+    for(int i=0; i < 5; ++i)
         result->GetNotes()->push_back(new Note("Some more mediation notes " + QString::number(i)));
 
     return result;

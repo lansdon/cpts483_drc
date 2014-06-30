@@ -32,13 +32,15 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
             break;
         case PROCESS_STATE_READY_TO_SCHEDULE:
             success = readyToSchedule(arg);
-            break;
+              break;
         case PROCESS_STATE_SCHEDULED:
             success = scheduled(arg);
             break;
         case PROCESS_STATE_MEDIATION_COMPLETED:
             success = closed(arg);
+            break;
         case PROCESS_STATE_OUTCOME_REACHED:
+            success = false;
             break;
         }
     } while (success && arg->getStateTransition() != PROCESS_STATE_OUTCOME_REACHED);
@@ -54,7 +56,7 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
 //this is the start state. all that is required is something in the name field
 bool StateUpdate::startState(MediationProcess *arg)
 {
-    if(arg->GetPartyAtIndex(0)->GetPrimary()->isName())
+    if(arg->GetParties()->size() && arg->GetPartyAtIndex(0)->GetPrimary()->isName())
     {
         arg->setStateTransition(PROCESS_STATE_INITIATED);
         return true;
@@ -121,7 +123,7 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
         _errorMessage = "Mediation process is not ready to schedule because not all primary parties have sufficient contact information.";
         arg->setStateTransition(PROCESS_STATE_INITIATED);
     }
-    else arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
+    else arg->setStateTransition(PROCESS_STATE_SCHEDULED); // temp to advance it
     return success;
 }
 
@@ -165,16 +167,16 @@ bool StateUpdate::closed(MediationProcess *arg)
     bool success = true;
     if(arg)
     {
-        auto sessions = arg->getMediationSessionVector();
+        MediationSessionVector* sessions = arg->getMediationSessionVector();
         for (unsigned int i = 0; i < sessions->size(); i++)
         {
-            auto session = sessions[i];
-            for (unsigned int j = 0; j < session.size(); j++)
+            MediationSession* session = sessions->at(i);
+//            for (unsigned int j = 0; j < session.size(); j++)
             {
-                success &= (!session[j]->getFee1().isEmpty());
-                success &= (!session[j]->getFee2().isEmpty());
-                success &= (session[j]->getMediator1() != nullptr);
-                success &= (session[j]->getMediator2() != nullptr);
+                success &= (!session->getFee1().isEmpty());
+                success &= (!session->getFee2().isEmpty());
+                success &= (session->getMediator1() != nullptr);
+                success &= (session->getMediator2() != nullptr);
             }
         }
     }

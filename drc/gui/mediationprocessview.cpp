@@ -11,9 +11,9 @@
 #include "mediationprocessstatusform.h"
 #include "toolbarmanager.h"
 #include "DRCModels.h"
-#include "partiescontainerform.h"
 #include "MediatorKeys.h"
 #include "nosessionsview.h"
+#include "partyform.h"
 
 
 
@@ -66,14 +66,11 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
                                               } QGroupBox::title { subcontrol-origin: margin;\
                                                                    subcontrol-position: top left; padding:0 13px;}");
 
-
-
     // Update Fields for current record
-
-
     PopulateView();
 
     Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg arg){UpdateSignaled();});
+    Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
 
 }
 
@@ -170,7 +167,6 @@ void MediationProcessView::SetMediationProcess(MediationProcess* process)
     PopulateView();
 }
 
-
 void MediationProcessView::AddPartyTabs(PartyVector* parties)
 {
     if(parties && parties->size())
@@ -212,12 +208,14 @@ void MediationProcessView::on_addCientPushButton_clicked()
     PartyForm* pForm = new PartyForm(ui->partyTabWidget, newParty);
     ui->partyTabWidget->addTab(pForm, newParty->GetPrimary()->FullName() );
     connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     PopulateView();
 }
 
 void MediationProcessView::on_removeClientPushButton_clicked()
 {
     _mediationProcess->removeParty(ui->partyTabWidget->currentIndex());
+    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     PopulateView();
 }
 
@@ -231,7 +229,18 @@ void MediationProcessView::UpdateSignaled()      // Child process signals a chan
 {
     // TO DO - Send session to BL
     //    Mediator::Call(MKEY_GUI_, _mediationProcess);
-    PopulateView();
+//    PopulateView();
 }
 
-
+void MediationProcessView::SaveCompleted(MediatorArg arg)
+{
+    if(arg.IsSuccessful())
+    {
+        MediationProcess* mp = arg.getArg<MediationProcess*>();
+        if(mp)
+        {
+            // Update with all the latest ID's etc.
+            SetMediationProcess(mp);
+        }
+    }
+}

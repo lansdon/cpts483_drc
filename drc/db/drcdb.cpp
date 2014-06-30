@@ -63,6 +63,13 @@ DRCDB::DRCDB() : DB_ERROR(false)
          result = CreatePersonTable(mediation_table_name);
     }
 
+//    MediationProcess* process = MediationProcess::SampleData();
+
+    MediatorArg arg(MediationProcess::SampleData());
+//    arg.SetArg;
+
+    InsertOrUpdateMediation(arg);
+
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
     UserMap["Normal"] = sha256("normalpassword", "");
@@ -122,6 +129,8 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     mediation_table_columns.push_back(QString("DisputeType integer"));
     mediation_table_columns.push_back(QString("CreationDate Date"));
     mediation_table_columns.push_back(QString("UpdatedDate Date"));
+    mediation_table_columns.push_back(QString("CreationDateTime DateTime"));
+    mediation_table_columns.push_back(QString("UpdatedDateTime DateTime"));
     mediation_table_columns.push_back(QString("DisputeState integer"));
     mediation_table_columns.push_back(QString("DisputeCounty integer"));
     mediation_table_columns.push_back(QString("DisputeNotes char(128)"));
@@ -181,11 +190,9 @@ bool DRCDB::CreateNotesTable(const QString& Notes_table_name)
     QVector<QString> notes_table_columns;
     notes_table_columns.push_back(QString("Note_id integer primary key autoincrement null"));
     notes_table_columns.push_back(QString("Process_id integer"));
-    //notes_table_columns.push_back(QString("Session_id integer")); // TO BE ADDED when notes model updated by gui
+    notes_table_columns.push_back(QString("Session_id integer"));
     notes_table_columns.push_back(QString("Note char(128)"));
     notes_table_columns.push_back(QString("CreateDate Date"));
-    notes_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
-    //notes_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
 
     return CreateTable(Notes_table_name, notes_table_columns);
 }
@@ -245,7 +252,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
 {
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDate desc limit 10";
+    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc limit 10";
     bool result = false;
     result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
@@ -261,13 +268,13 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
         //Rebuilds the process itself based on the database
         process->SetId(processId.toUInt());
         process->SetDisputeType((DisputeTypes)Mediation_query.value(1).toInt());
-        process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(2).toString()));
-        process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(3).toString()));
-        process->SetProcessState((DisputeProcessStates)Mediation_query.value(4).toInt());
-        process->SetCountyId((CountyIds)Mediation_query.value(5).toInt());
-        process->AddNote(Mediation_query.value(6).toString());
-        process->SetReferralType((ReferralTypes)Mediation_query.value(7).toInt());
-        process->SetRequiresSpanish(Mediation_query.value(8).toBool());
+        process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(4).toString(), "yyyy-MM-dd hh:mm:ss"));
+        process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
+        process->SetProcessState((DisputeProcessStates)Mediation_query.value(6).toInt());
+        process->SetCountyId((CountyIds)Mediation_query.value(7).toInt());
+        process->SetReferralType((ReferralTypes)Mediation_query.value(9).toInt());
+        process->SetRequiresSpanish(Mediation_query.value(10).toBool());
+
 
         //Grab sessions based on the mediation id
         QSqlQuery sessionQuery(database);
@@ -277,6 +284,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
         sessionResult = this->ExecuteCommand(session_command_string, sessionQuery);
 
         MediationSessionVector* sessions = new MediationSessionVector();
+        std::vector<int> sessionIds;
         while(sessionQuery.next())
         {
             // Rebuild sessions and add them to the process
@@ -308,6 +316,23 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
         }
         process->setMediationSessionVector(sessions);
 
+        // Grab the notes, based on BOTH mediation id (easy) and session id (little trickier)
+
+        QSqlQuery noteQuery(database);
+        QString note_command_string = QString("Select * from Note_Table where Process_id = %1").arg(processId);
+        bool noteResult = false;
+        noteResult = this->ExecuteCommand(note_command_string, noteQuery);
+
+        while(noteQuery.next())
+        {
+            Note* note;
+            note->SetMediationId(noteQuery.value(2).toInt());
+            note->SetSessionId(noteQuery.value(3).toInt());
+            note->SetMessage(noteQuery.value(4).toString());
+            note->SetCreatedDate(QDateTime::fromString(noteQuery.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
+            process->GetNotes()->push_back(note);
+        }
+
         //Grab clients based on the mediation id
         QSqlQuery clientQuery(database);
         QString client_command_string = QString("Select * from Client_table where process_id = %1")
@@ -333,6 +358,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
             while(peopleQuery.next())
             {
                 // rebuild the primary client
+                primary->SetId(personId.toUInt());
                 primary->setFirstName(peopleQuery.value(1).toString());
                 primary->setMiddleName(peopleQuery.value(2).toString());
                 primary->setLastName(peopleQuery.value(3).toString());
@@ -404,6 +430,16 @@ void DRCDB::InsertMediation(MediatorArg arg)
         InsertLinkedObject(process->GetId(), session);
 
     }
+
+    Note* note;
+
+    for(int i = 0; i < process->GetNotes()->size(); i++)
+    {
+        note = process->GetNotes()->at(i);
+
+        InsertObject(note);
+    }
+
     Party* person = NULL;
     for(int i = 0; i < process->GetParties()->size(); i++)
     {
@@ -446,6 +482,22 @@ void DRCDB::UpdateMediation(MediatorArg arg)
             UpdateObject(session);
         }
     }
+
+    Note* note;
+
+    for(int i = 0; i < process->GetNotes()->size(); i++)
+    {
+        note = process->GetNotes()->at(i);
+        if(note->GetId() == 0)
+        {
+            InsertObject(note);
+        }
+        else
+        {
+            UpdateObject(note);
+        }
+    }
+
     Party* person = NULL;
     for(int i = 0; i < process->GetParties()->size(); i++)
     {
@@ -472,6 +524,7 @@ void DRCDB::UpdateMediation(MediatorArg arg)
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
 }
+
 
 //========================================================================
 //Database authentication test code.  Not really touching the database,
@@ -672,6 +725,8 @@ bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
     {
         int id = query_object.lastInsertId().toInt();
         db_object->SetId(id);
+    } else {
+        qDebug() << GetLastErrors().first();
     }
 
     //Returning the boolean that was found before so work flow won't change

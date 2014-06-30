@@ -35,7 +35,7 @@ void DRCBL::ValidateMediationProcess(MediatorArg arg) const
        if (mp)
        {
            StateUpdate stateUpdate;
-//           success = stateUpdate.StateCheck(mp, errorMessage);
+           success = stateUpdate.StateCheck(mp, errorMessage);
        }
        else
        {
