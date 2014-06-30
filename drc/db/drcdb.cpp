@@ -316,6 +316,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
         while(noteQuery.next())
         {
             Note* note = new Note();
+            note->SetId(noteQuery.value(0).toInt());
             note->SetMediationId(noteQuery.value(1).toInt());
             note->SetSessionId(noteQuery.value(2).toInt());
             note->SetMessage(noteQuery.value(3).toString());
