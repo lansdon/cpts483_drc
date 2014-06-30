@@ -67,6 +67,10 @@ private slots:
     void on_secondaryLineEdit_textEdited(const QString &arg1);
     void on_secondaryExtLineEdit_textEdited(const QString &arg1);
 
+    void on_primaryExtLineEdit_cursorPositionChanged(int arg1, int arg2);
+
+    void on_primaryExtLineEdit_textChanged(const QString &arg1);
+
 signals:
     void SaveSignaled();
     void EditSignaled();

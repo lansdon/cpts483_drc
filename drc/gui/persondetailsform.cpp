@@ -323,7 +323,6 @@ void PersonDetailsForm::on_primaryLineEdit_textEdited(const QString &arg1)
 void PersonDetailsForm::on_primaryExtLineEdit_textEdited(const QString &arg1)
 {
     _person->setPrimaryPhoneExt(ui->primaryExtLineEdit->text());
-    ProcessPhoneNumber(arg1, ui->primaryExtLineEdit);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 void PersonDetailsForm::on_secondaryLineEdit_textEdited(const QString &arg1)
@@ -332,13 +331,12 @@ void PersonDetailsForm::on_secondaryLineEdit_textEdited(const QString &arg1)
     ProcessPhoneNumber(arg1, ui->secondaryLineEdit);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
+
 void PersonDetailsForm::on_secondaryExtLineEdit_textEdited(const QString &arg1)
 {
     _person->setSecondaryPhoneExt(ui->secondaryExtLineEdit->text());
-    ProcessPhoneNumber(arg1, ui->secondaryExtLineEdit);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
-
 
 void PersonDetailsForm::on_lastLineEdit_textEdited(const QString &arg1)
 {
