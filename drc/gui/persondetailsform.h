@@ -62,8 +62,10 @@ private slots:
     void on_attorneyLineEdit_textEdited(const QString &arg1);
 
     void on_primaryLineEdit_textEdited(const QString &arg1);
+    void on_primaryExtLineEdit_textEdited(const QString &arg1);
 
     void on_secondaryLineEdit_textEdited(const QString &arg1);
+    void on_secondaryExtLineEdit_textEdited(const QString &arg1);
 
 signals:
     void SaveSignaled();
