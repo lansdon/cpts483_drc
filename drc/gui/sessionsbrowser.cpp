@@ -114,13 +114,16 @@ void SessionsBrowser::on_addSessionBtn_clicked()
 {
     if(_sessions)
     {
-        _sessions->push_back(new MediationSession);
+        MediationSession* session = new MediationSession;
+        _sessions->push_back(session);
         int row = _sessions->size()-1;
         _sessionTable->insertRow(row);
         _sessionTable->setCellWidget(row, 0, new SessionCell(_sessionTable, _sessions->back()));
         _sessionTable->setRowHeight(row, 50);
-//        PopulateSessionTable();
-        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+        PopulateSessionTable();
+        Mediator::Call(MKEY_GUI_MP_POPULATE);
+        Mediator::Call(MKEY_DOCK_SESSION_CHANGED, session);
+
     }
 }
 
@@ -129,6 +132,6 @@ void SessionsBrowser::on_delSessionBtn_clicked()
     if(_sessions->size() > _sessionTable->currentIndex().row())
     {
         _sessions->erase(_sessions->begin() + _sessionTable->currentIndex().row());
-        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     }
 }
