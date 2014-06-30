@@ -85,11 +85,14 @@ void NotesBrowser::on_saveNoteBtn_clicked()
     {
         // update the current note
         if(ui->tableWidget->currentRow() >= 0 && !_editingNewNote)
+        {
             _notes->at(ui->tableWidget->currentRow())->SetMessage(note);
+        }
         // Add a new note
         else _notes->push_back(new Note(note));
 
         ui->noteInput->clear();
+        PopulateTable();
         Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
     }
 }
