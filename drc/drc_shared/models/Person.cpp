@@ -86,30 +86,30 @@ QString Person::Parse(void)
 {
     //Name
     QString toReturn = QString("'%1', '%2', '%3',")
-            .arg(this->getFirstName())
-            .arg(this->getMiddleName())
-            .arg(this->getLastName());
+            .arg(this->getFirstName().replace("'", "''"))
+            .arg(this->getMiddleName().replace("'", "''"))
+            .arg(this->getLastName().replace("'", "''"));
 
     //Address
     toReturn += QString(" '%1', '%2', '%3', '%4', '%5', '%6',")
-            .arg(this->getStreet())
-            .arg(this->getUnit())
-            .arg(this->getCity())
-            .arg(this->getState())
-            .arg(this->getZip())
-            .arg(this->getCounty());
+            .arg(this->getStreet().replace("'", "''"))
+            .arg(this->getUnit().replace("'", "''"))
+            .arg(this->getCity().replace("'", "''"))
+            .arg(this->getState().replace("'", "''"))
+            .arg(this->getZip().replace("'", "''"))
+            .arg(this->getCounty().replace("'", "''"));
 
     //Phone Number
     toReturn += QString(" '%1', '%2', '%3',")
-            .arg(this->getPrimaryPhone())
-            .arg(this->getSecondaryPhone())
-            .arg(this->getAssistantPhone());
+            .arg(this->getPrimaryPhone().replace("'", "''"))
+            .arg(this->getSecondaryPhone().replace("'", "''"))
+            .arg(this->getAssistantPhone().replace("'", "''"));
 
     //Other
     toReturn += QString(" '%1', %2, '%3'")
-            .arg(this->getEmail())
+            .arg(this->getEmail().replace("'", "''"))
             .arg(this->getNumberInHousehold())
-            .arg(this->getAttorney());
+            .arg(this->getAttorney().replace("'", "''"));
 
     return toReturn;
 }
@@ -118,30 +118,30 @@ QString Person::UpdateParse()
 {
     //Name
     QString toUpdate = QString("First_Name = '%1', middle_name = '%2', last_name = '%3',")
-            .arg(this->getFirstName())
-            .arg(this->getMiddleName())
-            .arg(this->getLastName());
+            .arg(this->getFirstName().replace("'", "''"))
+            .arg(this->getMiddleName().replace("'", "''"))
+            .arg(this->getLastName().replace("'", "''"));
 
     //Address
     toUpdate += QString(" street_name = '%1', unit_name = '%2', city_name = '%3', state_name = '%4', zip_code = '%5', county_name = '%6',")
-            .arg(this->getStreet())
-            .arg(this->getUnit())
-            .arg(this->getCity())
-            .arg(this->getState())
-            .arg(this->getZip())
-            .arg(this->getCounty());
+            .arg(this->getStreet().replace("'", "''"))
+            .arg(this->getUnit().replace("'", "''"))
+            .arg(this->getCity().replace("'", "''"))
+            .arg(this->getState().replace("'", "''"))
+            .arg(this->getZip().replace("'", "''"))
+            .arg(this->getCounty().replace("'", "''"));
 
     //Phone Number
     toUpdate += QString(" primary_phone =  '%1', secondary_phone = '%2', assistance_phone = '%3',")
-            .arg(this->getPrimaryPhone())
-            .arg(this->getSecondaryPhone())
-            .arg(this->getAssistantPhone());
+            .arg(this->getPrimaryPhone().replace("'", "''"))
+            .arg(this->getSecondaryPhone().replace("'", "''"))
+            .arg(this->getAssistantPhone().replace("'", "''"));
 
     //Other
     toUpdate += QString(" email_address = '%1', number_in_house = %2, attorney_name = '%3'")
-            .arg(this->getEmail())
+            .arg(this->getEmail().replace("'", "''"))
             .arg(this->getNumberInHousehold())
-            .arg(this->getAttorney());
+            .arg(this->getAttorney().replace("'", "''"));
 
     return toUpdate;
 }
