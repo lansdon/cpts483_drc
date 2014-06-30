@@ -63,11 +63,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
          result = CreatePersonTable(mediation_table_name);
     }
 
-//    MediationProcess* process = MediationProcess::SampleData();
-
     MediatorArg arg(MediationProcess::SampleData());
-//    arg.SetArg;
-
     InsertOrUpdateMediation(arg);
 
     // Populate our fake user list.  Delete this later!!
