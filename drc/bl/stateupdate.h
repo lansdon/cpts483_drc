@@ -23,6 +23,7 @@ private:
     bool readyToSchedule(MediationProcess *arg);
     bool scheduled(MediationProcess *arg);
     bool closed(MediationProcess *arg);
+    bool ValidateName(QString name);
 };
 
 #endif // STATEUPDATE_H

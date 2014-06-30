@@ -156,17 +156,17 @@ QString MediationSession::getFeeStatus() const
     paidInFull = true;
 
     //check if there is any partial payments
-    if(!_fee1.isEmpty() && _fee1Paid)
+    if((!_fee1.isEmpty() || _fee1.toInt() > 0) && _fee1Paid)
         partial1 = true;
-    if(!_fee2.isEmpty() && _fee2Paid)
+    if((!_fee2.isEmpty() || _fee2.toInt() > 0) && _fee2Paid)
         partial2 = true;
-    if(!_feeFamily.isEmpty() && _feeFamilyPaid)
+    if((!_feeFamily.isEmpty() || _feeFamily.toInt() > 0) && _feeFamilyPaid)
         partial3 = true;
-    if(!_feeOther.isEmpty() && _feeOtherPaid)
+    if((!_feeOther.isEmpty() || _feeOther.toInt() > 0) && _feeOtherPaid)
         partial4 = true;
 
     //check if paid in full
-    if((!_fee1.isEmpty() && !partial1) || (!_fee2.isEmpty() && !partial2) || (!_feeFamily.isEmpty() && !partial3) || (!_feeOther.isEmpty() && !partial4))
+    if(((!_fee1.isEmpty() && _fee1.toInt() != 0) && !partial1) || ((!_fee2.isEmpty() && _fee2.toInt() != 0) && !partial2) || ((!_feeFamily.isEmpty() && _feeFamily.toInt() != 0) && !partial3) || ((!_feeOther.isEmpty() && _feeOther.toInt() != 0) && !partial4))
         paidInFull = false;
 
 

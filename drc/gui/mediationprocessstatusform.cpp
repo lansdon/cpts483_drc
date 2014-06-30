@@ -3,17 +3,31 @@
 #include "toolbarmanager.h"
 #include <QLayout>
 #include "DRCModels.h"
+#include "Mediator.h"
 
 MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, MediationProcess* mediationProcess) :
     QWidget(parent),
-    ui(new Ui::MediationProcessStatusForm),
-    _mediationProcess(mediationProcess ? mediationProcess : new MediationProcess())
+    _mediationProcess(nullptr),
+    ui(new Ui::MediationProcessStatusForm)
 {
     ui->setupUi(this);
 
+    if(!mediationProcess)
+    {
+        _mediationProcess = new MediationProcess();
+        SetSavedLabel(false);
+    }
+    else
+    {
+        _mediationProcess = mediationProcess;
+        SetSavedLabel(true);
+     }
+
+    ui->saveStatusLabel->setVisible(false);
+
     ConfigureComboBoxes();
     Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg){SetSavedLabel(false);});
-    Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg){SetSavedLabel(true);});
+    Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){MPSaveFinished(arg);});
     Update();
 }
 
@@ -25,7 +39,7 @@ void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 {
     _mediationProcess = value;
     Update();
- //   SetSavedLabel(true);
+    SetSavedLabel(true);
 }
 
 void MediationProcessStatusForm::Update()
@@ -44,6 +58,7 @@ void MediationProcessStatusForm::Update()
         ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
     ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
+
 }
 
 // Sets the values based on enums.
@@ -125,12 +140,37 @@ void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
 {
     if(!isSaved)
     {
-        ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : red; }");
-        ui->saveStatusLabel->setText("Unsaved changes!");
+        SetStatusLabel("Unsaved changes!", true);
+    }
+    else
+    {
+        SetStatusLabel("Saved!");
+    }
+}
+
+void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)
+{
+    ui->saveStatusLabel->setVisible(true);
+    if(isError)
+    {
+            ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : red; }");
+        ui->saveStatusLabel->setText(message);
     }
     else
     {
         ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : green; }");
-        ui->saveStatusLabel->setText("Saved!");
+        ui->saveStatusLabel->setText(message);
+    }
+}
+
+void MediationProcessStatusForm::MPSaveFinished(MediatorArg arg)
+{
+    if(arg.IsSuccessful())
+    {
+        SetSavedLabel(true);
+    }
+    else
+    {
+        SetStatusLabel(arg.ErrorMessage(), true);
     }
 }

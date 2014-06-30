@@ -151,15 +151,6 @@ void MediationSessionForm::on_incomeFeeFamilyLineEdit_textEdited(const QString &
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void MediationSessionForm::on_incomeFeeOtherLineEdit_textEdited(const QString &arg1)
-{
-    _mediationSession->setIncomeFeeOther(ui->incomeFeeOtherLineEdit->text());
-
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
-}
-
-
-
 // When a child has signaled a save event
 void MediationSessionForm::SaveSignaled()
 {
@@ -171,7 +162,6 @@ void MediationSessionForm::EditSignaled()
 {
 
 }
-
 
 // Sets the values based on enums.
 void MediationSessionForm::ConfigureComboBoxes()
@@ -198,31 +188,31 @@ void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void MediationSessionForm::on_incomeFeeOtherLineEdit_textChanged(const QString &arg1)
+void MediationSessionForm::on_incomeFeeOtherLineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setIncomeFeeOther(arg1);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void MediationSessionForm::on_MediatorLineEdit_textChanged(const QString &arg1)
+void MediationSessionForm::on_MediatorLineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setMediator1(arg1);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void MediationSessionForm::on_Mediator2LineEdit_textChanged(const QString &arg1)
+void MediationSessionForm::on_Mediator2LineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setMediator2(arg1);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void MediationSessionForm::on_Observe1LineEdit_textChanged(const QString &arg1)
+void MediationSessionForm::on_Observe1LineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setObserver1(arg1);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void MediationSessionForm::on_Observer2lineEdit_textChanged(const QString &arg1)
+void MediationSessionForm::on_Observer2lineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setObserver2(arg1);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);

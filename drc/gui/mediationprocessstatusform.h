@@ -17,7 +17,10 @@ class MediationProcessStatusForm : public QWidget
 public:
     explicit MediationProcessStatusForm(QWidget *parent = 0, MediationProcess* mediationProcess = nullptr);
     ~MediationProcessStatusForm();
+
     void setMediationProcess(MediationProcess* value);
+    void SetStatusLabel(QString message, bool isError = false);
+    void SetSavedLabel(bool isSaved);
 
 private slots:
     void on_conflictComboBox_currentIndexChanged(int index);
@@ -37,7 +40,7 @@ private:
 
     void ConfigureComboBoxes(); // Sets the values based on enums.
 
-    void SetSavedLabel(bool isSaved);
+    void MPSaveFinished(MediatorArg arg);
 
 signals:
     void hovered();

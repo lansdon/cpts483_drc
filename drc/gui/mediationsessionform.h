@@ -61,15 +61,13 @@ private slots:
 
     void on_stateComboBox_currentIndexChanged(int index);
 
-    void on_incomeFeeOtherLineEdit_textChanged(const QString &arg1);
+    void on_MediatorLineEdit_textEdited(const QString &arg1);
 
-    void on_MediatorLineEdit_textChanged(const QString &arg1);
+    void on_Mediator2LineEdit_textEdited(const QString &arg1);
 
-    void on_Mediator2LineEdit_textChanged(const QString &arg1);
+    void on_Observe1LineEdit_textEdited(const QString &arg1);
 
-    void on_Observe1LineEdit_textChanged(const QString &arg1);
-
-    void on_Observer2lineEdit_textChanged(const QString &arg1);
+    void on_Observer2lineEdit_textEdited(const QString &arg1);
 
 private:
     Ui::MediationSessionForm *ui;

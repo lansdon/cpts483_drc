@@ -279,7 +279,8 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
             // Rebuild sessions and add them to the process
             MediationSession* session = new MediationSession();
 
-            //session->SetState((SessionStates)sessionQuery.value(2).toInt());
+            session->SetId(sessionQuery.value(0).toInt());
+            session->SetState((SessionStates)sessionQuery.value(2).toInt());
 
             session->setFee1Paid(sessionQuery.value(3).toBool());
             session->setFee2Paid(sessionQuery.value(4).toBool());
