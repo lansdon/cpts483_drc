@@ -53,13 +53,24 @@ void NotesBrowser::ConfigTable()
 
 void NotesBrowser::PopulateTable()
 {
-    ui->tableWidget->setRowCount(_notes->size());
-    for(int row=0; row < (int)_notes->size(); ++row)
+    try
     {
-        //insert data
-        Note *note = _notes->at(row);
-        ui->tableWidget->setItem(row, 0, new QTableWidgetItem(note->GetCreatedDate().toString("MM-dd-yyyy")));
-        ui->tableWidget->setItem(row, 1, new QTableWidgetItem(note->GetMessage()));
+        ui->tableWidget->setRowCount(_notes->size());
+        for(int row=0; row < (int)_notes->size(); ++row)
+        {
+            //insert data
+            Note *note = _notes->at(row);
+            ui->tableWidget->setItem(row, 0, new QTableWidgetItem(note->GetCreatedDate().toString("MM-dd-yyyy")));
+            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(note->GetMessage()));
+        }
+    }
+    catch(const std::exception& error)
+    {
+        qDebug() << "The error is with: " << error.what();
+    }
+    catch(...)
+    {
+        qDebug() << "There is an error.";
     }
 }
 
