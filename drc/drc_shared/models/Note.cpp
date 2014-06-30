@@ -58,7 +58,7 @@ QString Note::Parse()
 QString Note::UpdateParse()
 {
 
-    return QString("Note = %1").arg(this->GetMessage());
+    return QString("Note = '%1'").arg(this->GetMessage());
 
 }
 
