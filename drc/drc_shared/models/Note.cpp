@@ -64,7 +64,7 @@ QString Note::UpdateParse()
 
 QString Note::GetIdRowName()
 {
-    return QString("note_id");
+    return QString("Note_id");
 }
 
 QString Note::table()
