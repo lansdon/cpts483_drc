@@ -63,12 +63,12 @@ DRCDB::DRCDB() : DB_ERROR(false)
          result = CreatePersonTable(mediation_table_name);
     }
 
-    MediationProcess* process = MediationProcess::SampleData();
+//    MediationProcess* process = MediationProcess::SampleData();
 
-    MediatorArg arg;
-    arg.SetArg(process);
+    MediatorArg arg(MediationProcess::SampleData());
+//    arg.SetArg;
 
-    InsertMediation(arg);
+    InsertOrUpdateMediation(arg);
 
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");

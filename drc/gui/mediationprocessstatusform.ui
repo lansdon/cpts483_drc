@@ -218,22 +218,32 @@
        </item>
        <item>
         <property name="text">
-         <string>Initiated</string>
+         <string>New Item</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Scheduled</string>
+         <string>New Item</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Outcome Reached</string>
+         <string>New Item</string>
         </property>
        </item>
        <item>
         <property name="text">
-         <string>Outcome Not Reached</string>
+         <string>New Item</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New Item</string>
+        </property>
+       </item>
+       <item>
+        <property name="text">
+         <string>New Item</string>
         </property>
        </item>
       </widget>

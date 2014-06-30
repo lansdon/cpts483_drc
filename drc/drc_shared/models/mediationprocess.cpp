@@ -121,7 +121,7 @@ MediationProcess *MediationProcess::SampleData()
     for(int i = 0; i< rand() % 5 + 1; i++)
         temp->push_back(MediationSession::SampleData());
     result->setMediationSessionVector(temp);
-    for(int i=0; i < 25; ++i)
+    for(int i=0; i < 5; ++i)
         result->GetNotes()->push_back(new Note("Some more mediation notes " + QString::number(i)));
 
     return result;

@@ -88,6 +88,13 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
     ui->referralComboBox->setItemText(REFERRAL_T_INTERNET, StringForReferralTypes(REFERRAL_T_INTERNET));
     ui->referralComboBox->setItemText(REFERRAL_T_OTHER_NONE, StringForReferralTypes(REFERRAL_T_OTHER_NONE));
 
+    ui->statusComboBox->setItemText(PROCESS_STATE_NONE, "<Select State>");
+    ui->statusComboBox->setItemText(PROCESS_STATE_INITIATED, StringForDisputeProcessStates(PROCESS_STATE_INITIATED));
+    ui->statusComboBox->setItemText(PROCESS_STATE_READY_TO_SCHEDULE, StringForDisputeProcessStates(PROCESS_STATE_READY_TO_SCHEDULE));
+    ui->statusComboBox->setItemText(PROCESS_STATE_SCHEDULED, StringForDisputeProcessStates(PROCESS_STATE_SCHEDULED));
+    ui->statusComboBox->setItemText(PROCESS_STATE_MEDIATION_COMPLETED, StringForDisputeProcessStates(PROCESS_STATE_MEDIATION_COMPLETED));
+    ui->statusComboBox->setItemText(PROCESS_STATE_OUTCOME_REACHED, StringForDisputeProcessStates(PROCESS_STATE_OUTCOME_REACHED));
+    ui->statusComboBox->setItemText(PROCESS_STATE_OUTCOME_NOT_REACHED, StringForDisputeProcessStates(PROCESS_STATE_OUTCOME_NOT_REACHED));
 }
 
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
