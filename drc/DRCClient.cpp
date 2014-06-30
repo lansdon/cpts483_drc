@@ -40,8 +40,6 @@ DRCClient::DRCClient(QWidget *parent)
     this->setWindowState(Qt::WindowMaximized);
     setCentralWidget(new LoginForm(this));
 
-
-
     // Listen for
     Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuBarEnabled();});
     Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuHelpEnabled();});
@@ -58,7 +56,6 @@ DRCClient::DRCClient(QWidget *parent)
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
     ToolbarManager::Instance().Clear();
-
 
     // Disable Menus Until Logged In
     SetMenusEnabled(true, false);

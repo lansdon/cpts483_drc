@@ -96,11 +96,6 @@ bool PersonDetailsForm::ValidateForm()
     return false;
 }
 
-void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
-{
-   _person->setEmail(ui->emailLineEdit->text());
-   Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
-}
 
 bool PersonDetailsForm::ProcessEmail(const QString& string, QLineEdit* widget)
 {
@@ -146,14 +141,6 @@ bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* wid
         return true;
     }
 }
-
-void PersonDetailsForm::on_primaryLineEdit_textEdited(const QString &arg1)
-{
-    _person->setPrimaryPhone(ui->primaryLineEdit->text());
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
-}
-
-
 
 void PersonDetailsForm::on_saveButton_clicked()
 {
@@ -320,27 +307,23 @@ void PersonDetailsForm::on_attorneyLineEdit_textEdited(const QString &arg1)
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void PersonDetailsForm::on_emailLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
 {
+    _person->setEmail(ui->emailLineEdit->text());
     ProcessEmail(arg1, ui->emailLineEdit);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
-void PersonDetailsForm::on_primaryLineEdit_textChanged(const QString &arg1)
+void PersonDetailsForm::on_primaryLineEdit_textEdited(const QString &arg1)
 {
+    _person->setPrimaryPhone(ui->primaryLineEdit->text());
     ProcessPhoneNumber(arg1, ui->primaryLineEdit);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
-}
-
-void PersonDetailsForm::on_secondaryLineEdit_textChanged(const QString &arg1)
-{
-    ProcessPhoneNumber(arg1, ui->secondaryLineEdit);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 
 void PersonDetailsForm::on_secondaryLineEdit_textEdited(const QString &arg1)
 {
-    _person->setSecondaryPhone(ui->secondaryLineEdit->text());
+    ProcessPhoneNumber(arg1, ui->secondaryLineEdit);
     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
 }
 

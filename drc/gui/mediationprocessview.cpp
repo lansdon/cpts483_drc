@@ -81,10 +81,12 @@ MediationProcessView::~MediationProcessView()
 
 void MediationProcessView::PopulateView()
 {
+    bool saved = (bool)_mediationProcess;
     if(!_mediationProcess)
         _mediationProcess = new MediationProcess();
 
     _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
+    _mediationProcessStatusForm->SetSavedLabel(saved);
 
     // PARTY!
     AddPartyTabs(_mediationProcess->GetParties());
@@ -248,3 +250,5 @@ void MediationProcessView::SaveCompleted(MediatorArg arg)
         }
     }
 }
+
+
