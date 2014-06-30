@@ -47,33 +47,33 @@ QString MediationSession::Parse()
     toReturn += ", ";
 
     // Due amounts
-    toReturn += this->getFee1();
+    toReturn += single_quote + this->getFee1() + single_quote;
     toReturn += ", ";
-    toReturn += this->getFee2();
+    toReturn += single_quote + this->getFee2() + single_quote;
     toReturn += ", ";
-    toReturn += this->getFeeFamily();
+    toReturn += single_quote + this->getFeeFamily() + single_quote;
     toReturn += ", ";
-    toReturn += this->getFeeOther();
+    toReturn += single_quote + this->getFeeOther() + single_quote;
     toReturn += ", ";
 
     // Income Fee amounts
-    toReturn += this->getIncomeFee1();
+    toReturn += single_quote + this->getIncomeFee1() + single_quote;
     toReturn += ", ";
-    toReturn += this->getIncomeFee2();
+    toReturn += single_quote + this->getIncomeFee2() + single_quote;
     toReturn += ", ";
-    toReturn += this->getIncomeFeeFamily();
+    toReturn += single_quote + this->getIncomeFeeFamily() + single_quote;
     toReturn += ", ";
-    toReturn += this->getIncomeFeeOther();
+    toReturn += single_quote + this->getIncomeFeeOther() + single_quote;
     toReturn += ", ";
 
     // Mediator Info
-    toReturn += single_quote + this->getMediator1() + single_quote;
+    toReturn += single_quote + this->getMediator1().replace("'", "''") + single_quote;
     toReturn += ", ";
-    toReturn += single_quote + this->getMediator2() + single_quote;
+    toReturn += single_quote + this->getMediator2().replace("'", "''") + single_quote;
     toReturn += ", ";
-    toReturn += single_quote + this->getObserver1() + single_quote;
+    toReturn += single_quote + this->getObserver1().replace("'", "''") + single_quote;
     toReturn += ", ";
-    toReturn += single_quote + this->getObserver2() + single_quote;
+    toReturn += single_quote + this->getObserver2().replace("'", "''") + single_quote;
 
     return toReturn;
 }
@@ -92,24 +92,24 @@ QString MediationSession::UpdateParse()
     toUpdate += QString("FeeOtherPaid = %1, ").arg(QString::number(this->getFeeOtherPaid()));
 
     //Due Amounts
-    toUpdate += QString("Fee1 = %1, ").arg(this->getFee1());
-    toUpdate += QString("Fee2 = %1, ").arg(this->getFee2());
-    toUpdate += QString("FeeFamily = %1, ").arg(this->getFeeFamily());
-    toUpdate += QString("FeeOther = %1, ").arg(this->getFeeOther());
+    toUpdate += QString("Fee1 = '%1', ").arg(this->getFee1());
+    toUpdate += QString("Fee2 = '%1', ").arg(this->getFee2());
+    toUpdate += QString("FeeFamily = '%1', ").arg(this->getFeeFamily());
+    toUpdate += QString("FeeOther = '%1', ").arg(this->getFeeOther());
 
     //Income Amounts
-    toUpdate += QString("IncomeFee1 = %1, ").arg(this->getIncomeFee1());
-    toUpdate += QString("IncomeFee2 = %1, ").arg(this->getIncomeFee2());
-    toUpdate += QString("IncomeFeeFamily = %1, ").arg(this->getIncomeFeeFamily());
-    toUpdate += QString("IncomeFeeOther = %1, ").arg(this->getIncomeFeeOther());
+    toUpdate += QString("IncomeFee1 = '%1', ").arg(this->getIncomeFee1());
+    toUpdate += QString("IncomeFee2 = '%1', ").arg(this->getIncomeFee2());
+    toUpdate += QString("IncomeFeeFamily = '%1', ").arg(this->getIncomeFeeFamily());
+    toUpdate += QString("IncomeFeeOther = '%1', ").arg(this->getIncomeFeeOther());
 
     //Mediators
-    toUpdate += QString("Mediator1 = '%1', ").arg(this->getMediator1());
-    toUpdate += QString("Mediator2 = '%1', ").arg(this->getMediator2());
+    toUpdate += QString("Mediator1 = '%1', ").arg(this->getMediator1().replace("'", "''"));
+    toUpdate += QString("Mediator2 = '%1', ").arg(this->getMediator2().replace("'", "''"));
 
     //Observers
-    toUpdate += QString("Observer1 = '%1', ").arg(this->getObserver1());
-    toUpdate += QString("Observer2 = '%1' ").arg(this->getObserver2());
+    toUpdate += QString("Observer1 = '%1', ").arg(this->getObserver1().replace("'", "''"));
+    toUpdate += QString("Observer2 = '%1' ").arg(this->getObserver2().replace("'", "''"));
 
 
     return toUpdate;

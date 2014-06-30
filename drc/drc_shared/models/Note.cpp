@@ -48,7 +48,7 @@ QString Note::Parse()
     toReturn += QString("%1, %2, ").arg(QString::number(this->GetmediationId()))
                                    .arg(QString::number(this->GetSessionId()));
 
-    toReturn += QString("'%1', ").arg(this->GetMessage());
+    toReturn += QString("'%1', ").arg(this->GetMessage().replace("'", "''"));
 
     toReturn += QString("'%1' ").arg(this->GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"));
 
@@ -58,7 +58,7 @@ QString Note::Parse()
 QString Note::UpdateParse()
 {
 
-    return QString("Note = '%1'").arg(this->GetMessage());
+    return QString("Note = '%1'").arg(this->GetMessage().replace("'", "''"));
 
 }
 
