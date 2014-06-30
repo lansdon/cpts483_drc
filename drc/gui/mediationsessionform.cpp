@@ -49,19 +49,19 @@ void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &date
         _mediationSession->setMediationTime(dateTime);
     }
 
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Fee1LineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setFee1(ui->Fee1LineEdit->text());
-     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Fee1PaidCheckBox_toggled(bool checked)
 {
     _mediationSession->setFee1Paid(checked);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::fillFields(MediationSession *input)
@@ -99,56 +99,56 @@ void MediationSessionForm::fillFields(MediationSession *input)
 void MediationSessionForm::on_Fee2LineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setFee2(ui->Fee2LineEdit->text());
-     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_FamilyFeeLineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setFeeFamily(ui->FamilyFeeLineEdit->text());
-     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_OtherFeeLineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setFeeOther(ui->OtherFeeLineEdit->text());
-     Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Fee2PaidCheckBox_toggled(bool checked)
 {
     _mediationSession->setFee2Paid(checked);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_FamilyFeePaidCheckBox_toggled(bool checked)
 {
     _mediationSession->setFeeFamilyPaid(checked);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_OtherFeePaidCheckBox_toggled(bool checked)
 {
     _mediationSession->setFeeOtherPaid(checked);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_incomeFee1LineEdit_textEdited(const QString &arg1)
 {
    _mediationSession->setIncomeFee1(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_incomeFee2LineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setIncomeFee2(ui->incomeFee2LineEdit->text());
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_incomeFeeFamilyLineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setIncomeFeeFamily(ui->incomeFeeFamilyLineEdit->text());
 
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 // When a child has signaled a save event
@@ -179,41 +179,41 @@ void MediationSessionForm::ConfigureComboBoxes()
 void MediationSessionForm::on_supportNumComboBox_currentIndexChanged(int index)
 {
     _mediationSession->setSupportCount(index);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
 {
     _mediationSession->SetState((SessionStates)index);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_incomeFeeOtherLineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setIncomeFeeOther(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_MediatorLineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setMediator1(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Mediator2LineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setMediator2(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Observe1LineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setObserver1(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Observer2lineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setObserver2(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

@@ -93,7 +93,7 @@ void NotesBrowser::on_saveNoteBtn_clicked()
 
         ui->noteInput->clear();
         PopulateTable();
-        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     }
 }
 
@@ -105,7 +105,7 @@ void NotesBrowser::on_delNoteBtn_clicked()
             _notes->erase(_notes->begin() + ui->tableWidget->currentIndex().row());
         else
             _notes = new MediationNotesVector();
-        Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     }
 }
 
