@@ -133,6 +133,10 @@ void MediationProcessView::ConfigureToolbar()
 
 void MediationProcessView::SaveMediationPressed()
 {
+    // Assign mediation ID's to the notes.
+    foreach(Note* note, *_mediationProcess->GetNotes())
+        note->SetMediationId(_mediationProcess->GetId());
+
     qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
     Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
     PopulateView();

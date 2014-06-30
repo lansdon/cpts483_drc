@@ -80,16 +80,16 @@ void NotesBrowser::SetNotesEvent(MediatorArg arg)
 
 void NotesBrowser::on_saveNoteBtn_clicked()
 {
-    QString note = ui->noteInput->toPlainText();
-    if(note.length())
+    QString message = ui->noteInput->toPlainText();
+    if(message.length())
     {
         // update the current note
         if(ui->tableWidget->currentRow() >= 0 && !_editingNewNote)
         {
-            _notes->at(ui->tableWidget->currentRow())->SetMessage(note);
+            _notes->at(ui->tableWidget->currentRow())->SetMessage(message);
         }
         // Add a new note
-        else _notes->push_back(new Note(note));
+        else _notes->push_back(new Note(message));
 
         ui->noteInput->clear();
         PopulateTable();

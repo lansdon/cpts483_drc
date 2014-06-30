@@ -63,13 +63,6 @@ DRCDB::DRCDB() : DB_ERROR(false)
          result = CreatePersonTable(mediation_table_name);
     }
 
-//    MediationProcess* process = MediationProcess::SampleData();
-
-    MediatorArg arg(MediationProcess::SampleData());
-//    arg.SetArg;
-
-    InsertOrUpdateMediation(arg);
-
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
     UserMap["Normal"] = sha256("normalpassword", "");
@@ -80,10 +73,6 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
     Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
 
-    //Mediator::Register(MKEY_BL_VALIDATE_FRUITNAME_DONE, [this](MediatorArg arg){PersistFruit(arg);});
-    //Mediator::Register(MKEY_DB_PERSIST_FRUIT_NAME_DONE, [this](MediatorArg arg){LoadFruit(arg);});
-//    Mediator::Register(MKEY_BL_VALIDATE_LOAD_INTAKE_FORM_DONE, [this](MediatorArg arg){LoadIntake(arg);});
-//    Mediator::Register(MKEY_BL_VALIDATE_SAVE_INTAKE_FORM_DONE, [this](MediatorArg arg){PersistIntakeForm(arg);});
 }
 //========================================================================
 
@@ -319,17 +308,17 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
         // Grab the notes, based on BOTH mediation id (easy) and session id (little trickier)
 
         QSqlQuery noteQuery(database);
-        QString note_command_string = QString("Select * from Note_Table where Process_id = %1").arg(processId);
+        QString note_command_string = QString("Select * from Notes_Table where Process_id = %1").arg(processId);
         bool noteResult = false;
         noteResult = this->ExecuteCommand(note_command_string, noteQuery);
 
         while(noteQuery.next())
         {
-            Note* note;
-            note->SetMediationId(noteQuery.value(2).toInt());
-            note->SetSessionId(noteQuery.value(3).toInt());
-            note->SetMessage(noteQuery.value(4).toString());
-            note->SetCreatedDate(QDateTime::fromString(noteQuery.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
+            Note* note = new Note();
+            note->SetMediationId(noteQuery.value(1).toInt());
+            note->SetSessionId(noteQuery.value(2).toInt());
+            note->SetMessage(noteQuery.value(3).toString());
+            note->SetCreatedDate(QDateTime::fromString(noteQuery.value(4).toString(), "yyyy-MM-dd hh:mm:ss"));
             process->GetNotes()->push_back(note);
         }
 
@@ -436,6 +425,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
     for(int i = 0; i < process->GetNotes()->size(); i++)
     {
         note = process->GetNotes()->at(i);
+        note->SetMediationId(process->GetId());
 
         InsertObject(note);
     }
