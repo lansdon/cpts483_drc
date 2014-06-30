@@ -489,6 +489,12 @@ void DRCDB::UpdateMediation(MediatorArg arg)
         }
     }
 
+    QString client_clean_string = QString("delete from Client_Table where process_id = %1")
+                                         .arg(process->GetId());
+    QSqlQuery client_clean(database);
+
+    this->ExecuteCommand(client_clean_string, client_clean);
+
     Party* person = NULL;
     for(int i = 0; i < process->GetParties()->size(); i++)
     {
@@ -510,7 +516,8 @@ void DRCDB::UpdateMediation(MediatorArg arg)
         else
         {
             UpdateObject(person->GetPrimary());
-            UpdateJoinObject(process, person);
+            //UpdateJoinObject(process, person);
+            InsertJoinObject(process, person);
         }
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
