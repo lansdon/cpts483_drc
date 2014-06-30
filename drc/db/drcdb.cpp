@@ -432,6 +432,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
     for(int i = 0; i < process->GetNotes()->size(); i++)
     {
         note = process->GetNotes()->at(i);
+        note->SetMediationId(process->GetId());
 
         InsertObject(note);
     }
