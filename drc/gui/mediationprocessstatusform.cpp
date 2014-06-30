@@ -7,6 +7,7 @@
 
 MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, MediationProcess* mediationProcess) :
     QWidget(parent),
+    _mediationProcess(nullptr),
     ui(new Ui::MediationProcessStatusForm)
 {
     ui->setupUi(this);
@@ -18,6 +19,7 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     }
     else
     {
+        _mediationProcess = mediationProcess;
         SetSavedLabel(true);
      }
 
