@@ -152,7 +152,7 @@ void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
 
 void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)
 {
-    if(!ui) return;
+    if(!ui || !_mediationProcess) return;
 
     ui->saveStatusLabel->setVisible(true);
     if(isError)
