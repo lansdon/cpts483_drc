@@ -147,8 +147,8 @@ void DRCClient::on_mediationProcessSelected(MediationProcess* process)
 void DRCClient::LoadMediationProcessView(MediationProcess* process)
 {
     if(!_mediationProcessView)
-        _mediationProcessView = new MediationProcessView(this);
-    _mediationProcessView->SetMediationProcess(process);
+        _mediationProcessView = new MediationProcessView(this, process);
+    else _mediationProcessView->SetMediationProcess(process);
     setCentralWidget(_mediationProcessView);
 }
 
