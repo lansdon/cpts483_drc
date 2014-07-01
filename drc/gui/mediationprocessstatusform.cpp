@@ -138,6 +138,8 @@ void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int ind
 
 void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
 {
+    if(!ui) return;
+
     if(!isSaved)
     {
         SetStatusLabel("Unsaved changes!", true);
@@ -150,10 +152,12 @@ void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
 
 void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)
 {
+    if(!ui) return;
+
     ui->saveStatusLabel->setVisible(true);
     if(isError)
     {
-            ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : red; }");
+        ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : red; }");
         ui->saveStatusLabel->setText(message);
     }
     else
