@@ -119,25 +119,25 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetDisputeType((DisputeTypes)index);
-//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_statusComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetProcessState((DisputeProcessStates)index);
-//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_countyComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetCountyId((CountyIds)index);
-//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetReferralType((ReferralTypes)index);
-//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
