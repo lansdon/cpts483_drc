@@ -60,7 +60,6 @@ void NotesBrowser::ConfigTable()
 void NotesBrowser::PopulateTable()
 {
     try
-<<<<<<< HEAD
     {
         qDebug() << "PopulateTable1";
         ui->tableWidget->setRowCount(_notes->size());

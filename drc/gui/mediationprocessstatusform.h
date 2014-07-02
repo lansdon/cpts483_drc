@@ -42,6 +42,9 @@ private:
 
     void MPSaveFinished(MediatorArg arg);
 
+    MediatorId _SavePendingCallbackId;      // use to unregister callbacks
+    MediatorId _PersistMPDoneCallbackId;    // use to unregister callbacks
+
 signals:
     void hovered();
 };

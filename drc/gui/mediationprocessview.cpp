@@ -67,14 +67,19 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     // Update Fields for current record
     PopulateView();
 
-    Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg arg){UpdateSignaled();});
-    Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){PopulateView();});
-    Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
+    _unregisterSavePendingId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg arg){UpdateSignaled();});
+    _unregisterPopulateId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){PopulateView();});
+    _unregisterPersistMPId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
 
 }
 
 MediationProcessView::~MediationProcessView()
 {
+    Mediator::Unregister(MKEY_GUI_MP_SAVE_PENDING, _unregisterSavePendingId);
+    Mediator::Unregister(MKEY_GUI_MP_POPULATE, _unregisterPopulateId);
+    Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _unregisterPersistMPId);
+    delete _mediationProcessStatusForm;
+    delete _mediationSessionForm;
     delete ui;
 }
 
