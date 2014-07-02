@@ -34,14 +34,11 @@ void NotesBrowser::on_tableWidget_doubleClicked(const QModelIndex &index)
 
 void NotesBrowser::ConfigTable()
 {
-    qDebug() << "ConfigTable1";
     if(!_notes) _notes = new MediationNotesVector();
-    qDebug() << "ConfigTable2";
 
     ui->tableWidget->setColumnCount(2);
-    qDebug() << "ConfigTable2.5";
     ui->tableWidget->setRowCount(0);
-    qDebug() << "ConfigTable3";
+
     QStringList header;
     header <<"Date"<<"Note";
     ui->tableWidget->setHorizontalHeaderLabels(header);
@@ -62,15 +59,11 @@ void NotesBrowser::PopulateTable()
 {
     try
     {
-        qDebug() << "PopulateTable1";
         ui->tableWidget->setRowCount(_notes->size());
-        qDebug() << "PopulateTable2";
         for(int row=0; row < (int)_notes->size(); ++row)
         {
-            qDebug() << "PopulateTable" << row << "-1";
             //insert data
             Note *note = _notes->at(row);
-            qDebug() << "SetNotes1" << row << "-2";
             ui->tableWidget->setItem(row, 0, new QTableWidgetItem(note->GetCreatedDate().toString("MM-dd-yyyy")));
             ui->tableWidget->setItem(row, 1, new QTableWidgetItem(note->GetMessage()));
         }
@@ -81,29 +74,20 @@ void NotesBrowser::PopulateTable()
         msgBox.setText( "BAM! Notes browser crashed: " + QString(error.what()));
         msgBox.show();
     }
-    catch(...)
-    {
-        qDebug() << "There is an error.";
-    }
 }
 
 void NotesBrowser::SetNotes(MediationNotesVector* notes)
 {
-    qDebug() << "SetNotes1";
     _notes = notes;
-    qDebug() << "SetNotes2";
     ConfigTable();
-    qDebug() << "SetNotes3";
     PopulateTable();
 }
 
 void NotesBrowser::SetNotesEvent(MediatorArg arg)
 {
-    qDebug() << "SetNotesEvent1";
     MediationNotesVector* notes = arg.getArg<MediationNotesVector*>();
     if(notes)
     {
-        qDebug() << "SetNotesEvent2";
         SetNotes(notes);
     }
     else qDebug() << "SetNotesEvent failbot! ";
