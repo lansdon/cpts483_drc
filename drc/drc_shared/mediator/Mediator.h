@@ -37,7 +37,7 @@ class MediatorCallback
 public:
     MediatorCallback(MediatorCallbackFunc callback) :  _callback(callback) {_id = ++__MEDIATOR_UNIQUE_ID;}
     void Run(MediatorArg &arg) { _callback(arg); }
-    unsigned int GetId() { return _id; }
+    inline unsigned int GetId() { return _id; }
     QString toString() { return _callback.target_type().name(); }
 
 private:
@@ -74,7 +74,7 @@ private:
 
     typedef std::vector<MediatorCallback*> MediatorCallbackVector;
     typedef std::map<QString, MediatorCallbackVector> MediatorCallbackMap;
-    MediatorCallbackMap MediatorMap;
+    MediatorCallbackMap _mediatorMap;
 
 public:
 
@@ -88,6 +88,8 @@ public:
 	static void Call(QString Key, MediatorArg Object);
 
 	static void Clear();
+
+    static void PrintState();
 };
 
 //}   // end namespace drc_shared
