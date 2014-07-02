@@ -6,6 +6,7 @@
 #include "Mediator.h"
 #include "MediatorKeys.h"
 #include <QMessageBox>
+#include <iostream>
 
 NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
     : QWidget(parent)
@@ -114,13 +115,12 @@ void NotesBrowser::on_saveNoteBtn_clicked()
     if(message.length())
     {
         // update the current note
-        if(ui->tableWidget->currentRow() >= ui->tableWidget->currentRow() && !_editingNewNote)
+        if(ui->tableWidget->currentRow() > ui->tableWidget->currentRow() && !_editingNewNote)
         {
             _notes->at(ui->tableWidget->currentRow())->SetMessage(message);
         }
         // Add a new note
         else _notes->push_back(new Note(message));
-
         ui->noteInput->clear();
         PopulateTable();
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
