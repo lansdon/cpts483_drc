@@ -115,7 +115,7 @@ void NotesBrowser::on_saveNoteBtn_clicked()
     if(message.length())
     {
         // update the current note
-        if(ui->tableWidget->currentRow() > ui->tableWidget->currentRow() && !_editingNewNote)
+        if(_notes->size() > ui->tableWidget->currentRow() && !_editingNewNote)
         {
             _notes->at(ui->tableWidget->currentRow())->SetMessage(message);
         }
@@ -141,7 +141,7 @@ void NotesBrowser::on_delNoteBtn_clicked()
 
 void NotesBrowser::on_tableWidget_itemSelectionChanged()
 {
-    if(_notes->size() >= ui->tableWidget->currentRow())
+    if(_notes->size() > ui->tableWidget->currentRow())
     {
         Note* curNote = _notes->at(ui->tableWidget->currentRow());
         ui->noteInput->setText(curNote->GetMessage());
