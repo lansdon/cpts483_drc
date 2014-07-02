@@ -179,13 +179,13 @@ void MediationSessionForm::ConfigureComboBoxes()
 void MediationSessionForm::on_supportNumComboBox_currentIndexChanged(int index)
 {
     _mediationSession->setSupportCount(index);
-//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
 {
     _mediationSession->SetState((SessionStates)index);
-//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_incomeFeeOtherLineEdit_textEdited(const QString &arg1)
