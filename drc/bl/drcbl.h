@@ -17,6 +17,7 @@ public:
     void ValidateMediationProcess(MediatorArg arg) const;
     void LoadMediationProcess(MediatorArg arg) const;
     void LoadRecentMediations(MediatorArg arg) const;
+    void QueryMediations(MediatorArg arg) const;
 
 private:
 };

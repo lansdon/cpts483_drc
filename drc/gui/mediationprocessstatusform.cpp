@@ -21,7 +21,7 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     {
         _mediationProcess = mediationProcess;
         SetSavedLabel(true);
-     }
+    }
 
     ui->saveStatusLabel->setVisible(false);
 
@@ -39,6 +39,7 @@ MediationProcessStatusForm::~MediationProcessStatusForm()
     Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _PersistMPDoneCallbackId);
     delete ui;
 }
+
 void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 {
     _mediationProcess = value;

@@ -5,7 +5,7 @@
 Mock_Server::Mock_Server()
 {
     Mediator::Register(MKEY_GUI_QUERY_PERSON, [this](MediatorArg arg){SendResults(arg); });
-    Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){SendResultsMediation(arg); });
+//    Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){SendResultsMediation(arg); });
 }
 void Mock_Server::PrintPerson(Person *input, std::fstream &file)
 {

@@ -72,6 +72,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
     Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
+    Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
 
 }
 //========================================================================
@@ -229,6 +230,7 @@ bool DRCDB::CloseDatabase()
 
 
 
+
 //========================================================================
 //------------------------------------------------------------------------
 DRCDB::~DRCDB()
@@ -236,6 +238,28 @@ DRCDB::~DRCDB()
     this->CloseDatabase();
 }
 //========================================================================
+
+
+
+//========================================================================
+// Search for mediations using Person object
+//------------------------------------------------------------------------
+void DRCDB::QueryMediations(MediatorArg arg)
+{
+    // TO DO - fill this in with your find function?
+
+    // TEMP SAMPLE DATA
+    MediationProcessVector* samples = new MediationProcessVector();
+    samples->push_back(MediationProcess::SampleData());
+    samples->push_back(MediationProcess::SampleData());
+
+
+    // This is the correct return call, use the proper result vector of course.
+    Mediator::Call(MKEY_DB_QUERY_MEDIATION, samples);
+}
+//========================================================================
+
+
 
 void DRCDB::LoadRecentMediations(MediatorArg arg)
 {

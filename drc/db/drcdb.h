@@ -123,7 +123,7 @@ public:
 
     void LoadRecentMediations(MediatorArg arg);
 
-//    void LoadRecentMediations(void);
+    void QueryMediations(MediatorArg arg);
 };
 
 #endif // DRCDB_H

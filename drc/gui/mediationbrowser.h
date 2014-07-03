@@ -33,6 +33,8 @@ private slots:
 
     void on_tableWidget_doubleClicked(const QModelIndex &index);
 
+    void on_searchBtn_clicked();
+
 signals:
 
     void on_mediationProcessSelected(MediationProcess* process);

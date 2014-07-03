@@ -19,6 +19,7 @@ DRCBL::DRCBL()
     Mediator::Register(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, [this](MediatorArg arg){ValidateMediationProcess(arg);});
     Mediator::Register(MKEY_DB_LOAD_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){LoadMediationProcess(arg);});
     Mediator::Register(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS, [this](MediatorArg arg){LoadRecentMediations(arg);});
+    Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
 
 }
 
@@ -59,3 +60,7 @@ void DRCBL::LoadMediationProcess(MediatorArg arg) const
     Mediator::Call(MKEY_BL_VALIDATE_LOAD_MEDIATION_PROCESS_FORM_DONE, arg);
 }
 
+void DRCBL::QueryMediations(MediatorArg arg) const
+{
+    Mediator::Call(MKEY_BL_QUERY_MEDIATION, arg);
+}
