@@ -26,8 +26,8 @@
 
 MediationProcess::MediationProcess()
     : DBBaseObject()
-    , _stateTransition(-1) //?? what should this default to?
-    , _activeStateTransition(-1) //?? what should this default to?
+    , _stateTransition(0) //?? what should this default to?
+    , _activeStateTransition(0) //?? what should this default to?
     , _disputeType(DISPUTE_T_NONE)
     , _processState(PROCESS_STATE_NONE)
     , _countyOfMediation(COUNTY_NONE)
