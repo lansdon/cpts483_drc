@@ -67,8 +67,8 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     // Update Fields for current record
     PopulateView();
 
-    _unregisterSavePendingId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg arg){UpdateSignaled();});
-    _unregisterPopulateId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){PopulateView();});
+    _unregisterSavePendingId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg arg){Q_UNUSED(arg);UpdateSignaled();});
+    _unregisterPopulateId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){Q_UNUSED(arg);PopulateView();});
     _unregisterPersistMPId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
 
 }
@@ -185,7 +185,7 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
         ui->partyTabWidget->setVisible(true);
         ui->partyTabWidget->clear();
 
-        for(int i=0; i<parties->size(); ++i)
+        for(size_t i=0; i<parties->size(); ++i)
  //       foreach(Party* party, *parties)
         {
             Party* partyToAdd = parties->at(i);

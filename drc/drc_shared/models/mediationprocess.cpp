@@ -24,16 +24,36 @@
 //Objects to extract from Parties
 //Person
 
-MediationProcess::MediationProcess() : DBBaseObject()
+MediationProcess::MediationProcess()
+    : DBBaseObject()
+    , _stateTransition(-1) //?? what should this default to?
+    , _activeStateTransition(-1) //?? what should this default to?
+    , _disputeType(DISPUTE_T_NONE)
+    , _processState(PROCESS_STATE_NONE)
+    , _countyOfMediation(COUNTY_NONE)
+    , _referalSource(REFERRAL_T_NONE)
+    , _requiresSpanish(false)
 {
 
 }
+
 MediationProcess::MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans, DisputeTypes disputeType,
                                    QDateTime creationDate, DisputeProcessStates processState, CountyIds county,
-                                   MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions) :
-    _parties(parties), _stateTransition(stateTrans), _activeStateTransition(actStateTrans), _disputeType(disputeType),
-    _processState(processState), _countyOfMediation(county), _mediationNotes(mediationNotes),
-    _referalSource(reftype), _requiresSpanish(spanish), _mediationSessionVector(sessions){SetCreatedDate(creationDate);}
+                                   MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions)
+    : DBBaseObject()
+    , _parties(parties)
+    , _stateTransition(stateTrans)
+    , _activeStateTransition(actStateTrans)
+    , _disputeType(disputeType)
+    , _processState(processState)
+    , _countyOfMediation(county)
+    , _mediationNotes(mediationNotes)
+    , _referalSource(reftype)
+    , _requiresSpanish(spanish)
+    , _mediationSessionVector(sessions)
+{
+    SetCreatedDate(creationDate);
+}
 
 
 MediationProcess::~MediationProcess()

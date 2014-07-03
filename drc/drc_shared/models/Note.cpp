@@ -75,10 +75,11 @@ QString Note::table()
 QString Note::DuplicateQuery()
 {
 #warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
-
+    return "";
 }
 
 QString Note::SearchQuery()
 {
 #warning TODO - SearchQuery() UNIMPLEMENTED!!!!
+    return "";
 }
