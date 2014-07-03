@@ -43,7 +43,10 @@ void DRCBL::ValidateMediationProcess(MediatorArg arg) const
            success = false;
        }
     }
-    Mediator::Call(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, mp, success, errorMessage);
+    if(success)
+        Mediator::Call(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, mp, success, errorMessage);
+    else Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, mp, success, errorMessage);
+
 }
 
 void DRCBL::LoadRecentMediations(MediatorArg arg) const

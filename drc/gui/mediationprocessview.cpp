@@ -145,7 +145,6 @@ void MediationProcessView::SaveMediationPressed()
 
     qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
     Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
-    PopulateView();
 }
 
 void MediationProcessView::SearchForMediationPressed()
@@ -186,7 +185,6 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
         ui->partyTabWidget->clear();
 
         for(size_t i=0; i<parties->size(); ++i)
- //       foreach(Party* party, *parties)
         {
             Party* partyToAdd = parties->at(i);
             PartyForm* curPartyForm = (PartyForm*)ui->partyTabWidget->widget(i);

@@ -62,7 +62,6 @@ void MediationProcessStatusForm::Update()
         ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
     ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
-
 }
 
 // Sets the values based on enums.
@@ -173,7 +172,7 @@ void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)
 
 void MediationProcessStatusForm::MPSaveFinished(MediatorArg arg)
 {
-    if(arg.IsSuccessful())
+    if(arg.IsSuccessful() && arg.ErrorMessage().length() == 0)
     {
         SetSavedLabel(true);
     }
