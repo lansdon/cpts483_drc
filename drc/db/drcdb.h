@@ -128,6 +128,9 @@ public:
     void LoadScheduledMediations(MediatorArg arg);
 
     void LoadClosedMediations(MediatorArg arg);
+
+    // Arg must be a Person* (for now at least) for processing to take place.
+    void LoadMediationsByPerson(MediatorArg arg);
 };
 
 #endif // DRCDB_H

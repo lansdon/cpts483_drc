@@ -533,7 +533,7 @@ void DRCDB::LoadPendingMediations(MediatorArg arg)
 
         processVector->push_back(process);
     }
-    Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
+    //Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
 }
 
 void DRCDB::LoadScheduledMediations(MediatorArg arg)
@@ -683,7 +683,7 @@ void DRCDB::LoadScheduledMediations(MediatorArg arg)
 
         processVector->push_back(process);
     }
-    Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
+    //Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
 }
 
 void DRCDB::LoadClosedMediations(MediatorArg arg)
@@ -833,7 +833,209 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
 
         processVector->push_back(process);
     }
-    Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
+    //Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
+}
+
+void DRCDB::LoadMediationsByPerson(MediatorArg arg)
+{
+
+    Person* queryPerson = nullptr;
+    queryPerson = arg.getArg<Person*>();
+
+
+    // first, find the people that match the arg
+    QSqlQuery Find_Query(database);
+    QString Find_Query_Command_string = "";
+    if(queryPerson->SearchQuery() != "")
+    {
+        Find_Query_Command_string = QString("Select * from Person_Table where %1").arg(queryPerson->SearchQuery());
+    }
+    else
+    {
+        Find_Query_Command_string = QString("Select * from Person_Table").arg(queryPerson->SearchQuery());
+    }
+
+    bool result = false;
+
+    result = this->ExecuteCommand(Find_Query_Command_string, Find_Query);
+
+    // build up a list of all the person ids that match this query
+    QString personIdMatches = "";
+    bool first = true;
+    while(Find_Query.next())
+    {
+        if(!first)
+        {
+            personIdMatches += ", ";
+        }
+        personIdMatches = Find_Query.value(0).toString();
+        first = false;
+    }
+
+    // Now... search the client list to get the mediations with these persons!
+    Find_Query_Command_string = QString("Select * from Client_Table where Person_id in %1").arg(personIdMatches);
+
+    result = false;
+    result = this->ExecuteCommand(Find_Query_Command_string, Find_Query);
+
+    QString mediationIdMatches = "";
+    first = true;
+    while(Find_Query.next())
+    {
+        if(!first)
+        {
+            personIdMatches += ", ";
+        }
+        personIdMatches = Find_Query.value(0).toString();
+        first = false;
+    }
+
+
+    QSqlQuery Mediation_query(database);
+    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where process_id in %1").arg(mediationIdMatches);
+    result = false;
+    result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
+
+    // Have the mediation processes now. Need to build them back up.
+    QString processId;
+    MediationProcessVector* processVector = new MediationProcessVector();
+    while(Mediation_query.next())
+    {
+        MediationProcess* process = new MediationProcess();
+
+        processId = Mediation_query.value(0).toString();
+
+        //Rebuilds the process itself based on the database
+        process->SetId(processId.toUInt());
+        process->SetDisputeType((DisputeTypes)Mediation_query.value(1).toInt());
+        process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(4).toString(), "yyyy-MM-dd hh:mm:ss"));
+        process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
+        process->SetProcessState((DisputeProcessStates)Mediation_query.value(6).toInt());
+        process->SetCountyId((CountyIds)Mediation_query.value(7).toInt());
+        process->SetReferralType((ReferralTypes)Mediation_query.value(9).toInt());
+        process->SetRequiresSpanish(Mediation_query.value(10).toBool());
+
+
+        //Grab sessions based on the mediation id
+        QSqlQuery sessionQuery(database);
+        QString session_command_string = QString("Select * from Session_Table where process_id = %1")
+                                                .arg(processId);
+        bool sessionResult = false;
+        sessionResult = this->ExecuteCommand(session_command_string, sessionQuery);
+
+        MediationSessionVector* sessions = new MediationSessionVector();
+        std::vector<int> sessionIds;
+        while(sessionQuery.next())
+        {
+            // Rebuild sessions and add them to the process
+            MediationSession* session = new MediationSession();
+
+            session->SetId(sessionQuery.value(0).toInt());
+            session->SetState((SessionStates)sessionQuery.value(2).toInt());
+
+            session->setFee1Paid(sessionQuery.value(3).toBool());
+            session->setFee2Paid(sessionQuery.value(4).toBool());
+            session->setFeeFamilyPaid(sessionQuery.value(5).toBool());
+            session->setFeeOtherPaid(sessionQuery.value(6).toBool());
+
+            session->setFee1(sessionQuery.value(7).toString());
+            session->setFee2(sessionQuery.value(8).toString());
+            session->setFeeFamily(sessionQuery.value(9).toString());
+            session->setFeeOther(sessionQuery.value(10).toString());
+            session->setIncomeFee1(sessionQuery.value(11).toString());
+            session->setIncomeFee2(sessionQuery.value(12).toString());
+            session->setIncomeFeeFamily(sessionQuery.value(13).toString());
+            session->setIncomeFeeOther(sessionQuery.value(14).toString());
+
+            //TODO: Make these into just needing names... they're not "client" type people
+            session->setMediator1(sessionQuery.value(15).toString());
+            session->setMediator2(sessionQuery.value(16).toString());
+            session->setObserver1(sessionQuery.value(17).toString());
+            session->setObserver2(sessionQuery.value(18).toString());
+
+            sessions->push_back(session);
+        }
+        process->setMediationSessionVector(sessions);
+
+        // Grab the notes, based on BOTH mediation id (easy) and session id (little trickier)
+
+        QSqlQuery noteQuery(database);
+        QString note_command_string = QString("Select * from Notes_Table where Process_id = %1").arg(processId);
+        bool noteResult = false;
+        noteResult = this->ExecuteCommand(note_command_string, noteQuery);
+
+        while(noteQuery.next())
+        {
+            Note* note = new Note();
+            note->SetId(noteQuery.value(0).toInt());
+            note->SetMediationId(noteQuery.value(1).toInt());
+            note->SetSessionId(noteQuery.value(2).toInt());
+            note->SetMessage(noteQuery.value(3).toString());
+            note->SetCreatedDate(QDateTime::fromString(noteQuery.value(4).toString(), "yyyy-MM-dd hh:mm:ss"));
+            process->GetNotes()->push_back(note);
+        }
+
+        //Grab clients based on the mediation id
+        QSqlQuery clientQuery(database);
+        QString client_command_string = QString("Select * from Client_table where process_id = %1")
+                                                .arg(processId);
+
+        bool clientResult = false;
+        clientResult = this->ExecuteCommand(client_command_string, clientQuery);
+
+        QString personId;
+
+        while(clientQuery.next())
+        {
+            // Rebuild clients and add them to the process... part of that is....
+            Party* party = new Party();
+            personId = clientQuery.value(2).toString();
+            Person* primary = new Person();// = nullptr;
+            //Grab people based on the column in client
+            QSqlQuery peopleQuery(database);
+            QString people_command_string = QString("Select * from Person_Table where person_id = %1").arg(personId);
+
+            bool personResult = false;
+            personResult = this->ExecuteCommand(people_command_string, peopleQuery);
+            while(peopleQuery.next())
+            {
+                // rebuild the primary client
+                primary->SetId(personId.toUInt());
+                primary->setFirstName(peopleQuery.value(1).toString());
+                primary->setMiddleName(peopleQuery.value(2).toString());
+                primary->setLastName(peopleQuery.value(3).toString());
+                primary->setStreet(peopleQuery.value(4).toString());
+                primary->setUnit(peopleQuery.value(5).toString());
+                primary->setCity(peopleQuery.value(6).toString());
+                primary->setState(peopleQuery.value(7).toString());
+                primary->setZip(peopleQuery.value(8).toString());
+                primary->setCounty(peopleQuery.value(9).toString());
+                primary->setPrimaryPhone(peopleQuery.value(10).toString());
+                primary->setSecondaryPhone(peopleQuery.value(11).toString());
+                primary->setAssistantPhone(peopleQuery.value(12).toString());
+                primary->setEmail(peopleQuery.value(13).toString());
+                primary->setNumberInHousehold(peopleQuery.value(14).toUInt());
+                primary->setAttorney(peopleQuery.value(15).toString());
+                party->SetPrimary(primary);
+            }
+
+            // NOT FULLY IMPLEMENTED YET! these members of party have to change
+
+            // TODO: Children in a party should be just a number
+            // TODO: Observers in a party should be just a name
+            // TODO: Attorney... This data needs to be more robust in the database.
+            //       Translation: Degan - redo that insertjoinobject method for that.
+            //
+            // party->SetChildren(clientQuery.value(3).toUInt());
+            // party->SetObservers(clientQuery.value(4).toString());
+            // party->SetAttorney(clientQuery.value(5).toString());
+            process->AddParty(party);
+        }
+
+        processVector->push_back(process);
+    }
+    //Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
+
 }
 
 void DRCDB::InsertOrUpdateMediation(MediatorArg arg)

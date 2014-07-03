@@ -42,8 +42,185 @@ QString Person::DuplicateQuery()
 
 QString Person::SearchQuery()
 {
-#warning TODO - SearchQuery() UNIMPLEMENTED!!!!
+    QString toReturn = "";
+    bool notFirstField = false;
 
+    if(this->getFirstName() != "")
+    {
+        toReturn += QString("first_name like '%1'").arg(this->getFirstName().replace("'", "''"));
+        notFirstField = true;
+    }
+    if(this->getMiddleName() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("middle_name like '%1'").arg(this->getMiddleName().replace("'", "''"));
+    }
+    if(this->getLastName() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("last_name like '%1'").arg(this->getLastName().replace("'", "''"));
+    }
+    if(this->getStreet() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("street_name like '%1'").arg(this->getStreet().replace("'", "''"));
+    }
+    if(this->getUnit() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("unit_name like '%1'").arg(this->getUnit().replace("'", "''"));
+    }
+    if(this->getCity() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("city_name like '%1'").arg(this->getCity().replace("'", "''"));
+    }
+    if(this->getState() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("state_name like '%1'").arg(this->getState().replace("'", "''"));
+    }
+    if(this->getZip() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("zip_code like '%1'").arg(this->getZip().replace("'", "''"));
+    }
+    if(this->getCounty() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("county_name like '%1'").arg(this->getCounty().replace("'", "''"));
+    }
+    if(this->getPrimaryPhone() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("primary_phone like '%1'").arg(this->getPrimaryPhone().replace("'", "''"));
+    }
+    if(this->getSecondaryPhone() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("secondary_phone like '%1'").arg(this->getSecondaryPhone().replace("'", "''"));
+    }
+    if(this->getAssistantPhone() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("assistance_phone like '%1'").arg(this->getAssistantPhone().replace("'", "''"));
+    }
+    if(this->getEmail() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("email_address like '%1'").arg(this->getEmail().replace("'", "''"));
+    }
+    if(this->getNumberInHousehold() != 0)
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("number_in_house like '%1'").arg(this->getNumberInHousehold());
+    }
+    if(this->getAttorney() != "")
+    {
+        if(notFirstField)
+        {
+            toReturn += " AND ";
+        }
+        else
+        {
+            notFirstField = true;
+        }
+        toReturn += QString("attorney_name like '%1'").arg(this->getAttorney().replace("'", "''"));
+    }
+
+
+    return toReturn;
 }
 
 
