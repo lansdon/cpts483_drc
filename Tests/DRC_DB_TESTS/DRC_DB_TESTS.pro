@@ -34,7 +34,6 @@ SOURCES += tst_drc_db_tests.cpp \
     ../../drc/drc_shared/drctypes.cpp \
     ../../drc/drc_shared/mediator/Mediator.cpp \
     ../../drc/drc_shared/models/User.cpp \
-    ../../drc/drc_shared/models/Intake.cpp \
     ../../drc/bl/Crypto/SHA256_Crypto.cpp \
     ../../drc/drc_shared/models/Note.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
@@ -52,7 +51,6 @@ HEADERS += \
     ../../drc/drc_shared/mediator/MediatorArg.h \
     ../../drc/drc_shared/mediator/MediatorKeys.h \
     ../../drc/drc_shared/models/User.h \
-    ../../drc/drc_shared/models/Intake.h \
     ../../drc/drc_shared/models/DRCModels.h \
     ../../drc/bl/Crypto/SHA256_Crypto.h \
     ../../drc/drc_shared/models/Note.h
