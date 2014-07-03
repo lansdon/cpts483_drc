@@ -15,7 +15,8 @@ CurrentUser::CurrentUser()
 }
 CurrentUser::CurrentUser(const CurrentUser& User)
 {
-	// Filler
+    Q_UNUSED(User);
+    // Filler
 }
 
 CurrentUser& CurrentUser::Instance()

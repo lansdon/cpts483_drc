@@ -255,6 +255,7 @@ void QueryForm::PopulateResultsTable()
 
 void QueryForm::ResultCellSelected(int nRow, int nCol)
 {
+    Q_UNUSED(nRow);Q_UNUSED(nCol);
 //    PersonDetailsForm* editWindow = new PersonDetailsForm(this, _party->GetChildren()[nRow], true);
 //    editWindow->setWindowFlags(Qt::Popup);
 

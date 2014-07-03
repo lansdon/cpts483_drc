@@ -1,7 +1,7 @@
 #include "notesbrowser.h"
 #include "ui_notesbrowser.h"
 #include <QDateTime>
-#include <QDebug>>
+#include <QDebug>
 #include "Note.h"
 #include "Mediator.h"
 #include "MediatorKeys.h"
@@ -29,7 +29,7 @@ NotesBrowser::~NotesBrowser()
 
 void NotesBrowser::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
-
+    Q_UNUSED(index);
 }
 
 void NotesBrowser::ConfigTable()
@@ -99,7 +99,7 @@ void NotesBrowser::on_saveNoteBtn_clicked()
     if(message.length())
     {
         // update the current note
-        if(_notes->size() > ui->tableWidget->currentRow() && !_editingNewNote)
+        if((int)_notes->size() > ui->tableWidget->currentRow() && !_editingNewNote)
         {
             _notes->at(ui->tableWidget->currentRow())->SetMessage(message);
         }
@@ -113,7 +113,7 @@ void NotesBrowser::on_saveNoteBtn_clicked()
 
 void NotesBrowser::on_delNoteBtn_clicked()
 {
-    if((_notes->size()) > ui->tableWidget->currentIndex().row())
+    if(((int)_notes->size()) > ui->tableWidget->currentIndex().row())
     {
         if(_notes->size() != 1)
             _notes->erase(_notes->begin() + ui->tableWidget->currentIndex().row());
@@ -125,7 +125,7 @@ void NotesBrowser::on_delNoteBtn_clicked()
 
 void NotesBrowser::on_tableWidget_itemSelectionChanged()
 {
-    if(_notes->size() > ui->tableWidget->currentRow())
+    if((int)_notes->size() > ui->tableWidget->currentRow())
     {
         Note* curNote = _notes->at(ui->tableWidget->currentRow());
         ui->noteInput->setText(curNote->GetMessage());

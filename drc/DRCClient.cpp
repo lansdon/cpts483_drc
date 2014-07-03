@@ -41,15 +41,15 @@ DRCClient::DRCClient(QWidget *parent)
     setCentralWidget(new LoginForm(this));
 
     // Listen for
-    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuBarEnabled();});
-    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){SetMenuHelpEnabled();});
-    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){SetMenuBarDisabled();});
-    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){SetMenuHelpDisabled();});
-    Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){SetMenuAdminShow();});
-    Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){SetMenuAdminHide();});
-    Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){ShowMediationBrowser();});
-    Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){ShowSessionBrowser();});
-    Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){ShowNotesBrowser();});
+    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuBarEnabled();});
+    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuHelpEnabled();});
+    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuBarDisabled();});
+    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuHelpDisabled();});
+    Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminShow();});
+    Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminHide();});
+    Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowMediationBrowser();});
+    Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowSessionBrowser();});
+    Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowNotesBrowser();});
 //    Mediator::Register(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS, [this](MediatorArg arg){send_mediation_vector();});
  //   Mediator::Register(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, [this](MediatorArg arg){saveMPEvent(arg);});
 
@@ -69,7 +69,6 @@ DRCClient::~DRCClient()
 void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
 {
     ui->menuBar->setEnabled(enableMenus);
-    ui->menuHelp->setEnabled(enableMenus);
     ui->toolBar->setEnabled(enableMenus);
     ui->menuAdmin->menuAction()->setVisible(showAdmin);
 }
@@ -82,7 +81,7 @@ void DRCClient::SetMenuBarEnabled()
 
 void DRCClient::SetMenuHelpEnabled()
 {
-    ui->menuHelp->setEnabled(true);
+//    ui->menuHelp->setEnabled(true);
 }
 
 void DRCClient::SetMenuBarDisabled()
@@ -92,7 +91,7 @@ void DRCClient::SetMenuBarDisabled()
 
 void DRCClient::SetMenuHelpDisabled()
 {
-    ui->menuHelp->setEnabled(false);
+//    ui->menuHelp->setEnabled(false);
 }
 
 void DRCClient::SetMenuAdminShow()

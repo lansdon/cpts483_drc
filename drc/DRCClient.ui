@@ -54,40 +54,14 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menuInquiries">
-    <property name="title">
-     <string>Inquiries</string>
-    </property>
-    <addaction name="actionNew"/>
-    <addaction name="separator"/>
-    <addaction name="actionFind"/>
-    <addaction name="separator"/>
-    <addaction name="actionRecent"/>
-    <addaction name="actionStatus_List"/>
-    <addaction name="separator"/>
-   </widget>
    <widget class="QMenu" name="menuReports">
     <property name="title">
      <string>Reports</string>
     </property>
     <addaction name="actionCase_Summary"/>
-   </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>Help</string>
-    </property>
-    <addaction name="actionMediation_Process"/>
-    <addaction name="separator"/>
-    <addaction name="actionFruit_Test"/>
-   </widget>
-   <widget class="QMenu" name="menuSearch">
-    <property name="title">
-     <string>Search</string>
-    </property>
-    <addaction name="actionNew_search_form"/>
    </widget>
    <widget class="QMenu" name="menu_mediationProcess">
     <property name="title">
@@ -122,10 +96,7 @@
     <addaction name="actionSave_to_file"/>
    </widget>
    <addaction name="menu_mediationProcess"/>
-   <addaction name="menuSearch"/>
-   <addaction name="menuInquiries"/>
    <addaction name="menuReports"/>
-   <addaction name="menuHelp"/>
    <addaction name="menuAdmin"/>
    <addaction name="menuUser"/>
    <addaction name="menuTest_Area"/>
@@ -141,11 +112,7 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionMediation_Process"/>
    <addaction name="separator"/>
-   <addaction name="actionNew_search_form"/>
-   <addaction name="actionFruit_Test"/>
-   <addaction name="actionCase_Summary"/>
   </widget>
   <action name="actionNew">
    <property name="text">

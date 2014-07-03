@@ -54,7 +54,7 @@ void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &date
 
 void MediationSessionForm::on_Fee1LineEdit_textEdited(const QString &arg1)
 {
-    _mediationSession->setFee1(ui->Fee1LineEdit->text());
+    _mediationSession->setFee1(arg1);
      Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
@@ -98,19 +98,19 @@ void MediationSessionForm::fillFields(MediationSession *input)
 
 void MediationSessionForm::on_Fee2LineEdit_textEdited(const QString &arg1)
 {
-    _mediationSession->setFee2(ui->Fee2LineEdit->text());
+    _mediationSession->setFee2(arg1);
      Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_FamilyFeeLineEdit_textEdited(const QString &arg1)
 {
-    _mediationSession->setFeeFamily(ui->FamilyFeeLineEdit->text());
+    _mediationSession->setFeeFamily(arg1);
      Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_OtherFeeLineEdit_textEdited(const QString &arg1)
 {
-    _mediationSession->setFeeOther(ui->OtherFeeLineEdit->text());
+    _mediationSession->setFeeOther(arg1);
      Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
@@ -140,14 +140,13 @@ void MediationSessionForm::on_incomeFee1LineEdit_textEdited(const QString &arg1)
 
 void MediationSessionForm::on_incomeFee2LineEdit_textEdited(const QString &arg1)
 {
-    _mediationSession->setIncomeFee2(ui->incomeFee2LineEdit->text());
+    _mediationSession->setIncomeFee2(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_incomeFeeFamilyLineEdit_textEdited(const QString &arg1)
 {
-    _mediationSession->setIncomeFeeFamily(ui->incomeFeeFamilyLineEdit->text());
-
+    _mediationSession->setIncomeFeeFamily(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 

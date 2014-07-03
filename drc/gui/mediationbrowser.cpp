@@ -16,7 +16,9 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
 
     Mediator::Register(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
     Mediator::Register(MKEY_DOCK_SET_MEDIATIONS, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
-    Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){LoadTableData(_sortType);});
+    Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){Q_UNUSED(arg);LoadTableData(_sortType);});
+    Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){Q_UNUSED(arg);LoadTableData(_sortType);});
+    Mediator::Register(MKEY_DB_QUERY_MEDIATION, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
 
     LoadTableData(sortType);
 
@@ -125,7 +127,17 @@ void MediationBrowser::MakeSampleTable()
 void MediationBrowser::on_tableWidget_doubleClicked(const QModelIndex &index)
 {
     qDebug() << "on_tableWidget_doubleClicked row=" << index.row();
-    if(index.row() >= 0 && index.row() < _mediationsVector.size())
+    if(index.row() >= 0 && index.row() < (int)_mediationsVector.size())
         emit on_mediationProcessSelected(_mediationsVector.at(index.row()));
 }
 
+
+void MediationBrowser::on_searchBtn_clicked()
+{
+    // Using a person object to hold the search variables.
+    Person* searchParams = new Person();
+    searchParams->setFirstName(ui->firstnameLineEdit->text());
+    searchParams->setLastName(ui->lastnameLineEdit->text());
+
+    Mediator::Call(MKEY_GUI_QUERY_MEDIATION, searchParams);
+}

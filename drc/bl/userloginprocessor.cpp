@@ -80,5 +80,5 @@ UserLoginProcessor::~UserLoginProcessor()
 
 
 // Process new User
-void UserLoginProcessor::Process(MediatorArg arg) {}
-void UserLoginProcessor::Load(MediatorArg arg) {}
+void UserLoginProcessor::Process(MediatorArg arg) {Q_UNUSED(arg);}
+void UserLoginProcessor::Load(MediatorArg arg) {Q_UNUSED(arg);}

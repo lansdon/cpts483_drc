@@ -38,6 +38,7 @@ QString Person::DuplicateQuery()
 {
 #warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
 
+    return "";
 }
 
 QString Person::SearchQuery()

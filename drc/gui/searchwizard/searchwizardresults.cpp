@@ -7,8 +7,9 @@
 #include <persondetailsform.h>
 #include "drctypes.h"
 
-SearchWizardResults::SearchWizardResults(QWidget *parent)
+SearchWizardResults::SearchWizardResults(QWidget *parent) : QWizardPage(parent)
 {
+
     setTitle("Search Results");
 //    setSubTitle("Enter fields to search with. More parameters will result in fewer results.");
 
@@ -87,6 +88,8 @@ void SearchWizardResults::PopulateResultsTable()
 
 void SearchWizardResults::ResultCellSelected(int nRow, int nCol)
 {
+    Q_UNUSED(nRow);Q_UNUSED(nCol);
+
 //    PersonDetailsForm* editWindow = new PersonDetailsForm(this, _party->GetChildren()[nRow], true);
 //    editWindow->setWindowFlags(Qt::Popup);
 

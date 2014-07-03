@@ -127,12 +127,14 @@ QString MediationSession::GetIdRowName()
 
 QString MediationSession::DuplicateQuery()
 {
-
+#warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
+    return "";
 }
 
 QString MediationSession::SearchQuery()
 {
-
+#warning TODO - SearchQuery() UNIMPLEMENTED!!!!
+    return "";
 }
 
 
