@@ -69,7 +69,6 @@ DRCClient::~DRCClient()
 void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
 {
     ui->menuBar->setEnabled(enableMenus);
-    ui->menuHelp->setEnabled(enableMenus);
     ui->toolBar->setEnabled(enableMenus);
     ui->menuAdmin->menuAction()->setVisible(showAdmin);
 }
@@ -82,7 +81,7 @@ void DRCClient::SetMenuBarEnabled()
 
 void DRCClient::SetMenuHelpEnabled()
 {
-    ui->menuHelp->setEnabled(true);
+//    ui->menuHelp->setEnabled(true);
 }
 
 void DRCClient::SetMenuBarDisabled()
@@ -92,7 +91,7 @@ void DRCClient::SetMenuBarDisabled()
 
 void DRCClient::SetMenuHelpDisabled()
 {
-    ui->menuHelp->setEnabled(false);
+//    ui->menuHelp->setEnabled(false);
 }
 
 void DRCClient::SetMenuAdminShow()
