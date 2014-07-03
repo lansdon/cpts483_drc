@@ -38,12 +38,14 @@ QString Person::DuplicateQuery()
 {
 #warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
 
+    return "";
 }
 
 QString Person::SearchQuery()
 {
 #warning TODO - SearchQuery() UNIMPLEMENTED!!!!
 
+    return "";
 }
 
 

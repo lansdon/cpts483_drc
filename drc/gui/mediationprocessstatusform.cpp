@@ -7,8 +7,8 @@
 
 MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, MediationProcess* mediationProcess) :
     QWidget(parent),
-    _mediationProcess(nullptr),
-    ui(new Ui::MediationProcessStatusForm)
+    ui(new Ui::MediationProcessStatusForm),
+  _mediationProcess(nullptr)
 {
     ui->setupUi(this);
 

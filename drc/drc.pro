@@ -103,7 +103,6 @@ HEADERS  += \
     gui/toolbarmanager.h \
     gui/Mock_Server/dummy.h \
     drc_shared/models/mediationsession.h \
-    gui/loginform.h \
     gui/mediationsessionform.h \
     gui/mediationbrowser.h \
     gui/sessionoverview.h \

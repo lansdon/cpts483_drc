@@ -28,6 +28,8 @@ void Mock_Server::PrintPerson(Person *input, std::fstream &file)
 }
 void Mock_Server::PrintMediationProcess(MediationProcess *input, std::fstream &file)
 {
+    Q_UNUSED(input); // Why isn't MP used? I dunno.
+
     time_t tm = std::time(0);
     //std::time(&tm);
     file.open("test.out",std::fstream::out | std::fstream::app);

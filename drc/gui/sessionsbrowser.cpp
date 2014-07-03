@@ -129,7 +129,7 @@ void SessionsBrowser::on_addSessionBtn_clicked()
 
 void SessionsBrowser::on_delSessionBtn_clicked()
 {
-    if(_sessions->size() > _sessionTable->currentIndex().row())
+    if((int)_sessions->size() > _sessionTable->currentIndex().row())
     {
         _sessions->erase(_sessions->begin() + _sessionTable->currentIndex().row());
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);

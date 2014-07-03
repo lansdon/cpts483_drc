@@ -239,6 +239,8 @@ DRCDB::~DRCDB()
 
 void DRCDB::LoadRecentMediations(MediatorArg arg)
 {
+    Q_UNUSED(arg);  // don't care about incoming arg.
+
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
     QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc limit 10";
@@ -412,7 +414,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
 
     MediationSession* session = NULL;
 
-    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
+    for(size_t i = 0; i < process->getMediationSessionVector()->size(); i++)
     {
         // Insert each session that has been created by the dispute so far.
         // Linkage will be preserved through the id being linked
@@ -424,7 +426,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
 
     Note* note;
 
-    for(int i = 0; i < process->GetNotes()->size(); i++)
+    for(size_t i = 0; i < process->GetNotes()->size(); i++)
     {
         note = process->GetNotes()->at(i);
         note->SetMediationId(process->GetId());
@@ -433,7 +435,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
     }
 
     Party* person = NULL;
-    for(int i = 0; i < process->GetParties()->size(); i++)
+    for(size_t i = 0; i < process->GetParties()->size(); i++)
     {
         // Insert each new person
         // TODO: Add a check to prevent adding duplicate people
@@ -460,7 +462,7 @@ void DRCDB::UpdateMediation(MediatorArg arg)
 
     MediationSession* session = NULL;
 
-    for(int i = 0; i < process->getMediationSessionVector()->size(); i++)
+    for(size_t i = 0; i < process->getMediationSessionVector()->size(); i++)
     {
         session = process->getMediationSessionVector()->at(i);
         if(session->GetId() == 0)
@@ -477,7 +479,7 @@ void DRCDB::UpdateMediation(MediatorArg arg)
 
     Note* note;
 
-    for(int i = 0; i < process->GetNotes()->size(); i++)
+    for(size_t i = 0; i < process->GetNotes()->size(); i++)
     {
         note = process->GetNotes()->at(i);
         if(note->GetId() == 0)
@@ -497,7 +499,7 @@ void DRCDB::UpdateMediation(MediatorArg arg)
     this->ExecuteCommand(client_clean_string, client_clean);
 
     Party* person = NULL;
-    for(int i = 0; i < process->GetParties()->size(); i++)
+    for(size_t i = 0; i < process->GetParties()->size(); i++)
     {
         // Insert each new person
         // TODO: Add a check to prevent adding duplicate people
@@ -736,7 +738,7 @@ bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
 bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_object)
 {
     QString observerString;
-    for(int i = 0; i < party_object->GetObservers().size(); i++)
+    for(size_t i = 0; i < party_object->GetObservers().size(); i++)
     {
         Person* temp = party_object->GetObservers().at(i);
         observerString += temp->FullName();
@@ -762,7 +764,7 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
 
     if(insertSuccess)
     {
-        int id = query_object.lastInsertId().toInt();
+//        int id = query_object.lastInsertId().toInt();
         //db_object->SetId(id);
     }
 
@@ -775,7 +777,7 @@ bool DRCDB::InsertJoinObject(MediationProcess* dispute_object, Party* party_obje
 bool DRCDB::UpdateJoinObject(MediationProcess* dispute_object, Party* party_object)
 {
     QString observerString;
-    for(int i = 0; i < party_object->GetObservers().size(); i++)
+    for(size_t i = 0; i < party_object->GetObservers().size(); i++)
     {
         Person* temp = party_object->GetObservers().at(i);
         observerString += temp->FullName();

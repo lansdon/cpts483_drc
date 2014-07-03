@@ -57,12 +57,13 @@ QString User::Parse()
 
 QString User::GetIdRowName()
 {
-
+    return "";
 }
 
 QString User::UpdateParse()
 {
-    //TODO: IMPLEMENT THIS
+#warning    TODO - UpdateParse() UNIMPLEMENTED!!
+    return "";
 }
 
 QString User::table(void)

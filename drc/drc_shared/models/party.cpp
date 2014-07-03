@@ -12,31 +12,42 @@ Party::Party()
 
 QString Party::Parse()
 {
-
+#warning TODO - Parse() UNIMPLEMENTED!!!!
+    return "";
 }
 
 QString Party::UpdateParse()
 {
+#warning TODO - UpdateParse() UNIMPLEMENTED!!!!
+    return "";
 
 }
 
 QString Party::table()
 {
+#warning TODO - table() UNIMPLEMENTED!!!!
+    return "";
 
 }
 
 QString Party::DuplicateQuery()
 {
+#warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
+    return "";
 
 }
 
 QString Party::SearchQuery()
 {
+#warning TODO - SearchQuery() UNIMPLEMENTED!!!!
+    return "";
 
 }
 
 QString Party::GetIdRowName()
 {
+#warning TODO - GetIdRowName() UNIMPLEMENTED!!!!
+    return "";
 
 }
 
