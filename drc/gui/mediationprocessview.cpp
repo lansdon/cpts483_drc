@@ -15,8 +15,6 @@
 #include "nosessionsview.h"
 #include "partyform.h"
 
-
-
 MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *mediationProcess) :
     QWidget(parent),
     ui(new Ui::MediationProcessView),
@@ -69,13 +67,19 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     // Update Fields for current record
     PopulateView();
 
-    Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg arg){UpdateSignaled();});
-    Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
+    _unregisterSavePendingId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg arg){UpdateSignaled();});
+    _unregisterPopulateId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){PopulateView();});
+    _unregisterPersistMPId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
 
 }
 
 MediationProcessView::~MediationProcessView()
 {
+    Mediator::Unregister(MKEY_GUI_MP_SAVE_PENDING, _unregisterSavePendingId);
+    Mediator::Unregister(MKEY_GUI_MP_POPULATE, _unregisterPopulateId);
+    Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _unregisterPersistMPId);
+    delete _mediationProcessStatusForm;
+    delete _mediationSessionForm;
     delete ui;
 }
 
@@ -214,14 +218,14 @@ void MediationProcessView::on_addCientPushButton_clicked()
     PartyForm* pForm = new PartyForm(ui->partyTabWidget, newParty);
     ui->partyTabWidget->addTab(pForm, newParty->GetPrimary()->FullName() );
     connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     PopulateView();
 }
 
 void MediationProcessView::on_removeClientPushButton_clicked()
 {
     _mediationProcess->removeParty(ui->partyTabWidget->currentIndex());
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     PopulateView();
 }
 

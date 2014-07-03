@@ -165,7 +165,7 @@ void PersonDetailsForm::on_saveButton_clicked()
 
     //emit PersonSaved(_person);
     //emit SaveSignaled();
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     if(_bPopup)
     {
         this->close();
@@ -255,98 +255,99 @@ void PersonDetailsForm::ShowButtons(bool showButtons)
 void PersonDetailsForm::on_middleLineEdit_textEdited(const QString &arg1)
 {
     _person->setMiddleName(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 
 void PersonDetailsForm::on_streetLineEdit_textEdited(const QString &arg1)
 {
     _person->setStreet(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_unitLineEdit_textEdited(const QString &arg1)
 {
     _person->setUnit(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_cityLineEdit_textEdited(const QString &arg1)
 {
     _person->setCity(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_zipLineEdit_textEdited(const QString &arg1)
 {
     _person->setZip(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_countyLineEdit_textEdited(const QString &arg1)
 {
     _person->setCounty(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_stateLineEdit_textEdited(const QString &arg1)
 {
     _person->setState(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_numInHomeLineEdit_textEdited(const QString &arg1)
 {
     _person->setNumberInHousehold(arg1.toInt());
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_attorneyLineEdit_textEdited(const QString &arg1)
 {
     _person->setAttorney(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
 {
     _person->setEmail(arg1);
     ProcessEmail(arg1, ui->emailLineEdit);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_primaryLineEdit_textEdited(const QString &arg1)
 {
     _person->setPrimaryPhone(arg1);
     ProcessPhoneNumber(arg1, ui->primaryLineEdit);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
+
 void PersonDetailsForm::on_primaryExtLineEdit_textEdited(const QString &arg1)
 {
     _person->setPrimaryPhoneExt(ui->primaryExtLineEdit->text());
-    ProcessPhoneNumber(arg1, ui->primaryExtLineEdit);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
+
 void PersonDetailsForm::on_secondaryLineEdit_textEdited(const QString &arg1)
 {
     _person->setSecondaryPhone(ui->secondaryLineEdit->text());
     ProcessPhoneNumber(arg1, ui->secondaryLineEdit);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
+
 void PersonDetailsForm::on_secondaryExtLineEdit_textEdited(const QString &arg1)
 {
     _person->setSecondaryPhoneExt(ui->secondaryExtLineEdit->text());
-    ProcessPhoneNumber(arg1, ui->secondaryExtLineEdit);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
-
 
 void PersonDetailsForm::on_lastLineEdit_textEdited(const QString &arg1)
 {
     _person->setLastName(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
+
 void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
 {
     _person->setFirstName(arg1);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

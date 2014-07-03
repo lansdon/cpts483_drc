@@ -26,13 +26,17 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     ui->saveStatusLabel->setVisible(false);
 
     ConfigureComboBoxes();
-    Mediator::Register(MKEY_GUI_MP_SHOULD_UPDATE, [this](MediatorArg){SetSavedLabel(false);});
-    Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){MPSaveFinished(arg);});
+
     Update();
+
+    _SavePendingCallbackId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg){SetSavedLabel(false);});
+    _PersistMPDoneCallbackId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){MPSaveFinished(arg);});
 }
 
 MediationProcessStatusForm::~MediationProcessStatusForm()
 {
+    Mediator::Unregister(MKEY_GUI_MP_SAVE_PENDING, _SavePendingCallbackId);
+    Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _PersistMPDoneCallbackId);
     delete ui;
 }
 void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
@@ -115,29 +119,31 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetDisputeType((DisputeTypes)index);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_statusComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetProcessState((DisputeProcessStates)index);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_countyComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetCountyId((CountyIds)index);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetReferralType((ReferralTypes)index);
-    Mediator::Call(MKEY_GUI_MP_SHOULD_UPDATE);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
 {
+    if(!ui) return;
+
     if(!isSaved)
     {
         SetStatusLabel("Unsaved changes!", true);
@@ -150,10 +156,12 @@ void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
 
 void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)
 {
+    if(!ui || !_mediationProcess) return;
+
     ui->saveStatusLabel->setVisible(true);
     if(isError)
     {
-            ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : red; }");
+        ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : red; }");
         ui->saveStatusLabel->setText(message);
     }
     else

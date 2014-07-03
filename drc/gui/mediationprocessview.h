@@ -75,6 +75,11 @@ private:
     void on_sessiontTableWidget_itemSelectionChanged();
 
     void SaveCompleted(MediatorArg arg);
+
+    // Unregister Mediator Ids
+    MediatorId _unregisterSavePendingId;
+    MediatorId _unregisterPopulateId;
+    MediatorId _unregisterPersistMPId;
 };
 
 #endif // CONTACTRECORDVIEW_H
