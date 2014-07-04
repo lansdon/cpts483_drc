@@ -38,7 +38,7 @@ MediationProcess::MediationProcess()
 }
 
 MediationProcess::MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans, DisputeTypes disputeType,
-                                   QDateTime creationDate, DisputeProcessStates processState, CountyIds county,
+                                   QDateTime creationDate, DisputeProcessStates processState, DisputeProcessInternalStates processInternalState, CountyIds county,
                                    MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions)
     : DBBaseObject()
     , _parties(parties)
@@ -46,6 +46,7 @@ MediationProcess::MediationProcess(PartyVector parties, uint stateTrans, uint ac
     , _activeStateTransition(actStateTrans)
     , _disputeType(disputeType)
     , _processState(processState)
+    , _processInternalState(processInternalState)
     , _countyOfMediation(county)
     , _mediationNotes(mediationNotes)
     , _referalSource(reftype)
@@ -68,7 +69,7 @@ QString MediationProcess::Parse()
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd hh:mm:ss"))
-            .arg(QString::number(this->GetCurrentState()))
+            .arg(QString::number(this->GetState()))
             .arg(QString::number(this->GetCountyId()));
 
     //Sloppy as hell.  Forgive me.
@@ -88,7 +89,7 @@ QString MediationProcess::UpdateParse()
             .arg(QString::number(this->GetDisputeType()))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd"))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
-            .arg(QString::number(this->GetCurrentState()))
+            .arg(QString::number(this->GetState()))
             .arg(QString::number(this->GetCountyId()));
 
     toUpdate += QString(" ReferalSource = '%2', TranslatorRequired = '%3'")
@@ -135,7 +136,7 @@ MediationProcess *MediationProcess::SampleData()
     result->_countyOfMediation = (CountyIds)(rand() % 3 + 1);
     result->_disputeType = (DisputeTypes)(rand() % 7 + 1);
     result->_requiresSpanish = rand() % 2;
-    result->_processState = (DisputeProcessStates)( rand() % 5 + 1 );
+    result->_processInternalState = (DisputeProcessInternalStates)( rand() % 5 + 1 );
     result->_referalSource = (ReferralTypes)(rand() % 8 + 1);
 
     MediationSessionVector *temp = new MediationSessionVector;

@@ -247,7 +247,7 @@ void QueryForm::PopulateResultsTable()
  //           _resultsTable->setItem(row, MCOL_PARTY1, new QTableWidgetItem(o->GetParty1()->GetPrimary().FullName()));
  //           _resultsTable->setItem(row, MCOL_PARTY2, new QTableWidgetItem(o->GetParty2()->GetPrimary().FullName()));
 //>>>>>>> origin/GUI_Branch_5-30-14
-            _resultsTable->setItem(row, MCOL_STATUS, new QTableWidgetItem(o->GetCurrentState()));
+            _resultsTable->setItem(row, MCOL_STATUS, new QTableWidgetItem(o->GetState()));
         }
     }
 

@@ -264,7 +264,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         process->SetDisputeType((DisputeTypes)Mediation_query.value(1).toInt());
         process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(4).toString(), "yyyy-MM-dd hh:mm:ss"));
         process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
-        process->SetProcessState((DisputeProcessStates)Mediation_query.value(6).toInt());
+        process->SetState((DisputeProcessStates)Mediation_query.value(6).toInt());
         process->SetCountyId((CountyIds)Mediation_query.value(7).toInt());
         process->SetReferralType((ReferralTypes)Mediation_query.value(9).toInt());
         process->SetRequiresSpanish(Mediation_query.value(10).toBool());
