@@ -55,6 +55,9 @@ public:
     CourtOrderTypes GetCourtOrderType() { return _courtOrderType; }
     QDateTime GetCourtOrderExpiration() { return _courtOrderExpiration; }
 
+    bool GetIsShuttle() { return _isShuttle; }
+    void SetIsShuttle(bool isShuttle) { _isShuttle = isShuttle; }
+
     void SetIsCourtCase(bool isCourt) { _isCourtCase = isCourt; }
     void SetCourtDate(QDateTime courtDate) { _courtDate = courtDate; _isCourtCase = true; }
     void SetCourtType(CourtCaseTypes caseType) { _courtCaseType = caseType; }
@@ -74,6 +77,7 @@ public:
     void setMediationSessionVector(MediationSessionVector *value) {if(value) _mediationSessionVector = *value;}
     uint getActiveStateTransition() { return _activeStateTransition; }
     void setActiveStateTransition(uint value) {_activeStateTransition = value; }
+
 
     // Helpers
     int GetAffectedChildrenCount();
@@ -107,6 +111,9 @@ private:
     // NEW!  7/4/2014
     InquiryTypes _inquiryType;
     bool _infoOnly;
+
+    // NEW!  7/4/2014
+    bool _isShuttle;
 
     // Court Stuff - ALL NEW 7/4/2014
     bool _isCourtCase;
