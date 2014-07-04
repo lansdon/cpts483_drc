@@ -313,3 +313,8 @@ void DRCClient::send_mediation_vector()
 {
     Mediator::Call(MKEY_DOCK_SET_MEDIATIONS,_mediationProcessVector);
 }
+
+void DRCClient::on_actionManage_Users_triggered()
+{
+
+}

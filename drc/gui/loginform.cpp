@@ -25,6 +25,15 @@ LoginForm::LoginForm(QWidget *parent) :
             );
     ui->statusLabel->setText("Please enter your credentials");
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
+
+    ui->groupBox->setStyleSheet("QGroupBox {\
+                                border: 2px solid gray;\
+                                border-radius: 5px;\
+                                margin-top: 1.3em;\
+                                } QGroupBox::title { subcontrol-origin: margin;\
+                                subcontrol-position: top left;\
+                                padding:0 3px;\
+                                }");
 }
 
 void LoginForm::keyPressEvent(QKeyEvent *pe)

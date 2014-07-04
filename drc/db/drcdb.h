@@ -25,7 +25,8 @@ private:
 
     QVector<QString> ErrorMessageVec;
 
-    std::map<QString, QString> UserMap;
+    //std::map<QString, QString> UserMap;
+    std::vector<User*> UserMap;
 
     bool DB_ERROR;
 
@@ -111,6 +112,8 @@ public:
 //********************************Deprecated Methods********************************
 
     void AuthenticateUser(MediatorArg arg);
+
+    void AddNewUser(MediatorArg arg);
 
     void InsertMediation(MediatorArg arg);
 

@@ -66,16 +66,16 @@ DRCDB::DRCDB() : DB_ERROR(false)
     qDebug() << result;
 
     // Populate our fake user list.  Delete this later!!
-    UserMap["Admin"] = sha256("adminpassword", "");
-    UserMap["Normal"] = sha256("normalpassword", "");
-    UserMap[""] = sha256("", "");
+    UserMap.push_back(new User("Admin", "adminpassword", USER_T_ADMIN));
+    UserMap.push_back(new User("Normal", "normalpassword", USER_T_NORMAL));
+    UserMap.push_back(new User("", "", USER_T_ADMIN));
 
     // Register to Listen for events.
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
     Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
     Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
-
+    //Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
 }
 //========================================================================
 
@@ -217,17 +217,9 @@ bool DRCDB::DoesTableExist(QString table_name)
 
 
 
-
-
-
-
-
-
-
 //========================================================================
 //Method closes our database object, and returns the boolean indicating
 //whether or not the database was successfully closed.
-
 //True:     Closed
 //False:    Still Open
 //------------------------------------------------------------------------
@@ -742,21 +734,16 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
         if(user)
         {
             // arg value type was a User
-            if (UserMap.find(user->GetName()) != UserMap.end())
+            auto found = std::find_if(UserMap.begin(), UserMap.end(), [user](User* findUser){return findUser->GetName() == user->GetName();} );
+            if (found != UserMap.end())
             {
-                // Username found in UserMap
-                if (user->GetPass() == UserMap[user->GetName()])
+                if (user->GetPass() == (*found)->GetPass())
                 {
                     // Set arg.IsSuccessful() to true
                     arg.SetSuccessful(true);
-                    if (user->GetName() == "Admin")
-                    {
-                        user->SetType(USER_T_ADMIN);
-                    }
 
-                    // Reset arg value to the user.
                     // Assume the user object has been modified as needed
-                    arg.SetArg(user);
+                    arg.SetArg(*found);
                 }
             }
         }
