@@ -59,10 +59,6 @@ DRCDB::DRCDB() : DB_ERROR(false)
          result = CreateClientSessionTable(client_session_table_name);
     }
 
-    MediatorArg arg = MediationProcess::SampleData();
-
-    InsertOrUpdateMediation(arg);
-
     // Populate our fake user list.  Delete this later!!
     UserMap.push_back(new User("Admin", "adminpassword", USER_T_ADMIN));
     UserMap.push_back(new User("Normal", "normalpassword", USER_T_NORMAL));
@@ -268,14 +264,32 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         processId = Mediation_query.value(0).toString();
 
         //Rebuilds the process itself based on the database
+        //Updated to use new schema!!
         process->SetId(processId.toUInt());
         process->SetDisputeType((DisputeTypes)Mediation_query.value(1).toInt());
         process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(4).toString(), "yyyy-MM-dd hh:mm:ss"));
         process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
         process->SetState((DisputeProcessStates)Mediation_query.value(6).toInt());
-        process->SetCountyId((CountyIds)Mediation_query.value(7).toInt());
+        process->SetInternalState((DisputeProcessInternalStates)Mediation_query.value(7).toInt());
+        process->SetCountyId((CountyIds)Mediation_query.value(8).toInt());
         process->SetReferralType((ReferralTypes)Mediation_query.value(9).toInt());
-        process->SetRequiresSpanish(Mediation_query.value(10).toBool());
+        process->SetInquiryTypes((InquiryTypes)Mediation_query.value(10).toInt());
+        process->SetInfoOnly(Mediation_query.value(11).toBool());
+        process->SetIsCourtCase(Mediation_query.value(12).toBool());
+        QString courtDate = Mediation_query.value(13).toString();
+        if(courtDate != NULL)
+        {
+            process->SetCourtDate(QDateTime::fromString(courtDate, "yyyy-MM-dd"));
+        }
+        //process->SetCourtCaseType(Mediation_query.value(14));
+        process->SetCourtType((CourtOrderTypes)Mediation_query.value(15).toInt());
+        courtDate = Mediation_query.value(16).toString();
+        if(courtDate != NULL)
+        {
+            process->SetCourtOrderExpiration(QDateTime::fromString(courtDate, "yyyy-MM-dd"));
+        }
+        process->SetIsShuttle(Mediation_query.value(17).toBool());
+        process->SetRequiresSpanish(Mediation_query.value(18).toBool());
 
 
         //Grab sessions based on the mediation id
@@ -295,6 +309,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             session->SetId(sessionQuery.value(0).toInt());
             session->SetState((SessionStates)sessionQuery.value(2).toInt());
 
+            /* THESE AREN'T USED ANYMORE!!!
             session->setFee1Paid(sessionQuery.value(3).toBool());
             session->setFee2Paid(sessionQuery.value(4).toBool());
             session->setFeeFamilyPaid(sessionQuery.value(5).toBool());
@@ -308,12 +323,13 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             session->setIncomeFee2(sessionQuery.value(12).toString());
             session->setIncomeFeeFamily(sessionQuery.value(13).toString());
             session->setIncomeFeeOther(sessionQuery.value(14).toString());
+            */
 
             //TODO: Make these into just needing names... they're not "client" type people
-            session->setMediator1(sessionQuery.value(15).toString());
-            session->setMediator2(sessionQuery.value(16).toString());
-            session->setObserver1(sessionQuery.value(17).toString());
-            session->setObserver2(sessionQuery.value(18).toString());
+            session->setMediator1(sessionQuery.value(3).toString());
+            session->setMediator2(sessionQuery.value(4).toString());
+            session->setObserver1(sessionQuery.value(5).toString());
+            session->setObserver2(sessionQuery.value(6).toString());
 
             sessions->push_back(session);
         }
@@ -391,13 +407,16 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             // party->SetChildren(clientQuery.value(3).toUInt());
             // party->SetObservers(clientQuery.value(4).toString());
             // party->SetAttorney(clientQuery.value(5).toString());
-            Person* attorney;
-            attorney->setFirstName(clientQuery.value(5).toString());
-            attorney->setMiddleName(clientQuery.value(6).toString());
-            attorney->setLastName(clientQuery.value(7).toString());
-            attorney->setPrimaryPhone(clientQuery.value(8).toString());
-            attorney->setEmail(clientQuery.value(9).toString());
-            party->SetAttorney(*attorney);
+            Person attorney;// = new Person();
+            attorney.setFirstName(clientQuery.value(5).toString());
+            attorney.setMiddleName(clientQuery.value(6).toString());
+            attorney.setLastName(clientQuery.value(7).toString());
+            attorney.setPrimaryPhone(clientQuery.value(8).toString());
+            attorney.setEmail(clientQuery.value(9).toString());
+            //attorney.setAssistantName(clientQuery.value(10).toString());
+            attorney.setAssistantPhone(clientQuery.value(11).toString());
+            //attorney.setAssistantEmail(clientQuery.value(12).toString());
+            party->SetAttorney(attorney);
             process->AddParty(party);
         }
 
