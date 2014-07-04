@@ -20,6 +20,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     QString session_table_name = QString("Session_Table");
     QString client_table_name = QString("Client_Table");
     QString notes_table_name = QString("Notes_Table");
+    QString client_session_table_name = QString("Client_session_table");
 
     bool result = false;
 
@@ -58,10 +59,11 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     result = false;
 
-    if (!this->DoesTableExist(mediation_table_name))
+    if (!this->DoesTableExist(client_session_table_name))
     {
-         result = CreatePersonTable(mediation_table_name);
+         result = CreateClientSessionTable(client_session_table_name);
     }
+    qDebug() << result;
 
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
@@ -76,11 +78,6 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
 }
 //========================================================================
-
-
-
-
-
 
 
 //========================================================================
@@ -130,6 +127,24 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     return CreateTable(mediation_table_name, mediation_table_columns);
 }
 
+bool DRCDB::CreateClientSessionTable(const QString& client_session_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> client_session_table_columns;
+    client_session_table_columns.push_back(QString("Data_id integer primary key autoincrement null"));
+    client_session_table_columns.push_back(QString("Client_id integer"));
+    client_session_table_columns.push_back(QString("Session_id integer"));
+    client_session_table_columns.push_back(QString("income integer"));
+    client_session_table_columns.push_back(QString("feesCharged integer"));
+    client_session_table_columns.push_back(QString("feesPaid Bool"));
+    client_session_table_columns.push_back(QString("AttorneyExpected Bool"));
+    client_session_table_columns.push_back(QString("AttorneyAttended Bool"));
+    client_session_table_columns.push_back(QString("foreign key(Client_id) references Client_Table(Client_id)"));
+    client_session_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
+
+    return CreateTable(client_session_table_name, client_session_table_columns);
+}
+
 bool DRCDB::CreateClientTable(const QString& client_table_name)
 {
     //Name and Datatypes of all Table columns
@@ -153,18 +168,6 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
     session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
-    session_table_columns.push_back(QString("Fee1Paid integer"));
-    session_table_columns.push_back(QString("Fee2Paid integer"));
-    session_table_columns.push_back(QString("FeeFamilyPaid integer"));
-    session_table_columns.push_back(QString("FeeOtherPaid integer"));
-    session_table_columns.push_back(QString("Fee1 integer"));
-    session_table_columns.push_back(QString("Fee2 integer"));
-    session_table_columns.push_back(QString("FeeFamily integer"));
-    session_table_columns.push_back(QString("FeeOther integer"));
-    session_table_columns.push_back(QString("IncomeFee1 integer"));
-    session_table_columns.push_back(QString("IncomeFee2 integer"));
-    session_table_columns.push_back(QString("IncomeFeeFamily integer"));
-    session_table_columns.push_back(QString("IncomeFeeOther integer"));
     session_table_columns.push_back(QString("Mediator1 char(128)"));
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
