@@ -154,7 +154,9 @@ bool DRCDB::CreateClientTable(const QString& client_table_name)
     client_table_columns.push_back(QString("Person_id integer"));
     client_table_columns.push_back(QString("Children integer"));
     client_table_columns.push_back(QString("Support char(128)"));
-    client_table_columns.push_back(QString("AttorneyName char(128)"));
+    client_table_columns.push_back(QString("AttorneyFirstName char(128)"));
+    client_table_columns.push_back(QString("AttorneyMiddleName char(128)"));
+    client_table_columns.push_back(QString("AttorneyLastName char(128)"));
     client_table_columns.push_back(QString("AttorneyPhone char(128)"));
     client_table_columns.push_back(QString("AttorneyEmail char(128)"));
     client_table_columns.push_back(QString("AssistantName char(128)"));
@@ -391,6 +393,13 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             // party->SetChildren(clientQuery.value(3).toUInt());
             // party->SetObservers(clientQuery.value(4).toString());
             // party->SetAttorney(clientQuery.value(5).toString());
+            Person* attorney;
+            attorney->setFirstName(clientQuery.value(5).toString());
+            attorney->setMiddleName(clientQuery.value(6).toString());
+            attorney->setLastName(clientQuery.value(7).toString());
+            attorney->setPrimaryPhone(clientQuery.value(8).toString());
+            attorney->setEmail(clientQuery.value(9).toString());
+            party->SetAttorney(*attorney);
             process->AddParty(party);
         }
 
@@ -931,12 +940,17 @@ bool DRCDB::InsertClientObject(MediationProcess* dispute_object, Party* party_ob
         observerString += temp->FullName();
     }
 
-    QString value_string = QString("%1, %2, %3, '%4', '%5'")
+    QString value_string = QString("%1, %2, %3, %4, '%5', '%6', '%7', '%8', '%9'")
             .arg(dispute_object->GetId())
             .arg(party_object->GetPrimary()->GetId())
             .arg(party_object->GetChildren().size())
-            .arg(observerString)
-            .arg(party_object->GetAttorney().FullName());
+            .arg(party_object->GetObservers().size())
+            .arg(party_object->GetAttorney().getFirstName())
+            .arg(party_object->GetAttorney().getMiddleName())
+            .arg(party_object->GetAttorney().getLastName())
+            .arg(party_object->GetAttorney().getPrimaryPhone())
+            .arg(party_object->GetAttorney().getEmail());
+            //Needs the assistant information as well!!!
 
     QString command_string = QString("insert into %1 values ( %2, %3 )")
             .arg("Client_Table")
