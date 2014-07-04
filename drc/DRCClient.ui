@@ -54,7 +54,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuReports">
@@ -74,7 +74,7 @@
     <property name="title">
      <string>Admin</string>
     </property>
-    <addaction name="actionCreate_new_User"/>
+    <addaction name="actionManage_Users"/>
    </widget>
    <widget class="QMenu" name="menuUser">
     <property name="title">
@@ -211,6 +211,11 @@
   <action name="actionAdd_to_vector">
    <property name="text">
     <string>Add current to browser</string>
+   </property>
+  </action>
+  <action name="actionManage_Users">
+   <property name="text">
+    <string>Manage Users</string>
    </property>
   </action>
  </widget>

@@ -1,10 +1,15 @@
 #include "User.h"
 
-User::User(QString name, QString pass)
+User::User()
+{
+    // filler!  Because this REALLY doesn't need to do anything.
+}
+
+User::User(QString name, QString pass, UserTypes type)
 {
     m_userName = name;
     m_password = sha256(pass, "");
-    m_type = USER_T_NORMAL;
+    m_type = type;
 }
 
 QString User::GetName(void)
