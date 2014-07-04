@@ -44,6 +44,22 @@ public:
     bool GetRequiresSpanish() { return _requiresSpanish; }
     MediationSessionVector *getMediationSessionVector() {return &_mediationSessionVector;}
 
+    bool GetInfoOnly() { return _infoOnly; }
+    void SetInfoOnly(bool infoOnly) { _infoOnly = infoOnly; }
+    InquiryTypes GetInquiryType() { return _inquiryType; }
+    void SetInquiryTypes(InquiryTypes type) { _inquiryType = type; }
+
+    bool GetIsCourtCase() { return _isCourtCase; }
+    QDateTime GetCourtDate() { return _courtDate; }
+    CourtCaseTypes GetCourtType() { return _courtCaseType; }
+    CourtOrderTypes GetCourtOrderType() { return _courtOrderType; }
+    QDateTime GetCourtOrderExpiration() { return _courtOrderExpiration; }
+
+    void SetIsCourtCase(bool isCourt) { _isCourtCase = isCourt; }
+    void SetCourtDate(QDateTime courtDate) { _courtDate = courtDate; _isCourtCase = true; }
+    void SetCourtType(CourtCaseTypes caseType) { _courtCaseType = caseType; }
+    void SetCourtType(CourtOrderTypes orderType) { _courtOrderType = orderType; }
+    void SetCourtOrderExpiration(QDateTime expiration) { _courtOrderExpiration = expiration; }
 
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }
     void SetCountyId(CountyIds countyId) { _countyOfMediation = countyId; }
@@ -73,7 +89,9 @@ private:
 
     DisputeTypes _disputeType;
 
+    // NEW!  7/4/2014
     DisputeProcessInternalStates _processInternalState;
+
     DisputeProcessStates _processState;
 
     CountyIds _countyOfMediation;
@@ -86,7 +104,16 @@ private:
 
     MediationSessionVector _mediationSessionVector;
 
+    // NEW!  7/4/2014
+    InquiryTypes _inquiryType;
+    bool _infoOnly;
 
+    // Court Stuff - ALL NEW 7/4/2014
+    bool _isCourtCase;
+    QDateTime _courtDate;
+    enum CourtCaseTypes _courtCaseType;
+    enum CourtOrderTypes _courtOrderType;
+    QDateTime _courtOrderExpiration;
 };
 
 #endif // MEDIATIONPROCESS_H

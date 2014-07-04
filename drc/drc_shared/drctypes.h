@@ -154,6 +154,16 @@ enum SessionStates
     SESSION_STATE_RESCHEDULED
 };
 
+enum CourtCaseTypes
+{
+
+};
+
+enum CourtOrderTypes
+{
+
+};
+
 // String Helpers
 QString StringForCountyIds(CountyIds id);
 QString StringForDisputeProcessStates(DisputeProcessStates id);
