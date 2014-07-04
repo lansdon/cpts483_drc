@@ -24,6 +24,9 @@ QString MediationSession::Parse()
     toReturn += QString::number(this->GetState());
     toReturn += ", ";
 
+    //NO LONGER PART OF SESSION!!!!
+    /*
+
     // Paid amounts
     if(this->getFee1Paid())
         toReturn += "1";
@@ -65,6 +68,7 @@ QString MediationSession::Parse()
     toReturn += ", ";
     toReturn += single_quote + this->getIncomeFeeOther() + single_quote;
     toReturn += ", ";
+    */
 
     // Mediator Info
     toReturn += single_quote + this->getMediator1().replace("'", "''") + single_quote;

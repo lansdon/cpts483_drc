@@ -63,21 +63,27 @@ MediationProcess::~MediationProcess()
 
 QString MediationProcess::Parse()
 {
-    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, ")
+    // UPDATED 7-4-14 for new schema - Works for sample data
+    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, %8, ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(QString::number(this->GetState()))
+            .arg(QString::number(this->GetInternalState()))
             .arg(QString::number(this->GetCountyId()));
 
-    //Sloppy as hell.  Forgive me.
-    QString NotebookInOneLine = "Hello World\n";
-
-    toReturn += QString("'%1', '%2', '%3'")
-            .arg(NotebookInOneLine)
+    toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10'")
             .arg(QString::number(this->GetReferralType()))
+            .arg(QString::number(this->GetInquiryType()))
+            .arg(this->GetInfoOnly())
+            .arg(this->GetIsCourtCase())
+            .arg(this->GetCourtDate().toString("yyyy-MM-dd"))
+            .arg(QString::number(this->GetCourtType()))
+            .arg(QString::number(this->GetCourtOrderType()))
+            .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
+            .arg(this->GetIsShuttle())
             .arg(QString::number(this->GetRequiresSpanish()));
 
     return toReturn;
@@ -85,16 +91,29 @@ QString MediationProcess::Parse()
 
 QString MediationProcess::UpdateParse()
 {
-    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeCounty = %5, ")
+    //Updated 7-4-14 for new schema
+    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeInternalState = %5, DisputeCounty = %6, ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd"))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(QString::number(this->GetState()))
+            .arg(QString::number(this->GetInternalState()))
             .arg(QString::number(this->GetCountyId()));
 
-    toUpdate += QString(" ReferalSource = '%2', TranslatorRequired = '%3'")
+    toUpdate += QString("ReferalSource = '%1', TranslatorRequired = '%2', InquiryType = %3, InfoOnly = '%4', CourtCase = '%5', ")
             .arg(QString::number(this->GetReferralType()))
-            .arg(QString::number(this->GetRequiresSpanish()));
+            .arg(QString::number(this->GetRequiresSpanish()))
+            .arg(QString::number(this->GetInquiryType()))
+            .arg(this->GetInfoOnly())
+            .arg(this->GetIsCourtCase());
+
+    toUpdate += QString("CourtDate = '%1', CourtCaseType = %2, CourtOrderType = %3, CourtOrderExpiration = '%4', ShuttleRequired = '%5', TranslatorRequired = '%6'")
+            .arg(this->GetCourtDate().toString("yyyy-MM-dd"))
+            .arg(QString::number(this->GetCourtType()))
+            .arg(QString::number(this->GetCourtOrderType()))
+            .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
+            .arg(this->GetIsShuttle())
+            .arg(this->GetRequiresSpanish());
 
     return toUpdate;
 }
