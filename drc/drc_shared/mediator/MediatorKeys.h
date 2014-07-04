@@ -48,6 +48,13 @@ const QString MKEY_GUI_DISABLE_MENUS = "MKEY_GUI_DISABLE_MENUS";                
 const QString MKEY_GUI_SHOW_ADMIN = "MKEY_GUI_SHOW_ADMIN";                              // None
 const QString MKEY_GUI_HIDE_ADMIN = "MKEY_GUI_HIDE_ADMIN";                              // None
 
+//////////////////////////////////////////////////////////////////
+//              MANAGE USERS
+// Keys to add/remove users.  Nothing special
+//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
+const QString MKEY_DB_ADD_NEW_USER = "MKEY_DB_ADD_NEW_USER";                            // User*
+const QString MKEY_DB_REMOVE_USER = "MKEY_DB_REMOVE_USER";                              // User*
+
 
 //////////////////////////////////////////////////////////////////
 //				CURRENT USER CHANGED

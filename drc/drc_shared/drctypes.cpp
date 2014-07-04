@@ -25,13 +25,10 @@ QString StringForDisputeProcessStates(DisputeProcessStates id)
     QString result;
     switch(id)
     {
-    case PROCESS_STATE_INITIATED: result = "Initiated"; break;
     case PROCESS_STATE_NONE: result = "None"; break;
-    case PROCESS_STATE_OUTCOME_NOT_REACHED: result = "Outcome Not Reached"; break;
-    case PROCESS_STATE_READY_TO_SCHEDULE: result = "Ready to Schedule"; break;
-    case PROCESS_STATE_MEDIATION_COMPLETED: result = "Completed"; break;
-    case PROCESS_STATE_OUTCOME_REACHED: result = "Outcome Reached"; break;
+    case PROCESS_STATE_PENDING: result = "Pending"; break;
     case PROCESS_STATE_SCHEDULED: result = "Scheduled"; break;
+    case PROCESS_STATE_CLOSED: result = "Closed"; break;
     default: result = "<error>"; break;
     }
     return result;

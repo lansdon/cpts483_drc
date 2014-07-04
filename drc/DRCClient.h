@@ -62,6 +62,8 @@ private slots:
 
     void on_actionAdd_5_MP_samples_triggered();
 
+    void on_actionManage_Users_triggered();
+
 public slots:
     void ShowSessionBrowser();
     void ShowMediationBrowser();

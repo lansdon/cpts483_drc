@@ -25,7 +25,8 @@ private:
 
     QVector<QString> ErrorMessageVec;
 
-    std::map<QString, QString> UserMap;
+    //std::map<QString, QString> UserMap;
+    std::vector<User*> UserMap;
 
     bool DB_ERROR;
 
@@ -53,6 +54,8 @@ public:
     bool CreateClientTable(const QString& client_table_name);
 
     bool CreateNotesTable(const QString& notes_table_name);
+
+    bool CreateClientSessionTable(const QString& client_session_table_name);
     //==========================================================================
 
     //==========================================================================
@@ -81,12 +84,7 @@ public:
     // Method to insert, for example, a session which needs to know the id of what it's linking to, the dispute
     bool InsertLinkedObject(int linkedID, DBBaseObject* db_object);
 
-    // Possible method. not correctly implemented yet
-    bool InsertJoinObject(DBBaseObject* db_object1, DBBaseObject* db_object2);
-
-    bool InsertJoinObject(MediationProcess* dispute_object, Party* party_object);
-
-    bool UpdateJoinObject(MediationProcess* dispute_object, Party* party_object);
+    bool InsertClientObject(MediationProcess* dispute_object, Party* party_object);
 
     QVector<QString> SelectAllFields(QString table_name);
 
@@ -115,11 +113,15 @@ public:
 
     void AuthenticateUser(MediatorArg arg);
 
+    void AddNewUser(MediatorArg arg);
+
     void InsertMediation(MediatorArg arg);
 
     void UpdateMediation(MediatorArg arg);
 
     void InsertOrUpdateMediation(MediatorArg arg);
+
+    MediationProcessVector* LoadMediations(QString processIds);
 
     void LoadRecentMediations(MediatorArg arg);
 
