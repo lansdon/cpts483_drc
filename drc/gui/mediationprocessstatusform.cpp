@@ -52,15 +52,15 @@ void MediationProcessStatusForm::Update()
     if(!(ui && _mediationProcess)) return;
 
     ui->createdDateLabel->setText(_mediationProcess->GetCreatedDate().toString("MM/dd/yyyy"));
-    ui->statusComboBox->setCurrentIndex(_mediationProcess->GetState());
+    ui->currentStatusLabel->setText("Status: " + StringForDisputeProcessStates( _mediationProcess->GetState()));
 
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
-    if(_mediationProcess->GetId() == 0)
-        ui->mediationIdDiaplayLabel->setText("NEW");
-    else
-        ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
+//    if(_mediationProcess->GetId() == 0)
+//        ui->mediationIdDiaplayLabel->setText("NEW");
+//    else
+//        ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
     ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
 }
@@ -107,10 +107,10 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
     ui->referralComboBox->setItemText(REFERRAL_T_INTERNET, StringForReferralTypes(REFERRAL_T_INTERNET));
     ui->referralComboBox->setItemText(REFERRAL_T_OTHER_NONE, StringForReferralTypes(REFERRAL_T_OTHER_NONE));
 
-    ui->statusComboBox->setItemText(PROCESS_STATE_NONE, StringForDisputeProcessStates(PROCESS_STATE_NONE));
-    ui->statusComboBox->setItemText(PROCESS_STATE_PENDING, StringForDisputeProcessStates(PROCESS_STATE_PENDING));
-    ui->statusComboBox->setItemText(PROCESS_STATE_SCHEDULED, StringForDisputeProcessStates(PROCESS_STATE_SCHEDULED));
-    ui->statusComboBox->setItemText(PROCESS_STATE_CLOSED, StringForDisputeProcessStates(PROCESS_STATE_CLOSED));
+//    ui->statusComboBox->setItemText(PROCESS_STATE_NONE, StringForDisputeProcessStates(PROCESS_STATE_NONE));
+//    ui->statusComboBox->setItemText(PROCESS_STATE_PENDING, StringForDisputeProcessStates(PROCESS_STATE_PENDING));
+//    ui->statusComboBox->setItemText(PROCESS_STATE_SCHEDULED, StringForDisputeProcessStates(PROCESS_STATE_SCHEDULED));
+//    ui->statusComboBox->setItemText(PROCESS_STATE_CLOSED, StringForDisputeProcessStates(PROCESS_STATE_CLOSED));
 }
 
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
