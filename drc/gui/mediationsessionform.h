@@ -73,7 +73,9 @@ private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;
     MediatorId _mediatorid;
-
+    void configureFeeTable();
+    void configureMediatorTable();
+    void configureAttyAndSupportTable();
     void fillFields(MediationSession *input);
     bool FillingFields;
     void ConfigureComboBoxes();

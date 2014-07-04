@@ -60,7 +60,11 @@ SOURCES += main.cpp\
     gui/sessioncell.cpp \
     gui/nosessionsview.cpp \
     drc_shared/mpfilemaker.cpp \
-    drc_shared/models/Note.cpp
+    drc_shared/models/Note.cpp \
+    drc_shared/models/clientsessiondata.cpp \
+    gui/feeform.cpp \
+    gui/attorneysupportview.cpp \
+    gui/mediationobserverview.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -113,7 +117,11 @@ HEADERS  += \
     gui/nosessionsview.h \
     gui/Note.h \
     drc_shared/mpfilemaker.h \
-    drc_shared/models/Note.h
+    drc_shared/models/Note.h \
+    drc_shared/models/clientsessiondata.h \
+    gui/feeform.h \
+    gui/attorneysupportview.h \
+    gui/mediationobserverview.h
 
 FORMS    += \
     DRCClient.ui \
@@ -132,7 +140,10 @@ FORMS    += \
     gui/notesbrowser.ui \
     gui/mptoolbox.ui \
     gui/sessioncell.ui \
-    gui/nosessionsview.ui
+    gui/nosessionsview.ui \
+    gui/feeform.ui \
+    gui/attorneysupportview.ui \
+    gui/mediationobserverview.ui
 
 
 CONFIG += c++11

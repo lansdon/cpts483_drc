@@ -5,6 +5,7 @@
 #include "drctypes.h"
 #include "DRCModels.h"
 #include "Mediator.h"
+#include "mediationobserverview.h"
 
 MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *session) :
     QWidget(parent),
@@ -18,7 +19,7 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
 
     FillingFields = false;
     fillFields(_mediationSession);
-
+    configureMediatorTable();
     _mediatorid = Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
 }
 
@@ -26,6 +27,42 @@ MediationSessionForm::~MediationSessionForm()
 {
     Mediator::Unregister(MKEY_DOCK_SESSION_CHANGED, _mediatorid);
     delete ui;
+}
+void MediationSessionForm::configureFeeTable()
+{
+    ui->feeDiplayTableWidget->setColumnCount(3);
+    ui->feeDiplayTableWidget->setRowCount(0);
+    QStringList header;
+    header <<"Fee"<<"Paid"<<"Income";
+    ui->feeDiplayTableWidget->setHorizontalHeaderLabels(header);
+
+}
+void MediationSessionForm::configureMediatorTable()
+{
+//    QStringList header;
+//    header << "Mediator" << "Observer";
+//    ui->MediatorDisplayTableView->setColumnCount(1);
+//    ui->MediatorDisplayTableView->setRowCount(2);
+
+//    ui->MediatorDisplayTableView->setHorizontalHeaderLabels({"Mediator            Observer"});
+//    ui->MediatorDisplayTableView->setShowGrid(true);
+//    for (int c = 0; c < ui->MediatorDisplayTableView->horizontalHeader()->count(); ++c)
+//    {
+//       ui->MediatorDisplayTableView->horizontalHeader()->setSectionResizeMode(
+//            c, QHeaderView::Stretch);
+//    }
+//    ui->MediatorDisplayTableView->setCellWidget(0,0, new MediationObserverView());
+//   // ui->MediatorDisplayTableView->setmi
+//    ui->MediatorDisplayTableView->setCellWidget(1,0, new MediationObserverView());
+
+    //ui->MediatorDisplayTableView->addItems(header);
+    //ui->MediatorDisplayTableView->set(new QListWidgetItem(),new MediationObserverView());
+
+}
+void MediationSessionForm::configureAttyAndSupportTable()
+{
+    ui->attyAttendTableWidget->setColumnCount(3);
+    ui->attyAttendTableWidget->setRowCount(0);
 }
 
 void MediationSessionForm::setMediationSession(MediationSession *session)
@@ -76,22 +113,22 @@ void MediationSessionForm::fillFields(MediationSession *input)
         ui->dateTimeEdit->setDateTime(input->getMediationTime());
         ui->dateTimeEdit->setVisible(true);
         ui->CreationDateDisplayLabel->setText(_mediationSession->GetCreatedDate().toString());
-        ui->FamilyFeeLineEdit->setText(input->getFeeFamily());
-        ui->FamilyFeePaidCheckBox->setChecked(input->getFeeFamilyPaid());
-        ui->Fee1LineEdit->setText(input->getFee1());
-        ui->Fee2LineEdit->setText(input->getFee2());
-        ui->OtherFeeLineEdit->setText(input->getFeeOther());
-        ui->Fee1PaidCheckBox->setChecked(input->getFee1Paid());
-        ui->Fee2PaidCheckBox->setChecked(input->getFee2Paid());
-        ui->OtherFeePaidCheckBox->setChecked(input->getFeeOtherPaid());
-        ui->incomeFee1LineEdit->setText(input->getIncomeFee1());
-        ui->incomeFee2LineEdit->setText(input->getIncomeFee2());
-        ui->incomeFeeFamilyLineEdit->setText(input->getIncomeFeeFamily());
-        ui->incomeFeeOtherLineEdit->setText(input->getIncomeFeeOther());
-        ui->Mediator2LineEdit->setText(input->getMediator2());
-        ui->MediatorLineEdit->setText(input->getMediator1());
-        ui->Observe1LineEdit->setText(input->getObserver1());
-        ui->Observer2lineEdit->setText(input->getObserver2());
+//        ui->FamilyFeeLineEdit->setText(input->getFeeFamily());
+//        ui->FamilyFeePaidCheckBox->setChecked(input->getFeeFamilyPaid());
+//        ui->Fee1LineEdit->setText(input->getFee1());
+//        ui->Fee2LineEdit->setText(input->getFee2());
+//        ui->OtherFeeLineEdit->setText(input->getFeeOther());
+//        ui->Fee1PaidCheckBox->setChecked(input->getFee1Paid());
+//        ui->Fee2PaidCheckBox->setChecked(input->getFee2Paid());
+//        ui->OtherFeePaidCheckBox->setChecked(input->getFeeOtherPaid());
+//        ui->incomeFee1LineEdit->setText(input->getIncomeFee1());
+//        ui->incomeFee2LineEdit->setText(input->getIncomeFee2());
+//        ui->incomeFeeFamilyLineEdit->setText(input->getIncomeFeeFamily());
+//        ui->incomeFeeOtherLineEdit->setText(input->getIncomeFeeOther());
+//        ui->Mediator2LineEdit->setText(input->getMediator2());
+//        ui->MediatorLineEdit->setText(input->getMediator1());
+//        ui->Observe1LineEdit->setText(input->getObserver1());
+//        ui->Observer2lineEdit->setText(input->getObserver2());
         FillingFields = false;
     }
 }
