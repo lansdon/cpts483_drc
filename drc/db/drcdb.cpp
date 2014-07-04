@@ -20,6 +20,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     QString session_table_name = QString("Session_Table");
     QString client_table_name = QString("Client_Table");
     QString notes_table_name = QString("Notes_Table");
+    QString client_session_table_name = QString("Client_session_table");
 
     bool result = false;
 
@@ -58,10 +59,11 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
     result = false;
 
-    if (!this->DoesTableExist(mediation_table_name))
+    if (!this->DoesTableExist(client_session_table_name))
     {
-         result = CreatePersonTable(mediation_table_name);
+         result = CreateClientSessionTable(client_session_table_name);
     }
+    qDebug() << result;
 
     // Populate our fake user list.  Delete this later!!
     UserMap["Admin"] = sha256("adminpassword", "");
@@ -76,11 +78,6 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
 }
 //========================================================================
-
-
-
-
-
 
 
 //========================================================================
@@ -130,6 +127,24 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     return CreateTable(mediation_table_name, mediation_table_columns);
 }
 
+bool DRCDB::CreateClientSessionTable(const QString& client_session_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> client_session_table_columns;
+    client_session_table_columns.push_back(QString("Data_id integer primary key autoincrement null"));
+    client_session_table_columns.push_back(QString("Client_id integer"));
+    client_session_table_columns.push_back(QString("Session_id integer"));
+    client_session_table_columns.push_back(QString("income integer"));
+    client_session_table_columns.push_back(QString("feesCharged integer"));
+    client_session_table_columns.push_back(QString("feesPaid Bool"));
+    client_session_table_columns.push_back(QString("AttorneyExpected Bool"));
+    client_session_table_columns.push_back(QString("AttorneyAttended Bool"));
+    client_session_table_columns.push_back(QString("foreign key(Client_id) references Client_Table(Client_id)"));
+    client_session_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
+
+    return CreateTable(client_session_table_name, client_session_table_columns);
+}
+
 bool DRCDB::CreateClientTable(const QString& client_table_name)
 {
     //Name and Datatypes of all Table columns
@@ -139,7 +154,14 @@ bool DRCDB::CreateClientTable(const QString& client_table_name)
     client_table_columns.push_back(QString("Person_id integer"));
     client_table_columns.push_back(QString("Children integer"));
     client_table_columns.push_back(QString("Support char(128)"));
-    client_table_columns.push_back(QString("Attorney char(128)"));
+    client_table_columns.push_back(QString("AttorneyFirstName char(128)"));
+    client_table_columns.push_back(QString("AttorneyMiddleName char(128)"));
+    client_table_columns.push_back(QString("AttorneyLastName char(128)"));
+    client_table_columns.push_back(QString("AttorneyPhone char(128)"));
+    client_table_columns.push_back(QString("AttorneyEmail char(128)"));
+    client_table_columns.push_back(QString("AssistantName char(128)"));
+    client_table_columns.push_back(QString("AssistantPhone char(128)"));
+    client_table_columns.push_back(QString("AssistantEmail char(128)"));
     client_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
     client_table_columns.push_back(QString("foreign key(Person_id) references person_Table(person_id)"));
 
@@ -153,18 +175,6 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
     session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
-    session_table_columns.push_back(QString("Fee1Paid integer"));
-    session_table_columns.push_back(QString("Fee2Paid integer"));
-    session_table_columns.push_back(QString("FeeFamilyPaid integer"));
-    session_table_columns.push_back(QString("FeeOtherPaid integer"));
-    session_table_columns.push_back(QString("Fee1 integer"));
-    session_table_columns.push_back(QString("Fee2 integer"));
-    session_table_columns.push_back(QString("FeeFamily integer"));
-    session_table_columns.push_back(QString("FeeOther integer"));
-    session_table_columns.push_back(QString("IncomeFee1 integer"));
-    session_table_columns.push_back(QString("IncomeFee2 integer"));
-    session_table_columns.push_back(QString("IncomeFeeFamily integer"));
-    session_table_columns.push_back(QString("IncomeFeeOther integer"));
     session_table_columns.push_back(QString("Mediator1 char(128)"));
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
@@ -383,6 +393,13 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             // party->SetChildren(clientQuery.value(3).toUInt());
             // party->SetObservers(clientQuery.value(4).toString());
             // party->SetAttorney(clientQuery.value(5).toString());
+            Person* attorney;
+            attorney->setFirstName(clientQuery.value(5).toString());
+            attorney->setMiddleName(clientQuery.value(6).toString());
+            attorney->setLastName(clientQuery.value(7).toString());
+            attorney->setPrimaryPhone(clientQuery.value(8).toString());
+            attorney->setEmail(clientQuery.value(9).toString());
+            party->SetAttorney(*attorney);
             process->AddParty(party);
         }
 
@@ -923,12 +940,17 @@ bool DRCDB::InsertClientObject(MediationProcess* dispute_object, Party* party_ob
         observerString += temp->FullName();
     }
 
-    QString value_string = QString("%1, %2, %3, '%4', '%5'")
+    QString value_string = QString("%1, %2, %3, %4, '%5', '%6', '%7', '%8', '%9'")
             .arg(dispute_object->GetId())
             .arg(party_object->GetPrimary()->GetId())
             .arg(party_object->GetChildren().size())
-            .arg(observerString)
-            .arg(party_object->GetAttorney().FullName());
+            .arg(party_object->GetObservers().size())
+            .arg(party_object->GetAttorney().getFirstName())
+            .arg(party_object->GetAttorney().getMiddleName())
+            .arg(party_object->GetAttorney().getLastName())
+            .arg(party_object->GetAttorney().getPrimaryPhone())
+            .arg(party_object->GetAttorney().getEmail());
+            //Needs the assistant information as well!!!
 
     QString command_string = QString("insert into %1 values ( %2, %3 )")
             .arg("Client_Table")
