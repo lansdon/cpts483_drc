@@ -25,26 +25,26 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
     {
         switch(arg->getStateTransition())
         {
-        case PROCESS_STATE_NONE:
+        case PROCESS_INTERNAL_STATE_NONE:
             success = startState(arg);
             break;
-        case PROCESS_STATE_INITIATED:
+        case PROCESS_INTERNAL_STATE_INITIATED:
             success = initiated(arg);
             break;
-        case PROCESS_STATE_READY_TO_SCHEDULE:
+        case PROCESS_INTERNAL_STATE_READY_TO_SCHEDULE:
             success = readyToSchedule(arg);
               break;
-        case PROCESS_STATE_SCHEDULED:
+        case PROCESS_INTERNAL_STATE_SCHEDULED:
             success = scheduled(arg);
             break;
-        case PROCESS_STATE_MEDIATION_COMPLETED:
+        case PROCESS_INTERNAL_STATE_MEDIATION_COMPLETED:
             success = closed(arg);
             break;
-        case PROCESS_STATE_OUTCOME_REACHED:
+        case PROCESS_INTERNAL_STATE_OUTCOME_REACHED:
             success = false;
             break;
         }
-    } while (success && arg->getStateTransition() != PROCESS_STATE_OUTCOME_REACHED);
+    } while (success && arg->getStateTransition() != PROCESS_INTERNAL_STATE_OUTCOME_REACHED);
 
     auto finalState = arg->getStateTransition();
     if (finalState < targetState || finalState == PROCESS_STATE_NONE)
@@ -70,7 +70,7 @@ bool StateUpdate::startState(MediationProcess *arg)
 
             if (ValidateName(primaryName))
             {
-                arg->setStateTransition(PROCESS_STATE_INITIATED);
+                arg->setStateTransition(PROCESS_INTERNAL_STATE_INITIATED);
                 success = true;
                 break;
             }
@@ -106,7 +106,7 @@ bool StateUpdate::initiated(MediationProcess* arg)
             }
         }
     }
-    if      (success) arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
+    if      (success) arg->setStateTransition(PROCESS_INTERNAL_STATE_READY_TO_SCHEDULE);
     else    arg->setStateTransition(PROCESS_STATE_NONE);
     qDebug() << "Validation status: " << success << " " << _errorMessage;
     return success;
@@ -141,7 +141,7 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
     if (!success)
     {
         _errorMessage = "Mediation process is not ready to schedule because it does not have at least two clients with sufficient contact information.";
-        arg->setStateTransition(PROCESS_STATE_INITIATED);
+        arg->setStateTransition(PROCESS_INTERNAL_STATE_INITIATED);
     }
     else arg->setStateTransition(PROCESS_STATE_SCHEDULED);
     qDebug() << "Validation status: " << success << " " << _errorMessage;
@@ -166,11 +166,11 @@ bool StateUpdate::scheduled(MediationProcess *arg)
     }
     if (success)
     {
-        arg->setStateTransition(PROCESS_STATE_MEDIATION_COMPLETED);
+        arg->setStateTransition(PROCESS_INTERNAL_STATE_MEDIATION_COMPLETED);
     }
     else
     {
-        arg->setStateTransition(PROCESS_STATE_READY_TO_SCHEDULE);
+        arg->setStateTransition(PROCESS_INTERNAL_STATE_READY_TO_SCHEDULE);
         _errorMessage = "No mediation date scheduled.";
     }
     qDebug() << "Validation status: " << success << " " << _errorMessage;
@@ -203,11 +203,11 @@ bool StateUpdate::closed(MediationProcess *arg)
     }
     if (success)
     {
-        arg->setStateTransition(PROCESS_STATE_OUTCOME_REACHED);
+        arg->setStateTransition(PROCESS_INTERNAL_STATE_OUTCOME_REACHED);
     }
     else
     {
-        arg->setStateTransition(PROCESS_STATE_SCHEDULED);
+        arg->setStateTransition(PROCESS_INTERNAL_STATE_SCHEDULED);
         _errorMessage = "Mediation session form not completed.";
     }
     qDebug() << "Validation status: " << success << " " << _errorMessage;

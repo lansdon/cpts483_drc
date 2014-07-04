@@ -16,7 +16,7 @@ private:
 
 public:
 	User();
-    User(QString name = "", QString pass = "", UserTypes type = USER_T_NORMAL);
+    User(QString name, QString pass, UserTypes type = USER_T_NORMAL);
 
     QString GetName(void);
     void SetName(QString name);

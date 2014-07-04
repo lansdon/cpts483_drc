@@ -14,7 +14,7 @@ class MediationProcess : public DBBaseObject
 public:
     MediationProcess();
     MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans,
-                     DisputeTypes disputeType, QDateTime creationDate, DisputeProcessStates processState,
+                     DisputeTypes disputeType, QDateTime creationDate, DisputeProcessStates processState, DisputeProcessInternalStates processInternalState,
                      CountyIds county, MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions);
     virtual ~MediationProcess();
 
@@ -39,7 +39,8 @@ public:
     MediationNotesVector* GetNotes() { return &_mediationNotes; }
     ReferralTypes GetReferralType() { return _referalSource; }
 
-    DisputeProcessStates GetCurrentState() { return _processState; }
+    DisputeProcessStates GetState() { return _processState; }
+    DisputeProcessInternalStates GetInternalState() { return _processInternalState; }
     bool GetRequiresSpanish() { return _requiresSpanish; }
     MediationSessionVector *getMediationSessionVector() {return &_mediationSessionVector;}
 
@@ -49,7 +50,8 @@ public:
     void AddNote(QString note) { _mediationNotes.push_back(new Note(note)); }
     void SetReferralType(ReferralTypes type) { _referalSource = type; }
 
-    void SetProcessState(DisputeProcessStates state) { _processState = state; }
+    void SetState(DisputeProcessStates state) { _processState = state; }
+    void SetInternalState(DisputeProcessInternalStates state) { _processInternalState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
     uint getStateTransition() {return _stateTransition;}
     void setStateTransition(uint input) {_stateTransition = input;}
@@ -71,6 +73,7 @@ private:
 
     DisputeTypes _disputeType;
 
+    DisputeProcessInternalStates _processInternalState;
     DisputeProcessStates _processState;
 
     CountyIds _countyOfMediation;
@@ -82,6 +85,7 @@ private:
     bool _requiresSpanish;
 
     MediationSessionVector _mediationSessionVector;
+
 
 };
 

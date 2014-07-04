@@ -67,7 +67,7 @@ void MediationBrowser::PopulateMediationProcessTable()
         {
             ui->tableWidget->setItem(row, 0, new QTableWidgetItem(mp->GetUpdatedDate().toString("MM/dd/yyyy")));
             ui->tableWidget->setItem(row, 1, new QTableWidgetItem(mp->GetParties()->size() ? mp->GetPartyAtIndex(0)->GetPrimary()->FullName() : "N/A"));
-            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(StringForDisputeProcessStates( mp->GetCurrentState())));
+            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(StringForDisputeProcessStates( mp->GetState())));
         }
     }
 }
