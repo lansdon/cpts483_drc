@@ -277,7 +277,7 @@ void DRCDB::QueryMediations(MediatorArg arg)
         {
             personIdMatches += ", ";
         }
-        personIdMatches = Find_Query.value(0).toString();
+        personIdMatches += Find_Query.value(0).toString();
         first = false;
     }
 
@@ -295,9 +295,9 @@ void DRCDB::QueryMediations(MediatorArg arg)
     {
         if(!first)
         {
-            personIdMatches += ", ";
+            mediationIdMatches += ", ";
         }
-        mediationIdMatches = Find_Query.value(1).toString();
+        mediationIdMatches += Find_Query.value(1).toString();
         first = false;
     }
 

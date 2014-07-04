@@ -44,11 +44,14 @@ QString Person::DuplicateQuery()
 QString Person::SearchQuery()
 {
     QString toReturn = "";
+    QString percent  = "%";
     bool notFirstField = false;
 
     if(this->getFirstName() != "")
     {
-        toReturn += QString("first_name like '%1'").arg(this->getFirstName().replace("'", "''"));
+        toReturn += QString("first_name like '%2%1%2'")
+                .arg(this->getFirstName().replace("'", "''"))
+                .arg(percent);
         notFirstField = true;
     }
     if(this->getMiddleName() != "")
@@ -61,7 +64,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("middle_name like '%1'").arg(this->getMiddleName().replace("'", "''"));
+        toReturn += QString("middle_name like '%2%1%2'")
+                .arg(this->getMiddleName().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getLastName() != "")
     {
@@ -73,7 +78,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("last_name like '%1'").arg(this->getLastName().replace("'", "''"));
+        toReturn += QString("last_name like '%2%1%2'")
+                .arg(this->getLastName().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getStreet() != "")
     {
@@ -85,7 +92,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("street_name like '%1'").arg(this->getStreet().replace("'", "''"));
+        toReturn += QString("street_name like '%2%1%2'")
+                .arg(this->getStreet().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getUnit() != "")
     {
@@ -97,7 +106,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("unit_name like '%1'").arg(this->getUnit().replace("'", "''"));
+        toReturn += QString("unit_name like '%2%1%2'")
+                .arg(this->getUnit().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getCity() != "")
     {
@@ -109,7 +120,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("city_name like '%1'").arg(this->getCity().replace("'", "''"));
+        toReturn += QString("city_name like '%2%1%2'")
+                .arg(this->getCity().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getState() != "")
     {
@@ -121,7 +134,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("state_name like '%1'").arg(this->getState().replace("'", "''"));
+        toReturn += QString("state_name like '%2%1%2'")
+                .arg(this->getState().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getZip() != "")
     {
@@ -133,7 +148,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("zip_code like '%1'").arg(this->getZip().replace("'", "''"));
+        toReturn += QString("zip_code like '%2%1%2'")
+                .arg(this->getZip().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getCounty() != "")
     {
@@ -145,7 +162,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("county_name like '%1'").arg(this->getCounty().replace("'", "''"));
+        toReturn += QString("county_name like '%2%1%2'")
+                .arg(this->getCounty().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getPrimaryPhone() != "")
     {
@@ -157,7 +176,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("primary_phone like '%1'").arg(this->getPrimaryPhone().replace("'", "''"));
+        toReturn += QString("primary_phone like '%2%1%2'")
+                .arg(this->getPrimaryPhone().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getSecondaryPhone() != "")
     {
@@ -169,7 +190,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("secondary_phone like '%1'").arg(this->getSecondaryPhone().replace("'", "''"));
+        toReturn += QString("secondary_phone like '%2%1%2'")
+                .arg(this->getSecondaryPhone().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getAssistantPhone() != "")
     {
@@ -181,7 +204,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("assistance_phone like '%1'").arg(this->getAssistantPhone().replace("'", "''"));
+        toReturn += QString("assistance_phone like '%2%1%2'")
+                .arg(this->getAssistantPhone().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getEmail() != "")
     {
@@ -193,7 +218,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("email_address like '%1'").arg(this->getEmail().replace("'", "''"));
+        toReturn += QString("email_address like '%2%1%2'")
+                .arg(this->getEmail().replace("'", "''"))
+                .arg(percent);
     }
     if(this->getNumberInHousehold() != 0)
     {
@@ -205,7 +232,7 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("number_in_house like '%1'").arg(this->getNumberInHousehold());
+        toReturn += QString("number_in_house = %1").arg(this->getNumberInHousehold());
     }
     if(this->getAttorney() != "")
     {
@@ -217,7 +244,9 @@ QString Person::SearchQuery()
         {
             notFirstField = true;
         }
-        toReturn += QString("attorney_name like '%1'").arg(this->getAttorney().replace("'", "''"));
+        toReturn += QString("attorney_name like '%2%1%2'")
+                .arg(this->getAttorney().replace("'", "''"))
+                .arg(percent);
     }
 
 
