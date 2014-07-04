@@ -154,7 +154,12 @@ bool DRCDB::CreateClientTable(const QString& client_table_name)
     client_table_columns.push_back(QString("Person_id integer"));
     client_table_columns.push_back(QString("Children integer"));
     client_table_columns.push_back(QString("Support char(128)"));
-    client_table_columns.push_back(QString("Attorney char(128)"));
+    client_table_columns.push_back(QString("AttorneyName char(128)"));
+    client_table_columns.push_back(QString("AttorneyPhone char(128)"));
+    client_table_columns.push_back(QString("AttorneyEmail char(128)"));
+    client_table_columns.push_back(QString("AssistantName char(128)"));
+    client_table_columns.push_back(QString("AssistantPhone char(128)"));
+    client_table_columns.push_back(QString("AssistantEmail char(128)"));
     client_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
     client_table_columns.push_back(QString("foreign key(Person_id) references person_Table(person_id)"));
 
