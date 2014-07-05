@@ -6,6 +6,7 @@
 #include "DRCModels.h"
 #include "Mediator.h"
 #include "mediationobserverview.h"
+#include <QMessageBox>
 
 MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *session) :
     QWidget(parent),
@@ -21,6 +22,9 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     fillFields(_mediationSession);
     configureMediatorTable();
     _mediatorid = Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
+
+    configureFeeTable();
+    PopulateFeeTable();
 }
 
 MediationSessionForm::~MediationSessionForm()
@@ -31,12 +35,35 @@ MediationSessionForm::~MediationSessionForm()
 void MediationSessionForm::configureFeeTable()
 {
     ui->feeDiplayTableWidget->setColumnCount(3);
-    ui->feeDiplayTableWidget->setRowCount(0);
+    ui->feeDiplayTableWidget->setRowCount(3);
     QStringList header;
     header <<"Fee"<<"Paid"<<"Income";
     ui->feeDiplayTableWidget->setHorizontalHeaderLabels(header);
 
+    // TEMP
+
 }
+
+void MediationSessionForm::PopulateFeeTable()
+{
+    // Samples:
+
+    for(int i = 0; i < ui->feeDiplayTableWidget->rowCount(); ++i)
+    {
+        QComboBox *cb = new QComboBox();
+       cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
+       ui->feeDiplayTableWidget->setCellWidget(i,2,cb);
+       connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(TestComboBoxIndexChanged(int)));    }
+}
+void MediationSessionForm::TestComboBoxIndexChanged(int value)
+{
+    QMessageBox mb;
+    mb.setText("OMG");
+    mb.setInformativeText("You changed the value!");
+    mb.setStandardButtons(QMessageBox::Cancel);
+    mb.exec();
+}
+
 void MediationSessionForm::configureMediatorTable()
 {
 //    QStringList header;

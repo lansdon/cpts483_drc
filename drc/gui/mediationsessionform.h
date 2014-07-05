@@ -69,11 +69,14 @@ private slots:
 
     void on_Observer2lineEdit_textEdited(const QString &arg1);
 
+public slots:
+    void TestComboBoxIndexChanged(int value);
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;
     MediatorId _mediatorid;
     void configureFeeTable();
+    void PopulateFeeTable();
     void configureMediatorTable();
     void configureAttyAndSupportTable();
     void fillFields(MediationSession *input);
