@@ -5,6 +5,7 @@
 #include <QString>
 #include "drctypes.h"
 #include "DBBaseObject.h"
+#include "clientsessiondata.h"
 
 class MediationSession : public DBBaseObject
 {
@@ -15,6 +16,9 @@ private:
     QString _fee1, _fee2, _feeFamily, _feeOther, _incomeFee1, _incomeFee2, _incomeFeeFamily, _incomeFeeOther;
     QString _mediator1, _mediator2, _observer1, _observer2;
     int _supportCount;  // total number of support people
+    ClientSessionDataVector _clientSessionDataVector;
+
+
 public:
     MediationSession();
 
@@ -48,6 +52,8 @@ public:
     QString getObserver2() const { return _observer2; }
     SessionStates GetState() { return _state; }
     int GetSupportCount() { return _supportCount; }
+    ClientSessionDataVector *getClientSessionDataVector() { return &_clientSessionDataVector; }
+    ClientSessionData *getClientSessionDataVectorAt(int index) {return _clientSessionDataVector.at(index); }
 
     //setters
     void setSupportCount(int count) { _supportCount = count; }
@@ -69,6 +75,7 @@ public:
     void setObserver1(QString value) {_observer1 = value; }
     void setObserver2(QString value) {_observer2 = value; }
     void SetState(SessionStates state) { _state = state; }
+    void setClientSessionDataVector(ClientSessionDataVector value) { _clientSessionDataVector = value; }
 
 
     QString getStatus() const;

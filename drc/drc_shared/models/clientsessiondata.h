@@ -5,7 +5,7 @@
 
 #include "DBBaseObject.h"
 
-class ClientSessionData : public DBBaseObject
+class ClientSessionData : public QObject, public DBBaseObject
 {
 public:
     ClientSessionData();
@@ -16,6 +16,7 @@ public:
     bool getPaid() const { return paid; }
     bool getAttySaidAttend() const { return attySaidAttend; }
     bool getAttyDidAttend() const { return attyDidAttend; }
+    uint getSupport() const { return support; }
 
     // setters
     void setIncome(QString value) { income = value; }
@@ -23,6 +24,7 @@ public:
     void setPaid(bool value) { paid = value; }
     void setAttySaidAttend(bool value) { attySaidAttend = value; }
     void setAttyDidAttend(bool value) { attyDidAttend = value; }
+    void setSupport(uint value) { support = value; }
 
     //Virtual overrides
     QString Parse();
@@ -30,11 +32,16 @@ public:
     QString table();
     QString DuplicateQuery();
     QString SearchQuery();
-
     QString GetIdRowName();
+
+public slots:
+    void on_atty_will_attend(bool value);
+    void on_atty_did_attend(bool value);
+    void on_support(uint value);
 private:
     QString income, fee;
     bool paid, attySaidAttend, attyDidAttend;
+    uint support;
 };
 
 #endif // CLIENTSESSIONDATA_H

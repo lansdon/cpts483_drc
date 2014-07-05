@@ -7,6 +7,11 @@
 #include "Mediator.h"
 #include "mediationobserverview.h"
 #include <QMessageBox>
+#include <QSpinBox>
+#include <QCheckBox>
+#include "clientsessiondata.h"
+#include "attorneysupportview.h"
+#include "attorneyheaderview.h"
 
 MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *session) :
     QWidget(parent),
@@ -15,12 +20,18 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
 {
     ui->setupUi(this);
     ui->dateTimeEdit->setVisible(false);
-
+    //_sessionData = new ClientSessionDataVector();
+    for(int i = 0; i < 2; i++)
+    {
+        _sessionData.push_back(new ClientSessionData());
+    }
     ConfigureComboBoxes();
 
     FillingFields = false;
     fillFields(_mediationSession);
     configureMediatorTable();
+    configureAttyAndSupportTable();
+
     _mediatorid = Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
 
     configureFeeTable();
@@ -88,13 +99,72 @@ void MediationSessionForm::configureMediatorTable()
 }
 void MediationSessionForm::configureAttyAndSupportTable()
 {
-    ui->attyAttendTableWidget->setColumnCount(3);
-    ui->attyAttendTableWidget->setRowCount(0);
+    ui->attyAttendTableWidget->setColumnCount(1);
+    ui->attyAttendTableWidget->setRowCount(1);
+    QStringList header;
+    header << "Attorney will attend   Attorney did attend   Support";
+    //ui->attyAttendTableWidget->setHorizontalHeaderLabels(header);
+    ui->attyAttendTableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+    ui->attyAttendTableWidget->horizontalHeader()->setHidden(true);
+    ui->attyAttendTableWidget->setCellWidget(0,0,new AttorneyHeaderView());
+    ui->attyAttendTableWidget->setShowGrid(true);
+}
+
+void MediationSessionForm::populateAttyAndSupportTable()
+{
+    ui->attyAttendTableWidget->setRowCount(_sessionData.size() + 1);
+
+    for(int i = 0; i < (int)_sessionData.size(); i++)
+    {
+
+//        QCheckBox *attySaid = new QCheckBox();
+//        QCheckBox *attyDid = new QCheckBox();
+//        QSpinBox *support = new QSpinBox();
+
+
+////        attySaid->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
+////        attySaid->setCheckState(Qt::Unchecked);
+////        attyDid->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
+////        attyDid->setCheckState(Qt::Unchecked);
+
+
+//        ui->attyAttendTableWidget->setCellWidget(i,0,attySaid);
+//        ui->attyAttendTableWidget->setCellWidget(i,1,attyDid);
+//        ui->attyAttendTableWidget->setCellWidget(i,2,support);
+//        for (int c = 0; c < ui->attyAttendTableWidget->horizontalHeader()->count(); ++c)
+//        {
+//           ui->attyAttendTableWidget->horizontalHeader()->setSectionResizeMode(c, QHeaderView::Stretch);
+//        }
+//        //ClientSessionData *temp = new ClientSessionData();
+//        connect(attyDid, SIGNAL(toggled(bool)), this->_sessionData.at(i), SLOT(on_atty_did_attend(bool)));
+//        connect(attySaid, SIGNAL(toggled(bool)), this->_sessionData.at(i), SLOT(on_atty_will_attend(bool)));
+//        connect(support, SIGNAL(valueChanged(int)), this->_sessionData.at(i), SLOT(on_support(uint)));
+
+        //_mediationSession->getClientSessionDataVector().push_back(temp);
+
+//        attySaid->setFlags(Qt::NoItemFlags);
+//        attyDid->setFlags(Qt::NoItemFlags);
+        ui->attyAttendTableWidget->setCellWidget(i + 1,0,new AttorneySupportView());
+    }
+//    _mediationSession->setClientSessionDataVector(*_sessionData);
+
+    //ui->attyAttendListWidget->aaddWidget(0,0,new AttorneySupportView());
+  //  ui->attyAttendListWidget->setCellWidget(1,0,new AttorneySupportView());
+//   AttorneySupportView *myItem = new AttorneySupportView();
+//   AttorneySupportView *myItem1 = new AttorneySupportView();
+//   QListWidgetItem *item = new QListWidgetItem();
+//   QListWidgetItem *item1 = new QListWidgetItem();
+
+//   ui->attyAttendListWidget->addItem(item);
+//   ui->attyAttendListWidget->addItem(item1);
+//   ui->attyAttendListWidget->setItemWidget(item,myItem);
+//   ui->attyAttendListWidget->setItemWidget(item1,myItem1);
 }
 
 void MediationSessionForm::setMediationSession(MediationSession *session)
 {
     _mediationSession = session;
+    populateAttyAndSupportTable();
     fillFields(_mediationSession);
 }
 

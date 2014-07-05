@@ -44,3 +44,18 @@ QString ClientSessionData::GetIdRowName()
     return "";
 
 }
+
+void ClientSessionData::on_atty_will_attend(bool value)
+{
+    setAttySaidAttend(value);
+}
+
+void ClientSessionData::on_atty_did_attend(bool value)
+{
+    setAttyDidAttend(value);
+}
+
+void ClientSessionData::on_support(uint value)
+{
+    setSupport(value);
+}
