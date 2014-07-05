@@ -64,13 +64,29 @@ void MediationSessionForm::PopulateFeeTable()
         QComboBox *cb = new QComboBox();
        cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
        ui->feeDiplayTableWidget->setCellWidget(i,2,cb);
-       connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(TestComboBoxIndexChanged(int)));    }
+       connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(TestComboBoxIndexChanged(int)));
+
+       QCheckBox *checkbox = new QCheckBox();
+       ui->feeDiplayTableWidget->setCellWidget(i,1,checkbox);
+       connect(checkbox, SIGNAL(toggled(bool)), this, SLOT(TestCheckBoxToggled(bool)));
+    }
+
 }
+
 void MediationSessionForm::TestComboBoxIndexChanged(int value)
 {
     QMessageBox mb;
     mb.setText("OMG");
     mb.setInformativeText("You changed the value!");
+    mb.setStandardButtons(QMessageBox::Cancel);
+    mb.exec();
+}
+
+void MediationSessionForm::TestCheckBoxToggled(bool value)
+{
+    QMessageBox mb;
+    mb.setText("OMG");
+    mb.setInformativeText("You changed the value = " + value);
     mb.setStandardButtons(QMessageBox::Cancel);
     mb.exec();
 }

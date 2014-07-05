@@ -71,6 +71,7 @@ private slots:
 
 public slots:
     void TestComboBoxIndexChanged(int value);
+    void TestCheckBoxToggled(bool value);
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;
