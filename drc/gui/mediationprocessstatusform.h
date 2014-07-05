@@ -35,13 +35,13 @@ private slots:
 
     void on_shuttleCheckBox_clicked();
 
-    void on_courtTypeComboBox_currentIndexChanged(const QString &arg1);
+    void on_courtTypeComboBox_currentIndexChanged(int index);
 
     void on_courDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
     void on_courtOrderComboBox_currentIndexChanged(int index);
 
-    void on_expirationDateTimeEdit_windowIconChanged(const QIcon &icon);
+    void on_expirationDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
 private:
     Ui::MediationProcessStatusForm *ui;

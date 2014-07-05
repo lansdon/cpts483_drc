@@ -43,6 +43,7 @@ MediationSessionForm::~MediationSessionForm()
     Mediator::Unregister(MKEY_DOCK_SESSION_CHANGED, _mediatorid);
     delete ui;
 }
+
 void MediationSessionForm::configureFeeTable()
 {
     ui->feeDiplayTableWidget->setColumnCount(3);

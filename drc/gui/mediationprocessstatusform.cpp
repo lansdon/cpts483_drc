@@ -207,25 +207,30 @@ void MediationProcessStatusForm::on_courtCheckBox_clicked()
 
 void MediationProcessStatusForm::on_shuttleCheckBox_clicked()
 {
-
+    _mediationProcess->SetIsShuttle(ui->shuttleCheckBox->isChecked());
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-void MediationProcessStatusForm::on_courtTypeComboBox_currentIndexChanged(const QString &arg1)
+void MediationProcessStatusForm::on_courtTypeComboBox_currentIndexChanged(int index)
 {
-
+    _mediationProcess->SetCourtType((CourtCaseTypes)index);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_courDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
-
+    _mediationProcess->SetCourtDate(ui->courDateTimeEdit->dateTime());
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_courtOrderComboBox_currentIndexChanged(int index)
 {
-
+    _mediationProcess->SetCourtOrderType((CourtOrderTypes)index);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-void MediationProcessStatusForm::on_expirationDateTimeEdit_windowIconChanged(const QIcon &icon)
+void MediationProcessStatusForm::on_expirationDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
-
+    _mediationProcess->SetCourtOrderExpiration(dateTime);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
