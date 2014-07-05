@@ -172,11 +172,7 @@ QString StringForCourtOrderTypes(CourtOrderTypes id)
     QString result;
     switch(id)
     {
-    case COURT_T_JUVENILE: result = "Juvenile"; break;
-    case COURT_T_NONE: result = "None"; break;
-    case COURT_T_OTHER: result = "Other"; break;
-    case COURT_T_SMALL_CLAIMS: result = "Small Claims"; break;
-    case COURT_T_SUPERIOR: result = "Superior"; break;
+    case COURT_ORDER_T_NONE: result = "None"; break;
     default: result = "<error>"; break;
     }
     return result;

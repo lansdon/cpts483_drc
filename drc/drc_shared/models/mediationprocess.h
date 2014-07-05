@@ -13,9 +13,7 @@ class MediationProcess : public DBBaseObject
 {
 public:
     MediationProcess();
-    MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans,
-                     DisputeTypes disputeType, QDateTime creationDate, DisputeProcessStates processState, DisputeProcessInternalStates processInternalState,
-                     CountyIds county, MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions);
+
     virtual ~MediationProcess();
 
     // Required Overrides
@@ -61,7 +59,7 @@ public:
     void SetIsCourtCase(bool isCourt) { _isCourtCase = isCourt; }
     void SetCourtDate(QDateTime courtDate) { _courtDate = courtDate; _isCourtCase = true; }
     void SetCourtType(CourtCaseTypes caseType) { _courtCaseType = caseType; }
-    void SetCourtType(CourtOrderTypes orderType) { _courtOrderType = orderType; }
+    void SetCourtOrderType(CourtOrderTypes orderType) { _courtOrderType = orderType; }
     void SetCourtOrderExpiration(QDateTime expiration) { _courtOrderExpiration = expiration; }
 
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }

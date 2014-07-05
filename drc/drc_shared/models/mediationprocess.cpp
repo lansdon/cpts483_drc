@@ -26,34 +26,18 @@
 
 MediationProcess::MediationProcess()
     : DBBaseObject()
-    , _stateTransition(0) //?? what should this default to?
-    , _activeStateTransition(0) //?? what should this default to?
+    , _stateTransition(0)
+    , _activeStateTransition(0)
     , _disputeType(DISPUTE_T_NONE)
     , _processState(PROCESS_STATE_NONE)
     , _countyOfMediation(COUNTY_NONE)
     , _referalSource(REFERRAL_T_NONE)
     , _requiresSpanish(false)
+    , _isCourtCase(false)
+    , _courtCaseType(COURT_T_NONE)
+    , _courtOrderType(COURT_ORDER_T_NONE)
 {
 
-}
-
-MediationProcess::MediationProcess(PartyVector parties, uint stateTrans, uint actStateTrans, DisputeTypes disputeType,
-                                   QDateTime creationDate, DisputeProcessStates processState, DisputeProcessInternalStates processInternalState, CountyIds county,
-                                   MediationNotesVector mediationNotes, ReferralTypes reftype, bool spanish, MediationSessionVector sessions)
-    : DBBaseObject()
-    , _parties(parties)
-    , _stateTransition(stateTrans)
-    , _activeStateTransition(actStateTrans)
-    , _disputeType(disputeType)
-    , _processInternalState(processInternalState)
-    , _processState(processState)
-    , _countyOfMediation(county)
-    , _mediationNotes(mediationNotes)
-    , _referalSource(reftype)
-    , _requiresSpanish(spanish)
-    , _mediationSessionVector(sessions)
-{
-    SetCreatedDate(creationDate);
 }
 
 

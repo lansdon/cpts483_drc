@@ -57,12 +57,20 @@ void MediationProcessStatusForm::Update()
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
-//    if(_mediationProcess->GetId() == 0)
+
+    ui->courtCheckBox->setChecked(_mediationProcess->GetIsCourtCase());
+    ui->courtTypeComboBox->setCurrentIndex(_mediationProcess->GetCourtType());
+    ui->courDateTimeEdit->setDateTime(_mediationProcess->GetCourtDate());
+    ui->courtOrderComboBox->setCurrentIndex(_mediationProcess->GetCourtOrderType());
+    ui->expirationDateTimeEdit->setDateTime(_mediationProcess->GetCourtOrderExpiration());
+
+    //    if(_mediationProcess->GetId() == 0)
 //        ui->mediationIdDiaplayLabel->setText("NEW");
 //    else
 //        ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
     ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
+    on_courtCheckBox_clicked();
 }
 
 // Sets the values based on enums.
@@ -119,6 +127,7 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
     ui->courtTypeComboBox->setItemText(COURT_T_SMALL_CLAIMS, StringForCourtTypes(COURT_T_SMALL_CLAIMS));
     ui->courtTypeComboBox->setItemText(COURT_T_SUPERIOR, StringForCourtTypes(COURT_T_SUPERIOR));
 
+    ui->courtOrderComboBox->setItemText(COURT_ORDER_T_NONE, StringForCourtOrderTypes(COURT_ORDER_T_NONE));
 }
 
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
@@ -192,7 +201,7 @@ void MediationProcessStatusForm::on_courtCheckBox_clicked()
 {
     bool isCourtCase = ui->courtCheckBox->isChecked();
     _mediationProcess->SetIsCourtCase(isCourtCase);
-    SetSavedLabel(isCourtCase);
+    SetSavedLabel(false);
     ui->courtRow_3->setHidden(!isCourtCase);
 }
 

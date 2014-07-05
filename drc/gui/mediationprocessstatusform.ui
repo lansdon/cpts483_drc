@@ -7,19 +7,25 @@
     <x>0</x>
     <y>0</y>
     <width>977</width>
-    <height>175</height>
+    <height>194</height>
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>0</width>
+    <height>150</height>
+   </size>
+  </property>
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>175</height>
+    <height>194</height>
    </size>
   </property>
   <property name="font">
@@ -32,472 +38,570 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="top">
-     <item>
-      <layout class="QFormLayout" name="inquiryLayout">
-       <item row="0" column="1">
-        <widget class="QComboBox" name="inquiryTypeComboBox">
-         <item>
+    <widget class="QFrame" name="summaryFrame">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>102</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <layout class="QFormLayout" name="inquiryLayout">
+        <item row="0" column="1">
+         <widget class="QComboBox" name="inquiryTypeComboBox">
+          <item>
+           <property name="text">
+            <string>None</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Phone</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="infoOnlyCheckBox">
           <property name="text">
-           <string>None</string>
+           <string>Info Only</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="_referralLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Phone</string>
+           <string>Referral Source:</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="referralComboBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>145</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <item>
+           <property name="text">
+            <string>&lt;Referral Source&gt;</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Family/Friend</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Attorney</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Legal Services</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Return Client</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Private Agency</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Courts</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Court Solicited</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Law Enforcement</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>DCFS JJC Govt Agency</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Attorney Generals Office</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Presentation Training</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Advertising</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Phonebook</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Internet</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Other/None</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label">
           <property name="text">
-           <string>New Item</string>
+           <string>Inquiry Type</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>36</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayoutCol1">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetNoConstraint</enum>
+        </property>
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+        </property>
+        <item row="0" column="0">
+         <widget class="QLabel" name="_conflictLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>20</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>New Item</string>
+           <string>Mediation Type:</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="conflictComboBox">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>26</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>145</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <item>
+           <property name="text">
+            <string>&lt;Mediation Type&gt;</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Consumer/Merchant</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Family</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Neighborhood</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Parenting Plan</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Property/Business</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Parent/Teen</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Small Claims</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Tenant/Landlord</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Victim/Offender</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Workplace</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Other</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QCheckBox" name="shuttleCheckBox">
           <property name="text">
-           <string>New Item</string>
+           <string>Shuttle</string>
           </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="infoOnlyCheckBox">
-         <property name="text">
-          <string>Info Only</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="_referralLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Referral Source:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="referralComboBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>145</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <item>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="_countyLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>&lt;Referral Source&gt;</string>
+           <string>County:</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QComboBox" name="countyComboBox">
+          <property name="maximumSize">
+           <size>
+            <width>165</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <item>
+           <property name="text">
+            <string>&lt;Select County&gt;</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Franklin</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Benton</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Grant</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Adams</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Other</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QCheckBox" name="spanishCheckBox">
           <property name="text">
-           <string>Family/Friend</string>
+           <string>Spanish</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>38</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <property name="sizeConstraint">
+         <enum>QLayout::SetNoConstraint</enum>
+        </property>
+        <item>
+         <widget class="QLabel" name="saveStatusLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>49</height>
+           </size>
+          </property>
           <property name="text">
-           <string>Attorney</string>
+           <string>Unsaved Changes</string>
           </property>
-         </item>
-         <item>
+          <property name="wordWrap">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="courtCheckBox">
           <property name="text">
-           <string>Legal Services</string>
+           <string>Court Case</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>39</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_2">
+        <item row="2" column="1">
+         <widget class="QLabel" name="lastActivityDisplayLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Return Client</string>
+           <string>&lt;date&gt;</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="lastActivityLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Private Agency</string>
+           <string>Last Activity:</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="_creationLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Courts</string>
+           <string>Creation Date:</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="createdDateLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Court Solicited</string>
+           <string>&lt;date&gt;</string>
           </property>
-         </item>
-         <item>
+         </widget>
+        </item>
+        <item row="1" column="0" colspan="2">
+         <widget class="QLabel" name="currentStatusLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Law Enforcement</string>
+           <string>Current Status:</string>
           </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>DCFS JJC Govt Agency</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Attorney Generals Office</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Presentation Training</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Advertising</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Phonebook</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Internet</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Other/None</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Inquiry Type</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QFormLayout" name="formLayoutCol1">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetNoConstraint</enum>
-       </property>
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="_conflictLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Mediation Type:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="conflictComboBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>145</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <item>
-          <property name="text">
-           <string>&lt;Mediation Type&gt;</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Consumer/Merchant</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Family</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Neighborhood</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Parenting Plan</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Property/Business</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Parent/Teen</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Small Claims</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Tenant/Landlord</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Victim/Offender</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Workplace</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Other</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="shuttleCheckBox">
-         <property name="text">
-          <string>Shuttle</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="_countyLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>County:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="countyComboBox">
-         <property name="maximumSize">
-          <size>
-           <width>165</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <item>
-          <property name="text">
-           <string>&lt;Select County&gt;</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Franklin</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Benton</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Grant</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Adams</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string>Other</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="spanishCheckBox">
-         <property name="text">
-          <string>Spanish</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2">
-       <property name="sizeConstraint">
-        <enum>QLayout::SetNoConstraint</enum>
-       </property>
-       <item>
-        <widget class="QLabel" name="saveStatusLabel">
-         <property name="text">
-          <string>Unsaved Changes</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="courtCheckBox">
-         <property name="text">
-          <string>Court Case</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <layout class="QFormLayout" name="formLayout_2">
-       <item row="2" column="1">
-        <widget class="QLabel" name="lastActivityDisplayLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>&lt;date&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="lastActivityLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Last Activity:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="_creationLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Creation Date:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="createdDateLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>&lt;date&gt;</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="currentStatusLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Current Status:</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-    </layout>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QFrame" name="courtRow_3">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>

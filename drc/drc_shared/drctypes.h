@@ -165,7 +165,7 @@ enum CourtCaseTypes
 
 enum CourtOrderTypes
 {
-
+    COURT_ORDER_T_NONE
 };
 
 // String Helpers
@@ -179,7 +179,7 @@ QString StringForSearchTypes(SearchTypes id);
 QString StringForSessionStates(SessionStates id);
 QString StringForInquiryTypes(InquiryTypes id);
 QString StringForCourtTypes(CourtCaseTypes id);
-QString StringForCourtOrderTypes(CourtCaseTypes id);
+QString StringForCourtOrderTypes(CourtOrderTypes id);
 
 
 

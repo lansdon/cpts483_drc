@@ -52,7 +52,7 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
         errorMessage = _errorMessage;
         return success;
     }
-    else return true;
+     else return true;
 }
 
 //this is the start state. all that is required is something in the name field

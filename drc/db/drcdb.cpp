@@ -282,7 +282,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             process->SetCourtDate(QDateTime::fromString(courtDate, "yyyy-MM-dd"));
         }
         //process->SetCourtCaseType(Mediation_query.value(14));
-        process->SetCourtType((CourtOrderTypes)Mediation_query.value(15).toInt());
+        process->SetCourtOrderType((CourtOrderTypes)Mediation_query.value(15).toInt());
         courtDate = Mediation_query.value(16).toString();
         if(courtDate != NULL)
         {
