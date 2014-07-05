@@ -26,7 +26,7 @@
 #include <QFileDialog>
 
 const QString DBPATH_FILE = "dbpath.txt";
-const QString DB_DEFAULT_PATH = "db.db3";
+const QString DB_DEFAULT_PATH = "drc_db.db3";
 
 
 DRCClient::DRCClient(QWidget *parent)
