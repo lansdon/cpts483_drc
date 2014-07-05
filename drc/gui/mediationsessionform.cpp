@@ -63,10 +63,12 @@ void MediationSessionForm::PopulateFeeTable()
      ui->feeDiplayTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size());
     //QTableWidgetItem *proto = new QTableWidgetItem();
 
+  // layout->setAlignment(Qt::AlignCenter);
      for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); ++i)
     {
-
         QLineEdit *incomeLE = new QLineEdit();
+
+
         incomeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getIncome());
        //cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
        ui->feeDiplayTableWidget->setCellWidget(i,2,incomeLE);
@@ -108,6 +110,10 @@ void MediationSessionForm::updateFromTable()
         _mediationSession->getClientSessionDataVector()->at(i)->setAttyDidAttend(qobject_cast<QCheckBox*>(ui->attyAttendTableWidget->cellWidget(i,1))->isChecked());
         _mediationSession->getClientSessionDataVector()->at(i)->setSupport(qobject_cast<QSpinBox*>(ui->attyAttendTableWidget->cellWidget(i,2))->value());
     }
+    _mediationSession->setMediator1(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(0,0))->text());
+    _mediationSession->setObserver1(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(0,1))->text());
+    _mediationSession->setMediator2(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(1,0))->text());
+    _mediationSession->setObserver2(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(1,1))->text());
 }
 
 void MediationSessionForm::TestCheckBoxToggled(bool value)
@@ -121,21 +127,29 @@ void MediationSessionForm::TestCheckBoxToggled(bool value)
 
 void MediationSessionForm::configureMediatorTable()
 {
-//    QStringList header;
-//    header << "Mediator" << "Observer";
-//    ui->MediatorDisplayTableView->setColumnCount(1);
-//    ui->MediatorDisplayTableView->setRowCount(2);
+    QStringList header;
+    header << "Mediator" << "Observer";
+    ui->MediatorDisplayTableView->setColumnCount(2);
+    ui->MediatorDisplayTableView->setRowCount(2);
 
-//    ui->MediatorDisplayTableView->setHorizontalHeaderLabels({"Mediator            Observer"});
-//    ui->MediatorDisplayTableView->setShowGrid(true);
-//    for (int c = 0; c < ui->MediatorDisplayTableView->horizontalHeader()->count(); ++c)
-//    {
-//       ui->MediatorDisplayTableView->horizontalHeader()->setSectionResizeMode(
-//            c, QHeaderView::Stretch);
-//    }
-//    ui->MediatorDisplayTableView->setCellWidget(0,0, new MediationObserverView());
-//   // ui->MediatorDisplayTableView->setmi
-//    ui->MediatorDisplayTableView->setCellWidget(1,0, new MediationObserverView());
+    ui->MediatorDisplayTableView->setHorizontalHeaderLabels(header);
+    ui->MediatorDisplayTableView->setShowGrid(true);
+    for (int c = 0; c < ui->MediatorDisplayTableView->horizontalHeader()->count(); ++c)
+    {
+       ui->MediatorDisplayTableView->horizontalHeader()->setSectionResizeMode(
+            c, QHeaderView::Stretch);
+    }
+
+    for(int i = 0;i < 2; i++)
+    {
+        QLineEdit *mediator = new QLineEdit();
+        QLineEdit *observer = new QLineEdit();
+        ui->MediatorDisplayTableView->setCellWidget(i,0, mediator);
+
+        ui->MediatorDisplayTableView->setCellWidget(i,1, observer);
+        connect(mediator,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
+        connect(observer,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
+    }
 
     //ui->MediatorDisplayTableView->addItems(header);
     //ui->MediatorDisplayTableView->set(new QListWidgetItem(),new MediationObserverView());
