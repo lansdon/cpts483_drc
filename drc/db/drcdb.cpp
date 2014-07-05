@@ -28,42 +28,36 @@ DRCDB::DRCDB() : DB_ERROR(false)
     {
         result = CreatePersonTable(person_table_name);
     }
-
     result = false;
 
     if (!this->DoesTableExist(mediation_table_name))
     {
         result = CreateMediationTable(mediation_table_name);
     }
-
     result = false;
 
     if (!this->DoesTableExist(session_table_name))
     {
         result = CreateSessionTable(session_table_name);
     }
-
     result = false;
 
     if (!this->DoesTableExist(client_table_name))
     {
         result = CreateClientTable(client_table_name);
     }
-
     result = false;
 
     if(!this->DoesTableExist(notes_table_name))
     {
         result = CreateNotesTable(notes_table_name);
     }
-
     result = false;
 
     if (!this->DoesTableExist(client_session_table_name))
     {
          result = CreateClientSessionTable(client_session_table_name);
     }
-    qDebug() << result;
 
     // Populate our fake user list.  Delete this later!!
     UserMap.push_back(new User("Admin", "adminpassword", USER_T_ADMIN));
@@ -119,9 +113,17 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     mediation_table_columns.push_back(QString("CreationDateTime DateTime"));
     mediation_table_columns.push_back(QString("UpdatedDateTime DateTime"));
     mediation_table_columns.push_back(QString("DisputeState integer"));
+    mediation_table_columns.push_back(QString("DisputeInternalState integer"));
     mediation_table_columns.push_back(QString("DisputeCounty integer"));
-    mediation_table_columns.push_back(QString("DisputeNotes char(128)"));
     mediation_table_columns.push_back(QString("ReferalSource integer"));
+    mediation_table_columns.push_back(QString("InquiryType integer"));
+    mediation_table_columns.push_back(QString("InfoOnly Bool"));
+    mediation_table_columns.push_back(QString("CourtCase Bool"));
+    mediation_table_columns.push_back(QString("CourtDate Date"));
+    mediation_table_columns.push_back(QString("CourtCaseType integer"));
+    mediation_table_columns.push_back(QString("CourtOrderType integer"));
+    mediation_table_columns.push_back(QString("CourtOrderExpiration Date"));
+    mediation_table_columns.push_back(QString("ShuttleRequired Bool"));
     mediation_table_columns.push_back(QString("TranslatorRequired Bool"));
 
     return CreateTable(mediation_table_name, mediation_table_columns);
@@ -262,14 +264,32 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         processId = Mediation_query.value(0).toString();
 
         //Rebuilds the process itself based on the database
+        //Updated to use new schema!!
         process->SetId(processId.toUInt());
         process->SetDisputeType((DisputeTypes)Mediation_query.value(1).toInt());
         process->SetCreatedDate(QDateTime::fromString(Mediation_query.value(4).toString(), "yyyy-MM-dd hh:mm:ss"));
         process->SetUpdatedDate(QDateTime::fromString(Mediation_query.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
         process->SetState((DisputeProcessStates)Mediation_query.value(6).toInt());
-        process->SetCountyId((CountyIds)Mediation_query.value(7).toInt());
+        process->SetInternalState((DisputeProcessInternalStates)Mediation_query.value(7).toInt());
+        process->SetCountyId((CountyIds)Mediation_query.value(8).toInt());
         process->SetReferralType((ReferralTypes)Mediation_query.value(9).toInt());
-        process->SetRequiresSpanish(Mediation_query.value(10).toBool());
+        process->SetInquiryTypes((InquiryTypes)Mediation_query.value(10).toInt());
+        process->SetInfoOnly(Mediation_query.value(11).toBool());
+        process->SetIsCourtCase(Mediation_query.value(12).toBool());
+        QString courtDate = Mediation_query.value(13).toString();
+        if(courtDate != NULL)
+        {
+            process->SetCourtDate(QDateTime::fromString(courtDate, "yyyy-MM-dd"));
+        }
+        //process->SetCourtCaseType(Mediation_query.value(14));
+        process->SetCourtType((CourtOrderTypes)Mediation_query.value(15).toInt());
+        courtDate = Mediation_query.value(16).toString();
+        if(courtDate != NULL)
+        {
+            process->SetCourtOrderExpiration(QDateTime::fromString(courtDate, "yyyy-MM-dd"));
+        }
+        process->SetIsShuttle(Mediation_query.value(17).toBool());
+        process->SetRequiresSpanish(Mediation_query.value(18).toBool());
 
 
         //Grab sessions based on the mediation id
@@ -289,6 +309,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             session->SetId(sessionQuery.value(0).toInt());
             session->SetState((SessionStates)sessionQuery.value(2).toInt());
 
+            /* THESE AREN'T USED ANYMORE!!!
             session->setFee1Paid(sessionQuery.value(3).toBool());
             session->setFee2Paid(sessionQuery.value(4).toBool());
             session->setFeeFamilyPaid(sessionQuery.value(5).toBool());
@@ -302,12 +323,13 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             session->setIncomeFee2(sessionQuery.value(12).toString());
             session->setIncomeFeeFamily(sessionQuery.value(13).toString());
             session->setIncomeFeeOther(sessionQuery.value(14).toString());
+            */
 
             //TODO: Make these into just needing names... they're not "client" type people
-            session->setMediator1(sessionQuery.value(15).toString());
-            session->setMediator2(sessionQuery.value(16).toString());
-            session->setObserver1(sessionQuery.value(17).toString());
-            session->setObserver2(sessionQuery.value(18).toString());
+            session->setMediator1(sessionQuery.value(3).toString());
+            session->setMediator2(sessionQuery.value(4).toString());
+            session->setObserver1(sessionQuery.value(5).toString());
+            session->setObserver2(sessionQuery.value(6).toString());
 
             sessions->push_back(session);
         }
@@ -385,13 +407,16 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             // party->SetChildren(clientQuery.value(3).toUInt());
             // party->SetObservers(clientQuery.value(4).toString());
             // party->SetAttorney(clientQuery.value(5).toString());
-            Person* attorney;
-            attorney->setFirstName(clientQuery.value(5).toString());
-            attorney->setMiddleName(clientQuery.value(6).toString());
-            attorney->setLastName(clientQuery.value(7).toString());
-            attorney->setPrimaryPhone(clientQuery.value(8).toString());
-            attorney->setEmail(clientQuery.value(9).toString());
-            party->SetAttorney(*attorney);
+            Person attorney;// = new Person();
+            attorney.setFirstName(clientQuery.value(5).toString());
+            attorney.setMiddleName(clientQuery.value(6).toString());
+            attorney.setLastName(clientQuery.value(7).toString());
+            attorney.setPrimaryPhone(clientQuery.value(8).toString());
+            attorney.setEmail(clientQuery.value(9).toString());
+            //attorney.setAssistantName(clientQuery.value(10).toString());
+            attorney.setAssistantPhone(clientQuery.value(11).toString());
+            //attorney.setAssistantEmail(clientQuery.value(12).toString());
+            party->SetAttorney(attorney);
             process->AddParty(party);
         }
 
@@ -600,7 +625,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
     // Insert the mediation process as a whole (creates a new dispute)
     MediationProcess* process = nullptr;
     process = arg.getArg<MediationProcess*>();
-    InsertObject(process);
+    qDebug() << InsertObject(process);
 
     MediationSession* session = NULL;
 
@@ -610,7 +635,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
         // Linkage will be preserved through the id being linked
         session = process->getMediationSessionVector()->at(i);
 
-        InsertLinkedObject(process->GetId(), session);
+        qDebug() << InsertLinkedObject(process->GetId(), session);
 
     }
 
@@ -621,7 +646,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
         note = process->GetNotes()->at(i);
         note->SetMediationId(process->GetId());
 
-        InsertObject(note);
+        qDebug() << InsertObject(note);
     }
 
     Party* person = NULL;
@@ -636,8 +661,8 @@ void DRCDB::InsertMediation(MediatorArg arg)
 
         if(person->GetPrimary()->getLastName() != "")
         {
-            InsertObject(person->GetPrimary());
-            InsertClientObject(process, person);
+            qDebug() << InsertObject(person->GetPrimary());
+            qDebug() << InsertClientObject(process, person);
         }
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
@@ -852,7 +877,7 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
             .arg(db_object->table())
             .arg("null")
             .arg(db_object->Parse());
-
+qDebug() << command_string;
     bool insertSuccess = false;
     QSqlQuery query_object(database);
 
@@ -898,7 +923,7 @@ bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
             .arg("null")
             .arg(linkedID)
             .arg(db_object->Parse());
-
+qDebug() << command_string;
     bool insertSuccess = false;
     QSqlQuery query_object(database);
 
@@ -927,7 +952,7 @@ bool DRCDB::InsertClientObject(MediationProcess* dispute_object, Party* party_ob
         observerString += temp->FullName();
     }
 
-    QString value_string = QString("%1, %2, %3, %4, '%5', '%6', '%7', '%8', '%9'")
+    QString value_string = QString("%1, %2, %3, %4, '%5', '%6', '%7', '%8', '%9', '%10', '%11', '%12'")
             .arg(dispute_object->GetId())
             .arg(party_object->GetPrimary()->GetId())
             .arg(party_object->GetChildren().size())
@@ -936,14 +961,17 @@ bool DRCDB::InsertClientObject(MediationProcess* dispute_object, Party* party_ob
             .arg(party_object->GetAttorney().getMiddleName())
             .arg(party_object->GetAttorney().getLastName())
             .arg(party_object->GetAttorney().getPrimaryPhone())
-            .arg(party_object->GetAttorney().getEmail());
+            .arg(party_object->GetAttorney().getEmail())
+            .arg("party_object->GetAttorney().getAssistantName()")
+            .arg(party_object->GetAttorney().getAssistantPhone())
+            .arg("party_object->GetAttorney().getAssistantEmail()");
             //Needs the assistant information as well!!!
 
     QString command_string = QString("insert into %1 values ( %2, %3 )")
             .arg("Client_Table")
             .arg("null")
             .arg(value_string);
-
+qDebug() << command_string;
     bool insertSuccess = false;
     QSqlQuery query_object(database);
 

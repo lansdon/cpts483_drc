@@ -24,6 +24,9 @@ QString MediationSession::Parse()
     toReturn += QString::number(this->GetState());
     toReturn += ", ";
 
+    //NO LONGER PART OF SESSION!!!!
+    /*
+
     // Paid amounts
     if(this->getFee1Paid())
         toReturn += "1";
@@ -65,6 +68,7 @@ QString MediationSession::Parse()
     toReturn += ", ";
     toReturn += single_quote + this->getIncomeFeeOther() + single_quote;
     toReturn += ", ";
+    */
 
     // Mediator Info
     toReturn += single_quote + this->getMediator1().replace("'", "''") + single_quote;
@@ -85,6 +89,8 @@ QString MediationSession::UpdateParse()
     // Status
     toUpdate += QString("SessionStatus = %1, ").arg(QString::number(this->GetState()));
 
+    //NO LONGER PART OF SESSION!!!!
+    /*
     // Fee State
     toUpdate += QString("Fee1Paid = %1, ").arg(QString::number(this->getFee1Paid()));
     toUpdate += QString("Fee2Paid = %1, ").arg(QString::number(this->getFee2Paid()));
@@ -102,6 +108,7 @@ QString MediationSession::UpdateParse()
     toUpdate += QString("IncomeFee2 = '%1', ").arg(this->getIncomeFee2());
     toUpdate += QString("IncomeFeeFamily = '%1', ").arg(this->getIncomeFeeFamily());
     toUpdate += QString("IncomeFeeOther = '%1', ").arg(this->getIncomeFeeOther());
+*/
 
     //Mediators
     toUpdate += QString("Mediator1 = '%1', ").arg(this->getMediator1().replace("'", "''"));

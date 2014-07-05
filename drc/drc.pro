@@ -61,6 +61,10 @@ SOURCES += main.cpp\
     gui/nosessionsview.cpp \
     drc_shared/mpfilemaker.cpp \
     drc_shared/models/Note.cpp \
+    drc_shared/models/clientsessiondata.cpp \
+    gui/feeform.cpp \
+    gui/attorneysupportview.cpp \
+    gui/mediationobserverview.cpp \
     gui/manageusers.cpp
 
 HEADERS  += \
@@ -115,6 +119,10 @@ HEADERS  += \
     gui/Note.h \
     drc_shared/mpfilemaker.h \
     drc_shared/models/Note.h \
+    drc_shared/models/clientsessiondata.h \
+    gui/feeform.h \
+    gui/attorneysupportview.h \
+    gui/mediationobserverview.h \
     gui/manageusers.h
 
 FORMS    += \
@@ -135,6 +143,9 @@ FORMS    += \
     gui/mptoolbox.ui \
     gui/sessioncell.ui \
     gui/nosessionsview.ui \
+    gui/feeform.ui \
+    gui/attorneysupportview.ui \
+    gui/mediationobserverview.ui \
     gui/manageusers.ui
 
 
