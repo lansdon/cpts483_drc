@@ -62,10 +62,11 @@ void MediationSessionForm::PopulateFeeTable()
     // Samples:
      ui->feeDiplayTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size());
     //QTableWidgetItem *proto = new QTableWidgetItem();
-
+    QStringList vertHeader;
   // layout->setAlignment(Qt::AlignCenter);
      for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); ++i)
     {
+         vertHeader << ("Client " + QString::number(i + 1));
         QLineEdit *incomeLE = new QLineEdit();
 
 
@@ -91,7 +92,7 @@ void MediationSessionForm::PopulateFeeTable()
 
 
     }
-
+    ui->feeDiplayTableWidget->setVerticalHeaderLabels(vertHeader);
 }
 
 void MediationSessionForm::updateFromTable()
@@ -175,14 +176,14 @@ void MediationSessionForm::configureAttyAndSupportTable()
 void MediationSessionForm::populateAttyAndSupportTable()
 {
     ui->attyAttendTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size());
-
+    QStringList vertHeader;
     for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); i++)
     {
-
+        vertHeader << ("Client " + QString::number(i + 1));
         QCheckBox *attySaid = new QCheckBox();
         QCheckBox *attyDid = new QCheckBox();
         QSpinBox *support = new QSpinBox();
-
+        //ui->attyAttendTableWidget->verticalHeader()->setSectionResizeMode(i, QHeaderView::Stretch);
 
 //        attySaid->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
 //        attySaid->setCheckState(Qt::Unchecked);
@@ -207,6 +208,8 @@ void MediationSessionForm::populateAttyAndSupportTable()
 //        attyDid->setFlags(Qt::NoItemFlags);
 //        ui->attyAttendTableWidget->setCellWidget(i + 1,0,new AttorneySupportView());
     }
+    ui->attyAttendTableWidget->setVerticalHeaderLabels(vertHeader);
+   // ui->attyAttendTableWidget->verticalHeader()->setFixedWidth(50);
 //    _mediationSession->setClientSessionDataVector(*_sessionData);
 
     //ui->attyAttendListWidget->aaddWidget(0,0,new AttorneySupportView());
@@ -268,7 +271,7 @@ void MediationSessionForm::fillFields(MediationSession *input)
         _mediationSession = input;
         FillingFields = true;
         ui->stateComboBox->setCurrentIndex(_mediationSession->GetState());
-        ui->supportNumComboBox->setCurrentIndex(_mediationSession->GetSupportCount());
+//        ui->supportNumComboBox->setCurrentIndex(_mediationSession->GetSupportCount());
         ui->feePaidDisplayLabel->setText(_mediationSession->getFeeStatus());
         ui->dateTimeEdit->setDateTime(input->getMediationTime());
         ui->dateTimeEdit->setVisible(true);
