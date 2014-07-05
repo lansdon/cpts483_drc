@@ -64,6 +64,8 @@ private slots:
 
     void on_actionManage_Users_triggered();
 
+    void on_actionConnect_to_Remote_DB_triggered();
+
 public slots:
     void ShowSessionBrowser();
     void ShowMediationBrowser();
@@ -95,6 +97,9 @@ private:
     MPFileMaker _filemaker;
 
     void saveMPEvent(MediatorArg arg);
+
+    QString LoadDBPathFromFile();
+
 };
 
 #endif // DRCClient_H

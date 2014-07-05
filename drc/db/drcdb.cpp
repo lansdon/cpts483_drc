@@ -12,7 +12,55 @@
 //------------------------------------------------------------------------
 DRCDB::DRCDB() : DB_ERROR(false)
 {
-    OpenDatabase("drc_db.db3");
+
+    // Populate our fake user list.  Delete this later!!
+    UserMap.push_back(new User("Admin", "adminpassword", USER_T_ADMIN));
+    UserMap.push_back(new User("Normal", "normalpassword", USER_T_NORMAL));
+    UserMap.push_back(new User("", "", USER_T_ADMIN));
+
+    // Register to Listen for events.
+    Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
+    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
+    Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
+    //Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
+
+}
+//========================================================================
+
+
+//========================================================================
+//------------------------------------------------------------------------
+bool DRCDB::CreatePersonTable(const QString& person_table_name)
+{
+    //Name and Datatypes of all Table columns
+    QVector<QString> person_table_columns;
+    person_table_columns.push_back(QString("person_id integer primary key autoincrement null"));
+    person_table_columns.push_back(QString("first_name char(50)"));
+    person_table_columns.push_back(QString("middle_name char(50)"));
+    person_table_columns.push_back(QString("last_name char(50) not null"));
+    person_table_columns.push_back(QString("street_name char(50)"));
+    person_table_columns.push_back(QString("unit_name char(50)"));
+    person_table_columns.push_back(QString("city_name char(50)"));
+    person_table_columns.push_back(QString("state_name char(50)"));
+    person_table_columns.push_back(QString("zip_code char(50)"));
+    person_table_columns.push_back(QString("county_name char(50)"));
+    person_table_columns.push_back(QString("primary_phone char(50)"));  //Confirm Phone Format
+    person_table_columns.push_back(QString("secondary_phone char(50)"));
+    person_table_columns.push_back(QString("assistance_phone char(50)"));
+    person_table_columns.push_back(QString("email_address char(50)"));
+    person_table_columns.push_back(QString("number_in_house int"));
+    person_table_columns.push_back(QString("attorney_name char(50)"));
+
+    return CreateTable(person_table_name, person_table_columns);
+}
+
+//========================================================================
+
+
+void DRCDB::LoadDatabase(QString filename)
+{
+    OpenDatabase(filename);
 
     //Name of the table we're creating.
     QString person_table_name = QString("Person_Table");
@@ -58,49 +106,9 @@ DRCDB::DRCDB() : DB_ERROR(false)
     {
          result = CreateClientSessionTable(client_session_table_name);
     }
-
-    // Populate our fake user list.  Delete this later!!
-    UserMap.push_back(new User("Admin", "adminpassword", USER_T_ADMIN));
-    UserMap.push_back(new User("Normal", "normalpassword", USER_T_NORMAL));
-    UserMap.push_back(new User("", "", USER_T_ADMIN));
-
-    // Register to Listen for events.
-    Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
-    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
-    Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
-    Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
-    //Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
-}
-//========================================================================
-
-
-//========================================================================
-//------------------------------------------------------------------------
-bool DRCDB::CreatePersonTable(const QString& person_table_name)
-{
-    //Name and Datatypes of all Table columns
-    QVector<QString> person_table_columns;
-    person_table_columns.push_back(QString("person_id integer primary key autoincrement null"));
-    person_table_columns.push_back(QString("first_name char(50)"));
-    person_table_columns.push_back(QString("middle_name char(50)"));
-    person_table_columns.push_back(QString("last_name char(50) not null"));
-    person_table_columns.push_back(QString("street_name char(50)"));
-    person_table_columns.push_back(QString("unit_name char(50)"));
-    person_table_columns.push_back(QString("city_name char(50)"));
-    person_table_columns.push_back(QString("state_name char(50)"));
-    person_table_columns.push_back(QString("zip_code char(50)"));
-    person_table_columns.push_back(QString("county_name char(50)"));
-    person_table_columns.push_back(QString("primary_phone char(50)"));  //Confirm Phone Format
-    person_table_columns.push_back(QString("secondary_phone char(50)"));
-    person_table_columns.push_back(QString("assistance_phone char(50)"));
-    person_table_columns.push_back(QString("email_address char(50)"));
-    person_table_columns.push_back(QString("number_in_house int"));
-    person_table_columns.push_back(QString("attorney_name char(50)"));
-
-    return CreateTable(person_table_name, person_table_columns);
 }
 
-//========================================================================
+
 
 bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
 {

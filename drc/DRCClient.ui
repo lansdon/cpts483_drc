@@ -54,7 +54,7 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuReports">
@@ -75,6 +75,7 @@
      <string>Admin</string>
     </property>
     <addaction name="actionManage_Users"/>
+    <addaction name="actionConnect_to_Remote_DB"/>
    </widget>
    <widget class="QMenu" name="menuUser">
     <property name="title">
@@ -216,6 +217,11 @@
   <action name="actionManage_Users">
    <property name="text">
     <string>Manage Users</string>
+   </property>
+  </action>
+  <action name="actionConnect_to_Remote_DB">
+   <property name="text">
+    <string>Connect to Remote DB</string>
    </property>
   </action>
  </widget>

@@ -25,6 +25,10 @@
 #include <QDockWidget>
 #include <QFileDialog>
 
+const QString DBPATH_FILE = "dbpath.txt";
+const QString DB_DEFAULT_PATH = "db.db3";
+
+
 DRCClient::DRCClient(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::DRCClient)
@@ -33,7 +37,10 @@ DRCClient::DRCClient(QWidget *parent)
     ui->setupUi(this);
     // set up a seed for any random numbers generated with qrand()
     qsrand( QDateTime::currentMSecsSinceEpoch()/1000);
-    //for the file save and load
+
+    // Check for a saved database path... Load the default otherwise.
+    _db.LoadDatabase(LoadDBPathFromFile());
+
     _mediationProcessVector = new MediationProcessVector();
     _mediationProcessView = nullptr;
     // Set the window to max size.
@@ -317,4 +324,42 @@ void DRCClient::send_mediation_vector()
 void DRCClient::on_actionManage_Users_triggered()
 {
 
+}
+
+// Allow the admin to find a remote .db3 file to use. This file location will be stored as a file.
+void DRCClient::on_actionConnect_to_Remote_DB_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        "Open Remote Database", "", "Db Files (*.db3)");
+
+    if(fileName.length())
+    {
+        QFile file(DBPATH_FILE);
+        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        {
+            file.write(fileName.toStdString().c_str());
+            file.close();
+            _db.LoadDatabase(fileName);
+        }
+    }
+
+}
+
+QString DRCClient::LoadDBPathFromFile()
+{
+    QString fileName = "";
+
+    QFile file(DBPATH_FILE);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text))
+    {
+        QTextStream in(&file);
+        fileName = in.readLine();
+        file.close();
+    }
+
+    if(!fileName.length())
+    {
+        fileName = DB_DEFAULT_PATH;
+    }
+    return fileName;
 }
