@@ -72,6 +72,7 @@ private slots:
 private:
     Ui::MediationSessionForm *ui;
     MediationSession *_mediationSession;
+    ClientSessionDataVector _sessionData;
     MediatorId _mediatorid;
     void configureFeeTable();
     void configureMediatorTable();
@@ -79,6 +80,7 @@ private:
     void fillFields(MediationSession *input);
     bool FillingFields;
     void ConfigureComboBoxes();
+    void populateAttyAndSupportTable();
 
 };
 

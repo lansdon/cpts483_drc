@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>AttorneySupportView</class>
- <widget class="QWidget" name="AttorneySupportView">
+ <class>AttorneyHeaderView</class>
+ <widget class="QWidget" name="AttorneyHeaderView">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>173</width>
+    <width>400</width>
     <height>38</height>
    </rect>
   </property>
@@ -16,40 +16,14 @@
     <height>38</height>
    </size>
   </property>
-  <property name="maximumSize">
-   <size>
-    <width>16777215</width>
-    <height>16777215</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout">
    <item>
-    <widget class="QCheckBox" name="attySaidAttendCheckBox">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <spacer name="horizontalSpacer_3">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>40</width>
-       <height>20</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item>
-    <widget class="QCheckBox" name="attyDidAttendCheckBox">
-     <property name="text">
-      <string/>
+      <string>Attorney Will Attend</string>
      </property>
     </widget>
    </item>
@@ -67,7 +41,31 @@
     </spacer>
    </item>
    <item>
-    <widget class="QSpinBox" name="supportSpinBox"/>
+    <widget class="QLabel" name="label_2">
+     <property name="text">
+      <string>Attorney Did Attend</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <spacer name="horizontalSpacer_2">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>40</width>
+       <height>20</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>Number of Support</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

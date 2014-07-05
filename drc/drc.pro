@@ -65,7 +65,8 @@ SOURCES += main.cpp\
     gui/feeform.cpp \
     gui/attorneysupportview.cpp \
     gui/mediationobserverview.cpp \
-    gui/manageusers.cpp
+    gui/manageusers.cpp \
+    gui/attorneyheaderview.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -123,7 +124,8 @@ HEADERS  += \
     gui/feeform.h \
     gui/attorneysupportview.h \
     gui/mediationobserverview.h \
-    gui/manageusers.h
+    gui/manageusers.h \
+    gui/attorneyheaderview.h
 
 FORMS    += \
     DRCClient.ui \
@@ -146,7 +148,8 @@ FORMS    += \
     gui/feeform.ui \
     gui/attorneysupportview.ui \
     gui/mediationobserverview.ui \
-    gui/manageusers.ui
+    gui/manageusers.ui \
+    gui/attorneyheaderview.ui
 
 
 CONFIG += c++11
