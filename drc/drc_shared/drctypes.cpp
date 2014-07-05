@@ -137,3 +137,47 @@ QString StringForSessionStates(SessionStates id)
     return result;
 }
 
+QString StringForInquiryTypes(InquiryTypes id)
+{
+    QString result;
+    switch(id)
+    {
+    case INQUIRY_T_EMAIL: result = "Email"; break;
+    case INQUIRY_T_NONE: result = "None"; break;
+    case INQUIRY_T_PHONE: result = "Phone"; break;
+    case INQUIRY_T_REFERRAL: result = "Referral"; break;
+    case INQUIRY_T_WALKIN: result = "Walk-in"; break;
+    default: result = "<error>"; break;
+    }
+    return result;
+}
+
+QString StringForCourtTypes(CourtCaseTypes id)
+{
+    QString result;
+    switch(id)
+    {
+    case COURT_T_JUVENILE: result = "Juvenile"; break;
+    case COURT_T_NONE: result = "None"; break;
+    case COURT_T_OTHER: result = "Other"; break;
+    case COURT_T_SMALL_CLAIMS: result = "Small Claims"; break;
+    case COURT_T_SUPERIOR: result = "Superior"; break;
+    default: result = "<error>"; break;
+    }
+    return result;
+}
+
+QString StringForCourtOrderTypes(CourtOrderTypes id)
+{
+    QString result;
+    switch(id)
+    {
+    case COURT_T_JUVENILE: result = "Juvenile"; break;
+    case COURT_T_NONE: result = "None"; break;
+    case COURT_T_OTHER: result = "Other"; break;
+    case COURT_T_SMALL_CLAIMS: result = "Small Claims"; break;
+    case COURT_T_SUPERIOR: result = "Superior"; break;
+    default: result = "<error>"; break;
+    }
+    return result;
+}

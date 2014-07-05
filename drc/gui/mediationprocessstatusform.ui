@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>895</width>
-    <height>148</height>
+    <width>977</width>
+    <height>175</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,7 +19,7 @@
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>148</height>
+    <height>175</height>
    </size>
   </property>
   <property name="font">
@@ -307,13 +307,6 @@
          </item>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QCheckBox" name="spanishCheckBox">
-         <property name="text">
-          <string>Spanish</string>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="1">
         <widget class="QCheckBox" name="shuttleCheckBox">
          <property name="text">
@@ -378,6 +371,13 @@
          </item>
         </widget>
        </item>
+       <item row="1" column="0">
+        <widget class="QCheckBox" name="spanishCheckBox">
+         <property name="text">
+          <string>Spanish</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -399,14 +399,12 @@
         <enum>QLayout::SetNoConstraint</enum>
        </property>
        <item>
-        <widget class="QLabel" name="currentStatusLabel">
-         <property name="font">
-          <font>
-           <pointsize>12</pointsize>
-          </font>
-         </property>
+        <widget class="QLabel" name="saveStatusLabel">
          <property name="text">
-          <string>Current Status:</string>
+          <string>Unsaved Changes</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -434,7 +432,7 @@
      </item>
      <item>
       <layout class="QFormLayout" name="formLayout_2">
-       <item row="1" column="1">
+       <item row="2" column="1">
         <widget class="QLabel" name="lastActivityDisplayLabel">
          <property name="font">
           <font>
@@ -446,7 +444,7 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="lastActivityLabel">
          <property name="font">
           <font>
@@ -458,17 +456,7 @@
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="saveStatusLabel">
-         <property name="text">
-          <string>Unsaved Changes</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="_creationLabel">
          <property name="font">
           <font>
@@ -480,7 +468,7 @@
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QLabel" name="createdDateLabel">
          <property name="font">
           <font>
@@ -492,69 +480,139 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="currentStatusLabel">
+         <property name="font">
+          <font>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Current Status:</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="middle">
-     <item>
-      <layout class="QFormLayout" name="formLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Court Type:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="comboBox_2"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QFormLayout" name="formLayout">
-       <item row="0" column="1">
-        <widget class="QDateTimeEdit" name="dateTimeEdit"/>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>Court Date:</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QFormLayout" name="formLayout_5">
-       <item row="0" column="0">
-        <widget class="QLabel" name="courtOrderLabel">
-         <property name="text">
-          <string>Court Order:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="courtOrderComboBox"/>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QFormLayout" name="formLayout_4">
-       <item row="0" column="0">
-        <widget class="QLabel" name="courtOrderLabel_2">
-         <property name="text">
-          <string>Court Order Expires:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="expiresComboBox"/>
-       </item>
-      </layout>
-     </item>
-    </layout>
+    <widget class="QFrame" name="courtRow_3">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QFormLayout" name="formLayout_3">
+        <item row="0" column="0">
+         <widget class="QLabel" name="_courtTypeLabel">
+          <property name="text">
+           <string>Court Type:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="courtTypeComboBox">
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout">
+        <item row="0" column="1">
+         <widget class="QDateTimeEdit" name="courDateTimeEdit"/>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="_courtDateLabel">
+          <property name="text">
+           <string>Court Date:</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_5">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+        </property>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="courtOrderComboBox">
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>New Item</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="_courtOrderLabel">
+          <property name="text">
+           <string>Court Order:</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QFormLayout" name="formLayout_4">
+        <item row="0" column="0">
+         <widget class="QLabel" name="courtOrderLabel">
+          <property name="text">
+           <string>Order Expires:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QDateTimeEdit" name="expirationDateTimeEdit"/>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
    </item>
   </layout>
  </widget>

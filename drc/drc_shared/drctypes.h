@@ -156,7 +156,11 @@ enum SessionStates
 
 enum CourtCaseTypes
 {
-
+    COURT_T_NONE,
+    COURT_T_SUPERIOR,
+    COURT_T_JUVENILE,
+    COURT_T_SMALL_CLAIMS,
+    COURT_T_OTHER
 };
 
 enum CourtOrderTypes
@@ -173,6 +177,9 @@ QString StringForPartyTypes(PartyTypes id);
 QString StringForUserTypes(UserTypes id);
 QString StringForSearchTypes(SearchTypes id);
 QString StringForSessionStates(SessionStates id);
+QString StringForInquiryTypes(InquiryTypes id);
+QString StringForCourtTypes(CourtCaseTypes id);
+QString StringForCourtOrderTypes(CourtCaseTypes id);
 
 
 

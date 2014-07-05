@@ -107,10 +107,18 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
     ui->referralComboBox->setItemText(REFERRAL_T_INTERNET, StringForReferralTypes(REFERRAL_T_INTERNET));
     ui->referralComboBox->setItemText(REFERRAL_T_OTHER_NONE, StringForReferralTypes(REFERRAL_T_OTHER_NONE));
 
-//    ui->statusComboBox->setItemText(PROCESS_STATE_NONE, StringForDisputeProcessStates(PROCESS_STATE_NONE));
-//    ui->statusComboBox->setItemText(PROCESS_STATE_PENDING, StringForDisputeProcessStates(PROCESS_STATE_PENDING));
-//    ui->statusComboBox->setItemText(PROCESS_STATE_SCHEDULED, StringForDisputeProcessStates(PROCESS_STATE_SCHEDULED));
-//    ui->statusComboBox->setItemText(PROCESS_STATE_CLOSED, StringForDisputeProcessStates(PROCESS_STATE_CLOSED));
+    ui->inquiryTypeComboBox->setItemText(INQUIRY_T_NONE, StringForInquiryTypes(INQUIRY_T_NONE));
+    ui->inquiryTypeComboBox->setItemText(INQUIRY_T_EMAIL, StringForInquiryTypes(INQUIRY_T_EMAIL));
+    ui->inquiryTypeComboBox->setItemText(INQUIRY_T_PHONE, StringForInquiryTypes(INQUIRY_T_PHONE));
+    ui->inquiryTypeComboBox->setItemText(INQUIRY_T_REFERRAL, StringForInquiryTypes(INQUIRY_T_REFERRAL));
+    ui->inquiryTypeComboBox->setItemText(INQUIRY_T_WALKIN, StringForInquiryTypes(INQUIRY_T_WALKIN));
+
+    ui->courtTypeComboBox->setItemText(COURT_T_NONE, StringForCourtTypes(COURT_T_NONE));
+    ui->courtTypeComboBox->setItemText(COURT_T_JUVENILE, StringForCourtTypes(COURT_T_JUVENILE));
+    ui->courtTypeComboBox->setItemText(COURT_T_OTHER, StringForCourtTypes(COURT_T_OTHER));
+    ui->courtTypeComboBox->setItemText(COURT_T_SMALL_CLAIMS, StringForCourtTypes(COURT_T_SMALL_CLAIMS));
+    ui->courtTypeComboBox->setItemText(COURT_T_SUPERIOR, StringForCourtTypes(COURT_T_SUPERIOR));
+
 }
 
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
@@ -178,4 +186,37 @@ void MediationProcessStatusForm::MPSaveFinished(MediatorArg arg)
     {
         SetStatusLabel(arg.ErrorMessage(), true);
     }
+}
+
+void MediationProcessStatusForm::on_courtCheckBox_clicked()
+{
+    bool isCourtCase = ui->courtCheckBox->isChecked();
+    _mediationProcess->SetIsCourtCase(isCourtCase);
+    SetSavedLabel(isCourtCase);
+    ui->courtRow_3->setHidden(!isCourtCase);
+}
+
+void MediationProcessStatusForm::on_shuttleCheckBox_clicked()
+{
+
+}
+
+void MediationProcessStatusForm::on_courtTypeComboBox_currentIndexChanged(const QString &arg1)
+{
+
+}
+
+void MediationProcessStatusForm::on_courDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
+{
+
+}
+
+void MediationProcessStatusForm::on_courtOrderComboBox_currentIndexChanged(int index)
+{
+
+}
+
+void MediationProcessStatusForm::on_expirationDateTimeEdit_windowIconChanged(const QIcon &icon)
+{
+
 }
