@@ -2,6 +2,8 @@
 
 ClientSessionData::ClientSessionData()
 {
+    paid = attyDidAttend = attySaidAttend = false;
+    support = 0;
 }
 
 QString ClientSessionData::Parse()

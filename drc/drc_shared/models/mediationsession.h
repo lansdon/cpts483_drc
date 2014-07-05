@@ -21,7 +21,7 @@ private:
 
 public:
     MediationSession();
-
+    MediationSession(uint numOfParties);
     //Virtual overrides
     QString Parse();
     QString UpdateParse();
@@ -81,6 +81,9 @@ public:
     QString getStatus() const;
     QString getFeeStatus() const;
     static MediationSession *SampleData();
+    void addClientSessionData(ClientSessionData *value) { _clientSessionDataVector.push_back(value); }
+    void removeClientSessionData(uint value);
+
 
 
 };

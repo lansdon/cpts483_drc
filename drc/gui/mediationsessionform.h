@@ -70,7 +70,7 @@ private slots:
     void on_Observer2lineEdit_textEdited(const QString &arg1);
 
 public slots:
-    void TestComboBoxIndexChanged(int value);
+    void updateFromTable();
     void TestCheckBoxToggled(bool value);
 private:
     Ui::MediationSessionForm *ui;

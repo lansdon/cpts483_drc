@@ -121,6 +121,7 @@ void MediationProcessView::PopulateView()
 void MediationProcessView::addSession()
 {
     _mediationProcess->addMediation();
+
     PopulateView();
 }
 
@@ -211,6 +212,7 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
 
 void MediationProcessView::on_addCientPushButton_clicked()
 {
+
     Party* newParty = new Party();
     _mediationProcess->AddParty(newParty);
     PartyForm* pForm = new PartyForm(ui->partyTabWidget, newParty);

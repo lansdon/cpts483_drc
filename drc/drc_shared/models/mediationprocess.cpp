@@ -113,7 +113,7 @@ QString MediationProcess::table()
 }
 void MediationProcess::addMediation()
 {
-    _mediationSessionVector.push_back(new MediationSession());
+    _mediationSessionVector.push_back(new MediationSession(_parties.size()));
 }
 
 void MediationProcess::removeParty(int value)

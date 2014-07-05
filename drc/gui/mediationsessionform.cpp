@@ -12,6 +12,7 @@
 #include "clientsessiondata.h"
 #include "attorneysupportview.h"
 #include "attorneyheaderview.h"
+#include <QObject>
 
 MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *session) :
     QWidget(parent),
@@ -21,10 +22,7 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     ui->setupUi(this);
     ui->dateTimeEdit->setVisible(false);
     //_sessionData = new ClientSessionDataVector();
-    for(int i = 0; i < 2; i++)
-    {
-        _sessionData.push_back(new ClientSessionData());
-    }
+
     ConfigureComboBoxes();
 
     FillingFields = false;
@@ -35,7 +33,7 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     _mediatorid = Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
 
     configureFeeTable();
-    PopulateFeeTable();
+
 }
 
 MediationSessionForm::~MediationSessionForm()
@@ -47,11 +45,14 @@ MediationSessionForm::~MediationSessionForm()
 void MediationSessionForm::configureFeeTable()
 {
     ui->feeDiplayTableWidget->setColumnCount(3);
-    ui->feeDiplayTableWidget->setRowCount(3);
+    ui->feeDiplayTableWidget->setRowCount(0);
     QStringList header;
     header <<"Fee"<<"Paid"<<"Income";
     ui->feeDiplayTableWidget->setHorizontalHeaderLabels(header);
-
+    for (int c = 0; c < ui->feeDiplayTableWidget->horizontalHeader()->count(); ++c)
+    {
+       ui->feeDiplayTableWidget->horizontalHeader()->setSectionResizeMode(c, QHeaderView::Stretch);
+    }
     // TEMP
 
 }
@@ -59,28 +60,54 @@ void MediationSessionForm::configureFeeTable()
 void MediationSessionForm::PopulateFeeTable()
 {
     // Samples:
+     ui->feeDiplayTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size());
+    //QTableWidgetItem *proto = new QTableWidgetItem();
 
-    for(int i = 0; i < ui->feeDiplayTableWidget->rowCount(); ++i)
+     for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); ++i)
     {
-        QComboBox *cb = new QComboBox();
-       cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
-       ui->feeDiplayTableWidget->setCellWidget(i,2,cb);
-       connect(cb, SIGNAL(currentIndexChanged(int)), this, SLOT(TestComboBoxIndexChanged(int)));
 
-       QCheckBox *checkbox = new QCheckBox();
-       ui->feeDiplayTableWidget->setCellWidget(i,1,checkbox);
-       connect(checkbox, SIGNAL(toggled(bool)), this, SLOT(TestCheckBoxToggled(bool)));
+        QLineEdit *incomeLE = new QLineEdit();
+        incomeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getIncome());
+       //cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
+       ui->feeDiplayTableWidget->setCellWidget(i,2,incomeLE);
+       connect(incomeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
+       incomeLE->setMaximumSize(50,25);
+       incomeLE->setAlignment(Qt::AlignCenter);
+       //ui->feeDiplayTableWidget->item(i,0)->setTextAlignment(Qt::AlignCenter);
+
+       QLineEdit *feeLE = new QLineEdit();
+       feeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getFee());
+      ui->feeDiplayTableWidget->setCellWidget(i,0,feeLE);
+      connect(feeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
+        feeLE->setMaximumSize(50,25);
+        feeLE->setAlignment(Qt::AlignCenter);
+
+       QCheckBox *paidCB = new QCheckBox();
+       paidCB->setChecked(_mediationSession->getClientSessionDataVector()->at(i)->getPaid());
+       ui->feeDiplayTableWidget->setCellWidget(i,1,paidCB);
+       connect(paidCB, SIGNAL(toggled(bool)), this, SLOT(updateFromTable()));
+
+
     }
 
 }
 
-void MediationSessionForm::TestComboBoxIndexChanged(int value)
+void MediationSessionForm::updateFromTable()
 {
-    QMessageBox mb;
-    mb.setText("OMG");
-    mb.setInformativeText("You changed the value!");
-    mb.setStandardButtons(QMessageBox::Cancel);
-    mb.exec();
+//    QMessageBox mb;
+//    mb.setText("OMG");
+//    mb.setInformativeText("You changed the value!");
+//    mb.setStandardButtons(QMessageBox::Cancel);
+//    mb.exec();
+    for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size();i++)
+    {
+        _mediationSession->getClientSessionDataVector()->at(i)->setFee(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,0))->text());
+        _mediationSession->getClientSessionDataVector()->at(i)->setPaid(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,1))->isChecked());
+        _mediationSession->getClientSessionDataVector()->at(i)->setIncome(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,2))->text());
+        _mediationSession->getClientSessionDataVector()->at(i)->setAttySaidAttend(qobject_cast<QCheckBox*>(ui->attyAttendTableWidget->cellWidget(i,0))->isChecked());
+        _mediationSession->getClientSessionDataVector()->at(i)->setAttyDidAttend(qobject_cast<QCheckBox*>(ui->attyAttendTableWidget->cellWidget(i,1))->isChecked());
+        _mediationSession->getClientSessionDataVector()->at(i)->setSupport(qobject_cast<QSpinBox*>(ui->attyAttendTableWidget->cellWidget(i,2))->value());
+    }
 }
 
 void MediationSessionForm::TestCheckBoxToggled(bool value)
@@ -116,52 +143,55 @@ void MediationSessionForm::configureMediatorTable()
 }
 void MediationSessionForm::configureAttyAndSupportTable()
 {
-    ui->attyAttendTableWidget->setColumnCount(1);
-    ui->attyAttendTableWidget->setRowCount(1);
+    ui->attyAttendTableWidget->setColumnCount(3);
+    ui->attyAttendTableWidget->setRowCount(0);
     QStringList header;
-    header << "Attorney will attend   Attorney did attend   Support";
-    //ui->attyAttendTableWidget->setHorizontalHeaderLabels(header);
-    ui->attyAttendTableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
-    ui->attyAttendTableWidget->horizontalHeader()->setHidden(true);
-    ui->attyAttendTableWidget->setCellWidget(0,0,new AttorneyHeaderView());
+    header << "Attorney will attend" <<   "Attorney did attend" <<   "Support";
+    ui->attyAttendTableWidget->setHorizontalHeaderLabels(header);
+    //ui->attyAttendTableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
+   // ui->attyAttendTableWidget->horizontalHeader()->setHidden(true);
+   // ui->attyAttendTableWidget->setCellWidget(0,0,new AttorneyHeaderView());
     ui->attyAttendTableWidget->setShowGrid(true);
+    for (int c = 0; c < ui->attyAttendTableWidget->horizontalHeader()->count(); ++c)
+    {
+       ui->attyAttendTableWidget->horizontalHeader()->setSectionResizeMode(c, QHeaderView::Stretch);
+    }
 }
 
 void MediationSessionForm::populateAttyAndSupportTable()
 {
-    ui->attyAttendTableWidget->setRowCount(_sessionData.size() + 1);
+    ui->attyAttendTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size());
 
-    for(int i = 0; i < (int)_sessionData.size(); i++)
+    for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); i++)
     {
 
-//        QCheckBox *attySaid = new QCheckBox();
-//        QCheckBox *attyDid = new QCheckBox();
-//        QSpinBox *support = new QSpinBox();
+        QCheckBox *attySaid = new QCheckBox();
+        QCheckBox *attyDid = new QCheckBox();
+        QSpinBox *support = new QSpinBox();
 
 
-////        attySaid->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
-////        attySaid->setCheckState(Qt::Unchecked);
-////        attyDid->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
-////        attyDid->setCheckState(Qt::Unchecked);
+//        attySaid->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
+//        attySaid->setCheckState(Qt::Unchecked);
+//        attyDid->setFlags(Qt::ItemIsUserCheckable | Qt::ItemIsEditable);
+//        attyDid->setCheckState(Qt::Unchecked);
+        attySaid->setChecked(_mediationSession->getClientSessionDataVector()->at(i)->getAttySaidAttend());
+        attyDid->setChecked(_mediationSession->getClientSessionDataVector()->at(i)->getAttyDidAttend());
+        support->setValue(_mediationSession->getClientSessionDataVector()->at(i)->getSupport());
 
+        ui->attyAttendTableWidget->setCellWidget(i,0,attySaid);
+        ui->attyAttendTableWidget->setCellWidget(i,1,attyDid);
+        ui->attyAttendTableWidget->setCellWidget(i,2,support);
 
-//        ui->attyAttendTableWidget->setCellWidget(i,0,attySaid);
-//        ui->attyAttendTableWidget->setCellWidget(i,1,attyDid);
-//        ui->attyAttendTableWidget->setCellWidget(i,2,support);
-//        for (int c = 0; c < ui->attyAttendTableWidget->horizontalHeader()->count(); ++c)
-//        {
-//           ui->attyAttendTableWidget->horizontalHeader()->setSectionResizeMode(c, QHeaderView::Stretch);
-//        }
-//        //ClientSessionData *temp = new ClientSessionData();
-//        connect(attyDid, SIGNAL(toggled(bool)), this->_sessionData.at(i), SLOT(on_atty_did_attend(bool)));
-//        connect(attySaid, SIGNAL(toggled(bool)), this->_sessionData.at(i), SLOT(on_atty_will_attend(bool)));
-//        connect(support, SIGNAL(valueChanged(int)), this->_sessionData.at(i), SLOT(on_support(uint)));
+        //ClientSessionData *temp = new ClientSessionData();
+        connect(attyDid, SIGNAL(toggled(bool)), this, SLOT(updateFromTable()));
+        connect(attySaid, SIGNAL(toggled(bool)), this, SLOT(updateFromTable()));
+        connect(support, SIGNAL(valueChanged(int)), this, SLOT(updateFromTable()));
 
         //_mediationSession->getClientSessionDataVector().push_back(temp);
 
 //        attySaid->setFlags(Qt::NoItemFlags);
 //        attyDid->setFlags(Qt::NoItemFlags);
-        ui->attyAttendTableWidget->setCellWidget(i + 1,0,new AttorneySupportView());
+//        ui->attyAttendTableWidget->setCellWidget(i + 1,0,new AttorneySupportView());
     }
 //    _mediationSession->setClientSessionDataVector(*_sessionData);
 
@@ -181,7 +211,9 @@ void MediationSessionForm::populateAttyAndSupportTable()
 void MediationSessionForm::setMediationSession(MediationSession *session)
 {
     _mediationSession = session;
+
     populateAttyAndSupportTable();
+    PopulateFeeTable();
     fillFields(_mediationSession);
 }
 
