@@ -89,6 +89,8 @@ public:
 
     bool InsertClientObject(MediationProcess* dispute_object, Party* party_object);
 
+    bool InsertClientSessionData(ClientSessionData* data, int sessionId, int clientId);
+
     QVector<QString> SelectAllFields(QString table_name);
 
     //Parameters are temporary until Filter Object finalized.

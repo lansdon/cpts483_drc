@@ -149,7 +149,6 @@ bool DRCDB::CreateClientSessionTable(const QString& client_session_table_name)
     client_session_table_columns.push_back(QString("feesPaid Bool"));
     client_session_table_columns.push_back(QString("AttorneyExpected Bool"));
     client_session_table_columns.push_back(QString("AttorneyAttended Bool"));
-    client_session_table_columns.push_back(QString("foreign key(Client_id) references Client_Table(Client_id)"));
     client_session_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
 
     return CreateTable(client_session_table_name, client_session_table_columns);
@@ -289,7 +288,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         {
             process->SetCourtDate(QDateTime::fromString(courtDate, "yyyy-MM-dd"));
         }
-        //process->SetCourtCaseType(Mediation_query.value(14));
+        process->SetCourtType((CourtCaseTypes)Mediation_query.value(14).toInt());
         process->SetCourtOrderType((CourtOrderTypes)Mediation_query.value(15).toInt());
         courtDate = Mediation_query.value(16).toString();
         if(courtDate != NULL)
@@ -317,27 +316,34 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             session->SetId(sessionQuery.value(0).toInt());
             session->SetState((SessionStates)sessionQuery.value(2).toInt());
 
-            /* THESE AREN'T USED ANYMORE!!!
-            session->setFee1Paid(sessionQuery.value(3).toBool());
-            session->setFee2Paid(sessionQuery.value(4).toBool());
-            session->setFeeFamilyPaid(sessionQuery.value(5).toBool());
-            session->setFeeOtherPaid(sessionQuery.value(6).toBool());
-
-            session->setFee1(sessionQuery.value(7).toString());
-            session->setFee2(sessionQuery.value(8).toString());
-            session->setFeeFamily(sessionQuery.value(9).toString());
-            session->setFeeOther(sessionQuery.value(10).toString());
-            session->setIncomeFee1(sessionQuery.value(11).toString());
-            session->setIncomeFee2(sessionQuery.value(12).toString());
-            session->setIncomeFeeFamily(sessionQuery.value(13).toString());
-            session->setIncomeFeeOther(sessionQuery.value(14).toString());
-            */
-
             //TODO: Make these into just needing names... they're not "client" type people
             session->setMediator1(sessionQuery.value(3).toString());
             session->setMediator2(sessionQuery.value(4).toString());
             session->setObserver1(sessionQuery.value(5).toString());
             session->setObserver2(sessionQuery.value(6).toString());
+
+            //Load the clientsession data, based on the session id
+            QSqlQuery DataQuery(database);
+            QString data_command_string = QString("Select * from Client_session_table where session_id = %1")
+                                                .arg(processId);
+            bool dataResult = false;
+            dataResult = this->ExecuteCommand(data_command_string, DataQuery);
+
+            qDebug() << dataResult;
+
+            while(DataQuery.next())
+            {
+                ClientSessionData* data = new ClientSessionData();
+
+                data->SetId(DataQuery.value(0).toInt());
+                data->setIncome(DataQuery.value(3).toString());
+                data->setFee(DataQuery.value(4).toString());
+                data->setPaid(DataQuery.value(5).toBool());
+                data->setAttySaidAttend(DataQuery.value(6).toBool());
+                data->setAttyDidAttend(DataQuery.value(7).toBool());
+
+                session->getClientSessionDataVector()->push_back(data);
+            }
 
             sessions->push_back(session);
         }
@@ -609,8 +615,6 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
     //Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
 }
 
-
-
 void DRCDB::InsertOrUpdateMediation(MediatorArg arg)
 {
     MediationProcess* process = nullptr;
@@ -627,7 +631,6 @@ void DRCDB::InsertOrUpdateMediation(MediatorArg arg)
 
 }
 
-
 void DRCDB::InsertMediation(MediatorArg arg)
 {
     // Insert the mediation process as a whole (creates a new dispute)
@@ -635,20 +638,8 @@ void DRCDB::InsertMediation(MediatorArg arg)
     process = arg.getArg<MediationProcess*>();
     qDebug() << InsertObject(process);
 
-    MediationSession* session = NULL;
-
-    for(size_t i = 0; i < process->getMediationSessionVector()->size(); i++)
-    {
-        // Insert each session that has been created by the dispute so far.
-        // Linkage will be preserved through the id being linked
-        session = process->getMediationSessionVector()->at(i);
-
-        qDebug() << InsertLinkedObject(process->GetId(), session);
-
-    }
-
+    // Insert the notes.
     Note* note;
-
     for(size_t i = 0; i < process->GetNotes()->size(); i++)
     {
         note = process->GetNotes()->at(i);
@@ -657,7 +648,9 @@ void DRCDB::InsertMediation(MediatorArg arg)
         qDebug() << InsertObject(note);
     }
 
+    // Insert the Persons and the Clients
     Party* person = NULL;
+    std::vector<int> clientIds;
     for(size_t i = 0; i < process->GetParties()->size(); i++)
     {
         // Insert each new person
@@ -671,6 +664,22 @@ void DRCDB::InsertMediation(MediatorArg arg)
         {
             qDebug() << InsertObject(person->GetPrimary());
             qDebug() << InsertClientObject(process, person);
+            clientIds.push_back((process->GetPartyAtIndex(i)->GetId()));
+        }
+    }
+    MediationSession* session = NULL;
+
+    for(size_t j = 0; j < process->getMediationSessionVector()->size(); j++)
+    {
+        // Insert each session that has been created by the dispute so far.
+        // Linkage will be preserved through the id being linked
+        session = process->getMediationSessionVector()->at(j);
+        // Insert the sessions, linked to the process
+        qDebug() << InsertLinkedObject(process->GetId(), session);
+        for(size_t k = 0; k < clientIds.size(); k++)
+        {
+            // Insert Data particular to session, linked to client and session
+            qDebug() << InsertClientSessionData(session->getClientSessionDataVectorAt(k), session->GetId(), clientIds[k]);
         }
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
@@ -685,20 +694,7 @@ void DRCDB::UpdateMediation(MediatorArg arg)
 
     MediationSession* session = NULL;
 
-    for(size_t i = 0; i < process->getMediationSessionVector()->size(); i++)
-    {
-        session = process->getMediationSessionVector()->at(i);
-        if(session->GetId() == 0)
-        {
-            // session newly created, need to insert
-            InsertLinkedObject(process->GetId(), session);
-        }
-        else
-        {
-            // Session already existed, just need to update with new information
-            UpdateObject(session);
-        }
-    }
+
 
     Note* note;
 
@@ -719,9 +715,14 @@ void DRCDB::UpdateMediation(MediatorArg arg)
                                          .arg(process->GetId());
     QSqlQuery client_clean(database);
 
-    this->ExecuteCommand(client_clean_string, client_clean);
+    bool asdf = false;
+
+    asdf = this->ExecuteCommand(client_clean_string, client_clean);
+
+    qDebug() << asdf;
 
     Party* person = NULL;
+    std::vector<int> clientIds;
     for(size_t i = 0; i < process->GetParties()->size(); i++)
     {
         // Insert each new person
@@ -744,7 +745,35 @@ void DRCDB::UpdateMediation(MediatorArg arg)
             UpdateObject(person->GetPrimary());
             InsertClientObject(process, person);
         }
+        clientIds.push_back(process->GetPartyAtIndex(i)->GetId());
     }
+
+    for(size_t i = 0; i < process->getMediationSessionVector()->size(); i++)
+    {
+        session = process->getMediationSessionVector()->at(i);
+        if(session->GetId() == 0)
+        {
+            // session newly created, need to insert
+            InsertLinkedObject(process->GetId(), session);
+        }
+        else
+        {
+            // Session already existed, just need to update with new information
+            UpdateObject(session);
+        }
+        //Delete old session data
+        QString data_clean_string = QString("delete from Client_Session_Table where session_id = %1")
+                                                 .arg(session->GetId());
+        QSqlQuery data_clean(database);
+
+        this->ExecuteCommand(data_clean_string, data_clean);
+        for(size_t k = 0; k < clientIds.size(); k++)
+        {
+            // Insert Data particular to session, linked to client and session
+            qDebug() << InsertClientSessionData(session->getClientSessionDataVectorAt(k), session->GetId(), clientIds[k]);
+        }
+    }
+
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
 }
 
@@ -988,11 +1017,37 @@ qDebug() << command_string;
 
     if(insertSuccess)
     {
-//        int id = query_object.lastInsertId().toInt();
-        //db_object->SetId(id);
+        int id = query_object.lastInsertId().toInt();
+        party_object->SetId(id);
     }
 
     //Returning the boolean that was found before so work flow won't change
+    return insertSuccess;
+}
+
+bool DRCDB::InsertClientSessionData(ClientSessionData* data, int sessionId, int clientId)
+{
+    QString value_string = QString("%1, %2, '%3', '%4', '%5', '%6', '%7'")
+                                .arg(clientId)
+                                .arg(sessionId)
+                                .arg(data->getIncome())
+                                .arg(data->getFee())
+                                .arg(data->getPaid())
+                                .arg(data->getAttySaidAttend())
+                                .arg(data->getAttyDidAttend());
+
+    QString command_string = QString("insert into %1 values (%2, %3)")
+                                .arg("Client_Session_Table")
+                                .arg("null")
+                                .arg(value_string);
+    qDebug() << command_string;
+    bool insertSuccess = false;
+    QSqlQuery query_object(database);
+
+    insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+    qDebug() << insertSuccess;
+
     return insertSuccess;
 }
 
