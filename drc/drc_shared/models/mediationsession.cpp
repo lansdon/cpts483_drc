@@ -20,7 +20,7 @@ MediationSession::MediationSession(uint numOfClients)
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
     _fee1 = _fee2 = _feeFamily = _feeOther = _incomeFee1 = _incomeFee2 = _incomeFeeFamily = _incomeFeeOther = "0";
-    for(int i = 0; i < numOfClients; i++)
+    for(int i = 0; i < (int)numOfClients; i++)
         _clientSessionDataVector.push_back(new ClientSessionData());
 }
 
@@ -185,7 +185,7 @@ QString MediationSession::getFeeStatus() const
 
     //check if paid in full
     //if(((!_fee1.isEmpty() && _fee1.toInt() != 0) && !partial1) || ((!_fee2.isEmpty() && _fee2.toInt() != 0) && !partial2) || ((!_feeFamily.isEmpty() && _feeFamily.toInt() != 0) && !partial3) || ((!_feeOther.isEmpty() && _feeOther.toInt() != 0) && !partial4))
-    for(int i = 0; i < _clientSessionDataVector.size(); i++)
+    for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
     {
         if(!_clientSessionDataVector.at(i)->isNoFee() && !_clientSessionDataVector.at(i)->isPaid())
             paidInFull = false;
