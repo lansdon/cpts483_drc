@@ -51,9 +51,11 @@ void MediationProcessStatusForm::Update()
 {
     if(!(ui && _mediationProcess)) return;
 
+    ui->inquiryTypeComboBox->setCurrentIndex(_mediationProcess->GetInquiryType());
+    ui->infoOnlyCheckBox->setChecked(_mediationProcess->GetInfoOnly());
     ui->createdDateLabel->setText(_mediationProcess->GetCreatedDate().toString("MM/dd/yyyy"));
     ui->currentStatusLabel->setText("Status: " + StringForDisputeProcessStates( _mediationProcess->GetState()));
-
+    ui->spanishCheckBox->setChecked(_mediationProcess->GetRequiresSpanish());
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
@@ -232,5 +234,23 @@ void MediationProcessStatusForm::on_courtOrderComboBox_currentIndexChanged(int i
 void MediationProcessStatusForm::on_expirationDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
     _mediationProcess->SetCourtOrderExpiration(dateTime);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::on_inquiryTypeComboBox_currentIndexChanged(int index)
+{
+    _mediationProcess->SetInquiryTypes((InquiryTypes)index);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::on_infoOnlyCheckBox_toggled(bool checked)
+{
+    _mediationProcess->SetInfoOnly(checked);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::on_spanishCheckBox_clicked(bool checked)
+{
+    _mediationProcess->SetRequiresSpanish(checked);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

@@ -43,6 +43,12 @@ private slots:
 
     void on_expirationDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
+    void on_inquiryTypeComboBox_currentIndexChanged(int index);
+
+    void on_infoOnlyCheckBox_toggled(bool checked);
+
+    void on_spanishCheckBox_clicked(bool checked);
+
 private:
     Ui::MediationProcessStatusForm *ui;
 
