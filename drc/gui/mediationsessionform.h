@@ -73,6 +73,8 @@ private slots:
 
     void on_timeEdit_userTimeChanged(const QTime &time);
 
+    void on_outcomeComboBox_currentIndexChanged(int index);
+
 public slots:
     void updateFromTable();
     void TestCheckBoxToggled(bool value);

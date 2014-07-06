@@ -182,6 +182,7 @@ QString StringForSessionStates(SessionStates id);
 QString StringForInquiryTypes(InquiryTypes id);
 QString StringForCourtTypes(CourtCaseTypes id);
 QString StringForCourtOrderTypes(CourtOrderTypes id);
+QString StringForSessionOutcomes(SessionOutcomes id);
 
 
 

@@ -17,6 +17,7 @@ private:
     QString _mediator1, _mediator2, _observer1, _observer2;
     int _supportCount;  // total number of support people
     ClientSessionDataVector _clientSessionDataVector;
+    SessionOutcomes _outcome;
 
 
 public:
@@ -56,6 +57,8 @@ public:
     ClientSessionData *getClientSessionDataVectorAt(int index) {return _clientSessionDataVector.at(index); }
     QDate getScheduledDate() const { return _mediationTime.date(); }
     QTime getScheduledTime() const { return _mediationTime.time(); }
+    SessionOutcomes getOutcome() { return _outcome; }
+
 
     //setters
     void setSupportCount(int count) { _supportCount = count; }
@@ -80,7 +83,7 @@ public:
     void setClientSessionDataVector(ClientSessionDataVector value) { _clientSessionDataVector = value; }
     void setScheduledDate(QDate value) { _mediationTime.setDate(value); }
     void setScheduledTime(QTime value) { _mediationTime.setTime(value); }
-
+    void setOutcome(SessionOutcomes value) { _outcome = value; }
 
     QString getStatus() const;
     QString getFeeStatus() const;
