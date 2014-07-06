@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/save.png</file>
+        <file>images/session_search.jpg</file>
+        <file>images/notes.jpg</file>
+        <file>images/mp_search.jpg</file>
+    </qresource>
+</RCC>

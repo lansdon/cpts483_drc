@@ -156,3 +156,6 @@ CONFIG += c++11
 
 OTHER_FILES += \
     
+
+RESOURCES += \
+    drc_resources.qrc

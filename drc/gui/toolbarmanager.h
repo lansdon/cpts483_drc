@@ -46,7 +46,9 @@ public:
     explicit ToolbarManager(QObject *parent = 0);
     static ToolbarManager& Instance();  // Singleton
 
+    void AddAction(const QString & text, const QObject * receiver, const char * member, QIcon icon);
     void AddAction(const QString & text, const QObject * receiver, const char * member);
+
     void Clear();
 
     QToolBar* GetToolbar() { return _toolbar; }

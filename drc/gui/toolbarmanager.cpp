@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QToolBar>
+#include <QIcon>
 
 ToolbarManager::ToolbarManager(QObject *parent) : QObject(parent)
 {
@@ -24,6 +25,13 @@ void ToolbarManager::AddAction(const QString & text, const QObject * receiver, c
     if(_toolbar)
     {
         _toolbar->addAction(text, receiver, member);
+    }
+}
+void ToolbarManager::AddAction(const QString & text, const QObject * receiver, const char * member, QIcon icon)
+{
+    if(_toolbar)
+    {
+        _toolbar->addAction(icon, text, receiver, member);
     }
 }
 
