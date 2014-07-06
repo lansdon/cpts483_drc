@@ -30,12 +30,22 @@ private slots:
 
     void on_reenterpasswordLineEdit_editingFinished();
 
+    void on_reenterpasswordLineEdit_textChanged(const QString &arg1);
+
+    void on_IsAdminBox_toggled(bool checked);
+
 private:
     Ui::ManageUsers *ui;
 
     QString _username;
     QString _password;
     QString _reenteredpassword;
+
+    bool _admin;
+
+    bool _passwordMatch;
+
+    User* _selectedUser;
 };
 
 #endif // MANAGEUSERS_H
