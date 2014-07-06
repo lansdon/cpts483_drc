@@ -115,37 +115,9 @@
    </attribute>
    <addaction name="separator"/>
   </widget>
-  <action name="actionNew">
-   <property name="text">
-    <string>New</string>
-   </property>
-  </action>
-  <action name="actionRecent">
-   <property name="text">
-    <string>Recent</string>
-   </property>
-  </action>
-  <action name="actionFind">
-   <property name="text">
-    <string>Find</string>
-   </property>
-  </action>
-  <action name="actionStatus_List">
-   <property name="text">
-    <string>Status List</string>
-   </property>
-  </action>
   <action name="actionCase_Summary">
    <property name="text">
     <string>Res Washington</string>
-   </property>
-  </action>
-  <action name="actionNew_search_form">
-   <property name="text">
-    <string>Search</string>
-   </property>
-   <property name="toolTip">
-    <string>Open a search wizard</string>
    </property>
   </action>
   <action name="actionOpen_mediation_view">
@@ -154,21 +126,6 @@
    </property>
    <property name="toolTip">
     <string>Open mediation editor.</string>
-   </property>
-  </action>
-  <action name="actionCreate_new_User">
-   <property name="text">
-    <string>Create new User</string>
-   </property>
-  </action>
-  <action name="actionMediation_Process">
-   <property name="text">
-    <string>Mediation Process</string>
-   </property>
-  </action>
-  <action name="actionFruit_Test">
-   <property name="text">
-    <string>Fruit Test</string>
    </property>
   </action>
   <action name="actionLogout_User">

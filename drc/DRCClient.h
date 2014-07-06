@@ -66,6 +66,8 @@ private slots:
 
     void on_actionConnect_to_Remote_DB_triggered();
 
+    void on_actionFindMediation_triggered();
+
 public slots:
     void ShowSessionBrowser();
     void ShowMediationBrowser();

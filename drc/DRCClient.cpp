@@ -363,3 +363,8 @@ QString DRCClient::LoadDBPathFromFile()
     }
     return fileName;
 }
+
+void DRCClient::on_actionFindMediation_triggered()
+{
+    ShowMediationBrowser();
+}
