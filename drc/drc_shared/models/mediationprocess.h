@@ -81,6 +81,7 @@ public:
     int GetAffectedChildrenCount();
     void addMediation();
     void removeParty(int value);
+    void updateClientSessions(int value);
 
 private:
 

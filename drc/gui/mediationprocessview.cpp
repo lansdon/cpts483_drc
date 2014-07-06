@@ -91,7 +91,7 @@ void MediationProcessView::PopulateView()
 
     _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
     _mediationProcessStatusForm->SetSavedLabel(saved);
-
+     _mediationProcess->updateClientSessions(_mediationProcess->GetParties()->size());
     // PARTY!
     AddPartyTabs(_mediationProcess->GetParties());
 
@@ -108,6 +108,7 @@ void MediationProcessView::PopulateView()
         _noSession->hide();
          _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
         _mediationSessionForm->show();
+
     }
     else
     {
@@ -121,7 +122,7 @@ void MediationProcessView::PopulateView()
 void MediationProcessView::addSession()
 {
     _mediationProcess->addMediation();
-
+    //_mediationProcess->updateClientSessions(_mediationProcess->GetParties()->size());
     PopulateView();
 }
 

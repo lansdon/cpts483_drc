@@ -113,7 +113,8 @@ QString MediationProcess::table()
 }
 void MediationProcess::addMediation()
 {
-    _mediationSessionVector.push_back(new MediationSession(_parties.size()));
+    //_parties.size()
+    _mediationSessionVector.push_back(new MediationSession());
 }
 
 void MediationProcess::removeParty(int value)
@@ -160,4 +161,18 @@ int MediationProcess::GetAffectedChildrenCount()
     return total;
 }
 
+void MediationProcess::updateClientSessions(int value)
+{
+    for(int i = 0; i < (int)_mediationSessionVector.size(); i++)
+    {
+        ClientSessionDataVector *a  = _mediationSessionVector.at(i)->getClientSessionDataVector();
+        if((int)a->size() != value)
+        {
+            for(int j = (int)a->size(); j < value; j++)
+            {
+                a->push_back(new ClientSessionData());
+            }
+        }
+    }
+}
 
