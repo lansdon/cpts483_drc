@@ -69,6 +69,10 @@ private slots:
 
     void on_Observer2lineEdit_textEdited(const QString &arg1);
 
+    void on_dateEdit_userDateChanged(const QDate &date);
+
+    void on_timeEdit_userTimeChanged(const QTime &time);
+
 public slots:
     void updateFromTable();
     void TestCheckBoxToggled(bool value);

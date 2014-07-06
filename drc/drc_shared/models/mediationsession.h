@@ -54,6 +54,8 @@ public:
     int GetSupportCount() { return _supportCount; }
     ClientSessionDataVector *getClientSessionDataVector() { return &_clientSessionDataVector; }
     ClientSessionData *getClientSessionDataVectorAt(int index) {return _clientSessionDataVector.at(index); }
+    QDate getScheduledDate() const { return _mediationTime.date(); }
+    QTime getScheduledTime() const { return _mediationTime.time(); }
 
     //setters
     void setSupportCount(int count) { _supportCount = count; }
@@ -76,6 +78,8 @@ public:
     void setObserver2(QString value) {_observer2 = value; }
     void SetState(SessionStates state) { _state = state; }
     void setClientSessionDataVector(ClientSessionDataVector value) { _clientSessionDataVector = value; }
+    void setScheduledDate(QDate value) { _mediationTime.setDate(value); }
+    void setScheduledTime(QTime value) { _mediationTime.setTime(value); }
 
 
     QString getStatus() const;

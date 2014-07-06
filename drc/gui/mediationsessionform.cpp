@@ -20,7 +20,7 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     _mediationSession(session ? session : new MediationSession())
 {
     ui->setupUi(this);
-    ui->dateTimeEdit->setVisible(false);
+    //ui->dateTimeEdit->setVisible(false);
     //_sessionData = new ClientSessionDataVector();
 
     ConfigureComboBoxes();
@@ -229,8 +229,7 @@ void MediationSessionForm::setMediationSession(MediationSession *session)
 {
     _mediationSession = session;
 
-    populateAttyAndSupportTable();
-    PopulateFeeTable();
+
     fillFields(_mediationSession);
 }
 
@@ -273,8 +272,10 @@ void MediationSessionForm::fillFields(MediationSession *input)
         ui->stateComboBox->setCurrentIndex(_mediationSession->GetState());
 //        ui->supportNumComboBox->setCurrentIndex(_mediationSession->GetSupportCount());
         ui->feePaidDisplayLabel->setText(_mediationSession->getFeeStatus());
-        ui->dateTimeEdit->setDateTime(input->getMediationTime());
-        ui->dateTimeEdit->setVisible(true);
+//        ui->dateTimeEdit->setDateTime(input->getMediationTime());
+//        ui->dateTimeEdit->setVisible(true);
+        ui->dateEdit->setDate(_mediationSession->getScheduledDate());
+        ui->timeEdit->setTime(_mediationSession->getScheduledTime());
         ui->CreationDateDisplayLabel->setText(_mediationSession->GetCreatedDate().toString());
 //        ui->FamilyFeeLineEdit->setText(input->getFeeFamily());
 //        ui->FamilyFeePaidCheckBox->setChecked(input->getFeeFamilyPaid());
@@ -294,6 +295,8 @@ void MediationSessionForm::fillFields(MediationSession *input)
 //        ui->Observer2lineEdit->setText(input->getObserver2());
         FillingFields = false;
     }
+    populateAttyAndSupportTable();
+    PopulateFeeTable();
 }
 
 void MediationSessionForm::on_Fee2LineEdit_textEdited(const QString &arg1)
@@ -415,4 +418,16 @@ void MediationSessionForm::on_Observer2lineEdit_textEdited(const QString &arg1)
 {
     _mediationSession->setObserver2(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationSessionForm::on_dateEdit_userDateChanged(const QDate &date)
+{
+    _mediationSession->setScheduledDate(date);
+}
+
+
+
+void MediationSessionForm::on_timeEdit_userTimeChanged(const QTime &time)
+{
+    _mediationSession->setScheduledTime(time);
 }
