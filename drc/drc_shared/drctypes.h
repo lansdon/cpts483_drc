@@ -126,8 +126,8 @@ enum PartyTypes
 
 enum UserTypes
 {
-    USER_T_ADMIN,
-    USER_T_NORMAL
+    USER_T_NORMAL,
+    USER_T_ADMIN
 };
 
 enum SearchTypes

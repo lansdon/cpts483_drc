@@ -23,7 +23,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
     Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
     Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
-    //Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
+    Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
 
 }
 //========================================================================
@@ -55,6 +55,17 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
     return CreateTable(person_table_name, person_table_columns);
 }
 
+bool DRCDB::CreateUserTable(const QString& user_table_name)
+{
+    QVector<QString> user_table_columns;
+    user_table_columns.push_back(QString("user_id integer primary key autoincrement null"));
+    user_table_columns.push_back(QString("userName char(50)"));
+    user_table_columns.push_back(QString("password char(256)"));
+    user_table_columns.push_back(QString("Admin bool"));
+
+    return CreateTable(user_table_name, user_table_columns);
+}
+
 //========================================================================
 
 
@@ -69,6 +80,7 @@ void DRCDB::LoadDatabase(QString filename)
     QString client_table_name = QString("Client_Table");
     QString notes_table_name = QString("Notes_Table");
     QString client_session_table_name = QString("Client_session_table");
+    QString user_table_name = QString("User_Table");
 
     bool result = false;
 
@@ -106,6 +118,18 @@ void DRCDB::LoadDatabase(QString filename)
     {
          result = CreateClientSessionTable(client_session_table_name);
     }
+
+    result = false;
+    if(!this->DoesTableExist(user_table_name))
+    {
+        result = CreateUserTable(user_table_name);
+    }
+
+    MediatorArg test;
+    User* testUser = new User("Michael", "temp");
+    test.SetArg(testUser);
+    AddNewUser(test);
+    AuthenticateUser(test);
 }
 
 
@@ -778,6 +802,24 @@ void DRCDB::UpdateMediation(MediatorArg arg)
 }
 
 
+void DRCDB::AddNewUser(MediatorArg arg)
+{
+    User* user = nullptr;
+    if(arg.IsSuccessful())
+    {
+        // Set arg.IsSuccessful() to false as default
+        // Will only change to true when the user has been authenticated
+        arg.SetSuccessful(false);
+
+        user = arg.getArg<User*>();
+        if(user)
+        {
+            this->InsertObject(user);
+        }
+    }
+    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
+}
+
 //========================================================================
 //Database authentication test code.  Not really touching the database,
 //mostly emulating the appropriate Mediator calls we'll be needing.
@@ -795,18 +837,20 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
         user = arg.getArg<User*>();
         if(user)
         {
-            // arg value type was a User
-            auto found = std::find_if(UserMap.begin(), UserMap.end(), [user](User* findUser){return findUser->GetName() == user->GetName();} );
-            if (found != UserMap.end())
-            {
-                if (user->GetPass() == (*found)->GetPass())
-                {
-                    // Set arg.IsSuccessful() to true
-                    arg.SetSuccessful(true);
+            QSqlQuery UserQuery(database);
+            QString UserCommandString = QString("Select * from User_table where userName = '%1' and password = '%2'")
+                                            .arg(user->GetName())
+                                            .arg(user->GetPass());
+            bool result = false;
+            result = this->ExecuteCommand(UserCommandString, UserQuery);
 
-                    // Assume the user object has been modified as needed
-                    arg.SetArg(*found);
+            while(UserQuery.next())
+            {
+                if(UserQuery.value(3).toBool() == true)
+                {
+                    user->SetType(USER_T_ADMIN);
                 }
+                arg.SetSuccessful(true);
             }
         }
     }
@@ -816,8 +860,34 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
         //ui->statusLabel->setText(arg.ErrorMessage());
     }
     // Signal authentication has been completed
-    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
+    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, user);
 }
+
+void DRCDB::RemoveUser(MediatorArg arg)
+{
+    User* user = nullptr;
+    if(arg.IsSuccessful())
+    {
+        // Set arg.IsSuccessful() to false as default
+        // Will only change to true when the user has been authenticated
+        arg.SetSuccessful(false);
+
+        user = arg.getArg<User*>();
+        if(user)
+        {
+            QSqlQuery UserQuery(database);
+            QString UserCommandString = QString("delete * from User_table where userName = '%1' and Admin = '0'")
+                                            .arg(user->GetName());
+            bool result = false;
+            result = this->ExecuteCommand(UserCommandString, UserQuery);
+            if(result)
+            {
+                arg.SetSuccessful(true);
+            }
+        }
+    }
+}
+
 //========================================================================
 
 //========================================================================

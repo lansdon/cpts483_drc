@@ -54,10 +54,10 @@ UserTypes User::GetType(void)
 
 QString User::Parse()
 {   
-    return QString("('%1', '%2', '%3')")
+    return QString("'%1', '%2', '%3'")
             .arg(this->GetName())
             .arg(this->GetPass())
-            .arg(this->GetTypeString());
+            .arg(QString::number(this->GetType()));
 }
 
 QString User::GetIdRowName()
@@ -73,7 +73,7 @@ QString User::UpdateParse()
 
 QString User::table(void)
 {
-    return QString("This method in User.cpp has yet to be implemented.");
+    return QString("User_Table");
 }
 
 QString User::DuplicateQuery(void)
