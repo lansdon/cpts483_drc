@@ -21,7 +21,7 @@ private:
 
 public:
     MediationSession();
-    MediationSession(uint numOfParties);
+    MediationSession(uint numOfClients);
     //Virtual overrides
     QString Parse();
     QString UpdateParse();
