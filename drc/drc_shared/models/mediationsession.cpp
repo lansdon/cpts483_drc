@@ -169,30 +169,37 @@ QString MediationSession::getFeeStatus() const
 //            return "Partial";
 //    }
 //    else if(!_fee1.isEmpty() && !_fee2.isEmpty() && !_feeFamily.isEmpty())
-    bool partial1, partial2, partial3, partial4, paidInFull;
-    partial1 = partial2 = partial3 = partial4 = false;
-    paidInFull = true;
+    bool partial, paidInFull, noFees;
+    partial = false;
+    paidInFull = noFees = true;
 
     //check if there is any partial payments
-    if((!_fee1.isEmpty() || _fee1.toInt() > 0) && _fee1Paid)
-        partial1 = true;
-    if((!_fee2.isEmpty() || _fee2.toInt() > 0) && _fee2Paid)
-        partial2 = true;
-    if((!_feeFamily.isEmpty() || _feeFamily.toInt() > 0) && _feeFamilyPaid)
-        partial3 = true;
-    if((!_feeOther.isEmpty() || _feeOther.toInt() > 0) && _feeOtherPaid)
-        partial4 = true;
+//    if((!_fee1.isEmpty() || _fee1.toInt() > 0) && _fee1Paid)
+//        partial1 = true;
+//    if((!_fee2.isEmpty() || _fee2.toInt() > 0) && _fee2Paid)
+//        partial2 = true;
+//    if((!_feeFamily.isEmpty() || _feeFamily.toInt() > 0) && _feeFamilyPaid)
+//        partial3 = true;
+//    if((!_feeOther.isEmpty() || _feeOther.toInt() > 0) && _feeOtherPaid)
+//        partial4 = true;
 
     //check if paid in full
-    if(((!_fee1.isEmpty() && _fee1.toInt() != 0) && !partial1) || ((!_fee2.isEmpty() && _fee2.toInt() != 0) && !partial2) || ((!_feeFamily.isEmpty() && _feeFamily.toInt() != 0) && !partial3) || ((!_feeOther.isEmpty() && _feeOther.toInt() != 0) && !partial4))
-        paidInFull = false;
+    //if(((!_fee1.isEmpty() && _fee1.toInt() != 0) && !partial1) || ((!_fee2.isEmpty() && _fee2.toInt() != 0) && !partial2) || ((!_feeFamily.isEmpty() && _feeFamily.toInt() != 0) && !partial3) || ((!_feeOther.isEmpty() && _feeOther.toInt() != 0) && !partial4))
+    for(int i = 0; i < _clientSessionDataVector.size(); i++)
+    {
+        if(!_clientSessionDataVector.at(i)->isNoFee() && !_clientSessionDataVector.at(i)->isPaid())
+            paidInFull = false;
+        if(!_clientSessionDataVector.at(i)->isNoFee())
+            noFees = false;
+        if(!_clientSessionDataVector.at(i)->isNoFee() && _clientSessionDataVector.at(i)->isPaid())
+            partial = true;
+    }
 
-
-    if(_fee1.isEmpty() && _fee2.isEmpty() && _feeFamily.isEmpty() && _feeOther.isEmpty())           //check if all fees are empty
+    if(noFees)           //check if all fees are empty
         return "No fees added";
     else if(paidInFull)                                                                             //check if paid in full
         return "Paid In Full";
-    else if(partial1 || partial2 || partial3 || partial4)                                           //check if there are any partial payments
+    else if(partial)                                           //check if there are any partial payments
         return "Partial Payment";
     else                                                                                            //else it's not paid
         return "Not Paid";

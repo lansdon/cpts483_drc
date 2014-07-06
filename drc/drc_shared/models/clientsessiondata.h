@@ -34,6 +34,10 @@ public:
     QString SearchQuery();
     QString GetIdRowName();
 
+    //helpers
+    bool isPaid() const;
+    bool isNoFee() const;
+
 public slots:
     void on_atty_will_attend(bool value);
     void on_atty_did_attend(bool value);

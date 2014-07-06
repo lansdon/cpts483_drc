@@ -61,3 +61,13 @@ void ClientSessionData::on_support(uint value)
 {
     setSupport(value);
 }
+
+bool ClientSessionData::isPaid() const
+{
+    return ((!isNoFee()) && paid);
+}
+
+bool ClientSessionData::isNoFee() const
+{
+    return (fee.isEmpty() || (fee.toDouble() == 0));
+}

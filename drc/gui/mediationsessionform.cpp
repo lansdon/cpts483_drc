@@ -115,6 +115,7 @@ void MediationSessionForm::updateFromTable()
     _mediationSession->setObserver1(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(0,1))->text());
     _mediationSession->setMediator2(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(1,0))->text());
     _mediationSession->setObserver2(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(1,1))->text());
+    fillFields(_mediationSession);
 }
 
 void MediationSessionForm::TestCheckBoxToggled(bool value)
