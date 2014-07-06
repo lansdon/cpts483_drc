@@ -5,23 +5,17 @@
 #include "DRCModels.h"
 #include "Mediator.h"
 
+const QString SAVED_MSG = "Saved!";
+const QString NOT_SAVED_MSG = "Unsaved Changes!";
+
 MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, MediationProcess* mediationProcess) :
     QWidget(parent),
     ui(new Ui::MediationProcessStatusForm),
-  _mediationProcess(nullptr)
+  _mediationProcess(mediationProcess)
 {
     ui->setupUi(this);
 
-    if(!mediationProcess)
-    {
-        _mediationProcess = new MediationProcess();
-        SetSavedLabel(false);
-    }
-    else
-    {
-        _mediationProcess = mediationProcess;
-        SetSavedLabel(true);
-    }
+    SetSavedLabel(false);
 
     ui->saveStatusLabel->setVisible(false);
 
@@ -31,6 +25,8 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
 
     _SavePendingCallbackId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg){SetSavedLabel(false);});
     _PersistMPDoneCallbackId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){MPSaveFinished(arg);});
+    _LoadMPCallbackId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){MPSaveFinished(arg);});
+
 }
 
 MediationProcessStatusForm::~MediationProcessStatusForm()
@@ -44,12 +40,15 @@ void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 {
     _mediationProcess = value;
     Update();
-    SetSavedLabel(true);
+//    SetSavedLabel(true);
 }
 
 void MediationProcessStatusForm::Update()
 {
     if(!(ui && _mediationProcess)) return;
+
+    // Preserve save label status
+    bool isSaved = ui->saveStatusLabel->text() == SAVED_MSG;
 
     ui->inquiryTypeComboBox->setCurrentIndex(_mediationProcess->GetInquiryType());
     ui->infoOnlyCheckBox->setChecked(_mediationProcess->GetInfoOnly());
@@ -72,7 +71,10 @@ void MediationProcessStatusForm::Update()
 //        ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
     ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
+
     on_courtCheckBox_clicked();
+
+    SetSavedLabel(isSaved); // Preserve labels
 }
 
 // Sets the values based on enums.
@@ -162,11 +164,11 @@ void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
 
     if(!isSaved)
     {
-        SetStatusLabel("Unsaved changes!", true);
+        SetStatusLabel(NOT_SAVED_MSG, true);
     }
     else
     {
-        SetStatusLabel("Saved!");
+        SetStatusLabel(SAVED_MSG);
     }
 }
 

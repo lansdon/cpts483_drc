@@ -62,6 +62,7 @@ private:
 
     MediatorId _SavePendingCallbackId;      // use to unregister callbacks
     MediatorId _PersistMPDoneCallbackId;    // use to unregister callbacks
+    MediatorId _LoadMPCallbackId;           // use to unregister callbacks
 
 signals:
     void hovered();

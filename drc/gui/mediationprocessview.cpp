@@ -90,7 +90,7 @@ void MediationProcessView::PopulateView()
         _mediationProcess = new MediationProcess();
 
     _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
-    _mediationProcessStatusForm->SetSavedLabel(saved);
+//    _mediationProcessStatusForm->SetSavedLabel(saved);
      _mediationProcess->updateClientSessions(_mediationProcess->GetParties()->size());
     // PARTY!
     AddPartyTabs(_mediationProcess->GetParties());
@@ -131,12 +131,13 @@ void MediationProcessView::ConfigureToolbar()
     ToolbarManager& toolbar = ToolbarManager::Instance();
     toolbar.Clear();
     toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()), QIcon(":images/save.png"));
-//    toolbar.GetToolbar()->addSeparator();
-//    toolbar.AddAction("Search for Mediation", this, SLOT(SearchForMediationPressed()));
     toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Mediation Browser", this, SLOT(ShowMediationBrowserPressed()), QIcon(":images/mp_search.jpg"));
+    toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Session Browser", this, SLOT(ShowSessionBrowserPressed()), QIcon(":images/session_search.jpg"));
+    toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Notes Browser", this, SLOT(ShowNotesBrowserPressed()), QIcon(":images/notes.jpg"));
+    toolbar.GetToolbar()->addSeparator();
 }
 
 void MediationProcessView::SaveMediationPressed()
