@@ -166,11 +166,11 @@ void MediationProcess::updateClientSessions(int value)
     for(int i = 0; i < (int)_mediationSessionVector.size(); i++)
     {
         ClientSessionDataVector *a  = _mediationSessionVector.at(i)->getClientSessionDataVector();
-        if((int)a->size() != value + 2)
+        if((int)a->size() != value)
         {
-            for(int j = (int)a->size(); j < value + 2; j++)
+            for(int j = (int)a->size(); j < value; j++)
             {
-                a->insert(a->end() - 2,new ClientSessionData());
+                a->push_back(new ClientSessionData());
             }
         }
     }
