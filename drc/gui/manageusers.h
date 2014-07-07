@@ -47,11 +47,13 @@ private:
 
     User* _selectedUser;
 
-    QVector<User>* _userVector;
+    QVector<User*>* _userVector;
 
     void GetAllUsers(MediatorArg arg);
 
     void ConfigureUserTableView();
+
+    void PopulateUserTableView();
 };
 
 #endif // MANAGEUSERS_H

@@ -23,6 +23,7 @@ ManageUsers::ManageUsers(QWidget *parent) :
     Mediator::Call(MKEY_DB_GET_ALL_USER);
 
     ConfigureUserTableView();
+    PopulateUserTableView();
 }
 
 ManageUsers::~ManageUsers()
@@ -41,6 +42,7 @@ void ManageUsers::ConfigureUserTableView()
     QStringList Header;
     Header << "Username" << "Admin Status";
     ui->usertableWidget->setHorizontalHeaderLabels(Header);
+    ui->usertableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
 
     ui->usertableWidget->verticalHeader()->setVisible(false);
     ui->usertableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -50,11 +52,26 @@ void ManageUsers::ConfigureUserTableView()
     ui->usertableWidget->setStyleSheet("QTableView {selection-background-color: red;}");
 }
 
+void ManageUsers::PopulateUserTableView()
+{
+    for (int row = 0; row < _userVector->count(); row++)
+    {
+        QTableWidgetItem *item1 = new QTableWidgetItem(_userVector->at(row)->GetName());
+        item1->setTextAlignment(Qt::AlignCenter);
+
+        QTableWidgetItem *item2 = new QTableWidgetItem(_userVector->at(row)->GetType() == USER_T_ADMIN ? "Yes" : "No");
+        item2->setTextAlignment(Qt::AlignCenter);
+
+        ui->usertableWidget->setItem(row, 0, item1);
+        ui->usertableWidget->setItem(row, 1, item2);
+    }
+}
+
 void ManageUsers::GetAllUsers(MediatorArg arg)
 {
     if (arg.IsSuccessful())
     {
-        _userVector = arg.getArg<QVector<User>*>();
+        _userVector = arg.getArg<QVector<User*>*>();
     }
 }
 
@@ -72,6 +89,9 @@ void ManageUsers::on_AddUserButton_clicked()
         arg.SetArg(newUser);
         Mediator::Call(MKEY_DB_ADD_NEW_USER, arg);
     }
+
+    ConfigureUserTableView();
+    PopulateUserTableView();
 }
 
 void ManageUsers::on_DeleteUserButton_clicked()
@@ -82,6 +102,9 @@ void ManageUsers::on_DeleteUserButton_clicked()
         arg.SetArg(_selectedUser);
         Mediator::Call(MKEY_DB_REMOVE_USER, arg);
     }
+
+    ConfigureUserTableView();
+    PopulateUserTableView();
 }
 
 void ManageUsers::on_usernameLineEdit_editingFinished()
