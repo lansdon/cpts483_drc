@@ -131,7 +131,14 @@ void DRCDB::LoadDatabase(QString filename)
     User* testUser = new User("Michael", "temp");
     test.SetArg(testUser);
     AddNewUser(test);
+    testUser = new User("Michael", "tester", USER_T_ADMIN);
+    test.SetArg(testUser);
+    UpdateUser(test);
+    testUser = new User("Michael", "tester");
+    test.SetArg(testUser);
+    UpdateUser(test);
     AuthenticateUser(test);
+    RemoveUser(test);
 }
 
 
@@ -834,7 +841,19 @@ void DRCDB::UpdateUser(MediatorArg arg)
         user = arg.getArg<User*>();
         if(user)
         {
-            this->UpdateObject(user);
+            QString command_string = QString("update %1 set %2 where %3 = '%4'")
+                    .arg(user->table())
+                    .arg(user->UpdateParse())
+                    .arg(user->GetIdRowName())
+                    .arg(user->GetName());
+
+            bool insertSuccess = false;
+            QSqlQuery query_object(database);
+
+            //Need to not immediately return so we can grab that ID that was created
+            insertSuccess = this->ExecuteCommand(command_string, query_object);
+
+            //Returning the boolean that was found before so work flow won't change
         }
     }
     Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
@@ -896,7 +915,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
         if(user)
         {
             QSqlQuery UserQuery(database);
-            QString UserCommandString = QString("delete * from User_table where userName = '%1' and Admin = '0'")
+            QString UserCommandString = QString("delete from User_table where userName = '%1' and Admin = '0'")
                                             .arg(user->GetName());
             bool result = false;
             result = this->ExecuteCommand(UserCommandString, UserQuery);

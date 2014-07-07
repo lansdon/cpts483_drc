@@ -62,13 +62,16 @@ QString User::Parse()
 
 QString User::GetIdRowName()
 {
-    return "";
+    return "userName";
 }
 
 QString User::UpdateParse()
 {
 #warning    TODO - UpdateParse() UNIMPLEMENTED!!
-    return "";
+    return QString("userName = '%1', password = '%2', admin = '%3'")
+            .arg(this->GetName())
+            .arg(this->GetPass())
+            .arg(QString::number(this->GetType()));
 }
 
 QString User::table(void)
