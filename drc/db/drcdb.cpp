@@ -12,12 +12,6 @@
 //------------------------------------------------------------------------
 DRCDB::DRCDB() : DB_ERROR(false)
 {
-
-    // Populate our fake user list.  Delete this later!!
-    UserMap.push_back(new User("Admin", "adminpassword", USER_T_ADMIN));
-    UserMap.push_back(new User("Normal", "normalpassword", USER_T_NORMAL));
-    UserMap.push_back(new User("", "", USER_T_ADMIN));
-
     // Register to Listen for events.
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
@@ -128,7 +122,7 @@ void DRCDB::LoadDatabase(QString filename)
     if(!this->DoesTableExist(user_table_name))
     {
         result = CreateUserTable(user_table_name);
-        testUser = new User("Admin", "admin");
+        testUser = new User("Admin", "admin", USER_T_ADMIN);
         test.SetArg(testUser);
         AddNewUser(test);
     }
