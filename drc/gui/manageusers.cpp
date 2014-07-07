@@ -17,11 +17,22 @@ ManageUsers::ManageUsers(QWidget *parent) :
     // Make it so the passwords entered can't be seen.
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
     ui->reenterpasswordLineEdit->setEchoMode(QLineEdit::Password);
+
+    // Mediator method registers
+    Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
 }
 
 ManageUsers::~ManageUsers()
 {
     delete ui;
+}
+
+void ManageUsers::GetAllUsers(MediatorArg arg)
+{
+    if (arg.IsSuccessful())
+    {
+        _userVector = arg.getArg<QVector<User>*>();
+    }
 }
 
 void ManageUsers::on_AddUserButton_clicked()

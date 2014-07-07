@@ -46,6 +46,10 @@ private:
     bool _passwordMatch;
 
     User* _selectedUser;
+
+    QVector<User>* _userVector;
+
+    void GetAllUsers(MediatorArg arg);
 };
 
 #endif // MANAGEUSERS_H
