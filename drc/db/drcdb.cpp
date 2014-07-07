@@ -828,7 +828,8 @@ void DRCDB::AddNewUser(MediatorArg arg)
                                                 .arg(user->GetName());
             bool found = false;
             found = this->ExecuteCommand(UserCommandString, UserQuery);
-            if(!found)
+            if(!UserQuery.next())
+            //if(!found)
             {
                 this->InsertObject(user);
                 arg.SetSuccessful(true);
