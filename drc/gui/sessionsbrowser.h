@@ -39,6 +39,8 @@ private:
     void configSessionTable();
     void PopulateSessionTable();
 
+    MediatorId _setSessionsCallback;
+
 };
 
 #endif // SESSIONSTABLEFORM_H

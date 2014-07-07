@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "drctypes.h"
 #include "MediatorArg.h"
+#include "Mediator.h"
 
 namespace Ui {
 class NotesBrowser;
@@ -40,6 +41,9 @@ private:
     void PopulateTable();
 
     bool _editingNewNote;   // update or save?
+
+    MediatorId _setNotesCallback;
+
 };
 
 #endif // NOTESBROWSER_H

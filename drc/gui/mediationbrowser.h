@@ -50,6 +50,11 @@ private:
 
     void MakeSampleTable();
     void OnRecieveMediationVector(MediatorArg arg);
+
+    MediatorId _requestRecentCallback;
+    MediatorId _setMediationsCallback;
+    MediatorId _refreshMediationsCallback;
+    MediatorId _queryMediationCallback;
 };
 
 #endif // MEDIATIONPROCESSTABLEFORM_H

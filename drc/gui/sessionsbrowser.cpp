@@ -20,6 +20,7 @@ SessionsBrowser::SessionsBrowser(QWidget *parent, MediationSessionVector* sessio
 
 SessionsBrowser::~SessionsBrowser()
 {
+    Mediator::Unregister(MKEY_DOCK_SET_SESSIONS, _setSessionsCallback);
     delete ui;
 }
 

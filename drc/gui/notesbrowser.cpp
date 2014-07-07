@@ -16,7 +16,7 @@ NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
 {
     ui->setupUi(this);
 
-    Mediator::Register(MKEY_DOCK_SET_NOTES, [this](MediatorArg arg){SetNotesEvent(arg);});
+    _setNotesCallback = Mediator::Register(MKEY_DOCK_SET_NOTES, [this](MediatorArg arg){SetNotesEvent(arg);});
 
     ConfigTable();
     PopulateTable();
@@ -24,6 +24,7 @@ NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
 
 NotesBrowser::~NotesBrowser()
 {
+    Mediator::Unregister(MKEY_DOCK_SET_NOTES, _setNotesCallback);
     delete ui;
 }
 

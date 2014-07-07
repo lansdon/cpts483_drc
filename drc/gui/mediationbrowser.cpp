@@ -14,11 +14,10 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
 
     ConfigMediationProcecssViewTable();
 
-    Mediator::Register(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
-    Mediator::Register(MKEY_DOCK_SET_MEDIATIONS, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
-    Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){Q_UNUSED(arg);LoadTableData(_sortType);});
-    Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){Q_UNUSED(arg);LoadTableData(_sortType);});
-    Mediator::Register(MKEY_DB_QUERY_MEDIATION, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
+    _requestRecentCallback = Mediator::Register(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
+    _setMediationsCallback = Mediator::Register(MKEY_DOCK_SET_MEDIATIONS, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
+    _refreshMediationsCallback = Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){Q_UNUSED(arg);LoadTableData(_sortType);});
+    _queryMediationCallback = Mediator::Register(MKEY_DB_QUERY_MEDIATION, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
 
     LoadTableData(sortType);
 
@@ -26,6 +25,11 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
 
 MediationBrowser::~MediationBrowser()
 {
+    Mediator::Unregister(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, _requestRecentCallback);
+    Mediator::Unregister(MKEY_DOCK_SET_MEDIATIONS, _setMediationsCallback);
+    Mediator::Unregister(MKEY_DOCK_REFRESH_MEDIATIONS, _refreshMediationsCallback);
+    Mediator::Unregister(MKEY_DB_QUERY_MEDIATION, _queryMediationCallback);
+
     delete ui;
 }
 
