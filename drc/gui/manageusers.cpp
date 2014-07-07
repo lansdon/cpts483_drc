@@ -20,11 +20,34 @@ ManageUsers::ManageUsers(QWidget *parent) :
 
     // Mediator method registers
     Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
+    Mediator::Call(MKEY_DB_GET_ALL_USER);
+
+    ConfigureUserTableView();
 }
 
 ManageUsers::~ManageUsers()
 {
     delete ui;
+}
+
+void ManageUsers::ConfigureUserTableView()
+{
+
+    ui->usertableWidget->setColumnCount(2);
+    ui->usertableWidget->setRowCount(_userVector->count());
+    ui->usertableWidget->setColumnWidth(0, ui->usertableWidget->width()/2);
+    ui->usertableWidget->setColumnWidth(1, ui->usertableWidget->width()/2);
+
+    QStringList Header;
+    Header << "Username" << "Admin Status";
+    ui->usertableWidget->setHorizontalHeaderLabels(Header);
+
+    ui->usertableWidget->verticalHeader()->setVisible(false);
+    ui->usertableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    ui->usertableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
+    ui->usertableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
+    ui->usertableWidget->setShowGrid(true);
+    ui->usertableWidget->setStyleSheet("QTableView {selection-background-color: red;}");
 }
 
 void ManageUsers::GetAllUsers(MediatorArg arg)

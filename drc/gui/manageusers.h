@@ -50,6 +50,8 @@ private:
     QVector<User>* _userVector;
 
     void GetAllUsers(MediatorArg arg);
+
+    void ConfigureUserTableView();
 };
 
 #endif // MANAGEUSERS_H
