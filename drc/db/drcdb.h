@@ -122,6 +122,10 @@ public:
 
     void AddNewUser(MediatorArg arg);
 
+    void RemoveUser(MediatorArg arg);
+
+    void UpdateUser(MediatorArg arg);
+
     void InsertMediation(MediatorArg arg);
 
     void UpdateMediation(MediatorArg arg);

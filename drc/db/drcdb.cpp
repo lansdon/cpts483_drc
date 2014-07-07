@@ -24,6 +24,8 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
     Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
     Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
+    Mediator::Register(MKEY_DB_REMOVE_USER, [this](MediatorArg arg){RemoveUser(arg);});
+    Mediator::Register(MKEY_DB_UPDATE_USER, [this](MediatorArg arg){UpdateUser(arg);});
 
 }
 //========================================================================
@@ -815,6 +817,24 @@ void DRCDB::AddNewUser(MediatorArg arg)
         if(user)
         {
             this->InsertObject(user);
+        }
+    }
+    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
+}
+
+void DRCDB::UpdateUser(MediatorArg arg)
+{
+    User* user = nullptr;
+    if(arg.IsSuccessful())
+    {
+        // Set arg.IsSuccessful() to false as default
+        // Will only change to true when the user has been authenticated
+        arg.SetSuccessful(false);
+
+        user = arg.getArg<User*>();
+        if(user)
+        {
+            this->UpdateObject(user);
         }
     }
     Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
