@@ -39,7 +39,7 @@ void Mediator::Unregister(QString key, MediatorId callbackId)
         }
         else
         {
-            qDebug() << QString("Mediator Unregister - NO MATCH -> Key:" + key + "   id: " + QString::number((*found)->GetId()));
+            qDebug() << QString("Mediator Unregister - NO MATCH -> Key:" + key);
         }
 
         // Remove the key from the map entirely if not used.
