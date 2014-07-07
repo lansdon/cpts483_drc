@@ -126,6 +126,8 @@ public:
 
     void UpdateUser(MediatorArg arg);
 
+    void GetAllUsers(MediatorArg arg);
+
     void InsertMediation(MediatorArg arg);
 
     void UpdateMediation(MediatorArg arg);

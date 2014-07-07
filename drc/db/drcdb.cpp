@@ -26,6 +26,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
     Mediator::Register(MKEY_DB_REMOVE_USER, [this](MediatorArg arg){RemoveUser(arg);});
     Mediator::Register(MKEY_DB_UPDATE_USER, [this](MediatorArg arg){UpdateUser(arg);});
+    Mediator::Register(MKEY_DB_GET_ALL_USER, [this](MediatorArg arg) {GetAllUsers(arg);});
 
 }
 //========================================================================
@@ -138,6 +139,7 @@ void DRCDB::LoadDatabase(QString filename)
     test.SetArg(testUser);
     UpdateUser(test);
     AuthenticateUser(test);
+    GetAllUsers(test);
     RemoveUser(test);
 }
 
@@ -925,6 +927,29 @@ void DRCDB::RemoveUser(MediatorArg arg)
             }
         }
     }
+}
+
+void DRCDB::GetAllUsers(MediatorArg arg)
+{
+    QVector<User*> users;
+
+
+    QSqlQuery UserQuery(database);
+    QString UserCommandString = QString("Select * from User_table");
+
+    bool result = false;
+    result = this->ExecuteCommand(UserCommandString, UserQuery);
+
+    while(UserQuery.next())
+    {
+        User* user = new User();
+        user->SetName(UserQuery.value(1).toString());
+        user->SetPassword(UserQuery.value(2).toString());
+        user->SetType((UserTypes)UserQuery.value(3).toInt());
+        users.push_back(user);
+    }
+
+    // call back with the users vector being passed;
 }
 
 //========================================================================
