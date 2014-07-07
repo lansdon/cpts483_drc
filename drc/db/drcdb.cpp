@@ -931,7 +931,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
 
 void DRCDB::GetAllUsers(MediatorArg arg)
 {
-    QVector<User*> users;
+    QVector<User*>* users = new QVector<User*>();
 
 
     QSqlQuery UserQuery(database);
@@ -946,10 +946,10 @@ void DRCDB::GetAllUsers(MediatorArg arg)
         user->SetName(UserQuery.value(1).toString());
         user->SetPassword(UserQuery.value(2).toString());
         user->SetType((UserTypes)UserQuery.value(3).toInt());
-        users.push_back(user);
+        users->push_back(user);
     }
 
-    // call back with the users vector being passed;
+    Mediator::Call(MKEY_DB_RETURN_ALL_USER, users);
 }
 
 //========================================================================
