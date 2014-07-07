@@ -64,7 +64,7 @@ void MediationSessionForm::PopulateFeeTable()
     //QTableWidgetItem *proto = new QTableWidgetItem();
     QStringList vertHeader;
   // layout->setAlignment(Qt::AlignCenter);
-     for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); ++i)
+     for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size() - 2; ++i)
     {
          vertHeader << ("Client " + QString::number(i + 1));
         QLineEdit *incomeLE = new QLineEdit();
@@ -92,6 +92,33 @@ void MediationSessionForm::PopulateFeeTable()
 
 
     }
+     for(int i = (int)_mediationSession->getClientSessionDataVector()->size() - 2; i < (int)_mediationSession->getClientSessionDataVector()->size(); i ++)
+     {
+         QLineEdit *incomeLE = new QLineEdit();
+
+
+         incomeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getIncome());
+        //cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
+        ui->feeDiplayTableWidget->setCellWidget(i,2,incomeLE);
+        connect(incomeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
+        incomeLE->setMaximumSize(50,25);
+        incomeLE->setAlignment(Qt::AlignCenter);
+        //ui->feeDiplayTableWidget->item(i,0)->setTextAlignment(Qt::AlignCenter);
+
+        QLineEdit *feeLE = new QLineEdit();
+        feeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getFee());
+       ui->feeDiplayTableWidget->setCellWidget(i,0,feeLE);
+       connect(feeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
+         feeLE->setMaximumSize(50,25);
+         feeLE->setAlignment(Qt::AlignCenter);
+
+        QCheckBox *paidCB = new QCheckBox();
+        paidCB->setChecked(_mediationSession->getClientSessionDataVector()->at(i)->getPaid());
+        ui->feeDiplayTableWidget->setCellWidget(i,1,paidCB);
+        connect(paidCB, SIGNAL(toggled(bool)), this, SLOT(updateFromTable()));
+
+     }
+     vertHeader << "Family" << "Other";
     ui->feeDiplayTableWidget->setVerticalHeaderLabels(vertHeader);
 }
 
@@ -177,9 +204,9 @@ void MediationSessionForm::configureAttyAndSupportTable()
 
 void MediationSessionForm::populateAttyAndSupportTable()
 {
-    ui->attyAttendTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size());
+    ui->attyAttendTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size()-2);
     QStringList vertHeader;
-    for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); i++)
+    for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size()-2; i++)
     {
         vertHeader << ("Client " + QString::number(i + 1));
         QCheckBox *attySaid = new QCheckBox();

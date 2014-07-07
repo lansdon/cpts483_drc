@@ -10,7 +10,8 @@ MediationSession::MediationSession()
     _outcome = SESSION_OUTCOME_NONE;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
-
+    for(int i = 0; i < 2;i++)
+    _clientSessionDataVector.push_back(new ClientSessionData());
 
 }
 MediationSession::MediationSession(uint numOfClients)
@@ -19,8 +20,10 @@ MediationSession::MediationSession(uint numOfClients)
     _outcome = SESSION_OUTCOME_NONE;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
+    for(int i = 0; i < 2;i++)
+    _clientSessionDataVector.push_back(new ClientSessionData());
     for(int i = 0; i < (int)numOfClients; i++)
-        _clientSessionDataVector.push_back(new ClientSessionData());
+        _clientSessionDataVector.insert(_clientSessionDataVector.end() - 2, new ClientSessionData());
 }
 
 QString MediationSession::Parse()

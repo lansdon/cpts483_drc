@@ -222,6 +222,7 @@ void MediationProcessView::on_addCientPushButton_clicked()
     connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     PopulateView();
+    ui->partyTabWidget->setCurrentIndex(ui->partyTabWidget->count()-1);
 }
 
 void MediationProcessView::on_removeClientPushButton_clicked()
