@@ -124,7 +124,7 @@ void DRCDB::LoadDatabase(QString filename)
 
     result = false;
     MediatorArg test;
-    User* testUser = new User("Admin", "admin");
+    User* testUser = new User("Admin", "admin", USER_T_ADMIN);
     if(!this->DoesTableExist(user_table_name))
     {
         result = CreateUserTable(user_table_name);
