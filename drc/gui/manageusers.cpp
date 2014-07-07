@@ -1,11 +1,25 @@
 #include "manageusers.h"
 #include "ui_manageusers.h"
 
+// Temp
+#include <iostream>
+
 ManageUsers::ManageUsers(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ManageUsers)
 {
     ui->setupUi(this);
+
+    _admin = false;
+
+    _selectedUser = nullptr;
+
+    // Make it so the passwords entered can't be seen.
+    ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
+    ui->reenterpasswordLineEdit->setEchoMode(QLineEdit::Password);
+
+    // Mediator method registers
+    Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
 }
 
 ManageUsers::~ManageUsers()
@@ -13,29 +27,37 @@ ManageUsers::~ManageUsers()
     delete ui;
 }
 
+void ManageUsers::GetAllUsers(MediatorArg arg)
+{
+    if (arg.IsSuccessful())
+    {
+        _userVector = arg.getArg<QVector<User>*>();
+    }
+}
+
 void ManageUsers::on_AddUserButton_clicked()
 {
+    if (_passwordMatch && _username != "" && _password != "")
+    {
+        User *newUser = new User();
+        newUser->SetName(_username);
+        newUser->SetPassword(_password);
+        newUser->SetType((_admin == true ? USER_T_ADMIN : USER_T_NORMAL));
+        _selectedUser = newUser;
 
+        MediatorArg arg;
+        arg.SetArg(newUser);
+        Mediator::Call(MKEY_DB_ADD_NEW_USER, arg);
+    }
 }
 
 void ManageUsers::on_DeleteUserButton_clicked()
 {
-    if (_password == _reenteredpassword && _username != "")
+    if (_selectedUser != nullptr)
     {
-        User* newUser = new User();
-        newUser->SetName(_username);
-        newUser->SetPassword(_password);
-        if (ui->IsAdminBox->isChecked())
-        {
-            newUser->SetType(USER_T_ADMIN);
-        }
-        else
-        {
-            newUser->SetType(USER_T_NORMAL);
-        }
         MediatorArg arg;
-        arg.SetArg(newUser);
-        Mediator::Call(MKEY_DB_ADD_NEW_USER, arg);
+        arg.SetArg(_selectedUser);
+        Mediator::Call(MKEY_DB_REMOVE_USER, arg);
     }
 }
 
@@ -52,4 +74,27 @@ void ManageUsers::on_passwordLineEdit_editingFinished()
 void ManageUsers::on_reenterpasswordLineEdit_editingFinished()
 {
     _reenteredpassword = ui->reenterpasswordLineEdit->text();
+}
+
+void ManageUsers::on_reenterpasswordLineEdit_textChanged(const QString &arg1)
+{
+    if (arg1 != _password)
+    {
+        ui->MatchingPasswordLabel->setStyleSheet("QLabel {color : red}");
+        ui->MatchingPasswordLabel->setText("No Match!!");
+
+        _passwordMatch = false;
+    }
+    else
+    {
+        ui->MatchingPasswordLabel->setStyleSheet("QLabel {color : green}");
+        ui->MatchingPasswordLabel->setText("Match!");
+
+        _passwordMatch = true;
+    }
+}
+
+void ManageUsers::on_IsAdminBox_toggled(bool checked)
+{
+    _admin = checked;
 }

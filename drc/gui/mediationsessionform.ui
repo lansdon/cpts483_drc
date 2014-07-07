@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>441</width>
-    <height>451</height>
+    <width>680</width>
+    <height>540</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -54,7 +54,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QComboBox" name="comboBox">
+        <widget class="QComboBox" name="outcomeComboBox">
          <item>
           <property name="text">
            <string>&lt;Outcome&gt;</string>
@@ -298,6 +298,12 @@
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
+     <property name="maximumSize">
+      <size>
+       <width>16777215</width>
+       <height>300</height>
+      </size>
+     </property>
      <property name="title">
       <string/>
      </property>
@@ -305,7 +311,20 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QTableWidget" name="MediatorDisplayTableView"/>
+         <widget class="QTableWidget" name="MediatorDisplayTableView">
+          <property name="minimumSize">
+           <size>
+            <width>0</width>
+            <height>100</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>16777215</width>
+            <height>125</height>
+           </size>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QTableWidget" name="attyAttendTableWidget"/>

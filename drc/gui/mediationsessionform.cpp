@@ -64,7 +64,7 @@ void MediationSessionForm::PopulateFeeTable()
     //QTableWidgetItem *proto = new QTableWidgetItem();
     QStringList vertHeader;
   // layout->setAlignment(Qt::AlignCenter);
-     for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); ++i)
+     for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size() - 2; ++i)
     {
          vertHeader << ("Client " + QString::number(i + 1));
         QLineEdit *incomeLE = new QLineEdit();
@@ -92,6 +92,33 @@ void MediationSessionForm::PopulateFeeTable()
 
 
     }
+     for(int i = (int)_mediationSession->getClientSessionDataVector()->size() - 2; i < (int)_mediationSession->getClientSessionDataVector()->size(); i ++)
+     {
+         QLineEdit *incomeLE = new QLineEdit();
+
+
+         incomeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getIncome());
+        //cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
+        ui->feeDiplayTableWidget->setCellWidget(i,2,incomeLE);
+        connect(incomeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
+        incomeLE->setMaximumSize(50,25);
+        incomeLE->setAlignment(Qt::AlignCenter);
+        //ui->feeDiplayTableWidget->item(i,0)->setTextAlignment(Qt::AlignCenter);
+
+        QLineEdit *feeLE = new QLineEdit();
+        feeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getFee());
+       ui->feeDiplayTableWidget->setCellWidget(i,0,feeLE);
+       connect(feeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
+         feeLE->setMaximumSize(50,25);
+         feeLE->setAlignment(Qt::AlignCenter);
+
+        QCheckBox *paidCB = new QCheckBox();
+        paidCB->setChecked(_mediationSession->getClientSessionDataVector()->at(i)->getPaid());
+        ui->feeDiplayTableWidget->setCellWidget(i,1,paidCB);
+        connect(paidCB, SIGNAL(toggled(bool)), this, SLOT(updateFromTable()));
+
+     }
+     vertHeader << "Family" << "Other";
     ui->feeDiplayTableWidget->setVerticalHeaderLabels(vertHeader);
 }
 
@@ -177,9 +204,9 @@ void MediationSessionForm::configureAttyAndSupportTable()
 
 void MediationSessionForm::populateAttyAndSupportTable()
 {
-    ui->attyAttendTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size());
+    ui->attyAttendTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size()-2);
     QStringList vertHeader;
-    for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size(); i++)
+    for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size()-2; i++)
     {
         vertHeader << ("Client " + QString::number(i + 1));
         QCheckBox *attySaid = new QCheckBox();
@@ -253,17 +280,9 @@ void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &date
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-void MediationSessionForm::on_Fee1LineEdit_textEdited(const QString &arg1)
-{
-    _mediationSession->setFee1(arg1);
-     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_Fee1PaidCheckBox_toggled(bool checked)
-{
-    _mediationSession->setFee1Paid(checked);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
+
+
 
 void MediationSessionForm::fillFields(MediationSession *input)
 {
@@ -279,6 +298,7 @@ void MediationSessionForm::fillFields(MediationSession *input)
         ui->dateEdit->setDate(_mediationSession->getScheduledDate());
         ui->timeEdit->setTime(_mediationSession->getScheduledTime());
         ui->CreationDateDisplayLabel->setText(_mediationSession->GetCreatedDate().toString());
+        ui->outcomeComboBox->setCurrentIndex(_mediationSession->getOutcome());
 //        ui->FamilyFeeLineEdit->setText(input->getFeeFamily());
 //        ui->FamilyFeePaidCheckBox->setChecked(input->getFeeFamilyPaid());
 //        ui->Fee1LineEdit->setText(input->getFee1());
@@ -301,59 +321,22 @@ void MediationSessionForm::fillFields(MediationSession *input)
     PopulateFeeTable();
 }
 
-void MediationSessionForm::on_Fee2LineEdit_textEdited(const QString &arg1)
-{
-    _mediationSession->setFee2(arg1);
-     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_FamilyFeeLineEdit_textEdited(const QString &arg1)
-{
-    _mediationSession->setFeeFamily(arg1);
-     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_OtherFeeLineEdit_textEdited(const QString &arg1)
-{
-    _mediationSession->setFeeOther(arg1);
-     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_Fee2PaidCheckBox_toggled(bool checked)
-{
-    _mediationSession->setFee2Paid(checked);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_FamilyFeePaidCheckBox_toggled(bool checked)
-{
-    _mediationSession->setFeeFamilyPaid(checked);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_OtherFeePaidCheckBox_toggled(bool checked)
-{
-    _mediationSession->setFeeOtherPaid(checked);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_incomeFee1LineEdit_textEdited(const QString &arg1)
-{
-   _mediationSession->setIncomeFee1(arg1);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_incomeFee2LineEdit_textEdited(const QString &arg1)
-{
-    _mediationSession->setIncomeFee2(arg1);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
 
-void MediationSessionForm::on_incomeFeeFamilyLineEdit_textEdited(const QString &arg1)
-{
-    _mediationSession->setIncomeFeeFamily(arg1);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
+
+
+
+
+
+
+
+
 
 // When a child has signaled a save event
 void MediationSessionForm::SaveSignaled()
@@ -370,6 +353,7 @@ void MediationSessionForm::EditSignaled()
 // Sets the values based on enums.
 void MediationSessionForm::ConfigureComboBoxes()
 {
+    // session schedule state
     for(int i=0; i<4; ++i)
         ui->stateComboBox->addItem("");
 
@@ -378,13 +362,24 @@ void MediationSessionForm::ConfigureComboBoxes()
     ui->stateComboBox->setItemText(SESSION_STATE_NONE, StringForSessionStates(SESSION_STATE_NONE));
     ui->stateComboBox->setItemText(SESSION_STATE_PENDING, StringForSessionStates(SESSION_STATE_PENDING));
     ui->stateComboBox->setItemText(SESSION_STATE_RESCHEDULED, StringForSessionStates(SESSION_STATE_RESCHEDULED));
+
+
+    // outcome combo box
+    for(int i = 0; i < 9; i++)
+        ui->outcomeComboBox->addItem("");
+
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_NONE, StringForSessionOutcomes(SESSION_OUTCOME_NONE));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_FIRST_PARTY_WITHDREW,StringForSessionOutcomes(SESSION_OUTCOME_FIRST_PARTY_WITHDREW));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_SECOND_PARTY_DECLINES, StringForSessionOutcomes(SESSION_OUTCOME_SECOND_PARTY_DECLINES));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_AGREEMENT,  StringForSessionOutcomes(SESSION_OUTCOME_AGREEMENT));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_NO_AGREEMENT, StringForSessionOutcomes(SESSION_OUTCOME_NO_AGREEMENT));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_PROBLEM_SOLVING, StringForSessionOutcomes(SESSION_OUTCOME_PROBLEM_SOLVING));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_REFERRED_OUT, StringForSessionOutcomes(SESSION_OUTCOME_REFERRED_OUT));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_CANNOT_REACH_PARTIES, StringForSessionOutcomes(SESSION_OUTCOME_CANNOT_REACH_PARTIES));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_SELF_RESOLVED, StringForSessionOutcomes(SESSION_OUTCOME_SELF_RESOLVED));
 }
 
-void MediationSessionForm::on_supportNumComboBox_currentIndexChanged(int index)
-{
-    _mediationSession->setSupportCount(index);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
+
 
 void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
 {
@@ -392,11 +387,7 @@ void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-void MediationSessionForm::on_incomeFeeOtherLineEdit_textEdited(const QString &arg1)
-{
-    _mediationSession->setIncomeFeeOther(arg1);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
+
 
 void MediationSessionForm::on_MediatorLineEdit_textEdited(const QString &arg1)
 {
@@ -425,6 +416,7 @@ void MediationSessionForm::on_Observer2lineEdit_textEdited(const QString &arg1)
 void MediationSessionForm::on_dateEdit_userDateChanged(const QDate &date)
 {
     _mediationSession->setScheduledDate(date);
+     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 
@@ -432,4 +424,11 @@ void MediationSessionForm::on_dateEdit_userDateChanged(const QDate &date)
 void MediationSessionForm::on_timeEdit_userTimeChanged(const QTime &time)
 {
     _mediationSession->setScheduledTime(time);
+     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationSessionForm::on_outcomeComboBox_currentIndexChanged(int index)
+{
+    _mediationSession->setOutcome((SessionOutcomes)index);
+     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

@@ -16,6 +16,7 @@
 #include "mediationbrowser.h"
 #include "mptoolbox.h"
 #include "mainmenuform.h"
+#include "manageusers.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -317,7 +318,7 @@ void DRCClient::send_mediation_vector()
 
 void DRCClient::on_actionManage_Users_triggered()
 {
-
+    setCentralWidget(new ManageUsers(this));
 }
 
 // Allow the admin to find a remote .db3 file to use. This file location will be stored as a file.
