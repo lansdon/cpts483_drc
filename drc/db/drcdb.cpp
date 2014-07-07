@@ -826,6 +826,7 @@ void DRCDB::AddNewUser(MediatorArg arg)
         if(user)
         {
             this->InsertObject(user);
+            arg.SetSuccessful(true);
         }
     }
     Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
@@ -854,7 +855,7 @@ void DRCDB::UpdateUser(MediatorArg arg)
 
             //Need to not immediately return so we can grab that ID that was created
             insertSuccess = this->ExecuteCommand(command_string, query_object);
-
+            arg.SetSuccessful(true);
             //Returning the boolean that was found before so work flow won't change
         }
     }
@@ -901,7 +902,7 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
         //ui->statusLabel->setText(arg.ErrorMessage());
     }
     // Signal authentication has been completed
-    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, user);
+    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, user, arg.IsSuccessful());
 }
 
 void DRCDB::RemoveUser(MediatorArg arg)
