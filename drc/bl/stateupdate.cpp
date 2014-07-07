@@ -195,8 +195,8 @@ bool StateUpdate::closed(MediationProcess *arg)
         for (unsigned int i = 0; i < sessions->size(); i++)
         {
             auto session = sessions->at(i);
-            success &= (!session->getFee1().isEmpty());
-            success &= (!session->getFee2().isEmpty());
+//            success &= (!session->getFee1().isEmpty());
+//            success &= (!session->getFee2().isEmpty());
             success &= (!session->getMediator1().isEmpty());
             success &= (!session->getMediator2().isEmpty());
         }

@@ -5,24 +5,20 @@
 #include "DRCModels.h"
 
 MediationSession::MediationSession()
-    : _supportCount(0)
 {
     _state = SessionStates::SESSION_STATE_PENDING;
     _outcome = SESSION_OUTCOME_NONE;
-    _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
-    _fee1 = _fee2 = _feeFamily = _feeOther = _incomeFee1 = _incomeFee2 = _incomeFeeFamily = _incomeFeeOther = "0";
+
 
 }
 MediationSession::MediationSession(uint numOfClients)
 {
     _state = SessionStates::SESSION_STATE_PENDING;
     _outcome = SESSION_OUTCOME_NONE;
-    _fee1Paid = _fee2Paid = _feeFamilyPaid = _feeOtherPaid = false;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
-    _fee1 = _fee2 = _feeFamily = _feeOther = _incomeFee1 = _incomeFee2 = _incomeFeeFamily = _incomeFeeOther = "0";
     for(int i = 0; i < (int)numOfClients; i++)
         _clientSessionDataVector.push_back(new ClientSessionData());
 }
@@ -164,30 +160,9 @@ QString MediationSession::getStatus() const
 
 QString MediationSession::getFeeStatus() const
 {
-//    if(!_fee1.isEmpty() && !_fee2.isEmpty() && !_feeFamily.isEmpty() && !_feeOther.isEmpty())
-//    {
-//        if(_fee1Paid && _fee2Paid && _feeFamilyPaid && _feeOtherPaid)
-//            return "Paid";
-//        else
-//            return "Partial";
-//    }
-//    else if(!_fee1.isEmpty() && !_fee2.isEmpty() && !_feeFamily.isEmpty())
     bool partial, paidInFull, noFees;
     partial = false;
     paidInFull = noFees = true;
-
-    //check if there is any partial payments
-//    if((!_fee1.isEmpty() || _fee1.toInt() > 0) && _fee1Paid)
-//        partial1 = true;
-//    if((!_fee2.isEmpty() || _fee2.toInt() > 0) && _fee2Paid)
-//        partial2 = true;
-//    if((!_feeFamily.isEmpty() || _feeFamily.toInt() > 0) && _feeFamilyPaid)
-//        partial3 = true;
-//    if((!_feeOther.isEmpty() || _feeOther.toInt() > 0) && _feeOtherPaid)
-//        partial4 = true;
-
-    //check if paid in full
-    //if(((!_fee1.isEmpty() && _fee1.toInt() != 0) && !partial1) || ((!_fee2.isEmpty() && _fee2.toInt() != 0) && !partial2) || ((!_feeFamily.isEmpty() && _feeFamily.toInt() != 0) && !partial3) || ((!_feeOther.isEmpty() && _feeOther.toInt() != 0) && !partial4))
     for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
     {
         if(!_clientSessionDataVector.at(i)->isNoFee() && !_clientSessionDataVector.at(i)->isPaid())
@@ -228,21 +203,21 @@ MediationSession *MediationSession::SampleData()
     int randomNumber = qrand() * 100000;
     result->SetState((SessionStates)(qrand() % 5));
     result->setMediationTime(QDateTime::fromTime_t(randomNumber));
-    result->setFee1(QString::fromStdString(strId));
-    result->setFee2(QString::fromStdString(strId));
-    result->setFeeFamily(QString::fromStdString(strId));
-    result->setFeeOther(QString::fromStdString(strId));
-    result->setFee1Paid(true);
-    result->setFee2Paid(true);
-    result->setIncomeFee1(QString::fromStdString(strId));
-    result->setIncomeFee2(QString::fromStdString(strId));
-    result->setIncomeFeeFamily(QString::fromStdString(strId));
-    result->setIncomeFeeOther(QString::fromStdString(strId));
+//    result->setFee1(QString::fromStdString(strId));
+//    result->setFee2(QString::fromStdString(strId));
+//    result->setFeeFamily(QString::fromStdString(strId));
+//    result->setFeeOther(QString::fromStdString(strId));
+//    result->setFee1Paid(true);
+//    result->setFee2Paid(true);
+//    result->setIncomeFee1(QString::fromStdString(strId));
+//    result->setIncomeFee2(QString::fromStdString(strId));
+//    result->setIncomeFeeFamily(QString::fromStdString(strId));
+//    result->setIncomeFeeOther(QString::fromStdString(strId));
     result->setMediator1(QString::fromStdString("Mediator" + strId));
     result->setMediator2(QString::fromStdString("Mediator" + strId));
     result->setObserver1(QString::fromStdString("Observer " + strId));
     result->setObserver2(QString::fromStdString("Observer " + strId));
-    result->setSupportCount(qrand()%10);
+//    result->setSupportCount(qrand()%10);
 
     return result;
 }

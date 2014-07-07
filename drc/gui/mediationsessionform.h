@@ -29,35 +29,10 @@ public:
 private slots:
     void on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
 
-    void on_Fee1LineEdit_textEdited(const QString &arg1);
-
-    void on_Fee1PaidCheckBox_toggled(bool checked);
-
-    void on_Fee2LineEdit_textEdited(const QString &arg1);
-
-    void on_FamilyFeeLineEdit_textEdited(const QString &arg1);
-
-    void on_OtherFeeLineEdit_textEdited(const QString &arg1);
-
-    void on_Fee2PaidCheckBox_toggled(bool checked);
-
-    void on_FamilyFeePaidCheckBox_toggled(bool checked);
-
-    void on_OtherFeePaidCheckBox_toggled(bool checked);
-
-    void on_incomeFee1LineEdit_textEdited(const QString &arg1);
-
-    void on_incomeFee2LineEdit_textEdited(const QString &arg1);
-
-    void on_incomeFeeFamilyLineEdit_textEdited(const QString &arg1);
-
-    void on_incomeFeeOtherLineEdit_textEdited(const QString &arg1);
-
     void SaveSignaled();
     void EditSignaled();
 
     void SetSessionEvent(MediatorArg arg);
-    void on_supportNumComboBox_currentIndexChanged(int index);
 
     void on_stateComboBox_currentIndexChanged(int index);
 
