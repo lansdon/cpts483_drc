@@ -12,11 +12,9 @@ class MediationSession : public DBBaseObject
 private:
     QDateTime _mediationTime;
     SessionStates _state;
-    bool _fee1Paid, _fee2Paid, _feeFamilyPaid, _feeOtherPaid;
-    QString _fee1, _fee2, _feeFamily, _feeOther, _incomeFee1, _incomeFee2, _incomeFeeFamily, _incomeFeeOther;
     QString _mediator1, _mediator2, _observer1, _observer2;
-    int _supportCount;  // total number of support people
     ClientSessionDataVector _clientSessionDataVector;
+    SessionOutcomes _outcome;
 
 
 public:
@@ -34,44 +32,20 @@ public:
     //getters
     QDateTime getMediationTime() const {return _mediationTime;}
 
-    bool getFee1Paid() const { return _fee1Paid; }
-    bool getFee2Paid() const { return _fee2Paid; }
-    bool getFeeFamilyPaid() const { return _feeFamilyPaid; }
-    bool getFeeOtherPaid() const { return _feeOtherPaid; }
-    QString getFee1() const {return _fee1; }
-    QString getFee2() const {return _fee2; }
-    QString getFeeOther() const { return _feeOther; }
-    QString getFeeFamily() const {return _feeFamily; }
-    QString getIncomeFee1() const {return _incomeFee1; }
-    QString getIncomeFee2() const { return _incomeFee2; }
-    QString getIncomeFeeOther() const {return _incomeFeeOther; }
-    QString getIncomeFeeFamily() const { return _incomeFeeFamily; }
     QString getMediator1() const { return _mediator1; }
     QString getMediator2() const { return _mediator2; }
     QString getObserver1() const { return _observer1; }
     QString getObserver2() const { return _observer2; }
     SessionStates GetState() { return _state; }
-    int GetSupportCount() { return _supportCount; }
     ClientSessionDataVector *getClientSessionDataVector() { return &_clientSessionDataVector; }
     ClientSessionData *getClientSessionDataVectorAt(int index) {return _clientSessionDataVector.at(index); }
     QDate getScheduledDate() const { return _mediationTime.date(); }
     QTime getScheduledTime() const { return _mediationTime.time(); }
+    SessionOutcomes getOutcome() { return _outcome; }
+
 
     //setters
-    void setSupportCount(int count) { _supportCount = count; }
     void setMediationTime(QDateTime value) { _mediationTime = value; }
-    void setFee1Paid(bool value) { _fee1Paid = value; }
-    void setFee2Paid(bool value) { _fee2Paid = value; }
-    void setFeeFamilyPaid(bool value) { _feeFamilyPaid = value; }
-    void setFeeOtherPaid(bool value) { _feeOtherPaid = value; }
-    void setFee1(QString value) { _fee1 = value; }
-    void setFee2(QString value) { _fee2 = value; }
-    void setFeeFamily(QString value) { _feeFamily = value; }
-    void setFeeOther(QString value) { _feeOther = value; }
-    void setIncomeFee1(QString value) { _incomeFee1 = value; }
-    void setIncomeFee2(QString value) { _incomeFee2 = value; }
-    void setIncomeFeeFamily(QString value) { _incomeFeeFamily = value; }
-    void setIncomeFeeOther(QString value)  { _incomeFeeOther = value; }
     void setMediator1(QString value) { _mediator1 = value; }
     void setMediator2(QString value) { _mediator2 = value; }
     void setObserver1(QString value) {_observer1 = value; }
@@ -80,7 +54,7 @@ public:
     void setClientSessionDataVector(ClientSessionDataVector value) { _clientSessionDataVector = value; }
     void setScheduledDate(QDate value) { _mediationTime.setDate(value); }
     void setScheduledTime(QTime value) { _mediationTime.setTime(value); }
-
+    void setOutcome(SessionOutcomes value) { _outcome = value; }
 
     QString getStatus() const;
     QString getFeeStatus() const;

@@ -126,8 +126,8 @@ enum PartyTypes
 
 enum UserTypes
 {
-    USER_T_ADMIN,
-    USER_T_NORMAL
+    USER_T_NORMAL,
+    USER_T_ADMIN
 };
 
 enum SearchTypes
@@ -182,6 +182,7 @@ QString StringForSessionStates(SessionStates id);
 QString StringForInquiryTypes(InquiryTypes id);
 QString StringForCourtTypes(CourtCaseTypes id);
 QString StringForCourtOrderTypes(CourtOrderTypes id);
+QString StringForSessionOutcomes(SessionOutcomes id);
 
 
 

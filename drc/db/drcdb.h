@@ -59,6 +59,8 @@ public:
     bool CreateNotesTable(const QString& notes_table_name);
 
     bool CreateClientSessionTable(const QString& client_session_table_name);
+
+    bool CreateUserTable(const QString& user_table_name);
     //==========================================================================
 
     //==========================================================================
@@ -119,6 +121,12 @@ public:
     void AuthenticateUser(MediatorArg arg);
 
     void AddNewUser(MediatorArg arg);
+
+    void RemoveUser(MediatorArg arg);
+
+    void UpdateUser(MediatorArg arg);
+
+    void GetAllUsers(MediatorArg arg);
 
     void InsertMediation(MediatorArg arg);
 

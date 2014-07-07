@@ -177,3 +177,21 @@ QString StringForCourtOrderTypes(CourtOrderTypes id)
     }
     return result;
 }
+
+QString StringForSessionOutcomes(SessionOutcomes id)
+{
+    QString result;
+    switch (id) {
+    case SESSION_OUTCOME_NONE: result = "None"; break;
+    case SESSION_OUTCOME_FIRST_PARTY_WITHDREW: result = "First Party Wtihdrew"; break;
+    case SESSION_OUTCOME_SECOND_PARTY_DECLINES: result = "Second Party Declined"; break;
+    case SESSION_OUTCOME_AGREEMENT: result = "Agreement"; break;
+    case SESSION_OUTCOME_NO_AGREEMENT: result = "No Agreement"; break;
+    case SESSION_OUTCOME_PROBLEM_SOLVING: result = "Problem Solbing"; break;
+    case SESSION_OUTCOME_REFERRED_OUT: result = "Referred Out"; break;
+    case SESSION_OUTCOME_CANNOT_REACH_PARTIES: result = "Cannot Reach Either Client"; break;
+    case SESSION_OUTCOME_SELF_RESOLVED: result = "Self Resolved"; break;
+    default: result = "<error>"; break;
+    }
+    return result;
+}
