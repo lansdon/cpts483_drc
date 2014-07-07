@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>622</width>
-    <height>461</height>
+    <width>683</width>
+    <height>642</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,14 +18,14 @@
     <widget class="QFrame" name="frame">
      <property name="minimumSize">
       <size>
-       <width>440</width>
-       <height>405</height>
+       <width>375</width>
+       <height>450</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>440</width>
-       <height>405</height>
+       <height>500</height>
       </size>
      </property>
      <property name="frameShape">
@@ -37,32 +37,14 @@
      <widget class="QLabel" name="logoLabel">
       <property name="geometry">
        <rect>
-        <x>160</x>
-        <y>0</y>
-        <width>161</width>
-        <height>91</height>
+        <x>100</x>
+        <y>10</y>
+        <width>191</width>
+        <height>131</height>
        </rect>
       </property>
       <property name="text">
        <string>logo</string>
-      </property>
-     </widget>
-     <widget class="QLabel" name="titleLabel">
-      <property name="geometry">
-       <rect>
-        <x>260</x>
-        <y>0</y>
-        <width>181</width>
-        <height>91</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>30</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string/>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -71,9 +53,9 @@
      <widget class="QToolButton" name="newIntakeBtn">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>100</y>
-        <width>261</width>
+        <x>10</x>
+        <y>140</y>
+        <width>361</width>
         <height>61</height>
        </rect>
       </property>
@@ -92,9 +74,9 @@
      <widget class="QToolButton" name="searchBtn">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>160</y>
-        <width>261</width>
+        <x>10</x>
+        <y>200</y>
+        <width>361</width>
         <height>61</height>
        </rect>
       </property>
@@ -113,9 +95,9 @@
      <widget class="QToolButton" name="newEvaluationBtn">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>220</y>
-        <width>261</width>
+        <x>10</x>
+        <y>260</y>
+        <width>361</width>
         <height>61</height>
        </rect>
       </property>
@@ -134,9 +116,9 @@
      <widget class="QToolButton" name="resWaBtn">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>280</y>
-        <width>261</width>
+        <x>10</x>
+        <y>320</y>
+        <width>361</width>
         <height>61</height>
        </rect>
       </property>
@@ -155,9 +137,9 @@
      <widget class="QToolButton" name="monthlyReportBtn">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>340</y>
-        <width>261</width>
+        <x>10</x>
+        <y>380</y>
+        <width>361</width>
         <height>61</height>
        </rect>
       </property>

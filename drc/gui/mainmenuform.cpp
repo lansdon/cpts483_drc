@@ -23,6 +23,13 @@ MainMenuForm::MainMenuForm(QWidget *parent) :
     ui->monthlyReportBtn->setIconSize(QSize(50, 50));
 
     ui->logoLabel->setPixmap(QPixmap(":images/drclogo_med.png"));
+
+    ui->frame->setStyleSheet("QFrame#frame {\
+                                               border: 2px solid gray;\
+                                               border-radius: 5px;\
+                                               margin-top: 1.3em;\
+                                              }");
+
 }
 
 MainMenuForm::~MainMenuForm()
