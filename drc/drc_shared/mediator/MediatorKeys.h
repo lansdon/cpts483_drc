@@ -151,10 +151,10 @@ const QString MKEY_DOCK_SET_NOTES = "MKEY_DOCK_SET_NOTES";                      
 //////////////////////////////////////////////////////////////////
 //				MEDIATION PROCESS - (GUI INTERNAL)
 // Internal MP events to signal changes from children forms.
-//////////////////////////////////////////////////////////////////                                                              ARGUMENT TYPE
-const QString MKEY_GUI_MP_SAVE_PENDING = "MKEY_GUI_MP_SAVE_PENDING";                          // nullptr
-const QString MKEY_GUI_MP_POPULATE = "MKEY_GUI_MP_POPULATE";                          // nullptr
+//////////////////////////////////////////////////////////////////                         ARGUMENT TYPE
+const QString MKEY_GUI_MP_SAVE_PENDING = "MKEY_GUI_MP_SAVE_PENDING";                        // nullptr
+const QString MKEY_GUI_MP_POPULATE = "MKEY_GUI_MP_POPULATE";                                // nullptr
 const QString MKEY_GUI_MP_SHOULD_SAVE = "MKEY_GUI_MP_SHOULD_SAVE";                          // nullptr
-
+const QString MKEY_GUI_MP_NEW_FORM = "MKEY_GUI_MP_NEW_FORM";                                // nullptr
 
 #endif

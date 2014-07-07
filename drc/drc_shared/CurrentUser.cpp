@@ -30,7 +30,6 @@ bool CurrentUser::LoginUser(User* NewUser)
     // Maybe do some error checking here.  Maybe make sure the permissions are set right?  IDK...
     Instance()._currentUser = NewUser;
 
-    // Signal an event that the current user changed.
 	return true;
 }
 

@@ -4,5 +4,10 @@
         <file>images/session_search.jpg</file>
         <file>images/notes.jpg</file>
         <file>images/mp_search.jpg</file>
+        <file>images/evaluation.jpg</file>
+        <file>images/report.jpg</file>
+        <file>images/reswalogo.gif</file>
+        <file>images/drclogo.png</file>
+        <file>images/drclogo_med.png</file>
     </qresource>
 </RCC>

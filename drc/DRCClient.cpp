@@ -15,6 +15,7 @@
 #include "toolbarmanager.h"
 #include "mediationbrowser.h"
 #include "mptoolbox.h"
+#include "mainmenuform.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -48,17 +49,14 @@ DRCClient::DRCClient(QWidget *parent)
     setCentralWidget(new LoginForm(this));
 
     // Listen for
-    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuBarEnabled();});
-    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuHelpEnabled();});
-    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuBarDisabled();});
-    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuHelpDisabled();});
+    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);ShowMainMenu();});
+    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuBarDisabled();SetMenuHelpDisabled();});
     Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminShow();});
     Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminHide();});
     Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowMediationBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowSessionBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowNotesBrowser();});
-//    Mediator::Register(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS, [this](MediatorArg arg){send_mediation_vector();});
- //   Mediator::Register(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, [this](MediatorArg arg){saveMPEvent(arg);});
+    Mediator::Register(MKEY_GUI_MP_NEW_FORM, [this](MediatorArg arg){Q_UNUSED(arg);LoadMediationProcessView();});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -111,10 +109,6 @@ void DRCClient::SetMenuAdminHide()
     ui->menuAdmin->menuAction()->setVisible(false);
 }
 
-void DRCClient::on_actionNew_Form_triggered()
-{
-//    setCentralWidget(new IntakeForm(this));
-}
 
 void DRCClient::on_actionNew_search_form_triggered()
 {
@@ -367,4 +361,11 @@ QString DRCClient::LoadDBPathFromFile()
 void DRCClient::on_actionFindMediation_triggered()
 {
     ShowMediationBrowser();
+}
+
+void DRCClient::ShowMainMenu()
+{
+    SetMenuBarEnabled();
+    SetMenuHelpEnabled();
+    setCentralWidget(new MainMenuForm(this));
 }

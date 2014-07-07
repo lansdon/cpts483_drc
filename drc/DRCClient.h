@@ -38,9 +38,9 @@ public:
     // This will set our Admin menu options to invisible
     void SetMenuAdminHide();
 
-private slots:
+    void ShowMainMenu();
 
-    void on_actionNew_Form_triggered();
+private slots:
 
     void on_actionNew_search_form_triggered();
 
