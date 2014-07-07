@@ -9,5 +9,6 @@
         <file>images/reswalogo.gif</file>
         <file>images/drclogo.png</file>
         <file>images/drclogo_med.png</file>
+        <file>images/close.jpg</file>
     </qresource>
 </RCC>

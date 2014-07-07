@@ -130,7 +130,9 @@ void MediationProcessView::ConfigureToolbar()
 {
     ToolbarManager& toolbar = ToolbarManager::Instance();
     toolbar.Clear();
-    toolbar.AddAction("Save Mediation Record", this, SLOT(SaveMediationPressed()), QIcon(":images/save.png"));
+    toolbar.AddAction("Save Record", this, SLOT(SaveMediationPressed()), QIcon(":images/save.png"));
+    toolbar.GetToolbar()->addSeparator();
+    toolbar.AddAction("Close Record", this, SLOT(CloseMediationPressed()), QIcon(":images/close.jpg"));
     toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Mediation Browser", this, SLOT(ShowMediationBrowserPressed()), QIcon(":images/mp_search.jpg"));
     toolbar.GetToolbar()->addSeparator();
@@ -148,6 +150,14 @@ void MediationProcessView::SaveMediationPressed()
 
     qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
     Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
+}
+
+void MediationProcessView::CloseMediationPressed()
+{
+    // To do - Check if they want to save
+
+
+    Mediator::Call(MKEY_GUI_ENABLE_MENUS);
 }
 
 void MediationProcessView::SearchForMediationPressed()

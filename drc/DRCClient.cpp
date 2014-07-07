@@ -147,6 +147,12 @@ void DRCClient::on_mediationProcessSelected(MediationProcess* process)
 
 void DRCClient::LoadMediationProcessView(MediationProcess* process)
 {
+    if(_mediationProcessView)
+    {
+//        delete _mediationProcessView;
+        _mediationProcessView = nullptr;
+    }
+
     if(!_mediationProcessView)
         _mediationProcessView = new MediationProcessView(this, process);
     else _mediationProcessView->SetMediationProcess(process);

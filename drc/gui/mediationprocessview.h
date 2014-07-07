@@ -36,6 +36,7 @@ public:
 private slots:
     // Toolbar Buttons
     void SaveMediationPressed();
+    void CloseMediationPressed();
     void SearchForMediationPressed();
     void ShowMediationBrowserPressed();
     void ShowSessionBrowserPressed();

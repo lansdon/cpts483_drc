@@ -33,6 +33,7 @@ MediationProcessStatusForm::~MediationProcessStatusForm()
 {
     Mediator::Unregister(MKEY_GUI_MP_SAVE_PENDING, _SavePendingCallbackId);
     Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _PersistMPDoneCallbackId);
+    Mediator::Unregister(MKEY_GUI_MP_POPULATE, _LoadMPCallbackId);
     delete ui;
 }
 
