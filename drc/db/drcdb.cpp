@@ -823,8 +823,20 @@ void DRCDB::AddNewUser(MediatorArg arg)
         user = arg.getArg<User*>();
         if(user)
         {
-            this->InsertObject(user);
-            arg.SetSuccessful(true);
+            QSqlQuery UserQuery(database);
+            QString UserCommandString = QString("Select * from User_table where userName = '%1'")
+                                                .arg(user->GetName());
+            bool found = false;
+            found = this->ExecuteCommand(UserCommandString, UserQuery);
+            if(!found)
+            {
+                this->InsertObject(user);
+                arg.SetSuccessful(true);
+            }
+            else
+            {
+                arg.SetErrorMsg("Username already exists, please select a different one");
+            }
         }
     }
     Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
