@@ -117,28 +117,14 @@ void DRCDB::LoadDatabase(QString filename)
     }
 
     result = false;
-    MediatorArg test;
-    User* testUser = new User("Admin", "admin", USER_T_ADMIN);
+    MediatorArg arg;
+    User* adminUser = new User("Admin", "admin", USER_T_ADMIN);
     if(!this->DoesTableExist(user_table_name))
     {
         result = CreateUserTable(user_table_name);
-        testUser = new User("Admin", "admin", USER_T_ADMIN);
-        test.SetArg(testUser);
-        AddNewUser(test);
     }
-
-    testUser = new User("Michael", "temp");
-    test.SetArg(testUser);
-    AddNewUser(test);
-    testUser = new User("Michael", "tester", USER_T_ADMIN);
-    test.SetArg(testUser);
-    UpdateUser(test);
-    testUser = new User("Michael", "tester");
-    test.SetArg(testUser);
-    UpdateUser(test);
-    AuthenticateUser(test);
-    GetAllUsers(test);
-    RemoveUser(test);
+    arg.SetArg(adminUser);
+    AddNewUser(arg);
 }
 
 
