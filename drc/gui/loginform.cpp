@@ -86,6 +86,7 @@ void LoginForm::authenticateResponse(MediatorArg arg)
         _password.clear();
         ui->usernameLineEdit->setText("");
         ui->passwordLineEdit->setText("");
+        ui->usernameLineEdit->setFocus();
     }
 }
 
