@@ -64,7 +64,7 @@ DRCClient::DRCClient(QWidget *parent)
     ToolbarManager::Instance().Clear();
 
     // Disable Menus Until Logged In
-    SetMenusEnabled(true, false);
+    SetMenusEnabled(false, false);
 }
 
 DRCClient::~DRCClient()
