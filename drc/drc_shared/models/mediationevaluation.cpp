@@ -3,87 +3,87 @@
 MediationEvaluation::MediationEvaluation()
 {
     _q1 = 0;
-    _q2 = _q3 = _q4 = _q5 = _q6 = _q7 = _q8 = _callBackPermissions = _promoPermissions = NO_ANSWER;
+    _q2 = _q3 = _q4 = _q5 = _q6 = _q7 = _q8 = _callBackPermissions = _promoPermissions = EVALUATION_ANSWERS_NO_ANSWER;
 }
 
 QString MediationEvaluation::Parse()
 {
     QString toReturn;
 
-    if(_q3 == YES)
+    if(_q3 == EVALUATION_ANSWERS_YES)
     {
         toReturn += "1, 0, 0, ";
     }
-    else if(_q3 == NO)
+    else if(_q3 == EVALUATION_ANSWERS_NO)
     {
         toReturn += "0, 1, 0, ";
     }
-    else if(_q3 == SOMEWHAT)
+    else if(_q3 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1, ";
     }
 
-    if(_q4 == YES)
+    if(_q4 == EVALUATION_ANSWERS_YES)
     {
         toReturn += "1, 0, 0, ";
     }
-    else if(_q4 == NO)
+    else if(_q4 == EVALUATION_ANSWERS_NO)
     {
         toReturn += "0, 1, 0, ";
     }
-    else if(_q4 == SOMEWHAT)
+    else if(_q4 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1, ";
     }
 
-    if(_q5 == YES)
+    if(_q5 == EVALUATION_ANSWERS_YES)
     {
         toReturn += "1, 0, 0, ";
     }
-    else if(_q5 == NO)
+    else if(_q5 == EVALUATION_ANSWERS_NO)
     {
         toReturn += "0, 1, 0, ";
     }
-    else if(_q5 == SOMEWHAT)
+    else if(_q5 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1, ";
     }
 
-    if(_q6 == YES)
+    if(_q6 == EVALUATION_ANSWERS_YES)
     {
         toReturn += "1, 0, 0, ";
     }
-    else if(_q6 == NO)
+    else if(_q6 == EVALUATION_ANSWERS_NO)
     {
         toReturn += "0, 1, 0, ";
     }
-    else if(_q6 == SOMEWHAT)
+    else if(_q6 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1, ";
     }
 
-    if(_q7 == YES)
+    if(_q7 == EVALUATION_ANSWERS_YES)
     {
         toReturn += "1, 0, 0, ";
     }
-    else if(_q7 == NO)
+    else if(_q7 == EVALUATION_ANSWERS_NO)
     {
         toReturn += "0, 1, 0, ";
     }
-    else if(_q7 == SOMEWHAT)
+    else if(_q7 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1, ";
     }
 
-    if(_q8 == YES)
+    if(_q8 == EVALUATION_ANSWERS_YES)
     {
         toReturn += "1, 0, 0";
     }
-    else if(_q8 == NO)
+    else if(_q8 == EVALUATION_ANSWERS_NO)
     {
         toReturn += "0, 1, 0";
     }
-    else if(_q8 == SOMEWHAT)
+    else if(_q8 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1";
     }

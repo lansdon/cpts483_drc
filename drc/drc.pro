@@ -70,6 +70,7 @@ SOURCES += main.cpp\
     gui/manageusers.cpp \
     gui/attorneyheaderview.cpp \
     gui/mainmenuform.cpp \
+    gui/mediationevaluationview.cpp \
     gui/reswareportform.cpp
 
 HEADERS  += \
@@ -132,6 +133,7 @@ HEADERS  += \
     gui/manageusers.h \
     gui/attorneyheaderview.h \
     gui/mainmenuform.h \
+    gui/mediationevaluationview.h \
     gui/reswareportform.h
 
 FORMS    += \
@@ -158,6 +160,7 @@ FORMS    += \
     gui/manageusers.ui \
     gui/attorneyheaderview.ui \
     gui/mainmenuform.ui \
+    gui/mediationevaluationview.ui \
     gui/reswareportform.ui
 
 

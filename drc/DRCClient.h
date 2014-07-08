@@ -72,10 +72,9 @@ public slots:
     void ShowSessionBrowser();
     void ShowMediationBrowser();
     void ShowNotesBrowser();
-    void ShowEvaluation();
     void ShowResWaReport();
     void ShowMonthlyReport();
-
+    void LoadEvaluationView();
     void send_mediation_vector();
     void on_mediationProcessSelected(MediationProcess* process);
 
@@ -105,6 +104,8 @@ private:
     void saveMPEvent(MediatorArg arg);
 
     QString LoadDBPathFromFile();
+
+
 
 };
 

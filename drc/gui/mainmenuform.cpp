@@ -50,7 +50,6 @@ void MainMenuForm::on_searchBtn_clicked()
 void MainMenuForm::on_newEvaluationBtn_clicked()
 {
     Mediator::Call(MKEY_GUI_SHOW_EVALUATION);
-
 }
 
 void MainMenuForm::on_resWaBtn_clicked()

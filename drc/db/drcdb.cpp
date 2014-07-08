@@ -100,109 +100,109 @@ bool DRCDB::InsertEvaluation(MediatorArg arg)
 
                 QString values = "";
                 int stored;
-                if(eval->getQ3() == YES)
+                if(eval->getQ3() == EVALUATION_ANSWERS_YES)
                 {
                     stored = EvalQuery.value(3).toInt();
                     stored++;
                     values += QString("FairYes = %1").arg(stored);
                 }
-                else if(eval->getQ3() == NO)
+                else if(eval->getQ3() == EVALUATION_ANSWERS_NO)
                 {
                     stored = EvalQuery.value(4).toInt();
                     stored++;
                     values += QString("FairNo = %1").arg(stored);
                 }
-                else if(eval->getQ3() == SOMEWHAT)
+                else if(eval->getQ3() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
                     stored = EvalQuery.value(5).toInt();
                     stored++;
                     values += QString("FairSomewhat = %1").arg(stored);
                 }
-                if(eval->getQ4() == YES)
+                if(eval->getQ4() == EVALUATION_ANSWERS_YES)
                 {
                     stored = EvalQuery.value(6).toInt();
                     stored++;
                     values += QString("ImproveYes = %1").arg(stored);
                 }
-                else if(eval->getQ4() == NO)
+                else if(eval->getQ4() == EVALUATION_ANSWERS_NO)
                 {
                     stored = EvalQuery.value(7).toInt();
                     stored++;
                     values += QString("ImproveNo = %1").arg(stored);
                 }
-                else if(eval->getQ4() == SOMEWHAT)
+                else if(eval->getQ4() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
                     stored = EvalQuery.value(8).toInt();
                     stored++;
                     values += QString("ImproveSomewhat = %1").arg(stored);
                 }
-                if(eval->getQ5() == YES)
+                if(eval->getQ5() == EVALUATION_ANSWERS_YES)
                 {
                     stored = EvalQuery.value(9).toInt();
                     stored++;
                     values += QString("CommunicateYes = %1").arg(stored);
                 }
-                else if(eval->getQ5() == NO)
+                else if(eval->getQ5() == EVALUATION_ANSWERS_NO)
                 {
                     stored = EvalQuery.value(10).toInt();
                     stored++;
                     values += QString("CommunicateNo = %1").arg(stored);
                 }
-                else if(eval->getQ5() == SOMEWHAT)
+                else if(eval->getQ5() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
                     stored = EvalQuery.value(11).toInt();
                     stored++;
                     values += QString("CommunicateSomewhat = %1").arg(stored);
                 }
-                if(eval->getQ6() == YES)
+                if(eval->getQ6() == EVALUATION_ANSWERS_YES)
                 {
                     stored = EvalQuery.value(12).toInt();
                     stored++;
                     values += QString("UnderstandYes = %1").arg(stored);
                 }
-                else if(eval->getQ6() == NO)
+                else if(eval->getQ6() == EVALUATION_ANSWERS_NO)
                 {
                     stored = EvalQuery.value(13).toInt();
                     stored++;
                     values += QString("UnderstandNo = %1").arg(stored);
                 }
-                else if(eval->getQ6() == SOMEWHAT)
+                else if(eval->getQ6() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
                     stored = EvalQuery.value(14).toInt();
                     stored++;
                     values += QString("UnderstandSomewhat = %1").arg(stored);
                 }
-                if(eval->getQ7() == YES)
+                if(eval->getQ7() == EVALUATION_ANSWERS_YES)
                 {
                     stored = EvalQuery.value(15).toInt();
                     stored++;
                     values += QString("RecommendYes = %1").arg(stored);
                 }
-                else if(eval->getQ7() == NO)
+                else if(eval->getQ7() == EVALUATION_ANSWERS_NO)
                 {
                     stored = EvalQuery.value(16).toInt();
                     stored++;
                     values += QString("RecommendNo = %1").arg(stored);
                 }
-                else if(eval->getQ7() == SOMEWHAT)
+                else if(eval->getQ7() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
                     stored = EvalQuery.value(17).toInt();
                     stored++;
                     values += QString("RecommendSomewhat = %1").arg(stored);
                 }
-                if(eval->getQ8() == YES)
+                if(eval->getQ8() == EVALUATION_ANSWERS_YES)
                 {
                     stored = EvalQuery.value(18).toInt();
                     stored++;
                     values += QString("AgreementYes = %1").arg(stored);
                 }
-                else if(eval->getQ8() == NO)
+                else if(eval->getQ8() == EVALUATION_ANSWERS_NO)
                 {
                     stored = EvalQuery.value(19).toInt();
                     stored++;
                     values += QString("AgreementNo = %1").arg(stored);
                 }
-                else if(eval->getQ8() == SOMEWHAT)
+                else if(eval->getQ8() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
                     stored = EvalQuery.value(20).toInt();
                     stored++;

@@ -17,6 +17,7 @@
 #include "mptoolbox.h"
 #include "mainmenuform.h"
 #include "manageusers.h"
+#include "mediationevaluationview.h"
 #include "reswareportform.h"
 
 // DRC COMPONENTS
@@ -59,7 +60,7 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowSessionBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowNotesBrowser();});
     Mediator::Register(MKEY_GUI_MP_NEW_FORM, [this](MediatorArg arg){Q_UNUSED(arg);LoadMediationProcessView();});
-    Mediator::Register(MKEY_GUI_SHOW_EVALUATION, [this](MediatorArg arg){Q_UNUSED(arg);ShowEvaluation();});
+    Mediator::Register(MKEY_GUI_SHOW_EVALUATION, [this](MediatorArg arg){Q_UNUSED(arg);LoadEvaluationView();});
     Mediator::Register(MKEY_GUI_SHOW_MONTHLY_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowMonthlyReport();});
     Mediator::Register(MKEY_GUI_SHOW_RESWA_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowResWaReport();});
 
@@ -383,8 +384,9 @@ void DRCClient::ShowMainMenu()
     setCentralWidget(new MainMenuForm(this));
 }
 
-void DRCClient::ShowEvaluation()
+void DRCClient::LoadEvaluationView()
 {
+    setCentralWidget(new MediationEvaluationView());
 
 }
 
