@@ -25,6 +25,80 @@ DRCDB::DRCDB() : DB_ERROR(false)
 }
 //========================================================================
 
+//TEST FUNCTIONALITY!!!! +++
+
+bool DRCDB::CreateEvaluationTable(const QString& evaluationTableName)
+{
+    QVector<QString> evaluationTableColumns;
+    evaluationTableColumns.push_back(QString("Id integer primary key autoincrement null"));
+    evaluationTableColumns.push_back(QString("startDate Date"));
+    evaluationTableColumns.push_back(QString("endDate Date"));
+    evaluationTableColumns.push_back(QString("count int"));
+
+    return CreateTable(evaluationTableName, evaluationTableColumns);
+}
+
+bool DRCDB::InsertEvaluation(MediatorArg arg)
+{
+    User* user = nullptr;
+    if(arg.IsSuccessful())
+    {
+        // Set arg.IsSuccessful() to false as default
+        // Will only change to true when the user has been authenticated
+        arg.SetSuccessful(false);
+
+        user = arg.getArg<User*>();
+        if(user)
+        {
+            QDateTime test = QDateTime::fromString("2014-01-02", "yyyy-MM-dd");
+            user->SetCreatedDate(test);
+            QSqlQuery UserQuery(database);
+            QString UserCommandString = QString("Select * from Evaluationtable where startDate < '%1' and endDate > '%1'")
+                                                .arg(user->GetCreatedDate().toString("yyyy-MM-dd"));
+            bool found = false;
+            found = this->ExecuteCommand(UserCommandString, UserQuery);
+            if(!UserQuery.next())
+            //if(!found)
+            {
+                QSqlQuery insert(database);
+                int month = user->GetCreatedDate().toString("MM").toInt();
+                QString start;
+                QString end;
+                if(month < 7)
+                {
+                    start = user->GetCreatedDate().toString("yyyy-")+"01-01";
+                    end = user->GetCreatedDate().toString("yyyy-")+"06-30";
+                }
+                else
+                {
+                    start = user->GetCreatedDate().toString("yyyy-")+"07-01";
+                    end = user->GetCreatedDate().toString("yyyy-")+"12-31";
+                }
+                QString Command = QString("insert into EvaluationTable values (%1, '%2', '%3', 1)")
+                                        .arg("null")
+                        .arg(start)
+                        .arg(end);
+                this->ExecuteCommand(Command, insert);
+
+                arg.SetSuccessful(true);
+            }
+            else
+            {
+                int id = UserQuery.value(0).toInt();
+                int count = UserQuery.value(3).toInt();
+                count++;
+
+                QSqlQuery update(database);
+                QString updatecommand = QString("update Evaluationtable set count = %1 where id = %2")
+                        .arg(count)
+                        .arg(id);
+                this->ExecuteCommand(updatecommand, update);
+            }
+        }
+    }
+
+}
+
 
 //========================================================================
 //------------------------------------------------------------------------
@@ -78,6 +152,7 @@ void DRCDB::LoadDatabase(QString filename)
     QString notes_table_name = QString("Notes_Table");
     QString client_session_table_name = QString("Client_session_table");
     QString user_table_name = QString("User_Table");
+    QString evaluationTableName = QString("EvaluationTable");
 
     bool result = false;
 
@@ -116,6 +191,10 @@ void DRCDB::LoadDatabase(QString filename)
          result = CreateClientSessionTable(client_session_table_name);
     }
 
+    CreateEvaluationTable(evaluationTableName);
+
+
+
     result = false;
     MediatorArg arg;
     User* adminUser = new User("Admin", "admin", USER_T_ADMIN);
@@ -125,6 +204,7 @@ void DRCDB::LoadDatabase(QString filename)
     }
     arg.SetArg(adminUser);
     AddNewUser(arg);
+    InsertEvaluation(arg);
 }
 
 

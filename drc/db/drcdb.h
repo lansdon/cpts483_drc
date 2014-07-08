@@ -146,6 +146,19 @@ public:
 
     // Arg must be a Person* (for now at least) for processing to take place.
     void QueryMediations(MediatorArg arg);
+
+
+
+
+
+
+
+    // TEST FUNCTIONALITY!!!
+    bool CreateEvaluationTable(const QString& evaluationTableName);
+    bool InsertEvaluation(MediatorArg arg);
+
+
+
 };
 
 #endif // DRCDB_H
