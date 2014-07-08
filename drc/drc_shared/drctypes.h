@@ -27,6 +27,14 @@ typedef std::vector<ClientSessionData*> ClientSessionDataVector;
 
 // ENUMS FOREVAH
 
+enum EvaluationAnswers
+{
+    NO_ANSWER,
+    YES,
+    NO,
+    SOMEWHAT
+};
+
 enum DisputeTypes
 {
     DISPUTE_T_NONE,

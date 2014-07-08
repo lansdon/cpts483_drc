@@ -67,7 +67,8 @@ SOURCES += main.cpp\
     gui/mediationobserverview.cpp \
     gui/manageusers.cpp \
     gui/attorneyheaderview.cpp \
-    gui/mainmenuform.cpp
+    gui/mainmenuform.cpp \
+    drc_shared/models/mediationevaluation.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -127,7 +128,8 @@ HEADERS  += \
     gui/mediationobserverview.h \
     gui/manageusers.h \
     gui/attorneyheaderview.h \
-    gui/mainmenuform.h
+    gui/mainmenuform.h \
+    drc_shared/models/mediationevaluation.h
 
 FORMS    += \
     DRCClient.ui \
