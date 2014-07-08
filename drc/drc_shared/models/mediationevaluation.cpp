@@ -120,6 +120,5 @@ QString MediationEvaluation::SearchQuery()
 
 QString MediationEvaluation::GetIdRowName()
 {
-#warning TODO - GetIdRowName() UNIMPLEMENTED!!!!
-    return "";
+    return "Id";
 }
