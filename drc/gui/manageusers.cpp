@@ -20,7 +20,7 @@ ManageUsers::ManageUsers(QWidget *parent) :
 
     // Mediator method registers
     Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
-    Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg ag) {VerifyDeleteSelectedUser(arg);});
+    Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg arg) {VerifyDeleteSelectedUser(arg);});
     Mediator::Call(MKEY_DB_GET_ALL_USER);
 
     ConfigureUserTableView();
@@ -124,6 +124,8 @@ void ManageUsers::on_DeleteUserButton_clicked()
         arg.SetArg(_selectedUser);
         Mediator::Call(MKEY_DB_REMOVE_USER, arg);
     }
+
+    PopulateUserTableView();
 }
 
 void ManageUsers::on_usernameLineEdit_editingFinished()
@@ -166,8 +168,10 @@ void ManageUsers::on_IsAdminBox_toggled(bool checked)
 
 void ManageUsers::on_usertableWidget_doubleClicked(const QModelIndex &index)
 {
-    if(index.row() >= 0 && index.row() < (int)_userVector.size())
+    if(index.row() >= 0 && index.row() < (int)_userVector->size())
     {
         _selectedUser = _userVector->at(index.row());
+        ui->usernameLineEdit->setText(_selectedUser->GetName());
+        ui->IsAdminBox->setChecked(_selectedUser->GetType() == USER_T_ADMIN ? true: false);
     }
 }
