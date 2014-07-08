@@ -195,3 +195,16 @@ QString StringForSessionOutcomes(SessionOutcomes id)
     }
     return result;
 }
+
+QString StringForEvaluationAnswers(EvaluationAnswers id)
+{
+    QString result;
+    switch(id){
+    case EVALUATION_ANSWERS_NO_ANSWER: result = "No Answer"; break;
+    case EVALUATION_ANSWERS_YES: result = "Yes"; break;
+    case EVALUATION_ANSWERS_NO: result = "No"; break;
+    case EVALUATION_ANSWERS_SOMEWHAT: result = "Somewhat"; break;
+    default: result = "<error>"; break;
+    }
+    return result;
+}

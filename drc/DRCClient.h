@@ -102,6 +102,8 @@ private:
 
     QString LoadDBPathFromFile();
 
+    void LoadEvaluationView();
+
 };
 
 #endif // DRCClient_H

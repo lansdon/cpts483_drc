@@ -29,10 +29,10 @@ typedef std::vector<ClientSessionData*> ClientSessionDataVector;
 
 enum EvaluationAnswers
 {
-    NO_ANSWER,
-    YES,
-    NO,
-    SOMEWHAT
+    EVALUATION_ANSWERS_NO_ANSWER,
+    EVALUATION_ANSWERS_YES,
+    EVALUATION_ANSWERS_NO,
+    EVALUATION_ANSWERS_SOMEWHAT
 };
 
 enum DisputeTypes
@@ -191,6 +191,7 @@ QString StringForInquiryTypes(InquiryTypes id);
 QString StringForCourtTypes(CourtCaseTypes id);
 QString StringForCourtOrderTypes(CourtOrderTypes id);
 QString StringForSessionOutcomes(SessionOutcomes id);
+QString StringForEvaluationAnswers(EvaluationAnswers id);
 
 
 

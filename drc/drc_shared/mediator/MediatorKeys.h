@@ -159,4 +159,13 @@ const QString MKEY_GUI_MP_POPULATE = "MKEY_GUI_MP_POPULATE";                    
 const QString MKEY_GUI_MP_SHOULD_SAVE = "MKEY_GUI_MP_SHOULD_SAVE";                          // nullptr
 const QString MKEY_GUI_MP_NEW_FORM = "MKEY_GUI_MP_NEW_FORM";                                // nullptr
 
+
+//////////////////////////////////////////////////////////////////
+//				MEDIATION EVALUATION
+//////////////////////////////////////////////////////////////////
+const QString MKEY_GUI_SHOW_EVALUATION = "MKEY_GUI_SHOW_EVALUATION";                        // nullptr
+const QString MKEY_GUI_SAVE_EVALUATION = "MKEY_GUI_SAVE_EVALUATION";                        // MediationEvaluation*
+const QString MKEY_BL_SAVE_EVALUATION = "MKEY_BL_SAVE_EVALUATION";                          // MediationEvaluation*
+const QString MKEY_DB_SAVE_EVALUATION = "MKEY_DB_SAVE_EVALUATION";                          // MediationEvaluation*
+
 #endif

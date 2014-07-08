@@ -17,6 +17,7 @@
 #include "mptoolbox.h"
 #include "mainmenuform.h"
 #include "manageusers.h"
+#include "mediationevaluationview.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -58,6 +59,7 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowSessionBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowNotesBrowser();});
     Mediator::Register(MKEY_GUI_MP_NEW_FORM, [this](MediatorArg arg){Q_UNUSED(arg);LoadMediationProcessView();});
+    Mediator::Register(MKEY_GUI_SHOW_EVALUATION, [this](MediatorArg arg){Q_UNUSED(arg);LoadEvaluationView();});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -377,4 +379,9 @@ void DRCClient::ShowMainMenu()
     SetMenuHelpEnabled();
     ToolbarManager::Instance().Clear();
     setCentralWidget(new MainMenuForm(this));
+}
+
+void DRCClient::LoadEvaluationView()
+{
+    setCentralWidget(new MediationEvaluationView());
 }
