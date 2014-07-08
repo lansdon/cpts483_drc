@@ -72,6 +72,10 @@ public slots:
     void ShowSessionBrowser();
     void ShowMediationBrowser();
     void ShowNotesBrowser();
+    void ShowEvaluation();
+    void ShowResWaReport();
+    void ShowMonthlyReport();
+
     void send_mediation_vector();
     void on_mediationProcessSelected(MediationProcess* process);
 

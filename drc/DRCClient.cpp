@@ -17,6 +17,7 @@
 #include "mptoolbox.h"
 #include "mainmenuform.h"
 #include "manageusers.h"
+#include "reswareportform.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -49,7 +50,7 @@ DRCClient::DRCClient(QWidget *parent)
     this->setWindowState(Qt::WindowMaximized);
     setCentralWidget(new LoginForm(this));
 
-    // Listen for
+    // Listen for Events
     Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);ShowMainMenu();});
     Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuBarDisabled();SetMenuHelpDisabled();});
     Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminShow();});
@@ -58,6 +59,11 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowSessionBrowser();});
     Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowNotesBrowser();});
     Mediator::Register(MKEY_GUI_MP_NEW_FORM, [this](MediatorArg arg){Q_UNUSED(arg);LoadMediationProcessView();});
+    Mediator::Register(MKEY_GUI_SHOW_EVALUATION, [this](MediatorArg arg){Q_UNUSED(arg);ShowEvaluation();});
+    Mediator::Register(MKEY_GUI_SHOW_MONTHLY_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowMonthlyReport();});
+    Mediator::Register(MKEY_GUI_SHOW_RESWA_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowResWaReport();});
+
+
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -377,4 +383,20 @@ void DRCClient::ShowMainMenu()
     SetMenuHelpEnabled();
     ToolbarManager::Instance().Clear();
     setCentralWidget(new MainMenuForm(this));
+}
+
+void DRCClient::ShowEvaluation()
+{
+
+}
+
+void DRCClient::ShowResWaReport()
+{
+    _mediationProcessView = nullptr;
+    setCentralWidget(new ResWaReportForm(this));
+}
+
+void DRCClient::ShowMonthlyReport()
+{
+
 }

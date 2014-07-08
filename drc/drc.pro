@@ -67,7 +67,8 @@ SOURCES += main.cpp\
     gui/mediationobserverview.cpp \
     gui/manageusers.cpp \
     gui/attorneyheaderview.cpp \
-    gui/mainmenuform.cpp
+    gui/mainmenuform.cpp \
+    gui/reswareportform.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -127,7 +128,8 @@ HEADERS  += \
     gui/mediationobserverview.h \
     gui/manageusers.h \
     gui/attorneyheaderview.h \
-    gui/mainmenuform.h
+    gui/mainmenuform.h \
+    gui/reswareportform.h
 
 FORMS    += \
     DRCClient.ui \
@@ -152,7 +154,8 @@ FORMS    += \
     gui/mediationobserverview.ui \
     gui/manageusers.ui \
     gui/attorneyheaderview.ui \
-    gui/mainmenuform.ui
+    gui/mainmenuform.ui \
+    gui/reswareportform.ui
 
 
 CONFIG += c++11
