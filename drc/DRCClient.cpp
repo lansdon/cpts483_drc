@@ -372,6 +372,7 @@ void DRCClient::on_actionFindMediation_triggered()
 
 void DRCClient::ShowMainMenu()
 {
+    _mediationProcessView = nullptr;
     SetMenuBarEnabled();
     SetMenuHelpEnabled();
     setCentralWidget(new MainMenuForm(this));
