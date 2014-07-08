@@ -53,7 +53,7 @@ private:
 
     void GetAllUsers(MediatorArg arg);
 
-    void DeleteSelectedUser(MediatorArg arg);
+    void VerifyDeleteSelectedUser(MediatorArg arg);
 
     void ConfigureUserTableView();
 

@@ -20,7 +20,7 @@ ManageUsers::ManageUsers(QWidget *parent) :
 
     // Mediator method registers
     Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
-    Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg ag) {DeleteSelectedUser(arg);});
+    Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg ag) {VerifyDeleteSelectedUser(arg);});
     Mediator::Call(MKEY_DB_GET_ALL_USER);
 
     ConfigureUserTableView();
@@ -82,12 +82,18 @@ void ManageUsers::GetAllUsers(MediatorArg arg)
     }
 }
 
-void ManageUsers::DeleteSelectedUser(MediatorArg arg)
+void ManageUsers::VerifyDeleteSelectedUser(MediatorArg arg)
 {
     if (arg.IsSuccessful())
     {
-
+        _selectedUser = nullptr;
+        ui->usernameLineEdit->text().clear();
+        ui->passwordLineEdit->text().clear();
+        ui->reenterpasswordLineEdit->text().clear();
+        ui->IsAdminBox->setChecked(false);
     }
+
+    PopulateUserTableView();
 }
 
 
@@ -118,8 +124,6 @@ void ManageUsers::on_DeleteUserButton_clicked()
         arg.SetArg(_selectedUser);
         Mediator::Call(MKEY_DB_REMOVE_USER, arg);
     }
-
-    PopulateUserTableView();
 }
 
 void ManageUsers::on_usernameLineEdit_editingFinished()
