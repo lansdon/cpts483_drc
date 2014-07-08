@@ -34,6 +34,8 @@ private slots:
 
     void on_IsAdminBox_toggled(bool checked);
 
+    void on_usertableWidget_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::ManageUsers *ui;
 
@@ -50,6 +52,8 @@ private:
     QVector<User*>* _userVector;
 
     void GetAllUsers(MediatorArg arg);
+
+    void DeleteSelectedUser(MediatorArg arg);
 
     void ConfigureUserTableView();
 
