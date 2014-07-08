@@ -39,6 +39,7 @@ SOURCES += main.cpp\
     gui/partyform.cpp \
     drc_shared/models/party.cpp \
     drc_shared/models/mediationprocess.cpp \
+    drc_shared/models/mediationevaluation.cpp \
     gui/mediationprocessstatusform.cpp \
     gui/searchwizard/searchwizard.cpp \
     gui/searchwizard/searchwizardintro.cpp \
@@ -68,7 +69,8 @@ SOURCES += main.cpp\
     gui/manageusers.cpp \
     gui/attorneyheaderview.cpp \
     gui/mainmenuform.cpp \
-    gui/reswareportform.cpp
+    gui/reswareportform.cpp \
+    drc_shared/models/mediationevaluation.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -99,6 +101,7 @@ HEADERS  += \
     gui/partyform.h \
     drc_shared/models/party.h \
     drc_shared/models/mediationprocess.h \
+    drc_shared/models/mediationevaluation.h \
     drc_shared/drctypes.h \
     gui/mediationprocessstatusform.h \
     gui/searchwizard/searchwizard.h \
@@ -129,7 +132,8 @@ HEADERS  += \
     gui/manageusers.h \
     gui/attorneyheaderview.h \
     gui/mainmenuform.h \
-    gui/reswareportform.h
+    gui/reswareportform.h \
+    drc_shared/models/mediationevaluation.h
 
 FORMS    += \
     DRCClient.ui \

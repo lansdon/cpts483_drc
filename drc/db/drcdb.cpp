@@ -1,10 +1,6 @@
 #include "drcdb.h"
 #include "drctypes.h"
 #include <QtSql/QtSql>
-//#include "Mediator.h"
-//#include "MediatorKeys.h"
-//#include "DRCModels.h"
-//#include "Fruit.h"    // temp.. not sure why it's having circular dependency.
 
 #define db_driver "QSQLITE"
 
@@ -24,6 +20,208 @@ DRCDB::DRCDB() : DB_ERROR(false)
 
 }
 //========================================================================
+
+//TEST FUNCTIONALITY!!!! +++
+
+bool DRCDB::CreateEvaluationTable(const QString& evaluationTableName)
+{
+    QVector<QString> evaluationTableColumns;
+    evaluationTableColumns.push_back(QString("Id integer primary key autoincrement null"));
+    evaluationTableColumns.push_back(QString("startDate Date"));
+    evaluationTableColumns.push_back(QString("endDate Date"));
+    evaluationTableColumns.push_back(QString("FairYes int"));
+    evaluationTableColumns.push_back(QString("FairNo int"));
+    evaluationTableColumns.push_back(QString("FairSomewhat int"));
+    evaluationTableColumns.push_back(QString("ImproveYes int"));
+    evaluationTableColumns.push_back(QString("ImproveNo int"));
+    evaluationTableColumns.push_back(QString("ImproveSomewhat int"));
+    evaluationTableColumns.push_back(QString("CommunicateYes int"));
+    evaluationTableColumns.push_back(QString("CommunicateNo int"));
+    evaluationTableColumns.push_back(QString("CommunicateSomewhat int"));
+    evaluationTableColumns.push_back(QString("UnderstandYes int"));
+    evaluationTableColumns.push_back(QString("UnderstandNo int"));
+    evaluationTableColumns.push_back(QString("UnderstandSomewhat int"));
+    evaluationTableColumns.push_back(QString("RecommendYes int"));
+    evaluationTableColumns.push_back(QString("RecommendNo int"));
+    evaluationTableColumns.push_back(QString("RecommendSomewhat int"));
+    evaluationTableColumns.push_back(QString("AgreementYes int"));
+    evaluationTableColumns.push_back(QString("AgreementNo int"));
+    evaluationTableColumns.push_back(QString("AgreementSomewhat int"));
+
+    return CreateTable(evaluationTableName, evaluationTableColumns);
+}
+
+bool DRCDB::InsertEvaluation(MediatorArg arg)
+{
+    MediationEvaluation* eval = nullptr;
+    if(arg.IsSuccessful())
+    {
+        // Set arg.IsSuccessful() to false as default
+        // Will only change to true when the user has been authenticated
+        arg.SetSuccessful(false);
+
+        eval = arg.getArg<MediationEvaluation*>();
+        if(eval)
+        {
+            QSqlQuery EvalQuery(database);
+            QString EvalCommandString = QString("Select * from Evaluationtable where startDate < '%1' and endDate > '%1'")
+                                                .arg(eval->GetCreatedDate().toString("yyyy-MM-dd"));
+            bool found = false;
+            found = this->ExecuteCommand(EvalCommandString, EvalQuery);
+            if(!EvalQuery.next())
+            //if(!found)
+            {
+                QSqlQuery insert(database);
+                int month = eval->GetCreatedDate().toString("MM").toInt();
+                QString start;
+                QString end;
+                if(month < 7)
+                {
+                    start = eval->GetCreatedDate().toString("yyyy-")+"01-01";
+                    end = eval->GetCreatedDate().toString("yyyy-")+"06-30";
+                }
+                else
+                {
+                    start = eval->GetCreatedDate().toString("yyyy-")+"07-01";
+                    end = eval->GetCreatedDate().toString("yyyy-")+"12-31";
+                }
+                QString Command = QString("insert into EvaluationTable values (%1, '%2', '%3', %4)")
+                                        .arg("null")
+                        .arg(start)
+                        .arg(end)
+                        .arg(eval->Parse());
+                this->ExecuteCommand(Command, insert);
+
+                arg.SetSuccessful(true);
+            }
+            else
+            {
+                int id = EvalQuery.value(0).toInt();
+
+                QString values = "";
+                int stored;
+                if(eval->getQ3() == YES)
+                {
+                    stored = EvalQuery.value(3).toInt();
+                    stored++;
+                    values += QString("FairYes = %1").arg(stored);
+                }
+                else if(eval->getQ3() == NO)
+                {
+                    stored = EvalQuery.value(4).toInt();
+                    stored++;
+                    values += QString("FairNo = %1").arg(stored);
+                }
+                else if(eval->getQ3() == SOMEWHAT)
+                {
+                    stored = EvalQuery.value(5).toInt();
+                    stored++;
+                    values += QString("FairSomewhat = %1").arg(stored);
+                }
+                if(eval->getQ4() == YES)
+                {
+                    stored = EvalQuery.value(6).toInt();
+                    stored++;
+                    values += QString("ImproveYes = %1").arg(stored);
+                }
+                else if(eval->getQ4() == NO)
+                {
+                    stored = EvalQuery.value(7).toInt();
+                    stored++;
+                    values += QString("ImproveNo = %1").arg(stored);
+                }
+                else if(eval->getQ4() == SOMEWHAT)
+                {
+                    stored = EvalQuery.value(8).toInt();
+                    stored++;
+                    values += QString("ImproveSomewhat = %1").arg(stored);
+                }
+                if(eval->getQ5() == YES)
+                {
+                    stored = EvalQuery.value(9).toInt();
+                    stored++;
+                    values += QString("CommunicateYes = %1").arg(stored);
+                }
+                else if(eval->getQ5() == NO)
+                {
+                    stored = EvalQuery.value(10).toInt();
+                    stored++;
+                    values += QString("CommunicateNo = %1").arg(stored);
+                }
+                else if(eval->getQ5() == SOMEWHAT)
+                {
+                    stored = EvalQuery.value(11).toInt();
+                    stored++;
+                    values += QString("CommunicateSomewhat = %1").arg(stored);
+                }
+                if(eval->getQ6() == YES)
+                {
+                    stored = EvalQuery.value(12).toInt();
+                    stored++;
+                    values += QString("UnderstandYes = %1").arg(stored);
+                }
+                else if(eval->getQ6() == NO)
+                {
+                    stored = EvalQuery.value(13).toInt();
+                    stored++;
+                    values += QString("UnderstandNo = %1").arg(stored);
+                }
+                else if(eval->getQ6() == SOMEWHAT)
+                {
+                    stored = EvalQuery.value(14).toInt();
+                    stored++;
+                    values += QString("UnderstandSomewhat = %1").arg(stored);
+                }
+                if(eval->getQ7() == YES)
+                {
+                    stored = EvalQuery.value(15).toInt();
+                    stored++;
+                    values += QString("RecommendYes = %1").arg(stored);
+                }
+                else if(eval->getQ7() == NO)
+                {
+                    stored = EvalQuery.value(16).toInt();
+                    stored++;
+                    values += QString("RecommendNo = %1").arg(stored);
+                }
+                else if(eval->getQ7() == SOMEWHAT)
+                {
+                    stored = EvalQuery.value(17).toInt();
+                    stored++;
+                    values += QString("RecommendSomewhat = %1").arg(stored);
+                }
+                if(eval->getQ8() == YES)
+                {
+                    stored = EvalQuery.value(18).toInt();
+                    stored++;
+                    values += QString("AgreementYes = %1").arg(stored);
+                }
+                else if(eval->getQ8() == NO)
+                {
+                    stored = EvalQuery.value(19).toInt();
+                    stored++;
+                    values += QString("AgreementNo = %1").arg(stored);
+                }
+                else if(eval->getQ8() == SOMEWHAT)
+                {
+                    stored = EvalQuery.value(20).toInt();
+                    stored++;
+                    values += QString("AgreementSomewhat = %1").arg(stored);
+                }
+
+
+                QSqlQuery update(database);
+                QString updatecommand = QString("update %1 set %2 where %3 = '%4'")
+                                            .arg(eval->table())
+                                            .arg(values)
+                                            .arg(eval->GetIdRowName())
+                                            .arg(id);
+                this->ExecuteCommand(updatecommand, update);
+            }
+        }
+    }
+
+}
 
 
 //========================================================================
@@ -78,6 +276,7 @@ void DRCDB::LoadDatabase(QString filename)
     QString notes_table_name = QString("Notes_Table");
     QString client_session_table_name = QString("Client_session_table");
     QString user_table_name = QString("User_Table");
+    QString evaluationTableName = QString("Evaluation_Table");
 
     bool result = false;
 
@@ -116,6 +315,10 @@ void DRCDB::LoadDatabase(QString filename)
          result = CreateClientSessionTable(client_session_table_name);
     }
 
+    CreateEvaluationTable(evaluationTableName);
+
+
+
     result = false;
     MediatorArg arg;
     User* adminUser = new User("Admin", "admin", USER_T_ADMIN);
@@ -125,6 +328,7 @@ void DRCDB::LoadDatabase(QString filename)
     }
     arg.SetArg(adminUser);
     AddNewUser(arg);
+    InsertEvaluation(arg);
 }
 
 
@@ -826,7 +1030,7 @@ void DRCDB::AddNewUser(MediatorArg arg)
             }
         }
     }
-    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
+    Mediator::Call(MKEY_DB_VERIFY_UPDATE_USER, arg);
 }
 
 void DRCDB::UpdateUser(MediatorArg arg)
@@ -856,7 +1060,10 @@ void DRCDB::UpdateUser(MediatorArg arg)
             //Returning the boolean that was found before so work flow won't change
         }
     }
-    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
+    if(arg.IsSuccessful())
+    {
+        Mediator::Call(MKEY_DB_VERIFY_UPDATE_USER, arg);
+    }
 }
 
 //========================================================================
@@ -899,7 +1106,10 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
         //ui->statusLabel->setText(arg.ErrorMessage());
     }
     // Signal authentication has been completed
-    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, user, arg.IsSuccessful());
+    if(arg.IsSuccessful())
+    {
+        Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, user, arg.IsSuccessful());
+    }
 }
 
 void DRCDB::RemoveUser(MediatorArg arg)
@@ -924,6 +1134,10 @@ void DRCDB::RemoveUser(MediatorArg arg)
                 arg.SetSuccessful(true);
             }
         }
+    }
+    if(arg.IsSuccessful())
+    {
+        //Mediator::Call(MKEY_DB_VERIFY_REMOVE_USER, arg);
     }
 }
 
