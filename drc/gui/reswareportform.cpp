@@ -6,6 +6,15 @@
 #include <QTextCursor>
 #include <QPainter>
 #include <QAbstractTextDocumentLayout>
+#include <QPrinter>
+#include <QTextBlock>
+#include <QTextTable>
+#include <QDesktopServices>
+#include <QDebug>
+#include "Mediator.h"
+#include "MediatorKeys.h"
+
+const QString DEF_PDF_PATH = "RES_WA_REPORT.pdf";
 
 ResWaReportForm::ResWaReportForm(QWidget *parent) :
     QWidget(parent),
@@ -24,39 +33,60 @@ ResWaReportForm::~ResWaReportForm()
 void ResWaReportForm::BuildReport()
 {
     _report = new QTextDocument();
+    _report->begin();
+
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(DEF_PDF_PATH);
+
+
     QTextCursor cursor(_report);
-    QTextTableFormat m_TableFormat;
-    m_TableFormat.setBorderStyle(QTextFrameFormat::BorderStyle_Solid);
-    m_TableFormat.setAlignment(Qt::AlignTop);
-    m_TableFormat.setWidth(400);
-    m_TableFormat.setHeight(400);
-    cursor.insertTable(5,2,m_TableFormat);
-    cursor.insertBlock();
+    cursor.insertText("Text and stuff");
+    cursor.insertText("Text and stuff");
+    cursor.insertText("Text and stuff");
+    cursor.insertText("Text and stuff");
     cursor.insertText("Text and stuff");
 
-//    QGridLayout *gridLayout = new QGridLayout();
-//    gridLayout->addWidget(_report);
-//    setLayout(gridLayout);
-    QPainter painter;
-    painter.begin(ui->reportFrame);
-    _report->documentLayout()->setPaintDevice(ui->reportFrame);
-    _report->setTextWidth(ui->reportFrame->width());
-    _report->drawContents(&painter);
-    painter.drawText(200, 200, "GRRRRRRRR");
-    painter.end();
+
+    QTextTableFormat tableFormat;
+    tableFormat.setBackground(QColor("#e0e0e0"));
+    QVector<QTextLength> constraints;
+    constraints << QTextLength(QTextLength::PercentageLength, 16);
+    constraints << QTextLength(QTextLength::PercentageLength, 28);
+    constraints << QTextLength(QTextLength::PercentageLength, 28);
+    constraints << QTextLength(QTextLength::PercentageLength, 28);
+    tableFormat.setColumnWidthConstraints(constraints);
+    int rows = 5, columns = 5;
+    QTextTable *table = cursor.insertTable(rows, columns, tableFormat);
+
+    for (auto column = 1; column < columns; ++column) {
+        auto cell = table->cellAt(0, column);
+        auto cellCursor = cell.firstCursorPosition();
+        cellCursor.insertText(tr("Team %1").arg(column));
+    }
+
+    for (auto row = 1; row < rows; ++row) {
+        auto cell = table->cellAt(row, 0);
+        auto cellCursor = cell.firstCursorPosition();
+        cellCursor.insertText(tr("%1").arg(row));
+
+        for (auto column = 1; column < columns; ++column) {
+            if ((row-1) % 3 == column-1) {
+                cell = table->cellAt(row, column);
+                QTextCursor cellCursor = cell.firstCursorPosition();
+                cellCursor.insertText(tr("On duty"));
+            }
+        }
+    }
 
 
+    _report->end();
 
-    QImage img;
-    img.setDotsPerMeterX(qRound(800 / 0.118)); // the CD label has a diameter of 118mm
-    img.setDotsPerMeterY(qRound(800 / 0.118));
-    QPainter p(&img);
-    // p.translate to the right position
-    _report->drawContents(&p);
-    // compare with QPainter::drawText:
-    p.setFont(_report->defaultFont());
-    p.drawText(0, 0, QLatin1String("test text"));
-    p.end();
-    img.save("/tmp/check.png", "PNG");
+    _report->print(&printer);
 
+
+    if(!QDesktopServices::openUrl(QUrl::fromLocalFile(DEF_PDF_PATH)))
+        qDebug() << "Error opening RESWA PDF";
+
+    Mediator::Call(MKEY_GUI_ENABLE_MENUS);
 }
