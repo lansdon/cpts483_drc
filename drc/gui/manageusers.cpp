@@ -20,6 +20,7 @@ ManageUsers::ManageUsers(QWidget *parent) :
 
     // Mediator method registers
     Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
+    Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg arg) {VerifyDeleteSelectedUser(arg);});
     Mediator::Call(MKEY_DB_GET_ALL_USER);
 
     ConfigureUserTableView();
@@ -33,6 +34,7 @@ ManageUsers::~ManageUsers()
 
 void ManageUsers::ConfigureUserTableView()
 {
+    ui->usertableWidget->setUpdatesEnabled(true);
 
     ui->usertableWidget->setColumnCount(2);
     ui->usertableWidget->setRowCount(_userVector->count());
@@ -54,6 +56,11 @@ void ManageUsers::ConfigureUserTableView()
 
 void ManageUsers::PopulateUserTableView()
 {
+    Mediator::Call(MKEY_DB_GET_ALL_USER);
+
+    ui->usertableWidget->clear();
+    ui->usertableWidget->setRowCount(_userVector->count());
+
     for (int row = 0; row < _userVector->count(); row++)
     {
         QTableWidgetItem *item1 = new QTableWidgetItem(_userVector->at(row)->GetName());
@@ -75,6 +82,22 @@ void ManageUsers::GetAllUsers(MediatorArg arg)
     }
 }
 
+void ManageUsers::VerifyDeleteSelectedUser(MediatorArg arg)
+{
+    if (arg.IsSuccessful())
+    {
+        _selectedUser = nullptr;
+        ui->usernameLineEdit->text().clear();
+        ui->passwordLineEdit->text().clear();
+        ui->reenterpasswordLineEdit->text().clear();
+        ui->IsAdminBox->setChecked(false);
+    }
+
+    PopulateUserTableView();
+}
+
+
+
 void ManageUsers::on_AddUserButton_clicked()
 {
     if (_passwordMatch && _username != "" && _password != "")
@@ -90,7 +113,6 @@ void ManageUsers::on_AddUserButton_clicked()
         Mediator::Call(MKEY_DB_ADD_NEW_USER, arg);
     }
 
-    ConfigureUserTableView();
     PopulateUserTableView();
 }
 
@@ -103,7 +125,6 @@ void ManageUsers::on_DeleteUserButton_clicked()
         Mediator::Call(MKEY_DB_REMOVE_USER, arg);
     }
 
-    ConfigureUserTableView();
     PopulateUserTableView();
 }
 
@@ -143,4 +164,14 @@ void ManageUsers::on_reenterpasswordLineEdit_textChanged(const QString &arg1)
 void ManageUsers::on_IsAdminBox_toggled(bool checked)
 {
     _admin = checked;
+}
+
+void ManageUsers::on_usertableWidget_doubleClicked(const QModelIndex &index)
+{
+    if(index.row() >= 0 && index.row() < (int)_userVector->size())
+    {
+        _selectedUser = _userVector->at(index.row());
+        ui->usernameLineEdit->setText(_selectedUser->GetName());
+        ui->IsAdminBox->setChecked(_selectedUser->GetType() == USER_T_ADMIN ? true: false);
+    }
 }

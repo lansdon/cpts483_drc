@@ -12,6 +12,7 @@
 #include "MediatorArg.h"
 #include "Mediator.h"
 #include "MediatorKeys.h"
+#include "mediationevaluation.h"
 #include "User.h"
 
 //--Note:   I don't know how to create a scenario where a database can

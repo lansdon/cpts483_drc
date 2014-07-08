@@ -54,10 +54,12 @@ void MainMenuForm::on_newEvaluationBtn_clicked()
 
 void MainMenuForm::on_resWaBtn_clicked()
 {
+    Mediator::Call(MKEY_GUI_SHOW_RESWA_REPORT);
 
 }
 
 void MainMenuForm::on_monthlyReportBtn_clicked()
 {
+    Mediator::Call(MKEY_GUI_SHOW_MONTHLY_REPORT);
 
 }

@@ -8,8 +8,86 @@ MediationEvaluation::MediationEvaluation()
 
 QString MediationEvaluation::Parse()
 {
-#warning TODO - Parse() UNIMPLEMENTED!!!!
-    return "";
+    QString toReturn;
+
+    if(_q3 == EVALUATION_ANSWERS_YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q3 == EVALUATION_ANSWERS_NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q3 == EVALUATION_ANSWERS_SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q4 == EVALUATION_ANSWERS_YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q4 == EVALUATION_ANSWERS_NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q4 == EVALUATION_ANSWERS_SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q5 == EVALUATION_ANSWERS_YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q5 == EVALUATION_ANSWERS_NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q5 == EVALUATION_ANSWERS_SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q6 == EVALUATION_ANSWERS_YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q6 == EVALUATION_ANSWERS_NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q6 == EVALUATION_ANSWERS_SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q7 == EVALUATION_ANSWERS_YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q7 == EVALUATION_ANSWERS_NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q7 == EVALUATION_ANSWERS_SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q8 == EVALUATION_ANSWERS_YES)
+    {
+        toReturn += "1, 0, 0";
+    }
+    else if(_q8 == EVALUATION_ANSWERS_NO)
+    {
+        toReturn += "0, 1, 0";
+    }
+    else if(_q8 == EVALUATION_ANSWERS_SOMEWHAT)
+    {
+        toReturn += "0, 0, 1";
+    }
+
 }
 
 QString MediationEvaluation::UpdateParse()
@@ -22,7 +100,7 @@ QString MediationEvaluation::UpdateParse()
 QString MediationEvaluation::table()
 {
 #warning TODO - table() UNIMPLEMENTED!!!!
-    return "";
+    return "Evaluation_Table";
 
 }
 
