@@ -8,8 +8,86 @@ MediationEvaluation::MediationEvaluation()
 
 QString MediationEvaluation::Parse()
 {
-#warning TODO - Parse() UNIMPLEMENTED!!!!
-    return "";
+    QString toReturn;
+
+    if(_q3 == YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q3 == NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q3 == SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q4 == YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q4 == NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q4 == SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q5 == YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q5 == NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q5 == SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q6 == YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q6 == NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q6 == SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q7 == YES)
+    {
+        toReturn += "1, 0, 0, ";
+    }
+    else if(_q7 == NO)
+    {
+        toReturn += "0, 1, 0, ";
+    }
+    else if(_q7 == SOMEWHAT)
+    {
+        toReturn += "0, 0, 1, ";
+    }
+
+    if(_q8 == YES)
+    {
+        toReturn += "1, 0, 0";
+    }
+    else if(_q8 == NO)
+    {
+        toReturn += "0, 1, 0";
+    }
+    else if(_q8 == SOMEWHAT)
+    {
+        toReturn += "0, 0, 1";
+    }
+
 }
 
 QString MediationEvaluation::UpdateParse()
@@ -22,7 +100,7 @@ QString MediationEvaluation::UpdateParse()
 QString MediationEvaluation::table()
 {
 #warning TODO - table() UNIMPLEMENTED!!!!
-    return "";
+    return "Evaluation_Table";
 
 }
 
