@@ -375,5 +375,6 @@ void DRCClient::ShowMainMenu()
     _mediationProcessView = nullptr;
     SetMenuBarEnabled();
     SetMenuHelpEnabled();
+    ToolbarManager::Instance().Clear();
     setCentralWidget(new MainMenuForm(this));
 }
