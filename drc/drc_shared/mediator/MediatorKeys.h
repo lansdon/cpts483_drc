@@ -133,6 +133,7 @@ const QString MKEY_DB_QUERY_MEDIATION = "MKEY_DB_QUERY_MEDIATION";              
 
 //////////////////////////////////////////////////////////////////
 //				DOCK WIDGET
+//  ** These are one-shot events. (not chains of events)
 //////////////////////////////////////////////////////////////////
 //	toggle MPToolbox Dock Widget
 const QString MKEY_GUI_SHOW_MEDIATION_BROWSER = "MKEY_GUI_SHOW_MEDIATION_BROWSER";              // null
@@ -155,10 +156,20 @@ const QString MKEY_DOCK_SET_NOTES = "MKEY_DOCK_SET_NOTES";                      
 //////////////////////////////////////////////////////////////////
 //				MEDIATION PROCESS - (GUI INTERNAL)
 // Internal MP events to signal changes from children forms.
+//  ** These are one-shot events. (not chains of events)
 //////////////////////////////////////////////////////////////////                         ARGUMENT TYPE
 const QString MKEY_GUI_MP_SAVE_PENDING = "MKEY_GUI_MP_SAVE_PENDING";                        // nullptr
 const QString MKEY_GUI_MP_POPULATE = "MKEY_GUI_MP_POPULATE";                                // nullptr
 const QString MKEY_GUI_MP_SHOULD_SAVE = "MKEY_GUI_MP_SHOULD_SAVE";                          // nullptr
 const QString MKEY_GUI_MP_NEW_FORM = "MKEY_GUI_MP_NEW_FORM";                                // nullptr
+
+//////////////////////////////////////////////////////////////////
+//				DRCClient - (GUI INTERNAL)
+// Internal events for main window
+//  ** These are one-shot events. (not chains of events)
+//////////////////////////////////////////////////////////////////                         ARGUMENT TYPE
+const QString MKEY_GUI_SHOW_EVALUATION = "MKEY_GUI_SHOW_EVALUATION";                                // nullptr
+const QString MKEY_GUI_SHOW_MONTHLY_REPORT = "MKEY_GUI_SHOW_MONTHLY_REPORT";                          // nullptr
+const QString MKEY_GUI_SHOW_RESWA_REPORT = "MKEY_GUI_SHOW_RESWA_REPORT";                                // nullptr
 
 #endif

@@ -63,8 +63,6 @@ DRCClient::DRCClient(QWidget *parent)
     Mediator::Register(MKEY_GUI_SHOW_MONTHLY_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowMonthlyReport();});
     Mediator::Register(MKEY_GUI_SHOW_RESWA_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowResWaReport();});
 
-
-
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
     ToolbarManager::Instance().Clear();
