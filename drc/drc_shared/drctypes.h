@@ -14,6 +14,7 @@ class MediationSession;
 class Party;
 class Note;
 class ClientSessionData;
+class MediationEvaluation;
 
 // Typedefs
 typedef std::vector<Person*> PersonVector;
@@ -22,10 +23,18 @@ typedef std::vector<MediationSession*> MediationSessionVector;
 typedef std::vector<Party*> PartyVector;
 typedef std::vector<Note*> MediationNotesVector;
 typedef std::vector<ClientSessionData*> ClientSessionDataVector;
-
+typedef std::vector<MediationEvaluation*> MediationEvaluationVector;
 
 
 // ENUMS FOREVAH
+
+enum EvaluationAnswers
+{
+    EVALUATION_ANSWERS_NO_ANSWER,
+    EVALUATION_ANSWERS_YES,
+    EVALUATION_ANSWERS_NO,
+    EVALUATION_ANSWERS_SOMEWHAT
+};
 
 enum DisputeTypes
 {
@@ -183,6 +192,7 @@ QString StringForInquiryTypes(InquiryTypes id);
 QString StringForCourtTypes(CourtCaseTypes id);
 QString StringForCourtOrderTypes(CourtOrderTypes id);
 QString StringForSessionOutcomes(SessionOutcomes id);
+QString StringForEvaluationAnswers(EvaluationAnswers id);
 
 
 

@@ -19,22 +19,22 @@
 //////////////////////////////////////////////////////////////////
 
 
-// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
-//////////////////////////////////////////////////////////////////
-//				SUBMIT FRUIT NAME
-// Test function to save a fruit in the database
-//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
-const QString MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";                // Fruit*
-const QString MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";      // Fruit*
-const QString MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";      // Fruit
+//// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
+////////////////////////////////////////////////////////////////////
+////				SUBMIT FRUIT NAME
+//// Test function to save a fruit in the database
+////////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
+//const QString MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";                // Fruit*
+//const QString MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";      // Fruit*
+//const QString MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";      // Fruit
 
-// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
-//////////////////////////////////////////////////////////////////
-//				SEARCH FOR USER BY NAME ????? Test Function ???
-// Test function to load test records on fruit page
-//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
-const QString MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";            // QString*
-const QString MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
+//// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
+////////////////////////////////////////////////////////////////////
+////				SEARCH FOR USER BY NAME ????? Test Function ???
+//// Test function to load test records on fruit page
+////////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
+//const QString MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";            // QString*
+//const QString MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
 
 //////////////////////////////////////////////////////////////////
 //				AUTHENTICATE USER
@@ -54,6 +54,8 @@ const QString MKEY_GUI_HIDE_ADMIN = "MKEY_GUI_HIDE_ADMIN";                      
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const QString MKEY_DB_ADD_NEW_USER = "MKEY_DB_ADD_NEW_USER";                            // User*
 const QString MKEY_DB_REMOVE_USER = "MKEY_DB_REMOVE_USER";                              // User*
+const QString MKEY_DB_VERIFY_REMOVE_USER = "MKEY_DB_VERIFY_REMOVE_USER";                // arg.isSuccessful()
+const QString MKEY_DB_VERIFY_UPDATE_USER = "MKEY_DB_VERIFY_UPDATE_USER";                // arg.isSuccessful()
 const QString MKEY_DB_UPDATE_USER = "MKEY_DB_UPDATE_USER";                              // User*
 const QString MKEY_DB_GET_ALL_USER = "MKEY_DB_GET_ALL_USER";                            // User*
 const QString MKEY_DB_RETURN_ALL_USER = "MKEY_DB_RETURN_ALL_USER";                      // QVector<User*>*
@@ -131,6 +133,7 @@ const QString MKEY_DB_QUERY_MEDIATION = "MKEY_DB_QUERY_MEDIATION";              
 
 //////////////////////////////////////////////////////////////////
 //				DOCK WIDGET
+//  ** These are one-shot events. (not chains of events)
 //////////////////////////////////////////////////////////////////
 //	toggle MPToolbox Dock Widget
 const QString MKEY_GUI_SHOW_MEDIATION_BROWSER = "MKEY_GUI_SHOW_MEDIATION_BROWSER";              // null
@@ -153,10 +156,37 @@ const QString MKEY_DOCK_SET_NOTES = "MKEY_DOCK_SET_NOTES";                      
 //////////////////////////////////////////////////////////////////
 //				MEDIATION PROCESS - (GUI INTERNAL)
 // Internal MP events to signal changes from children forms.
+//  ** These are one-shot events. (not chains of events)
 //////////////////////////////////////////////////////////////////                         ARGUMENT TYPE
 const QString MKEY_GUI_MP_SAVE_PENDING = "MKEY_GUI_MP_SAVE_PENDING";                        // nullptr
 const QString MKEY_GUI_MP_POPULATE = "MKEY_GUI_MP_POPULATE";                                // nullptr
 const QString MKEY_GUI_MP_SHOULD_SAVE = "MKEY_GUI_MP_SHOULD_SAVE";                          // nullptr
 const QString MKEY_GUI_MP_NEW_FORM = "MKEY_GUI_MP_NEW_FORM";                                // nullptr
+
+
+//////////////////////////////////////////////////////////////////
+//				MEDIATION EVALUATION
+//////////////////////////////////////////////////////////////////
+const QString MKEY_GUI_SAVE_EVALUATION = "MKEY_GUI_SAVE_EVALUATION";                        // MediationEvaluation*
+const QString MKEY_BL_SAVE_EVALUATION = "MKEY_BL_SAVE_EVALUATION";                          // MediationEvaluation*
+const QString MKEY_DB_SAVE_EVALUATION = "MKEY_DB_SAVE_EVALUATION";                          // MediationEvaluation*
+
+//////////////////////////////////////////////////////////////////
+//				DRCClient - (GUI INTERNAL)
+// Internal events for main window
+//  ** These are one-shot events. (not chains of events)
+//////////////////////////////////////////////////////////////////                         ARGUMENT TYPE
+const QString MKEY_GUI_SHOW_EVALUATION = "MKEY_GUI_SHOW_EVALUATION";                                // nullptr
+const QString MKEY_GUI_SHOW_MONTHLY_REPORT = "MKEY_GUI_SHOW_MONTHLY_REPORT";                          // nullptr
+const QString MKEY_GUI_SHOW_RESWA_REPORT = "MKEY_GUI_SHOW_RESWA_REPORT";                                // nullptr
+
+
+//////////////////////////////////////////////////////////////////
+//				RESWA REPORTS - REQUEST
+// GUI requesting a reswa report for given year and semi-annual period
+//////////////////////////////////////////////////////////////////                         ARGUMENT TYPE
+const QString MKEY_GUI_REQUEST_RESWA_REPORT = "MKEY_GUI_REQUEST_RESWA_REPORT";             // ReportRequest*
+const QString MKEY_BL_REQUEST_RESWA_REPORT = "MKEY_BL_REQUEST_RESWA_REPORT";              // ReportRequest*
+const QString MKEY_DB_REQUEST_RESWA_REPORT_DONE = "MKEY_DB_REQUEST_RESWA_REPORT_DONE";    // ResWaReport*
 
 #endif

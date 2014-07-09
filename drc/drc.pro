@@ -6,6 +6,7 @@
 
 QT      += core gui
 QT	+= sql
+QT      += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -39,6 +40,7 @@ SOURCES += main.cpp\
     gui/partyform.cpp \
     drc_shared/models/party.cpp \
     drc_shared/models/mediationprocess.cpp \
+    drc_shared/models/mediationevaluation.cpp \
     gui/mediationprocessstatusform.cpp \
     gui/Mock_Server/mock_server.cpp \
     drc_shared/CurrentUser.cpp \
@@ -63,7 +65,10 @@ SOURCES += main.cpp\
     gui/manageusers.cpp \
     gui/attorneyheaderview.cpp \
     gui/mainmenuform.cpp \
-    gui/monthlyreportform.cpp
+    gui/monthlyreportform.cpp \
+    gui/mediationevaluationview.cpp \
+    gui/reswareportform.cpp \
+    drc_shared/models/reswareport.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -78,7 +83,6 @@ HEADERS  += \
     db/Filter.h \
     db/FilterTypes.h \
     drc_shared/models/User.h \
-    drc_shared/models/UserType.h \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
@@ -94,6 +98,7 @@ HEADERS  += \
     gui/partyform.h \
     drc_shared/models/party.h \
     drc_shared/models/mediationprocess.h \
+    drc_shared/models/mediationevaluation.h \
     drc_shared/drctypes.h \
     gui/mediationprocessstatusform.h \
     gui/Mock_Server/mock_server.h \
@@ -109,7 +114,6 @@ HEADERS  += \
     gui/mptoolbox.h \
     gui/sessioncell.h \
     gui/nosessionsview.h \
-    gui/Note.h \
     drc_shared/mpfilemaker.h \
     drc_shared/models/Note.h \
     drc_shared/models/clientsessiondata.h \
@@ -119,7 +123,11 @@ HEADERS  += \
     gui/manageusers.h \
     gui/attorneyheaderview.h \
     gui/mainmenuform.h \
-    gui/monthlyreportform.h
+    gui/monthlyreportform.h \
+    gui/mediationevaluationview.h \
+    gui/reswareportform.h \
+    drc_shared/reportrequest.h \
+    drc_shared/models/reswareport.h
 
 FORMS    += \
     DRCClient.ui \
@@ -145,7 +153,9 @@ FORMS    += \
     gui/manageusers.ui \
     gui/attorneyheaderview.ui \
     gui/mainmenuform.ui \
-    gui/monthlyreportform.ui
+    gui/monthlyreportform.ui \
+    gui/mediationevaluationview.ui \
+    gui/reswareportform.ui
 
 
 CONFIG += c++11

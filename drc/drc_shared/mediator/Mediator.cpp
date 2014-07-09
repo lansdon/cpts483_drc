@@ -91,7 +91,6 @@ void Mediator::PrintState()
         {
             qDebug() << "\t  id:" + QString::number( cb->GetId() ) + " = " + cb->toString();
         }
-
     }
     qDebug() << "--------------------------------\n";
 }

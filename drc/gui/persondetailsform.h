@@ -67,6 +67,10 @@ private slots:
     void on_secondaryLineEdit_textEdited(const QString &arg1);
     void on_secondaryExtLineEdit_textEdited(const QString &arg1);
 
+    void on_adultsInHomeSpinBox_valueChanged(int arg1);
+
+    void on_assistantLineEdit_editingFinished();
+
 signals:
     void SaveSignaled();
     void EditSignaled();
