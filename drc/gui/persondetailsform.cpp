@@ -211,8 +211,8 @@ void PersonDetailsForm::SetEditMode(bool editModeOn)
     ui->adultsInHomeSpinBox->setEnabled(editModeOn);
     ui->attorneyLineEdit->setEnabled(editModeOn);
 
-    ui->saveButton->setEnabled(editModeOn);
-    ui->editButton->setEnabled(!editModeOn);
+//    ui->saveButton->setEnabled(editModeOn);
+//    ui->editButton->setEnabled(!editModeOn);
 
     _editModeOn = editModeOn;
 
@@ -242,12 +242,12 @@ void PersonDetailsForm::ShowButtons(bool showButtons)
 {
     if(showButtons)
     {
-        ui->buttonContainer->setVisible(true);
+//        ui->buttonContainer->setVisible(true);
         SetEditMode(false);
     }
     else
     {
-        ui->buttonContainer->setVisible(false);
+//        ui->buttonContainer->setVisible(false);
         SetEditMode(true);
     }
 }
