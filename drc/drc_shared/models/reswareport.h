@@ -24,27 +24,29 @@ public:
 
 
     ///////////////// Evaluation Sums - (Set by DB!) ///////////////////
-    void SetNumByPhone(int num) { _numByPhone = num; }
-    void SetNumChildByPhone(int num) { _numChildByPhone = num; }
-    void SetNumByCoaching(int num) { _numByCoaching = num; }
-    void SetNumChildByCoaching(int num) { _numChildByCoaching = num; }
-    void SetNumByPhoneConcilliation(int num) { _numByPhoneConcilliation = num; }
-    void SetNumChildByPhoneConcilliation(int num) { _numChildByPhoneConcilliation = num; }
-    void SetNumBySessions(int num) { _numBySessions = num; }
-    void SetNumChildBySessions(int num) { _numChildBySessions = num; }
-    void SetNumBySessionFacilliation(int num) { _numBySessionFacilliation = num; }
-    void SetNumChildBySessionFacilliation(int num) { _numChildByPhone = num; }
-    void SetNumIndirectly(int num) { _numIndirectly = num; }
-    void SetNumChildIndirectly(int num) { _numChildIndirectly = num; }
-    void SetNumByTraining(int num) { _numByTraining = num; }
-    void SetNumChildByTraining(int num) { _numChildByTraining = num; }
-    void SetNumAdditionalServed(int num) { _numAdditionalServed = num; }
-    void SetNumChildAdditionalServed(int num) { _numChildAdditionalServed = num; }
+    void SetQ1Yes(int num) { _q1Yes = num; }
+    void SetQ1No(int num) { _q1No = num; }
+    void SetQ1Somewhat(int num) { _q1Somewhat = num; }
+    void SetQ2Yes(int num) { _q2Yes = num; }
+    void SetQ2No(int num) { _q2No = num; }
+    void SetQ2Somewhat(int num) { _q2Somewhat = num; }
+    void SetQ3Yes(int num) { _q3Yes = num; }
+    void SetQ3No(int num) { _q3No = num; }
+    void SetQ3Somewhat(int num) { _q3Somewhat = num; }
+    void SetQ4Yes(int num) { _q4Yes = num; }
+    void SetQ4No(int num) { _q4No = num; }
+    void SetQ4Somewhat(int num) { _q4Somewhat = num; }
+    void SetQ5Yes(int num) { _q5Yes = num; }
+    void SetQ5No(int num) { _q5No = num; }
+    void SetQ5Somewhat(int num) { _q5Somewhat = num; }
+    void SetQ6Yes(int num) { _q6Yes = num; }
+    void SetQ6No(int num) { _q6No = num; }
+    void SetQ6Somewhat(int num) { _q6Somewhat = num; }
 
 private:
     // MP's spanning 6 month period.
     // All calculations are based on this collection.
-    MediationProcessVector _processes;
+    MediationProcessVector* _processes;
 
     // The final report object after it's been built.
     QTextDocument* _report;
@@ -59,6 +61,15 @@ private:
     QString _contactEmail;
 
     ///////  Evaluation Fields - Set by DB !!!
+    int _q1Yes, _q1No, _q1Somewhat;
+    int _q2Yes, _q2No, _q2Somewhat;
+    int _q3Yes, _q3No, _q3Somewhat;
+    int _q4Yes, _q4No, _q4Somewhat;
+    int _q5Yes, _q5No, _q5Somewhat;
+    int _q6Yes, _q6No, _q6Somewhat;
+
+
+    ///////  Person section. Might not want these.
     int _numByPhone;
     int _numChildByPhone;
     int _numByCoaching;
@@ -92,6 +103,11 @@ private:
     void BuildEvaluationSection(QTextCursor& cursor);
 
     void OpenReportPDF();
+
+    QTextCharFormat _headerFormat;
+    QTextCharFormat _tableTextFormat;
+
+    void TextToCell(QTextTable* table, int row, int col, QString txt, QTextCharFormat* format = nullptr);
 
 };
 

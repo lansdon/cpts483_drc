@@ -498,9 +498,10 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         report = new ResWaReport(mpVec);
 
         // populate the evaluation totals
-        report->SetNumByPhone(666);
-        report->SetNumChildByPhone(333);
-        // ... fill in all the SetNumXXXXX  for evaluations
+        report->SetQ1Yes(50);
+        report->SetQ1No(40);
+        report->SetQ1Somewhat(20);
+        // ... fill in all the SetQXX for evaluations
     }
 
     Mediator::Call(MKEY_DB_REQUEST_RESWA_REPORT_DONE,  report);
