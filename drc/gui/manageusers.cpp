@@ -18,6 +18,9 @@ ManageUsers::ManageUsers(QWidget *parent) :
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
     ui->reenterpasswordLineEdit->setEchoMode(QLineEdit::Password);
 
+    // Center Everything to make picky people happy.
+
+
     // Mediator method registers
     Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
     Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg arg) {VerifyDeleteSelectedUser(arg);});
