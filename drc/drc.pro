@@ -71,7 +71,8 @@ SOURCES += main.cpp\
     gui/attorneyheaderview.cpp \
     gui/mainmenuform.cpp \
     gui/mediationevaluationview.cpp \
-    gui/reswareportform.cpp
+    gui/reswareportform.cpp \
+    drc_shared/models/reswareport.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -133,7 +134,8 @@ HEADERS  += \
     gui/mainmenuform.h \
     gui/mediationevaluationview.h \
     gui/reswareportform.h \
-    drc_shared/reportrequest.h
+    drc_shared/reportrequest.h \
+    drc_shared/models/reswareport.h
 
 FORMS    += \
     DRCClient.ui \

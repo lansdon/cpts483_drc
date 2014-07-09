@@ -14,6 +14,7 @@
 #include "Mediator.h"
 #include "MediatorKeys.h"
 #include "reportrequest.h"
+#include "reswareport.h"
 
 const QString DEF_PDF_PATH = "RES_WA_REPORT.pdf";
 
@@ -32,6 +33,8 @@ ResWaReportForm::ResWaReportForm(QWidget *parent)
 
     ui->reswaLogoLabel->setPixmap(QPixmap(":images/reswalogo.gif"));
 
+    Mediator::Register(MKEY_DB_REQUEST_RESWA_REPORT_DONE, [this](MediatorArg arg){RecieveReport(arg);});
+
 }
 
 ResWaReportForm::~ResWaReportForm()
@@ -40,76 +43,22 @@ ResWaReportForm::~ResWaReportForm()
 }
 
 // Mediator Callback when report comes from DB.
-void RecieveReport(MediatorArg arg)
+void ResWaReportForm::RecieveReport(MediatorArg arg)
 {
     if(arg.IsSuccessful())
     {
-//        auto report = arg.getArg<ResWaReport>();
-//        if(report)
-//        {
-//            BuildReport();
-//        }
+        auto report = arg.getArg<ResWaReport*>();
+        if(report)
+        {
+            report->BuildReport();
+        }
     }
 }
 
 
 void ResWaReportForm::BuildReport()
 {
-    _report = new QTextDocument();
-    _report->begin();
 
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(DEF_PDF_PATH);
-
-
-    QTextCursor cursor(_report);
-    cursor.insertText("Text and stuff");
-    cursor.insertText("Text and stuff");
-    cursor.insertText("Text and stuff");
-    cursor.insertText("Text and stuff");
-    cursor.insertText("Text and stuff");
-
-
-    QTextTableFormat tableFormat;
-    tableFormat.setBackground(QColor("#e0e0e0"));
-    QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 16);
-    constraints << QTextLength(QTextLength::PercentageLength, 28);
-    constraints << QTextLength(QTextLength::PercentageLength, 28);
-    constraints << QTextLength(QTextLength::PercentageLength, 28);
-    tableFormat.setColumnWidthConstraints(constraints);
-    int rows = 5, columns = 5;
-    QTextTable *table = cursor.insertTable(rows, columns, tableFormat);
-
-    for (auto column = 1; column < columns; ++column) {
-        auto cell = table->cellAt(0, column);
-        auto cellCursor = cell.firstCursorPosition();
-        cellCursor.insertText(tr("Team %1").arg(column));
-    }
-
-    for (auto row = 1; row < rows; ++row) {
-        auto cell = table->cellAt(row, 0);
-        auto cellCursor = cell.firstCursorPosition();
-        cellCursor.insertText(tr("%1").arg(row));
-
-        for (auto column = 1; column < columns; ++column) {
-            if ((row-1) % 3 == column-1) {
-                cell = table->cellAt(row, column);
-                QTextCursor cellCursor = cell.firstCursorPosition();
-                cellCursor.insertText(tr("On duty"));
-            }
-        }
-    }
-
-
-    _report->end();
-
-    _report->print(&printer);
-
-
-    if(!QDesktopServices::openUrl(QUrl::fromLocalFile(DEF_PDF_PATH)))
-        qDebug() << "Error opening RESWA PDF";
 
 }
 

@@ -14,6 +14,7 @@ class MediationSession;
 class Party;
 class Note;
 class ClientSessionData;
+class MediationEvaluation;
 
 // Typedefs
 typedef std::vector<Person*> PersonVector;
@@ -22,7 +23,7 @@ typedef std::vector<MediationSession*> MediationSessionVector;
 typedef std::vector<Party*> PartyVector;
 typedef std::vector<Note*> MediationNotesVector;
 typedef std::vector<ClientSessionData*> ClientSessionDataVector;
-
+typedef std::vector<MediationEvaluation*> MediationEvaluationVector;
 
 
 // ENUMS FOREVAH

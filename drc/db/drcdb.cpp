@@ -1,6 +1,8 @@
 #include "drcdb.h"
 #include "drctypes.h"
 #include <QtSql/QtSql>
+#include "reswareport.h"
+#include "reportrequest.h"
 
 #define db_driver "QSQLITE"
 
@@ -18,6 +20,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_DB_UPDATE_USER, [this](MediatorArg arg){UpdateUser(arg);});
     Mediator::Register(MKEY_DB_GET_ALL_USER, [this](MediatorArg arg) {GetAllUsers(arg);});
     Mediator::Register(MKEY_GUI_SAVE_EVALUATION, [this](MediatorArg arg) {InsertEvaluation(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_RESWA_REPORT, [this](MediatorArg arg) {QueryResWaReport(arg);});
 
 }
 //========================================================================
@@ -479,11 +482,28 @@ DRCDB::~DRCDB()
 //========================================================================
 
 // Arg is a ReportRequest*  !!
-void QueryResWaReport(MediatorArg arg)
+void DRCDB::QueryResWaReport(MediatorArg arg)
 {
-    // send me a ResWaReport please!!!!!!
+    ResWaReport* report = nullptr;
+    ReportRequest* params = nullptr;
+    if(arg.IsSuccessful() && (params = arg.getArg<ReportRequest*>()))
+    {
+        bool firstHalfOfYear = params->IsForFirstHalfOfYear();
+        bool year = params->GetYear();
 
-    Mediator::Call(MKEY_DB_REQUEST_RESWA_REPORT_DONE,  nullptr /*reswa */);
+        // .... query for MP's
+        MediationProcessVector mpVec = {MediationProcess::SampleData(), MediationProcess::SampleData()};
+
+        // Must Init the ResWaReport with MPVector (all mps in the 6 month span)
+        report = new ResWaReport(mpVec);
+
+        // populate the evaluation totals
+        report->SetNumByPhone(666);
+        report->SetNumChildByPhone(333);
+        // ... fill in all the SetNumXXXXX  for evaluations
+    }
+
+    Mediator::Call(MKEY_DB_REQUEST_RESWA_REPORT_DONE,  report);
 }
 
 //========================================================================
