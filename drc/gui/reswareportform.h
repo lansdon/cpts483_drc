@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QTextDocument>
+#include "MediatorArg.h"
 
 namespace Ui {
 class ResWaReportForm;
@@ -16,12 +17,20 @@ public:
     explicit ResWaReportForm(QWidget *parent = 0);
     ~ResWaReportForm();
 
+private slots:
+
+    void on_showResportBtn_clicked();
+
+    void on_cancelBtn_clicked();
+
 private:
     Ui::ResWaReportForm *ui;
 
     QTextDocument* _report;
 
     void BuildReport();
+
+    void RecieveReport(MediatorArg arg);
 };
 
 #endif // RESWAREPORTFORM_H

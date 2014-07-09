@@ -86,7 +86,6 @@ HEADERS  += \
     db/Filter.h \
     db/FilterTypes.h \
     drc_shared/models/User.h \
-    drc_shared/models/UserType.h \
     bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
@@ -123,7 +122,6 @@ HEADERS  += \
     gui/mptoolbox.h \
     gui/sessioncell.h \
     gui/nosessionsview.h \
-    gui/Note.h \
     drc_shared/mpfilemaker.h \
     drc_shared/models/Note.h \
     drc_shared/models/clientsessiondata.h \
@@ -134,7 +132,8 @@ HEADERS  += \
     gui/attorneyheaderview.h \
     gui/mainmenuform.h \
     gui/mediationevaluationview.h \
-    gui/reswareportform.h
+    gui/reswareportform.h \
+    drc_shared/reportrequest.h
 
 FORMS    += \
     DRCClient.ui \

@@ -19,22 +19,22 @@
 //////////////////////////////////////////////////////////////////
 
 
-// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
-//////////////////////////////////////////////////////////////////
-//				SUBMIT FRUIT NAME
-// Test function to save a fruit in the database
-//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
-const QString MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";                // Fruit*
-const QString MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";      // Fruit*
-const QString MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";      // Fruit
+//// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
+////////////////////////////////////////////////////////////////////
+////				SUBMIT FRUIT NAME
+//// Test function to save a fruit in the database
+////////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
+//const QString MKEY_GUI_SUBMIT_FRUIT_NAME = "MKEY_GUI_SUBMIT_FRUIT_NAME";                // Fruit*
+//const QString MKEY_BL_VALIDATE_FRUITNAME_DONE = "MKEY_BL_VALIDATE_FRUITNAME_DONE";      // Fruit*
+//const QString MKEY_DB_PERSIST_FRUIT_NAME_DONE = "MKEY_DB_PERSIST_FRUIT_NAME_DONE";      // Fruit
 
-// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
-//////////////////////////////////////////////////////////////////
-//				SEARCH FOR USER BY NAME ????? Test Function ???
-// Test function to load test records on fruit page
-//////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
-const QString MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";            // QString*
-const QString MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
+//// >>>>>>>>>>>>>>>>> OBSOLETE ITEMS!!!! THESE ARE GOING TO BE DELETED!! <<<<<<<<<<<<<<<<<<<
+////////////////////////////////////////////////////////////////////
+////				SEARCH FOR USER BY NAME ????? Test Function ???
+//// Test function to load test records on fruit page
+////////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
+//const QString MKEY_GUI_SEARCH_FOR_USERNAME = "MKEY_GUI_SEARCH_FOR_USERNAME";            // QString*
+//const QString MKEY_BL_RETURN_SEARCH_RESULTS = "MKEY_BL_RETURN_SEARCH_RESULTS";          // class Intake*
 
 //////////////////////////////////////////////////////////////////
 //				AUTHENTICATE USER
@@ -179,5 +179,14 @@ const QString MKEY_DB_SAVE_EVALUATION = "MKEY_DB_SAVE_EVALUATION";              
 const QString MKEY_GUI_SHOW_EVALUATION = "MKEY_GUI_SHOW_EVALUATION";                                // nullptr
 const QString MKEY_GUI_SHOW_MONTHLY_REPORT = "MKEY_GUI_SHOW_MONTHLY_REPORT";                          // nullptr
 const QString MKEY_GUI_SHOW_RESWA_REPORT = "MKEY_GUI_SHOW_RESWA_REPORT";                                // nullptr
+
+
+//////////////////////////////////////////////////////////////////
+//				RESWA REPORTS - REQUEST
+// GUI requesting a reswa report for given year and semi-annual period
+//////////////////////////////////////////////////////////////////                         ARGUMENT TYPE
+const QString MKEY_GUI_REQUEST_RESWA_REPORT = "MKEY_GUI_REQUEST_RESWA_REPORT";             // ReportRequest*
+const QString MKEY_BL_REQUEST_RESWA_REPORT = "MKEY_BL_REQUEST_RESWA_REPORT";              // ReportRequest*
+const QString MKEY_DB_REQUEST_RESWA_REPORT_DONE = "MKEY_DB_REQUEST_RESWA_REPORT_DONE";    // ResWaReport*
 
 #endif
