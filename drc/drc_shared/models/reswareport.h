@@ -8,7 +8,7 @@ class ResWaReport
 {
 public:
     // Always initialize object with mediation processes from 6 month period
-    ResWaReport(MediationProcessVector &processes);
+    ResWaReport(MediationProcessVector* processes);
 
     ///////////////// Report Builder ///////////////////
     void BuildReport();         // Primary call
@@ -70,22 +70,22 @@ private:
 
 
     ///////  Person section. Might not want these.
-    int _numByPhone;
-    int _numChildByPhone;
-    int _numByCoaching;
-    int _numChildByCoaching;
-    int _numByPhoneConcilliation;
-    int _numChildByPhoneConcilliation;
-    int _numBySessions;
-    int _numChildBySessions;
-    int _numBySessionFacilliation;
-    int _numChildBySessionFacilliation;
-    int _numIndirectly;
-    int _numChildIndirectly;
-    int _numByTraining;
-    int _numChildByTraining;
-    int _numAdditionalServed;
-    int _numChildAdditionalServed;
+//    int _numByPhone;
+//    int _numChildByPhone;
+//    int _numByCoaching;
+//    int _numChildByCoaching;
+//    int _numByPhoneConcilliation;
+//    int _numChildByPhoneConcilliation;
+//    int _numBySessions;
+//    int _numChildBySessions;
+//    int _numBySessionFacilliation;
+//    int _numChildBySessionFacilliation;
+//    int _numIndirectly;
+//    int _numChildIndirectly;
+//    int _numByTraining;
+//    int _numChildByTraining;
+//    int _numAdditionalServed;
+//    int _numChildAdditionalServed;
 
 
 

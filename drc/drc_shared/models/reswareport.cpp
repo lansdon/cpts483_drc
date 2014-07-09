@@ -11,8 +11,8 @@
 
 const QString DEF_PDF_PATH = "RES_WA_REPORT.pdf";
 
-ResWaReport::ResWaReport(MediationProcessVector& processes)
-    : _processes(&processes)
+ResWaReport::ResWaReport(MediationProcessVector *processes)
+    : _processes(processes)
 {
 
     _headerFormat.setFontPointSize(12);

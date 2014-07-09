@@ -498,19 +498,19 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         QDateTime end;
         if(firstHalfOfYear)
         {
-            start = QDateTime::fromString("%1-01-01","yyyy-MM-dd").arg(year);
-            end = QDateTime::fromString("%1-06-30","yyyy-MM-dd").arg(year);
+            start = QDateTime::fromString(QString("%1-01-01").arg(year),"yyyy-MM-dd");
+            end = QDateTime::fromString(QString("%1-06-30").arg(year),"yyyy-MM-dd");
         }
         else
         {
-            start = QDateTime::fromString("%1-07-01","yyyy-MM-dd").arg(year);
-            end = QDateTime::fromString("%1-12-31","yyyy-MM-dd").arg(year);
+            start = QDateTime::fromString(QString("%1-07-01").arg(year),"yyyy-MM-dd");
+            end = QDateTime::fromString(QString("%1-12-31").arg(year),"yyyy-MM-dd");
         }
 
         QSqlQuery query(database);
         QString command = QString("Select * from Session_table where UpdatedDate < '%1' and UpdatedDate > '%2'")
-                            .arg(end)
-                            .arg(start);
+                            .arg(end.toString("yyyy-MM-dd"))
+                            .arg(start.toString("yyyy-MM-dd"));
         this->ExecuteCommand(command, query);
 
         QString mediationIdMatches = "";
@@ -524,7 +524,7 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
             mediationIdMatches += query.value(1).toString();
             first = false;
         }
-        MediationProcessVector mpVec = LoadMediations(mediationIdMatches);
+        MediationProcessVector* mpVec = LoadMediations(mediationIdMatches);
 
         // Must Init the ResWaReport with MPVector (all mps in the 6 month span)
         report = new ResWaReport(mpVec);
