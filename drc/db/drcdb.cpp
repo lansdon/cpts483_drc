@@ -55,7 +55,7 @@ bool DRCDB::CreateEvaluationTable(const QString& evaluationTableName)
     return CreateTable(evaluationTableName, evaluationTableColumns);
 }
 
-bool DRCDB::InsertEvaluation(MediatorArg arg)
+void DRCDB::InsertEvaluation(MediatorArg arg)
 {
     MediationEvaluation* eval = nullptr;
     if(arg.IsSuccessful())
@@ -70,10 +70,8 @@ bool DRCDB::InsertEvaluation(MediatorArg arg)
             QSqlQuery EvalQuery(database);
             QString EvalCommandString = QString("Select * from Evaluation_table where startDate < '%1' and endDate > '%1'")
                                                 .arg(eval->GetCreatedDate().toString("yyyy-MM-dd"));
-            bool found = false;
-            found = this->ExecuteCommand(EvalCommandString, EvalQuery);
+            this->ExecuteCommand(EvalCommandString, EvalQuery);
             if(!EvalQuery.next())
-            //if(!found)
             {
                 QSqlQuery insert(database);
                 int month = eval->GetCreatedDate().toString("MM").toInt();
@@ -89,7 +87,7 @@ bool DRCDB::InsertEvaluation(MediatorArg arg)
                     start = eval->GetCreatedDate().toString("yyyy-")+"07-01";
                     end = eval->GetCreatedDate().toString("yyyy-")+"12-31";
                 }
-                QString Command = QString("insert into EvaluationTable values (%1, '%2', '%3', %4)")
+                QString Command = QString("insert into Evaluation_Table values (%1, '%2', '%3', %4)")
                                         .arg("null")
                         .arg(start)
                         .arg(end)
@@ -282,54 +280,49 @@ void DRCDB::LoadDatabase(QString filename)
     QString user_table_name = QString("User_Table");
     QString evaluationTableName = QString("Evaluation_Table");
 
-    bool result = false;
-
     if (!this->DoesTableExist(person_table_name))
     {
-        result = CreatePersonTable(person_table_name);
+        CreatePersonTable(person_table_name);
     }
-    result = false;
 
     if (!this->DoesTableExist(mediation_table_name))
     {
-        result = CreateMediationTable(mediation_table_name);
+        CreateMediationTable(mediation_table_name);
     }
-    result = false;
 
     if (!this->DoesTableExist(session_table_name))
     {
-        result = CreateSessionTable(session_table_name);
+        CreateSessionTable(session_table_name);
     }
-    result = false;
 
     if (!this->DoesTableExist(client_table_name))
     {
-        result = CreateClientTable(client_table_name);
+        CreateClientTable(client_table_name);
     }
-    result = false;
 
     if(!this->DoesTableExist(notes_table_name))
     {
-        result = CreateNotesTable(notes_table_name);
+        CreateNotesTable(notes_table_name);
     }
-    result = false;
 
     if (!this->DoesTableExist(client_session_table_name))
     {
-         result = CreateClientSessionTable(client_session_table_name);
+         CreateClientSessionTable(client_session_table_name);
     }
 
-    CreateEvaluationTable(evaluationTableName);
+    if (!this->DoesTableExist(evaluationTableName))
+    {
+        CreateEvaluationTable(evaluationTableName);
+    }
 
-
-
-    result = false;
-    MediatorArg arg;
-    User* adminUser = new User("Admin", "admin", USER_T_ADMIN);
     if(!this->DoesTableExist(user_table_name))
     {
-        result = CreateUserTable(user_table_name);
+        CreateUserTable(user_table_name);
     }
+
+    // To make sure there is always Admin/admin for access to application
+    MediatorArg arg;
+    User* adminUser = new User("Admin", "admin", USER_T_ADMIN);
     arg.SetArg(adminUser);
     AddNewUser(arg);
 }
@@ -529,13 +522,40 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         // Must Init the ResWaReport with MPVector (all mps in the 6 month span)
         report = new ResWaReport(mpVec);
 
-        // populate the evaluation totals
-        report->SetQ1Yes(50);
-        report->SetQ1No(40);
-        report->SetQ1Somewhat(20);
-        // ... fill in all the SetQXX for evaluations
-    }
+        QSqlQuery evalQuery(database);
+        QString evalCommand = QString("Select * from Evaluation_Table where startdate = '%1'")
+                                .arg(start.toString("yyyy-MM-dd"));
 
+        this->ExecuteCommand(evalCommand,evalQuery);
+
+        while(evalQuery.next())
+        {
+            // populate the evaluation totals
+            report->SetQ1Yes(evalQuery.value(3).toInt());
+            report->SetQ1No(evalQuery.value(4).toInt());
+            report->SetQ1Somewhat(evalQuery.value(5).toInt());
+
+            report->SetQ2Yes(evalQuery.value(6).toInt());
+            report->SetQ2No(evalQuery.value(7).toInt());
+            report->SetQ2Somewhat(evalQuery.value(8).toInt());
+
+            report->SetQ3Yes(evalQuery.value(9).toInt());
+            report->SetQ3No(evalQuery.value(10).toInt());
+            report->SetQ3Somewhat(evalQuery.value(11).toInt());
+
+            report->SetQ4Yes(evalQuery.value(12).toInt());
+            report->SetQ4No(evalQuery.value(13).toInt());
+            report->SetQ4Somewhat(evalQuery.value(14).toInt());
+
+            report->SetQ5Yes(evalQuery.value(15).toInt());
+            report->SetQ5No(evalQuery.value(16).toInt());
+            report->SetQ5Somewhat(evalQuery.value(17).toInt());
+
+            report->SetQ6Yes(evalQuery.value(18).toInt());
+            report->SetQ6No(evalQuery.value(19).toInt());
+            report->SetQ6Somewhat(evalQuery.value(20).toInt());
+        }
+    }
     Mediator::Call(MKEY_DB_REQUEST_RESWA_REPORT_DONE,  report);
 }
 
@@ -597,8 +617,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         QSqlQuery sessionQuery(database);
         QString session_command_string = QString("Select * from Session_Table where process_id = %1")
                                                 .arg(processId);
-        bool sessionResult = false;
-        sessionResult = this->ExecuteCommand(session_command_string, sessionQuery);
+        this->ExecuteCommand(session_command_string, sessionQuery);
 
         MediationSessionVector* sessions = new MediationSessionVector();
         std::vector<int> sessionIds;
@@ -650,8 +669,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
 
         QSqlQuery noteQuery(database);
         QString note_command_string = QString("Select * from Notes_Table where Process_id = %1").arg(processId);
-        bool noteResult = false;
-        noteResult = this->ExecuteCommand(note_command_string, noteQuery);
+        this->ExecuteCommand(note_command_string, noteQuery);
 
         while(noteQuery.next())
         {
@@ -669,8 +687,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         QString client_command_string = QString("Select * from Client_table where process_id = %1")
                                                 .arg(processId);
 
-        bool clientResult = false;
-        clientResult = this->ExecuteCommand(client_command_string, clientQuery);
+        this->ExecuteCommand(client_command_string, clientQuery);
 
         QString personId;
 
@@ -684,8 +701,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             QSqlQuery peopleQuery(database);
             QString people_command_string = QString("Select * from Person_Table where person_id = %1").arg(personId);
 
-            bool personResult = false;
-            personResult = this->ExecuteCommand(people_command_string, peopleQuery);
+            this->ExecuteCommand(people_command_string, peopleQuery);
             while(peopleQuery.next())
             {
                 // rebuild the primary client
@@ -760,9 +776,7 @@ void DRCDB::QueryMediations(MediatorArg arg)
     }
     qDebug() << Find_Query_Command_string;
 
-    bool result = false;
-
-    result = this->ExecuteCommand(Find_Query_Command_string, Find_Query);
+    this->ExecuteCommand(Find_Query_Command_string, Find_Query);
 
     // build up a list of all the person ids that match this query
     QString personIdMatches = "";
@@ -782,8 +796,7 @@ void DRCDB::QueryMediations(MediatorArg arg)
 
     qDebug() << Find_Query_Command_string;
 
-    result = false;
-    result = this->ExecuteCommand(Find_Query_Command_string, Find_Query);
+    this->ExecuteCommand(Find_Query_Command_string, Find_Query);
 
     QString mediationIdMatches = "";
     first = true;
@@ -813,8 +826,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
     QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc limit 10";
-    bool result = false;
-    result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
+    this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";
     bool first = true;
@@ -835,13 +847,12 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
 
 void DRCDB::LoadPendingMediations(MediatorArg arg)
 {
+     Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-#warning - TODO: Update this string with the state enums that should flag as "pending"
     QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
                                         .arg(PROCESS_STATE_PENDING);
-    bool result = false;
-    result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
+    this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";
     bool first = true;
@@ -862,13 +873,12 @@ void DRCDB::LoadPendingMediations(MediatorArg arg)
 
 void DRCDB::LoadScheduledMediations(MediatorArg arg)
 {
+     Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-#warning - TODO: Update this string with the state enums that should flag as "pending"
     QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
                                         .arg(PROCESS_STATE_SCHEDULED);
-    bool result = false;
-    result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
+    this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";
     bool first = true;
@@ -889,13 +899,12 @@ void DRCDB::LoadScheduledMediations(MediatorArg arg)
 
 void DRCDB::LoadClosedMediations(MediatorArg arg)
 {
+     Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-#warning - TODO: Update this string with the state enums that should flag as "pending"
     QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
                                         .arg(PROCESS_STATE_CLOSED);
-    bool result = false;
-    result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
+    this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";
     bool first = true;
@@ -1093,10 +1102,8 @@ void DRCDB::AddNewUser(MediatorArg arg)
             QSqlQuery UserQuery(database);
             QString UserCommandString = QString("Select * from User_table where userName = '%1'")
                                                 .arg(user->GetName());
-            bool found = false;
-            found = this->ExecuteCommand(UserCommandString, UserQuery);
+            this->ExecuteCommand(UserCommandString, UserQuery);
             if(!UserQuery.next())
-            //if(!found)
             {
                 this->InsertObject(user);
                 arg.SetSuccessful(true);
@@ -1133,7 +1140,7 @@ void DRCDB::UpdateUser(MediatorArg arg)
 
             //Need to not immediately return so we can grab that ID that was created
             insertSuccess = this->ExecuteCommand(command_string, query_object);
-            arg.SetSuccessful(true);
+            arg.SetSuccessful(insertSuccess);
             //Returning the boolean that was found before so work flow won't change
         }
     }
@@ -1164,8 +1171,7 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
             QString UserCommandString = QString("Select * from User_table where userName = '%1' and password = '%2'")
                                             .arg(user->GetName())
                                             .arg(user->GetPass());
-            bool result = false;
-            result = this->ExecuteCommand(UserCommandString, UserQuery);
+            this->ExecuteCommand(UserCommandString, UserQuery);
 
             while(UserQuery.next())
             {
@@ -1220,14 +1226,14 @@ void DRCDB::RemoveUser(MediatorArg arg)
 
 void DRCDB::GetAllUsers(MediatorArg arg)
 {
+     Q_UNUSED(arg);  // don't care about incoming arg.
     QVector<User*>* users = new QVector<User*>();
 
 
     QSqlQuery UserQuery(database);
     QString UserCommandString = QString("Select * from User_table");
 
-    bool result = false;
-    result = this->ExecuteCommand(UserCommandString, UserQuery);
+    this->ExecuteCommand(UserCommandString, UserQuery);
 
     while(UserQuery.next())
     {

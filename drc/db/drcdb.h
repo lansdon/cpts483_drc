@@ -158,7 +158,7 @@ public:
 
     // TEST FUNCTIONALITY!!!
     bool CreateEvaluationTable(const QString& evaluationTableName);
-    bool InsertEvaluation(MediatorArg arg);
+    void InsertEvaluation(MediatorArg arg);
 
 
 
