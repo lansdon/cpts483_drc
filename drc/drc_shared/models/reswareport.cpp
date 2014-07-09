@@ -87,10 +87,6 @@ void ResWaReport::BuildHeaderSection(QTextCursor& cursor)
 void ResWaReport::BuildCasesSection(QTextCursor& cursor)
 {
     cursor.insertText("BuildCasesSection\n");
-    cursor.insertText("BuildCasesSection\n");
-    cursor.insertText("BuildCasesSection\n");
-    cursor.insertText("BuildCasesSection\n");
-    cursor.insertText("BuildCasesSection\n");
 
 }
 
@@ -130,30 +126,36 @@ void ResWaReport::BuildCallsSection(QTextCursor& cursor)
 
 void ResWaReport::BuildContactsSection(QTextCursor& cursor)
 {
+    cursor.insertText("\n\nBuildContactsSection\n\n");
 
 }
 
 void ResWaReport::BuildTrainingSection(QTextCursor& cursor)
 {
+    cursor.insertText("BuildTrainingSection\n\n");
 
 }
 
 void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
 {
+    cursor.insertText("BuildPeopleServedSection\n\n");
 
 }
 
 void ResWaReport::BuildOutreachSection(QTextCursor& cursor)
 {
+    cursor.insertText("BuildOutreachSection\n\n");
 
 }
 
 void ResWaReport::BuildStaffSection(QTextCursor& cursor)
 {
+    cursor.insertText("BuildStaffSection\n\n");
 
 }
 
 void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
 {
+    cursor.insertText("BuildEvaluationSection\n\n");
 
 }
