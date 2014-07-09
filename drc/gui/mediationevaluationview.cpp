@@ -61,7 +61,7 @@ void MediationEvaluationView::configureToolBar()
 
 void MediationEvaluationView::saveEvaluation()
 {
-    Mediator::Call(MKEY_GUI_SAVE_EVALUATION,&_mediationEvaluation);
+    Mediator::Call(MKEY_GUI_SAVE_EVALUATION, &_mediationEvaluation);
     Mediator::Call(MKEY_GUI_ENABLE_MENUS);
 }
 

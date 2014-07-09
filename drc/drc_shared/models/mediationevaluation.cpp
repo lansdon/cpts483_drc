@@ -87,7 +87,7 @@ QString MediationEvaluation::Parse()
     {
         toReturn += "0, 0, 1";
     }
-
+    return toReturn;
 }
 
 QString MediationEvaluation::UpdateParse()

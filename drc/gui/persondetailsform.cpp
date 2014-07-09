@@ -14,7 +14,7 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopu
 
     // Setup Validations
     ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
-    ui->numInHomeLineEdit->setValidator(new QIntValidator(ui->numInHomeLineEdit));
+    //ui->adultsInHomeSpinBox->setValidator(new QIntValidator(ui->adultsInHomeSpinBox));
 
     // If a valid person object was passed, display it and don't go into edit mode.
     if(person)
@@ -56,7 +56,7 @@ void PersonDetailsForm::UpdateLabels()
     ui->secondaryExtLineEdit->setText((_person->getSecondaryPhoneExt()));
 //    ui->mobileLineEdit->setText((_person->getMobilePhone()));
 //    ui->mobileExtLineEdit->setText((_person->getMobilePhoneExt()));
-    ui->numInHomeLineEdit->setText(QString::number(_person->getNumberInHousehold()));
+    ui->adultsInHomeSpinBox->setValue(_person->getNumberInHousehold());
     ui->attorneyLineEdit->setText((_person->getAttorney()));
 
 //    SetEditMode(false);
@@ -160,7 +160,7 @@ void PersonDetailsForm::on_saveButton_clicked()
     _person->setPrimaryPhoneExt(ui->secondaryExtLineEdit->text());
     _person->setSecondaryPhone(ui->secondaryLineEdit->text());
     _person->setSecondaryPhoneExt(ui->primaryExtLineEdit->text());
-    _person->setNumberInHousehold(ui->numInHomeLineEdit->text().toInt());
+    _person->setNumberInHousehold(ui->adultsInHomeSpinBox->value());
     _person->setAttorney(ui->attorneyLineEdit->text());
 
     //emit PersonSaved(_person);
@@ -208,7 +208,7 @@ void PersonDetailsForm::SetEditMode(bool editModeOn)
     ui->primaryExtLineEdit->setEnabled(editModeOn);
     ui->secondaryLineEdit->setEnabled(editModeOn);
     ui->secondaryExtLineEdit->setEnabled(editModeOn);
-    ui->numInHomeLineEdit->setEnabled(editModeOn);
+    ui->adultsInHomeSpinBox->setEnabled(editModeOn);
     ui->attorneyLineEdit->setEnabled(editModeOn);
 
     ui->saveButton->setEnabled(editModeOn);
@@ -350,4 +350,15 @@ void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
 {
     _person->setFirstName(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_adultsInHomeSpinBox_valueChanged(int arg1)
+{
+    _person->setNumberInHousehold(arg1);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_assistantLineEdit_editingFinished()
+{
+
 }
