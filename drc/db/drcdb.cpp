@@ -68,7 +68,7 @@ bool DRCDB::InsertEvaluation(MediatorArg arg)
         if(eval)
         {
             QSqlQuery EvalQuery(database);
-            QString EvalCommandString = QString("Select * from Evaluationtable where startDate < '%1' and endDate > '%1'")
+            QString EvalCommandString = QString("Select * from Evaluation_table where startDate < '%1' and endDate > '%1'")
                                                 .arg(eval->GetCreatedDate().toString("yyyy-MM-dd"));
             bool found = false;
             found = this->ExecuteCommand(EvalCommandString, EvalQuery);
@@ -410,6 +410,9 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
     session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
+    session_table_columns.push_back(QString("CreatedDate Date"));
+    session_table_columns.push_back(QString("UpdatedDate Date"));
+    session_table_columns.push_back(QString("ScheduledDate DateTime"));
     session_table_columns.push_back(QString("Mediator1 char(128)"));
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
@@ -489,10 +492,39 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
     if(arg.IsSuccessful() && (params = arg.getArg<ReportRequest*>()))
     {
         bool firstHalfOfYear = params->IsForFirstHalfOfYear();
-        bool year = params->GetYear();
+        int year = params->GetYear();
 
-        // .... query for MP's
-        MediationProcessVector mpVec = {MediationProcess::SampleData(), MediationProcess::SampleData()};
+        QDateTime start;
+        QDateTime end;
+        if(firstHalfOfYear)
+        {
+            start = QDateTime::fromString("%1-01-01","yyyy-MM-dd").arg(year);
+            end = QDateTime::fromString("%1-06-30","yyyy-MM-dd").arg(year);
+        }
+        else
+        {
+            start = QDateTime::fromString("%1-07-01","yyyy-MM-dd").arg(year);
+            end = QDateTime::fromString("%1-12-31","yyyy-MM-dd").arg(year);
+        }
+
+        QSqlQuery query(database);
+        QString command = QString("Select * from Session_table where UpdatedDate < '%1' and UpdatedDate > '%2'")
+                            .arg(end)
+                            .arg(start);
+        this->ExecuteCommand(command, query);
+
+        QString mediationIdMatches = "";
+        bool first = true;
+        while(query.next())
+        {
+            if(!first)
+            {
+                mediationIdMatches += ", ";
+            }
+            mediationIdMatches += query.value(1).toString();
+            first = false;
+        }
+        MediationProcessVector mpVec = LoadMediations(mediationIdMatches);
 
         // Must Init the ResWaReport with MPVector (all mps in the 6 month span)
         report = new ResWaReport(mpVec);
@@ -500,6 +532,7 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         // populate the evaluation totals
         report->SetNumByPhone(666);
         report->SetNumChildByPhone(333);
+
         // ... fill in all the SetNumXXXXX  for evaluations
     }
 
@@ -577,11 +610,14 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             session->SetId(sessionQuery.value(0).toInt());
             session->SetState((SessionStates)sessionQuery.value(2).toInt());
 
+            session->setMediationTime(QDateTime::fromString(sessionQuery.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
+
+
             //TODO: Make these into just needing names... they're not "client" type people
-            session->setMediator1(sessionQuery.value(3).toString());
-            session->setMediator2(sessionQuery.value(4).toString());
-            session->setObserver1(sessionQuery.value(5).toString());
-            session->setObserver2(sessionQuery.value(6).toString());
+            session->setMediator1(sessionQuery.value(6).toString());
+            session->setMediator2(sessionQuery.value(7).toString());
+            session->setObserver1(sessionQuery.value(8).toString());
+            session->setObserver2(sessionQuery.value(9).toString());
 
             //Load the clientsession data, based on the session id
             QSqlQuery DataQuery(database);
@@ -802,7 +838,8 @@ void DRCDB::LoadPendingMediations(MediatorArg arg)
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
 #warning - TODO: Update this string with the state enums that should flag as "pending"
-    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState in (0)";
+    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
+                                        .arg(PROCESS_STATE_PENDING);
     bool result = false;
     result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
@@ -828,7 +865,8 @@ void DRCDB::LoadScheduledMediations(MediatorArg arg)
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
 #warning - TODO: Update this string with the state enums that should flag as "pending"
-    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState in (0)";
+    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
+                                        .arg(PROCESS_STATE_SCHEDULED);
     bool result = false;
     result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
@@ -854,7 +892,8 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
 #warning - TODO: Update this string with the state enums that should flag as "pending"
-    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState in (0)";
+    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
+                                        .arg(PROCESS_STATE_CLOSED);
     bool result = false;
     result = this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
