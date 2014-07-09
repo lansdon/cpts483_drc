@@ -11,12 +11,61 @@
 
 const QString DEF_PDF_PATH = "RES_WA_REPORT.pdf";
 
+const int CasesTableRows = 19, CasesTableCols = 14;
+
+enum CasesTableIndices
+{
+    CT_NONE,
+    CT_SMALL_CLAIMS,
+    CT_SMALL_CLAIMS_SETTLED,
+    CT_SMALL_CLAIMS_PERC,
+    CT_OTHER_DIST_COURT,
+    CT_OTHER_DIST_COURT_SETTLED,
+    CT_OTHER_DIST_COURT_PERC,
+    CT_JUVENIILE_COURT,
+    CT_JUVENIILE_COURT_SETTLED,
+    CT_JUVENIILE_COURT_PERC,
+    CT_SUPERIOR_COURT,
+    CT_SUPERIOR_COURT_SETTLED,
+    CT_SUPERIOR_COURT_PERC,
+    CT_OTHER_CASES,
+    CT_OTHER_CASES_SETTLED,
+    CT_OTHER_CASES_PERC,
+    CT_TOTAL_CASES,
+    CT_TOTAL_CASES_SETTLED,
+    CT_TOTAL_CASES_PERC,
+};
+enum CasesTableHeaders
+{
+    CT_H_NONE,
+    CT_H_PARENTING,
+    CT_H_DISOLUTION,
+    CT_H_FORECLOSURE,
+    CT_H_TENANT,
+    CT_H_BUSINESS,
+    CT_H_WORKPLACE,
+    CT_H_NEIGHBOR,
+    CT_H_VICTIM,
+    CT_H_PARENT,
+    CT_H_SCHOOL,
+    CT_H_ELDER,
+    CT_H_OTHER,
+    CT_H_TOTAL
+};
+
 ResWaReport::ResWaReport(MediationProcessVector *processes)
     : _processes(processes)
 {
 
     _headerFormat.setFontPointSize(12);
     _tableTextFormat.setFontPointSize(8);
+    _tableCellBlue.setBackground(QColor("#3010ee"));
+    _tableIndexDark.setBackground(QColor("#e0e0e0"));
+    _tableIndexLight.setBackground(QColor("#eeeee0"));
+
+    // Init table matrix with zeros.
+    for(auto row = 0; row < CasesTableRows; ++row)
+        _casesTable.push_back({0,0,0,0,0,0,0,0,0,0,0,0,0,0});
 
 }
 
@@ -80,6 +129,16 @@ void ResWaReport::BuildReport()
 ///////////////// Report Builder - INTERNAL ///////////////////
 // These functions build the different sections of the report
 ///////////////////////////////////////////////////////////////
+void ResWaReport::TextToCell(QTextTable* table, int row, int col, QString txt, QTextCharFormat* textFormat, QTextTableCellFormat* cellFormat)
+{
+    if(!textFormat) textFormat = &_tableTextFormat;
+
+    auto cell = table->cellAt(row, col);
+    if(cellFormat)
+        cell.setFormat(*cellFormat);
+    auto cellCursor = cell.firstCursorPosition();
+    cellCursor.insertText(txt, *textFormat);
+}
 
 void ResWaReport::BuildHeaderSection(QTextCursor& cursor)
 {
@@ -96,7 +155,7 @@ void ResWaReport::BuildCasesSection(QTextCursor& cursor)
     cursor.insertBlock();
 
     QTextTableFormat tableFormat;
-    tableFormat.setBackground(QColor("#e0e0e0"));
+//    tableFormat.setBackground(QColor("#e0e0e0"));
     tableFormat.setHeaderRowCount(1);
     QVector<QTextLength> constraints;
     constraints << QTextLength(QTextLength::PercentageLength, 35);
@@ -114,49 +173,52 @@ void ResWaReport::BuildCasesSection(QTextCursor& cursor)
     constraints << QTextLength(QTextLength::PercentageLength, 5);
     constraints << QTextLength(QTextLength::PercentageLength, 5);
     tableFormat.setColumnWidthConstraints(constraints);
-    int rows = 19, columns = 14;
-    QTextTable *table = cursor.insertTable(rows, columns, tableFormat);
-    TextToCell(table, 1, 0, "Small claims court cases");
-    TextToCell(table, 2, 0, "Small Claims Court cases settled");
-    TextToCell(table, 3, 0, "Percentage of Small Claims cases settled");
-    TextToCell(table, 4, 0, "Other District Cout cases");
-    TextToCell(table, 5, 0, "Other District Cout cases settled");
-    TextToCell(table, 6, 0, "Percentage of district court cases settled");
-    TextToCell(table, 7, 0, "Juvenile Court cases");
-    TextToCell(table, 8, 0, "Percentage of Juvenile cases settled");
-    TextToCell(table, 9, 0, "Superior Court cases");
-    TextToCell(table, 10, 0, "Superior Court cases settled");
-    TextToCell(table, 11, 0, "Percentage of Superior cases settled");
-    TextToCell(table, 12, 0, "Other cases");
-    TextToCell(table, 13, 0, "Other cases settled");
-    TextToCell(table, 14, 0, "Percentage of Other cases settled");
-    TextToCell(table, 15, 0, "Total cases");
-    TextToCell(table, 16, 0, "Cases Settled");
-    TextToCell(table, 17, 0, "Small claims court cases");
-    TextToCell(table, 18, 0, "Percentage of total cases settled");
-    TextToCell(table, 0, 1, "Parenting Plans");
-    TextToCell(table, 0, 2, "Disolution");
-    TextToCell(table, 0, 3, "Foreclosure");
-    TextToCell(table, 0, 4, "Tenant Landlord");
-    TextToCell(table, 0, 5, "Business");
-    TextToCell(table, 0, 6, "Workplace");
-    TextToCell(table, 0, 7, "Neighbor");
-    TextToCell(table, 0, 8, "Victim Offender");
-    TextToCell(table, 0, 9, "Parent Teen");
-    TextToCell(table, 0, 10, "School");
-    TextToCell(table, 0, 11, "Elder");
-    TextToCell(table, 0, 12, "Other");
-    TextToCell(table, 0, 13, "Total");
+    QTextTable *table = cursor.insertTable(CasesTableRows, CasesTableCols, tableFormat);
+    TextToCell(table, CT_SMALL_CLAIMS , 0, "Small claims court cases", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_SMALL_CLAIMS_SETTLED, 0, "Small Claims Court cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_SMALL_CLAIMS_PERC, 0, "Percentage of Small Claims cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_OTHER_DIST_COURT, 0, "Other District Cout cases");
+    TextToCell(table, CT_OTHER_DIST_COURT_SETTLED, 0, "Other District Cout cases settled");
+    TextToCell(table, CT_OTHER_DIST_COURT_PERC, 0, "Percentage of district court cases settled");
+    TextToCell(table, CT_JUVENIILE_COURT, 0, "Juvenile Court cases", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_JUVENIILE_COURT_SETTLED, 0, "Juvenile cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_JUVENIILE_COURT_PERC, 0, "Percentage of Juvenile cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_SUPERIOR_COURT, 0, "Superior Court cases");
+    TextToCell(table, CT_SUPERIOR_COURT_SETTLED, 0, "Superior Court cases settled");
+    TextToCell(table, CT_SUPERIOR_COURT_PERC, 0, "Percentage of Superior cases settled");
+    TextToCell(table, CT_OTHER_CASES, 0, "Other cases", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_OTHER_CASES_SETTLED, 0, "Other cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_OTHER_CASES_PERC, 0, "Percentage of Other cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_TOTAL_CASES, 0, "Total cases");
+    TextToCell(table, CT_TOTAL_CASES_SETTLED, 0, "Cases Settled");
+    TextToCell(table, CT_TOTAL_CASES_PERC, 0, "Percentage of total cases settled");
+    TextToCell(table, 0, CT_H_PARENTING, "Parenting Plans");
+    TextToCell(table, 0, CT_H_DISOLUTION, "Disolution");
+    TextToCell(table, 0, CT_H_FORECLOSURE, "Foreclosure");
+    TextToCell(table, 0, CT_H_TENANT, "Tenant Landlord");
+    TextToCell(table, 0, CT_H_BUSINESS, "Business");
+    TextToCell(table, 0, CT_H_WORKPLACE, "Workplace");
+    TextToCell(table, 0, CT_H_NEIGHBOR, "Neighbor");
+    TextToCell(table, 0, CT_H_VICTIM, "Victim Offender");
+    TextToCell(table, 0, CT_H_PARENT, "Parent Teen");
+    TextToCell(table, 0, CT_H_SCHOOL, "School");
+    TextToCell(table, 0, CT_H_ELDER, "Elder");
+    TextToCell(table, 0, CT_H_OTHER, "Other");
+    TextToCell(table, 0, CT_H_TOTAL, "Total");
+
+    for (auto row = 1; row < CasesTableRows; ++row)
+    {
+        for (auto column = 1; column < CasesTableCols; ++column)
+        {
+            QTextTableCell cell = table->cellAt(row, column);
+            QTextCursor cellCursor = cell.firstCursorPosition();
+            cellCursor.insertText(QString::number(_casesTable[row][column]));
+        }
+    }
+
 }
 
-void ResWaReport::TextToCell(QTextTable* table, int row, int col, QString txt, QTextCharFormat* format)
-{
-    if(!format) format = &_tableTextFormat;
 
-    auto cell = table->cellAt(row, col);
-    auto cellCursor = cell.firstCursorPosition();
-    cellCursor.insertText(txt, *format);
-}
 
 void ResWaReport::BuildCallsSection(QTextCursor& cursor)
 {

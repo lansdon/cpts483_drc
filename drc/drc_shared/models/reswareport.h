@@ -104,11 +104,22 @@ private:
 
     void OpenReportPDF();
 
+    // Text Formatters
     QTextCharFormat _headerFormat;
     QTextCharFormat _tableTextFormat;
+    QTextTableCellFormat _tableCellBlue;
+    QTextTableCellFormat _tableIndexDark;
+    QTextTableCellFormat _tableIndexLight;
 
-    void TextToCell(QTextTable* table, int row, int col, QString txt, QTextCharFormat* format = nullptr);
 
+    void TextToCell(QTextTable* table, int row, int col, QString txt, QTextCharFormat* format = nullptr, QTextTableCellFormat* cellFormat = nullptr);
+
+
+     ///////////////////////////////////////////////////
+    // Calculations
+    ///////////////////////////////////////////////////
+    typedef std::vector<std::vector<int>> CasesTable;
+    CasesTable _casesTable;
 };
 
 #endif // RESWAREPORT_H
