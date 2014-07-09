@@ -18,7 +18,7 @@ public:
     void LoadMediationProcess(MediatorArg arg) const;
     void LoadRecentMediations(MediatorArg arg) const;
     void QueryMediations(MediatorArg arg) const;
-
+    void QueryResWaReport(MediatorArg arg) const;
 private:
 };
 

@@ -64,3 +64,8 @@ void DRCBL::QueryMediations(MediatorArg arg) const
 {
     Mediator::Call(MKEY_BL_QUERY_MEDIATION, arg);
 }
+
+void DRCBL::QueryResWaReport(MediatorArg arg) const
+{
+    Mediator::Call(MKEY_BL_REQUEST_RESWA_REPORT, arg);
+}

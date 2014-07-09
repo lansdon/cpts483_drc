@@ -148,6 +148,8 @@ public:
     // Arg must be a Person* (for now at least) for processing to take place.
     void QueryMediations(MediatorArg arg);
 
+    // Arg is a ReportRequest*  !!
+    void QueryResWaReport(MediatorArg arg);
 
 
 

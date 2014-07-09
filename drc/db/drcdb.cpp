@@ -473,6 +473,24 @@ DRCDB::~DRCDB()
 }
 //========================================================================
 
+
+//========================================================================
+                    // REPORTS !!!!
+//========================================================================
+
+// Arg is a ReportRequest*  !!
+void QueryResWaReport(MediatorArg arg)
+{
+    // send me a ResWaReport please!!!!!!
+
+    Mediator::Call(MKEY_DB_REQUEST_RESWA_REPORT_DONE,  nullptr /*reswa */);
+}
+
+//========================================================================
+
+
+
+
 MediationProcessVector* DRCDB::LoadMediations(QString processIds)
 {
     QSqlQuery Mediation_query(database);
