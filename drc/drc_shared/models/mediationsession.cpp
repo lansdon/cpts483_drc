@@ -34,52 +34,10 @@ QString MediationSession::Parse()
 
     toReturn += QString::number(this->GetState());
     toReturn += ", ";
-
-    //NO LONGER PART OF SESSION!!!!
-    /*
-
-    // Paid amounts
-    if(this->getFee1Paid())
-        toReturn += "1";
-    else
-        toReturn += "0";
-    toReturn += ", ";
-    if(this->getFee2Paid())
-        toReturn += "1";
-    else
-        toReturn += "0";
-    toReturn += ", ";
-    if(this->getFeeFamilyPaid())
-        toReturn += "1";
-    else
-        toReturn += "0";
-    toReturn += ", ";
-    if(this->getFeeOtherPaid())
-        toReturn += "1";
-    else
-        toReturn += "0";
-    toReturn += ", ";
-
-    // Due amounts
-    toReturn += single_quote + this->getFee1() + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getFee2() + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getFeeFamily() + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getFeeOther() + single_quote;
-    toReturn += ", ";
-
-    // Income Fee amounts
-    toReturn += single_quote + this->getIncomeFee1() + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getIncomeFee2() + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getIncomeFeeFamily() + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getIncomeFeeOther() + single_quote;
-    toReturn += ", ";
-    */
+    toReturn += QString("'%1', '%2', '%3', ")
+    .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
+    .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
+    .arg(this->getMediationTime().toString("yyyy-MM-dd hh:mm:ss"));
 
     // Mediator Info
     toReturn += single_quote + this->getMediator1().replace("'", "''") + single_quote;
@@ -100,26 +58,9 @@ QString MediationSession::UpdateParse()
     // Status
     toUpdate += QString("SessionStatus = %1, ").arg(QString::number(this->GetState()));
 
-    //NO LONGER PART OF SESSION!!!!
-    /*
-    // Fee State
-    toUpdate += QString("Fee1Paid = %1, ").arg(QString::number(this->getFee1Paid()));
-    toUpdate += QString("Fee2Paid = %1, ").arg(QString::number(this->getFee2Paid()));
-    toUpdate += QString("FeeFamilyPaid = %1, ").arg(QString::number(this->getFeeFamilyPaid()));
-    toUpdate += QString("FeeOtherPaid = %1, ").arg(QString::number(this->getFeeOtherPaid()));
-
-    //Due Amounts
-    toUpdate += QString("Fee1 = '%1', ").arg(this->getFee1());
-    toUpdate += QString("Fee2 = '%1', ").arg(this->getFee2());
-    toUpdate += QString("FeeFamily = '%1', ").arg(this->getFeeFamily());
-    toUpdate += QString("FeeOther = '%1', ").arg(this->getFeeOther());
-
-    //Income Amounts
-    toUpdate += QString("IncomeFee1 = '%1', ").arg(this->getIncomeFee1());
-    toUpdate += QString("IncomeFee2 = '%1', ").arg(this->getIncomeFee2());
-    toUpdate += QString("IncomeFeeFamily = '%1', ").arg(this->getIncomeFeeFamily());
-    toUpdate += QString("IncomeFeeOther = '%1', ").arg(this->getIncomeFeeOther());
-*/
+    toUpdate += QString("UpdatedDate = '%1', ").arg(this->GetUpdatedDate().toString("yyyy-MM-dd"));
+    toUpdate += QString("ScheduledTime = '%1', ")
+            .arg(this->getMediationTime().toString("yyyy-MM-dd hh:mm:ss"));
 
     //Mediators
     toUpdate += QString("Mediator1 = '%1', ").arg(this->getMediator1().replace("'", "''"));
