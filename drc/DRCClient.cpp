@@ -11,7 +11,6 @@
 #include "queryform.h"
 #include "Mediator.h"
 #include "drctypes.h"
-#include "searchwizard/searchwizard.h"
 #include "toolbarmanager.h"
 #include "mediationbrowser.h"
 #include "mptoolbox.h"
