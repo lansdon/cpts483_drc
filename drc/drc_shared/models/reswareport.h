@@ -23,7 +23,7 @@ public:
     void SetContactEmail(QString val) { _contactEmail = val; }
 
     ////////////////// Section 2 - Calls ///////////////////
-    void SetTotalCalls(int num) { _totalCalls = num; };
+    void SetTotalCalls(int num) { _totalCalls = num; }
 
     ///////////////// Evaluation Sums - (Set by DB!) ///////////////////
     void SetQ1Yes(int num) { _q1Yes = num; }
