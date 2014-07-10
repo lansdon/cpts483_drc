@@ -118,8 +118,14 @@ private:
      ///////////////////////////////////////////////////
     // Calculations
     ///////////////////////////////////////////////////
+
+    // 1) CASES
     typedef std::vector<std::vector<int>> CasesTable;
     CasesTable _casesTable;
+
+    // 2) CALLS
+    int CalculateTotalCalls();
+
 };
 
 #endif // RESWAREPORT_H
