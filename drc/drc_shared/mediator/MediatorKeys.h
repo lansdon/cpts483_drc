@@ -54,8 +54,10 @@ const QString MKEY_GUI_HIDE_ADMIN = "MKEY_GUI_HIDE_ADMIN";                      
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const QString MKEY_DB_ADD_NEW_USER = "MKEY_DB_ADD_NEW_USER";                            // User*
 const QString MKEY_DB_REMOVE_USER = "MKEY_DB_REMOVE_USER";                              // User*
+const QString MKEY_DB_VERIFY_ADD_NEW_USER = "MKEY_DB_VERIFY_ADD_NEW_USER";              // arg.isSuccessful()
 const QString MKEY_DB_VERIFY_REMOVE_USER = "MKEY_DB_VERIFY_REMOVE_USER";                // arg.isSuccessful()
 const QString MKEY_DB_VERIFY_UPDATE_USER = "MKEY_DB_VERIFY_UPDATE_USER";                // arg.isSuccessful()
+const QString MKEY_DB_VERIFY_ADD_USER = "MKEY_DB_ADD_UPDATE_USER";                      // arg.isSuccessful()
 const QString MKEY_DB_UPDATE_USER = "MKEY_DB_UPDATE_USER";                              // User*
 const QString MKEY_DB_GET_ALL_USER = "MKEY_DB_GET_ALL_USER";                            // User*
 const QString MKEY_DB_RETURN_ALL_USER = "MKEY_DB_RETURN_ALL_USER";                      // QVector<User*>*
@@ -90,6 +92,33 @@ const QString MKEY_DB_LOAD_MEDIATION_PROCESS_FORM_DONE = "MKEY_DB_LOAD_MEDIATION
 const QString MKEY_DOCK_REQUEST_RECENT_MEDIATIONS = "MKEY_DOCK_REQUEST_RECENT_MEDIATIONS";                                      // nullptr
 const QString MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE = "MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE";                                // nullptr
 const QString MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE = "MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE";                                // MediationProcessVector*
+
+///
+// LOAD PENDING MEDIATIONS VECTOR
+//
+///
+const QString MKEY_DOCK_REQUEST_PENDING_MEDIATIONS = "MKEY_DOCK_REQUEST_PENDING_MEDIATIONS";
+const QString MKEY_BL_REQUEST_PENDING_MEDIATIONS_DONE = "MKEY_BL_REQUEST_PENDING_MEDIATIONS_DONE";
+const QString MKEY_DB_REQUEST_PENDING_MEDIATIONS_DONE = "MKEY_DB_REQUEST_PENDING_MEDIATIONS_DONE";
+
+///
+// LOAD SCHEDULED MEDIATIONS VECTOR
+//
+///
+const QString MKEY_DOCK_REQUEST_SCHEDULED_MEDIATIONS = "MKEY_DOCK_REQUEST_SCHEDULED_MEDIATIONS";
+const QString MKEY_BL_REQUEST_SCHEDULED_MEDIATIONS_DONE = "MKEY_BL_REQUEST_SCHEDULED_MEDIATIONS_DONE";
+const QString MKEY_DB_REQUEST_SCHEDULED_MEDIATIONS_DONE = "MKEY_DB_REQUEST_SCHEDULED_MEDIATIONS_DONE";
+
+///
+// LOAD CLOSED MEDIATIONS VECTOR
+//
+///
+const QString MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS = "MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS";
+const QString MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE = "MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE";
+const QString MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE = "MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE";
+
+
+
 
 //////////////////////////////////////////////////////////////////
 //				SAVE PERSON

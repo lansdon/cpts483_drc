@@ -19,6 +19,9 @@ DRCBL::DRCBL()
     Mediator::Register(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, [this](MediatorArg arg){ValidateMediationProcess(arg);});
     Mediator::Register(MKEY_DB_LOAD_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){LoadMediationProcess(arg);});
     Mediator::Register(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS, [this](MediatorArg arg){LoadRecentMediations(arg);});
+    Mediator::Register(MKEY_DOCK_REQUEST_PENDING_MEDIATIONS, [this](MediatorArg arg){LoadPendingMediations(arg);});
+    Mediator::Register(MKEY_DOCK_REQUEST_SCHEDULED_MEDIATIONS, [this](MediatorArg arg){LoadScheduledMediations(arg);});
+    Mediator::Register(MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS, [this](MediatorArg arg){LoadClosedMediations(arg);});
     Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
     Mediator::Register(MKEY_GUI_REQUEST_RESWA_REPORT, [this](MediatorArg arg){QueryResWaReport(arg);});
 
@@ -54,6 +57,18 @@ void DRCBL::ValidateMediationProcess(MediatorArg arg) const
 void DRCBL::LoadRecentMediations(MediatorArg arg) const
 {
     Mediator::Call(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, arg);
+}
+void DRCBL::LoadPendingMediations(MediatorArg arg) const
+{
+    Mediator::Call(MKEY_BL_REQUEST_PENDING_MEDIATIONS_DONE, arg);
+}
+void DRCBL::LoadScheduledMediations(MediatorArg arg) const
+{
+    Mediator::Call(MKEY_BL_REQUEST_SCHEDULED_MEDIATIONS_DONE, arg);
+}
+void DRCBL::LoadClosedMediations(MediatorArg arg) const
+{
+    Mediator::Call(MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE, arg);
 }
 
 void DRCBL::LoadMediationProcess(MediatorArg arg) const

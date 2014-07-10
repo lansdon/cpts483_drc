@@ -69,7 +69,7 @@ void ResWaReportForm::on_showResportBtn_clicked()
     // Query parameters
     bool firstHalfOfYear = (bool)ui->yearHalfComboBox->currentIndex();
     ReportRequest* params = new ReportRequest(
-                firstHalfOfYear ? 1 : 7, // set month anywhere in range
+                firstHalfOfYear ? 7 : 1, // set month anywhere in range
                 ui->yearSpinBox->value()
                 );
 

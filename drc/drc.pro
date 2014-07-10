@@ -42,11 +42,6 @@ SOURCES += main.cpp\
     drc_shared/models/mediationprocess.cpp \
     drc_shared/models/mediationevaluation.cpp \
     gui/mediationprocessstatusform.cpp \
-    gui/searchwizard/searchwizard.cpp \
-    gui/searchwizard/searchwizardintro.cpp \
-    gui/searchwizard/searchwizardselecttype.cpp \
-    gui/searchwizard/searchwizardparameters.cpp \
-    gui/searchwizard/searchwizardresults.cpp \
     gui/Mock_Server/mock_server.cpp \
     drc_shared/CurrentUser.cpp \
     drc_shared/drctypes.cpp \
@@ -70,6 +65,7 @@ SOURCES += main.cpp\
     gui/manageusers.cpp \
     gui/attorneyheaderview.cpp \
     gui/mainmenuform.cpp \
+    gui/monthlyreportform.cpp \
     gui/mediationevaluationview.cpp \
     gui/reswareportform.cpp \
     drc_shared/models/reswareport.cpp
@@ -105,11 +101,6 @@ HEADERS  += \
     drc_shared/models/mediationevaluation.h \
     drc_shared/drctypes.h \
     gui/mediationprocessstatusform.h \
-    gui/searchwizard/searchwizard.h \
-    gui/searchwizard/searchwizardintro.h \
-    gui/searchwizard/searchwizardselecttype.h \
-    gui/searchwizard/searchwizardparameters.h \
-    gui/searchwizard/searchwizardresults.h \
     gui/Mock_Server/mock_server.h \
     drc_shared/CurrentUser.h \
     gui/toolbarmanager.h \
@@ -132,6 +123,7 @@ HEADERS  += \
     gui/manageusers.h \
     gui/attorneyheaderview.h \
     gui/mainmenuform.h \
+    gui/monthlyreportform.h \
     gui/mediationevaluationview.h \
     gui/reswareportform.h \
     drc_shared/reportrequest.h \
@@ -161,6 +153,7 @@ FORMS    += \
     gui/manageusers.ui \
     gui/attorneyheaderview.ui \
     gui/mainmenuform.ui \
+    gui/monthlyreportform.ui \
     gui/mediationevaluationview.ui \
     gui/reswareportform.ui
 

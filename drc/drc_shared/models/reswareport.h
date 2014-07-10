@@ -119,11 +119,14 @@ private:
     // Calculations
     ///////////////////////////////////////////////////
 
-    // Section 1
+    // 1) CASES
     typedef std::vector<std::vector<int>> CasesTable;
     CasesTable _casesTable;
     void CalculateCasesTable();
     void AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes courtType, bool settled);
+
+    // 2) CALLS
+    int CalculateTotalCalls();
 
 };
 
