@@ -118,8 +118,13 @@ private:
      ///////////////////////////////////////////////////
     // Calculations
     ///////////////////////////////////////////////////
+
+    // Section 1
     typedef std::vector<std::vector<int>> CasesTable;
     CasesTable _casesTable;
+    void CalculateCasesTable();
+    void AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes courtType, bool settled);
+
 };
 
 #endif // RESWAREPORT_H

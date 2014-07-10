@@ -83,6 +83,9 @@ public:
     void removeParty(int value);
     void updateClientSessions(int value);
 
+    // Report Helpers
+    bool IsSettled();
+
 private:
 
     PartyVector _parties;

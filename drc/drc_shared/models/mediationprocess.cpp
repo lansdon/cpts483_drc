@@ -176,3 +176,12 @@ void MediationProcess::updateClientSessions(int value)
     }
 }
 
+// Report Helpers
+bool MediationProcess::IsSettled()
+{
+    foreach(MediationSession* session, _mediationSessionVector)
+        if(session->getOutcome() == SESSION_OUTCOME_AGREEMENT || session->getOutcome() == SESSION_OUTCOME_PROBLEM_SOLVING || session->getOutcome() == SESSION_OUTCOME_SELF_RESOLVED)
+            return true;
+
+    return false;
+}
