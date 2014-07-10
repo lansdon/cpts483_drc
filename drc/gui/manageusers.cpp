@@ -11,7 +11,7 @@ ManageUsers::ManageUsers(QWidget *parent) :
     ui->setupUi(this);
 
     _admin = false;
-
+    _passwordMatch = false;
     _selectedUser = nullptr;
 
     // Make it so the passwords entered can't be seen.
@@ -24,6 +24,7 @@ ManageUsers::ManageUsers(QWidget *parent) :
     // Mediator method registers
     Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
     Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg arg) {VerifyDeleteSelectedUser(arg);});
+    Mediator::Register(MKEY_DB_VERIFY_ADD_NEW_USER, [this](MediatorArg arg) {VerifyAddNewUser(arg);});
     Mediator::Call(MKEY_DB_GET_ALL_USER);
 
     ConfigureUserTableView();
@@ -39,8 +40,11 @@ void ManageUsers::ConfigureUserTableView()
 {
     ui->usertableWidget->setUpdatesEnabled(true);
 
+    ui->MatchingPasswordLabel->setAlignment(Qt::AlignCenter);
+    ui->ButtonStatusLabel->setAlignment(Qt::AlignCenter);
+
     ui->usertableWidget->setColumnCount(2);
-    ui->usertableWidget->setRowCount(_userVector->count());
+    //ui->usertableWidget->setRowCount(_userVector->count());
     ui->usertableWidget->setColumnWidth(0, ui->usertableWidget->width()/2);
     ui->usertableWidget->setColumnWidth(1, ui->usertableWidget->width()/2);
 
@@ -90,13 +94,41 @@ void ManageUsers::VerifyDeleteSelectedUser(MediatorArg arg)
     if (arg.IsSuccessful())
     {
         _selectedUser = nullptr;
-        ui->usernameLineEdit->text().clear();
-        ui->passwordLineEdit->text().clear();
-        ui->reenterpasswordLineEdit->text().clear();
+        ui->usernameLineEdit->setText("");
+        ui->passwordLineEdit->setText("");
+        ui->reenterpasswordLineEdit->setText("");
         ui->IsAdminBox->setChecked(false);
+
+        ui->ButtonStatusLabel->setStyleSheet("QLabel {color : green}");
+        ui->ButtonStatusLabel->setText("User deleted!");
+    }
+    else
+    {
+        ui->ButtonStatusLabel->setStyleSheet("QLabel {color : red}");
+        ui->ButtonStatusLabel->setText("Could not delete user!");
     }
 
     PopulateUserTableView();
+}
+
+void ManageUsers::VerifyAddNewUser(MediatorArg arg)
+{
+    if (arg.IsSuccessful())
+    {
+        _selectedUser = nullptr;
+        ui->usernameLineEdit->setText("");
+        ui->passwordLineEdit->setText("");
+        ui->reenterpasswordLineEdit->setText("");
+        ui->IsAdminBox->setChecked(false);
+
+        ui->ButtonStatusLabel->setStyleSheet("QLabel {color : green}");
+        ui->ButtonStatusLabel->setText("New user added!");
+    }
+    else
+    {
+        ui->ButtonStatusLabel->setStyleSheet("QLabel {color : red}");
+        ui->ButtonStatusLabel->setText("Could not add new user!");
+    }
 }
 
 
@@ -115,17 +147,34 @@ void ManageUsers::on_AddUserButton_clicked()
         arg.SetArg(newUser);
         Mediator::Call(MKEY_DB_ADD_NEW_USER, arg);
     }
+    else if (!_passwordMatch)
+    {
+        ui->ButtonStatusLabel->setText("Passwords must match before adding a user!");
+    }
+    else if (_password == "")
+    {
+        ui->ButtonStatusLabel->setText("Must enter a password befoer adding a user!");
+    }
+    else if (_username == "")
+    {
+        ui->ButtonStatusLabel->setText("Must enter a username before adding a user!");
+    }
 
     PopulateUserTableView();
 }
 
 void ManageUsers::on_DeleteUserButton_clicked()
 {
+    ui->ButtonStatusLabel->setStyleSheet("QLabel {color : red}");
     if (_selectedUser != nullptr)
     {
         MediatorArg arg;
         arg.SetArg(_selectedUser);
         Mediator::Call(MKEY_DB_REMOVE_USER, arg);
+    }
+    else
+    {
+        ui->ButtonStatusLabel->setText("Please select a user to delete!");
     }
 
     PopulateUserTableView();
@@ -176,5 +225,38 @@ void ManageUsers::on_usertableWidget_doubleClicked(const QModelIndex &index)
         _selectedUser = _userVector->at(index.row());
         ui->usernameLineEdit->setText(_selectedUser->GetName());
         ui->IsAdminBox->setChecked(_selectedUser->GetType() == USER_T_ADMIN ? true: false);
+        ui->passwordLineEdit->setText("");
+        ui->MatchingPasswordLabel->setText("");
     }
+}
+
+void ManageUsers::on_UpdateUserButton_clicked()
+{
+    ui->ButtonStatusLabel->setStyleSheet("QLabel {color : red}");
+    if (_passwordMatch && _username != "" && _password != "")
+    {
+        User *newUser = new User();
+        newUser->SetName(_username);
+        newUser->SetPassword(_password);
+        newUser->SetType((_admin == true ? USER_T_ADMIN : USER_T_NORMAL));
+        _selectedUser = newUser;
+
+        MediatorArg arg;
+        arg.SetArg(newUser);
+        Mediator::Call(MKEY_DB_UPDATE_USER, arg);
+    }
+    else if (!_passwordMatch)
+    {
+        ui->ButtonStatusLabel->setText("Passwords must match before updating a user!");
+    }
+    else if (_password == "")
+    {
+        ui->ButtonStatusLabel->setText("Must enter a password befoer updating a user!");
+    }
+    else if (_username == "")
+    {
+        ui->ButtonStatusLabel->setText("Must enter a username before updating a user!");
+    }
+
+    PopulateUserTableView();
 }

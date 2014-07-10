@@ -103,8 +103,36 @@ void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
     if(sortType == MEDIATION_SORT_T_RECENT)
         Mediator::Call(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS);
     else
-        MakeSampleTable();
+        //MakeSampleTable();
 
+    switch(sortType)
+    {
+        case MEDIATION_SORT_T_RECENT:
+        {
+            Mediator::Call(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS);
+            break;
+        }
+        case MEDIATION_SORT_T_PENDING:
+        {
+            Mediator::Call(MKEY_DOCK_REQUEST_PENDING_MEDIATIONS);
+            break;
+        }
+        case MEDIATION_SORT_T_SCHEDULED:
+        {
+            Mediator::Call(MKEY_DOCK_REQUEST_SCHEDULED_MEDIATIONS);
+            break;
+        }
+        case MEDIATION_SORT_T_CLOSED:
+        {
+            Mediator::Call(MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS);
+            break;
+        }
+        default:
+        {
+            MakeSampleTable();
+            break;
+        }
+    }
     PopulateMediationProcessTable();
 }
 
