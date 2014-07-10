@@ -22,6 +22,8 @@ public:
     void SetContactPhone(QString val) { _contactPhone = val; }
     void SetContactEmail(QString val) { _contactEmail = val; }
 
+    ////////////////// Section 2 - Calls ///////////////////
+    void SetTotalCalls(int num) { _totalCalls = num; };
 
     ///////////////// Evaluation Sums - (Set by DB!) ///////////////////
     void SetQ1Yes(int num) { _q1Yes = num; }
@@ -86,6 +88,9 @@ private:
     int _numChildByTraining;
     int _numAdditionalServed;
     int _numChildAdditionalServed;
+
+    // 3) Total Calls
+    int _totalCalls;
 
 
 
