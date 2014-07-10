@@ -101,7 +101,7 @@ void DRCDB::InsertEvaluation(MediatorArg arg)
                 int id = EvalQuery.value(0).toInt();
 
                 QString values = "";
-                int stored;
+                int stored = 0;
                 if(eval->getQ3() == EVALUATION_ANSWERS_YES)
                 {
                     stored = EvalQuery.value(3).toInt();
