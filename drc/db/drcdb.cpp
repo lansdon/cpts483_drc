@@ -14,6 +14,9 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
     Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
     Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_PENDING_MEDIATIONS_DONE, [this](MediatorArg arg){LoadPendingMediations(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_SCHEDULED_MEDIATIONS_DONE, [this](MediatorArg arg){LoadScheduledMediations(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE, [this](MediatorArg arg){LoadClosedMediations(arg);});
     Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
     Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
     Mediator::Register(MKEY_DB_REMOVE_USER, [this](MediatorArg arg){RemoveUser(arg);});
@@ -868,7 +871,7 @@ void DRCDB::LoadPendingMediations(MediatorArg arg)
 
     MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
 
-    //Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
+    Mediator::Call(MKEY_DB_REQUEST_PENDING_MEDIATIONS_DONE, processVector);
 }
 
 void DRCDB::LoadScheduledMediations(MediatorArg arg)
@@ -894,7 +897,7 @@ void DRCDB::LoadScheduledMediations(MediatorArg arg)
 
     MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
 
-    //Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
+    Mediator::Call(MKEY_DB_REQUEST_SCHEDULED_MEDIATIONS_DONE, processVector);
 }
 
 void DRCDB::LoadClosedMediations(MediatorArg arg)
@@ -921,7 +924,7 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
     MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
 
 
-    //Mediator::Call(MKEY_DB_REQUEST_RECENT_MEDIATIONS_DONE, processVector);
+    Mediator::Call(MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE, processVector);
 }
 
 void DRCDB::InsertOrUpdateMediation(MediatorArg arg)
