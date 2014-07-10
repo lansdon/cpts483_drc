@@ -552,6 +552,7 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
                 callCount++;
             }
         }
+        report->SetTotalCalls(callCount);
 
         // For section 8 data
         QSqlQuery evalQuery(database);
