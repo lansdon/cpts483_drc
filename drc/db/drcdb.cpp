@@ -1211,13 +1211,16 @@ void DRCDB::RemoveUser(MediatorArg arg)
         if(user)
         {
             QSqlQuery UserQuery(database);
-            QString UserCommandString = QString("delete from User_table where userName = '%1' and Admin = '0'")
-                                            .arg(user->GetName());
+            QString UserCommandstring = QString("select * from User_table where userName = '%1' and Admin = '0'").arg(user->GetName());
+
             this->ExecuteCommand(UserCommandString, UserQuery);
-            if(UserQuery.next())
+            if(!UserQuery.next())
             {
                 arg.SetSuccessful(true);
             }
+            UserCommandString = QString("delete from User_table where userName = '%1' and Admin = '0'")
+                                            .arg(user->GetName());
+            this->ExecuteCommand(UserCommandstring, UserQuery);
         }
     }
     if(arg.IsSuccessful())
