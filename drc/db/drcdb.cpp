@@ -1117,7 +1117,7 @@ void DRCDB::AddNewUser(MediatorArg arg)
             }
         }
     }
-    Mediator::Call(MKEY_DB_VERIFY_UPDATE_USER, arg);
+    Mediator::Call(MKEY_DB_VERIFY_ADD_USER, arg);
 }
 
 void DRCDB::UpdateUser(MediatorArg arg)
@@ -1213,8 +1213,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
             QSqlQuery UserQuery(database);
             QString UserCommandString = QString("delete from User_table where userName = '%1' and Admin = '0'")
                                             .arg(user->GetName());
-            bool result = false;
-            result = this->ExecuteCommand(UserCommandString, UserQuery);
+            this->ExecuteCommand(UserCommandString, UserQuery);
             if(UserQuery.next())
             {
                 arg.SetSuccessful(true);
