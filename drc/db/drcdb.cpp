@@ -1147,7 +1147,10 @@ void DRCDB::AddNewUser(MediatorArg arg)
             }
         }
     }
-    Mediator::Call(MKEY_DB_VERIFY_ADD_USER, arg);
+    if(arg.IsSuccessful())
+    {
+        Mediator::Call(MKEY_DB_VERIFY_ADD_USER, arg);
+    }
 }
 
 void DRCDB::UpdateUser(MediatorArg arg)
