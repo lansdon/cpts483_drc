@@ -121,6 +121,12 @@ void MediationProcess::removeParty(int value)
 {
     if(_parties.size() > 0)
         _parties.erase(_parties.begin()+ (value));
+
+    for(int i = 0; i < (int)_mediationSessionVector.size(); i++)
+    {
+        MediationSession *temp = _mediationSessionVector.at(i);
+        temp->removeClientSessionData(value);
+    }
 }
 
 // Test Data - Fill the object with test values in every field.
@@ -184,4 +190,14 @@ bool MediationProcess::IsSettled()
             return true;
 
     return false;
+}
+
+void MediationProcess::AddParty(Party *party)
+{
+     _parties.push_back(party);
+     for(int i = 0; i < (int)_mediationSessionVector.size(); i++)
+     {
+         MediationSession *temp = _mediationSessionVector.at(i);
+         temp->addClientSessionData(new ClientSessionData());
+     }
 }

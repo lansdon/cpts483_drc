@@ -21,7 +21,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     _mediationProcess(mediationProcess ? mediationProcess : new MediationProcess)
 {
     ui->setupUi(this);
-
+    _mediationProcess->AddParty(new Party());
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
 
     //_mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
@@ -229,7 +229,8 @@ void MediationProcessView::diplaySessions()
     ui->sessionTabWidget->clear();
     for(int i = 0; i < (int)_mediationProcess->getMediationSessionVector()->size(); i++)
     {
-        ui->sessionTabWidget->addTab(new MediationSessionForm(this, _mediationProcess->getMediationSessionVector()->at(i)), ("Session " + QString::number(ui->sessionTabWidget->count())));
+        ui->sessionTabWidget->addTab(new MediationSessionForm(this, _mediationProcess->getMediationSessionVector()->at(i)),
+                                     (_mediationProcess->getMediationSessionVector()->at(i)->getScheduledDate().toString("MM/dd/yyyy")));
     }
 }
 
@@ -281,3 +282,25 @@ void MediationProcessView::SaveCompleted(MediatorArg arg)
 }
 
 
+
+void MediationProcessView::on_addSessionPushButton_clicked()
+{
+    _mediationProcess->addMediation();
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    PopulateView();
+
+}
+
+void MediationProcessView::on_sessionTabWidget_tabCloseRequested(int index)
+{
+    _mediationProcess->getMediationSessionVector()->erase(_mediationProcess->getMediationSessionVector()->begin() + index);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    PopulateView();
+}
+
+void MediationProcessView::on_partyTabWidget_tabCloseRequested(int index)
+{
+    _mediationProcess->removeParty(index);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    PopulateView();
+}

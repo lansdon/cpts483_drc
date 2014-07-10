@@ -30,7 +30,7 @@ public:
     // Accessors
     PartyVector* GetParties() { return &_parties; }
     Party* GetPartyAtIndex(unsigned int index) { return _parties.size() > index ? _parties[index] : nullptr; }
-    void AddParty(Party* party) { _parties.push_back(party); }
+    void AddParty(Party* party);
 
     DisputeTypes GetDisputeType() { return _disputeType; }
     CountyIds GetCountyId() { return _countyOfMediation; }

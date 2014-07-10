@@ -51,6 +51,12 @@ private slots:
     void SaveSignaled();        // Child process signals a save
     void UpdateSignaled();      // Child process signals a change occured
 
+    void on_addSessionPushButton_clicked();
+
+    void on_sessionTabWidget_tabCloseRequested(int index);
+
+    void on_partyTabWidget_tabCloseRequested(int index);
+
 private:
     Ui::MediationProcessView *ui;
 
