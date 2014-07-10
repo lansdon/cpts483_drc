@@ -525,6 +525,35 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         // Must Init the ResWaReport with MPVector (all mps in the 6 month span)
         report = new ResWaReport(mpVec);
 
+        // For section 2 data
+        command = QString("Select * from Mediation_Table wehre UpdatedDate < '%1' and UpdatedDate > '%2'")
+                        .arg(end.toString("yyyy-MM-dd"))
+                        .arg(start.toString("yyyy-MM-dd"));
+        this->ExecuteCommand(command, query);
+
+        mediationIdMatches = "";
+        first = true;
+        while(query.next())
+        {
+            if(!first)
+            {
+                mediationIdMatches += ", ";
+            }
+            mediationIdMatches += query.value(1).toString();
+            first = false;
+        }
+        MediationProcessVector* temp = LoadMediations(mediationIdMatches);
+        int callCount = 0;
+        for(int i = 0; i < temp->size(); i++)
+        {
+            MediationProcess* proc = temp->at(i);
+            if((proc->GetState() == PROCESS_STATE_CLOSED) && (proc->getMediationSessionVector()->size() == 0))
+            {
+                callCount++;
+            }
+        }
+
+        // For section 8 data
         QSqlQuery evalQuery(database);
         QString evalCommand = QString("Select * from Evaluation_Table where startdate = '%1'")
                                 .arg(start.toString("yyyy-MM-dd"));
