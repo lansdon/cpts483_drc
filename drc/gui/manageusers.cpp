@@ -11,7 +11,7 @@ ManageUsers::ManageUsers(QWidget *parent) :
     ui->setupUi(this);
 
     _admin = false;
-
+    _passwordMatch = false;
     _selectedUser = nullptr;
 
     // Make it so the passwords entered can't be seen.
