@@ -32,6 +32,7 @@ public:
     // Populate Views (allowing this to be called publicly as a central place to update all views
     // associated with this MP)
     void PopulateView();
+    bool getChangesPending() const { return _changesPending; }
 
 private slots:
     // Toolbar Buttons
@@ -61,6 +62,7 @@ private:
     Ui::MediationProcessView *ui;
 
     MediationProcess* _mediationProcess;
+    bool _changesPending;
 
      // Toolbox + Children (pages)
      MediationProcessStatusForm *_mediationProcessStatusForm;

@@ -6,6 +6,7 @@
 #include <QListWidget>
 #include <QToolBox>
 #include <QDebug>
+#include <QMessageBox>
 
 // DRC
 #include "mediationprocessstatusform.h"
@@ -21,9 +22,10 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     _mediationProcess(mediationProcess ? mediationProcess : new MediationProcess)
 {
     ui->setupUi(this);
-    _mediationProcess->AddParty(new Party());
+    if(_mediationProcess->GetParties()->size() == 0)
+        _mediationProcess->AddParty(new Party());
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
-
+    _changesPending = true;
     //_mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
 
 //    // Set the session container
@@ -125,6 +127,7 @@ void MediationProcessView::addSession()
 {
     _mediationProcess->addMediation();
     //_mediationProcess->updateClientSessions(_mediationProcess->GetParties()->size());
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     PopulateView();
 }
 
@@ -149,17 +152,31 @@ void MediationProcessView::SaveMediationPressed()
     // Assign mediation ID's to the notes.
     foreach(Note* note, *_mediationProcess->GetNotes())
         note->SetMediationId(_mediationProcess->GetId());
-
+    _changesPending = false;
     qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
     Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
 }
 
 void MediationProcessView::CloseMediationPressed()
 {
-    // To do - Check if they want to save
 
+    if(_changesPending)
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to close?");
 
-    Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+
+            Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+        }
+    }
+    else
+       Mediator::Call(MKEY_GUI_ENABLE_MENUS);
 }
 
 void MediationProcessView::SearchForMediationPressed()
@@ -188,6 +205,8 @@ void MediationProcessView::ShowSessionBrowserPressed()
 void MediationProcessView::SetMediationProcess(MediationProcess* process)
 {
     _mediationProcess = process;
+    if(_mediationProcess->GetParties()->size() == 0)
+        _mediationProcess->AddParty(new Party());
     PopulateView();
 }
 
@@ -227,10 +246,20 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
 void MediationProcessView::diplaySessions()
 {
     ui->sessionTabWidget->clear();
-    for(int i = 0; i < (int)_mediationProcess->getMediationSessionVector()->size(); i++)
+    if(_mediationProcess->getMediationSessionVector()->size() > 0)
     {
-        ui->sessionTabWidget->addTab(new MediationSessionForm(this, _mediationProcess->getMediationSessionVector()->at(i)),
-                                     (_mediationProcess->getMediationSessionVector()->at(i)->getScheduledDate().toString("MM/dd/yyyy")));
+        ui->noSessionLabel->setVisible(false);
+        ui->sessionTabWidget->setVisible(true);
+        for(int i = 0; i < (int)_mediationProcess->getMediationSessionVector()->size(); i++)
+        {
+            ui->sessionTabWidget->addTab(new MediationSessionForm(this, _mediationProcess->getMediationSessionVector()->at(i)),
+                                         (_mediationProcess->getMediationSessionVector()->at(i)->getScheduledDate().toString("MM/dd/yyyy")));
+        }
+    }
+    else
+    {
+        ui->sessionTabWidget->setVisible(false);
+        ui->noSessionLabel->setVisible(true);
     }
 }
 
@@ -266,6 +295,7 @@ void MediationProcessView::UpdateSignaled()      // Child process signals a chan
     // TO DO - Send session to BL
     //    Mediator::Call(MKEY_GUI_, _mediationProcess);
 //    PopulateView();
+    _changesPending = true;
 }
 
 void MediationProcessView::SaveCompleted(MediatorArg arg)
@@ -277,6 +307,7 @@ void MediationProcessView::SaveCompleted(MediatorArg arg)
         {
             // Update with all the latest ID's etc.
             SetMediationProcess(mp);
+            _changesPending = false;
         }
     }
 }
@@ -293,14 +324,32 @@ void MediationProcessView::on_addSessionPushButton_clicked()
 
 void MediationProcessView::on_sessionTabWidget_tabCloseRequested(int index)
 {
-    _mediationProcess->getMediationSessionVector()->erase(_mediationProcess->getMediationSessionVector()->begin() + index);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-    PopulateView();
+    QMessageBox msgBox;
+    msgBox.addButton(QMessageBox::Yes);
+    msgBox.addButton(QMessageBox::No);
+    msgBox.setText("Are you sure you want to remove the session?");
+
+    int selection = msgBox.exec();
+    if(selection == QMessageBox::Yes)
+    {
+        _mediationProcess->getMediationSessionVector()->erase(_mediationProcess->getMediationSessionVector()->begin() + index);
+        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+        PopulateView();
+    }
 }
 
 void MediationProcessView::on_partyTabWidget_tabCloseRequested(int index)
 {
-    _mediationProcess->removeParty(index);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-    PopulateView();
+    QMessageBox msgBox;
+    msgBox.addButton(QMessageBox::Yes);
+    msgBox.addButton(QMessageBox::No);
+    msgBox.setText("Are you sure you want to remove the client?");
+
+    int selection = msgBox.exec();
+    if(selection == QMessageBox::Yes)
+    {
+        _mediationProcess->removeParty(index);
+        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+        PopulateView();
+    }
 }

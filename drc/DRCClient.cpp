@@ -27,6 +27,7 @@
 #include <QDebug>
 #include <QDockWidget>
 #include <QFileDialog>
+#include <QMessageBox>
 
 const QString DBPATH_FILE = "dbpath.txt";
 const QString DB_DEFAULT_PATH = "drc_db.db3";
@@ -123,7 +124,22 @@ void DRCClient::on_actionNew_search_form_triggered()
 
 void DRCClient::on_actionOpen_mediation_view_triggered()
 {
-    LoadMediationProcessView();
+    if(_mediationProcessView && _mediationProcessView->getChangesPending())
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to create new?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+            LoadMediationProcessView();
+        }
+    }
+    else
+       LoadMediationProcessView();
 }
 
 void DRCClient::on_actionMediation_Process_triggered()
