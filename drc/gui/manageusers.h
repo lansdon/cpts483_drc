@@ -36,6 +36,8 @@ private slots:
 
     void on_usertableWidget_doubleClicked(const QModelIndex &index);
 
+    void on_UpdateUserButton_clicked();
+
 private:
     Ui::ManageUsers *ui;
 
@@ -55,7 +57,7 @@ private:
 
     void VerifyDeleteSelectedUser(MediatorArg arg);
 
-    void VerifySaveUser(MediatorArg arg);
+    void VerifyAddNewUser(MediatorArg arg);
 
     void ConfigureUserTableView();
 

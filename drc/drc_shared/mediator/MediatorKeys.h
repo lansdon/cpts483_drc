@@ -54,6 +54,7 @@ const QString MKEY_GUI_HIDE_ADMIN = "MKEY_GUI_HIDE_ADMIN";                      
 //////////////////////////////////////////////////////////////////                          ARGUMENT TYPE
 const QString MKEY_DB_ADD_NEW_USER = "MKEY_DB_ADD_NEW_USER";                            // User*
 const QString MKEY_DB_REMOVE_USER = "MKEY_DB_REMOVE_USER";                              // User*
+const QString MKEY_DB_VERIFY_ADD_NEW_USER = "MKEY_DB_VERIFY_ADD_NEW_USER";              // arg.isSuccessful()
 const QString MKEY_DB_VERIFY_REMOVE_USER = "MKEY_DB_VERIFY_REMOVE_USER";                // arg.isSuccessful()
 const QString MKEY_DB_VERIFY_UPDATE_USER = "MKEY_DB_VERIFY_UPDATE_USER";                // arg.isSuccessful()
 const QString MKEY_DB_VERIFY_ADD_USER = "MKEY_DB_ADD_UPDATE_USER";                      // arg.isSuccessful()
