@@ -1223,7 +1223,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
     }
     if(arg.IsSuccessful())
     {
-        //Mediator::Call(MKEY_DB_VERIFY_REMOVE_USER, arg);
+        Mediator::Call(MKEY_DB_VERIFY_REMOVE_USER, arg);
     }
 }
 
