@@ -241,7 +241,7 @@ void ResWaReport::BuildCallsSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.insertText("\n\n2) CALLS (Information, intake, and referal calls)\n", _headerFormat);
 
-    cursor.insertText("Total calls: " + QString::number(CalculateTotalCalls()) + "\n\n");
+    cursor.insertText("Total calls: " + QString::number(_totalCalls) + "\n\n");
 }
 
 // 3) CONTACTS
@@ -364,12 +364,6 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertText(QString("\t\t\tNo: " + QString::number(_q6No) + "\n"));
     cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q6Somewhat) + "\n"));
 
-}
-
-int ResWaReport::CalculateTotalCalls()
-{
-#warning RESWA BL UNIMPLEMENTED!
-    return -666;
 }
 
 void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes courtType, bool settled)

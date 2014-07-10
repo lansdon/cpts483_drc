@@ -92,8 +92,6 @@ private:
     // 3) Total Calls
     int _totalCalls;
 
-
-
     ///////////////// Report Builder - INTERNAL ///////////////////
     // These functions build the different sections of the report
     ///////////////////////////////////////////////////////////////
@@ -129,9 +127,6 @@ private:
     CasesTable _casesTable;
     void CalculateCasesTable();
     void AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes courtType, bool settled);
-
-    // 2) CALLS
-    int CalculateTotalCalls();
 
     // 4) TRAININGS
     void CalculateTraining(int& numTrainings, int& numAttendingTraining);
