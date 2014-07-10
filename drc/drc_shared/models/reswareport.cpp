@@ -391,7 +391,7 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertText(QString("\t\t\tNo: " + QString::number(_q4No) + "\n"));
     cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q4Somewhat) + "\n"));
 
-    // Wouldl recommend to someone else
+    // Would recommend to someone else
     cursor.insertText("\tRecommend mediation to others?\n", _headerFormat);
     cursor.insertText(QString("\t\t\tYes: " + QString::number(_q5Yes) + "\n"));
     cursor.insertText(QString("\t\t\tNo: " + QString::number(_q5No) + "\n"));

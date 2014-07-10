@@ -1211,7 +1211,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
         if(user)
         {
             QSqlQuery UserQuery(database);
-            QString UserCommandstring = QString("select * from User_table where userName = '%1' and Admin = '0'").arg(user->GetName());
+            QString UserCommandString = QString("select * from User_table where userName = '%1' and Admin = '0'").arg(user->GetName());
 
             this->ExecuteCommand(UserCommandString, UserQuery);
             if(!UserQuery.next())
@@ -1220,7 +1220,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
             }
             UserCommandString = QString("delete from User_table where userName = '%1' and Admin = '0'")
                                             .arg(user->GetName());
-            this->ExecuteCommand(UserCommandstring, UserQuery);
+            this->ExecuteCommand(UserCommandString, UserQuery);
         }
     }
     if(arg.IsSuccessful())
