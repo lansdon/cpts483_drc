@@ -24,6 +24,7 @@ ManageUsers::ManageUsers(QWidget *parent) :
     // Mediator method registers
     Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
     Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg arg) {VerifyDeleteSelectedUser(arg);});
+    Mediator::Register(MKEY_DB_VERIFY_UPDATE_USER, [this](MediatorArg arg) {VerifySaveUser(arg);});
     Mediator::Call(MKEY_DB_GET_ALL_USER);
 
     ConfigureUserTableView();
@@ -39,8 +40,11 @@ void ManageUsers::ConfigureUserTableView()
 {
     ui->usertableWidget->setUpdatesEnabled(true);
 
+    ui->MatchingPasswordLabel->setAlignment(Qt::AlignCenter);
+    ui->verificationLabel->setAlignment(Qt::AlignCenter);
+
     ui->usertableWidget->setColumnCount(2);
-    ui->usertableWidget->setRowCount(_userVector->count());
+    //ui->usertableWidget->setRowCount(_userVector->count());
     ui->usertableWidget->setColumnWidth(0, ui->usertableWidget->width()/2);
     ui->usertableWidget->setColumnWidth(1, ui->usertableWidget->width()/2);
 
@@ -90,13 +94,41 @@ void ManageUsers::VerifyDeleteSelectedUser(MediatorArg arg)
     if (arg.IsSuccessful())
     {
         _selectedUser = nullptr;
-        ui->usernameLineEdit->text().clear();
-        ui->passwordLineEdit->text().clear();
-        ui->reenterpasswordLineEdit->text().clear();
+        ui->usernameLineEdit->setText("");
+        ui->passwordLineEdit->setText("");
+        ui->reenterpasswordLineEdit->setText("");
         ui->IsAdminBox->setChecked(false);
+
+        ui->verificationLabel->setStyleSheet("QLabel {color : green}");
+        ui->verificationLabel->setText("User deleted!");
+    }
+    else
+    {
+        ui->verificationLabel->setStyleSheet("QLabel {color : red}");
+        ui->verificationLabel->setText("Could not delete user!");
     }
 
     PopulateUserTableView();
+}
+
+void ManageUsers::VerifySaveUser(MediatorArg arg)
+{
+    if (arg.IsSuccessful())
+    {
+        _selectedUser = nullptr;
+        ui->usernameLineEdit->setText("");
+        ui->passwordLineEdit->setText("");
+        ui->reenterpasswordLineEdit->setText("");
+        ui->IsAdminBox->setChecked(false);
+
+        ui->verificationLabel->setStyleSheet("QLabel {color : green}");
+        ui->verificationLabel->setText("User saved!");
+    }
+    else
+    {
+        ui->verificationLabel->setStyleSheet("QLabel {color : red}");
+        ui->verificationLabel->setText("Could not save user!");
+    }
 }
 
 
@@ -176,5 +208,7 @@ void ManageUsers::on_usertableWidget_doubleClicked(const QModelIndex &index)
         _selectedUser = _userVector->at(index.row());
         ui->usernameLineEdit->setText(_selectedUser->GetName());
         ui->IsAdminBox->setChecked(_selectedUser->GetType() == USER_T_ADMIN ? true: false);
+        ui->passwordLineEdit->text().clear();
+        ui->MatchingPasswordLabel->text().clear();
     }
 }

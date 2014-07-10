@@ -55,6 +55,8 @@ private:
 
     void VerifyDeleteSelectedUser(MediatorArg arg);
 
+    void VerifySaveUser(MediatorArg arg);
+
     void ConfigureUserTableView();
 
     void PopulateUserTableView();

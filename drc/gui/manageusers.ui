@@ -128,9 +128,9 @@
    <property name="geometry">
     <rect>
      <x>210</x>
-     <y>410</y>
+     <y>420</y>
      <width>411</width>
-     <height>80</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="frameShape">
@@ -143,26 +143,39 @@
     <property name="geometry">
      <rect>
       <x>40</x>
-      <y>20</y>
+      <y>50</y>
       <width>151</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
-     <string>Add User</string>
+     <string>Save User</string>
     </property>
    </widget>
    <widget class="QPushButton" name="DeleteUserButton">
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>20</y>
+      <y>50</y>
       <width>151</width>
       <height>41</height>
      </rect>
     </property>
     <property name="text">
      <string>Delete User</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="verificationLabel">
+    <property name="geometry">
+     <rect>
+      <x>105</x>
+      <y>9</y>
+      <width>201</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>
@@ -175,39 +188,6 @@
      <height>192</height>
     </rect>
    </property>
-  </widget>
-  <widget class="QWidget" name="gridLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>119</x>
-     <y>49</y>
-     <width>591</width>
-     <height>211</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_2"/>
-  </widget>
-  <widget class="QWidget" name="gridLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>270</y>
-     <width>431</width>
-     <height>231</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_3"/>
-  </widget>
-  <widget class="QWidget" name="gridLayoutWidget_3">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>10</y>
-     <width>741</width>
-     <height>531</height>
-    </rect>
-   </property>
-   <layout class="QGridLayout" name="gridLayout_4"/>
   </widget>
  </widget>
  <resources/>
