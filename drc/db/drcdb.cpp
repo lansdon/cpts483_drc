@@ -1215,7 +1215,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
                                             .arg(user->GetName());
             bool result = false;
             result = this->ExecuteCommand(UserCommandString, UserQuery);
-            if(result)
+            if(UserQuery.next())
             {
                 arg.SetSuccessful(true);
             }
