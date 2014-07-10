@@ -56,33 +56,33 @@ enum CasesTableHeaders
 
 ResWaReport::ResWaReport(MediationProcessVector *processes)
     : _processes(processes)
-    , _q1No(0)
     , _q1Yes(0)
+    , _q1No(0)
     , _q1Somewhat(0)
-    , _q2No(0)
     , _q2Yes(0)
+    , _q2No(0)
     , _q2Somewhat(0)
-    , _q3No(0)
     , _q3Yes(0)
+    , _q3No(0)
     , _q3Somewhat(0)
-    , _q4No(0)
     , _q4Yes(0)
+    , _q4No(0)
     , _q4Somewhat(0)
-    , _q5No(0)
     , _q5Yes(0)
+    , _q5No(0)
     , _q5Somewhat(0)
-    , _q6No(0)
     , _q6Yes(0)
+    , _q6No(0)
     , _q6Somewhat(0)
 {
 
     _headerFormat.setFontPointSize(12);
-    _tableTextFormat.setFontPointSize(8);
-    _tableCellBlue.setBackground(QColor("#3010ee"));
+    _tableTextFormat.setFontPointSize(10);
+    _tableCellBlue.setBackground(QColor("#C2E0FF"));
     _tableIndexDark.setBackground(QColor("#e0e0e0"));
     _tableIndexLight.setBackground(QColor("#eeeee0"));
 
-    // Init table matrix with zeros.
+    // Init case table matrix with zeros.
     for(auto row = 0; row < CasesTableRows; ++row)
         _casesTable.push_back({0,0,0,0,0,0,0,0,0,0,0,0,0,0});
 
@@ -176,20 +176,20 @@ void ResWaReport::BuildCasesSection(QTextCursor& cursor)
     QTextTableFormat tableFormat;
     tableFormat.setHeaderRowCount(1);
     QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 35);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
+    constraints << QTextLength(QTextLength::PercentageLength, 15);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
     tableFormat.setColumnWidthConstraints(constraints);
     QTextTable *table = cursor.insertTable(CasesTableRows, CasesTableCols, tableFormat);
     // HEADERS
@@ -247,99 +247,60 @@ void ResWaReport::BuildCallsSection(QTextCursor& cursor)
 // 3) CONTACTS
 void ResWaReport::BuildContactsSection(QTextCursor& cursor)
 {
-    int rows = 2, cols = 7;
-
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
     cursor.insertText("\n\n3) Contacts (proactive outreach events\n", _headerFormat);
     cursor.insertText("!! This information is not available !!\n", _headerFormat);
-
-    QTextTableFormat tableFormat;
-    tableFormat.setHeaderRowCount(1);
-    QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 40);
-    constraints << QTextLength(QTextLength::PercentageLength, 10);
-    constraints << QTextLength(QTextLength::PercentageLength, 10);
-    constraints << QTextLength(QTextLength::PercentageLength, 10);
-    constraints << QTextLength(QTextLength::PercentageLength, 10);
-    constraints << QTextLength(QTextLength::PercentageLength, 10);
-    constraints << QTextLength(QTextLength::PercentageLength, 10);
-
-    tableFormat.setColumnWidthConstraints(constraints);
-    QTextTable *table = cursor.insertTable(rows, cols, tableFormat);
-    // HEADERS
-    TextToCell(table, 0, 1, "Presentation", &_tableTextFormat);
-    TextToCell(table, 0, 2, "TV", &_tableTextFormat);
-    TextToCell(table, 0, 3, "Radio", &_tableTextFormat);
-    TextToCell(table, 0, 4, "Newspaper", &_tableTextFormat);
-    TextToCell(table, 0, 5, "other", &_tableTextFormat);
-    TextToCell(table, 0, 6, "Press Releases", &_tableTextFormat);
-    // ROW INDICES
-    TextToCell(table, 1, 0, "Total Contacts", &_tableTextFormat);
-
-    // VALUES
-
-
 }
 
+// 4) TRAINING
 void ResWaReport::BuildTrainingSection(QTextCursor& cursor)
 {
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
     cursor.insertText("\n\n4) TRAINING & IN-SERVICES\n");
 
-    // TABLE STUFFS
-    int rows = 3, cols = 15;
-
-    QTextTableFormat tableFormat;
-    tableFormat.setHeaderRowCount(1);
-    QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 15);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    constraints << QTextLength(QTextLength::PercentageLength, 5);
-    tableFormat.setColumnWidthConstraints(constraints);
-    QTextTable *table = cursor.insertTable(rows, cols, tableFormat);
-    // HEADERS
-    TextToCell(table, 0, 1, "40 Hour Basic", &_tableTextFormat);
-    TextToCell(table, 0, 2, "Family Parenting Training", &_tableTextFormat);
-    TextToCell(table, 0, 3, "Family Med", &_tableTextFormat);
-    TextToCell(table, 0, 4, "Conflict Resolution Skillz", &_tableTextFormat);
-    TextToCell(table, 0, 5, "Peer Mediation", &_tableTextFormat);
-    TextToCell(table, 0, 6, "Other youth training", &_tableTextFormat);
-    TextToCell(table, 0, 7, "Parent Teen", &_tableTextFormat);
-    TextToCell(table, 0, 8, "Victim Offender", &_tableTextFormat);
-    TextToCell(table, 0, 9, "Group Facillitation", &_tableTextFormat);
-    TextToCell(table, 0, 10, "Phone Conilliation", &_tableTextFormat);
-    TextToCell(table, 0, 11, "Workplace", &_tableTextFormat);
-    TextToCell(table, 0, 12, "In-service", &_tableTextFormat);
-    TextToCell(table, 0, 13, "Other", &_tableTextFormat);
-    TextToCell(table, 0, 14, "Total", &_tableTextFormat);
-    // ROW INDICES
-    TextToCell(table, 1, 0, "# of training and in-services conducted", &_tableTextFormat);
-    TextToCell(table, 2, 0, "# of persons attending trainings and in-services", &_tableTextFormat);
-
     // VALUES
+    int numTrainings;
+    int numAttendingTrainings;
+    CalculateTraining(numTrainings, numAttendingTrainings);
+    cursor.insertText("\t\t\t# of trainings: " + QString::number(numTrainings) + "\n");
+    cursor.insertText("\t\t\t# attending trainings: " + QString::number(numAttendingTrainings) + "\n");
 
 
 }
 
 void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
 {
+
+    CalculatePeople();
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
     cursor.insertText("\n\n5) People Served\n", _headerFormat);
+    cursor.insertText("A.\t# of people served by telephone:\n", _headerFormat);
+    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numByPhone) + "\n", _headerFormat);
+    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildByPhone) + "\n", _headerFormat);
+    cursor.insertText("B.\t# of people served by conflict coaching:\n", _headerFormat);
+    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numByCoaching) + "\n", _headerFormat);
+    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildByCoaching) + "\n", _headerFormat);
+    cursor.insertText("C.\t# of people served by telephone concilliation:\n", _headerFormat);
+    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numByPhoneConcilliation) + "\n", _headerFormat);
+    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildByPhoneConcilliation) + "\n", _headerFormat);
+    cursor.insertText("D.\t# of people served by mediation sessions:\n", _headerFormat);
+    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numBySessions) + "\n", _headerFormat);
+    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildBySessions) + "\n", _headerFormat);
+    cursor.insertText("E.\t# of people served by facilliation sessions:\n", _headerFormat);
+    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numBySessionFacilliation) + "\n", _headerFormat);
+    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildBySessionFacilliation) + "\n", _headerFormat);
+    cursor.insertText("F.\t# of people INDIRECTLY served by phone, concilliation, mediation, facilliation:\n", _headerFormat);
+    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numIndirectly) + "\n", _headerFormat);
+    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildIndirectly) + "\n", _headerFormat);
+    cursor.insertText("G.\t# of people served by training and in-service:\n", _headerFormat);
+    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numByTraining) + "\n", _headerFormat);
+    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildByTraining) + "\n", _headerFormat);
+    cursor.insertText("H.\t# of additional people served:\n", _headerFormat);
+    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numAdditionalServed) + "\n", _headerFormat);
+    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildAdditionalServed) + "\n", _headerFormat);
 
 }
 
@@ -349,6 +310,7 @@ void ResWaReport::BuildOutreachSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.insertText("\n\n6) Outreach \n", _headerFormat);
 
+    cursor.insertText("\n\t !! INFORMATION UNAVAILABLE !! \n", _headerFormat);
 }
 
 void ResWaReport::BuildStaffSection(QTextCursor& cursor)
@@ -357,6 +319,7 @@ void ResWaReport::BuildStaffSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.insertText("\n\n7) BuildStaffSection\n", _headerFormat);
 
+    cursor.insertText("\n\t !! INFORMATION UNAVAILABLE !! \n", _headerFormat);
 }
 
 void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
@@ -458,4 +421,75 @@ void ResWaReport::CalculateCasesTable()
     {
         AddMPToCasesTable(mp->GetDisputeType(), mp->GetCourtType(), mp->IsSettled());
     }
+}
+
+
+// 4) TRAININGS
+int ResWaReport::GetNumberAttending(MediationSession* session)
+{
+    int result = 0;
+    if(session->getObserver1().length()) ++result;
+    if(session->getObserver2().length()) ++result;
+    if(session->getMediator1().length()) ++result;
+    if(session->getMediator2().length()) ++result;
+
+    foreach(ClientSessionData* csData, *session->getClientSessionDataVector())
+    {
+        ++result;  // add one for the client
+        if(csData->getAttyDidAttend()) ++result;
+        result += (int)csData->getSupport();
+    }
+    return result;
+}
+
+void ResWaReport::CalculateTraining(int& numTrainings, int& numAttendingTraining)
+{
+    numTrainings = numAttendingTraining = 0;
+
+    foreach(MediationProcess* mp,  *_processes)
+    {
+        int curAttendees = 0;
+        bool foundTrainee = false;
+        foreach(MediationSession* session, *mp->getMediationSessionVector())
+        {
+            if(session->getObserver1().length())
+            {
+                foundTrainee = true;
+                ++numTrainings;
+            }
+            if(session->getObserver2().length())
+            {
+                foundTrainee = true;
+                ++numTrainings;
+            }
+            curAttendees += GetNumberAttending(session);
+        }
+
+        if(foundTrainee)
+        {
+            numAttendingTraining += curAttendees;
+        }
+    }
+}
+
+void ResWaReport::CalculatePeople()
+{
+#warning RESWA BL UNIMPLEMENTED
+    _numByPhone
+    = _numChildByPhone
+    = _numByCoaching
+    = _numChildByCoaching
+    = _numByPhoneConcilliation
+    = _numChildByPhoneConcilliation
+    = _numBySessions
+    = _numChildBySessions
+    = _numBySessionFacilliation
+    = _numChildBySessionFacilliation
+    = _numIndirectly
+    = _numChildIndirectly
+    = _numByTraining
+    = _numChildByTraining
+    = _numAdditionalServed
+    = _numChildAdditionalServed = 0;
+
 }

@@ -70,22 +70,22 @@ private:
 
 
     ///////  Person section. Might not want these.
-//    int _numByPhone;
-//    int _numChildByPhone;
-//    int _numByCoaching;
-//    int _numChildByCoaching;
-//    int _numByPhoneConcilliation;
-//    int _numChildByPhoneConcilliation;
-//    int _numBySessions;
-//    int _numChildBySessions;
-//    int _numBySessionFacilliation;
-//    int _numChildBySessionFacilliation;
-//    int _numIndirectly;
-//    int _numChildIndirectly;
-//    int _numByTraining;
-//    int _numChildByTraining;
-//    int _numAdditionalServed;
-//    int _numChildAdditionalServed;
+    int _numByPhone;
+    int _numChildByPhone;
+    int _numByCoaching;
+    int _numChildByCoaching;
+    int _numByPhoneConcilliation;
+    int _numChildByPhoneConcilliation;
+    int _numBySessions;
+    int _numChildBySessions;
+    int _numBySessionFacilliation;
+    int _numChildBySessionFacilliation;
+    int _numIndirectly;
+    int _numChildIndirectly;
+    int _numByTraining;
+    int _numChildByTraining;
+    int _numAdditionalServed;
+    int _numChildAdditionalServed;
 
 
 
@@ -127,6 +127,14 @@ private:
 
     // 2) CALLS
     int CalculateTotalCalls();
+
+    // 4) TRAININGS
+    void CalculateTraining(int& numTrainings, int& numAttendingTraining);
+    int GetNumberAttending(MediationSession* session);
+
+    // 5) PEOPLE
+    void CalculatePeople();
+
 
 };
 
