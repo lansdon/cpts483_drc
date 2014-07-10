@@ -24,16 +24,14 @@ MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *se
     //_sessionData = new ClientSessionDataVector();
 
     ConfigureComboBoxes();
-
-    FillingFields = false;
-    fillFields(_mediationSession);
     configureMediatorTable();
     configureAttyAndSupportTable();
 
     _mediatorid = Mediator::Register(MKEY_DOCK_SESSION_CHANGED, [this](MediatorArg arg){ SetSessionEvent(arg);});
 
     configureFeeTable();
-
+    FillingFields = false;
+    fillFields(_mediationSession);
 }
 
 MediationSessionForm::~MediationSessionForm()

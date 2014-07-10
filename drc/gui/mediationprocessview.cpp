@@ -24,23 +24,23 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
 
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
 
-    _mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
+    //_mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
 
-    // Set the session container
-    QVBoxLayout* layout2 = new QVBoxLayout();
-    layout2->addWidget(_mediationSessionForm);
-    ui->sessionOverviewGroupBox->setLayout(layout2);
-    _noSession = new NoSessionsView(ui->sessionOverviewGroupBox);
-    // Set the No session container
-    QVBoxLayout* layout3 = new QVBoxLayout();
-    layout2->addWidget(_noSession);
-    ui->sessionOverviewGroupBox->setLayout(layout3);
+//    // Set the session container
+//    QVBoxLayout* layout2 = new QVBoxLayout();
+//    layout2->addWidget(_mediationSessionForm);
+//    ui->sessionOverviewGroupBox->setLayout(layout2);
+//    _noSession = new NoSessionsView(ui->sessionOverviewGroupBox);
+//    // Set the No session container
+//    QVBoxLayout* layout3 = new QVBoxLayout();
+//    layout2->addWidget(_noSession);
+//    ui->sessionOverviewGroupBox->setLayout(layout3);
 
     // Set the overview container
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
-    connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
+//    connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
     ui->clientsContainer->setStyleSheet("QGroupBox {\
                                         border: 2px solid gray;\
                                         border-radius: 5px;\
@@ -79,7 +79,7 @@ MediationProcessView::~MediationProcessView()
     Mediator::Unregister(MKEY_GUI_MP_POPULATE, _unregisterPopulateId);
     Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _unregisterPersistMPId);
     delete _mediationProcessStatusForm;
-    delete _mediationSessionForm;
+//    delete _mediationSessionForm;
     delete ui;
 }
 
@@ -103,20 +103,23 @@ void MediationProcessView::PopulateView()
     Mediator::Call(MKEY_DOCK_REFRESH_MEDIATIONS);
 
     // Session detail.
-    if(_mediationProcess->getMediationSessionVector()->size() > 0 )
-    {
-        _noSession->hide();
-         _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
-        _mediationSessionForm->show();
-    }
-    else
-    {
-        _mediationSessionForm->hide();
-        _noSession->show();
-    }
+//    if(_mediationProcess->getMediationSessionVector()->size() > 0 )
+//    {
+//        _noSession->hide();
+//         _mediationSessionForm->setMediationSession(_mediationProcess->getMediationSessionVector()->at(0));
+//        _mediationSessionForm->show();
+
+//    }
+//    else
+//    {
+//        _mediationSessionForm->hide();
+//        _noSession->show();
+//    }
 
     // Each View can setup it's own toolbar buttons
     ConfigureToolbar();
+
+    diplaySessions();
 }
 void MediationProcessView::addSession()
 {
@@ -221,6 +224,15 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
     }
 }
 
+void MediationProcessView::diplaySessions()
+{
+    ui->sessionTabWidget->clear();
+    for(int i = 0; i < (int)_mediationProcess->getMediationSessionVector()->size(); i++)
+    {
+        ui->sessionTabWidget->addTab(new MediationSessionForm(this, _mediationProcess->getMediationSessionVector()->at(i)), ("Session " + QString::number(ui->sessionTabWidget->count())));
+    }
+}
+
 void MediationProcessView::on_addCientPushButton_clicked()
 {
 
@@ -237,6 +249,7 @@ void MediationProcessView::on_addCientPushButton_clicked()
 void MediationProcessView::on_removeClientPushButton_clicked()
 {
     _mediationProcess->removeParty(ui->partyTabWidget->currentIndex());
+
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     PopulateView();
 }

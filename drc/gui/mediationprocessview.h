@@ -66,6 +66,7 @@ private:
     void ConfigureToolbar();
     void ConfigureToolbox();
 
+
     // Clients/Parties Tabs
     void AddPartyTabs(PartyVector* parties);
 
@@ -74,6 +75,7 @@ private:
     void configSessionTable();
     void PopulateSessionTable();
     void on_sessiontTableWidget_itemSelectionChanged();
+    void diplaySessions();
 
     void SaveCompleted(MediatorArg arg);
 
