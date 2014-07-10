@@ -36,6 +36,7 @@ MediationProcess::MediationProcess()
     , _isCourtCase(false)
     , _courtCaseType(COURT_T_NONE)
     , _courtOrderType(COURT_ORDER_T_NONE)
+    , _infoOnly(false)
 {
 
 }
