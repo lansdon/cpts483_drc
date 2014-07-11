@@ -20,6 +20,9 @@ NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
 
     ConfigTable();
     PopulateTable();
+
+    if(!notesVec || !notesVec->size())
+        _editingNewNote = true; // first time in the browser, it's a new note.
 }
 
 NotesBrowser::~NotesBrowser()
