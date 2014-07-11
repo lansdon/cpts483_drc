@@ -202,50 +202,6 @@
     </rect>
    </property>
   </widget>
-  <widget class="QWidget" name="formLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>120</x>
-     <y>50</y>
-     <width>591</width>
-     <height>211</height>
-    </rect>
-   </property>
-   <layout class="QFormLayout" name="formLayout"/>
-  </widget>
-  <widget class="QWidget" name="formLayoutWidget_2">
-   <property name="geometry">
-    <rect>
-     <x>200</x>
-     <y>270</y>
-     <width>431</width>
-     <height>141</height>
-    </rect>
-   </property>
-   <layout class="QFormLayout" name="formLayout_2"/>
-  </widget>
-  <widget class="QWidget" name="formLayoutWidget_3">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>410</y>
-     <width>531</width>
-     <height>131</height>
-    </rect>
-   </property>
-   <layout class="QFormLayout" name="formLayout_3"/>
-  </widget>
-  <widget class="QWidget" name="formLayoutWidget_4">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>10</y>
-     <width>691</width>
-     <height>571</height>
-    </rect>
-   </property>
-   <layout class="QFormLayout" name="formLayout_4"/>
-  </widget>
  </widget>
  <resources/>
  <connections/>

@@ -45,6 +45,11 @@ private:
     QString _password;
     QString _reenteredpassword;
 
+    MediatorId _mediatorId_VerifyAddUser;
+    MediatorId _mediatorId_VerifyUpdateUser;
+    MediatorId _mediatorId_VerifyRemoveUser;
+    MediatorId _mediatorId_GetAllUsers;
+
     bool _admin;
 
     bool _passwordMatch;
