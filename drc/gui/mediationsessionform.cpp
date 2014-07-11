@@ -10,8 +10,6 @@
 #include <QSpinBox>
 #include <QCheckBox>
 #include "clientsessiondata.h"
-#include "attorneysupportview.h"
-#include "attorneyheaderview.h"
 #include <QObject>
 
 MediationSessionForm::MediationSessionForm(QWidget *parent, MediationSession *session) :
