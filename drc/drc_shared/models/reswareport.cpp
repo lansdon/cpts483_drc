@@ -241,7 +241,19 @@ void ResWaReport::BuildCallsSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.insertText("\n\n2) CALLS (Information, intake, and referal calls)\n", _headerFormat);
 
-    cursor.insertText("Total calls: " + QString::number(_totalCalls) + "\n\n");
+//    cursor.insertText("Total calls: " + QString::number(_totalCalls) + "\n\n");
+
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTableFormat tableFormat;
+    QVector<QTextLength> constraints;
+    constraints << QTextLength(QTextLength::PercentageLength, 40);
+    constraints << QTextLength(QTextLength::PercentageLength, 40);
+    tableFormat.setColumnWidthConstraints(constraints);
+    QTextTable *table = cursor.insertTable(1, 2, tableFormat);
+    TextToCell(table, 0, 0, "Total calls", &_tableTextFormat);
+    TextToCell(table, 0, 1, QString::number(_totalCalls), &_tableCellBlue);
+
 }
 
 // 3) CONTACTS
@@ -264,43 +276,142 @@ void ResWaReport::BuildTrainingSection(QTextCursor& cursor)
     int numTrainings;
     int numAttendingTrainings;
     CalculateTraining(numTrainings, numAttendingTrainings);
-    cursor.insertText("\t\t\t# of trainings: " + QString::number(numTrainings) + "\n");
-    cursor.insertText("\t\t\t# attending trainings: " + QString::number(numAttendingTrainings) + "\n");
+//    cursor.insertText("\t\t\t# of trainings: " + QString::number(numTrainings) + "\n");
+//    cursor.insertText("\t\t\t# attending trainings: " + QString::number(numAttendingTrainings) + "\n");
 
+    QTextTableFormat tableFormat;
+    tableFormat.setHeaderRowCount(1);
+    QVector<QTextLength> constraints;
+    constraints << QTextLength(QTextLength::PercentageLength, 35);
+    constraints << QTextLength(QTextLength::PercentageLength, 35);
 
+    tableFormat.setColumnWidthConstraints(constraints);
+    QTextTable *table = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(table, 0, 0, "# of trainings", &_tableTextFormat);
+    TextToCell(table, 0, 1, "# attending trainings", &_tableTextFormat);
+    // VALUES
+    TextToCell(table, 1, 0, QString::number(numTrainings), &_tableCellBlue);
+    TextToCell(table, 1, 1, QString::number(numAttendingTrainings), &_tableCellBlue);
 }
 
 void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
 {
-
     CalculatePeople();
+
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
     cursor.insertText("\n\n5) People Served\n", _headerFormat);
-    cursor.insertText("A.\t# of people served by telephone:\n", _headerFormat);
-    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numByPhone) + "\n", _headerFormat);
-    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildByPhone) + "\n", _headerFormat);
-    cursor.insertText("B.\t# of people served by conflict coaching:\n", _headerFormat);
-    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numByCoaching) + "\n", _headerFormat);
-    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildByCoaching) + "\n", _headerFormat);
-    cursor.insertText("C.\t# of people served by telephone concilliation:\n", _headerFormat);
-    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numByPhoneConcilliation) + "\n", _headerFormat);
-    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildByPhoneConcilliation) + "\n", _headerFormat);
-    cursor.insertText("D.\t# of people served by mediation sessions:\n", _headerFormat);
-    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numBySessions) + "\n", _headerFormat);
-    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildBySessions) + "\n", _headerFormat);
-    cursor.insertText("E.\t# of people served by facilliation sessions:\n", _headerFormat);
-    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numBySessionFacilliation) + "\n", _headerFormat);
-    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildBySessionFacilliation) + "\n", _headerFormat);
-    cursor.insertText("F.\t# of people INDIRECTLY served by phone, concilliation, mediation, facilliation:\n", _headerFormat);
-    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numIndirectly) + "\n", _headerFormat);
-    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildIndirectly) + "\n", _headerFormat);
-    cursor.insertText("G.\t# of people served by training and in-service:\n", _headerFormat);
-    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numByTraining) + "\n", _headerFormat);
-    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildByTraining) + "\n", _headerFormat);
-    cursor.insertText("H.\t# of additional people served:\n", _headerFormat);
-    cursor.insertText("\t\t\tAll people Served: " + QString::number(_numAdditionalServed) + "\n", _headerFormat);
-    cursor.insertText("\t\t\tChildren Served: " + QString::number(_numChildAdditionalServed) + "\n", _headerFormat);
+
+    QTextTableFormat tableFormat;
+    QVector<QTextLength> constraints;
+    constraints << QTextLength(QTextLength::PercentageLength, 40);
+    constraints << QTextLength(QTextLength::PercentageLength, 40);
+    tableFormat.setColumnWidthConstraints(constraints);
+
+    cursor.insertText("\nA. # of people served by telephone:\n", _headerFormat);
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *table = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(table, 0, 0, "Cases Settled", &_tableTextFormat);
+    TextToCell(table, 1, 0, "Percentage of total cases settled", &_tableTextFormat);
+    // VALUES
+    TextToCell(table, 0, 1, QString::number(_numByPhone), &_tableCellBlue);
+    TextToCell(table, 1, 1, QString::number(_numChildByPhone), &_tableCellBlue);
+
+
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText("\n\nB. # of people served by conflict coaching:\n", _headerFormat);
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *tableB = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(tableB, 0, 0, "All people Served", &_tableTextFormat);
+    TextToCell(tableB, 1, 0, "Children Served", &_tableTextFormat);
+    // VALUES
+    TextToCell(tableB, 0, 1, QString::number(_numByCoaching), &_tableCellBlue);
+    TextToCell(tableB, 1, 1, QString::number(_numChildByCoaching), &_tableCellBlue);
+
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText("\n\nC.# of people served by telephone concilliation:\n", _headerFormat);
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *tableC = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(tableC, 0, 0, "All people Served", &_tableTextFormat);
+    TextToCell(tableC, 1, 0, "Children Served", &_tableTextFormat);
+    // VALUES
+    TextToCell(tableC, 0, 1, QString::number(_numByPhoneConcilliation), &_tableCellBlue);
+    TextToCell(tableC, 1, 1, QString::number(_numChildByPhoneConcilliation), &_tableCellBlue);
+
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText("\n\nD. # of people served by mediation sessions:\n", _headerFormat);
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *tableD = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(tableD, 0, 0, "All people Served", &_tableTextFormat);
+    TextToCell(tableD, 1, 0, "Children Served", &_tableTextFormat);
+    // VALUES
+    TextToCell(tableD, 0, 1, QString::number(_numBySessions), &_tableCellBlue);
+    TextToCell(tableD, 1, 1, QString::number(_numChildBySessions), &_tableCellBlue);
+
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText("\n\nE. # of people served by facilliation sessions:\n", _headerFormat);
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *tableE = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(tableE, 0, 0, "All people Served", &_tableTextFormat);
+    TextToCell(tableE, 1, 0, "Children Served", &_tableTextFormat);
+    // VALUES
+    TextToCell(tableE, 0, 1, QString::number(_numBySessionFacilliation), &_tableCellBlue);
+    TextToCell(tableE, 1, 1, QString::number(_numChildBySessionFacilliation), &_tableCellBlue);
+
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText("\n\nF. # of people INDIRECTLY served by phone, concilliation, mediation, facilliation:\n", _headerFormat);
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *tableF = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(tableF, 0, 0, "All people Served", &_tableTextFormat);
+    TextToCell(tableF, 1, 0, "Children Served", &_tableTextFormat);
+    // VALUES
+    TextToCell(tableF, 0, 1, QString::number(_numIndirectly), &_tableCellBlue);
+    TextToCell(tableF, 1, 1, QString::number(_numChildIndirectly), &_tableCellBlue);
+
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText("\n\nG. # of people served by training and in-service:\n", _headerFormat);
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *tableG = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(tableG, 0, 0, "All people Served", &_tableTextFormat);
+    TextToCell(tableG, 1, 0, "Children Served", &_tableTextFormat);
+    // VALUES
+    TextToCell(tableG, 0, 1, QString::number(_numByTraining), &_tableCellBlue);
+    TextToCell(tableG, 1, 1, QString::number(_numChildByTraining), &_tableCellBlue);
+
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText("\n\nH. # of additional people served:\n", _headerFormat);
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *tableH = cursor.insertTable(2, 2, tableFormat);
+    // HEADERS
+    TextToCell(tableH, 0, 0, "All people Served", &_tableTextFormat);
+    TextToCell(tableH, 1, 0, "Children Served", &_tableTextFormat);
+    // VALUES
+    TextToCell(tableH, 0, 1, QString::number(_numAdditionalServed), &_tableCellBlue);
+    TextToCell(tableH, 1, 1, QString::number(_numChildAdditionalServed), &_tableCellBlue);
+
 
 }
 
@@ -328,41 +439,114 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.insertText("\n\n8) Evaluations\n", _headerFormat);
 
+    QTextTableFormat tableFormat;
+    QVector<QTextLength> constraints;
+    constraints << QTextLength(QTextLength::PercentageLength, 33);
+    constraints << QTextLength(QTextLength::PercentageLength, 33);
+    constraints << QTextLength(QTextLength::PercentageLength, 33);
+    tableFormat.setColumnWidthConstraints(constraints);
+
     // fair
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tMediators fair and impartial?\n", _headerFormat);
-    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q1Yes) + "\n"));
-    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q1No) + "\n"));
-    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q1Somewhat) + "\n"));
+//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q1Yes) + "\n"));
+//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q1No) + "\n"));
+//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q1Somewhat) + "\n"));
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *table1 = cursor.insertTable(3, 2, tableFormat);
+    TextToCell(table1, 0, 0, "Yes", &_tableTextFormat);
+    TextToCell(table1, 1, 0, "No", &_tableTextFormat);
+    TextToCell(table1, 2, 0, "Somewhat", &_tableTextFormat);
+    TextToCell(table1, 0, 1, QString::number(_q1Yes), &_tableCellBlue);
+    TextToCell(table1, 1, 1, QString::number(_q1No), &_tableCellBlue);
+    TextToCell(table1, 2, 1, QString::number(_q1Somewhat), &_tableCellBlue);
 
     // improved situation
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tSituation Improved By Mediation?\n", _headerFormat);
-    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q2Yes) + "\n"));
-    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q2No) + "\n"));
-    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q2Somewhat) + "\n"));
+//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q2Yes) + "\n"));
+//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q2No) + "\n"));
+//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q2Somewhat) + "\n"));
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *table2 = cursor.insertTable(3, 2, tableFormat);
+    TextToCell(table2, 0, 0, "Yes", &_tableTextFormat);
+    TextToCell(table2, 1, 0, "No", &_tableTextFormat);
+    TextToCell(table2, 2, 0, "Somewhat", &_tableTextFormat);
+    TextToCell(table2, 0, 1, QString::number(_q2Yes), &_tableCellBlue);
+    TextToCell(table2, 1, 1, QString::number(_q2No), &_tableCellBlue);
+    TextToCell(table2, 2, 1, QString::number(_q2Somewhat), &_tableCellBlue);
 
     // helped you communicate
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tHelped to communicate with other party?\n", _headerFormat);
-    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q3Yes) + "\n"));
-    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q3No) + "\n"));
-    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q3Somewhat) + "\n"));
+//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q3Yes) + "\n"));
+//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q3No) + "\n"));
+//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q3Somewhat) + "\n"));
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *table3 = cursor.insertTable(3, 2, tableFormat);
+    TextToCell(table3, 0, 0, "Yes", &_tableTextFormat);
+    TextToCell(table3, 1, 0, "No", &_tableTextFormat);
+    TextToCell(table3, 2, 0, "Somewhat", &_tableTextFormat);
+    TextToCell(table3, 0, 1, QString::number(_q3Yes), &_tableCellBlue);
+    TextToCell(table3, 1, 1, QString::number(_q3No), &_tableCellBlue);
+    TextToCell(table3, 2, 1, QString::number(_q3Somewhat), &_tableCellBlue);
 
     // helped understand other point view
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tHelped to better understand the issues?\n", _headerFormat);
-    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q4Yes) + "\n"));
-    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q4No) + "\n"));
-    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q4Somewhat) + "\n"));
+//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q4Yes) + "\n"));
+//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q4No) + "\n"));
+//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q4Somewhat) + "\n"));
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *table4 = cursor.insertTable(3, 2, tableFormat);
+    TextToCell(table4, 0, 0, "Yes", &_tableTextFormat);
+    TextToCell(table4, 1, 0, "No", &_tableTextFormat);
+    TextToCell(table4, 2, 0, "Somewhat", &_tableTextFormat);
+    TextToCell(table4, 0, 1, QString::number(_q4Yes), &_tableCellBlue);
+    TextToCell(table4, 1, 1, QString::number(_q4No), &_tableCellBlue);
+    TextToCell(table4, 2, 1, QString::number(_q4Somewhat), &_tableCellBlue);
 
     // Would recommend to someone else
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tRecommend mediation to others?\n", _headerFormat);
-    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q5Yes) + "\n"));
-    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q5No) + "\n"));
-    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q5Somewhat) + "\n"));
+//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q5Yes) + "\n"));
+//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q5No) + "\n"));
+//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q5Somewhat) + "\n"));
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *table5 = cursor.insertTable(3, 2, tableFormat);
+    TextToCell(table5, 0, 0, "Yes", &_tableTextFormat);
+    TextToCell(table5, 1, 0, "No", &_tableTextFormat);
+    TextToCell(table5, 2, 0, "Somewhat", &_tableTextFormat);
+    TextToCell(table5, 0, 1, QString::number(_q5Yes), &_tableCellBlue);
+    TextToCell(table5, 1, 1, QString::number(_q5No), &_tableCellBlue);
+    TextToCell(table5, 2, 1, QString::number(_q5Somewhat), &_tableCellBlue);
 
     // was agreement reached
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tDid you reach an agreement?\n", _headerFormat);
-    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q6Yes) + "\n"));
-    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q6No) + "\n"));
-    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q6Somewhat) + "\n"));
+//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q6Yes) + "\n"));
+//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q6No) + "\n"));
+//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q6Somewhat) + "\n"));
+    cursor.insertBlock();
+    cursor.movePosition(QTextCursor::End);
+    QTextTable *table6 = cursor.insertTable(3, 2, tableFormat);
+    TextToCell(table6, 0, 0, "Yes", &_tableTextFormat);
+    TextToCell(table6, 1, 0, "No", &_tableTextFormat);
+    TextToCell(table6, 2, 0, "Somewhat", &_tableTextFormat);
+    TextToCell(table6, 0, 1, QString::number(_q2Yes), &_tableCellBlue);
+    TextToCell(table6, 1, 1, QString::number(_q2No), &_tableCellBlue);
+    TextToCell(table6, 2, 1, QString::number(_q2Somewhat), &_tableCellBlue);
 
 }
 
