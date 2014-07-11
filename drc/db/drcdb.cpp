@@ -1240,7 +1240,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
             QString UserCommandString = QString("select * from User_table where userName = '%1' and Admin = '0'").arg(user->GetName());
 
             this->ExecuteCommand(UserCommandString, UserQuery);
-            if(!UserQuery.next())
+            if(UserQuery.next())
             {
                 arg.SetSuccessful(true);
             }
