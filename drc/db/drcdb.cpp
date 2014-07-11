@@ -1147,10 +1147,7 @@ void DRCDB::AddNewUser(MediatorArg arg)
             }
         }
     }
-    if(arg.IsSuccessful())
-    {
-        Mediator::Call(MKEY_DB_VERIFY_ADD_NEW_USER, arg);
-    }
+    Mediator::Call(MKEY_DB_VERIFY_ADD_NEW_USER, arg);
 }
 
 void DRCDB::UpdateUser(MediatorArg arg)
@@ -1180,10 +1177,7 @@ void DRCDB::UpdateUser(MediatorArg arg)
             //Returning the boolean that was found before so work flow won't change
         }
     }
-    if(arg.IsSuccessful())
-    {
-        Mediator::Call(MKEY_DB_VERIFY_UPDATE_USER, arg);
-    }
+    Mediator::Call(MKEY_DB_VERIFY_UPDATE_USER, arg);
 }
 
 //========================================================================
@@ -1225,10 +1219,9 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
         //ui->statusLabel->setText(arg.ErrorMessage());
     }
     // Signal authentication has been completed
-    if(arg.IsSuccessful())
-    {
-        Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, user, arg.IsSuccessful());
-    }
+
+    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, user, arg.IsSuccessful());
+
 }
 
 void DRCDB::RemoveUser(MediatorArg arg)
@@ -1256,10 +1249,7 @@ void DRCDB::RemoveUser(MediatorArg arg)
             this->ExecuteCommand(UserCommandString, UserQuery);
         }
     }
-    if(arg.IsSuccessful())
-    {
-        Mediator::Call(MKEY_DB_VERIFY_REMOVE_USER, arg);
-    }
+    Mediator::Call(MKEY_DB_VERIFY_REMOVE_USER, arg);
 }
 
 void DRCDB::GetAllUsers(MediatorArg arg)

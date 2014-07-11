@@ -22,10 +22,10 @@ ManageUsers::ManageUsers(QWidget *parent) :
 
 
     // Mediator method registers
-    Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
-    Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg arg) {VerifyDeleteUser(arg);});
-    Mediator::Register(MKEY_DB_VERIFY_ADD_NEW_USER, [this](MediatorArg arg) {VerifyAddNewUser(arg);});
-    Mediator::Register(MKEY_DB_VERIFY_UPDATE_USER, [this](MediatorArg arg) {VerifyUpdateUser(arg);});
+    _mediatorId_GetAllUsers = Mediator::Register(MKEY_DB_RETURN_ALL_USER, [this](MediatorArg arg){GetAllUsers(arg);});
+    _mediatorId_VerifyRemoveUser = Mediator::Register(MKEY_DB_VERIFY_REMOVE_USER, [this](MediatorArg arg) {VerifyDeleteUser(arg);});
+    _mediatorId_VerifyAddUser = Mediator::Register(MKEY_DB_VERIFY_ADD_NEW_USER, [this](MediatorArg arg) {VerifyAddNewUser(arg);});
+    _mediatorId_VerifyUpdateUser = Mediator::Register(MKEY_DB_VERIFY_UPDATE_USER, [this](MediatorArg arg) {VerifyUpdateUser(arg);});
     Mediator::Call(MKEY_DB_GET_ALL_USER);
 
     ConfigureUserTableView();
@@ -35,6 +35,10 @@ ManageUsers::ManageUsers(QWidget *parent) :
 ManageUsers::~ManageUsers()
 {
     delete ui;
+    Mediator::Unregister(MKEY_DB_RETURN_ALL_USER, _mediatorId_GetAllUsers);
+    Mediator::Unregister(MKEY_DB_VERIFY_REMOVE_USER, _mediatorId_VerifyRemoveUser);
+    Mediator::Unregister(MKEY_DB_VERIFY_ADD_NEW_USER, _mediatorId_VerifyAddUser);
+    Mediator::Unregister(MKEY_DB_VERIFY_UPDATE_USER, _mediatorId_VerifyUpdateUser);
 }
 
 void ManageUsers::ConfigureUserTableView()
@@ -114,6 +118,7 @@ void ManageUsers::VerifyUpdateUser(MediatorArg arg)
 
 void ManageUsers::VerifyDeleteUser(MediatorArg arg)
 {
+    std::cout << "is this twerkingE?" << std::endl;
     if (arg.IsSuccessful())
     {
         _selectedUser = nullptr;
