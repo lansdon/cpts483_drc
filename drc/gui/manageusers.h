@@ -55,9 +55,11 @@ private:
 
     void GetAllUsers(MediatorArg arg);
 
-    void VerifyDeleteSelectedUser(MediatorArg arg);
+    void VerifyDeleteUser(MediatorArg arg);
 
     void VerifyAddNewUser(MediatorArg arg);
+
+    void VerifyUpdateUser(MediatorArg arg);
 
     void ConfigureUserTableView();
 
