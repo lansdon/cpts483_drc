@@ -15,6 +15,7 @@
 #include "MediatorKeys.h"
 #include "nosessionsview.h"
 #include "partyform.h"
+#include "clientsview.h"
 
 MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *mediationProcess) :
     QWidget(parent),
@@ -27,7 +28,10 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
     _changesPending = true;
     //_mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
-
+    ClientsView *test = new ClientsView(ui->clientsGroupBox, _mediationProcess->GetParties());
+    QVBoxLayout* layout2 = new QVBoxLayout();
+        layout2->addWidget(test);
+        ui->clientsGroupBox->setLayout(layout2);
 //    // Set the session container
 //    QVBoxLayout* layout2 = new QVBoxLayout();
 //    layout2->addWidget(_mediationSessionForm);
@@ -43,7 +47,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     layout->addWidget(_mediationProcessStatusForm);
     ui->overviewContainer->setLayout(layout);
 //    connect(_noSession,SIGNAL(sendAddNewSession()),this,SLOT(addSession()));
-    ui->clientsContainer->setStyleSheet("QGroupBox {\
+    ui->clientsGroupBox->setStyleSheet("QGroupBox {\
                                         border: 2px solid gray;\
                                         border-radius: 5px;\
                                         margin-top: 1.3em;\
@@ -212,35 +216,35 @@ void MediationProcessView::SetMediationProcess(MediationProcess* process)
 
 void MediationProcessView::AddPartyTabs(PartyVector* parties)
 {
-    if(parties && parties->size())
-    {
-        ui->noClientsLabel->setVisible(false);
-        ui->partyTabWidget->setVisible(true);
-        ui->partyTabWidget->clear();
+//    if(parties && parties->size())
+//    {
+//        ui->noClientsLabel->setVisible(false);
+//        ui->partyTabWidget->setVisible(true);
+//        ui->partyTabWidget->clear();
 
-        for(size_t i=0; i<parties->size(); ++i)
-        {
-            Party* partyToAdd = parties->at(i);
-            PartyForm* curPartyForm = (PartyForm*)ui->partyTabWidget->widget(i);
-            if(partyToAdd)
-            {
-                Party* curParty = nullptr;
-                if(curPartyForm)
-                    curParty = curPartyForm->GetParty();
-                if(partyToAdd != curParty)
-                {
-                    PartyForm* pForm = new PartyForm(ui->partyTabWidget, partyToAdd);
-                    ui->partyTabWidget->addTab(pForm, partyToAdd->GetPrimary()->FullName() );
-                    connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
-                }
-            }
-        }
-    }
-    else
-    {
-        ui->noClientsLabel->setVisible(true);
-        ui->partyTabWidget->setVisible(false);
-    }
+//        for(size_t i=0; i<parties->size(); ++i)
+//        {
+//            Party* partyToAdd = parties->at(i);
+//            PartyForm* curPartyForm = (PartyForm*)ui->partyTabWidget->widget(i);
+//            if(partyToAdd)
+//            {
+//                Party* curParty = nullptr;
+//                if(curPartyForm)
+//                    curParty = curPartyForm->GetParty();
+//                if(partyToAdd != curParty)
+//                {
+//                    PartyForm* pForm = new PartyForm(ui->partyTabWidget, partyToAdd);
+//                    ui->partyTabWidget->addTab(pForm, partyToAdd->GetPrimary()->FullName() );
+//                    connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
+//                }
+//            }
+//        }
+//    }
+//    else
+//    {
+//        ui->noClientsLabel->setVisible(true);
+//        ui->partyTabWidget->setVisible(false);
+//    }
 }
 
 void MediationProcessView::diplaySessions()
@@ -268,17 +272,17 @@ void MediationProcessView::on_addCientPushButton_clicked()
 
     Party* newParty = new Party();
     _mediationProcess->AddParty(newParty);
-    PartyForm* pForm = new PartyForm(ui->partyTabWidget, newParty);
-    ui->partyTabWidget->addTab(pForm, newParty->GetPrimary()->FullName() );
-    connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
+//    PartyForm* pForm = new PartyForm(ui->partyTabWidget, newParty);
+//    ui->partyTabWidget->addTab(pForm, newParty->GetPrimary()->FullName() );
+//    connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     PopulateView();
-    ui->partyTabWidget->setCurrentIndex(ui->partyTabWidget->count()-1);
+//    ui->partyTabWidget->setCurrentIndex(ui->partyTabWidget->count()-1);
 }
 
 void MediationProcessView::on_removeClientPushButton_clicked()
 {
-    _mediationProcess->removeParty(ui->partyTabWidget->currentIndex());
+//    _mediationProcess->removeParty(ui->partyTabWidget->currentIndex());
 
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     PopulateView();
