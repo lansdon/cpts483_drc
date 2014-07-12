@@ -16,7 +16,6 @@
 #include "nosessionsview.h"
 #include "partyform.h"
 #include "clientsview.h"
-#include "sessionsview.h"
 
 MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *mediationProcess) :
     QWidget(parent),
@@ -31,13 +30,8 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     //_mediationSessionForm = new MediationSessionForm(ui->sessionOverviewGroupBox);
     ClientsView *test = new ClientsView(ui->clientsGroupBox, _mediationProcess->GetParties());
     QVBoxLayout* layout2 = new QVBoxLayout();
-    layout2->addWidget(test);
-    ui->clientsGroupBox->setLayout(layout2);
-
-    SessionsView *test2 = new SessionsView(ui->sessionOverviewGroupBox, _mediationProcess->getMediationSessionVector());
-    QVBoxLayout* layout3 = new QVBoxLayout();
-    layout3->addWidget(test2);
-    ui->sessionOverviewGroupBox->setLayout(layout3);
+        layout2->addWidget(test);
+        ui->clientsGroupBox->setLayout(layout2);
 //    // Set the session container
 //    QVBoxLayout* layout2 = new QVBoxLayout();
 //    layout2->addWidget(_mediationSessionForm);
@@ -255,22 +249,22 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
 
 void MediationProcessView::diplaySessions()
 {
-//    ui->sessionTabWidget->clear();
-//    if(_mediationProcess->getMediationSessionVector()->size() > 0)
-//    {
-//        ui->noSessionLabel->setVisible(false);
-//        ui->sessionTabWidget->setVisible(true);
-//        for(int i = 0; i < (int)_mediationProcess->getMediationSessionVector()->size(); i++)
-//        {
-//            ui->sessionTabWidget->addTab(new MediationSessionForm(this, _mediationProcess->getMediationSessionVector()->at(i)),
-//                                         (_mediationProcess->getMediationSessionVector()->at(i)->getScheduledDate().toString("MM/dd/yyyy")));
-//        }
-//    }
-//    else
-//    {
-//        ui->sessionTabWidget->setVisible(false);
-//        ui->noSessionLabel->setVisible(true);
-//    }
+    ui->sessionTabWidget->clear();
+    if(_mediationProcess->getMediationSessionVector()->size() > 0)
+    {
+        ui->noSessionLabel->setVisible(false);
+        ui->sessionTabWidget->setVisible(true);
+        for(int i = 0; i < (int)_mediationProcess->getMediationSessionVector()->size(); i++)
+        {
+            ui->sessionTabWidget->addTab(new MediationSessionForm(this, _mediationProcess->getMediationSessionVector()->at(i)),
+                                         (_mediationProcess->getMediationSessionVector()->at(i)->getScheduledDate().toString("MM/dd/yyyy")));
+        }
+    }
+    else
+    {
+        ui->sessionTabWidget->setVisible(false);
+        ui->noSessionLabel->setVisible(true);
+    }
 }
 
 void MediationProcessView::on_addCientPushButton_clicked()

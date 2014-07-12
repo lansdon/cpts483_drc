@@ -65,8 +65,7 @@ SOURCES += main.cpp\
     gui/mediationevaluationview.cpp \
     gui/reswareportform.cpp \
     drc_shared/models/reswareport.cpp \
-    gui/clientsview.cpp \
-    gui/sessionsview.cpp
+    gui/clientsview.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -122,8 +121,7 @@ HEADERS  += \
     gui/reswareportform.h \
     drc_shared/reportrequest.h \
     drc_shared/models/reswareport.h \
-    gui/clientsview.h \
-    gui/sessionsview.h
+    gui/clientsview.h
 
 FORMS    += \
     DRCClient.ui \
@@ -147,8 +145,7 @@ FORMS    += \
     gui/monthlyreportform.ui \
     gui/mediationevaluationview.ui \
     gui/reswareportform.ui \
-    gui/clientsview.ui \
-    gui/sessionsview.ui
+    gui/clientsview.ui
 
 
 CONFIG += c++11
