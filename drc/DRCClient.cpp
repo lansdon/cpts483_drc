@@ -415,7 +415,7 @@ void DRCClient::ShowResWaReport()
 void DRCClient::ShowMonthlyReport()
 {
     SlideShowForm* slides = new SlideShowForm(this);
-    slides->SetSlideWidgets({new PersonDetailsForm, new SessionOverview, new NotesBrowser});
+    slides->SetSlideWidgets({new PersonDetailsForm, new MediationSessionForm, new NotesBrowser});
     setCentralWidget(slides);
 
 }
