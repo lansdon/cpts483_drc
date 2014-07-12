@@ -2,7 +2,7 @@
 
 ClientSessionData::ClientSessionData()
 {
-    paid = attyDidAttend = attySaidAttend = false;
+    paid = attyDidAttend = attySaidAttend = atTable = false;
     support = 0;
 }
 

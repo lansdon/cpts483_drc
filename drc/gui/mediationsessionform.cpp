@@ -308,7 +308,7 @@ void MediationSessionForm::fillFields(MediationSession *input)
 //        ui->dateTimeEdit->setVisible(true);
         ui->dateEdit->setDate(_mediationSession->getScheduledDate());
         ui->timeEdit->setTime(_mediationSession->getScheduledTime());
-        ui->CreationDateDisplayLabel->setText(_mediationSession->GetCreatedDate().toString());
+//        ui->CreationDateDisplayLabel->setText(_mediationSession->GetCreatedDate().toString());
         ui->outcomeComboBox->setCurrentIndex(_mediationSession->getOutcome());
 //        ui->FamilyFeeLineEdit->setText(input->getFeeFamily());
 //        ui->FamilyFeePaidCheckBox->setChecked(input->getFeeFamilyPaid());
