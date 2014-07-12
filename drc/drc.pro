@@ -31,6 +31,7 @@ SOURCES += main.cpp\
     bl/Crypto/SHA256_Crypto.cpp \
     drc_shared/mediator/asyncmediatorworker.cpp \
     gui/queryform.cpp \
+    gui/contactrecorddataview.cpp \
     bl/userloginprocessor.cpp \
     bl/stateupdate.cpp \
     drc_shared/models/User.cpp \
@@ -58,14 +59,16 @@ SOURCES += main.cpp\
     drc_shared/mpfilemaker.cpp \
     drc_shared/models/Note.cpp \
     drc_shared/models/clientsessiondata.cpp \
+    gui/feeform.cpp \
+    gui/attorneysupportview.cpp \
     gui/mediationobserverview.cpp \
     gui/manageusers.cpp \
+    gui/attorneyheaderview.cpp \
     gui/mainmenuform.cpp \
     gui/monthlyreportform.cpp \
     gui/mediationevaluationview.cpp \
     gui/reswareportform.cpp \
-    drc_shared/models/reswareport.cpp \
-    gui/clientsview.cpp
+    drc_shared/models/reswareport.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -87,6 +90,7 @@ HEADERS  += \
     bl/stateupdate.h \
     drc_shared/mediator/asyncmediatorworker.h \
     gui/queryform.h \
+    gui/contactrecorddataview.h \
     drc_shared/models/DBBaseObject.h \
     drc_shared/models/CurrentUser.h \
     gui/persondetailsform.h \
@@ -113,20 +117,24 @@ HEADERS  += \
     drc_shared/mpfilemaker.h \
     drc_shared/models/Note.h \
     drc_shared/models/clientsessiondata.h \
+    gui/feeform.h \
+    gui/attorneysupportview.h \
     gui/mediationobserverview.h \
     gui/manageusers.h \
+    gui/attorneyheaderview.h \
     gui/mainmenuform.h \
     gui/monthlyreportform.h \
     gui/mediationevaluationview.h \
     gui/reswareportform.h \
     drc_shared/reportrequest.h \
-    drc_shared/models/reswareport.h \
-    gui/clientsview.h
+    drc_shared/models/reswareport.h
 
 FORMS    += \
     DRCClient.ui \
+    gui/fruitnameform.ui \
     gui/loginform.ui \
     gui/queryform.ui \
+    gui/contactrecorddataview.ui \
     gui/persondetailsform.ui \
     gui/mediationprocessview.ui \
     gui/partyform.ui \
@@ -139,13 +147,15 @@ FORMS    += \
     gui/mptoolbox.ui \
     gui/sessioncell.ui \
     gui/nosessionsview.ui \
+    gui/feeform.ui \
+    gui/attorneysupportview.ui \
     gui/mediationobserverview.ui \
     gui/manageusers.ui \
+    gui/attorneyheaderview.ui \
     gui/mainmenuform.ui \
     gui/monthlyreportform.ui \
     gui/mediationevaluationview.ui \
-    gui/reswareportform.ui \
-    gui/clientsview.ui
+    gui/reswareportform.ui
 
 
 CONFIG += c++11

@@ -5,6 +5,7 @@
 #include <QTabWidget>
 #include <QDebug>
 #include <QToolBox>
+#include "contactrecorddataview.h"
 #include "DRCModels.h"
 #include "mediationprocessstatusform.h"
 #include "mediationsessionform.h"
