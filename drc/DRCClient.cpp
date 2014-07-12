@@ -18,6 +18,7 @@
 #include "manageusers.h"
 #include "mediationevaluationview.h"
 #include "reswareportform.h"
+#include "slideshowform.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -413,5 +414,8 @@ void DRCClient::ShowResWaReport()
 
 void DRCClient::ShowMonthlyReport()
 {
+    SlideShowForm* slides = new SlideShowForm(this);
+    slides->SetSlideWidgets({new PersonDetailsForm, new SessionOverview, new NotesBrowser});
+    setCentralWidget(slides);
 
 }
