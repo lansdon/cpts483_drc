@@ -1,6 +1,8 @@
 #include "slideshowform.h"
 #include "ui_slideshowform.h"
 #include <QDebug>
+#include <QPropertyAnimation>
+#include <QTime>
 
 //SlideShowForm::SlideShowForm(WidgetVector slides)
 //    : _slides(slides)
@@ -14,7 +16,6 @@ SlideShowForm::SlideShowForm(QWidget *parent) :
     ui(new Ui::SlideShowForm)
 {
     ui->setupUi(this);
-
     SetCurrentSlideIndex(0);    // attempt to load the first slide
 }
 
@@ -27,11 +28,32 @@ void SlideShowForm::on_rightButton_clicked()
 {
     if(_slides.size() > 1)
     {
+        // animation:
+        int duration = 250;
+        QPropertyAnimation *animation = new QPropertyAnimation(ui->container, "pos");
+        animation->setDuration(duration);
+        QPoint origin = ui->container->pos();
+        animation->setStartValue(origin);
+        animation->setEndValue(QPoint(2280,origin.y()));
+        animation->start();
+
+        // Pause
+        QTime dieTime= QTime::currentTime().addMSecs(duration);
+        while( QTime::currentTime() < dieTime )
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
         // Showing last one, cycle to the first
-        if(_currentIndex == (_slides.size()-1) )
+        if(_currentIndex == ((int)_slides.size()-1) )
             SetCurrentSlideIndex(0);
         else
             SetCurrentSlideIndex(_currentIndex+1);
+
+        // animation with new view back to center
+        QPropertyAnimation *animationNewWidget = new QPropertyAnimation(ui->container, "pos");
+        animationNewWidget->setDuration(duration);
+        animationNewWidget->setStartValue(QPoint(-2280,origin.y()));
+        animationNewWidget->setEndValue(origin);
+        animationNewWidget->start();
     }
 }
 
@@ -39,13 +61,42 @@ void SlideShowForm::on_leftButton_clicked()
 {
     if(_slides.size() > 1)
     {
+        // animation:
+        int duration = 250;
+        QPropertyAnimation *animation = new QPropertyAnimation(ui->container, "pos");
+        animation->setDuration(duration);
+        QPoint origin = ui->container->pos();
+        animation->setStartValue(origin);
+        animation->setEndValue(QPoint(-2280,origin.y()));
+        animation->start();
+
+        // Pause
+        QTime dieTime= QTime::currentTime().addMSecs(duration);
+        while( QTime::currentTime() < dieTime )
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
         // Showing first one, cycle to the last
         if( _currentIndex == 0 )
             SetCurrentSlideIndex(_slides.size()-1);
         else
             SetCurrentSlideIndex(_currentIndex-1);
+
+        // animation with new view back to center
+        QPropertyAnimation *animationNewWidget = new QPropertyAnimation(ui->container, "pos");
+        animationNewWidget->setDuration(duration);
+        animationNewWidget->setStartValue(QPoint(2280,origin.y()));
+        animationNewWidget->setEndValue(origin);
+        animationNewWidget->start();
+
     }
 }
+
+//void delay()
+//{
+//    QTime dieTime= QTime::currentTime().addSecs(1);
+//    while( QTime::currentTime() < dieTime )
+//    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+//}
 
 // Set the set of widgets to flip through.
 void SlideShowForm::SetSlideWidgets(WidgetVector slides)
@@ -69,13 +120,13 @@ void SlideShowForm::AddSlide(QWidget* widget)
 void SlideShowForm::RemoveCurrentWidget()
 {
 
-    if(_currentIndex >= 0 && _currentIndex < _slides.size())
+    if(_currentIndex >= 0 && _currentIndex < (int)_slides.size())
     {
         try {
             QWidget* w = _slides[_currentIndex];
             w->setHidden(true);
             w->setParent(0);
- //           ui->container->layout()->removeWidget(_slides[_currentIndex]);
+            ui->container->setLayout(nullptr);
         } catch (std::exception &e)
         {
         }
