@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>650</width>
-    <height>602</height>
+    <width>557</width>
+    <height>605</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -27,11 +27,20 @@
   <layout class="QHBoxLayout" name="horizontalLayout_4">
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="minimumSize">
+      <size>
+       <width>521</width>
+       <height>0</height>
+      </size>
+     </property>
      <property name="maximumSize">
       <size>
        <width>632</width>
        <height>584</height>
       </size>
+     </property>
+     <property name="horizontalScrollBarPolicy">
+      <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
      <property name="widgetResizable">
       <bool>true</bool>
@@ -41,7 +50,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>630</width>
+        <width>537</width>
         <height>582</height>
        </rect>
       </property>
@@ -56,8 +65,8 @@
          </property>
          <property name="minimumSize">
           <size>
-           <width>458</width>
-           <height>0</height>
+           <width>478</width>
+           <height>554</height>
           </size>
          </property>
          <property name="maximumSize">
