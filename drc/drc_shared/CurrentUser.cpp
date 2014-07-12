@@ -19,6 +19,11 @@ CurrentUser::CurrentUser(const CurrentUser& User)
     // Filler
 }
 
+void CurrentUser::Init()
+{
+    Instance();
+}
+
 CurrentUser& CurrentUser::Instance()
 {
     static CurrentUser instance;

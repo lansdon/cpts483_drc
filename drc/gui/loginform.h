@@ -5,6 +5,8 @@
 #include <QString>
 #include <QKeyEvent>
 
+#include "Mediator.h"
+
 namespace Ui {
 class LoginForm;
 }
@@ -34,6 +36,8 @@ private:
     QString _password;
 
     AsyncMediatorCall* _asyncAuthenticate;
+
+    MediatorId _mediatorId_authenticateResponse;
     void authenticateResponse(MediatorArg arg);
 };
 

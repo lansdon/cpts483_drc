@@ -1209,8 +1209,9 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
                 {
                     user->SetType(USER_T_ADMIN);
                 }
-                arg.SetSuccessful(true);
             }
+            arg.SetSuccessful(true);
+            arg.SetArg(user);
         }
     }
     else
@@ -1220,7 +1221,7 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
     }
     // Signal authentication has been completed
 
-    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, user, arg.IsSuccessful());
+    Mediator::Call(MKEY_DB_AUTHENTICATE_USER_DONE, arg);
 
 }
 

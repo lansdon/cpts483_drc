@@ -21,6 +21,8 @@ public:
     static bool LoginUser(MediatorArg arg);
 	static bool LogoutUser();
 	static bool IsLoggedIn();
+
+    static void Init();
 };
 
 #endif
