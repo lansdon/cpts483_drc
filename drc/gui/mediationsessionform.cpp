@@ -42,10 +42,10 @@ MediationSessionForm::~MediationSessionForm()
 
 void MediationSessionForm::configureFeeTable()
 {
-    ui->feeDiplayTableWidget->setColumnCount(3);
+    ui->feeDiplayTableWidget->setColumnCount(4);
     ui->feeDiplayTableWidget->setRowCount(0);
     QStringList header;
-    header <<"Fee"<<"Paid"<<"Income";
+    header << "At Table" << "Fee" << "Paid" << "Income";
     ui->feeDiplayTableWidget->setHorizontalHeaderLabels(header);
     for (int c = 0; c < ui->feeDiplayTableWidget->horizontalHeader()->count(); ++c)
     {
@@ -72,7 +72,7 @@ void MediationSessionForm::PopulateFeeTable()
 
         incomeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getIncome());
        //cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
-       ui->feeDiplayTableWidget->setCellWidget(i,2,incomeLE);
+       ui->feeDiplayTableWidget->setCellWidget(i,3,incomeLE);
        connect(incomeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
        incomeLE->setMaximumSize(50,25);
        incomeLE->setAlignment(Qt::AlignCenter);
@@ -80,15 +80,20 @@ void MediationSessionForm::PopulateFeeTable()
 
        QLineEdit *feeLE = new QLineEdit();
        feeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getFee());
-      ui->feeDiplayTableWidget->setCellWidget(i,0,feeLE);
+      ui->feeDiplayTableWidget->setCellWidget(i,1,feeLE);
       connect(feeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
         feeLE->setMaximumSize(50,25);
         feeLE->setAlignment(Qt::AlignCenter);
 
        QCheckBox *paidCB = new QCheckBox();
        paidCB->setChecked(_mediationSession->getClientSessionDataVector()->at(i)->getPaid());
-       ui->feeDiplayTableWidget->setCellWidget(i,1,paidCB);
+       ui->feeDiplayTableWidget->setCellWidget(i,2,paidCB);
        connect(paidCB, SIGNAL(toggled(bool)), this, SLOT(updateFromTable()));
+
+       QCheckBox *atTableCB = new QCheckBox();
+       atTableCB->setChecked(_mediationSession->getClientSessionDataVector()->at(i)->getAtTable());
+       ui->feeDiplayTableWidget->setCellWidget(i,0,atTableCB);
+       connect(atTableCB, SIGNAL(toggled(bool)), this, SLOT(updateFromTable()));
 
 
     }
@@ -131,12 +136,13 @@ void MediationSessionForm::updateFromTable()
 //    mb.exec();
     for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size();i++)
     {
-        _mediationSession->getClientSessionDataVector()->at(i)->setFee(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,0))->text());
-        _mediationSession->getClientSessionDataVector()->at(i)->setPaid(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,1))->isChecked());
-        _mediationSession->getClientSessionDataVector()->at(i)->setIncome(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,2))->text());
+        _mediationSession->getClientSessionDataVector()->at(i)->setFee(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,1))->text());
+        _mediationSession->getClientSessionDataVector()->at(i)->setPaid(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,2))->isChecked());
+        _mediationSession->getClientSessionDataVector()->at(i)->setIncome(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,3))->text());
         _mediationSession->getClientSessionDataVector()->at(i)->setAttySaidAttend(qobject_cast<QCheckBox*>(ui->attyAttendTableWidget->cellWidget(i,0))->isChecked());
         _mediationSession->getClientSessionDataVector()->at(i)->setAttyDidAttend(qobject_cast<QCheckBox*>(ui->attyAttendTableWidget->cellWidget(i,1))->isChecked());
         _mediationSession->getClientSessionDataVector()->at(i)->setSupport(qobject_cast<QSpinBox*>(ui->attyAttendTableWidget->cellWidget(i,2))->value());
+        _mediationSession->getClientSessionDataVector()->at(i)->setAtTable(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,0))->isChecked());
     }
     if((int)_mediationSession->getClientSessionDataVector()->size() > 0)
     {

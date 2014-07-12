@@ -17,6 +17,7 @@ public:
     bool getAttySaidAttend() const { return attySaidAttend; }
     bool getAttyDidAttend() const { return attyDidAttend; }
     uint getSupport() const { return support; }
+    bool getAtTable() const { return atTable; }
 
     // setters
     void setIncome(QString value) { income = value; }
@@ -25,6 +26,7 @@ public:
     void setAttySaidAttend(bool value) { attySaidAttend = value; }
     void setAttyDidAttend(bool value) { attyDidAttend = value; }
     void setSupport(uint value) { support = value; }
+    void setAtTable(bool value) { atTable = value; }
 
     //Virtual overrides
     QString Parse();
@@ -44,7 +46,7 @@ public slots:
     void on_support(uint value);
 private:
     QString income, fee;
-    bool paid, attySaidAttend, attyDidAttend;
+    bool paid, attySaidAttend, attyDidAttend, atTable;
     uint support;
 };
 
