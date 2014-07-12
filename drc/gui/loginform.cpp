@@ -15,14 +15,10 @@ LoginForm::LoginForm(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    _asyncAuthenticate = new AsyncMediatorCall(
-                MKEY_GUI_AUTHENTICATE_USER,
-                MKEY_DB_AUTHENTICATE_USER_DONE,
-                [this](MediatorArg arg){authenticateResponse(arg);},
-                nullptr,
-                true,
-                1
-            );
+    CurrentUser::Init();
+
+    _mediatorId_authenticateResponse = Mediator::Register(MKEY_DB_AUTHENTICATE_USER_DONE, [this](MediatorArg arg){authenticateResponse(arg);});
+
     ui->statusLabel->setText("Please enter your credentials");
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
@@ -44,19 +40,20 @@ void LoginForm::keyPressEvent(QKeyEvent *pe)
 LoginForm::~LoginForm()
 {
     delete ui;
+    Mediator::Unregister(MKEY_DB_AUTHENTICATE_USER_DONE, _mediatorId_authenticateResponse);
 }
 
 void LoginForm::on_loginButton_clicked()
 {
 
     ui->statusLabel->setText("Authenticating...");
-    _asyncAuthenticate->GetMediatorArg().SetArg(new User(_username, _password));
-    _asyncAuthenticate->Send();
 
-    // TEMPORARY! Set the user object on CurrentUser to trigger a login sequence.
-    // This will effectively bypass authenticating with the db until it's implemented.
-    // But let us get to the menus and see the gui change post-login.
-    CurrentUser::LoginUser(new User(_username, _password));
+    MediatorArg arg;
+    arg.SetSuccessful(true);
+    User *user = new User(_username, _password);
+    arg.SetArg(user);
+
+    Mediator::Call(MKEY_GUI_AUTHENTICATE_USER, arg);
 }
 
 void LoginForm::authenticateResponse(MediatorArg arg)
