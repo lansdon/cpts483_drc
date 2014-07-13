@@ -547,7 +547,7 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         for(int i = 0; i < temp->size(); i++)
         {
             MediationProcess* proc = temp->at(i);
-            if((proc->GetState() == PROCESS_STATE_CLOSED) && (proc->getMediationSessionVector()->size() == 0))
+            if((proc->GetState() == PROCESS_STATE_CLOSED_WITH_SESSION) && (proc->getMediationSessionVector()->size() == 0))
             {
                 callCount++;
             }
@@ -936,7 +936,7 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
     QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
-                                        .arg(PROCESS_STATE_CLOSED);
+                                        .arg(PROCESS_STATE_CLOSED_WITH_SESSION);
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";
