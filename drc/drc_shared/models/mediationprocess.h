@@ -85,6 +85,9 @@ public:
 
     // Report Helpers
     bool IsSettled();
+#warning BL UNIMPLEMENTED function helpers
+    bool getIsTelephoneConciliation();  // implement
+    bool getIsFacilitation(); // implement
 
 private:
 
@@ -123,6 +126,10 @@ private:
     enum CourtCaseTypes _courtCaseType;
     enum CourtOrderTypes _courtOrderType;
     QDateTime _courtOrderExpiration;
+
+    // NEW!  7/12/2014
+    bool _isTelephoneConciliation;  // sessions held over phone
+    bool _isFacilitation;  // DRC is hosting only
 
 };
 
