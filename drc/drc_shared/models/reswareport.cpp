@@ -36,6 +36,7 @@ enum CasesTableIndices
     CT_TOTAL_CASES_SETTLED,
     CT_TOTAL_CASES_PERC,
 };
+
 enum CasesTableHeaders
 {
     CT_H_NONE,
@@ -135,8 +136,6 @@ void ResWaReport::BuildReport()
 
     // 8. CLIENT EVALUATIONS
     BuildEvaluationSection(cursor);
-
-
 
     _report->end();
 
@@ -548,6 +547,7 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     TextToCell(table6, 1, 1, QString::number(_q2No), &_tableCellBlue);
     TextToCell(table6, 2, 1, QString::number(_q2Somewhat), &_tableCellBlue);
 
+    SetTotalCalls(345);
 }
 
 void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes courtType, bool settled)
@@ -562,7 +562,7 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
     {
     case DISPUTE_T_PARENTING_PLAN:
         _casesTable[row][CT_H_PARENTING]++;
-        if(settled) _casesTable[row+1][CT_H_PARENTING]++;
+        if(settled) _casesTable[row+1][CT_H_PARENTING]++;  // check this - might not be for just settled casses...
         break;
     case DISPUTE_T_TENANT:
         _casesTable[row][CT_H_TENANT]++;
@@ -589,8 +589,6 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
         if(settled) _casesTable[row+1][CT_H_OTHER]++;
         break;
     }
-
-
 }
 
 void ResWaReport::CalculateCasesTable()
@@ -620,6 +618,7 @@ int ResWaReport::GetNumberAttending(MediationSession* session)
     return result;
 }
 
+//
 void ResWaReport::CalculateTraining(int& numTrainings, int& numAttendingTraining)
 {
     numTrainings = numAttendingTraining = 0;
@@ -652,11 +651,12 @@ void ResWaReport::CalculateTraining(int& numTrainings, int& numAttendingTraining
 
 void ResWaReport::CalculatePeople()
 {
-#warning RESWA BL UNIMPLEMENTED
-    _numByPhone
-    = _numChildByPhone
-    = _numByCoaching
-    = _numChildByCoaching
+#warning RESWA BL NOT FULLY IMPLEMENTED
+    // zero it all out so our numbers are sure to be fresh.
+    _numByPhone   //
+    = _numChildByPhone //
+    = _numByCoaching //
+    = _numChildByCoaching //
     = _numByPhoneConcilliation
     = _numChildByPhoneConcilliation
     = _numBySessions
@@ -665,7 +665,62 @@ void ResWaReport::CalculatePeople()
     = _numChildBySessionFacilliation
     = _numIndirectly
     = _numChildIndirectly
-    = _numByTraining
+    = _numByTraining   // equals section 4 (TRAINING) total
+    = _numChildByTraining
+    = _numAdditionalServed
+    = _numChildAdditionalServed = 0;
+
+
+//    foreach(MediationProcess* mp,  *_processes)
+//    {
+//        //  For each client in the list of clients...
+
+//        if (info only || (state == CLOSED_NO_MED)) {
+//            // then this was counted in the Total Calls count in the Event section of the report
+//            if (conflict coaching) {
+//                _numByCoaching++;
+//                if(any listed clients == child) {
+//                       _numChildByCoaching++;
+//                }
+//            }
+//            _numByPhone++;
+//            // were any of those children?
+//            if(any listed clients == child) {
+//                _numChildByPhone++;  // this is likely always 0.
+//            }
+//        }
+
+//        foreach(MediationSession* session, *mp->getMediationSessionVector())
+//        {
+//            if(session->isTelephoneConciliation())
+//            {
+//                _numByPhoneConcilliation++;
+//                if (any client is a child) {
+//                    _numChildByPhoneConcilliation++;
+//                }
+//            }
+//            else if (session->isFacilitation())
+//            {
+//                _numByFacilitation = _numBySessionFacilliation + session->;
+//                if (any client is a child) {
+//                    _numChildByPhoneConcilliation++;
+//                }
+//            }
+//         }
+//    }
+
+    // Of all the calls received at the DRC, those calls either result in those people being served
+    // by telephone or by conflict coaching.  So, any
+
+    _numByPhoneConcilliation = 104;
+    _numChildByPhoneConcilliation = 105;
+    _numBySessions = 106;
+     _numChildBySessions
+    = _numBySessionFacilliation
+    = _numChildBySessionFacilliation
+    = _numIndirectly
+    = _numChildIndirectly
+    = _numByTraining   // equals section 4 (TRAINING) total
     = _numChildByTraining
     = _numAdditionalServed
     = _numChildAdditionalServed = 0;

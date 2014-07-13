@@ -24,7 +24,6 @@ DRCBL::DRCBL()
     Mediator::Register(MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS, [this](MediatorArg arg){LoadClosedMediations(arg);});
     Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
     Mediator::Register(MKEY_GUI_REQUEST_RESWA_REPORT, [this](MediatorArg arg){QueryResWaReport(arg);});
-
 }
 
 void DRCBL::ValidateMediationProcess(MediatorArg arg) const
@@ -71,17 +70,20 @@ void DRCBL::LoadClosedMediations(MediatorArg arg) const
     Mediator::Call(MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE, arg);
 }
 
+//
 void DRCBL::LoadMediationProcess(MediatorArg arg) const
 {
     Mediator::Call(MKEY_BL_VALIDATE_LOAD_MEDIATION_PROCESS_FORM_DONE, arg);
 }
 
+// Add comments here
 void DRCBL::QueryMediations(MediatorArg arg) const
 {
     Mediator::Call(MKEY_BL_QUERY_MEDIATION, arg);
 }
 
 void DRCBL::QueryResWaReport(MediatorArg arg) const
-{
+{   qDebug() << "BL ResWaReport request event caught.  Now calling MKEY_BL_REQUEST_RESWA_REPORT";
     Mediator::Call(MKEY_BL_REQUEST_RESWA_REPORT, arg);
+    qDebug() << "BL -- AFTER calling report request.";
 }

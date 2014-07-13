@@ -184,6 +184,8 @@ void MediationProcess::updateClientSessions(int value)
 }
 
 // Report Helpers
+// Returns true if the mediation process has at least one session that has resulted in an agreement
+// a solved problem or been self resolved.
 bool MediationProcess::IsSettled()
 {
     foreach(MediationSession* session, _mediationSessionVector)

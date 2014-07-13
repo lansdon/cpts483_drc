@@ -123,6 +123,7 @@ private:
     enum CourtCaseTypes _courtCaseType;
     enum CourtOrderTypes _courtOrderType;
     QDateTime _courtOrderExpiration;
+
 };
 
 #endif // MEDIATIONPROCESS_H

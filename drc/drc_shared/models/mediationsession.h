@@ -16,6 +16,9 @@ private:
     ClientSessionDataVector _clientSessionDataVector;
     SessionOutcomes _outcome;
 
+    // NEW!  7/12/2014
+    bool _isTelephoneConciliation;  // sessions held over phone
+    bool _isFacilitation;  // DRC is hosting only
 
 public:
     MediationSession();
@@ -42,7 +45,8 @@ public:
     QDate getScheduledDate() const { return _mediationTime.date(); }
     QTime getScheduledTime() const { return _mediationTime.time(); }
     SessionOutcomes getOutcome() { return _outcome; }
-
+    bool getIsTelephoneConciliation();
+    bool getIsFacilitation();
 
     //setters
     void setMediationTime(QDateTime value) { _mediationTime = value; }
@@ -61,8 +65,6 @@ public:
     static MediationSession *SampleData();
     void addClientSessionData(ClientSessionData *value) { _clientSessionDataVector.push_back(value); }
     void removeClientSessionData(uint value);
-
-
 
 };
 
