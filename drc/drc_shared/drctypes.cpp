@@ -14,6 +14,7 @@ QString StringForCountyIds(CountyIds id)
     case COUNTY_FRANLKIN: result = "Franklin County"; break;
     case COUNTY_GRANT: result = "Grant County"; break;
     case COUNTY_NONE: result = "None"; break;
+    case COUNTY_WALLAWALLA: result = "Walla Walla"; break;
     case COUNTY_OTHER: result = "Other"; break;
     default: result = "<error>"; break;
     }
