@@ -181,6 +181,14 @@ enum CourtOrderTypes
     COURT_ORDER_T_NONE
 };
 
+// NEW!  7/14/2014
+enum MediationTypes
+{
+    MEDIATION_SESSION,
+    MEDIATION_FACILITATION,
+    MEDIATION_PHONE_CONCILIATION
+};
+
 // String Helpers
 QString StringForCountyIds(CountyIds id);
 QString StringForDisputeProcessStates(DisputeProcessStates id);

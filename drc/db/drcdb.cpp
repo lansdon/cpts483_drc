@@ -356,6 +356,7 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     mediation_table_columns.push_back(QString("CourtOrderExpiration Date"));
     mediation_table_columns.push_back(QString("ShuttleRequired Bool"));
     mediation_table_columns.push_back(QString("TranslatorRequired Bool"));
+    mediation_table_columns.push_back(QString("MediationType integer"));
 
     return CreateTable(mediation_table_name, mediation_table_columns);
 }
@@ -660,7 +661,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         }
         process->SetIsShuttle(Mediation_query.value(17).toBool());
         process->SetRequiresSpanish(Mediation_query.value(18).toBool());
-
+        process->SetMediationType((MediationTypes)Mediation_query.value(19).toInt());
 
         //Grab sessions based on the mediation id
         QSqlQuery sessionQuery(database);

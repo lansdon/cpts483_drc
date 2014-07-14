@@ -718,25 +718,31 @@ void ResWaReport::CalculatePeople()
                 // The sum of _numByPhoneConciliation, _numBySessionFacilitation, and _numBySessions
                 // represents all of the people involved in the total number of cases from the
                 // CASES section.
-                if (mp->IsPhoneConciliation()) {
+                switch(mp->GetMediationType())
+                {
+                case MEDIATION_PHONE_CONCILIATION:
                     _numByPhoneConcilliation++;
                     if(isChild) {
                         _numChildByPhoneConcilliation++;
                     }
-                }
-                else if (mp->IsFacilitation()) {
+                    break;
+                case MEDIATION_FACILITATION:
                     _numBySessionFacilliation++;
                     if(isChild) {
                         _numChildBySessionFacilliation++;
                     }
-                }
-                else {
-                    // This wasn't a phone or facilitation, so it must be a regular ol' mediation session.
+                    break;
+                case MEDIATION_SESSION:
                     _numBySessions++;
                     if(isChild) {
                         _numChildBySessions++;
                     }
-                }
+                    break;
+                default:
+                    // weird.  not counted cuz its not a type on the report
+                    // (we don't know what it is), but we shouldn't get here.
+                    break;
+                };
 
                 // PART F
                 _numIndirectly = _numIndirectly + party->GetPrimary()->getNumberInHousehold();

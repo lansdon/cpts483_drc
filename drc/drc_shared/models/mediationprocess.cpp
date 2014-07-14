@@ -16,6 +16,7 @@
 //mediationNotes
 //referalSource
 //requiresSpanish
+//mediationType
 
 //Objects to extract from MediationProcess
 //Parties
@@ -37,6 +38,7 @@ MediationProcess::MediationProcess()
     , _courtCaseType(COURT_T_NONE)
     , _courtOrderType(COURT_ORDER_T_NONE)
     , _infoOnly(false)
+    , _mediationType(MEDIATION_SESSION)
 {
 
 }
@@ -48,8 +50,8 @@ MediationProcess::~MediationProcess()
 
 QString MediationProcess::Parse()
 {
-    // UPDATED 7-4-14 for new schema - Works for sample data
-    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, %8, ")
+    // UPDATED 7-14-14 for new schema
+    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, %8, %9")
             .arg(QString::number(this->GetDisputeType()))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
@@ -57,7 +59,8 @@ QString MediationProcess::Parse()
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(QString::number(this->GetState()))
             .arg(QString::number(this->GetInternalState()))
-            .arg(QString::number(this->GetCountyId()));
+            .arg(QString::number(this->GetCountyId())
+            .arg(QString::number(this->GetMediationType())));
 
     toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10'")
             .arg(QString::number(this->GetReferralType()))
@@ -76,14 +79,15 @@ QString MediationProcess::Parse()
 
 QString MediationProcess::UpdateParse()
 {
-    //Updated 7-4-14 for new schema
-    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeInternalState = %5, DisputeCounty = %6, ")
+    //Updated 7-14-14 for new schema
+    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeInternalState = %5, DisputeCounty = %6, MediationType = %7")
             .arg(QString::number(this->GetDisputeType()))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd"))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(QString::number(this->GetState()))
             .arg(QString::number(this->GetInternalState()))
-            .arg(QString::number(this->GetCountyId()));
+            .arg(QString::number(this->GetCountyId()))
+            .arg(QString::number(this->GetMediationType()));
 
     toUpdate += QString("ReferalSource = '%1', TranslatorRequired = '%2', InquiryType = %3, InfoOnly = '%4', CourtCase = '%5', ")
             .arg(QString::number(this->GetReferralType()))
@@ -149,6 +153,7 @@ MediationProcess *MediationProcess::SampleData()
     result->_requiresSpanish = rand() % 2;
     result->_processInternalState = (DisputeProcessInternalStates)( rand() % 5 + 1 );
     result->_referalSource = (ReferralTypes)(rand() % 8 + 1);
+    result->_mediationType = (MediationTypes) (rand() % 3 + 1);
 
     MediationSessionVector *temp = new MediationSessionVector;
     for(int i = 0; i< rand() % 5 + 1; i++)
