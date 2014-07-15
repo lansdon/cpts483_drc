@@ -65,14 +65,6 @@ void ResWaReportForm::RecieveReport(MediatorArg arg)
 }
 
 
-void ResWaReportForm::BuildReport()
-{
-
-
-}
-
-
-
 void ResWaReportForm::on_showResportBtn_clicked()
 {
     // Require County!
@@ -93,12 +85,7 @@ void ResWaReportForm::on_showResportBtn_clicked()
                                                 );
 
         Mediator::Call(MKEY_GUI_REQUEST_RESWA_REPORT, params);
-
-        // Temporarily displaying test data... this has to move to
-        // the response when report object arrives.
-        BuildReport();
     }
-
 }
 
 void ResWaReportForm::on_cancelBtn_clicked()

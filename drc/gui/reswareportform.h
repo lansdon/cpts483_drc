@@ -28,8 +28,6 @@ private:
 
     QTextDocument* _report;
 
-    void BuildReport();
-
     void RecieveReport(MediatorArg arg);
 };
 

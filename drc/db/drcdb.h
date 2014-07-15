@@ -151,6 +151,8 @@ public:
     // Arg is a ReportRequest*  !!
     void QueryResWaReport(MediatorArg arg);
 
+    // Arg is a ReportRequest*  !!
+    void QueryMonthlyReport(MediatorArg arg);
 
 
 

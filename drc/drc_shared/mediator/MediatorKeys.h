@@ -217,4 +217,12 @@ const QString MKEY_GUI_REQUEST_RESWA_REPORT = "MKEY_GUI_REQUEST_RESWA_REPORT";  
 const QString MKEY_BL_REQUEST_RESWA_REPORT = "MKEY_BL_REQUEST_RESWA_REPORT";              // ReportRequest*
 const QString MKEY_DB_REQUEST_RESWA_REPORT_DONE = "MKEY_DB_REQUEST_RESWA_REPORT_DONE";    // ResWaReport*
 
+//////////////////////////////////////////////////////////////////
+//				MONTHLY REPORTS - REQUEST
+// GUI requesting a montly report for given month+year+county
+//////////////////////////////////////////////////////////////////                         ARGUMENT TYPE
+const QString MKEY_GUI_REQUEST_MONTHLY_REPORT = "MKEY_GUI_REQUEST_MONTHLY_REPORT";             // ReportRequest*
+const QString MKEY_BL_REQUEST_MONTHLY_REPORT = "MKEY_BL_REQUEST_MONTHLY_REPORT";              // ???*
+const QString MKEY_DB_REQUEST_MONTHLY_REPORT_DONE = "MKEY_DB_REQUEST_MONTHLY_REPORT_DONE";    // ???*
+
 #endif

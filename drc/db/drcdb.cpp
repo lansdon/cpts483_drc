@@ -24,6 +24,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_DB_GET_ALL_USER, [this](MediatorArg arg) {GetAllUsers(arg);});
     Mediator::Register(MKEY_GUI_SAVE_EVALUATION, [this](MediatorArg arg) {InsertEvaluation(arg);});
     Mediator::Register(MKEY_BL_REQUEST_RESWA_REPORT, [this](MediatorArg arg) {QueryResWaReport(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_MONTHLY_REPORT, [this](MediatorArg arg) {QueryMonthlyReport(arg);});
 
 }
 //========================================================================
@@ -592,6 +593,21 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
     Mediator::Call(MKEY_DB_REQUEST_RESWA_REPORT_DONE,  report);
 }
 
+// Arg is a ReportRequest*  !!
+void DRCDB::QueryMonthlyReport(MediatorArg arg)
+{
+    ResWaReport* report = nullptr;
+    ReportRequest* params = nullptr;
+    if(arg.IsSuccessful() && (params = arg.getArg<ReportRequest*>()))
+    {
+        int month = params->GetMonth();
+        int year = params->GetYear();
+        CountyIds county = params->GetCounty();
+    }
+
+    // !! TO DO - This should return a monthly report!!!!
+    Mediator::Call(MKEY_DB_REQUEST_MONTHLY_REPORT_DONE, nullptr /* FIX THIS!! */);
+}
 //========================================================================
 
 

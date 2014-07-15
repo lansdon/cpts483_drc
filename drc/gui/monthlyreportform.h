@@ -2,6 +2,7 @@
 #define MONTHLYREPORTFORM_H
 
 #include <QWidget>
+#include "MediatorArg.h"
 
 namespace Ui {
 class MonthlyReportForm;
@@ -15,8 +16,16 @@ public:
     explicit MonthlyReportForm(QWidget *parent = 0);
     ~MonthlyReportForm();
 
+private slots:
+    void on_showResportBtn_clicked();
+
+    void on_cancelBtn_clicked();
+
 private:
     Ui::MonthlyReportForm *ui;
+
+    void RecieveReport(MediatorArg arg);
+
 };
 
 #endif // MONTHLYREPORTFORM_H
