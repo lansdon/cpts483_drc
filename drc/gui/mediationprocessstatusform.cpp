@@ -65,7 +65,7 @@ void MediationProcessStatusForm::Update()
     ui->courDateTimeEdit->setDateTime(_mediationProcess->GetCourtDate());
     ui->courtOrderComboBox->setCurrentIndex(_mediationProcess->GetCourtOrderType());
     ui->expirationDateTimeEdit->setDateTime(_mediationProcess->GetCourtOrderExpiration());
-
+    sessionTypeDisplay();
     //    if(_mediationProcess->GetId() == 0)
 //        ui->mediationIdDiaplayLabel->setText("NEW");
 //    else
@@ -76,6 +76,22 @@ void MediationProcessStatusForm::Update()
     on_courtCheckBox_clicked();
 
     SetSavedLabel(isSaved); // Preserve labels
+}
+
+void MediationProcessStatusForm::sessionTypeDisplay()
+{
+    switch (_mediationProcess->GetSessionType()){
+    case MEDIATION_SESSION:
+        ui->regularRadioButton->setChecked(true);
+        break;
+    case FACILITATION_SESSION:
+        ui->facilitationRadioButton->setChecked(true);
+        break;
+    case PHONE_SESSION:
+        ui->phoneRadioButton->setChecked(true);
+    default:
+        break;
+    }
 }
 
 // Sets the values based on enums.
@@ -257,4 +273,36 @@ void MediationProcessStatusForm::on_spanishCheckBox_clicked(bool checked)
 {
     _mediationProcess->SetRequiresSpanish(checked);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::updateSessionType()
+{
+    if(ui->regularRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(MEDIATION_SESSION);
+    }
+    else if(ui->facilitationRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(FACILITATION_SESSION);
+    }
+    else if(ui->phoneRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(PHONE_SESSION);
+    }
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::on_regularRadioButton_clicked()
+{
+    updateSessionType();
+}
+
+void MediationProcessStatusForm::on_facilitationRadioButton_clicked()
+{
+    updateSessionType();
+}
+
+void MediationProcessStatusForm::on_phoneRadioButton_clicked()
+{
+    updateSessionType();
 }
