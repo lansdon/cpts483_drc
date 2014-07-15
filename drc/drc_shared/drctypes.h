@@ -182,11 +182,11 @@ enum CourtOrderTypes
 };
 
 // NEW!  7/14/2014
-enum MediationTypes
+enum SessionTypes
 {
     MEDIATION_SESSION,
-    MEDIATION_FACILITATION,
-    MEDIATION_PHONE_CONCILIATION
+    FACILITATION_SESSION,
+    PHONE_SESSION
 };
 
 // String Helpers

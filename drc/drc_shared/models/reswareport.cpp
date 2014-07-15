@@ -718,15 +718,15 @@ void ResWaReport::CalculatePeople()
                 // The sum of _numByPhoneConciliation, _numBySessionFacilitation, and _numBySessions
                 // represents all of the people involved in the total number of cases from the
                 // CASES section.
-                switch(mp->GetMediationType())
+                switch(mp->GetSessionType())
                 {
-                case MEDIATION_PHONE_CONCILIATION:
+                case PHONE_SESSION:
                     _numByPhoneConcilliation++;
                     if(isChild) {
                         _numChildByPhoneConcilliation++;
                     }
                     break;
-                case MEDIATION_FACILITATION:
+                case FACILITATION_SESSION:
                     _numBySessionFacilliation++;
                     if(isChild) {
                         _numChildBySessionFacilliation++;

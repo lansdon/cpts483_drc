@@ -76,8 +76,8 @@ public:
     uint getActiveStateTransition() { return _activeStateTransition; }
     void setActiveStateTransition(uint value) {_activeStateTransition = value; }
 
-    void SetMediationType(MediationTypes type) { _mediationType = type; }
-    MediationTypes GetMediationType() { return _mediationType; }
+    void SetSessionType(SessionTypes type) { _sessionType = type; }
+    SessionTypes GetSessionType() { return _sessionType; }
 
     // Helpers
     int GetAffectedChildrenCount();
@@ -98,7 +98,7 @@ private:
     DisputeTypes _disputeType;
 
     // NEW! 7/14/2014
-    MediationTypes _mediationType;
+    SessionTypes _sessionType;
 
     // NEW!  7/4/2014
     DisputeProcessInternalStates _processInternalState;

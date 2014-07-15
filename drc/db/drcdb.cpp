@@ -356,7 +356,7 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     mediation_table_columns.push_back(QString("CourtOrderExpiration Date"));
     mediation_table_columns.push_back(QString("ShuttleRequired Bool"));
     mediation_table_columns.push_back(QString("TranslatorRequired Bool"));
-    mediation_table_columns.push_back(QString("MediationType integer"));
+    mediation_table_columns.push_back(QString("SessionType integer"));
 
     return CreateTable(mediation_table_name, mediation_table_columns);
 }
@@ -549,6 +549,7 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         for(int i = 0; i < temp->size(); i++)
         {
             MediationProcess* proc = temp->at(i);
+            // TODO: Perhaps this could say  || proc->GetState() == PROCESS_STATE_CLOSED_NO_SESSION  which should include info only mps
             if((proc->GetState() == PROCESS_STATE_CLOSED_WITH_SESSION) && (proc->getMediationSessionVector()->size() == 0))
             {
                 callCount++;
@@ -661,7 +662,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         }
         process->SetIsShuttle(Mediation_query.value(17).toBool());
         process->SetRequiresSpanish(Mediation_query.value(18).toBool());
-        process->SetMediationType((MediationTypes)Mediation_query.value(19).toInt());
+        process->SetSessionType((SessionTypes)Mediation_query.value(19).toInt());
 
         //Grab sessions based on the mediation id
         QSqlQuery sessionQuery(database);
@@ -954,6 +955,8 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
     QSqlQuery Mediation_query(database);
     QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
                                         .arg(PROCESS_STATE_CLOSED_WITH_SESSION);
+#warning LoadClosedMediations only loads CLOSED_WITH_SESSION
+    // TODO:  Because an additional Dispute State was added, DisputeState PROCESS_STATE_CLOSED_WITH_SESSION also needs to be added
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";
