@@ -59,6 +59,20 @@ QString StringForDisputeTypes(DisputeTypes id)
     return result;
 }
 
+QString StringForSessionTypes(SessionTypes id)
+{
+    QString result;
+    switch(id)
+    {
+    case MEDIATION_SESSION: result = "Mediation"; break;
+    case FACILITATION_SESSION: result = "Faciliation"; break;
+    case PHONE_SESSION: result = "Phone Conciliation"; break;
+    default: result = "<error>"; break;
+    }
+    return result;
+}
+
+
 QString StringForReferralTypes(ReferralTypes id)
 {
     QString result;

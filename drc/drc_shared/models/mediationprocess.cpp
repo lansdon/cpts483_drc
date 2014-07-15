@@ -71,8 +71,8 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetCourtOrderType()))
             .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
             .arg(this->GetIsShuttle())
-            .arg(QString::number(this->GetRequiresSpanish())
-            .arg(QString::number(this->GetSessionType())));
+            .arg(QString::number(this->GetRequiresSpanish()))
+            .arg(QString::number(this->GetSessionType()));
 
     return toReturn;
 }
