@@ -4,6 +4,7 @@ MediationEvaluation::MediationEvaluation()
 {
     _q1 = 0;
     _q2 = _q3 = _q4 = _q5 = _q6 = _q7 = _q8 = _callBackPermissions = _promoPermissions = EVALUATION_ANSWERS_NO_ANSWER;
+    _countyOfMediation = COUNTY_NONE;
 }
 
 QString MediationEvaluation::Parse()

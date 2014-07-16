@@ -1,5 +1,6 @@
 #include "mediationevaluationview.h"
 #include "ui_mediationevaluationview.h"
+#include <QMessageBox>
 
 
 
@@ -65,8 +66,19 @@ void MediationEvaluationView::configureToolBar()
 
 void MediationEvaluationView::saveEvaluation()
 {
-    Mediator::Call(MKEY_GUI_SAVE_EVALUATION, &_mediationEvaluation);
-    Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+    if(_mediationEvaluation.getCountyOfMediation() == COUNTY_NONE)
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Ok);
+        msgBox.setText("No county of mediation selected.");
+        msgBox.exec();
+    }
+    else
+    {
+        Mediator::Call(MKEY_GUI_SAVE_EVALUATION, &_mediationEvaluation);
+        Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+    }
+
 }
 
 void MediationEvaluationView::closeEvaluation()
@@ -154,7 +166,7 @@ void MediationEvaluationView::on_followUpPermissionsComboBox_currentIndexChanged
     _mediationEvaluation.setCallBackPermissions((EvaluationAnswers)index);
 }
 
-void MediationEvaluationView::on_comboBox_currentIndexChanged(int index)
+void MediationEvaluationView::on_countyOfMediationComboBox_currentIndexChanged(int index)
 {
     _mediationEvaluation.setCountyOfMediation((CountyIds)index);
 }
