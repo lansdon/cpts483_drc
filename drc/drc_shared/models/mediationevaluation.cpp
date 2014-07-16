@@ -11,6 +11,8 @@ QString MediationEvaluation::Parse()
 {
     QString toReturn;
 
+    toReturn += QString("%1, ").arg(QString::number(this->getCountyOfMediation()));
+
     if(_q3 == EVALUATION_ANSWERS_YES)
     {
         toReturn += "1, 0, 0, ";
