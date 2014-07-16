@@ -919,7 +919,10 @@ void DRCDB::LoadPendingMediations(MediatorArg arg)
         first = false;
     }
 
-    MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
+    MediationProcessVector* processVector = nullptr;
+
+    if(mediationIdMatches != "");
+        processVector = LoadMediations(mediationIdMatches);
 
     Mediator::Call(MKEY_DB_REQUEST_PENDING_MEDIATIONS_DONE, processVector);
 }
@@ -945,7 +948,10 @@ void DRCDB::LoadScheduledMediations(MediatorArg arg)
         first = false;
     }
 
-    MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
+    MediationProcessVector* processVector = nullptr;
+
+    if(mediationIdMatches != "");
+        processVector = LoadMediations(mediationIdMatches);
 
     Mediator::Call(MKEY_DB_REQUEST_SCHEDULED_MEDIATIONS_DONE, processVector);
 }
@@ -974,7 +980,10 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
         first = false;
     }
 
-    MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
+    MediationProcessVector* processVector = nullptr;
+
+    if(mediationIdMatches != "");
+        processVector = LoadMediations(mediationIdMatches);
 
 
     Mediator::Call(MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE, processVector);
@@ -1001,7 +1010,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
     // Insert the mediation process as a whole (creates a new dispute)
     MediationProcess* process = nullptr;
     process = arg.getArg<MediationProcess*>();
-    qDebug() << InsertObject(process);
+    qDebug() << "Insert mediation " << InsertObject(process);
 
     // Insert the notes.
     Note* note;
@@ -1027,8 +1036,8 @@ void DRCDB::InsertMediation(MediatorArg arg)
 
         if(person->GetPrimary()->getLastName() != "")
         {
-            qDebug() << InsertObject(person->GetPrimary());
-            qDebug() << InsertClientObject(process, person);
+            qDebug() << "Insert person " << InsertObject(person->GetPrimary());
+            qDebug() << "Insert client " << InsertClientObject(process, person);
             clientIds.push_back((process->GetPartyAtIndex(i)->GetId()));
         }
     }
@@ -1040,11 +1049,11 @@ void DRCDB::InsertMediation(MediatorArg arg)
         // Linkage will be preserved through the id being linked
         session = process->getMediationSessionVector()->at(j);
         // Insert the sessions, linked to the process
-        qDebug() << InsertLinkedObject(process->GetId(), session);
+        qDebug() << "insert session " <<InsertLinkedObject(process->GetId(), session);
         for(size_t k = 0; k < clientIds.size(); k++)
         {
             // Insert Data particular to session, linked to client and session
-            qDebug() << InsertClientSessionData(session->getClientSessionDataVectorAt(k), session->GetId(), clientIds[k]);
+            qDebug() << "insert clientsesion data " << InsertClientSessionData(session->getClientSessionDataVectorAt(k), session->GetId(), clientIds[k]);
         }
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);

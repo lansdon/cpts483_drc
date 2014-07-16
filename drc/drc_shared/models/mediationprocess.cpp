@@ -49,7 +49,7 @@ MediationProcess::~MediationProcess()
 QString MediationProcess::Parse()
 {
     // UPDATED 7-14-14 for new schema
-    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, %8")
+    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, %8, ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
