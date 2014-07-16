@@ -10,8 +10,6 @@ MediationSession::MediationSession()
     _outcome = SESSION_OUTCOME_NONE;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
-//    for(int i = 0; i < 2;i++)
-//    _clientSessionDataVector.push_back(new ClientSessionData());
 
 }
 MediationSession::MediationSession(uint numOfClients)
@@ -20,8 +18,6 @@ MediationSession::MediationSession(uint numOfClients)
     _outcome = SESSION_OUTCOME_NONE;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
-//    for(int i = 0; i < 2;i++)
-//    _clientSessionDataVector.push_back(new ClientSessionData());
     for(int i = 0; i < (int)numOfClients; i++)
         _clientSessionDataVector.insert(_clientSessionDataVector.end() - 2, new ClientSessionData());
 }
@@ -130,6 +126,17 @@ QString MediationSession::getFeeStatus() const
         return "Not Paid";
 }
 
+bool MediationSession::isFullyPaid() const
+{
+     bool paidInFull;
+    for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
+    {
+        if(!_clientSessionDataVector.at(i)->isNoFee() && !_clientSessionDataVector.at(i)->isPaid())
+            paidInFull = false;
+    }
+    return paidInFull;
+}
+
 void MediationSession::removeClientSessionData(uint value)
 {
     if(_clientSessionDataVector.size() > 0)
@@ -150,97 +157,10 @@ MediationSession *MediationSession::SampleData()
     int randomNumber = qrand() * 100000;
     result->SetState((SessionStates)(qrand() % 5));
     result->setMediationTime(QDateTime::fromTime_t(randomNumber));
-//    result->setFee1(QString::fromStdString(strId));
-//    result->setFee2(QString::fromStdString(strId));
-//    result->setFeeFamily(QString::fromStdString(strId));
-//    result->setFeeOther(QString::fromStdString(strId));
-//    result->setFee1Paid(true);
-//    result->setFee2Paid(true);
-//    result->setIncomeFee1(QString::fromStdString(strId));
-//    result->setIncomeFee2(QString::fromStdString(strId));
-//    result->setIncomeFeeFamily(QString::fromStdString(strId));
-//    result->setIncomeFeeOther(QString::fromStdString(strId));
     result->setMediator1(QString::fromStdString("Mediator" + strId));
     result->setMediator2(QString::fromStdString("Mediator" + strId));
     result->setObserver1(QString::fromStdString("Observer " + strId));
     result->setObserver2(QString::fromStdString("Observer " + strId));
-//    result->setSupportCount(qrand()%10);
 
     return result;
 }
-
-//QDataStream& MediationSession::operator <<(QDataStream &out, MediationSession &MS)
-//{
-//    out << MS.getMediationTime();
-//    out << MS.getMediationCreation();
-//    out << MS.GetState();
-//    out << MS.getFee1Paid();
-//    out << MS.getFee2Paid();
-//    out << MS.getFeeFamilyPaid();
-//    out << MS.getFeeOtherPaid();
-//    out << MS.getFee1();
-//    out << MS.getFee2();
-//    out << MS.getFeeFamily();
-//    out << MS.getFeeOther();
-//    out << MS.getIncomeFee1();
-//    out << MS.getIncomeFee2();
-//    out << MS.getIncomeFeeFamily();
-//    out << MS.getIncomeFeeOther();
-//    out << *MS.getMediator1();
-//    out << *MS.getMediator2();
-//    out << *MS.getObserver1();
-//    out << *MS.getObserver2();
-
-//    return out;
-//}
-
-//QDataStream& MediationSession::operator >>(QDataStream &in, MediationSession &MS)
-//{
-//    QDateTime a, b;
-//    SessionStates c;
-//    bool d, e, f, g;
-//    QString h, i, j, k, l, m, n, o;
-//    Person p, q, r, s;
-
-//    in>>a;
-//    in>>b;
-//    in>>c;
-//    in>>d;
-//    in>>e;
-//    in>>f;
-//    in>>g;
-//    in>>h;
-//    in>>i;
-//    in>>j;
-//    in>>k;
-//    in>>l;
-//    in>>m;
-//    in>>n;
-//    in>>o;
-//    in>>p;
-//    in>>q;
-//    in>>r;
-//    in>>s;
-
-//    MS.setMediationTime(a);
-//    MS.setMediationCreation(b);
-//    MS.SetState(c);
-//    MS.setFee1Paid(d);
-//    MS.setFee2Paid(e);
-//    MS.setFeeFamilyPaid(f);
-//    MS.setFeeOtherPaid(g);
-//    MS.setFee1(h);
-//    MS.setFee2(i);
-//    MS.setFeeFamily(j);
-//    MS.setFeeOther(k);
-//    MS.setIncomeFee1(l);
-//    MS.setIncomeFee2(m);
-//    MS.setIncomeFeeFamily(n);
-//    MS.setIncomeFeeOther(o);
-//    MS.setMediator1(new Person(p));
-//    MS.setMediator2(new Person(q));
-//    MS.setObserver1(new Person(r));
-//    MS.setObserver2(new Person(s));
-
-//    return in;
-//}

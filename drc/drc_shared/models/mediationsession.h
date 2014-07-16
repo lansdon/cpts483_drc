@@ -56,6 +56,7 @@ public:
 
     QString getStatus() const;
     QString getFeeStatus() const;
+    bool isFullyPaid() const;
     static MediationSession *SampleData();
     void addClientSessionData(ClientSessionData *value) { _clientSessionDataVector.push_back(value); }
     void removeClientSessionData(uint value);

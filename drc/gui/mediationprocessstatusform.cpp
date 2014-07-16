@@ -77,7 +77,7 @@ void MediationProcessStatusForm::Update()
 
     SetSavedLabel(isSaved); // Preserve labels
 }
-
+//session type display function to set the radio buttons
 void MediationProcessStatusForm::sessionTypeDisplay()
 {
     switch (_mediationProcess->GetSessionType()){
@@ -92,6 +92,24 @@ void MediationProcessStatusForm::sessionTypeDisplay()
     default:
         break;
     }
+}
+
+//update session type to update the model based off gui
+void MediationProcessStatusForm::updateSessionType()
+{
+    if(ui->regularRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(MEDIATION_SESSION);
+    }
+    else if(ui->facilitationRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(FACILITATION_SESSION);
+    }
+    else if(ui->phoneRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(PHONE_SESSION);
+    }
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 // Sets the values based on enums.
@@ -272,23 +290,6 @@ void MediationProcessStatusForm::on_infoOnlyCheckBox_toggled(bool checked)
 void MediationProcessStatusForm::on_spanishCheckBox_clicked(bool checked)
 {
     _mediationProcess->SetRequiresSpanish(checked);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
-
-void MediationProcessStatusForm::updateSessionType()
-{
-    if(ui->regularRadioButton->isChecked())
-    {
-        _mediationProcess->SetSessionType(MEDIATION_SESSION);
-    }
-    else if(ui->facilitationRadioButton->isChecked())
-    {
-        _mediationProcess->SetSessionType(FACILITATION_SESSION);
-    }
-    else if(ui->phoneRadioButton->isChecked())
-    {
-        _mediationProcess->SetSessionType(PHONE_SESSION);
-    }
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
