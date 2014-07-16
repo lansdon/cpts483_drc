@@ -27,8 +27,6 @@
 
 MediationProcess::MediationProcess()
     : DBBaseObject()
-    , _stateTransition(0)
-    , _activeStateTransition(0)
     , _disputeType(DISPUTE_T_NONE)
     , _processState(PROCESS_STATE_NONE)
     , _countyOfMediation(COUNTY_NONE)

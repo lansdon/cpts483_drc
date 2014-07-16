@@ -70,11 +70,7 @@ public:
     void SetState(DisputeProcessStates state) { _processState = state; }
     void SetInternalState(DisputeProcessInternalStates state) { _processInternalState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
-    uint getStateTransition() {return _stateTransition;}
-    void setStateTransition(uint input) {_stateTransition = input;}
     void setMediationSessionVector(MediationSessionVector *value) {if(value) _mediationSessionVector = *value;}
-    uint getActiveStateTransition() { return _activeStateTransition; }
-    void setActiveStateTransition(uint value) {_activeStateTransition = value; }
 
     void SetSessionType(SessionTypes type) { _sessionType = type; }
     SessionTypes GetSessionType() { return _sessionType; }
@@ -91,9 +87,6 @@ public:
 private:
 
     PartyVector _parties;
-
-    uint _stateTransition;
-    uint _activeStateTransition;
 
     DisputeTypes _disputeType;
 

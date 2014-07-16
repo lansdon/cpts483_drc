@@ -30,6 +30,7 @@ QString StringForDisputeProcessStates(DisputeProcessStates id)
     case PROCESS_STATE_PENDING: result = "Pending"; break;
     case PROCESS_STATE_SCHEDULED: result = "Scheduled"; break;
     case PROCESS_STATE_CLOSED_WITH_SESSION: result = "Closed"; break;
+    case PROCESS_STATE_CLOSED_NO_SESSION: result = "Closed No Session"; break;
     default: result = "<error>"; break;
     }
     return result;

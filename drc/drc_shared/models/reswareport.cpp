@@ -141,9 +141,9 @@ void ResWaReport::BuildReport()
 
     _report->print(&printer);
 
-
     OpenReportPDF();
 }
+
 ///////////////// Report Builder - INTERNAL ///////////////////
 // These functions build the different sections of the report
 ///////////////////////////////////////////////////////////////
