@@ -23,6 +23,10 @@ MediationEvaluationView::~MediationEvaluationView()
 
 void MediationEvaluationView::configComboBoxes()
 {
+    for(int i = 0; i < 7; i++)
+    {
+        ui->countyOfMediationComboBox->addItem(StringForCountyIds((CountyIds)i));
+    }
     for(int i = 0; i < 5; i++)
     {
         ui->questionOneComboBox->addItem(QString::number(i+1));
@@ -148,4 +152,9 @@ void MediationEvaluationView::on_promotionalPermissionsComboBox_currentIndexChan
 void MediationEvaluationView::on_followUpPermissionsComboBox_currentIndexChanged(int index)
 {
     _mediationEvaluation.setCallBackPermissions((EvaluationAnswers)index);
+}
+
+void MediationEvaluationView::on_comboBox_currentIndexChanged(int index)
+{
+    _mediationEvaluation.setCountyOfMediation((CountyIds)index);
 }

@@ -64,6 +64,8 @@ private slots:
 
     void on_followUpPermissionsComboBox_currentIndexChanged(int index);
 
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Ui::MediationEvaluationView *ui;
     MediationEvaluation _mediationEvaluation;

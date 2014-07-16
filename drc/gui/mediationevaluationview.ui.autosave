@@ -72,7 +72,7 @@
     <widget class="QGroupBox" name="outterMostGroupBox">
      <property name="maximumSize">
       <size>
-       <width>8768769</width>
+       <width>68769</width>
        <height>466</height>
       </size>
      </property>

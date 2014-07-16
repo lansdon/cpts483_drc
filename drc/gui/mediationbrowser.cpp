@@ -139,7 +139,7 @@ void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
             break;
         }
     }
-    PopulateMediationProcessTable();
+    //PopulateMediationProcessTable();
 }
 
 void MediationBrowser::OnRecieveMediationVector( MediatorArg arg)
@@ -148,8 +148,9 @@ void MediationBrowser::OnRecieveMediationVector( MediatorArg arg)
     if(mediations)
     {
         _mediationsVector = *mediations;
-        PopulateMediationProcessTable();
+
     }
+    PopulateMediationProcessTable();
 }
 
 void MediationBrowser::MakeSampleTable()
