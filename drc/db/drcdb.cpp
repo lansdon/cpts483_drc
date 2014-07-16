@@ -509,9 +509,10 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         }
 
         QSqlQuery query(database);
-        QString command = QString("Select * from Session_table where UpdatedDate < '%1' and UpdatedDate > '%2'")
+        QString command = QString("Select * from Session_table where UpdatedDate < '%1' and UpdatedDate > '%2' and DisputeCounty = %3")
                             .arg(end.toString("yyyy-MM-dd"))
-                            .arg(start.toString("yyyy-MM-dd"));
+                            .arg(start.toString("yyyy-MM-dd"))
+                            .arg(QString::number(params->GetCounty()));
         this->ExecuteCommand(command, query);
 
         QString mediationIdMatches = "";
@@ -531,9 +532,10 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         report = new ResWaReport(mpVec);
 
         // For section 2 data
-        command = QString("Select * from Mediation_Table wehre UpdatedDate < '%1' and UpdatedDate > '%2'")
+        command = QString("Select * from Mediation_Table where UpdatedDate < '%1' and UpdatedDate > '%2' and DisputeCounty = %3")
                         .arg(end.toString("yyyy-MM-dd"))
-                        .arg(start.toString("yyyy-MM-dd"));
+                        .arg(start.toString("yyyy-MM-dd"))
+                        .arg(QString::number(params->GetCounty()));
         this->ExecuteCommand(command, query);
 
         mediationIdMatches = "";
@@ -563,8 +565,9 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
 
         // For section 8 data
         QSqlQuery evalQuery(database);
-        QString evalCommand = QString("Select * from Evaluation_Table where startdate = '%1'")
-                                .arg(start.toString("yyyy-MM-dd"));
+        QString evalCommand = QString("Select * from Evaluation_Table where startdate = '%1' and CountyId = %2")
+                                .arg(start.toString("yyyy-MM-dd"))
+                                .arg(QString::number(params->GetCounty()));
 
         this->ExecuteCommand(evalCommand,evalQuery);
 
