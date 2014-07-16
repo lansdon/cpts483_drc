@@ -52,6 +52,9 @@ private:
     void OnRecieveMediationVector(MediatorArg arg);
 
     MediatorId _requestRecentCallback;
+    MediatorId _requestPendingCallback;
+    MediatorId _requestScheduledCallback;
+    MediatorId _requestClosedCallback;
     MediatorId _setMediationsCallback;
     MediatorId _refreshMediationsCallback;
     MediatorId _queryMediationCallback;
