@@ -122,10 +122,6 @@ private:
     enum CourtOrderTypes _courtOrderType;
     QDateTime _courtOrderExpiration;
 
-    // NEW!  7/12/2014
-    bool _isPhoneConciliation;  // sessions held over phone
-    bool _isFacilitation;       // DRC is hosting only
-
 };
 
 #endif // MEDIATIONPROCESS_H
