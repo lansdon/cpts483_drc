@@ -415,6 +415,7 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
     session_table_columns.push_back(QString("Observer2 char(128)"));
+    session_table_columns.push_back(QString("SessionOutcome integer"));
     session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
 
     return CreateTable(session_table_name, session_table_columns);
