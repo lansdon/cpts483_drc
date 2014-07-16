@@ -78,7 +78,7 @@ QString MediationProcess::Parse()
 QString MediationProcess::UpdateParse()
 {
     //Updated 7-14-14 for new schema
-    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeInternalState = %5, DisputeCounty = %6")
+    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeInternalState = %5, DisputeCounty = %6, ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd"))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
