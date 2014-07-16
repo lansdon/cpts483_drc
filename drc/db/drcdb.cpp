@@ -546,11 +546,12 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         }
         MediationProcessVector* temp = LoadMediations(mediationIdMatches);
         int callCount = 0;
-        for(int i = 0; i < temp->size(); i++)
+        for(size_t i = 0; i < temp->size(); i++)
         {
             MediationProcess* proc = temp->at(i);
             // TODO: Perhaps this could say  || proc->GetState() == PROCESS_STATE_CLOSED_NO_SESSION  which should include info only mps
-            if((proc->GetState() == PROCESS_STATE_CLOSED_WITH_SESSION) && (proc->getMediationSessionVector()->size() == 0))
+            if(((proc->GetState() == PROCESS_STATE_CLOSED_WITH_SESSION) && (proc->getMediationSessionVector()->size() == 0)) ||
+                 (proc->GetState() == PROCESS_STATE_CLOSED_NO_SESSION))
             {
                 callCount++;
             }
@@ -901,7 +902,7 @@ void DRCDB::LoadPendingMediations(MediatorArg arg)
      Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
+    QString Mediation_command_string = QString("Select * from Mediation_Table where DisputeState = %1 order by UpdatedDateTime desc")
                                         .arg(PROCESS_STATE_PENDING);
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
@@ -927,7 +928,7 @@ void DRCDB::LoadScheduledMediations(MediatorArg arg)
      Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
+    QString Mediation_command_string = QString("Select * from Mediation_Table where DisputeState = %1 order by UpdatedDateTime desc")
                                         .arg(PROCESS_STATE_SCHEDULED);
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
@@ -953,8 +954,9 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
      Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
-                                        .arg(PROCESS_STATE_CLOSED_WITH_SESSION);
+    QString Mediation_command_string = QString("Select * from Mediation_Table where DisputeState in (%1, %2) order by UpdatedDateTime desc")
+                                        .arg(PROCESS_STATE_CLOSED_WITH_SESSION)
+                                        .arg(PROCESS_STATE_CLOSED_NO_SESSION);
 #warning LoadClosedMediations only loads CLOSED_WITH_SESSION
     // TODO:  Because an additional Dispute State was added, DisputeState PROCESS_STATE_CLOSED_WITH_SESSION also needs to be added
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
