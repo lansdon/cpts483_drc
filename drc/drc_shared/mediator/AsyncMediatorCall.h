@@ -1,10 +1,10 @@
-//
-//  AsyncMediatorCall.h
-//  mediator_test
-//
-//  Created by Lansdon Page on 5/25/14.
-//  Copyright (c) 2014 Lansdon Page. All rights reserved.
-//
+/*!
+ * AsyncMediatorCall.h
+ * mediator_test
+ *
+ * Created by Lansdon Page on 5/25/14.
+ * Copyright (c) 2014 Lansdon Page. All rights reserved.
+ */
 
 #ifndef __mediator_test__AsyncMediatorCall__
 #define __mediator_test__AsyncMediatorCall__
@@ -19,6 +19,11 @@
 //namespace drc {
 //namespace drc_shared {
 
+/*! \brief  Brief descrioption for AsyncMediatorCall.
+ *          Brief description continued.
+ *
+ *  Detailed description starts here for AsyncMediatorCall.
+ */
 class AsyncMediatorCall : QObject
 {
     Q_OBJECT
@@ -28,10 +33,10 @@ public:
     AsyncMediatorCall(QString sendEventMediatorKey, QString recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg _sendMediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
     virtual ~AsyncMediatorCall();
 
-    // Accessors
+    /// Accessors
     MediatorArg& GetMediatorArg() { return _sendMediatorArg; }
-
-	void Send();						// This will perform the send event, and wait for the response.
+    /// This will perform the send event, and wait for the response.
+    void Send();
 
 private:
     // Settings - This list of parameters is saved, and passed to each new thread when they are spawned.

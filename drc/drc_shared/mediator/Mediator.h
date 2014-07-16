@@ -27,9 +27,9 @@
 
 typedef std::function<void(MediatorArg mediatorArg)> MediatorCallbackFunc;				// Lambda signature
 
-// MediatorCallback
-// This is a wrapper for MediatorCallbackFunc that tracks a unique id.
-// The caller can use the id to unregister the function at a later date.
+/// MediatorCallback
+/// This is a wrapper for MediatorCallbackFunc that tracks a unique id.
+/// The caller can use the id to unregister the function at a later date.
 typedef unsigned int MediatorId;
 static MediatorId __MEDIATOR_UNIQUE_ID = 0;    // used to increment unique ids  (DON'T EDIT THIS!)
 class MediatorCallback

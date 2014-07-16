@@ -1,9 +1,13 @@
 #include "drctypes.h"
 
-
-
-
-// String Helpers
+/*!
+ * \brief StringForCountyIds converts enums to QStrings.
+ * \param id
+ * \return QString
+ *
+ * The StringForCountyIds() will help convert the enum to a QString.
+ * This makes it easier to display the comboboxes for the GUI.
+ */
 QString StringForCountyIds(CountyIds id)
 {
     QString result;

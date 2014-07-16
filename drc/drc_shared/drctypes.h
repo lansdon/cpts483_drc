@@ -4,9 +4,9 @@
 #include <vector>
 #include <QString>
 
-//////////////////////////////////////////////
-// This file contains commonly used enums etc
-//////////////////////////////////////////////
+/*!
+ * \brief This file will contain commonly used enums
+ */
 
 class Person;
 class MediationProcess;
@@ -16,7 +16,7 @@ class Note;
 class ClientSessionData;
 class MediationEvaluation;
 
-// Typedefs
+/// Typedefs which will be used
 typedef std::vector<Person*> PersonVector;
 typedef std::vector<MediationProcess*> MediationProcessVector;
 typedef std::vector<MediationSession*> MediationSessionVector;
@@ -26,8 +26,7 @@ typedef std::vector<ClientSessionData*> ClientSessionDataVector;
 typedef std::vector<MediationEvaluation*> MediationEvaluationVector;
 
 
-// ENUMS FOREVAH
-
+/// Enums used for evalutations lateron
 enum EvaluationAnswers
 {
     EVALUATION_ANSWERS_NO_ANSWER,
@@ -36,6 +35,7 @@ enum EvaluationAnswers
     EVALUATION_ANSWERS_SOMEWHAT
 };
 
+/// Enums of DisputeTypes based on DRC list
 enum DisputeTypes
 {
     DISPUTE_T_NONE,
@@ -54,6 +54,7 @@ enum DisputeTypes
     DISPUTE_T_OTHER
 };
 
+/// Enums of the possible State a Dispute can be in
 enum DisputeProcessInternalStates
 {
     PROCESS_INTERNAL_STATE_NONE,
@@ -65,6 +66,7 @@ enum DisputeProcessInternalStates
     PROCESS_INTERNAL_STATE_OUTCOME_NOT_REACHED
 };
 
+/// Enums of the possilbe outcomes of a dispute
 enum DisputeProcessStates
 {
     PROCESS_STATE_NONE,
@@ -74,6 +76,7 @@ enum DisputeProcessStates
     PROCESS_STATE_CLOSED_NO_SESSION
 };
 
+/// Enums of possible types of Inquiries based on DRC list
 enum InquiryTypes
 {
     INQUIRY_T_NONE,
@@ -83,6 +86,7 @@ enum InquiryTypes
     INQUIRY_T_REFERRAL
 };
 
+/// Enums of possible outcomes of sessions
 enum SessionOutcomes
 {
     SESSION_OUTCOME_NONE,
@@ -96,6 +100,7 @@ enum SessionOutcomes
     SESSION_OUTCOME_SELF_RESOLVED,
 };
 
+/// Enums of possible outcomes for Counties
 enum CountyIds
 {
     COUNTY_NONE,
@@ -106,7 +111,7 @@ enum CountyIds
     COUNTY_OTHER
 };
 
-
+/// Enums for referral types
 enum ReferralTypes
 {
     REFERRAL_T_NONE,
@@ -127,6 +132,7 @@ enum ReferralTypes
     REFERRAL_T_OTHER_NONE
 };
 
+/// Enums for Party types
 enum PartyTypes
 {
     PARTY_T_NONE,
@@ -134,12 +140,14 @@ enum PartyTypes
     PARTY_T_SECOND
 };
 
+/// Enums for User types
 enum UserTypes
 {
     USER_T_NORMAL,
     USER_T_ADMIN
 };
 
+/// Enums for Search types
 enum SearchTypes
 {
     SEARCH_T_NONE,
@@ -148,6 +156,7 @@ enum SearchTypes
     SEARCH_T_CALL_LOG
 };
 
+/// Enums for mediation sort types
 enum MediationTableSortTypes
 {
     MEDIATION_SORT_T_NONE,
@@ -157,6 +166,7 @@ enum MediationTableSortTypes
     MEDIATION_SORT_T_CLOSED
 };
 
+/// Enums for states of a session
 enum SessionStates
 {
     SESSION_STATE_NONE,
@@ -166,6 +176,7 @@ enum SessionStates
     SESSION_STATE_RESCHEDULED
 };
 
+/// Enums for court case types
 enum CourtCaseTypes
 {
     COURT_T_NONE,
@@ -175,12 +186,13 @@ enum CourtCaseTypes
     COURT_T_OTHER
 };
 
+/// Enums for court order types
 enum CourtOrderTypes
 {
     COURT_ORDER_T_NONE
 };
 
-// String Helpers
+/// The string helpers to help convert the enums to strings
 QString StringForCountyIds(CountyIds id);
 QString StringForDisputeProcessStates(DisputeProcessStates id);
 QString StringForDisputeTypes(DisputeTypes id);

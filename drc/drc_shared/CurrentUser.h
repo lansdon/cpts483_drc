@@ -3,9 +3,17 @@
 
 #include <iostream>
 #include <time.h>
-
 #include "User.h"
 #include "MediatorArg.h"
+
+/*!
+ * \brief The CurrentUser class.
+ *        Holds a reference to the currently logged in user.
+ *
+ * The CurrentUser will be used to identify the level of access
+ * to certain features within the program. For example Admin type users
+ * get teh admin menu.
+ */
 
 class CurrentUser
 {
