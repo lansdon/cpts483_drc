@@ -128,7 +128,7 @@ QString MediationSession::getFeeStatus() const
 
 bool MediationSession::isFullyPaid() const
 {
-     bool paidInFull;
+     bool paidInFull = true;
     for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
     {
         if(!_clientSessionDataVector.at(i)->isNoFee() && !_clientSessionDataVector.at(i)->isPaid())

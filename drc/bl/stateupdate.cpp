@@ -207,7 +207,9 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
     // check if the most recent session is confirmed
   //  MediationSessionVector *sessions = arg->getMediationSessionVector();
 //    foreach(MediationSession *s, sessions)
-    MediationSession* session = *arg->getMediationSessionVector()->end();
+    if(arg->getMediationSessionVector()->size() == 0)
+        return advance;
+    MediationSession* session = arg->getMediationSessionVector()->at(arg->getMediationSessionVector()->size() - 1);
 //    foreach(MediationSession* session, *arg->getMediationSessionVector())
 //    {
         if (session->GetState() == SESSION_STATE_CONFIRMED)
