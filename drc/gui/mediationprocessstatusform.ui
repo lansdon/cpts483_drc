@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1003</width>
-    <height>192</height>
+    <width>1013</width>
+    <height>204</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -25,7 +25,7 @@
   <property name="maximumSize">
    <size>
     <width>16777215</width>
-    <height>206</height>
+    <height>208</height>
    </size>
   </property>
   <property name="font">
@@ -116,6 +116,16 @@
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
            <layout class="QFormLayout" name="inquiryLayout">
+            <property name="fieldGrowthPolicy">
+             <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+            </property>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label">
+              <property name="text">
+               <string>Inquiry Type</string>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="1">
              <widget class="QComboBox" name="inquiryTypeComboBox">
               <item>
@@ -145,11 +155,115 @@
               </item>
              </widget>
             </item>
-            <item row="1" column="1">
-             <widget class="QCheckBox" name="infoOnlyCheckBox">
-              <property name="text">
-               <string>Info Only</string>
+            <item row="1" column="0">
+             <widget class="QLabel" name="_conflictLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
               </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>20</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <property name="text">
+               <string>Mediation Type:</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QComboBox" name="conflictComboBox">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>26</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>145</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>12</pointsize>
+               </font>
+              </property>
+              <item>
+               <property name="text">
+                <string>&lt;Mediation Type&gt;</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Consumer/Merchant</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Family</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Neighborhood</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Parenting Plan</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Property/Business</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Parent/Teen</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Small Claims</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Tenant/Landlord</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Victim/Offender</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Workplace</string>
+               </property>
+              </item>
+              <item>
+               <property name="text">
+                <string>Other</string>
+               </property>
+              </item>
              </widget>
             </item>
             <item row="2" column="0">
@@ -271,21 +385,20 @@
               </item>
              </widget>
             </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Inquiry Type</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QCheckBox" name="courtCheckBox">
-              <property name="text">
-               <string>Court Case</string>
-              </property>
-             </widget>
-            </item>
            </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_4">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <layout class="QFormLayout" name="formLayoutCol1">
@@ -296,124 +409,6 @@
              <enum>QFormLayout::FieldsStayAtSizeHint</enum>
             </property>
             <item row="0" column="0">
-             <widget class="QLabel" name="_conflictLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>20</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>Mediation Type:</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QComboBox" name="conflictComboBox">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>0</width>
-                <height>26</height>
-               </size>
-              </property>
-              <property name="maximumSize">
-               <size>
-                <width>145</width>
-                <height>16777215</height>
-               </size>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <item>
-               <property name="text">
-                <string>&lt;Mediation Type&gt;</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Consumer/Merchant</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Family</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Neighborhood</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Parenting Plan</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Property/Business</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Parent/Teen</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Small Claims</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Tenant/Landlord</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Victim/Offender</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Workplace</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Other</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QCheckBox" name="shuttleCheckBox">
-              <property name="text">
-               <string>Shuttle</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="0">
              <widget class="QLabel" name="_countyLabel">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -431,7 +426,7 @@
               </property>
              </widget>
             </item>
-            <item row="2" column="1">
+            <item row="0" column="1">
              <widget class="QComboBox" name="countyComboBox">
               <property name="maximumSize">
                <size>
@@ -482,13 +477,47 @@
              </widget>
             </item>
             <item row="1" column="0">
+             <widget class="QCheckBox" name="courtCheckBox">
+              <property name="text">
+               <string>Court Case</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QCheckBox" name="infoOnlyCheckBox">
+              <property name="text">
+               <string>Info Only</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
              <widget class="QCheckBox" name="spanishCheckBox">
               <property name="text">
                <string>Spanish</string>
               </property>
              </widget>
             </item>
+            <item row="2" column="1">
+             <widget class="QCheckBox" name="shuttleCheckBox">
+              <property name="text">
+               <string>Shuttle</string>
+              </property>
+             </widget>
+            </item>
            </layout>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
           </item>
           <item>
            <widget class="QGroupBox" name="groupBox">
@@ -525,21 +554,8 @@
        </layout>
       </item>
       <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>36</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <layout class="QFormLayout" name="formLayout_2">
-        <item row="2" column="1">
+        <item row="3" column="1">
          <widget class="QLabel" name="lastActivityDisplayLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -557,7 +573,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="lastActivityLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -575,7 +591,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="_creationLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -593,7 +609,7 @@
           </property>
          </widget>
         </item>
-        <item row="3" column="1">
+        <item row="4" column="1">
          <widget class="QLabel" name="createdDateLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -611,7 +627,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0" colspan="2">
+        <item row="2" column="0" colspan="2">
          <widget class="QLabel" name="currentStatusLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -629,7 +645,33 @@
           </property>
          </widget>
         </item>
+        <item row="1" column="0">
+         <spacer name="verticalSpacer">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
        </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>36</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -650,110 +692,137 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <item>
-       <layout class="QFormLayout" name="formLayout_3">
-        <item row="0" column="0">
-         <widget class="QLabel" name="_courtTypeLabel">
-          <property name="text">
-           <string>Court Type:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="courtTypeComboBox">
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout">
-        <item row="0" column="1">
-         <widget class="QDateTimeEdit" name="courDateTimeEdit"/>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="_courtDateLabel">
-          <property name="text">
-           <string>Court Date:</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QFormLayout" name="formLayout_5">
+       <layout class="QFormLayout" name="formLayout_6">
         <property name="fieldGrowthPolicy">
-         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
         </property>
-        <item row="0" column="1">
-         <widget class="QComboBox" name="courtOrderComboBox">
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-          <item>
-           <property name="text">
-            <string>New Item</string>
-           </property>
-          </item>
-         </widget>
-        </item>
         <item row="0" column="0">
-         <widget class="QLabel" name="_courtOrderLabel">
-          <property name="text">
-           <string>Court Order:</string>
+         <layout class="QFormLayout" name="formLayout_3">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
           </property>
-         </widget>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="courtTypeComboBox">
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="_courtTypeLabel">
+            <property name="text">
+             <string>Court Type:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item row="0" column="1">
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="1">
+           <widget class="QDateTimeEdit" name="courDateTimeEdit"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="_courtDateLabel">
+            <property name="text">
+             <string>Court Date:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QFormLayout" name="formLayout_4">
+       <layout class="QFormLayout" name="formLayout_7">
         <item row="0" column="0">
-         <widget class="QLabel" name="courtOrderLabel">
-          <property name="text">
-           <string>Order Expires:</string>
+         <layout class="QFormLayout" name="formLayout_5">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::FieldsStayAtSizeHint</enum>
           </property>
-         </widget>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="courtOrderComboBox">
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>New Item</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="_courtOrderLabel">
+            <property name="text">
+             <string>Court Order:</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item row="0" column="1">
-         <widget class="QDateTimeEdit" name="expirationDateTimeEdit"/>
+         <layout class="QFormLayout" name="formLayout_4">
+          <item row="0" column="0">
+           <widget class="QLabel" name="courtOrderLabel">
+            <property name="text">
+             <string>Order Expires:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QDateTimeEdit" name="expirationDateTimeEdit"/>
+          </item>
+         </layout>
         </item>
        </layout>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer_3">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>

@@ -42,6 +42,8 @@ private slots:
     void ShowMediationBrowserPressed();
     void ShowSessionBrowserPressed();
     void ShowNotesBrowserPressed();
+    void PrintMediationProcessPressed();
+
     // Add new session
     void addSession();
 

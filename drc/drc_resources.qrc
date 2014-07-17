@@ -10,5 +10,6 @@
         <file>images/drclogo.png</file>
         <file>images/drclogo_med.png</file>
         <file>images/close.jpg</file>
+        <file>images/printer-icon.png</file>
     </qresource>
 </RCC>

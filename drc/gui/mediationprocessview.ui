@@ -122,6 +122,9 @@
                <pointsize>12</pointsize>
               </font>
              </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click to add new client&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
              <property name="text">
               <string>+</string>
              </property>
@@ -138,7 +141,7 @@
            </font>
           </property>
           <property name="text">
-           <string>No clients have been added.</string>
+           <string>No clients</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
@@ -217,6 +220,9 @@
                <pointsize>12</pointsize>
               </font>
              </property>
+             <property name="toolTip">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Click to add new session&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
              <property name="text">
               <string>+</string>
              </property>
@@ -233,7 +239,7 @@
            </font>
           </property>
           <property name="text">
-           <string>No sessions have been added.</string>
+           <string>No sessions</string>
           </property>
           <property name="alignment">
            <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>

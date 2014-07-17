@@ -145,6 +145,8 @@ void MediationProcessView::ConfigureToolbar()
     toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Notes Browser", this, SLOT(ShowNotesBrowserPressed()), QIcon(":images/notes.jpg"));
     toolbar.GetToolbar()->addSeparator();
+    toolbar.AddAction("Print Intake", this, SLOT(PrintMediationProcessPressed()), QIcon(":images/printer-icon.png"));
+    toolbar.GetToolbar()->addSeparator();
 }
 
 void MediationProcessView::SaveMediationPressed()
@@ -352,4 +354,9 @@ void MediationProcessView::on_partyTabWidget_tabCloseRequested(int index)
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
         PopulateView();
     }
+}
+
+void MediationProcessView::PrintMediationProcessPressed()
+{
+    //create MP to PDF send current MP to it
 }
