@@ -509,10 +509,10 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         }
 
         QSqlQuery query(database);
-        QString command = QString("Select * from Session_table where UpdatedDate < '%1' and UpdatedDate > '%2' and DisputeCounty = %3")
+        QString command = QString("Select * from Session_table where UpdatedDate <= '%1' and UpdatedDate >= '%2'")
                             .arg(end.toString("yyyy-MM-dd"))
-                            .arg(start.toString("yyyy-MM-dd"))
-                            .arg(QString::number(params->GetCounty()));
+                            .arg(start.toString("yyyy-MM-dd"));
+                            //.arg(QString::number(params->GetCounty()));
         this->ExecuteCommand(command, query);
 
         QString mediationIdMatches = "";
@@ -526,17 +526,36 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
             mediationIdMatches += query.value(1).toString();
             first = false;
         }
-        MediationProcessVector* mpVec = LoadMediations(mediationIdMatches);
+        MediationProcessVector* init = LoadMediations(mediationIdMatches);
+
+        first = true;
+        mediationIdMatches = "";
+        for(size_t i = 0; i < init->size(); i++)
+        {
+            MediationProcess* process = init->at(i);
+            if(process->GetCountyId() == params->GetCounty())
+            {
+                if(!first)
+                {
+                    mediationIdMatches += ", ";
+                }
+                mediationIdMatches += QString::number(process->GetId());
+                qDebug() << mediationIdMatches;
+                qDebug() << process->GetId();
+                first = false;
+            }
+        }
 
         // Must Init the ResWaReport with MPVector (all mps in the 6 month span)
+        MediationProcessVector* mpVec = LoadMediations(mediationIdMatches);
         report = new ResWaReport(mpVec);
 
         // For section 2 data
-        command = QString("Select * from Mediation_Table where UpdatedDate < '%1' and UpdatedDate > '%2' and DisputeCounty = %3")
+        QString commanda = QString("Select * from Mediation_Table where UpdatedDate <= '%1' and UpdatedDate >= '%2' and DisputeCounty = %3")
                         .arg(end.toString("yyyy-MM-dd"))
                         .arg(start.toString("yyyy-MM-dd"))
                         .arg(QString::number(params->GetCounty()));
-        this->ExecuteCommand(command, query);
+        this->ExecuteCommand(commanda, query);
 
         mediationIdMatches = "";
         first = true;
@@ -605,13 +624,54 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
 // Arg is a ReportRequest*  !!
 void DRCDB::QueryMonthlyReport(MediatorArg arg)
 {
-    ResWaReport* report = nullptr;
+    //ResWaReport* report = nullptr;
     ReportRequest* params = nullptr;
     if(arg.IsSuccessful() && (params = arg.getArg<ReportRequest*>()))
     {
         int month = params->GetMonth();
         int year = params->GetYear();
         CountyIds county = params->GetCounty();
+
+        QDateTime start;
+        QDateTime end;
+        if(month != 12)
+        {
+            start = QDateTime::fromString(QString("%1-%2-01").arg(year).arg(month),"yyyy-MM-dd");
+            end = QDateTime::fromString(QString("%1-%2-01").arg(year).arg(month+1),"yyyy-MM-dd");
+        }
+        else
+        {
+            start = QDateTime::fromString(QString("%1-%2-01").arg(year),"yyyy-M-dd");
+            end = QDateTime::fromString(QString("%1-%2-01").arg(year+1).arg(1),"yyyy-M-dd");
+        }
+
+        QSqlQuery query(database);
+        QString command = QString("Select * from Session_table where UpdatedDate <= '%1' and UpdatedDate > '%2'")
+                            .arg(end.toString("yyyy-MM-dd"))
+                            .arg(start.toString("yyyy-MM-dd"))
+                            .arg(QString::number(params->GetCounty()));
+        this->ExecuteCommand(command, query);
+
+        QString mediationIdMatches = "";
+        bool first = true;
+        while(query.next())
+        {
+            if(!first)
+            {
+                mediationIdMatches += ", ";
+            }
+            mediationIdMatches += query.value(1).toString();
+            first = false;
+        }
+        MediationProcessVector* mpVec = LoadMediations(mediationIdMatches);
+
+        for(size_t i = 0; i < mpVec->size(); i++)
+        {
+            //Check based on county id
+                //Build the vector of counts
+
+        }
+
     }
 
     // !! TO DO - This should return a monthly report!!!!
