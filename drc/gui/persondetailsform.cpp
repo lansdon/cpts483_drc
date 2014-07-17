@@ -15,6 +15,7 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopu
     // Setup Validations
     ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
     //ui->adultsInHomeSpinBox->setValidator(new QIntValidator(ui->adultsInHomeSpinBox));
+    configureComboBoxes();
 
     // If a valid person object was passed, display it and don't go into edit mode.
     if(person)
@@ -37,6 +38,11 @@ void PersonDetailsForm::keyPressEvent(QKeyEvent *pe)
     if(pe->key() == Qt::Key_Return) on_saveButton_clicked();
 }
 
+void PersonDetailsForm::configureComboBoxes()
+{
+    for(int i = 0; i < 7; i++)
+        ui->countyComboBox->addItem(StringForCountyIds((CountyIds)i));
+}
 
 void PersonDetailsForm::UpdateLabels()
 {
@@ -47,7 +53,7 @@ void PersonDetailsForm::UpdateLabels()
     ui->unitLineEdit->setText((_person->getUnit()));
     ui->cityLineEdit->setText((_person->getCity()));
     ui->stateLineEdit->setText((_person->getState()));
-    ui->countyLineEdit->setText((_person->getCounty()));
+    ui->countyComboBox->setCurrentIndex((int)(_person->getCounty()));
     ui->zipLineEdit->setText((_person->getZip()));
     ui->emailLineEdit->setText((_person->getEmail()));
     ui->primaryLineEdit->setText((_person->getPrimaryPhone()));
@@ -153,7 +159,7 @@ void PersonDetailsForm::on_saveButton_clicked()
     _person->setUnit(ui->unitLineEdit->text());
     _person->setCity(ui->cityLineEdit->text());
     _person->setState(ui->stateLineEdit->text());
-    _person->setCounty(ui->countyLineEdit->text());
+    _person->setCounty((CountyIds)ui->countyComboBox->currentIndex());
     _person->setZip(ui->zipLineEdit->text());
     _person->setEmail(ui->emailLineEdit->text());
     _person->setPrimaryPhone(ui->primaryLineEdit->text());
@@ -201,7 +207,7 @@ void PersonDetailsForm::SetEditMode(bool editModeOn)
     ui->unitLineEdit->setEnabled(editModeOn);
     ui->cityLineEdit->setEnabled(editModeOn);
     ui->stateLineEdit->setEnabled(editModeOn);
-    ui->countyLineEdit->setEnabled(editModeOn);
+    ui->countyComboBox->setEnabled(editModeOn);
     ui->zipLineEdit->setEnabled(editModeOn);
     ui->emailLineEdit->setEnabled(editModeOn);
     ui->primaryLineEdit->setEnabled(editModeOn);
@@ -283,12 +289,6 @@ void PersonDetailsForm::on_zipLineEdit_textEdited(const QString &arg1)
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-void PersonDetailsForm::on_countyLineEdit_textEdited(const QString &arg1)
-{
-    _person->setCounty(arg1);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
-
 void PersonDetailsForm::on_stateLineEdit_textEdited(const QString &arg1)
 {
     _person->setState(arg1);
@@ -361,4 +361,10 @@ void PersonDetailsForm::on_adultsInHomeSpinBox_valueChanged(int arg1)
 void PersonDetailsForm::on_assistantLineEdit_editingFinished()
 {
 
+}
+
+void PersonDetailsForm::on_countyComboBox_currentIndexChanged(int index)
+{
+    _person->setCounty((CountyIds)index);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

@@ -489,7 +489,7 @@ Person *MPFileMaker::personParse(QTextStream &in)
     temp->setAssistantPhoneExt(assPhoneEx);
     temp->setAttorney(atty);
     temp->setCity(city);
-    temp->setCounty(county);
+//    temp->setCounty(county);
     temp->setEmail(email);
     temp->setName(first, middle, last);
     temp->setNumberInHousehold(nInHouse);

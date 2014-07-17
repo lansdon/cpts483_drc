@@ -832,7 +832,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
                 primary->setCity(peopleQuery.value(6).toString());
                 primary->setState(peopleQuery.value(7).toString());
                 primary->setZip(peopleQuery.value(8).toString());
-                primary->setCounty(peopleQuery.value(9).toString());
+//                primary->setCounty(peopleQuery.value(9).toString());
                 primary->setPrimaryPhone(peopleQuery.value(10).toString());
                 primary->setSecondaryPhone(peopleQuery.value(11).toString());
                 primary->setAssistantPhone(peopleQuery.value(12).toString());

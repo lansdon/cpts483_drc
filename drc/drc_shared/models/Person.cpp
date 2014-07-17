@@ -152,20 +152,20 @@ QString Person::SearchQuery()
                 .arg(this->getZip().replace("'", "''"))
                 .arg(percent);
     }
-    if(this->getCounty() != "")
-    {
-        if(notFirstField)
-        {
-            toReturn += " AND ";
-        }
-        else
-        {
-            notFirstField = true;
-        }
-        toReturn += QString("county_name like '%2%1%2'")
-                .arg(this->getCounty().replace("'", "''"))
-                .arg(percent);
-    }
+//    if(this->getCounty() != "")
+//    {
+//        if(notFirstField)
+//        {
+//            toReturn += " AND ";
+//        }
+//        else
+//        {
+//            notFirstField = true;
+//        }
+//        toReturn += QString("county_name like '%2%1%2'")
+//                .arg(this->getCounty().replace("'", "''"))
+//                .arg(percent);
+//    }
     if(this->getPrimaryPhone() != "")
     {
         if(notFirstField)
@@ -272,7 +272,7 @@ Person *Person::SampleData()
     result->setUnit(QString("unit" + strId));
     result->setCity(QString("city" + strId));
     result->setZip(QString("zip" + strId));
-    result->setCounty(QString("county" + strId));
+//    result->setCounty(QString("county" + strId));
     result->setState(QString("state" + strId));
     result->setPrimaryPhone(QString("PPhone" + strId));
     result->setPrimaryPhoneExt(QString("PPhoneExt" + strId));
@@ -303,8 +303,8 @@ QString Person::Parse(void)
             .arg(this->getUnit().replace("'", "''"))
             .arg(this->getCity().replace("'", "''"))
             .arg(this->getState().replace("'", "''"))
-            .arg(this->getZip().replace("'", "''"))
-            .arg(this->getCounty().replace("'", "''"));
+            .arg(this->getZip().replace("'", "''"));
+//            .arg(this->getCounty().replace("'", "''"));
 
     //Phone Number
     toReturn += QString(" '%1', '%2', '%3',")
@@ -335,8 +335,8 @@ QString Person::UpdateParse()
             .arg(this->getUnit().replace("'", "''"))
             .arg(this->getCity().replace("'", "''"))
             .arg(this->getState().replace("'", "''"))
-            .arg(this->getZip().replace("'", "''"))
-            .arg(this->getCounty().replace("'", "''"));
+            .arg(this->getZip().replace("'", "''"));
+//            .arg(this->getCounty().replace("'", "''"));
 
     //Phone Number
     toUpdate += QString(" primary_phone =  '%1', secondary_phone = '%2', assistance_phone = '%3',")

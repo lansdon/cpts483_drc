@@ -163,7 +163,7 @@ bool StateUpdate::initiated(MediationProcess* arg)
                     advance &= ValidateName(primary->FullName());
                     advance &=              // (phone not empty) AND ((address not empty) OR (email address not empty))
                        ((!primary->getPrimaryPhone().isEmpty()) &&
-                       ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && !primary->getCounty().isEmpty()) ||
+                       ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && (primary->getCounty() != COUNTY_NONE)) ||
                          !primary->getEmail().isEmpty()));
                 }
                 if(!advance)

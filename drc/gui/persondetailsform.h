@@ -53,8 +53,6 @@ private slots:
 
     void on_zipLineEdit_textEdited(const QString &arg1);
 
-    void on_countyLineEdit_textEdited(const QString &arg1);
-
     void on_stateLineEdit_textEdited(const QString &arg1);
 
     void on_numInHomeLineEdit_textEdited(const QString &arg1);
@@ -70,6 +68,8 @@ private slots:
     void on_adultsInHomeSpinBox_valueChanged(int arg1);
 
     void on_assistantLineEdit_editingFinished();
+
+    void on_countyComboBox_currentIndexChanged(int index);
 
 signals:
     void SaveSignaled();
@@ -101,6 +101,8 @@ private:
     bool _bPopup;
 
     bool _bShowButtons;
+
+    void configureComboBoxes();
 
 };
 
