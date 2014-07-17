@@ -24,6 +24,7 @@ DRCBL::DRCBL()
     Mediator::Register(MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS, [this](MediatorArg arg){LoadClosedMediations(arg);});
     Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
     Mediator::Register(MKEY_GUI_REQUEST_RESWA_REPORT, [this](MediatorArg arg){QueryResWaReport(arg);});
+    Mediator::Register(MKEY_GUI_REQUEST_MONTHLY_REPORT, [this](MediatorArg arg){QueryMonthlyReport(arg);});
 }
 
 void DRCBL::ValidateMediationProcess(MediatorArg arg) const
@@ -87,3 +88,10 @@ void DRCBL::QueryResWaReport(MediatorArg arg) const
     Mediator::Call(MKEY_BL_REQUEST_RESWA_REPORT, arg);
     qDebug() << "BL -- AFTER calling report request.";
 }
+
+void DRCBL::QueryMonthlyReport(MediatorArg arg) const
+{
+    Mediator::Call(MKEY_BL_REQUEST_MONTHLY_REPORT, arg);
+}
+
+

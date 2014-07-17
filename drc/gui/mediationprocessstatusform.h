@@ -49,6 +49,12 @@ private slots:
 
     void on_spanishCheckBox_clicked(bool checked);
 
+    void on_regularRadioButton_clicked();
+
+    void on_facilitationRadioButton_clicked();
+
+    void on_phoneRadioButton_clicked();
+
 private:
     Ui::MediationProcessStatusForm *ui;
 
@@ -59,6 +65,8 @@ private:
     void ConfigureComboBoxes(); // Sets the values based on enums.
 
     void MPSaveFinished(MediatorArg arg);
+    void sessionTypeDisplay();
+    void updateSessionType();
 
     MediatorId _SavePendingCallbackId;      // use to unregister callbacks
     MediatorId _PersistMPDoneCallbackId;    // use to unregister callbacks

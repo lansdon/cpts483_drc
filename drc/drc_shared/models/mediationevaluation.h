@@ -27,6 +27,7 @@ public:
     EvaluationAnswers getQ8() const { return _q8; }
     EvaluationAnswers getCallBackPermission() const { return _callBackPermissions; }
     EvaluationAnswers getPromoPermissions() const { return _promoPermissions; }
+    CountyIds getCountyOfMediation() const { return _countyOfMediation; }
 
     //setters
     void setMediationDate(QDate value) { _mediationDate = value; }
@@ -46,6 +47,7 @@ public:
     void setQ8(EvaluationAnswers value) { _q8 = value; }
     void setCallBackPermissions(EvaluationAnswers value) { _callBackPermissions = value; }
     void setPromoPermissions(EvaluationAnswers value) { _promoPermissions = value; }
+    void setCountyOfMediation(CountyIds value) { _countyOfMediation = value; }
 
     // Required Overrides
     QString Parse();
@@ -61,6 +63,7 @@ private:
     QString _mediators, _comments, _name, _email, _dayPhone, _eveningPhone;
     int _q1;
     EvaluationAnswers _q2, _q3, _q4, _q5, _q6, _q7, _q8, _callBackPermissions, _promoPermissions;
+    CountyIds _countyOfMediation;
 
 };
 

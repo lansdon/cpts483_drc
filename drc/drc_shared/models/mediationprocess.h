@@ -70,12 +70,10 @@ public:
     void SetState(DisputeProcessStates state) { _processState = state; }
     void SetInternalState(DisputeProcessInternalStates state) { _processInternalState = state; }
     void SetRequiresSpanish(bool requiresSpanish) { _requiresSpanish = requiresSpanish; }
-    uint getStateTransition() {return _stateTransition;}
-    void setStateTransition(uint input) {_stateTransition = input;}
     void setMediationSessionVector(MediationSessionVector *value) {if(value) _mediationSessionVector = *value;}
-    uint getActiveStateTransition() { return _activeStateTransition; }
-    void setActiveStateTransition(uint value) {_activeStateTransition = value; }
 
+    void SetSessionType(SessionTypes type) { _sessionType = type; }
+    SessionTypes GetSessionType() { return _sessionType; }
 
     // Helpers
     int GetAffectedChildrenCount();
@@ -85,18 +83,15 @@ public:
 
     // Report Helpers
     bool IsSettled();
-#warning BL UNIMPLEMENTED function helpers
-    bool getIsTelephoneConciliation();  // implement
-    bool getIsFacilitation(); // implement
 
 private:
 
     PartyVector _parties;
 
-    uint _stateTransition;
-    uint _activeStateTransition;
-
     DisputeTypes _disputeType;
+
+    // NEW! 7/14/2014
+    SessionTypes _sessionType;
 
     // NEW!  7/4/2014
     DisputeProcessInternalStates _processInternalState;
@@ -126,10 +121,6 @@ private:
     enum CourtCaseTypes _courtCaseType;
     enum CourtOrderTypes _courtOrderType;
     QDateTime _courtOrderExpiration;
-
-    // NEW!  7/12/2014
-    bool _isTelephoneConciliation;  // sessions held over phone
-    bool _isFacilitation;  // DRC is hosting only
 
 };
 

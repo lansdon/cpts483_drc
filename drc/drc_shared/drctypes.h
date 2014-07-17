@@ -108,6 +108,7 @@ enum CountyIds
     COUNTY_FRANLKIN,
     COUNTY_GRANT,
     COUNTY_ADAMS,
+    COUNTY_WALLAWALLA,
     COUNTY_OTHER
 };
 
@@ -193,6 +194,14 @@ enum CourtOrderTypes
 };
 
 /// The string helpers to help convert the enums to strings
+enum SessionTypes
+{
+    MEDIATION_SESSION,
+    FACILITATION_SESSION,
+    PHONE_SESSION
+};
+
+/// String Helpers
 QString StringForCountyIds(CountyIds id);
 QString StringForDisputeProcessStates(DisputeProcessStates id);
 QString StringForDisputeTypes(DisputeTypes id);

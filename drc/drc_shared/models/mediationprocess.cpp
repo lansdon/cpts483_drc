@@ -16,6 +16,7 @@
 //mediationNotes
 //referalSource
 //requiresSpanish
+//sessionType
 
 //Objects to extract from MediationProcess
 //Parties
@@ -26,8 +27,6 @@
 
 MediationProcess::MediationProcess()
     : DBBaseObject()
-    , _stateTransition(0)
-    , _activeStateTransition(0)
     , _disputeType(DISPUTE_T_NONE)
     , _processState(PROCESS_STATE_NONE)
     , _countyOfMediation(COUNTY_NONE)
@@ -37,6 +36,7 @@ MediationProcess::MediationProcess()
     , _courtCaseType(COURT_T_NONE)
     , _courtOrderType(COURT_ORDER_T_NONE)
     , _infoOnly(false)
+    , _sessionType(MEDIATION_SESSION)
 {
 
 }
@@ -48,7 +48,7 @@ MediationProcess::~MediationProcess()
 
 QString MediationProcess::Parse()
 {
-    // UPDATED 7-4-14 for new schema - Works for sample data
+    // UPDATED 7-14-14 for new schema
     QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, %8, ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
@@ -59,7 +59,7 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetInternalState()))
             .arg(QString::number(this->GetCountyId()));
 
-    toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10'")
+    toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10', %11")
             .arg(QString::number(this->GetReferralType()))
             .arg(QString::number(this->GetInquiryType()))
             .arg(this->GetInfoOnly())
@@ -69,14 +69,15 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetCourtOrderType()))
             .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
             .arg(this->GetIsShuttle())
-            .arg(QString::number(this->GetRequiresSpanish()));
+            .arg(QString::number(this->GetRequiresSpanish()))
+            .arg(QString::number(this->GetSessionType()));
 
     return toReturn;
 }
 
 QString MediationProcess::UpdateParse()
 {
-    //Updated 7-4-14 for new schema
+    //Updated 7-14-14 for new schema
     QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeInternalState = %5, DisputeCounty = %6, ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd"))
@@ -92,13 +93,14 @@ QString MediationProcess::UpdateParse()
             .arg(this->GetInfoOnly())
             .arg(this->GetIsCourtCase());
 
-    toUpdate += QString("CourtDate = '%1', CourtCaseType = %2, CourtOrderType = %3, CourtOrderExpiration = '%4', ShuttleRequired = '%5', TranslatorRequired = '%6'")
+    toUpdate += QString("CourtDate = '%1', CourtCaseType = %2, CourtOrderType = %3, CourtOrderExpiration = '%4', ShuttleRequired = '%5', TranslatorRequired = '%6', SessionType = %7")
             .arg(this->GetCourtDate().toString("yyyy-MM-dd"))
             .arg(QString::number(this->GetCourtType()))
             .arg(QString::number(this->GetCourtOrderType()))
             .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
             .arg(this->GetIsShuttle())
-            .arg(this->GetRequiresSpanish());
+            .arg(this->GetRequiresSpanish())
+            .arg(QString::number(this->GetSessionType()));
 
     return toUpdate;
 }
@@ -149,6 +151,7 @@ MediationProcess *MediationProcess::SampleData()
     result->_requiresSpanish = rand() % 2;
     result->_processInternalState = (DisputeProcessInternalStates)( rand() % 5 + 1 );
     result->_referalSource = (ReferralTypes)(rand() % 8 + 1);
+    result->_sessionType = (SessionTypes) (rand() % 3 + 1);
 
     MediationSessionVector *temp = new MediationSessionVector;
     for(int i = 0; i< rand() % 5 + 1; i++)

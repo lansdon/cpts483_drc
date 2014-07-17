@@ -22,6 +22,7 @@ public:
     void LoadClosedMediations(MediatorArg arg) const;
     void QueryMediations(MediatorArg arg) const;
     void QueryResWaReport(MediatorArg arg) const;
+    void QueryMonthlyReport(MediatorArg arg) const;
 private:
 };
 

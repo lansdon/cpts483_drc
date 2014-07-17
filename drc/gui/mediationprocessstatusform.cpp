@@ -65,7 +65,7 @@ void MediationProcessStatusForm::Update()
     ui->courDateTimeEdit->setDateTime(_mediationProcess->GetCourtDate());
     ui->courtOrderComboBox->setCurrentIndex(_mediationProcess->GetCourtOrderType());
     ui->expirationDateTimeEdit->setDateTime(_mediationProcess->GetCourtOrderExpiration());
-
+    sessionTypeDisplay();
     //    if(_mediationProcess->GetId() == 0)
 //        ui->mediationIdDiaplayLabel->setText("NEW");
 //    else
@@ -76,6 +76,40 @@ void MediationProcessStatusForm::Update()
     on_courtCheckBox_clicked();
 
     SetSavedLabel(isSaved); // Preserve labels
+}
+//session type display function to set the radio buttons
+void MediationProcessStatusForm::sessionTypeDisplay()
+{
+    switch (_mediationProcess->GetSessionType()){
+    case MEDIATION_SESSION:
+        ui->regularRadioButton->setChecked(true);
+        break;
+    case FACILITATION_SESSION:
+        ui->facilitationRadioButton->setChecked(true);
+        break;
+    case PHONE_SESSION:
+        ui->phoneRadioButton->setChecked(true);
+    default:
+        break;
+    }
+}
+
+//update session type to update the model based off gui
+void MediationProcessStatusForm::updateSessionType()
+{
+    if(ui->regularRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(MEDIATION_SESSION);
+    }
+    else if(ui->facilitationRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(FACILITATION_SESSION);
+    }
+    else if(ui->phoneRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(PHONE_SESSION);
+    }
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 // Sets the values based on enums.
@@ -101,6 +135,7 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
     ui->countyComboBox->setItemText(COUNTY_FRANLKIN, StringForCountyIds(COUNTY_FRANLKIN));
     ui->countyComboBox->setItemText(COUNTY_GRANT, StringForCountyIds(COUNTY_GRANT));
     ui->countyComboBox->setItemText(COUNTY_ADAMS, StringForCountyIds(COUNTY_ADAMS));
+    ui->countyComboBox->setItemText(COUNTY_WALLAWALLA, StringForCountyIds((COUNTY_WALLAWALLA)));
     ui->countyComboBox->setItemText(COUNTY_OTHER, StringForCountyIds(COUNTY_OTHER));
 
     ui->referralComboBox->setItemText(REFERRAL_T_NONE, StringForReferralTypes(REFERRAL_T_NONE));
@@ -256,4 +291,19 @@ void MediationProcessStatusForm::on_spanishCheckBox_clicked(bool checked)
 {
     _mediationProcess->SetRequiresSpanish(checked);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::on_regularRadioButton_clicked()
+{
+    updateSessionType();
+}
+
+void MediationProcessStatusForm::on_facilitationRadioButton_clicked()
+{
+    updateSessionType();
+}
+
+void MediationProcessStatusForm::on_phoneRadioButton_clicked()
+{
+    updateSessionType();
 }

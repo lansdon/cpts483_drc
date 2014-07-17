@@ -24,6 +24,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_DB_GET_ALL_USER, [this](MediatorArg arg) {GetAllUsers(arg);});
     Mediator::Register(MKEY_GUI_SAVE_EVALUATION, [this](MediatorArg arg) {InsertEvaluation(arg);});
     Mediator::Register(MKEY_BL_REQUEST_RESWA_REPORT, [this](MediatorArg arg) {QueryResWaReport(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_MONTHLY_REPORT, [this](MediatorArg arg) {QueryMonthlyReport(arg);});
 
 }
 //========================================================================
@@ -36,6 +37,7 @@ bool DRCDB::CreateEvaluationTable(const QString& evaluationTableName)
     evaluationTableColumns.push_back(QString("Id integer primary key autoincrement null"));
     evaluationTableColumns.push_back(QString("startDate Date"));
     evaluationTableColumns.push_back(QString("endDate Date"));
+    evaluationTableColumns.push_back(QString("CountyId int"));
     evaluationTableColumns.push_back(QString("FairYes int"));
     evaluationTableColumns.push_back(QString("FairNo int"));
     evaluationTableColumns.push_back(QString("FairSomewhat int"));
@@ -71,8 +73,9 @@ void DRCDB::InsertEvaluation(MediatorArg arg)
         if(eval)
         {
             QSqlQuery EvalQuery(database);
-            QString EvalCommandString = QString("Select * from Evaluation_table where startDate < '%1' and endDate > '%1'")
-                                                .arg(eval->GetCreatedDate().toString("yyyy-MM-dd"));
+            QString EvalCommandString = QString("Select * from Evaluation_table where startDate < '%1' and endDate > '%1' and CountyId = %2")
+                                                .arg(eval->GetCreatedDate().toString("yyyy-MM-dd"))
+                                                .arg(QString::number(eval->getCountyOfMediation()));
             this->ExecuteCommand(EvalCommandString, EvalQuery);
             if(!EvalQuery.next())
             {
@@ -107,109 +110,109 @@ void DRCDB::InsertEvaluation(MediatorArg arg)
                 int stored = 0;
                 if(eval->getQ3() == EVALUATION_ANSWERS_YES)
                 {
-                    stored = EvalQuery.value(3).toInt();
+                    stored = EvalQuery.value(4).toInt();
                     stored++;
                     values += QString("FairYes = %1, ").arg(stored);
                 }
                 else if(eval->getQ3() == EVALUATION_ANSWERS_NO)
                 {
-                    stored = EvalQuery.value(4).toInt();
+                    stored = EvalQuery.value(5).toInt();
                     stored++;
                     values += QString("FairNo = %1, ").arg(stored);
                 }
                 else if(eval->getQ3() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
-                    stored = EvalQuery.value(5).toInt();
+                    stored = EvalQuery.value(6).toInt();
                     stored++;
                     values += QString("FairSomewhat = %1, ").arg(stored);
                 }
                 if(eval->getQ4() == EVALUATION_ANSWERS_YES)
                 {
-                    stored = EvalQuery.value(6).toInt();
+                    stored = EvalQuery.value(7).toInt();
                     stored++;
                     values += QString("ImproveYes = %1, ").arg(stored);
                 }
                 else if(eval->getQ4() == EVALUATION_ANSWERS_NO)
                 {
-                    stored = EvalQuery.value(7).toInt();
+                    stored = EvalQuery.value(8).toInt();
                     stored++;
                     values += QString("ImproveNo = %1, ").arg(stored);
                 }
                 else if(eval->getQ4() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
-                    stored = EvalQuery.value(8).toInt();
+                    stored = EvalQuery.value(9).toInt();
                     stored++;
                     values += QString("ImproveSomewhat = %1, ").arg(stored);
                 }
                 if(eval->getQ5() == EVALUATION_ANSWERS_YES)
                 {
-                    stored = EvalQuery.value(9).toInt();
+                    stored = EvalQuery.value(10).toInt();
                     stored++;
                     values += QString("CommunicateYes = %1, ").arg(stored);
                 }
                 else if(eval->getQ5() == EVALUATION_ANSWERS_NO)
                 {
-                    stored = EvalQuery.value(10).toInt();
+                    stored = EvalQuery.value(11).toInt();
                     stored++;
                     values += QString("CommunicateNo = %1, ").arg(stored);
                 }
                 else if(eval->getQ5() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
-                    stored = EvalQuery.value(11).toInt();
+                    stored = EvalQuery.value(12).toInt();
                     stored++;
                     values += QString("CommunicateSomewhat = %1, ").arg(stored);
                 }
                 if(eval->getQ6() == EVALUATION_ANSWERS_YES)
                 {
-                    stored = EvalQuery.value(12).toInt();
+                    stored = EvalQuery.value(13).toInt();
                     stored++;
                     values += QString("UnderstandYes = %1, ").arg(stored);
                 }
                 else if(eval->getQ6() == EVALUATION_ANSWERS_NO)
                 {
-                    stored = EvalQuery.value(13).toInt();
+                    stored = EvalQuery.value(14).toInt();
                     stored++;
                     values += QString("UnderstandNo = %1, ").arg(stored);
                 }
                 else if(eval->getQ6() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
-                    stored = EvalQuery.value(14).toInt();
+                    stored = EvalQuery.value(15).toInt();
                     stored++;
                     values += QString("UnderstandSomewhat = %1, ").arg(stored);
                 }
                 if(eval->getQ7() == EVALUATION_ANSWERS_YES)
                 {
-                    stored = EvalQuery.value(15).toInt();
+                    stored = EvalQuery.value(16).toInt();
                     stored++;
                     values += QString("RecommendYes = %1, ").arg(stored);
                 }
                 else if(eval->getQ7() == EVALUATION_ANSWERS_NO)
                 {
-                    stored = EvalQuery.value(16).toInt();
+                    stored = EvalQuery.value(17).toInt();
                     stored++;
                     values += QString("RecommendNo = %1, ").arg(stored);
                 }
                 else if(eval->getQ7() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
-                    stored = EvalQuery.value(17).toInt();
+                    stored = EvalQuery.value(18).toInt();
                     stored++;
                     values += QString("RecommendSomewhat = %1, ").arg(stored);
                 }
                 if(eval->getQ8() == EVALUATION_ANSWERS_YES)
                 {
-                    stored = EvalQuery.value(18).toInt();
+                    stored = EvalQuery.value(19).toInt();
                     stored++;
                     values += QString("AgreementYes = %1 ").arg(stored);
                 }
                 else if(eval->getQ8() == EVALUATION_ANSWERS_NO)
                 {
-                    stored = EvalQuery.value(19).toInt();
+                    stored = EvalQuery.value(20).toInt();
                     stored++;
                     values += QString("AgreementNo = %1 ").arg(stored);
                 }
                 else if(eval->getQ8() == EVALUATION_ANSWERS_SOMEWHAT)
                 {
-                    stored = EvalQuery.value(20).toInt();
+                    stored = EvalQuery.value(21).toInt();
                     stored++;
                     values += QString("AgreementSomewhat = %1 ").arg(stored);
                 }
@@ -355,6 +358,7 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     mediation_table_columns.push_back(QString("CourtOrderExpiration Date"));
     mediation_table_columns.push_back(QString("ShuttleRequired Bool"));
     mediation_table_columns.push_back(QString("TranslatorRequired Bool"));
+    mediation_table_columns.push_back(QString("SessionType integer"));
 
     return CreateTable(mediation_table_name, mediation_table_columns);
 }
@@ -413,6 +417,7 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
     session_table_columns.push_back(QString("Observer2 char(128)"));
+    session_table_columns.push_back(QString("SessionOutcome integer"));
     session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
 
     return CreateTable(session_table_name, session_table_columns);
@@ -504,9 +509,10 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         }
 
         QSqlQuery query(database);
-        QString command = QString("Select * from Session_table where UpdatedDate < '%1' and UpdatedDate > '%2'")
+        QString command = QString("Select * from Session_table where UpdatedDate < '%1' and UpdatedDate > '%2' and DisputeCounty = %3")
                             .arg(end.toString("yyyy-MM-dd"))
-                            .arg(start.toString("yyyy-MM-dd"));
+                            .arg(start.toString("yyyy-MM-dd"))
+                            .arg(QString::number(params->GetCounty()));
         this->ExecuteCommand(command, query);
 
         QString mediationIdMatches = "";
@@ -526,9 +532,10 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         report = new ResWaReport(mpVec);
 
         // For section 2 data
-        command = QString("Select * from Mediation_Table wehre UpdatedDate < '%1' and UpdatedDate > '%2'")
+        command = QString("Select * from Mediation_Table where UpdatedDate < '%1' and UpdatedDate > '%2' and DisputeCounty = %3")
                         .arg(end.toString("yyyy-MM-dd"))
-                        .arg(start.toString("yyyy-MM-dd"));
+                        .arg(start.toString("yyyy-MM-dd"))
+                        .arg(QString::number(params->GetCounty()));
         this->ExecuteCommand(command, query);
 
         mediationIdMatches = "";
@@ -544,10 +551,12 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         }
         MediationProcessVector* temp = LoadMediations(mediationIdMatches);
         int callCount = 0;
-        for(int i = 0; i < temp->size(); i++)
+        for(size_t i = 0; i < temp->size(); i++)
         {
             MediationProcess* proc = temp->at(i);
-            if((proc->GetState() == PROCESS_STATE_CLOSED_WITH_SESSION) && (proc->getMediationSessionVector()->size() == 0))
+            // TODO: Perhaps this could say  || proc->GetState() == PROCESS_STATE_CLOSED_NO_SESSION  which should include info only mps
+            if(((proc->GetState() == PROCESS_STATE_CLOSED_WITH_SESSION) && (proc->getMediationSessionVector()->size() == 0)) ||
+                 (proc->GetState() == PROCESS_STATE_CLOSED_NO_SESSION))
             {
                 callCount++;
             }
@@ -556,8 +565,9 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
 
         // For section 8 data
         QSqlQuery evalQuery(database);
-        QString evalCommand = QString("Select * from Evaluation_Table where startdate = '%1'")
-                                .arg(start.toString("yyyy-MM-dd"));
+        QString evalCommand = QString("Select * from Evaluation_Table where startdate = '%1' and CountyId = %2")
+                                .arg(start.toString("yyyy-MM-dd"))
+                                .arg(QString::number(params->GetCounty()));
 
         this->ExecuteCommand(evalCommand,evalQuery);
 
@@ -592,6 +602,21 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
     Mediator::Call(MKEY_DB_REQUEST_RESWA_REPORT_DONE,  report);
 }
 
+// Arg is a ReportRequest*  !!
+void DRCDB::QueryMonthlyReport(MediatorArg arg)
+{
+    ResWaReport* report = nullptr;
+    ReportRequest* params = nullptr;
+    if(arg.IsSuccessful() && (params = arg.getArg<ReportRequest*>()))
+    {
+        int month = params->GetMonth();
+        int year = params->GetYear();
+        CountyIds county = params->GetCounty();
+    }
+
+    // !! TO DO - This should return a monthly report!!!!
+    Mediator::Call(MKEY_DB_REQUEST_MONTHLY_REPORT_DONE, nullptr /* FIX THIS!! */);
+}
 //========================================================================
 
 
@@ -644,7 +669,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         }
         process->SetIsShuttle(Mediation_query.value(17).toBool());
         process->SetRequiresSpanish(Mediation_query.value(18).toBool());
-
+        process->SetSessionType((SessionTypes)Mediation_query.value(19).toInt());
 
         //Grab sessions based on the mediation id
         QSqlQuery sessionQuery(database);
@@ -883,7 +908,7 @@ void DRCDB::LoadPendingMediations(MediatorArg arg)
      Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
+    QString Mediation_command_string = QString("Select * from Mediation_Table where DisputeState = %1 order by UpdatedDateTime desc")
                                         .arg(PROCESS_STATE_PENDING);
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
@@ -899,7 +924,10 @@ void DRCDB::LoadPendingMediations(MediatorArg arg)
         first = false;
     }
 
-    MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
+    MediationProcessVector* processVector = nullptr;
+
+    if(mediationIdMatches != "");
+        processVector = LoadMediations(mediationIdMatches);
 
     Mediator::Call(MKEY_DB_REQUEST_PENDING_MEDIATIONS_DONE, processVector);
 }
@@ -909,7 +937,7 @@ void DRCDB::LoadScheduledMediations(MediatorArg arg)
      Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
+    QString Mediation_command_string = QString("Select * from Mediation_Table where DisputeState = %1 order by UpdatedDateTime desc")
                                         .arg(PROCESS_STATE_SCHEDULED);
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
@@ -925,7 +953,10 @@ void DRCDB::LoadScheduledMediations(MediatorArg arg)
         first = false;
     }
 
-    MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
+    MediationProcessVector* processVector = nullptr;
+
+    if(mediationIdMatches != "");
+        processVector = LoadMediations(mediationIdMatches);
 
     Mediator::Call(MKEY_DB_REQUEST_SCHEDULED_MEDIATIONS_DONE, processVector);
 }
@@ -935,8 +966,11 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
      Q_UNUSED(arg);  // don't care about incoming arg.
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = QString("Select * from Mediation_Table order by UpdatedDateTime desc where DisputeState = %1")
-                                        .arg(PROCESS_STATE_CLOSED_WITH_SESSION);
+    QString Mediation_command_string = QString("Select * from Mediation_Table where DisputeState in (%1, %2) order by UpdatedDateTime desc")
+                                        .arg(PROCESS_STATE_CLOSED_WITH_SESSION)
+                                        .arg(PROCESS_STATE_CLOSED_NO_SESSION);
+#warning LoadClosedMediations only loads CLOSED_WITH_SESSION
+    // TODO:  Because an additional Dispute State was added, DisputeState PROCESS_STATE_CLOSED_WITH_SESSION also needs to be added
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";
@@ -951,7 +985,10 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
         first = false;
     }
 
-    MediationProcessVector* processVector = LoadMediations(mediationIdMatches);
+    MediationProcessVector* processVector = nullptr;
+
+    if(mediationIdMatches != "");
+        processVector = LoadMediations(mediationIdMatches);
 
 
     Mediator::Call(MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE, processVector);
@@ -978,7 +1015,7 @@ void DRCDB::InsertMediation(MediatorArg arg)
     // Insert the mediation process as a whole (creates a new dispute)
     MediationProcess* process = nullptr;
     process = arg.getArg<MediationProcess*>();
-    qDebug() << InsertObject(process);
+    qDebug() << "Insert mediation " << InsertObject(process);
 
     // Insert the notes.
     Note* note;
@@ -1004,8 +1041,8 @@ void DRCDB::InsertMediation(MediatorArg arg)
 
         if(person->GetPrimary()->getLastName() != "")
         {
-            qDebug() << InsertObject(person->GetPrimary());
-            qDebug() << InsertClientObject(process, person);
+            qDebug() << "Insert person " << InsertObject(person->GetPrimary());
+            qDebug() << "Insert client " << InsertClientObject(process, person);
             clientIds.push_back((process->GetPartyAtIndex(i)->GetId()));
         }
     }
@@ -1017,11 +1054,11 @@ void DRCDB::InsertMediation(MediatorArg arg)
         // Linkage will be preserved through the id being linked
         session = process->getMediationSessionVector()->at(j);
         // Insert the sessions, linked to the process
-        qDebug() << InsertLinkedObject(process->GetId(), session);
+        qDebug() << "insert session " <<InsertLinkedObject(process->GetId(), session);
         for(size_t k = 0; k < clientIds.size(); k++)
         {
             // Insert Data particular to session, linked to client and session
-            qDebug() << InsertClientSessionData(session->getClientSessionDataVectorAt(k), session->GetId(), clientIds[k]);
+            qDebug() << "insert clientsesion data " << InsertClientSessionData(session->getClientSessionDataVectorAt(k), session->GetId(), clientIds[k]);
         }
     }
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);

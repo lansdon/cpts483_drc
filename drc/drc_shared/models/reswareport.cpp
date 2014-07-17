@@ -141,9 +141,9 @@ void ResWaReport::BuildReport()
 
     _report->print(&printer);
 
-
     OpenReportPDF();
 }
+
 ///////////////// Report Builder - INTERNAL ///////////////////
 // These functions build the different sections of the report
 ///////////////////////////////////////////////////////////////
@@ -410,8 +410,6 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     // VALUES
     TextToCell(tableH, 0, 1, QString::number(_numAdditionalServed), &_tableCellBlue);
     TextToCell(tableH, 1, 1, QString::number(_numChildAdditionalServed), &_tableCellBlue);
-
-
 }
 
 void ResWaReport::BuildOutreachSection(QTextCursor& cursor)
@@ -618,7 +616,8 @@ int ResWaReport::GetNumberAttending(MediationSession* session)
     return result;
 }
 
-//
+// Looks for observers.  Any found are added as training attendees.
+// Each session that has any observers adds to the number of trainings conducted.
 void ResWaReport::CalculateTraining(int& numTrainings, int& numAttendingTraining)
 {
     numTrainings = numAttendingTraining = 0;
@@ -647,11 +646,13 @@ void ResWaReport::CalculateTraining(int& numTrainings, int& numAttendingTraining
             numAttendingTraining += curAttendees;
         }
     }
+    // The RESWA report calls this one a "Freebie" in that it is copied over to the
+    // People section of the report automatically.  So, here, we just copy it too.
+    _numByTraining = numAttendingTraining;
 }
 
 void ResWaReport::CalculatePeople()
 {
-#warning RESWA BL NOT FULLY IMPLEMENTED
     // zero it all out so our numbers are sure to be fresh.
     _numByPhone   //
     = _numChildByPhone //
@@ -665,64 +666,95 @@ void ResWaReport::CalculatePeople()
     = _numChildBySessionFacilliation
     = _numIndirectly
     = _numChildIndirectly
-    = _numByTraining   // equals section 4 (TRAINING) total
+    // _numByTraining   // equals section 4 (TRAINING) total, so we don't want to clear it.
     = _numChildByTraining
     = _numAdditionalServed
     = _numChildAdditionalServed = 0;
 
+    bool isChild = false;
+    bool isConflictCoaching = false;
 
-//    foreach(MediationProcess* mp,  *_processes)
-//    {
-//        //  For each client in the list of clients...
+    foreach(MediationProcess* mp,  *_processes)
+    {
+        //  For each client in the list of clients... but not for each session
+        // check is child... flip a bool if true  (children count in both the child counts and the totals)
+        foreach(Party* party, *mp->GetParties())
+        {
+            // We currently have no mecanism for marking a client as a child, because
+            // the DRC does not have any child clients, so, I've added this part just in case
+            // a mechanism is added later.  Then one would just have to do that request once here.
+            //            if (party is child) {
+            //                isChild = true;
+            //            }
+            //            else {
+            //                isChild = false;
+            //            }
 
-//        if (info only || (state == CLOSED_NO_MED)) {
-//            // then this was counted in the Total Calls count in the Event section of the report
-//            if (conflict coaching) {
-//                _numByCoaching++;
-//                if(any listed clients == child) {
-//                       _numChildByCoaching++;
-//                }
-//            }
-//            _numByPhone++;
-//            // were any of those children?
-//            if(any listed clients == child) {
-//                _numChildByPhone++;  // this is likely always 0.
-//            }
-//        }
 
-//        foreach(MediationSession* session, *mp->getMediationSessionVector())
-//        {
-//            if(session->isTelephoneConciliation())
-//            {
-//                _numByPhoneConcilliation++;
-//                if (any client is a child) {
-//                    _numChildByPhoneConcilliation++;
-//                }
-//            }
-//            else if (session->isFacilitation())
-//            {
-//                _numByFacilitation = _numBySessionFacilliation + session->;
-//                if (any client is a child) {
-//                    _numChildByPhoneConcilliation++;
-//                }
-//            }
-//         }
-//    }
+            // The sum of _numByCoaching and _numByPhone should equal the number of total calls
+            // from the CALLS section, assuming a call is only ever one person.
+            if (mp->GetInfoOnly() || (mp->GetState() == PROCESS_STATE_CLOSED_NO_SESSION)) {
+                // All Statistics for Info only intakes are collected here.
 
-    // Of all the calls received at the DRC, those calls either result in those people being served
-    // by telephone or by conflict coaching.  So, any
+                // PARTS A and B
+                // the DRC does not currently do conflict coaching
+                if (isConflictCoaching) {
+                    _numByCoaching++;
+                    if(isChild) {
+                        _numChildByCoaching++;
+                    }
+                }
+                else {
+                    _numByPhone++;
+                    if(isChild) {
+                        _numChildByPhone++;  // this is likely always 0.
+                    }
+                }
+            }
+            else {
+                // All statistics for mediations that had sessions are collected here.
 
-    _numByPhoneConcilliation = 104;
-    _numChildByPhoneConcilliation = 105;
-    _numBySessions = 106;
-     _numChildBySessions
-    = _numBySessionFacilliation
-    = _numChildBySessionFacilliation
-    = _numIndirectly
-    = _numChildIndirectly
-    = _numByTraining   // equals section 4 (TRAINING) total
-    = _numChildByTraining
-    = _numAdditionalServed
-    = _numChildAdditionalServed = 0;
+                // PARTS C, D, and E
+                // The sum of _numByPhoneConciliation, _numBySessionFacilitation, and _numBySessions
+                // represents all of the people involved in the total number of cases from the
+                // CASES section.
+                switch(mp->GetSessionType())
+                {
+                case PHONE_SESSION:
+                    _numByPhoneConcilliation++;
+                    if(isChild) {
+                        _numChildByPhoneConcilliation++;
+                    }
+                    break;
+                case FACILITATION_SESSION:
+                    _numBySessionFacilliation++;
+                    if(isChild) {
+                        _numChildBySessionFacilliation++;
+                    }
+                    break;
+                case MEDIATION_SESSION:
+                    _numBySessions++;
+                    if(isChild) {
+                        _numChildBySessions++;
+                    }
+                    break;
+                default:
+                    // weird.  not counted cuz its not a type on the report
+                    // (we don't know what it is), but we shouldn't get here.
+                    break;
+                };
 
+                // PART F
+                _numIndirectly = _numIndirectly + party->GetPrimary()->getNumberInHousehold();
+                _numChildIndirectly = _numChildIndirectly + (int)party->GetChildren().size();
+
+                // PART G
+                // The training number gets copied over when the training section is calculated.
+
+                // PART H
+                // Additional people served would be a unique case.  Since we don't have any other fields to check for
+                // we will just leave _numAdditionalServed and _numChildAdditionalServed as zero for now.
+            }
+        }
+    }
 }

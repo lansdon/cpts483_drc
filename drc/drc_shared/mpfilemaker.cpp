@@ -169,10 +169,6 @@ void MPFileMaker::parseProcessToFile(QTextStream &out, MediationProcess *mp)
     out << mp->GetCreatedDate().toString() << "\n";
     out << "MP_DATABASE_OBJ_UPDATE_DATE: ";
     out << mp->GetUpdatedDate().toString() << "\n";
-    out << "MP_STATE_TRANSITION: ";
-    out << mp->getStateTransition() << "\n";
-    out << "MP_ACTIVE_STATE_TRANSITION: ";
-    out << mp->getActiveStateTransition() << "\n";
     out << "MP_CREATION_DATE: ";
     out << mp->GetCreatedDate().toString() << "\n";
     out << "MP_COUNTY_ID: ";

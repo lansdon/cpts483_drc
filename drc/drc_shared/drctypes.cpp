@@ -18,6 +18,7 @@ QString StringForCountyIds(CountyIds id)
     case COUNTY_FRANLKIN: result = "Franklin County"; break;
     case COUNTY_GRANT: result = "Grant County"; break;
     case COUNTY_NONE: result = "None"; break;
+    case COUNTY_WALLAWALLA: result = "Walla Walla"; break;
     case COUNTY_OTHER: result = "Other"; break;
     default: result = "<error>"; break;
     }
@@ -33,6 +34,7 @@ QString StringForDisputeProcessStates(DisputeProcessStates id)
     case PROCESS_STATE_PENDING: result = "Pending"; break;
     case PROCESS_STATE_SCHEDULED: result = "Scheduled"; break;
     case PROCESS_STATE_CLOSED_WITH_SESSION: result = "Closed"; break;
+    case PROCESS_STATE_CLOSED_NO_SESSION: result = "Closed No Session"; break;
     default: result = "<error>"; break;
     }
     return result;
@@ -61,6 +63,20 @@ QString StringForDisputeTypes(DisputeTypes id)
     }
     return result;
 }
+
+QString StringForSessionTypes(SessionTypes id)
+{
+    QString result;
+    switch(id)
+    {
+    case MEDIATION_SESSION: result = "Mediation"; break;
+    case FACILITATION_SESSION: result = "Faciliation"; break;
+    case PHONE_SESSION: result = "Phone Conciliation"; break;
+    default: result = "<error>"; break;
+    }
+    return result;
+}
+
 
 QString StringForReferralTypes(ReferralTypes id)
 {

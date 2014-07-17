@@ -7,16 +7,16 @@
 
 CurrentUser::CurrentUser()
 {
-    // Make sure to set our _currentUser to null for future checks.
+    /// Make sure to set our _currentUser to null for future checks.
     _currentUser = nullptr;
 
-    // Register our LoginUser method to calls
+    /// Register our LoginUser method to calls
     Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){LoginUser(arg);});
 }
 CurrentUser::CurrentUser(const CurrentUser& User)
 {
     Q_UNUSED(User);
-    // Filler
+    /// Filler
 }
 
 void CurrentUser::Init()
@@ -32,7 +32,7 @@ CurrentUser& CurrentUser::Instance()
 
 bool CurrentUser::LoginUser(User* NewUser)
 {
-    // Maybe do some error checking here.  Maybe make sure the permissions are set right?  IDK...
+    /// Maybe do some error checking here.  Maybe make sure the permissions are set right?  IDK...
     Instance()._currentUser = NewUser;
 
 	return true;
