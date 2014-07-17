@@ -574,29 +574,29 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         while(evalQuery.next())
         {
             // populate the evaluation totals
-            report->SetQ1Yes(evalQuery.value(3).toInt());
-            report->SetQ1No(evalQuery.value(4).toInt());
-            report->SetQ1Somewhat(evalQuery.value(5).toInt());
+            report->SetQ1Yes(evalQuery.value(4).toInt());
+            report->SetQ1No(evalQuery.value(5).toInt());
+            report->SetQ1Somewhat(evalQuery.value(6).toInt());
 
-            report->SetQ2Yes(evalQuery.value(6).toInt());
-            report->SetQ2No(evalQuery.value(7).toInt());
-            report->SetQ2Somewhat(evalQuery.value(8).toInt());
+            report->SetQ2Yes(evalQuery.value(7).toInt());
+            report->SetQ2No(evalQuery.value(8).toInt());
+            report->SetQ2Somewhat(evalQuery.value(9).toInt());
 
-            report->SetQ3Yes(evalQuery.value(9).toInt());
-            report->SetQ3No(evalQuery.value(10).toInt());
-            report->SetQ3Somewhat(evalQuery.value(11).toInt());
+            report->SetQ3Yes(evalQuery.value(10).toInt());
+            report->SetQ3No(evalQuery.value(11).toInt());
+            report->SetQ3Somewhat(evalQuery.value(12).toInt());
 
-            report->SetQ4Yes(evalQuery.value(12).toInt());
-            report->SetQ4No(evalQuery.value(13).toInt());
-            report->SetQ4Somewhat(evalQuery.value(14).toInt());
+            report->SetQ4Yes(evalQuery.value(13).toInt());
+            report->SetQ4No(evalQuery.value(14).toInt());
+            report->SetQ4Somewhat(evalQuery.value(15).toInt());
 
-            report->SetQ5Yes(evalQuery.value(15).toInt());
-            report->SetQ5No(evalQuery.value(16).toInt());
-            report->SetQ5Somewhat(evalQuery.value(17).toInt());
+            report->SetQ5Yes(evalQuery.value(16).toInt());
+            report->SetQ5No(evalQuery.value(17).toInt());
+            report->SetQ5Somewhat(evalQuery.value(18).toInt());
 
-            report->SetQ6Yes(evalQuery.value(18).toInt());
-            report->SetQ6No(evalQuery.value(19).toInt());
-            report->SetQ6Somewhat(evalQuery.value(20).toInt());
+            report->SetQ6Yes(evalQuery.value(19).toInt());
+            report->SetQ6No(evalQuery.value(20).toInt());
+            report->SetQ6Somewhat(evalQuery.value(21).toInt());
         }
     }
     Mediator::Call(MKEY_DB_REQUEST_RESWA_REPORT_DONE,  report);
