@@ -359,4 +359,5 @@ void MediationProcessView::on_partyTabWidget_tabCloseRequested(int index)
 void MediationProcessView::PrintMediationProcessPressed()
 {
     //create MP to PDF send current MP to it
+    qDebug() << "Print Mediation Pressed!";
 }
