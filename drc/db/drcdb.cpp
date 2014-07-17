@@ -1246,9 +1246,9 @@ void DRCDB::AuthenticateUser(MediatorArg arg)
                 {
                     user->SetType(USER_T_ADMIN);
                 }
+                arg.SetSuccessful(true);
+                arg.SetArg(user);
             }
-            arg.SetSuccessful(true);
-            arg.SetArg(user);
         }
     }
     else
