@@ -69,12 +69,18 @@
         <item>
          <layout class="QHBoxLayout" name="horizontalLayout_4">
           <item>
-           <widget class="QLabel" name="saveStatusLabel">
+           <widget class="QLabel" name="statusMessageLabel">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>600</width>
+              <height>0</height>
+             </size>
             </property>
             <property name="maximumSize">
              <size>
@@ -83,7 +89,7 @@
              </size>
             </property>
             <property name="text">
-             <string>Unsaved Changes</string>
+             <string/>
             </property>
             <property name="wordWrap">
              <bool>true</bool>
@@ -555,8 +561,11 @@
       </item>
       <item>
        <layout class="QFormLayout" name="formLayout_2">
-        <item row="3" column="1">
-         <widget class="QLabel" name="lastActivityDisplayLabel">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+        </property>
+        <item row="2" column="0" colspan="2">
+         <widget class="QLabel" name="currentStatusLabel">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
             <horstretch>0</horstretch>
@@ -569,7 +578,7 @@
            </font>
           </property>
           <property name="text">
-           <string>&lt;date&gt;</string>
+           <string>Current Status:</string>
           </property>
          </widget>
         </item>
@@ -588,6 +597,24 @@
           </property>
           <property name="text">
            <string>Last Activity:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QLabel" name="lastActivityDisplayLabel">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
+          <property name="font">
+           <font>
+            <pointsize>12</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>&lt;date&gt;</string>
           </property>
          </widget>
         </item>
@@ -627,36 +654,12 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0" colspan="2">
-         <widget class="QLabel" name="currentStatusLabel">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>12</pointsize>
-           </font>
-          </property>
+        <item row="1" column="0" colspan="2">
+         <widget class="QLabel" name="saveStatusLabel">
           <property name="text">
-           <string>Current Status:</string>
+           <string>Saved?</string>
           </property>
          </widget>
-        </item>
-        <item row="1" column="0">
-         <spacer name="verticalSpacer">
-          <property name="orientation">
-           <enum>Qt::Vertical</enum>
-          </property>
-          <property name="sizeHint" stdset="0">
-           <size>
-            <width>20</width>
-            <height>40</height>
-           </size>
-          </property>
-         </spacer>
         </item>
        </layout>
       </item>

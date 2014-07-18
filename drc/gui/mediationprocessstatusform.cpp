@@ -68,14 +68,14 @@ void MediationProcessStatusForm::Update()
     ui->courtOrderComboBox->setCurrentIndex(_mediationProcess->GetCourtOrderType());
     ui->expirationDateTimeEdit->setDateTime(_mediationProcess->GetCourtOrderExpiration());
     sessionTypeDisplay();
-    //    if(_mediationProcess->GetId() == 0)
-//        ui->mediationIdDiaplayLabel->setText("NEW");
-//    else
-//        ui->mediationIdDiaplayLabel->setText(QString::number(_mediationProcess->GetId()));
 
     ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
 
     on_courtCheckBox_clicked();
+
+
+    ui->statusMessageLabel->setStyleSheet("QLabel#statusMessageLabel { color : orange; }");
+    ui->statusMessageLabel->setText(_mediationProcess->GetStateMessage());
 
     SetSavedLabel(isSaved); // Preserve labels
 }
@@ -229,14 +229,10 @@ void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)
 
 void MediationProcessStatusForm::MPSaveFinished(MediatorArg arg)
 {
-    if(arg.IsSuccessful() && arg.ErrorMessage().length() == 0)
-    {
-        SetSavedLabel(true);
-    }
-    else
-    {
-        SetStatusLabel(arg.ErrorMessage(), true);
-    }
+    SetSavedLabel(arg.IsSuccessful());
+
+    if(arg.ErrorMessage().length())
+        ui->statusMessageLabel->setText(arg.ErrorMessage());
 }
 
 void MediationProcessStatusForm::on_courtCheckBox_clicked()
