@@ -365,9 +365,13 @@ void PersonDetailsForm::on_assistantLineEdit_editingFinished()
 
 void PersonDetailsForm::on_countyComboBox_currentIndexChanged(int index)
 {
-    _person->setCounty((CountyIds)index);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    if(index != _person->getCounty())
+    {
+        _person->setCounty((CountyIds)index);
+        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+    }
 }
+
 
 void PersonDetailsForm::on_childrenInHomeSpinBox_valueChanged(int arg1)
 {

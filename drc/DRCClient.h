@@ -104,9 +104,6 @@ private:
     void saveMPEvent(MediatorArg arg);
 
     QString LoadDBPathFromFile();
-
-
-
 };
 
 #endif // DRCClient_H

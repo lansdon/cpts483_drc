@@ -447,9 +447,6 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tMediators fair and impartial?\n", _headerFormat);
-//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q1Yes) + "\n"));
-//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q1No) + "\n"));
-//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q1Somewhat) + "\n"));
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     QTextTable *table1 = cursor.insertTable(3, 2, tableFormat);
@@ -464,9 +461,6 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tSituation Improved By Mediation?\n", _headerFormat);
-//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q2Yes) + "\n"));
-//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q2No) + "\n"));
-//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q2Somewhat) + "\n"));
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     QTextTable *table2 = cursor.insertTable(3, 2, tableFormat);
@@ -481,9 +475,6 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tHelped to communicate with other party?\n", _headerFormat);
-//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q3Yes) + "\n"));
-//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q3No) + "\n"));
-//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q3Somewhat) + "\n"));
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     QTextTable *table3 = cursor.insertTable(3, 2, tableFormat);
@@ -498,9 +489,6 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tHelped to better understand the issues?\n", _headerFormat);
-//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q4Yes) + "\n"));
-//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q4No) + "\n"));
-//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q4Somewhat) + "\n"));
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     QTextTable *table4 = cursor.insertTable(3, 2, tableFormat);
@@ -515,9 +503,6 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tRecommend mediation to others?\n", _headerFormat);
-//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q5Yes) + "\n"));
-//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q5No) + "\n"));
-//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q5Somewhat) + "\n"));
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     QTextTable *table5 = cursor.insertTable(3, 2, tableFormat);
@@ -532,9 +517,6 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     cursor.insertText("\tDid you reach an agreement?\n", _headerFormat);
-//    cursor.insertText(QString("\t\t\tYes: " + QString::number(_q6Yes) + "\n"));
-//    cursor.insertText(QString("\t\t\tNo: " + QString::number(_q6No) + "\n"));
-//    cursor.insertText(QString("\t\t\tSomewhat: " + QString::number(_q6Somewhat) + "\n"));
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     QTextTable *table6 = cursor.insertTable(3, 2, tableFormat);
@@ -551,11 +533,18 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
 void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes courtType, bool settled)
 {
     CasesTableIndices row;
-    if(courtType == COURT_T_SMALL_CLAIMS) row = CT_SMALL_CLAIMS;
-    else if(courtType == COURT_T_OTHER)
+    // Translate the court type to a table index
+    switch(courtType)
     {
+    case COURT_T_SMALL_CLAIMS: row = CT_SMALL_CLAIMS; break;
+    case COURT_T_JUVENILE: row = CT_JUVENIILE_COURT; break;
+    case COURT_T_OTHER: row = CT_OTHER_CASES; break;
+    case COURT_T_SUPERIOR: row = CT_SUPERIOR_COURT; break;
+    case COURT_T_NONE: row = CT_NONE; break;
     }
 
+
+    // The 1st row is the number of cases, the row+1 is the number settled. 3rd row is percentage (todo!)
     switch(disputeType)
     {
     case DISPUTE_T_PARENTING_PLAN:
@@ -595,6 +584,10 @@ void ResWaReport::CalculateCasesTable()
     {
         AddMPToCasesTable(mp->GetDisputeType(), mp->GetCourtType(), mp->IsSettled());
     }
+
+#warning BL TODO - Reswa
+    // Calculate the percentages now that all mp's have been added to the table!
+    // (every 3rd row is a percentage calculation based on 2 fields above)
 }
 
 

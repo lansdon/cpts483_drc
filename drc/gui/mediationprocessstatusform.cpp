@@ -39,9 +39,11 @@ MediationProcessStatusForm::~MediationProcessStatusForm()
 
 void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 {
+    if(_mediationProcess == value) // same pointer
+        SetSavedLabel(true);
+
     _mediationProcess = value;
     Update();
-//    SetSavedLabel(true);
 }
 
 void MediationProcessStatusForm::Update()
@@ -240,9 +242,13 @@ void MediationProcessStatusForm::MPSaveFinished(MediatorArg arg)
 void MediationProcessStatusForm::on_courtCheckBox_clicked()
 {
     bool isCourtCase = ui->courtCheckBox->isChecked();
-    _mediationProcess->SetIsCourtCase(isCourtCase);
-    SetSavedLabel(false);
-    ui->courtRow_3->setHidden(!isCourtCase);
+    // Block the save label from getting overriden during gui loading
+    if(isCourtCase != _mediationProcess->GetIsCourtCase())
+    {
+        _mediationProcess->SetIsCourtCase(isCourtCase);
+        SetSavedLabel(false);
+        ui->courtRow_3->setHidden(!isCourtCase);
+    }
 }
 
 void MediationProcessStatusForm::on_shuttleCheckBox_clicked()
