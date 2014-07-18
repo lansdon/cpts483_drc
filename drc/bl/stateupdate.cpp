@@ -10,7 +10,6 @@
 #include <QDebug>
 #include <set>
 
-
 StateUpdate::StateUpdate()
 {
     _errorMessage = "";
@@ -19,9 +18,9 @@ StateUpdate::StateUpdate()
 //this function calls the method for the state transition the mediation process is in
 bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
 {
-    //TODO: Need this?   unsigned int targetState = arg->getStateTransition();
+    DisputeProcessInternalStates targetState = arg->GetInternalState();
     bool success = true;
-    int test = 0;
+
     // we always reset the internal state and calculate the state
     arg->SetInternalState(PROCESS_INTERNAL_STATE_NONE);
     do
@@ -44,37 +43,31 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
 //        case PROCESS_INTERNAL_STATE_MEDIATION_COMPLETED:
 //            success = closed(arg);
 //            break;
-        case PROCESS_INTERNAL_STATE_OUTCOME_REACHED:
-            success = false;  // keep?
+        case PROCESS_INTERNAL_STATE_CLOSED:
             break;
         }
-        test++;
         qDebug() << "at end of while - success = " << success;
         qDebug() << "at end of while - state = " << arg->GetInternalState();
-    } while (success && arg->GetInternalState() != PROCESS_INTERNAL_STATE_OUTCOME_REACHED && (test < 10));
+        // loop until a state doesn't pass or it reaches the final state
+    } while (success && arg->GetInternalState() != PROCESS_INTERNAL_STATE_CLOSED);
 
-    // seems to me that we shouldn't need to check what we wanted the state to be...
-    // it is what it is!
-//    auto finalState = arg->GetInternalState();
-//    if (finalState < targetState || finalState == PROCESS_STATE_NONE)
-//    {
-//        errorMessage = _errorMessage;
-//        return success;
-//    }
-//     else return true;
-    if (arg->GetState() == PROCESS_STATE_NONE)
+
+    // call the _processState (external state) function here
+#warning DO THIS
+
+    // after internal state has been calculated, we'll compare it with the
+    // previously calculated internal state (target state).
+    auto finalState = arg->GetInternalState();
+    if (finalState < targetState || finalState == PROCESS_INTERNAL_STATE_NONE)
     {
-        // we should have been able to at least add the med process to pending
         errorMessage = _errorMessage;
         success = false;
     }
-    if(errorMessage.isEmpty())
-        return true;
-    else
-#warning BL FINISH LOGIC HERE
-        // TODO:return false;   // this is causing things to be not saved... need to make sure the workflow isn't obstructed, but the
-        // errors are being propogated.
-        return true;
+    else success = true;
+
+
+
+    return success;
 }
 
 // -------------------------------------------------------------------------------------------------------
@@ -125,7 +118,7 @@ bool StateUpdate::initiated(MediationProcess* arg)
     // info only?
     if (arg->GetInfoOnly())
     {
-        arg->SetInternalState(PROCESS_INTERNAL_STATE_OUTCOME_REACHED);
+        arg->SetInternalState(PROCESS_INTERNAL_STATE_CLOSED);
         arg->SetState(PROCESS_STATE_CLOSED_NO_SESSION);
     }
     else
@@ -186,7 +179,6 @@ bool StateUpdate::initiated(MediationProcess* arg)
         }
     }
 
-
     qDebug() << "Validation status: " << advance << " " << _errorMessage;
     return advance;
 }
@@ -206,7 +198,6 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
 
     // check if the most recent session is confirmed
   //  MediationSessionVector *sessions = arg->getMediationSessionVector();
-//    foreach(MediationSession *s, sessions)
     if(arg->getMediationSessionVector()->size() == 0)
         return advance;
     MediationSession* session = arg->getMediationSessionVector()->at(arg->getMediationSessionVector()->size() - 1);
@@ -224,7 +215,6 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
     {
         arg->SetInternalState(PROCESS_INTERNAL_STATE_SCHEDULED);
         arg->SetState(PROCESS_STATE_SCHEDULED);
-
     }
     else
     {
@@ -243,7 +233,7 @@ bool StateUpdate::readyToSchedule(MediationProcess *arg)
  * scheduled state
  * checks to see the latest session has some outcome selected,
  * and all fees are paid in full.
- * success: state = PROCESS_INTERNAL_STATE_OUTCOME_REACHED
+ * success: state = PROCESS_INTERNAL_STATE_CLOSED
  * failure: state = PROCESS_INTERNAL_STATE_SCHEDULED
  * -------------------------------------------------------------------------------------------------------
  */
@@ -280,7 +270,7 @@ bool StateUpdate::scheduled(MediationProcess *arg)
     }
     if (advance)
     {
-        arg->SetInternalState(PROCESS_INTERNAL_STATE_OUTCOME_REACHED);
+        arg->SetInternalState(PROCESS_INTERNAL_STATE_CLOSED);
     }
     else
     {
@@ -318,7 +308,7 @@ bool StateUpdate::scheduled(MediationProcess *arg)
 //    }
 //    if (success)
 //    {
-//        arg->SetInternalState(PROCESS_INTERNAL_STATE_OUTCOME_REACHED);
+//        arg->SetInternalState(PROCESS_INTERNAL_STATE_CLOSED);
 //    }
 //    else
 //    {
