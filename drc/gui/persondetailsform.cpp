@@ -64,6 +64,11 @@ void PersonDetailsForm::UpdateLabels()
 //    ui->mobileExtLineEdit->setText((_person->getMobilePhoneExt()));
     ui->adultsInHomeSpinBox->setValue(_person->getNumberInHousehold());
     ui->attorneyLineEdit->setText((_person->getAttorney()));
+    ui->attorneyEmailLineEdit->setText(_person->getAttorneyEmail());
+    ui->attorneyPhoneLineEdit->setText(_person->getAttorneyPhone());
+    ui->assistantNameLineEdit->setText(_person->getAssistantName());
+    ui->assistantEmailLineEdit->setText(_person->getAssistantEmail());
+    ui->assistantPhoneLineEdit->setText(_person->getAssistantPhone());
 
 //    SetEditMode(false);
 }
@@ -295,12 +300,6 @@ void PersonDetailsForm::on_stateLineEdit_textEdited(const QString &arg1)
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-void PersonDetailsForm::on_numInHomeLineEdit_textEdited(const QString &arg1)
-{
-    _person->setNumberInHousehold(arg1.toInt());
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
-
 void PersonDetailsForm::on_attorneyLineEdit_textEdited(const QString &arg1)
 {
     _person->setAttorney(arg1);
@@ -360,11 +359,42 @@ void PersonDetailsForm::on_adultsInHomeSpinBox_valueChanged(int arg1)
 
 void PersonDetailsForm::on_assistantLineEdit_editingFinished()
 {
-
+    _person->setAssistantName(ui->assistantNameLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_countyComboBox_currentIndexChanged(int index)
 {
     _person->setCounty((CountyIds)index);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_childrenInHomeSpinBox_valueChanged(int arg1)
+{
+    _person->setNumberChildrenInHousehold((unsigned int)arg1);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_attorneyPhoneLineEdit_editingFinished()
+{
+    _person->setAttorneyPhone(ui->attorneyPhoneLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_attorneyEmailLineEdit_editingFinished()
+{
+    _person->SetAttorneyEmail(ui->attorneyEmailLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_assistantPhoneLineEdit_editingFinished()
+{
+    _person->setAssistantPhone(ui->assistantPhoneLineEdit->text());
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_assistantEmailLineEdit_editingFinished()
+{
+    _person->setAssistantEmail(ui->assistantEmailLineEdit->text());
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

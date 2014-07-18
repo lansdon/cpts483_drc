@@ -55,8 +55,6 @@ private slots:
 
     void on_stateLineEdit_textEdited(const QString &arg1);
 
-    void on_numInHomeLineEdit_textEdited(const QString &arg1);
-
     void on_attorneyLineEdit_textEdited(const QString &arg1);
 
     void on_primaryLineEdit_textEdited(const QString &arg1);
@@ -70,6 +68,16 @@ private slots:
     void on_assistantLineEdit_editingFinished();
 
     void on_countyComboBox_currentIndexChanged(int index);
+
+    void on_childrenInHomeSpinBox_valueChanged(int arg1);
+
+    void on_attorneyPhoneLineEdit_editingFinished();
+
+    void on_attorneyEmailLineEdit_editingFinished();
+
+    void on_assistantPhoneLineEdit_editingFinished();
+
+    void on_assistantEmailLineEdit_editingFinished();
 
 signals:
     void SaveSignaled();

@@ -27,8 +27,11 @@ private:
     QString _email;
 
     unsigned int _numberInHousehold;
+    unsigned int _numberChildrenInHousehold;
 
     QString _attorney;
+    QString _attorneyPhone;
+    QString _attorneyEmail;
 
     //bool _isAttorney;
     QString _assistantName;
@@ -92,9 +95,20 @@ public:
 
     unsigned int getNumberInHousehold() const { return _numberInHousehold; }
     void setNumberInHousehold(unsigned int value) { _numberInHousehold = value; }
+    unsigned int getNumberChildrenInHousehold() const { return _numberChildrenInHousehold; }
+    void setNumberChildrenInHousehold(unsigned int value) { _numberChildrenInHousehold = value; }
+
 
     QString getAttorney() const { return _attorney; }
     void setAttorney(QString value) { _attorney = value; }
+    QString getAssistantName() const { return _assistantName; }
+    void setAssistantName(QString value) {_assistantName = value; }
+    QString getAttorneyPhone() const { return _attorneyPhone; }
+    void setAttorneyPhone(QString value) { _attorneyPhone = value; }
+    QString getAttorneyEmail() const { return _attorneyEmail; }
+    void SetAttorneyEmail(QString value) { _attorneyEmail = value; }
+    QString getAssistantEmail() const { return _assistantEmail; }
+    void setAssistantEmail(QString value) { _assistantEmail = value; }
 
     // Helpers
     QString FullName() { return (_firstName + " " + _lastName); }
