@@ -247,6 +247,7 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
         // Update all the views, including the browsers
         if(_mediationProcessView)
             _mediationProcessView->PopulateView();
+        else Mediator::Call(MKEY_DOCK_SET_NOTES); // sets notes to null and disables notes browser.
 
         _browserDock->show();
     }
