@@ -38,7 +38,7 @@ public:
     void setYear(short int value) {m_year = value;}
     void setCounty(CountyIds value) {m_county = value;}
 
-    void BuildReport(MediationProcessVector mpVec);
+    void BuildReport(MediationProcessVector* mpVec);
 
     int getMonth() {return m_month;}
     int getYear() {return m_year;}

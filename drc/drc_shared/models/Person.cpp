@@ -152,20 +152,7 @@ QString Person::SearchQuery()
                 .arg(this->getZip().replace("'", "''"))
                 .arg(percent);
     }
-//    if(this->getCounty() != "")
-//    {
-//        if(notFirstField)
-//        {
-//            toReturn += " AND ";
-//        }
-//        else
-//        {
-//            notFirstField = true;
-//        }
-//        toReturn += QString("county_name like '%2%1%2'")
-//                .arg(this->getCounty().replace("'", "''"))
-//                .arg(percent);
-//    }
+
     if(this->getPrimaryPhone() != "")
     {
         if(notFirstField)
@@ -313,9 +300,10 @@ QString Person::Parse(void)
             .arg(this->getAssistantPhone().replace("'", "''"));
 
     //Other
-    toReturn += QString(" '%1', %2, '%3'")
+    toReturn += QString(" '%1', %2, '%3', '%4'")
             .arg(this->getEmail().replace("'", "''"))
             .arg(this->getNumberInHousehold())
+            .arg(this->getNumberChildrenInHousehold())
             .arg(this->getAttorney().replace("'", "''"));
 
     return toReturn;
@@ -345,9 +333,10 @@ QString Person::UpdateParse()
             .arg(this->getAssistantPhone().replace("'", "''"));
 
     //Other
-    toUpdate += QString(" email_address = '%1', number_in_house = %2, attorney_name = '%3'")
+    toUpdate += QString(" email_address = '%1', number_in_house = %2, number_children_in_house = %3, attorney_name = '%4'")
             .arg(this->getEmail().replace("'", "''"))
             .arg(this->getNumberInHousehold())
+            .arg(this->getNumberChildrenInHousehold())
             .arg(this->getAttorney().replace("'", "''"));
 
     return toUpdate;

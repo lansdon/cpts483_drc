@@ -5,13 +5,17 @@
 
 monthlyreport::monthlyreport()
 {
+    this->m_atTable = 0;
+    this->m_childrenIndirect = 0;
+    this->m_peopleIndirect = 0;
+    this->m_translator = 0;
 }
 
-void monthlyreport::BuildReport(MediationProcessVector mpVec)
+void monthlyreport::BuildReport(MediationProcessVector* mpVec)
 {
-    for(size_t i = 0; i < mpVec.size(); i++)
+    for(size_t i = 0; i < mpVec->size(); i++)
     {
-        MediationProcess* process = mpVec.at(i);
+        MediationProcess* process = mpVec->at(i);
         int translatorCount = this->getTranslator();
 
         this->setTranslator(translatorCount++);
@@ -35,7 +39,8 @@ void monthlyreport::BuildReport(MediationProcessVector mpVec)
         for(size_t num = 0; num < process->GetParties()->size(); num++)
         {
             this->m_countyCounts[process->GetPartyAtIndex(num)->GetPrimary()->getCounty()]++;
-            //this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->);
+            this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold());
+            this->setChildrenIndirect(this->getChildrenIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
         }
     }
 

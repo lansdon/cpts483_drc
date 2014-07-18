@@ -3,6 +3,7 @@
 #include <QtSql/QtSql>
 #include "reswareport.h"
 #include "reportrequest.h"
+#include "monthlyreport.h"
 
 #define db_driver "QSQLITE"
 
@@ -253,6 +254,7 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
     person_table_columns.push_back(QString("assistance_phone char(50)"));
     person_table_columns.push_back(QString("email_address char(50)"));
     person_table_columns.push_back(QString("number_in_house int"));
+    person_table_columns.push_back(QString("number_children_in_house int"));
     person_table_columns.push_back(QString("attorney_name char(50)"));
 
     return CreateTable(person_table_name, person_table_columns);
@@ -389,9 +391,7 @@ bool DRCDB::CreateClientTable(const QString& client_table_name)
     client_table_columns.push_back(QString("Person_id integer"));
     client_table_columns.push_back(QString("Children integer"));
     client_table_columns.push_back(QString("Support char(128)"));
-    client_table_columns.push_back(QString("AttorneyFirstName char(128)"));
-    client_table_columns.push_back(QString("AttorneyMiddleName char(128)"));
-    client_table_columns.push_back(QString("AttorneyLastName char(128)"));
+    client_table_columns.push_back(QString("AttorneyName char(128)"));
     client_table_columns.push_back(QString("AttorneyPhone char(128)"));
     client_table_columns.push_back(QString("AttorneyEmail char(128)"));
     client_table_columns.push_back(QString("AssistantName char(128)"));
@@ -665,17 +665,36 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
         }
         MediationProcessVector* mpVec = LoadMediations(mediationIdMatches);
 
+        mediationIdMatches = "";
+        first = true;
         for(size_t i = 0; i < mpVec->size(); i++)
         {
-            //Check based on county id
-                //Build the vector of counts
-
+            MediationProcess* process = mpVec->at(i);
+            if(process->GetCountyId() == params->GetCounty())
+            {
+                if(!first)
+                {
+                    mediationIdMatches += ", ";
+                }
+                mediationIdMatches += QString::number(process->GetId());
+                qDebug() << mediationIdMatches;
+                qDebug() << process->GetId();
+                first = false;
+            }
         }
+        mpVec = LoadMediations(mediationIdMatches);
+        monthlyreport* report = new monthlyreport();
+        report->setCounty(county);
+        report->setMonth(month);
+        report->setYear(year);
+        report->BuildReport(mpVec);
+
+        arg.SetArg(report);
 
     }
 
     // !! TO DO - This should return a monthly report!!!!
-    Mediator::Call(MKEY_DB_REQUEST_MONTHLY_REPORT_DONE, nullptr /* FIX THIS!! */);
+    Mediator::Call(MKEY_DB_REQUEST_MONTHLY_REPORT_DONE, arg /* FIX THIS!! */);
 }
 //========================================================================
 
@@ -832,13 +851,14 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
                 primary->setCity(peopleQuery.value(6).toString());
                 primary->setState(peopleQuery.value(7).toString());
                 primary->setZip(peopleQuery.value(8).toString());
-//                primary->setCounty(peopleQuery.value(9).toString());
+                primary->setCounty((CountyIds)peopleQuery.value(9).toInt());
                 primary->setPrimaryPhone(peopleQuery.value(10).toString());
                 primary->setSecondaryPhone(peopleQuery.value(11).toString());
                 primary->setAssistantPhone(peopleQuery.value(12).toString());
                 primary->setEmail(peopleQuery.value(13).toString());
                 primary->setNumberInHousehold(peopleQuery.value(14).toUInt());
-                primary->setAttorney(peopleQuery.value(15).toString());
+                primary->setNumberChildrenInHousehold(peopleQuery.value(15).toUInt());
+                primary->setAttorney(peopleQuery.value(16).toString());
                 party->SetPrimary(primary);
             }
 
@@ -852,16 +872,14 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             // party->SetChildren(clientQuery.value(3).toUInt());
             // party->SetObservers(clientQuery.value(4).toString());
             // party->SetAttorney(clientQuery.value(5).toString());
-            Person attorney;// = new Person();
-            attorney.setFirstName(clientQuery.value(5).toString());
-            attorney.setMiddleName(clientQuery.value(6).toString());
-            attorney.setLastName(clientQuery.value(7).toString());
-            attorney.setPrimaryPhone(clientQuery.value(8).toString());
-            attorney.setEmail(clientQuery.value(9).toString());
-            //attorney.setAssistantName(clientQuery.value(10).toString());
-            attorney.setAssistantPhone(clientQuery.value(11).toString());
-            //attorney.setAssistantEmail(clientQuery.value(12).toString());
-            party->SetAttorney(attorney);
+            party->GetPrimary()->setAttorneyPhone(clientQuery.value(6).toString());
+            party->GetPrimary()->SetAttorneyEmail(clientQuery.value(7).toString());
+            party->GetPrimary()->setAssistantName(clientQuery.value(8).toString());
+            party->GetPrimary()->setAssistantPhone(clientQuery.value(9).toString());
+            party->GetPrimary()->setAssistantEmail(clientQuery.value(10).toString());
+            qDebug()<< "Assistant: " + clientQuery.value(8).toString() +
+                       clientQuery.value(9).toString() +
+                       clientQuery.value(10).toString();
             process->AddParty(party);
         }
 
@@ -1544,19 +1562,17 @@ bool DRCDB::InsertClientObject(MediationProcess* dispute_object, Party* party_ob
         observerString += temp->FullName();
     }
 
-    QString value_string = QString("%1, %2, %3, %4, '%5', '%6', '%7', '%8', '%9', '%10', '%11', '%12'")
+    QString value_string = QString("%1, %2, %3, %4, '%5', '%6', '%7', '%8', '%9', '%10'")
             .arg(dispute_object->GetId())
             .arg(party_object->GetPrimary()->GetId())
             .arg(party_object->GetChildren().size())
             .arg(party_object->GetObservers().size())
-            .arg(party_object->GetAttorney().getFirstName())
-            .arg(party_object->GetAttorney().getMiddleName())
-            .arg(party_object->GetAttorney().getLastName())
-            .arg(party_object->GetAttorney().getPrimaryPhone())
-            .arg(party_object->GetAttorney().getEmail())
-            .arg("party_object->GetAttorney().getAssistantName()")
-            .arg(party_object->GetAttorney().getAssistantPhone())
-            .arg("party_object->GetAttorney().getAssistantEmail()");
+            .arg(party_object->GetPrimary()->getAttorney().replace("'","''"))
+            .arg(party_object->GetPrimary()->getAttorneyPhone())
+            .arg(party_object->GetPrimary()->getAttorneyEmail().replace("'","''"))
+            .arg(party_object->GetPrimary()->getAssistantName().replace("'","''"))
+            .arg(party_object->GetPrimary()->getAssistantPhone())
+            .arg(party_object->GetPrimary()->getAssistantEmail().replace("'","''"));
             //Needs the assistant information as well!!!
 
     QString command_string = QString("insert into %1 values ( %2, %3 )")
