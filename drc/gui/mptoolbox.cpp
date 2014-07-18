@@ -3,6 +3,8 @@
 
 #include "mediationbrowser.h"
 #include "sessionsbrowser.h"
+#include "Mediator.h"
+#include "MediatorKeys.h"
 
 #include <QDebug>
 
@@ -20,13 +22,22 @@ MPToolBox::MPToolBox(QWidget *parent)
     ui->setupUi(this);
 
     Configure();
+
+    _unregisterSetNotes = Mediator::Register(MKEY_DOCK_SET_NOTES, [this](MediatorArg arg){ NotesChanged(arg); });
 }
 
 MPToolBox::~MPToolBox()
 {
+    Mediator::Unregister(MKEY_DOCK_SET_NOTES, _unregisterSetNotes);
     delete ui;
 }
 
+void MPToolBox::NotesChanged(MediatorArg arg)
+{
+    // If the vector is null - there's no MP. Hide the notes browser!
+    if(_notesBrowser)
+        _notesBrowser->setHidden(!arg.getArg<MediationNotesVector*>());
+}
 
 void MPToolBox::Configure()
 {
@@ -107,6 +118,15 @@ void MPToolBox::EnableNotesTable(MediationNotesVector* notes)
     {
         _notesBrowser->SetNotes(notes);
         setItemEnabled(_notesBrowserIndex, true);
+    }
+}
+
+void MPToolBox::DisableNotesTable()
+{
+    if(_sessionsBrowserIndex >= 0)
+    {
+        setItemEnabled(_sessionsBrowserIndex, false);
+        _sessionsBrowserIndex = -1;
     }
 }
 

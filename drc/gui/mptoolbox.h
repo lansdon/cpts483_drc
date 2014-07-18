@@ -8,6 +8,7 @@
 #include "sessionsbrowser.h"
 #include "mediationprocess.h"
 #include "notesbrowser.h"
+#include "Mediator.h"
 
 enum MPBrowserTypes
 {
@@ -55,6 +56,10 @@ private:
     void DisableSessionsTable();
     void DisableNotesTable();
 
+    // Use this to disable notes browser if the vector is nullptr.
+    void NotesChanged(MediatorArg arg);
+
+    MediatorId _unregisterSetNotes;
 signals:
     void MPSelected(MediationProcess* process);
 
