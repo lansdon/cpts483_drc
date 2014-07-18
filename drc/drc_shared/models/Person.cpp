@@ -303,8 +303,8 @@ QString Person::Parse(void)
             .arg(this->getUnit().replace("'", "''"))
             .arg(this->getCity().replace("'", "''"))
             .arg(this->getState().replace("'", "''"))
-            .arg(this->getZip().replace("'", "''"));
-//            .arg(this->getCounty().replace("'", "''"));
+            .arg(this->getZip().replace("'", "''"))
+            .arg(QString::number(this->getCounty()));
 
     //Phone Number
     toReturn += QString(" '%1', '%2', '%3',")
@@ -335,8 +335,8 @@ QString Person::UpdateParse()
             .arg(this->getUnit().replace("'", "''"))
             .arg(this->getCity().replace("'", "''"))
             .arg(this->getState().replace("'", "''"))
-            .arg(this->getZip().replace("'", "''"));
-//            .arg(this->getCounty().replace("'", "''"));
+            .arg(this->getZip().replace("'", "''"))
+            .arg(QString::number(this->getCounty()));
 
     //Phone Number
     toUpdate += QString(" primary_phone =  '%1', secondary_phone = '%2', assistance_phone = '%3',")

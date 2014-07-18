@@ -247,7 +247,7 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
     person_table_columns.push_back(QString("city_name char(50)"));
     person_table_columns.push_back(QString("state_name char(50)"));
     person_table_columns.push_back(QString("zip_code char(50)"));
-    person_table_columns.push_back(QString("county_name char(50)"));
+    person_table_columns.push_back(QString("county_name int"));
     person_table_columns.push_back(QString("primary_phone char(50)"));  //Confirm Phone Format
     person_table_columns.push_back(QString("secondary_phone char(50)"));
     person_table_columns.push_back(QString("assistance_phone char(50)"));

@@ -21,12 +21,6 @@ private:
 
     const int m_childrenDirect = 0;
 
-public:
-    monthlyreport();
-
-    void setMonth(short int value) {m_month = value;}
-    void setYear(short int value) {m_year = value;}
-    void setCounty(CountyIds value) {m_county = value;}
     void setTranslator(int value) {m_translator = value;}
     void setAtTable(int value) {m_atTable = value;}
     void setPeopleIndirect(int value) {m_peopleIndirect = value;}
@@ -35,6 +29,16 @@ public:
     void setDisputes(std::map<DisputeTypes, int> value) {m_disputes = value;}
     void setOutcomes(std::map<SessionOutcomes, int> value) {m_outcomes = value;}
     void setCountyCounts(std::map<CountyIds, int> value) {m_countyCounts = value;}
+
+
+public:
+    monthlyreport();
+
+    void setMonth(short int value) {m_month = value;}
+    void setYear(short int value) {m_year = value;}
+    void setCounty(CountyIds value) {m_county = value;}
+
+    void BuildReport(MediationProcessVector mpVec);
 
     int getMonth() {return m_month;}
     int getYear() {return m_year;}
