@@ -75,6 +75,9 @@ public:
     void SetSessionType(SessionTypes type) { _sessionType = type; }
     SessionTypes GetSessionType() { return _sessionType; }
 
+    void SetStateMessage(QString message) { _stateMessage = message; }
+    QString GetStateMessage() { return _stateMessage; }
+
     // Helpers
     int GetAffectedChildrenCount();
     void addMediation();
@@ -121,6 +124,8 @@ private:
     enum CourtCaseTypes _courtCaseType;
     enum CourtOrderTypes _courtOrderType;
     QDateTime _courtOrderExpiration;
+
+    QString _stateMessage;  // Message set by BL explaining how to advance to next state.
 
 };
 
