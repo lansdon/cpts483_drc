@@ -3,6 +3,7 @@
 #include <QString>
 #include <string>
 #include "DBBaseObject.h"
+#include "drctypes.h"
 
 class Person : public DBBaseObject
 {
@@ -16,7 +17,7 @@ private:
     QString _city;
     QString _state;
     QString _zip;
-    QString _county;
+    CountyIds _county;
 
     QString _primaryPhone;
     QString _primaryPhoneExt;
@@ -68,8 +69,8 @@ public:
     void setState(QString value) { _state = value; }
     QString getZip() const { return _zip; }
     void setZip(QString value) { _zip = value; }
-    QString getCounty() const { return _county; }
-    void setCounty(QString value) { _county = value; }
+    CountyIds getCounty() const { return _county; }
+    void setCounty(CountyIds value) { _county = value; }
 
     QString getPrimaryPhone() const { return _primaryPhone; }
     void setPrimaryPhone(QString value) { _primaryPhone = value; }
