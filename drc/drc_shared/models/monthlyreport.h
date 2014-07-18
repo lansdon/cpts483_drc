@@ -15,9 +15,16 @@ private:
     int m_peopleIndirect;
     int m_childrenIndirect;
     std::map<ReferralTypes, int> m_referrals;
+    int m_totalReferals;
     std::map<DisputeTypes, int> m_disputes;
+    int m_totalServices;
     std::map<SessionOutcomes, int> m_outcomes;
+    int m_infoOnly;
+    int m_sessionsCancelled;
+    int m_openCases;
+    int m_totalIntake;
     std::map<CountyIds, int> m_countyCounts;
+
 
     const int m_childrenDirect = 0;
 
@@ -29,6 +36,12 @@ private:
     void setDisputes(std::map<DisputeTypes, int> value) {m_disputes = value;}
     void setOutcomes(std::map<SessionOutcomes, int> value) {m_outcomes = value;}
     void setCountyCounts(std::map<CountyIds, int> value) {m_countyCounts = value;}
+    void setTotalReferals(int value) {m_totalReferals = value;}
+    void setTotalServices(int value) {m_totalServices = value;}
+    void setSessionsCancelled(int value) {m_sessionsCancelled = value;}
+    void setOpenCases(int value) {m_openCases = value;}
+    void setTotalIntake(int value) {m_totalIntake = value;}
+    void setInfoOnlyCount(int value) {m_infoOnly = value;}
 
 
 public:
@@ -51,6 +64,12 @@ public:
     std::map<DisputeTypes, int> getDisputes() {return m_disputes;}
     std::map<SessionOutcomes, int> getOutcomes() {return m_outcomes;}
     std::map<CountyIds, int> getCountyCounts() {return m_countyCounts;}
+    int getTotalReferals() {return m_totalReferals;}
+    int getTotalServices() {return m_totalServices;}
+    int getSessionsCancelled() {return m_sessionsCancelled;}
+    int getOpenCases() {return m_openCases;}
+    int getTotalIntake() {return m_totalIntake;}
+    int getInfoOnlyCount() {return m_infoOnly;}
 };
 
 #endif // MONTHLYREPORT_H
