@@ -89,24 +89,6 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QPushButton" name="scheduledButton">
-          <property name="text">
-           <string>Show Scheduled</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QPushButton" name="closedButton">
-          <property name="text">
-           <string>Show Closed</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QPushButton" name="recentButton">
@@ -119,6 +101,24 @@
          <widget class="QPushButton" name="pendingButton">
           <property name="text">
            <string>Show Pending</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QPushButton" name="scheduledButton">
+          <property name="text">
+           <string>Show Scheduled</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="closedButton">
+          <property name="text">
+           <string>Show Closed</string>
           </property>
          </widget>
         </item>

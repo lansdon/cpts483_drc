@@ -2,6 +2,7 @@
 #define CLIENTSESSIONDATA_H
 
 #include <QString>
+#include <QTextCursor>
 
 #include "DBBaseObject.h"
 
@@ -39,6 +40,7 @@ public:
     //helpers
     bool isPaid() const;
     bool isNoFee() const;
+    void print(QTextCursor &cursor);
 
 public slots:
     void on_atty_will_attend(bool value);

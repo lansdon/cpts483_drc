@@ -6,6 +6,7 @@
 #include "drctypes.h"
 #include "DBBaseObject.h"
 #include "clientsessiondata.h"
+#include <QTextCursor>
 
 class MediationSession : public DBBaseObject
 {
@@ -60,6 +61,8 @@ public:
     static MediationSession *SampleData();
     void addClientSessionData(ClientSessionData *value) { _clientSessionDataVector.push_back(value); }
     void removeClientSessionData(uint value);
+
+    void print(QTextCursor& cursor);
 
 };
 

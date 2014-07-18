@@ -71,3 +71,29 @@ bool ClientSessionData::isNoFee() const
 {
     return (fee.isEmpty() || (fee.toDouble() == 0));
 }
+
+void ClientSessionData::print(QTextCursor &cursor)
+{
+    cursor.insertText("\tAt Table: ");
+    if(atTable)
+        cursor.insertText("Yes");
+    else
+        cursor.insertText("No");
+    cursor.insertText("  Fee: " + fee + "  Income: " + income + "  Paid: ");
+    if(paid)
+        cursor.insertText("Yes\n");
+    else
+        cursor.insertText("No\n");
+    cursor.insertText("\tAttorney: Said: ");
+    if(attySaidAttend)
+        cursor.insertText("Yes");
+    else
+        cursor.insertText("No");
+    cursor.insertText(" Did: ");
+    if(attyDidAttend)
+        cursor.insertText("Yes");
+    else
+        cursor.insertText("No");
+    cursor.insertText(" Support: " + QString::number(support) + "\n");
+
+}

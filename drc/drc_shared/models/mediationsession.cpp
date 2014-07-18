@@ -164,3 +164,28 @@ MediationSession *MediationSession::SampleData()
 
     return result;
 }
+
+void MediationSession::print(QTextCursor &cursor)
+{
+    QTextCharFormat format;
+    format.setFontPointSize(10);
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertBlock();
+    cursor.insertText("\n\nMediation Date: ", format);
+    cursor.insertText(_mediationTime.toString("MM/dd/yyyy HH:mm")+ "\n");
+    cursor.insertText("Session Outcome: ");
+    cursor.insertText(StringForSessionOutcomes(_outcome) + "\n");
+    cursor.insertText("Schedule Status: ");
+    cursor.insertText(StringForSessionStates(_state) + "\n");
+    cursor.insertText("Mediators: ");
+    cursor.insertText(_mediator1 + "  "+ _mediator2 + "\n");
+    cursor.insertText("Observers: ");
+    cursor.insertText(_observer1 + "  " + _observer2 + "\n");
+    for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
+    {
+        cursor.insertText("Client " + QString::number(i) + "\n");
+        _clientSessionDataVector.at(i)->print(cursor);
+
+    }
+    cursor.insertText("\n");
+}
