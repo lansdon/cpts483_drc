@@ -79,6 +79,8 @@ private slots:
 
     void on_assistantEmailLineEdit_editingFinished();
 
+    void on_assistantNameLineEdit_textEdited(const QString &arg1);
+
 signals:
     void SaveSignaled();
     void EditSignaled();

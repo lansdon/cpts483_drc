@@ -398,3 +398,9 @@ void PersonDetailsForm::on_assistantEmailLineEdit_editingFinished()
     _person->setAssistantEmail(ui->assistantEmailLineEdit->text());
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
+
+void PersonDetailsForm::on_assistantNameLineEdit_textEdited(const QString &arg1)
+{
+    _person->setAssistantName(arg1);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
