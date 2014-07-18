@@ -15,17 +15,11 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QTableWidget" name="tableWidget"/>
-   </item>
-   <item>
     <widget class="QGroupBox" name="newNoteGroupBox">
      <property name="title">
       <string>Add a note:</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
-      <item>
-       <widget class="QTextEdit" name="noteInput"/>
-      </item>
       <item>
        <widget class="QFrame" name="frame">
         <property name="frameShape">
@@ -59,8 +53,14 @@
         </layout>
        </widget>
       </item>
+      <item>
+       <widget class="QTextEdit" name="noteInput"/>
+      </item>
      </layout>
     </widget>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget"/>
    </item>
   </layout>
  </widget>

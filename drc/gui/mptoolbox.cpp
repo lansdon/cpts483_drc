@@ -36,7 +36,7 @@ void MPToolBox::Configure()
 
     // Add Our Widgets
     EnableMediationsTable();
-    EnableSessionsTable(nullptr);
+    //EnableSessionsTable(nullptr);
     EnableNotesTable(nullptr);
 
     _currentBrowserType = MPBROWSER_MEDIATION;

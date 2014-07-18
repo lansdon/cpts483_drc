@@ -141,8 +141,8 @@ void MediationProcessView::ConfigureToolbar()
     toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Mediation Browser", this, SLOT(ShowMediationBrowserPressed()), QIcon(":images/mp_search.jpg"));
     toolbar.GetToolbar()->addSeparator();
-    toolbar.AddAction("Session Browser", this, SLOT(ShowSessionBrowserPressed()), QIcon(":images/session_search.jpg"));
-    toolbar.GetToolbar()->addSeparator();
+//    toolbar.AddAction("Session Browser", this, SLOT(ShowSessionBrowserPressed()), QIcon(":images/session_search.jpg"));
+//    toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Notes Browser", this, SLOT(ShowNotesBrowserPressed()), QIcon(":images/notes.jpg"));
     toolbar.GetToolbar()->addSeparator();
     toolbar.AddAction("Print Intake", this, SLOT(PrintMediationProcessPressed()), QIcon(":images/printer-icon.png"));
