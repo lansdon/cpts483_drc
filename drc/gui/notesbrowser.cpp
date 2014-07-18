@@ -51,7 +51,7 @@ void NotesBrowser::ConfigTable()
     ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
     ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
     ui->tableWidget->setShowGrid(true);
-    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: red;}");
+    ui->tableWidget->setStyleSheet("QTableView {selection-background-color: AntiqueWhite; selection-color: Black;}");
 
     // only stretch note column
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(

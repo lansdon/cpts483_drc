@@ -50,14 +50,14 @@ void MediationBrowser::ConfigMediationProcecssViewTable()
         ui->tableWidget->setColumnCount(3);
         ui->tableWidget->setRowCount(_mediationsVector.size());
         QStringList header;
-        header <<"Date Time"<<"Party1"<<"Status";
+        header <<"Date Time"<<"Client1"<<"Status";
         ui->tableWidget->setHorizontalHeaderLabels(header);
         ui->tableWidget->verticalHeader()->setVisible(false);
         ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
         ui->tableWidget->setSelectionBehavior(QAbstractItemView::SelectRows);
         ui->tableWidget->setSelectionMode(QAbstractItemView::SingleSelection);
         ui->tableWidget->setShowGrid(true);
-        ui->tableWidget->setStyleSheet("QTableView {selection-background-color: red;}");
+        ui->tableWidget->setStyleSheet("QTableView {selection-background-color: AntiqueWhite; selection-color: Black;}");
 
         for (int c = 0; c < ui->tableWidget->horizontalHeader()->count(); ++c)
         {
