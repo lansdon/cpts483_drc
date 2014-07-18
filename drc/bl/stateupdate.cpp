@@ -53,7 +53,8 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage)
 
 
     // call the _processState (external state) function here
-#warning DO THIS
+#warning Finalize internal states and add new states to GetExternalState();
+    GetExternalState(arg);  // map internal state to external state
 
     // after internal state has been calculated, we'll compare it with the
     // previously calculated internal state (target state).
@@ -318,6 +319,51 @@ bool StateUpdate::scheduled(MediationProcess *arg)
 //    qDebug() << "Validation status: " << success << " " << _errorMessage;
 //    return success;
 //}
+
+/*  GetExternalState - map internal state to external state
+ *  NONE -> NONE
+ *  INITIATED & READY_TO_SCHEDULE go to CLOSED_NO_SESSION if it is info only,
+ *          and PENDING if it is not info only.
+ *  SCHEDULED -> SCHEDULED
+ *  CLOSED goes to CLOSED_WITH_SESSION if it is closed and an outcome has been reached
+ *      goes to STATE_CLOSED_NO_SESSION otherwise
+ */
+void StateUpdate::GetExternalState(MediationProcess* arg)
+{
+    auto internalState = arg->GetInternalState();
+    DisputeProcessStates externalState = PROCESS_STATE_NONE;
+    switch (internalState)
+    {
+        case PROCESS_INTERNAL_STATE_NONE:
+            break;
+        // Initiated state and readyToSchedule are currently mapped to
+        // external states the exact same way, so just falling through.
+        // Any state that is part of a straight path (no branches) on the
+        // state diagram should be able to be implemented as a fall through
+        // like this.
+        case PROCESS_INTERNAL_STATE_INITIATED:
+        case PROCESS_INTERNAL_STATE_READY_TO_SCHEDULE:
+            if (arg->GetInfoOnly()) externalState = PROCESS_STATE_CLOSED_NO_SESSION;
+            else externalState = PROCESS_STATE_PENDING;
+            break;
+        case PROCESS_INTERNAL_STATE_SCHEDULED:
+            externalState = PROCESS_STATE_SCHEDULED;
+            break;
+        case PROCESS_INTERNAL_STATE_CLOSED:
+            MediationSessionVector* sessions = arg->getMediationSessionVector();
+            if (sessions->size() > 0)   // Has there been at least 1 session?
+            {
+                auto lastSession = sessions->at(sessions->size()-1);
+                if (lastSession->getOutcome() == SESSION_OUTCOME_AGREEMENT ||
+                    lastSession->getOutcome() == SESSION_OUTCOME_NO_AGREEMENT) // Was an outcome reached/not reached?
+                    externalState = PROCESS_STATE_CLOSED_WITH_SESSION;
+                else externalState = PROCESS_STATE_CLOSED_NO_SESSION;   // No outcome has been reahed yet.
+            }
+            else externalState = PROCESS_STATE_CLOSED_NO_SESSION;
+            break;
+    }
+    arg->SetState(externalState);
+}
 
 bool StateUpdate::ValidateName(QString name)
 {

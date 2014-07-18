@@ -24,6 +24,7 @@ private:
     bool scheduled(MediationProcess *arg);
     bool closed(MediationProcess *arg);
     bool ValidateName(QString name);
+    void GetExternalState(MediationProcess* arg);
 };
 
 #endif // STATEUPDATE_H
