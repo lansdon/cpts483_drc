@@ -37,10 +37,12 @@ void DRCBL::ValidateMediationProcess(MediatorArg arg) const
        mp = arg.getArg<MediationProcess*>();
        if (mp)
        {
+           QString stateMessage = mp->GetStateMessage();
            qDebug() << "BL Begin Validation";
            StateUpdate stateUpdate;
-           success = stateUpdate.StateCheck(mp, errorMessage);
+           success = stateUpdate.StateCheck(mp, errorMessage, stateMessage);
            qDebug() << "BL End Validation. Success: " << success << " " << errorMessage;
+           mp->SetStateMessage(stateMessage);
        }
        else
        {

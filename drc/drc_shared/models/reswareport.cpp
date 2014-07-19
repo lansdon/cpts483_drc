@@ -526,7 +526,7 @@ void ResWaReport::CalculateCasesTable()
         AddMPToCasesTable(mp->GetDisputeType(), mp->GetCourtType(), mp->IsSettled());
     }
 
-#warning BL TODO - Reswa
+#warning BL TODO - Reswa percentages
     // Calculate the percentages now that all mp's have been added to the table!
     // (every 3rd row is a percentage calculation based on 2 fields above)
 }
