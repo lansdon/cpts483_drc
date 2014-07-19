@@ -162,7 +162,7 @@ void ResWaReport::BuildHeaderSection(QTextCursor& cursor)
 {
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
-    cursor.insertText("\nEVENTS\n", _headerFormat);
+    cursor.insertText("\nMediation\n", _headerFormat);
     cursor.insertText("1) CASES and Number of SETTLED CASES\n", _tableTextFormat);
 
 }
@@ -170,65 +170,6 @@ void ResWaReport::BuildHeaderSection(QTextCursor& cursor)
 void ResWaReport::BuildCasesSection(QTextCursor& cursor)
 {
     cursor.movePosition(QTextCursor::End);
-    cursor.insertBlock();
-
-    QTextTableFormat tableFormat;
-    tableFormat.setHeaderRowCount(1);
-    QVector<QTextLength> constraints;
-    constraints << QTextLength(QTextLength::PercentageLength, 15);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    constraints << QTextLength(QTextLength::PercentageLength, 7);
-    tableFormat.setColumnWidthConstraints(constraints);
-    QTextTable *table = cursor.insertTable(CasesTableRows, CasesTableCols, tableFormat);
-    // HEADERS
-    TextToCell(table, CT_TOTAL_CASES_SETTLED, 0, "Cases Settled");
-    TextToCell(table, CT_TOTAL_CASES_PERC, 0, "Percentage of total cases settled");
-    TextToCell(table, 0, CT_H_PARENTING, "Parenting Plans");
-    TextToCell(table, 0, CT_H_DISOLUTION, "Disolution");
-    TextToCell(table, 0, CT_H_FORECLOSURE, "Foreclosure");
-    TextToCell(table, 0, CT_H_TENANT, "Tenant Landlord");
-    TextToCell(table, 0, CT_H_BUSINESS, "Business");
-    TextToCell(table, 0, CT_H_WORKPLACE, "Workplace");
-    TextToCell(table, 0, CT_H_NEIGHBOR, "Neighbor");
-    TextToCell(table, 0, CT_H_VICTIM, "Victim Offender");
-    TextToCell(table, 0, CT_H_PARENT, "Parent Teen");
-    TextToCell(table, 0, CT_H_SCHOOL, "School");
-    TextToCell(table, 0, CT_H_ELDER, "Elder");
-    TextToCell(table, 0, CT_H_OTHER, "Other");
-    TextToCell(table, 0, CT_H_TOTAL, "Total");
-    // ROW INDICES
-    TextToCell(table, CT_SMALL_CLAIMS , 0, "Small claims court cases", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_SMALL_CLAIMS_SETTLED, 0, "Small Claims Court cases settled", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_SMALL_CLAIMS_PERC, 0, "Percentage of Small Claims cases settled", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_OTHER_DIST_COURT, 0, "Other District Cout cases");
-    TextToCell(table, CT_OTHER_DIST_COURT_SETTLED, 0, "Other District Cout cases settled");
-    TextToCell(table, CT_OTHER_DIST_COURT_PERC, 0, "Percentage of district court cases settled");
-    TextToCell(table, CT_JUVENIILE_COURT, 0, "Juvenile Court cases", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_JUVENIILE_COURT_SETTLED, 0, "Juvenile cases settled", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_JUVENIILE_COURT_PERC, 0, "Percentage of Juvenile cases settled", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_SUPERIOR_COURT, 0, "Superior Court cases");
-    TextToCell(table, CT_SUPERIOR_COURT_SETTLED, 0, "Superior Court cases settled");
-    TextToCell(table, CT_SUPERIOR_COURT_PERC, 0, "Percentage of Superior cases settled");
-    TextToCell(table, CT_OTHER_CASES, 0, "Other cases", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_OTHER_CASES_SETTLED, 0, "Other cases settled", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_OTHER_CASES_PERC, 0, "Percentage of Other cases settled", nullptr, &_tableIndexDark);
-    TextToCell(table, CT_TOTAL_CASES, 0, "Total cases");
-
-    // POPULATE CELLS FROM MATRIX
-    for (auto row = 1; row < CasesTableRows; ++row)
-        for (auto col = 1; col < CasesTableCols; ++col)
-            TextToCell(table, row, col, QString::number(_casesTable[row][col]),nullptr, &_tableCellBlue);
 
 }
 

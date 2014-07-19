@@ -207,7 +207,7 @@ QString StringForSessionOutcomes(SessionOutcomes id)
     case SESSION_OUTCOME_SECOND_PARTY_DECLINES: result = "Second Party Declined"; break;
     case SESSION_OUTCOME_AGREEMENT: result = "Agreement"; break;
     case SESSION_OUTCOME_NO_AGREEMENT: result = "No Agreement"; break;
-    case SESSION_OUTCOME_PROBLEM_SOLVING: result = "Problem Solbing"; break;
+    case SESSION_OUTCOME_PROBLEM_SOLVING: result = "Problem Solving"; break;
     case SESSION_OUTCOME_REFERRED_OUT: result = "Referred Out"; break;
     case SESSION_OUTCOME_CANNOT_REACH_PARTIES: result = "Cannot Reach Either Client"; break;
     case SESSION_OUTCOME_SELF_RESOLVED: result = "Self Resolved"; break;
@@ -228,3 +228,17 @@ QString StringForEvaluationAnswers(EvaluationAnswers id)
     }
     return result;
 }
+
+/*
+QString StringForSessionTypes(SessionTypes id)
+{
+    QString result;
+    switch (id) {
+    case MEDIATION_SESSION: result = "Mediation Session"; break;
+    case FACILITATION_SESSION: result = "Facilitation Session"; break;
+    case PHONE_SESSION: result = "Phone Session"; break;
+    default: result = "<error>"; break;
+    }
+    return result;
+}
+*/

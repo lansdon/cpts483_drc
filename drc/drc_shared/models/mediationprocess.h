@@ -4,6 +4,12 @@
 #include <vector>
 #include "drctypes.h"
 #include <QDate>
+#include <QTextBlock>
+#include <QPrinter>
+#include <QDebug>
+#include <QDesktopServices>
+#include <QTextDocument>
+#include <QTextTable>
 #include "DBBaseObject.h"
 #include "party.h"
 #include "Note.h"
@@ -87,7 +93,32 @@ public:
     // Report Helpers
     bool IsSettled();
 
+    ///////////////// Report Builder ///////////////////
+    void BuildReport();         // Primary call
+
+    // Build PDF
+    void OpenReportPDF();
+
+    ///////////////// Report Builder - INTERNAL ///////////////////
+    // These functions build the different sections of the report
+    ///////////////////////////////////////////////////////////////
+    void BuildHeaderSection(QTextCursor& cursor);
+    void BuildGeneralInfoSection(QTextCursor& cursor);
+
+
 private:
+
+    // The final report object after it's been built.
+    QTextDocument* _report;
+
+    // Text Formatters
+    QTextCharFormat _headerFormat;
+    QTextCharFormat _tableTextFormat;
+    QTextTableCellFormat _tableCellBlue;
+    QTextTableCellFormat _tableIndexDark;
+    QTextTableCellFormat _tableIndexLight;
+
+    void TextToCell(QTextTable* table, int row, int col, QString txt, QTextCharFormat* format = nullptr, QTextTableCellFormat* cellFormat = nullptr);
 
     PartyVector _parties;
 

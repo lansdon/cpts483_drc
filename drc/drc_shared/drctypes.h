@@ -213,6 +213,7 @@ QString StringForCourtTypes(CourtCaseTypes id);
 QString StringForCourtOrderTypes(CourtOrderTypes id);
 QString StringForSessionOutcomes(SessionOutcomes id);
 QString StringForEvaluationAnswers(EvaluationAnswers id);
+QString StringForSessionTypes(SessionTypes id);
 
 
 

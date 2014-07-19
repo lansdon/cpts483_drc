@@ -6,6 +6,8 @@
 #include <random>
 #include "DBBaseObject.h"
 
+const QString DEF_PDF_PATH = "MEDIATION_PROCESS_REPORT.pdf";
+
 //Values going into MediationProcess Table
 //id
 //disputeType
@@ -44,6 +46,126 @@ MediationProcess::MediationProcess()
 
 MediationProcess::~MediationProcess()
 {
+}
+
+void MediationProcess::OpenReportPDF()
+{
+    if(!QDesktopServices::openUrl(QUrl::fromLocalFile(DEF_PDF_PATH)))
+        qDebug() << "Error opening MP PDF";
+}
+
+///////////////// Report Builder ///////////////////
+// Primary call
+void MediationProcess::BuildReport()
+{
+    _report = new QTextDocument();
+    _report->begin();
+
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(DEF_PDF_PATH);
+
+    QTextCursor cursor(_report);
+
+    // Header - User entered data
+    BuildHeaderSection(cursor);
+
+    // 1. General Information:  Inquiry, Mediation and Session information
+    BuildGeneralInfoSection(cursor);
+
+
+    _report->end();
+
+    _report->print(&printer);
+
+    OpenReportPDF();
+}
+
+///////////////// Report Builder - INTERNAL ///////////////////
+// These functions build the different sections of the report
+///////////////////////////////////////////////////////////////
+void MediationProcess::TextToCell(QTextTable* table, int row, int col, QString txt, QTextCharFormat* textFormat, QTextTableCellFormat* cellFormat)
+{
+    if(!textFormat) textFormat = &_tableTextFormat;
+
+    auto cell = table->cellAt(row, col);
+    if(cellFormat)
+        cell.setFormat(*cellFormat);
+    auto cellCursor = cell.firstCursorPosition();
+    cellCursor.insertText(txt, *textFormat);
+}
+
+void MediationProcess::BuildHeaderSection(QTextCursor& cursor)
+{
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertBlock();  //  Is this necessary?
+    cursor.insertText("\nMediation\n", _headerFormat);
+    cursor.insertText("1) Inquiry, Mediation and Session types and statuses\n", _tableTextFormat);
+}
+
+void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
+{
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText("\n==========General Information==========", _tableTextFormat);
+
+    QString InquiryType = "\nInquiry Type:\t";
+    InquiryType += StringForInquiryTypes(_inquiryType);
+    cursor.insertText(InquiryType, _tableTextFormat);
+
+    QString CourtCase = "\nCourt Case:\t";
+    CourtCase += (_isCourtCase == true ? "Yes" : "No");
+    cursor.insertText(CourtCase, _tableTextFormat);
+
+    QString InfoOnly = "\nInfo Only:\t";
+    InfoOnly += (_infoOnly == true ? "Yes" : "No");
+    cursor.insertText(InfoOnly, _tableTextFormat);
+
+    QString ReferralSource = "\nReferral Source:\t";
+    ReferralSource += StringForReferralTypes(_referalSource);
+    cursor.insertText(ReferralSource, _tableTextFormat);
+
+    QString MediationType = "\nMediation Type:\t";
+    MediationType += StringForDisputeTypes(_disputeType);
+    cursor.insertText(MediationType, _tableTextFormat);
+
+    QString RequiresSpanish = "\nRequires Spanish:\t";
+    RequiresSpanish += (_requiresSpanish == true ? "Yes" : "No");
+    cursor.insertText(RequiresSpanish, _tableTextFormat);
+
+    QString RequiresShuttle = "\nRequires Shuttle:\t";
+    RequiresShuttle += (_isShuttle == true ? "Yes" : "No");
+    cursor.insertText(RequiresShuttle, _tableTextFormat);
+
+    QString CountyofMediation = "\nCounty of Mediation:\t";
+    CountyofMediation += StringForCountyIds(_countyOfMediation);
+    cursor.insertText(CountyofMediation, _tableTextFormat);
+
+    QString SessionType = "\nSession Type:\t";
+    SessionType += StringForSessionTypes(_sessionType);
+    cursor.insertText(SessionType, _tableTextFormat);
+
+    QString CourtCaseType = "\nCourt Case Type:\t";
+    CourtCaseType += StringForCourtTypes(_courtCaseType);
+    cursor.insertText(CourtCaseType, _tableTextFormat);
+
+    QString CourtDate = "\nCourt Date:\t";
+    CourtDate += _courtDate.currentDateTime().toString();
+    cursor.insertText(CourtDate, _tableTextFormat);
+
+    QString CourtOrderType = "\nCourt Order:\t";
+    CourtOrderType += StringForCourtOrderTypes(_courtOrderType);
+    cursor.insertText(CourtOrderType, _tableTextFormat);
+
+    QString CourtOrderExpires = "\nCourt Order Expires:\t";
+    CourtOrderExpires += _courtOrderExpiration.currentDateTime().toString();
+    cursor.insertText(CourtOrderExpires, _tableTextFormat);\
+
+    QString CurrentStatus = "\nCurrent Status:";
+    CurrentStatus += "\n\tLast Activity:\t";
+    CurrentStatus += m_updated.currentDateTime().toString();
+    CurrentStatus += "\n\tCreation Date:\t";
+    CurrentStatus += m_created.currentDateTime().toString();
+    cursor.insertText(CurrentStatus, _tableTextFormat);
 }
 
 QString MediationProcess::Parse()
