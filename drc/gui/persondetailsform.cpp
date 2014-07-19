@@ -373,7 +373,6 @@ void PersonDetailsForm::on_countyComboBox_currentIndexChanged(int index)
     }
 }
 
-
 void PersonDetailsForm::on_childrenInHomeSpinBox_valueChanged(int arg1)
 {
     _person->setNumberChildrenInHousehold((unsigned int)arg1);
