@@ -11,6 +11,14 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
     ui(new Ui::MediationBrowser)
 {
     ui->setupUi(this);
+    ui->searchGroupBox->setStyleSheet("QGroupBox {\
+                                      border: 2px solid gray;\
+                                      border-radius: 5px;\
+                                      margin-top: 10px;\
+                                      } QGroupBox::title { subcontrol-origin: margin;\
+                                      subcontrol-position: top left;\
+                                      padding:0 3px;\
+                                      }");
 
     ConfigMediationProcecssViewTable();
 
@@ -84,21 +92,29 @@ void MediationBrowser::PopulateMediationProcessTable()
 
 void MediationBrowser::on_recentButton_clicked()
 {
+    ui->firstnameLineEdit->clear();
+    ui->lastnameLineEdit->clear();
     LoadTableData(MEDIATION_SORT_T_RECENT);
 }
 
 void MediationBrowser::on_pendingButton_clicked()
 {
+    ui->firstnameLineEdit->clear();
+    ui->lastnameLineEdit->clear();
     LoadTableData(MEDIATION_SORT_T_PENDING);
 }
 
 void MediationBrowser::on_scheduledButton_clicked()
 {
+    ui->firstnameLineEdit->clear();
+    ui->lastnameLineEdit->clear();
     LoadTableData(MEDIATION_SORT_T_SCHEDULED);
 }
 
 void MediationBrowser::on_closedButton_clicked()
 {
+    ui->firstnameLineEdit->clear();
+    ui->lastnameLineEdit->clear();
     LoadTableData(MEDIATION_SORT_T_CLOSED);
 }
 

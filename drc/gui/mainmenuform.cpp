@@ -29,6 +29,10 @@ MainMenuForm::MainMenuForm(QWidget *parent) :
                                                border-radius: 5px;\
                                                margin-top: 1.3em;\
                                               }");
+    ui->line->setStyleSheet("QFrame#line {border: 1px solid gray;\
+                            border-radius: 5px;\
+                            margin-top: 1.3em;\
+                           }");
 
 }
 

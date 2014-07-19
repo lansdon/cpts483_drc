@@ -183,7 +183,7 @@ void MediationSession::print(QTextCursor &cursor)
     cursor.insertText(_observer1 + "  " + _observer2 + "\n");
     for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
     {
-        cursor.insertText("Client " + QString::number(i) + "\n");
+        cursor.insertText("Client " + QString::number(i + 1) + "\n");
         _clientSessionDataVector.at(i)->print(cursor);
 
     }

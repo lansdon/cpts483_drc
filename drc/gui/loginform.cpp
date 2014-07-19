@@ -19,13 +19,14 @@ LoginForm::LoginForm(QWidget *parent) :
 
     _mediatorId_authenticateResponse = Mediator::Register(MKEY_DB_AUTHENTICATE_USER_DONE, [this](MediatorArg arg){authenticateResponse(arg);});
 
-    ui->statusLabel->setText("Please enter your credentials");
+    ui->statusLabel->setText("Enter your username and password:");
+    ui->LogoLabel->setPixmap(QPixmap(":images/drclogo.png"));
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
 
     ui->groupBox->setStyleSheet("QGroupBox {\
                                 border: 2px solid gray;\
                                 border-radius: 5px;\
-                                margin-top: 1.3em;\
+                                margin-top: 10px;\
                                 } QGroupBox::title { subcontrol-origin: margin;\
                                 subcontrol-position: top left;\
                                 padding:0 3px;\

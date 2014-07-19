@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="sizePolicy">
-   <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
@@ -24,7 +24,7 @@
   </property>
   <property name="baseSize">
    <size>
-    <width>700</width>
+    <width>0</width>
     <height>0</height>
    </size>
   </property>
@@ -39,6 +39,12 @@
   <layout class="QHBoxLayout" name="horizontalLayout_9">
    <item>
     <widget class="QScrollArea" name="scrollArea">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
+     </property>
      <property name="widgetResizable">
       <bool>true</bool>
      </property>
@@ -76,7 +82,7 @@
               </font>
              </property>
              <property name="text">
-              <string>Outcome:</string>
+              <string>Outcome</string>
              </property>
             </widget>
            </item>
@@ -122,7 +128,7 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Fees Status:</string>
+                   <string>Fees Status</string>
                   </property>
                  </widget>
                 </item>
@@ -175,7 +181,7 @@
                    </font>
                   </property>
                   <property name="text">
-                   <string>Schedule Date:</string>
+                   <string>Schedule Date</string>
                   </property>
                  </widget>
                 </item>
@@ -222,7 +228,7 @@
                 <item row="1" column="0">
                  <widget class="QLabel" name="label_2">
                   <property name="text">
-                   <string>Schedule Status:</string>
+                   <string>Schedule Status</string>
                   </property>
                  </widget>
                 </item>

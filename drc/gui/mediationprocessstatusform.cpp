@@ -18,7 +18,7 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     SetSavedLabel(false);
 
     ui->saveStatusLabel->setVisible(false);
-
+    ui->courtCheckBox->setChecked(false);
     ConfigureComboBoxes();
 
     Update();
@@ -26,9 +26,7 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     _SavePendingCallbackId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg){SetSavedLabel(false);});
     _PersistMPDoneCallbackId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){MPSaveFinished(arg);});
     _LoadMPCallbackId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){MPSaveFinished(arg);});
-
 }
-
 MediationProcessStatusForm::~MediationProcessStatusForm()
 {
     Mediator::Unregister(MKEY_GUI_MP_SAVE_PENDING, _SavePendingCallbackId);
@@ -70,12 +68,13 @@ void MediationProcessStatusForm::Update()
     sessionTypeDisplay();
 
     ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
+    ui->courtRow_3->setEnabled(false);
 
-    on_courtCheckBox_clicked();
 
 
-    ui->statusMessageLabel->setStyleSheet("QLabel#statusMessageLabel { color : orange; }");
+    ui->statusMessageLabel->setStyleSheet("QLabel#statusMessageLabel { color : blue; font: italic; }");
     ui->statusMessageLabel->setText(_mediationProcess->GetStateMessage());
+     on_courtCheckBox_clicked();
 
     SetSavedLabel(isSaved); // Preserve labels
 }
@@ -217,12 +216,16 @@ void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)
     ui->saveStatusLabel->setVisible(true);
     if(isError)
     {
-        ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : red; }");
-        ui->saveStatusLabel->setText(message);
+        ui->notSavedLabel->setStyleSheet("QLabel#notSavedLabel { color : red; }");
+        ui->saveStatusLabel->hide();
+        ui->notSavedLabel->show();
+        ui->notSavedLabel->setText(message);
     }
     else
     {
         ui->saveStatusLabel->setStyleSheet("QLabel#saveStatusLabel { color : green; }");
+        ui->notSavedLabel->hide();
+        ui->saveStatusLabel->show();
         ui->saveStatusLabel->setText(message);
     }
 }
@@ -243,7 +246,7 @@ void MediationProcessStatusForm::on_courtCheckBox_clicked()
     {
         _mediationProcess->SetIsCourtCase(isCourtCase);
         SetSavedLabel(false);
-        ui->courtRow_3->setHidden(!isCourtCase);
+        ui->courtRow_3->setEnabled(isCourtCase);
     }
 }
 
