@@ -377,6 +377,7 @@ bool DRCDB::CreateClientSessionTable(const QString& client_session_table_name)
     client_session_table_columns.push_back(QString("feesPaid Bool"));
     client_session_table_columns.push_back(QString("AttorneyExpected Bool"));
     client_session_table_columns.push_back(QString("AttorneyAttended Bool"));
+    client_session_table_columns.push_back(QString("Support integer"));
     client_session_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
 
     return CreateTable(client_session_table_name, client_session_table_columns);
@@ -1598,14 +1599,15 @@ qDebug() << command_string;
 
 bool DRCDB::InsertClientSessionData(ClientSessionData* data, int sessionId, int clientId)
 {
-    QString value_string = QString("%1, %2, '%3', '%4', '%5', '%6', '%7'")
+    QString value_string = QString("%1, %2, '%3', '%4', '%5', '%6', '%7', %8")
                                 .arg(clientId)
                                 .arg(sessionId)
                                 .arg(data->getIncome())
                                 .arg(data->getFee())
                                 .arg(data->getPaid())
                                 .arg(data->getAttySaidAttend())
-                                .arg(data->getAttyDidAttend());
+                                .arg(data->getAttyDidAttend())
+                                .arg(data->getSupport());
 
     QString command_string = QString("insert into %1 values (%2, %3)")
                                 .arg("Client_Session_Table")
