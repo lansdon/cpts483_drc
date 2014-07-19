@@ -210,7 +210,7 @@ void DRC_DB_TESTS::InsertPersonObject()
     Bruce_Lee.setCity(QString("New York"));
     Bruce_Lee.setState(QString("Alaska"));
     Bruce_Lee.setZip(QString("55555"));
-    Bruce_Lee.setCounty(QString("Benton"));
+    Bruce_Lee.setCounty(COUNTY_BENTON);
     Bruce_Lee.setPrimaryPhone(QString("111-111-1111"));
     Bruce_Lee.setSecondaryPhone(QString("222-222-2222"));
     Bruce_Lee.setAssistantPhone("333-333-3333");
@@ -226,7 +226,7 @@ void DRC_DB_TESTS::InsertPersonObject()
     Elvis_Presley.setCity(QString("Austin"));
     Elvis_Presley.setState(QString("Texas"));
     Elvis_Presley.setZip(QString("44444"));
-    Elvis_Presley.setCounty(QString("Franklin"));
+    Elvis_Presley.setCounty(COUNTY_FRANLKIN);
     Elvis_Presley.setPrimaryPhone(QString("222-222-2222"));
     Elvis_Presley.setSecondaryPhone(QString("111-111-1111"));
     Elvis_Presley.setAssistantPhone("444-444-4444");
