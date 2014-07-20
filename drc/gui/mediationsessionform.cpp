@@ -394,6 +394,7 @@ void MediationSessionForm::ConfigureComboBoxes()
 
 void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
 {
+    if(_mediationSession->GetState() == (SessionStates)index) return;
     _mediationSession->SetState((SessionStates)index);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -402,44 +403,49 @@ void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
 
 void MediationSessionForm::on_MediatorLineEdit_textEdited(const QString &arg1)
 {
+    if(_mediationSession->getMediator1() == arg1) return;
     _mediationSession->setMediator1(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Mediator2LineEdit_textEdited(const QString &arg1)
 {
+    if(_mediationSession->getMediator2() == arg1) return;
     _mediationSession->setMediator2(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Observe1LineEdit_textEdited(const QString &arg1)
 {
+    if(_mediationSession->getObserver1() == arg1) return;
     _mediationSession->setObserver1(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_Observer2lineEdit_textEdited(const QString &arg1)
 {
+    if(_mediationSession->getObserver2() == arg1) return;
     _mediationSession->setObserver2(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_dateEdit_userDateChanged(const QDate &date)
 {
+    if(_mediationSession->getScheduledDate() == date) return;
     _mediationSession->setScheduledDate(date);
      Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-
-
 void MediationSessionForm::on_timeEdit_userTimeChanged(const QTime &time)
 {
+    if(_mediationSession->getScheduledTime() == time) return;
     _mediationSession->setScheduledTime(time);
      Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationSessionForm::on_outcomeComboBox_currentIndexChanged(int index)
 {
+    if(_mediationSession->getOutcome() == (SessionOutcomes)index) return;
     _mediationSession->setOutcome((SessionOutcomes)index);
      Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

@@ -49,7 +49,7 @@ void Mediator::Unregister(QString key, MediatorId callbackId)
         }
     }
 
-    PrintState();
+//    PrintState();
 }
 
 // Call Override to package arguments into a MediatorArg
@@ -60,7 +60,7 @@ void Mediator::Call(QString key, void* object, bool success, QString errorMessag
 
 void Mediator::Call(QString key, MediatorArg arg)
 {
-    qDebug() << "------  Medaitor Call: " << key << " (" << Instance()._mediatorMap.count(key) << ")";
+    qDebug() << "------  Medaitor Call: " << key << " (" << GetRegisteredCount(key) << ")";
     if (Instance()._mediatorMap.count(key) != 0)
 	{
         for (MediatorCallbackVector::iterator it = Instance()._mediatorMap[key].begin();
@@ -93,6 +93,17 @@ void Mediator::PrintState()
         }
     }
     qDebug() << "--------------------------------\n";
+}
+
+// Test Helpers
+int Mediator::GetRegisteredCount(QString key)
+{
+    int count = 0;
+    if( Instance()._mediatorMap.count(key) )
+        count = Instance()._mediatorMap[key].size();
+
+//    qDebug() << key + " count= " << QString::number(count);
+    return count;
 }
 
 //}
