@@ -42,6 +42,7 @@ private:
     QString user_table_name;
     QString evaluationTableName;
 
+    QVector<QString> full_person_values;
     QVector<QString> empty_container;
 
 
@@ -52,7 +53,10 @@ private Q_SLOTS:
 
     void CreatePersonTable();
     void CheckPersonColumn();
-//    void CheckMediationColumn();
+
+    void CheckInsertPersonObject();
+
+//    void CheckProcessColumn();
 //    void CheckSessionColumn();
 //    void CheckClientColumn();
 //    void CheckNotesColumn();
@@ -73,7 +77,7 @@ private slots:
         //*******Comment out if undesirable; IE, looking inside file directly.       *******
         //*******Be sure to manually delete if you do comment this line out.         *******
 
-        QCOMPARE(QFile::remove(database_name), true);
+        //QCOMPARE(QFile::remove(database_name), true);
     }
 };
 
@@ -92,6 +96,29 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     client_session_table_name = QString("Client_session_table");
     user_table_name = QString("User_Table");
     evaluationTableName = QString("Evaluation_Table");
+
+    full_person_values.push_back(QString("Bruce"));
+    full_person_values.push_back(QString("Chan"));
+    full_person_values.push_back(QString("Lee"));
+    full_person_values.push_back(QString("55555 Huntington Place"));
+    full_person_values.push_back(QString("B"));
+    full_person_values.push_back(QString("New York"));
+    full_person_values.push_back(QString("Alaska"));
+    full_person_values.push_back(QString("55555"));
+    full_person_values.push_back(QString("2"));
+    full_person_values.push_back(QString("111-111-1111"));
+    full_person_values.push_back(QString("111"));
+    full_person_values.push_back(QString("222-222-2222"));
+    full_person_values.push_back(QString("222"));
+    full_person_values.push_back(QString("EnterTheDragon@BruceLee.com"));
+    full_person_values.push_back(QString("7"));
+    full_person_values.push_back(QString("1000"));
+    full_person_values.push_back(QString("Birdman"));
+    full_person_values.push_back(QString("123-123-1234"));
+    full_person_values.push_back(QString("Birdman@Attorney.law"));
+    full_person_values.push_back(QString("Rachel Dawes"));
+    full_person_values.push_back(QString("333-333-3333"));
+    full_person_values.push_back(QString("MaskNotMe@Attorney.law"));
 }
 //=======================================================
 
@@ -121,18 +148,11 @@ void DRC_DB_TESTS::CreatePersonTable()
 {
     QCOMPARE(_db.CreatePersonTable(person_table_name), true);
     QCOMPARE(_db.DoesTableExist(person_table_name), true);
-//    QCOMPARE(_db.DoesTableExist(mediation_table_name), true);
-//    QCOMPARE(_db.DoesTableExist(session_table_name), true);
-//    QCOMPARE(_db.DoesTableExist(client_table_name), true);
-//    QCOMPARE(_db.DoesTableExist(notes_table_name), true);
-//    QCOMPARE(_db.DoesTableExist(client_session_table_name), true);
-//    QCOMPARE(_db.DoesTableExist(user_table_name), true);
-//    QCOMPARE(_db.DoesTableExist(evaluationTableName), true);
 }
 
+//Verify all person columns that should be inside table are there.
 void DRC_DB_TESTS::CheckPersonColumn()
 {
-    //Verify all columns that should be inside table are there.
     QCOMPARE(_db.DoesColumnExist(QString("person_id"), person_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("first_name"), person_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("middle_name"), person_table_name), true);
@@ -158,7 +178,37 @@ void DRC_DB_TESTS::CheckPersonColumn()
     QCOMPARE(_db.DoesColumnExist(QString("assistant_email"), person_table_name), true);
 }
 
-//void DRC_DB_TESTS::CheckMediationColumn()
+void DRC_DB_TESTS::CheckInsertPersonObject()
+{
+    //Insert Fully Populated Object
+    Person Bruce_Lee;
+    Bruce_Lee.setFirstName(full_person_values[0]);
+    Bruce_Lee.setMiddleName(full_person_values[1]);
+    Bruce_Lee.setLastName(full_person_values[2]);
+    Bruce_Lee.setStreet(full_person_values[3]);
+    Bruce_Lee.setUnit(full_person_values[4]);
+    Bruce_Lee.setCity(full_person_values[5]);
+    Bruce_Lee.setState(full_person_values[6]);
+    Bruce_Lee.setZip(full_person_values[7]);
+    Bruce_Lee.setCounty((CountyIds)full_person_values[8].toInt());
+    Bruce_Lee.setPrimaryPhone(full_person_values[9]);
+    Bruce_Lee.setPrimaryPhoneExt(full_person_values[10]);
+    Bruce_Lee.setSecondaryPhone(full_person_values[11]);
+    Bruce_Lee.setSecondaryPhoneExt(full_person_values[12]);
+    Bruce_Lee.setEmail(full_person_values[13]);
+    Bruce_Lee.setNumberInHousehold(full_person_values[14].toInt());
+    Bruce_Lee.setNumberChildrenInHousehold(full_person_values[15].toInt());
+    Bruce_Lee.setAttorney(full_person_values[16]);
+    Bruce_Lee.setAttorneyPhone(full_person_values[17]);
+    Bruce_Lee.SetAttorneyEmail(full_person_values[18]);
+    Bruce_Lee.setAssistantName(full_person_values[19]);
+    Bruce_Lee.setAssistantPhone(full_person_values[20]);
+    Bruce_Lee.setAssistantEmail(full_person_values[21]);
+
+    QCOMPARE(_db.InsertObject(&Bruce_Lee), true);
+}
+
+//void DRC_DB_TESTS::CheckProcessColumn()
 //{
 //    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), mediation_table_name), true);
 //    QCOMPARE(_db.DoesColumnExist(QString("DisputeType"), mediation_table_name), true);

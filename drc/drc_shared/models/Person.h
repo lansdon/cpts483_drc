@@ -85,11 +85,6 @@ public:
     QString getSecondaryPhoneExt() const { return _secondaryPhoneExt; }
     void setSecondaryPhoneExt(QString value) { _secondaryPhoneExt = value; }
 
-    QString getAssistantPhone() const { return _assistantNumber; }
-    void setAssistantPhone(QString value) { _assistantNumber = value; }
-    QString getAssistantPhoneExt() const { return _assistantNumberExt; }
-    void setAssistantPhoneExt(QString value) { _assistantNumberExt = value; }
-
     QString getEmail() const { return _email; }
     void setEmail(QString value) { _email = value; }
 
@@ -101,12 +96,16 @@ public:
 
     QString getAttorney() const { return _attorney; }
     void setAttorney(QString value) { _attorney = value; }
-    QString getAssistantName() const { return _assistantName; }
-    void setAssistantName(QString value) {_assistantName = value; }
     QString getAttorneyPhone() const { return _attorneyPhone; }
     void setAttorneyPhone(QString value) { _attorneyPhone = value; }
     QString getAttorneyEmail() const { return _attorneyEmail; }
     void SetAttorneyEmail(QString value) { _attorneyEmail = value; }
+    QString getAssistantName() const { return _assistantName; }
+    void setAssistantName(QString value) {_assistantName = value; }
+    QString getAssistantPhone() const { return _assistantNumber; }
+    void setAssistantPhone(QString value) { _assistantNumber = value; }
+    QString getAssistantPhoneExt() const { return _assistantNumberExt; }
+    void setAssistantPhoneExt(QString value) { _assistantNumberExt = value; }
     QString getAssistantEmail() const { return _assistantEmail; }
     void setAssistantEmail(QString value) { _assistantEmail = value; }
 

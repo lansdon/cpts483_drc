@@ -249,13 +249,19 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
     person_table_columns.push_back(QString("state_name char(50)"));
     person_table_columns.push_back(QString("zip_code char(50)"));
     person_table_columns.push_back(QString("county_name int"));
-    person_table_columns.push_back(QString("primary_phone char(50)"));  //Confirm Phone Format
+    person_table_columns.push_back(QString("primary_phone char(50)"));
+    person_table_columns.push_back(QString("primary_phone_ext char(50)"));
     person_table_columns.push_back(QString("secondary_phone char(50)"));
-    person_table_columns.push_back(QString("assistance_phone char(50)"));
+    person_table_columns.push_back(QString("secondary_phone_ext char(50)"));
     person_table_columns.push_back(QString("email_address char(50)"));
-    person_table_columns.push_back(QString("number_in_house int"));
+    person_table_columns.push_back(QString("number_adult_in_house int"));
     person_table_columns.push_back(QString("number_children_in_house int"));
     person_table_columns.push_back(QString("attorney_name char(50)"));
+    person_table_columns.push_back(QString("attorney_phone char(50)"));
+    person_table_columns.push_back(QString("attorney_email char(50)"));
+    person_table_columns.push_back(QString("assistant_name char(50)"));
+    person_table_columns.push_back(QString("assistant_phone char(50)"));
+    person_table_columns.push_back(QString("assistant_email char(50)"));
 
     return CreateTable(person_table_name, person_table_columns);
 }
@@ -472,7 +478,7 @@ bool DRCDB::CloseDatabase()
     database = QSqlDatabase();
     database.removeDatabase(connection_name);
     return !database.isOpen();
-    
+
     // database.close();
     // return !database.isOpen();
 }
@@ -1492,9 +1498,8 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 bool DRCDB::InsertObject(DBBaseObject* db_object)
 {
     //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
-    QString command_string = QString("insert into %1 values ( %2, %3 )")
+    QString command_string = QString("insert into %1 %2")
             .arg(db_object->table())
-            .arg("null")
             .arg(db_object->Parse());
 qDebug() << command_string;
     bool insertSuccess = false;
@@ -1748,7 +1753,13 @@ bool DRCDB::ExtractError(const QSqlError &error_object)
     DB_ERROR = error_object.isValid();
 
     if (DB_ERROR)
-        ErrorMessageVec.push_back(error_object.text());
+    {
+        qDebug() << error_object.databaseText();
+        qDebug() << error_object.driverText();
+
+        ErrorMessageVec.push_back(error_object.databaseText());
+        ErrorMessageVec.push_back(error_object.driverText());
+    }
 
     return DB_ERROR;
 }
