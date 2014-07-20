@@ -22,7 +22,7 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopu
         UpdateLabels();
     else
         SetEditMode(true);      // Blank record, start in edit mode.
-    ui->groupBox->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 10px;}");
+    ui->groupBox->setStyleSheet("QGroupBox#groupBox {border: 2px solid gray; border-radius: 5px; margin-top: 10px;}");
 //    ui->emailFrame->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
     ui->miscFrame->setStyleSheet("QFrame#miscFrame {border: 2px solid gray; border-radius: 5px; margin-top: 8px;}");
     ui->addressGroupBox->setStyleSheet("QGroupBox#addressGroupBox {border: 2px solid gray; border-radius: 5px; margin-top: 10px;}");
