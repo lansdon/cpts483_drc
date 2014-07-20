@@ -465,8 +465,16 @@ bool DRCDB::DoesTableExist(QString table_name)
 //------------------------------------------------------------------------
 bool DRCDB::CloseDatabase()
 {
+    QString connection_name = database.connectionName();
     database.close();
+
+    //Resets to default connection
+    database = QSqlDatabase();
+    database.removeDatabase(connection_name);
     return !database.isOpen();
+    
+    // database.close();
+    // return !database.isOpen();
 }
 //========================================================================
 
@@ -1414,13 +1422,13 @@ void DRCDB::GetAllUsers(MediatorArg arg)
 //------------------------------------------------------------------------
 bool DRCDB::OpenDatabase(QString database_name)
 {
-    database = QSqlDatabase::addDatabase(db_driver);
+    database = QSqlDatabase::addDatabase(db_driver, QString("Current_Connection"));
     database.setDatabaseName(database_name);
     database.setConnectOptions(QString("foreign_keys = ON"));
     database.open();
 
-    QSqlQuery query;
-    query.exec("PRAGMA foreign_keys = ON;");
+    // QSqlQuery query;
+    // query.exec("PRAGMA foreign_keys = ON;");
 
     if(database.isOpenError())
         this->ExtractError(database.lastError());
