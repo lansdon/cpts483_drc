@@ -90,6 +90,9 @@ public:
 	static void Clear();
 
     static void PrintState();
+
+    // Test Helpers
+    static int GetRegisteredCount(QString key);
 };
 
 //}   // end namespace drc_shared

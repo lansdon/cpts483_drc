@@ -8,6 +8,16 @@
 
 const unsigned long DEF_ASYNC_TIMEOUT_SECS = 5; // timeout in seconds
 
+
+///
+/// \brief The AsyncMediatorWorker class
+///
+/// This class handles sending a single mediator call (key)
+/// and listens for a response. It's designed to work with
+/// AsynchMediatorCall which launches workers on seperate threads.
+///
+/// *** Do not use this class directly! Use AsynchMediatorCall!
+
 class AsyncMediatorWorker : public QObject {
     Q_OBJECT
 

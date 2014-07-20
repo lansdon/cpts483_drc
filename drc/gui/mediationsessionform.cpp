@@ -430,8 +430,6 @@ void MediationSessionForm::on_dateEdit_userDateChanged(const QDate &date)
      Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-
-
 void MediationSessionForm::on_timeEdit_userTimeChanged(const QTime &time)
 {
     _mediationSession->setScheduledTime(time);
