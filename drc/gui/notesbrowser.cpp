@@ -56,7 +56,6 @@ void NotesBrowser::ConfigTable()
     // only stretch note column
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(
         1, QHeaderView::Stretch);
-    qDebug() << "ConfigTable4";
 }
 
 void NotesBrowser::PopulateTable()
@@ -103,12 +102,12 @@ void NotesBrowser::on_saveNoteBtn_clicked()
     if(message.length())
     {
         // update the current note
-        if((int)_notes->size() > ui->tableWidget->currentRow() && !_editingNewNote)
-        {
+        int curRow = ui->tableWidget->currentRow();
+        if((int)_notes->size() > curRow && curRow >= 0 && !_editingNewNote)
             _notes->at(ui->tableWidget->currentRow())->SetMessage(message);
-        }
         // Add a new note
         else _notes->push_back(new Note(message));
+
         ui->noteInput->clear();
         PopulateTable();
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
@@ -129,9 +128,10 @@ void NotesBrowser::on_delNoteBtn_clicked()
 
 void NotesBrowser::on_tableWidget_itemSelectionChanged()
 {
-    if((int)_notes->size() > ui->tableWidget->currentRow())
+    int curRow = ui->tableWidget->currentRow();
+    if((int)_notes->size() > curRow && curRow >= 0)
     {
-        Note* curNote = _notes->at(ui->tableWidget->currentRow());
+        Note* curNote = _notes->at(curRow);
         ui->noteInput->setText(curNote->GetMessage());
     }
     _editingNewNote = false;
