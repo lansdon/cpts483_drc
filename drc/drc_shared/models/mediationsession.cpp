@@ -116,7 +116,7 @@ QString MediationSession::getFeeStatus() const
     }
 
     if(noFees)           //check if all fees are empty
-        return "No fees added";
+        return "No fees added";  // stateupdate.cpp is comparing with this return value.
     else if(paidInFull)                                                                             //check if paid in full
         return "Paid In Full";
     else if(partial)                                           //check if there are any partial payments
