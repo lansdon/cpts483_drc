@@ -332,6 +332,7 @@ void MediationProcess::AddParty(Party *party)
      for(int i = 0; i < (int)_mediationSessionVector.size(); i++)
      {
          MediationSession *temp = _mediationSessionVector.at(i);
-         temp->addClientSessionData(new ClientSessionData());
+         if(temp->getClientSessionDataVector()->size() < _parties.size())
+            temp->addClientSessionData(new ClientSessionData());
      }
 }

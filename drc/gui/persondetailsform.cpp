@@ -15,8 +15,9 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopu
     // Setup Validations
     ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
     //ui->adultsInHomeSpinBox->setValidator(new QIntValidator(ui->adultsInHomeSpinBox));
+    CountyIds quickCountyBugFix = _person->getCounty();
     configureComboBoxes();
-
+    _person->setCounty(quickCountyBugFix);
     // If a valid person object was passed, display it and don't go into edit mode.
     if(person)
         UpdateLabels();
@@ -64,6 +65,7 @@ void PersonDetailsForm::UpdateLabels()
 //    ui->mobileLineEdit->setText((_person->getMobilePhone()));
 //    ui->mobileExtLineEdit->setText((_person->getMobilePhoneExt()));
     ui->adultsInHomeSpinBox->setValue(_person->getNumberInHousehold());
+    ui->childrenInHomeSpinBox->setValue(_person->getNumberChildrenInHousehold());
     ui->attorneyLineEdit->setText((_person->getAttorney()));
     ui->attorneyEmailLineEdit->setText(_person->getAttorneyEmail());
     ui->attorneyPhoneLineEdit->setText(_person->getAttorneyPhone());
