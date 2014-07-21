@@ -259,6 +259,8 @@ bool StateUpdate::clientinfo(MediationProcess *arg)
     if(arg->getMediationSessionVector()->size() == 0)
     {
         advance = false;
+        _errorMessage = "Cannot schedule: Add a session.";
+        _stateMessage = "To proceed, add a session.";
     }
     else
     {
@@ -267,8 +269,8 @@ bool StateUpdate::clientinfo(MediationProcess *arg)
         if (session->getFeeStatus() ==  "No fees added")
         {
             advance = false;
-            _errorMessage = "Cannot schedule: Session fees must be recorded.";
-            _stateMessage = "To schedule, session fees must be recorded.";
+            _errorMessage = "Cannot schedule: Enter session fees.";
+            _stateMessage = "To proceed, enter session fees.";
         }
         else
         {
@@ -307,6 +309,8 @@ bool StateUpdate::fees(MediationProcess *arg)
     if(arg->getMediationSessionVector()->size() == 0)
     {
         advance = false;
+        _errorMessage = "Cannot schedule: Add a session.";
+        _stateMessage = "To proceed, add a session.";
     }
     else
     {
@@ -356,6 +360,8 @@ bool StateUpdate::mediators(MediationProcess *arg)
     if(arg->getMediationSessionVector()->size() == 0)
     {
         advance = false;
+        _errorMessage = "Cannot schedule: Add a session.";
+        _stateMessage = "To proceed, add a session.";
     }
     else
     {
@@ -402,6 +408,8 @@ bool StateUpdate::scheduled(MediationProcess *arg)
     if(arg->getMediationSessionVector()->size() == 0)
     {
         advance = false;
+        _errorMessage = "Cannot schedule: Add a session.";
+        _stateMessage = "To proceed, add a session.";
     }
     else
     {
@@ -448,6 +456,8 @@ bool StateUpdate::outcome(MediationProcess *arg)
     if(arg->getMediationSessionVector()->size() == 0)
     {
         advance = false;
+        _errorMessage = "Cannot schedule: Add a session.";
+        _stateMessage = "To proceed, add a session.";
     }
     else
     {
