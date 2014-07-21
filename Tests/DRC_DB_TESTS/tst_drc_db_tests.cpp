@@ -53,8 +53,10 @@ private Q_SLOTS:
 
     void CreatePersonTable();
     void CheckPersonColumn();
-
     void CheckInsertPersonObject();
+
+    void CheckCreateProcessTable();
+
 
 //    void CheckProcessColumn();
 //    void CheckSessionColumn();
@@ -77,7 +79,7 @@ private slots:
         //*******Comment out if undesirable; IE, looking inside file directly.       *******
         //*******Be sure to manually delete if you do comment this line out.         *******
 
-        //QCOMPARE(QFile::remove(database_name), true);
+        QCOMPARE(QFile::remove(database_name), true);
     }
 };
 
@@ -97,6 +99,7 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     user_table_name = QString("User_Table");
     evaluationTableName = QString("Evaluation_Table");
 
+    full_person_values.push_back(QString("1"));
     full_person_values.push_back(QString("Bruce"));
     full_person_values.push_back(QString("Chan"));
     full_person_values.push_back(QString("Lee"));
@@ -182,30 +185,42 @@ void DRC_DB_TESTS::CheckInsertPersonObject()
 {
     //Insert Fully Populated Object
     Person Bruce_Lee;
-    Bruce_Lee.setFirstName(full_person_values[0]);
-    Bruce_Lee.setMiddleName(full_person_values[1]);
-    Bruce_Lee.setLastName(full_person_values[2]);
-    Bruce_Lee.setStreet(full_person_values[3]);
-    Bruce_Lee.setUnit(full_person_values[4]);
-    Bruce_Lee.setCity(full_person_values[5]);
-    Bruce_Lee.setState(full_person_values[6]);
-    Bruce_Lee.setZip(full_person_values[7]);
-    Bruce_Lee.setCounty((CountyIds)full_person_values[8].toInt());
-    Bruce_Lee.setPrimaryPhone(full_person_values[9]);
-    Bruce_Lee.setPrimaryPhoneExt(full_person_values[10]);
-    Bruce_Lee.setSecondaryPhone(full_person_values[11]);
-    Bruce_Lee.setSecondaryPhoneExt(full_person_values[12]);
-    Bruce_Lee.setEmail(full_person_values[13]);
-    Bruce_Lee.setNumberInHousehold(full_person_values[14].toInt());
-    Bruce_Lee.setNumberChildrenInHousehold(full_person_values[15].toInt());
-    Bruce_Lee.setAttorney(full_person_values[16]);
-    Bruce_Lee.setAttorneyPhone(full_person_values[17]);
-    Bruce_Lee.SetAttorneyEmail(full_person_values[18]);
-    Bruce_Lee.setAssistantName(full_person_values[19]);
-    Bruce_Lee.setAssistantPhone(full_person_values[20]);
-    Bruce_Lee.setAssistantEmail(full_person_values[21]);
+    Bruce_Lee.setFirstName(full_person_values[1]);
+    Bruce_Lee.setMiddleName(full_person_values[2]);
+    Bruce_Lee.setLastName(full_person_values[3]);
+    Bruce_Lee.setStreet(full_person_values[4]);
+    Bruce_Lee.setUnit(full_person_values[5]);
+    Bruce_Lee.setCity(full_person_values[6]);
+    Bruce_Lee.setState(full_person_values[7]);
+    Bruce_Lee.setZip(full_person_values[8]);
+    Bruce_Lee.setCounty((CountyIds)full_person_values[9].toInt());
+    Bruce_Lee.setPrimaryPhone(full_person_values[10]);
+    Bruce_Lee.setPrimaryPhoneExt(full_person_values[11]);
+    Bruce_Lee.setSecondaryPhone(full_person_values[12]);
+    Bruce_Lee.setSecondaryPhoneExt(full_person_values[13]);
+    Bruce_Lee.setEmail(full_person_values[14]);
+    Bruce_Lee.setNumberInHousehold(full_person_values[15].toInt());
+    Bruce_Lee.setNumberChildrenInHousehold(full_person_values[16].toInt());
+    Bruce_Lee.setAttorney(full_person_values[17]);
+    Bruce_Lee.setAttorneyPhone(full_person_values[18]);
+    Bruce_Lee.SetAttorneyEmail(full_person_values[19]);
+    Bruce_Lee.setAssistantName(full_person_values[20]);
+    Bruce_Lee.setAssistantPhone(full_person_values[21]);
+    Bruce_Lee.setAssistantEmail(full_person_values[22]);
 
     QCOMPARE(_db.InsertObject(&Bruce_Lee), true);
+    QVector<QString> Results = _db.SelectAllFields(person_table_name);
+
+    QCOMPARE(full_person_values, Results);
+
+//  Visually verify that all the values match.
+//    for (int index = 0 ; index < full_person_values.size() ; ++index)
+//        qDebug() << full_person_values[index] << Results[index];
+}
+
+void DRC_DB_TESTS::CheckCreateProcessTable()
+{
+
 }
 
 //void DRC_DB_TESTS::CheckProcessColumn()

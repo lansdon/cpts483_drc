@@ -1713,20 +1713,21 @@ QVector<QString> DRCDB::SelectAllFields(QString table_name)
 {
     QVector<QString> return_vec;
 
-    QString command_string = QString("select * from %1")
-            .arg(table_name);
-
-    QSqlQuery query_object(database);
-    this->ExecuteCommand(command_string, query_object);
-
-    while(query_object.next())
+    if (this->DoesTableExist(table_name))
     {
-        QString time(query_object.value(0).toString());
-        QString name(query_object.value(1).toString());
-        QString id(query_object.value(2).toString());
-        return_vec.push_back(time);
-        return_vec.push_back(name);
-        return_vec.push_back(id);
+        QString command_string = QString("select * from %1")
+                .arg(table_name);
+
+        QSqlQuery query_object(database);
+        this->ExecuteCommand(command_string, query_object);
+
+        while(query_object.next())
+        {
+            QSqlRecord temp = query_object.record();
+            for (int index = 0 ; index < temp.count() ; ++index)
+                return_vec.push_back(query_object.value(index).toString());
+        }
+
     }
 
     return return_vec;
