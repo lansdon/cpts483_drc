@@ -410,14 +410,14 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
     session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
+    session_table_columns.push_back(QString("SessionOutcome integer"));
     session_table_columns.push_back(QString("CreatedDate Date"));
     session_table_columns.push_back(QString("UpdatedDate Date"));
-    session_table_columns.push_back(QString("ScheduledDate DateTime"));
+    session_table_columns.push_back(QString("ScheduledTime DateTime"));
     session_table_columns.push_back(QString("Mediator1 char(128)"));
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
     session_table_columns.push_back(QString("Observer2 char(128)"));
-    session_table_columns.push_back(QString("SessionOutcome integer"));
     session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
 
     return CreateTable(session_table_name, session_table_columns);
@@ -765,15 +765,16 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
 
             session->SetId(sessionQuery.value(0).toInt());
             session->SetState((SessionStates)sessionQuery.value(2).toInt());
+            session->setOutcome((SessionOutcomes)sessionQuery.value(3).toInt());
 
-            session->setMediationTime(QDateTime::fromString(sessionQuery.value(5).toString(), "yyyy-MM-dd hh:mm:ss"));
+            session->setMediationTime(QDateTime::fromString(sessionQuery.value(6).toString(), "yyyy-MM-dd hh:mm:ss"));
 
 
             //TODO: Make these into just needing names... they're not "client" type people
-            session->setMediator1(sessionQuery.value(6).toString());
-            session->setMediator2(sessionQuery.value(7).toString());
-            session->setObserver1(sessionQuery.value(8).toString());
-            session->setObserver2(sessionQuery.value(9).toString());
+            session->setMediator1(sessionQuery.value(7).toString());
+            session->setMediator2(sessionQuery.value(8).toString());
+            session->setObserver1(sessionQuery.value(9).toString());
+            session->setObserver2(sessionQuery.value(10).toString());
 
             //Load the clientsession data, based on the session id
             QSqlQuery DataQuery(database);
@@ -1517,7 +1518,11 @@ bool DRCDB::UpdateObject(DBBaseObject* db_object)
 
     //Need to not immediately return so we can grab that ID that was created
     insertSuccess = this->ExecuteCommand(command_string, query_object);
-
+if(this->DB_ERROR)
+{
+    qDebug() << command_string;
+ qDebug() << this->ErrorMessageVec.last();
+}
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
 }
