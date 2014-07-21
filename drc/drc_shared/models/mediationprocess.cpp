@@ -314,8 +314,14 @@ void MediationProcess::updateClientSessions(int value)
 bool MediationProcess::IsSettled()
 {
     foreach(MediationSession* session, _mediationSessionVector)
-        if(session->getOutcome() == SESSION_OUTCOME_AGREEMENT || session->getOutcome() == SESSION_OUTCOME_PROBLEM_SOLVING || session->getOutcome() == SESSION_OUTCOME_SELF_RESOLVED)
+    {
+        //if(session->getOutcome() == SESSION_OUTCOME_AGREEMENT || session->getOutcome() == SESSION_OUTCOME_PROBLEM_SOLVING || session->getOutcome() == SESSION_OUTCOME_SELF_RESOLVED)
+        // I agrue that self-resolved means the parties solved their problem without the DRC's help, so that doesn't count as the DRC settleing it.
+        if(session->getOutcome() == SESSION_OUTCOME_AGREEMENT || session->getOutcome() == SESSION_OUTCOME_PROBLEM_SOLVING)
+        {
             return true;
+        }
+    }
 
     return false;
 }

@@ -106,6 +106,7 @@ void ResWaReport::BuildReport()
 
     QPrinter printer(QPrinter::HighResolution);
     printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setPageOrientation(QPageLayout::Landscape);
     printer.setOutputFileName(DEF_PDF_PATH);
 
     QTextCursor cursor(_report);
@@ -162,21 +163,82 @@ void ResWaReport::BuildHeaderSection(QTextCursor& cursor)
 {
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
-    cursor.insertText("\nMediation\n", _headerFormat);
+    cursor.insertText("\nEVENTS\n", _headerFormat);
     cursor.insertText("1) CASES and Number of SETTLED CASES\n", _tableTextFormat);
 
 }
 
 void ResWaReport::BuildCasesSection(QTextCursor& cursor)
 {
-    cursor.movePosition(QTextCursor::End);
+    CalculateCasesTable();
 
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertBlock();
+
+    QTextTableFormat tableFormat;
+    tableFormat.setHeaderRowCount(1);
+    QVector<QTextLength> constraints;
+    constraints << QTextLength(QTextLength::PercentageLength, 15);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    constraints << QTextLength(QTextLength::PercentageLength, 7);
+    tableFormat.setColumnWidthConstraints(constraints);
+    QTextTable *table = cursor.insertTable(CasesTableRows, CasesTableCols, tableFormat);
+    // HEADERS
+    TextToCell(table, CT_TOTAL_CASES_SETTLED, 0, "Cases Settled");
+    TextToCell(table, CT_TOTAL_CASES_PERC, 0, "Percentage of total cases settled");
+    TextToCell(table, 0, CT_H_PARENTING, "Parenting Plans");
+    TextToCell(table, 0, CT_H_DISOLUTION, "Disolution");
+    TextToCell(table, 0, CT_H_FORECLOSURE, "Foreclosure");
+    TextToCell(table, 0, CT_H_TENANT, "Tenant Landlord");
+    TextToCell(table, 0, CT_H_BUSINESS, "Business");
+    TextToCell(table, 0, CT_H_WORKPLACE, "Workplace");
+    TextToCell(table, 0, CT_H_NEIGHBOR, "Neighbor");
+    TextToCell(table, 0, CT_H_VICTIM, "Victim Offender");
+    TextToCell(table, 0, CT_H_PARENT, "Parent Teen");
+    TextToCell(table, 0, CT_H_SCHOOL, "School");
+    TextToCell(table, 0, CT_H_ELDER, "Elder");
+    TextToCell(table, 0, CT_H_OTHER, "Other");
+    TextToCell(table, 0, CT_H_TOTAL, "Total");
+    // ROW INDICES
+    TextToCell(table, CT_SMALL_CLAIMS , 0, "Small claims court cases", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_SMALL_CLAIMS_SETTLED, 0, "Small Claims Court cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_SMALL_CLAIMS_PERC, 0, "Percentage of Small Claims cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_OTHER_DIST_COURT, 0, "Other District Cout cases");
+    TextToCell(table, CT_OTHER_DIST_COURT_SETTLED, 0, "Other District Cout cases settled");
+    TextToCell(table, CT_OTHER_DIST_COURT_PERC, 0, "Percentage of district court cases settled");
+    TextToCell(table, CT_JUVENIILE_COURT, 0, "Juvenile Court cases", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_JUVENIILE_COURT_SETTLED, 0, "Juvenile cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_JUVENIILE_COURT_PERC, 0, "Percentage of Juvenile cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_SUPERIOR_COURT, 0, "Superior Court cases");
+    TextToCell(table, CT_SUPERIOR_COURT_SETTLED, 0, "Superior Court cases settled");
+    TextToCell(table, CT_SUPERIOR_COURT_PERC, 0, "Percentage of Superior cases settled");
+    TextToCell(table, CT_OTHER_CASES, 0, "Other cases", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_OTHER_CASES_SETTLED, 0, "Other cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_OTHER_CASES_PERC, 0, "Percentage of Other cases settled", nullptr, &_tableIndexDark);
+    TextToCell(table, CT_TOTAL_CASES, 0, "Total cases");
+
+    // POPULATE CELLS FROM MATRIX
+    for (auto row = 1; row < CasesTableRows; ++row)
+        for (auto col = 1; col < CasesTableCols; ++col)
+            TextToCell(table, row, col, QString::number(_casesTable[row][col]),nullptr, &_tableCellBlue);
 }
 
 
 // 2)  CALLS
 void ResWaReport::BuildCallsSection(QTextCursor& cursor)
 {
+
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
     cursor.insertText("\n\n2) CALLS (Information, intake, and referal calls)\n", _headerFormat);
@@ -490,7 +552,12 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
     {
     case DISPUTE_T_PARENTING_PLAN:
         _casesTable[row][CT_H_PARENTING]++;
-        if(settled) _casesTable[row+1][CT_H_PARENTING]++;  // check this - might not be for just settled casses...
+        qDebug() << "** ADDing a case to Small Claims parenting cases\n";
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_PARENTING]++;
+            qDebug() << "** ADDing a SETTLED case to Small Claims parenting cases\n";
+        }
         break;
     case DISPUTE_T_TENANT:
         _casesTable[row][CT_H_TENANT]++;
@@ -525,10 +592,127 @@ void ResWaReport::CalculateCasesTable()
     {
         AddMPToCasesTable(mp->GetDisputeType(), mp->GetCourtType(), mp->IsSettled());
     }
+    qDebug() << "\n\nGENERATE TABLE\n\n";
 
-#warning BL TODO - Reswa percentages
     // Calculate the percentages now that all mp's have been added to the table!
     // (every 3rd row is a percentage calculation based on 2 fields above)
+
+    // Admittedly, there must be a way to loop to fill in this info, but I
+    // kept getting crashes, and eventually just decided this is how it'd be for now.
+
+    // Small Claims percentage row
+    if(_casesTable[CT_SMALL_CLAIMS][CT_H_PARENTING] != 0)
+    {
+        qDebug() << "STORING PERCENTAGE\n\n\n";
+        qDebug() << "Total = " << _casesTable[CT_SMALL_CLAIMS][CT_H_PARENTING];
+        qDebug() << "Settled = " << _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_PARENTING];
+
+        _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_PARENTING]   = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_PARENTING]   / _casesTable[CT_SMALL_CLAIMS][CT_H_PARENTING];
+        qDebug() << "Percetage = " <<  _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_PARENTING];
+    }
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_DISOLUTION]  = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_DISOLUTION]  / _casesTable[CT_SMALL_CLAIMS][CT_H_DISOLUTION];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_FORECLOSURE] = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_FORECLOSURE] / _casesTable[CT_SMALL_CLAIMS][CT_H_FORECLOSURE];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_TENANT]      = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_TENANT]      / _casesTable[CT_SMALL_CLAIMS][CT_H_TENANT];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_BUSINESS]    = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_BUSINESS]    / _casesTable[CT_SMALL_CLAIMS][CT_H_BUSINESS];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_WORKPLACE]   = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_WORKPLACE]   / _casesTable[CT_SMALL_CLAIMS][CT_H_WORKPLACE];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_NEIGHBOR]    = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_NEIGHBOR]    / _casesTable[CT_SMALL_CLAIMS][CT_H_NEIGHBOR];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_VICTIM]      = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_VICTIM]      / _casesTable[CT_SMALL_CLAIMS][CT_H_VICTIM];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_PARENT]      = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_PARENT]      / _casesTable[CT_SMALL_CLAIMS][CT_H_PARENT];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_SCHOOL]      = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_SCHOOL]      / _casesTable[CT_SMALL_CLAIMS][CT_H_SCHOOL];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_ELDER]       = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_ELDER]       / _casesTable[CT_SMALL_CLAIMS][CT_H_ELDER];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_OTHER]       = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_OTHER]       / _casesTable[CT_SMALL_CLAIMS][CT_H_OTHER];
+//    _casesTable[CT_SMALL_CLAIMS_PERC][CT_H_TOTAL]       = _casesTable[CT_SMALL_CLAIMS_SETTLED][CT_H_TOTAL]       / _casesTable[CT_SMALL_CLAIMS][CT_H_TOTAL];
+
+//    // Other District Court percentage row
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_PARENTING]   = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_PARENTING]   / _casesTable[CT_OTHER_CASES][CT_H_PARENTING];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_DISOLUTION]  = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_DISOLUTION]  / _casesTable[CT_OTHER_CASES][CT_H_DISOLUTION];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_FORECLOSURE] = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_FORECLOSURE] / _casesTable[CT_OTHER_CASES][CT_H_FORECLOSURE];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_TENANT]      = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_TENANT]      / _casesTable[CT_OTHER_CASES][CT_H_TENANT];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_BUSINESS]    = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_BUSINESS]    / _casesTable[CT_OTHER_CASES][CT_H_BUSINESS];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_WORKPLACE]   = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_WORKPLACE]   / _casesTable[CT_OTHER_CASES][CT_H_WORKPLACE];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_NEIGHBOR]    = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_NEIGHBOR]    / _casesTable[CT_OTHER_CASES][CT_H_NEIGHBOR];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_VICTIM]      = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_VICTIM]      / _casesTable[CT_OTHER_CASES][CT_H_VICTIM];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_PARENT]      = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_PARENT]      / _casesTable[CT_OTHER_CASES][CT_H_PARENT];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_SCHOOL]      = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_SCHOOL]      / _casesTable[CT_OTHER_CASES][CT_H_SCHOOL];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_ELDER]       = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_ELDER]       / _casesTable[CT_OTHER_CASES][CT_H_ELDER];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_OTHER]       = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_OTHER]       / _casesTable[CT_OTHER_CASES][CT_H_OTHER];
+//    _casesTable[CT_OTHER_DIST_COURT_PERC][CT_H_TOTAL]       = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_TOTAL]       / _casesTable[CT_OTHER_CASES][CT_H_TOTAL];
+
+//    // Juvenile cases percentage row
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_PARENTING]   = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_PARENTING]   / _casesTable[CT_JUVENIILE_COURT][CT_H_PARENTING];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_DISOLUTION]  = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_DISOLUTION]  / _casesTable[CT_JUVENIILE_COURT][CT_H_DISOLUTION];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_FORECLOSURE] = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_FORECLOSURE] / _casesTable[CT_JUVENIILE_COURT][CT_H_FORECLOSURE];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_TENANT]      = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_TENANT]      / _casesTable[CT_JUVENIILE_COURT][CT_H_TENANT];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_BUSINESS]    = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_BUSINESS]    / _casesTable[CT_JUVENIILE_COURT][CT_H_BUSINESS];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_WORKPLACE]   = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_WORKPLACE]   / _casesTable[CT_JUVENIILE_COURT][CT_H_WORKPLACE];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_NEIGHBOR]    = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_NEIGHBOR]    / _casesTable[CT_JUVENIILE_COURT][CT_H_NEIGHBOR];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_VICTIM]      = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_VICTIM]      / _casesTable[CT_JUVENIILE_COURT][CT_H_VICTIM];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_PARENT]      = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_PARENT]      / _casesTable[CT_JUVENIILE_COURT][CT_H_PARENT];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_SCHOOL]      = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_SCHOOL]      / _casesTable[CT_JUVENIILE_COURT][CT_H_SCHOOL];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_ELDER]       = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_ELDER]       / _casesTable[CT_JUVENIILE_COURT][CT_H_ELDER];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_OTHER]       = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_OTHER]       / _casesTable[CT_JUVENIILE_COURT][CT_H_OTHER];
+//    _casesTable[CT_JUVENIILE_COURT_PERC][CT_H_TOTAL]       = _casesTable[CT_JUVENIILE_COURT_SETTLED][CT_H_TOTAL]       / _casesTable[CT_JUVENIILE_COURT][CT_H_TOTAL];
+
+//    // Superior cases percentage row
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_PARENTING]   = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_PARENTING]   / _casesTable[CT_SUPERIOR_COURT][CT_H_PARENTING];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_DISOLUTION]  = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_DISOLUTION]  / _casesTable[CT_SUPERIOR_COURT][CT_H_DISOLUTION];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_FORECLOSURE] = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_FORECLOSURE] / _casesTable[CT_SUPERIOR_COURT][CT_H_FORECLOSURE];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_TENANT]      = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_TENANT]      / _casesTable[CT_SUPERIOR_COURT][CT_H_TENANT];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_BUSINESS]    = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_BUSINESS]    / _casesTable[CT_SUPERIOR_COURT][CT_H_BUSINESS];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_WORKPLACE]   = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_WORKPLACE]   / _casesTable[CT_SUPERIOR_COURT][CT_H_WORKPLACE];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_NEIGHBOR]    = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_NEIGHBOR]    / _casesTable[CT_SUPERIOR_COURT][CT_H_NEIGHBOR];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_VICTIM]      = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_VICTIM]      / _casesTable[CT_SUPERIOR_COURT][CT_H_VICTIM];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_PARENT]      = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_PARENT]      / _casesTable[CT_SUPERIOR_COURT][CT_H_PARENT];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_SCHOOL]      = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_SCHOOL]      / _casesTable[CT_SUPERIOR_COURT][CT_H_SCHOOL];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_ELDER]       = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_ELDER]       / _casesTable[CT_SUPERIOR_COURT][CT_H_ELDER];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_OTHER]       = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_OTHER]       / _casesTable[CT_SUPERIOR_COURT][CT_H_OTHER];
+//    _casesTable[CT_SUPERIOR_COURT_PERC][CT_H_TOTAL]       = _casesTable[CT_SUPERIOR_COURT_SETTLED][CT_H_TOTAL]       / _casesTable[CT_SUPERIOR_COURT][CT_H_TOTAL];
+
+//    // Other cases percentage row
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_PARENTING]   = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_PARENTING]   / _casesTable[CT_OTHER_CASES][CT_H_PARENTING];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_DISOLUTION]  = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_DISOLUTION]  / _casesTable[CT_OTHER_CASES][CT_H_DISOLUTION];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_FORECLOSURE] = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_FORECLOSURE] / _casesTable[CT_OTHER_CASES][CT_H_FORECLOSURE];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_TENANT]      = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_TENANT]      / _casesTable[CT_OTHER_CASES][CT_H_TENANT];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_BUSINESS]    = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_BUSINESS]    / _casesTable[CT_OTHER_CASES][CT_H_BUSINESS];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_WORKPLACE]   = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_WORKPLACE]   / _casesTable[CT_OTHER_CASES][CT_H_WORKPLACE];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_NEIGHBOR]    = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_NEIGHBOR]    / _casesTable[CT_OTHER_CASES][CT_H_NEIGHBOR];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_VICTIM]      = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_VICTIM]      / _casesTable[CT_OTHER_CASES][CT_H_VICTIM];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_PARENT]      = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_PARENT]      / _casesTable[CT_OTHER_CASES][CT_H_PARENT];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_SCHOOL]      = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_SCHOOL]      / _casesTable[CT_OTHER_CASES][CT_H_SCHOOL];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_ELDER]       = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_ELDER]       / _casesTable[CT_OTHER_CASES][CT_H_ELDER];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_OTHER]       = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_OTHER]       / _casesTable[CT_OTHER_CASES][CT_H_OTHER];
+//    _casesTable[CT_OTHER_CASES_PERC][CT_H_TOTAL]       = _casesTable[CT_OTHER_CASES_SETTLED][CT_H_TOTAL]       / _casesTable[CT_OTHER_CASES][CT_H_TOTAL];
+
+//    // Total cases percentage row
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_PARENTING]   = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_PARENTING]   / _casesTable[CT_TOTAL_CASES][CT_H_PARENTING];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_DISOLUTION]  = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_DISOLUTION]  / _casesTable[CT_TOTAL_CASES][CT_H_DISOLUTION];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_FORECLOSURE] = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_FORECLOSURE] / _casesTable[CT_TOTAL_CASES][CT_H_FORECLOSURE];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_TENANT]      = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_TENANT]      / _casesTable[CT_TOTAL_CASES][CT_H_TENANT];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_BUSINESS]    = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_BUSINESS]    / _casesTable[CT_TOTAL_CASES][CT_H_BUSINESS];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_WORKPLACE]   = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_WORKPLACE]   / _casesTable[CT_TOTAL_CASES][CT_H_WORKPLACE];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_NEIGHBOR]    = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_NEIGHBOR]    / _casesTable[CT_TOTAL_CASES][CT_H_NEIGHBOR];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_VICTIM]      = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_VICTIM]      / _casesTable[CT_TOTAL_CASES][CT_H_VICTIM];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_PARENT]      = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_PARENT]      / _casesTable[CT_TOTAL_CASES][CT_H_PARENT];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_SCHOOL]      = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_SCHOOL]      / _casesTable[CT_TOTAL_CASES][CT_H_SCHOOL];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_ELDER]       = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_ELDER]       / _casesTable[CT_TOTAL_CASES][CT_H_ELDER];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_OTHER]       = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_OTHER]       / _casesTable[CT_TOTAL_CASES][CT_H_OTHER];
+//    _casesTable[CT_TOTAL_CASES_PERC][CT_H_TOTAL]       = _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_TOTAL]       / _casesTable[CT_TOTAL_CASES][CT_H_TOTAL];
+
+    int row = (int)CT_SMALL_CLAIMS;
+    int column = (int)CT_H_PARENTING;
+
+    while (row <= (int)CT_TOTAL_CASES)
+    {
+        for(column = (int)CT_H_PARENTING; column <= CT_H_TOTAL; ++column)
+        {
+            qDebug() << "Calculated percent for [" << row+2 << "][" << column << "] cell";
+            if(_casesTable[row][column] != 0)
+            {
+                _casesTable[row+2][column] = _casesTable[row+1][column] / _casesTable[row][column];
+            }
+        }
+        row = row + 3;
+    }
 }
 
 
@@ -679,7 +863,9 @@ void ResWaReport::CalculatePeople()
                 };
 
                 // PART F
+                // total number indirectly includes both adults AND children.
                 _numIndirectly = _numIndirectly + party->GetPrimary()->getNumberInHousehold();
+                _numIndirectly = _numIndirectly + (int)party->GetChildren().size();
                 _numChildIndirectly = _numChildIndirectly + (int)party->GetChildren().size();
 
                 // PART G
