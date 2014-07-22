@@ -2,6 +2,8 @@
 #define PARTY_H
 
 #include <vector>
+#include <qtextcursor>
+#include <QTextDocument>
 #include "drctypes.h"
 #include "Person.h"
 #include "DBBaseObject.h"
@@ -44,7 +46,12 @@ public:
     // Test Data - Fill the object with test values in every field.
     static Party* SampleData();
 
+    void BuildToPDF(QTextCursor &cursor);
+
 private:
+    QTextCharFormat _headerFormat;
+    QTextCharFormat _tableTextFormat;
+
     Person *_primary;
     PersonVector _observers;
     PersonVector _children;

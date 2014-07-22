@@ -71,7 +71,7 @@ private:
     int _q6Yes, _q6No, _q6Somewhat;
 
 
-    ///////  Person section. Might not want these.
+    ///////  Person section. Set in CalculatePeople()
     int _numByPhone;
     int _numChildByPhone;
     int _numByCoaching;
@@ -134,7 +134,6 @@ private:
 
     // 5) PEOPLE
     void CalculatePeople();
-
 
 };
 

@@ -85,7 +85,7 @@ void MediationProcessView::PopulateView()
     AddPartyTabs(_mediationProcess->GetParties());
 
     // Update Session Browser
-    Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
+//    Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
     // Update Notes Browser
     Mediator::Call(MKEY_DOCK_SET_NOTES, _mediationProcess->GetNotes());
     // Update Mediations Browser
@@ -337,5 +337,10 @@ void MediationProcessView::on_partyTabWidget_tabCloseRequested(int index)
 void MediationProcessView::PrintMediationProcessPressed()
 {
     //create MP to PDF send current MP to it
-    qDebug() << "Print Mediation Pressed!";
+    if (_mediationProcess)
+    {
+        std::cout << "Print Button Pressed!" << std::endl;
+        _mediationProcess->PrintMediation();
+    }
+    //qDebug() << "Print Mediation Pressed!";
 }

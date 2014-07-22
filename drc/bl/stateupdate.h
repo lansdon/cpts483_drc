@@ -21,11 +21,13 @@ private:
     QString _stateMessage;
     bool startState(MediationProcess *arg);
     bool initiated(MediationProcess* arg);
-    bool readyToSchedule(MediationProcess *arg);
-    bool scheduled(MediationProcess *arg);
-    bool closed(MediationProcess *arg);
     bool unique(MediationProcess *arg);
+    bool clientinfo(MediationProcess *arg);
+    bool fees(MediationProcess *arg);
+    bool mediators(MediationProcess *arg);
+    bool scheduled(MediationProcess *arg);
     bool outcome(MediationProcess *arg);
+    bool closed(MediationProcess *arg);
     bool ValidateName(QString name);
     void GetExternalState(MediationProcess* arg);
 };

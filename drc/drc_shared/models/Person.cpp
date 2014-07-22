@@ -5,12 +5,14 @@ Person::Person()
 {
     _firstName = "";
     _numberInHousehold = 0;
+    _numberChildrenInHousehold = 0;
 }
 
 Person::Person(QString n)
 {
     _firstName = n.toUtf8().constData();
     _numberInHousehold = 0;
+    _numberChildrenInHousehold = 0;
 }
 
 Person::~Person()

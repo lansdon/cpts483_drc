@@ -93,17 +93,9 @@ public:
     // Report Helpers
     bool IsSettled();
 
-    ///////////////// Report Builder ///////////////////
-    void BuildReport();         // Primary call
+    // External call to print our Mediation
+    void PrintMediation();
 
-    // Build PDF
-    void OpenReportPDF();
-
-    ///////////////// Report Builder - INTERNAL ///////////////////
-    // These functions build the different sections of the report
-    ///////////////////////////////////////////////////////////////
-    void BuildHeaderSection(QTextCursor& cursor);
-    void BuildGeneralInfoSection(QTextCursor& cursor);
 
 
 private:
@@ -157,6 +149,20 @@ private:
     QDateTime _courtOrderExpiration;
 
     QString _stateMessage;  // Message set by BL explaining how to advance to next state.
+
+    ///////////////// Report Builder ///////////////////
+    void BuildReport();         // Primary call
+
+    // Build PDF
+    void OpenReportPDF();
+
+    ///////////////// Report Builder - INTERNAL ///////////////////
+    // These functions build the different sections of the report
+    ///////////////////////////////////////////////////////////////
+    void BuildHeaderSection(QTextCursor& cursor);
+    void BuildGeneralInfoSection(QTextCursor& cursor);
+    void BuildPartyInfoSection(QTextCursor& cursor);
+    void BuildSessionInfoSection(QTextCursor& cursor);
 
 };
 

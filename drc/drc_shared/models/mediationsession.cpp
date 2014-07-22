@@ -30,6 +30,8 @@ QString MediationSession::Parse()
 
     toReturn += QString::number(this->GetState());
     toReturn += ", ";
+    toReturn += QString:: number(this->getOutcome());
+    toReturn += ", ";
     toReturn += QString("'%1', '%2', '%3', ")
     .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
     .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
@@ -43,8 +45,6 @@ QString MediationSession::Parse()
     toReturn += single_quote + this->getObserver1().replace("'", "''") + single_quote;
     toReturn += ", ";
     toReturn += single_quote + this->getObserver2().replace("'", "''") + single_quote;
-    toReturn += ", ";
-    toReturn += QString::number(this->getOutcome());
 
     return toReturn;
 }
@@ -54,7 +54,8 @@ QString MediationSession::UpdateParse()
     QString toUpdate;
 
     // Status
-    toUpdate += QString("SessionStatus = %1, ").arg(QString::number(this->GetState()));
+    toUpdate += QString("SessionStatus = '%1', ").arg(QString::number(this->GetState()));
+    toUpdate += QString("SessionOutcome = '%1', ").arg(QString::number(this->getOutcome()));
 
     toUpdate += QString("UpdatedDate = '%1', ").arg(this->GetUpdatedDate().toString("yyyy-MM-dd"));
     toUpdate += QString("ScheduledTime = '%1', ")
@@ -66,10 +67,8 @@ QString MediationSession::UpdateParse()
 
     //Observers
     toUpdate += QString("Observer1 = '%1', ").arg(this->getObserver1().replace("'", "''"));
-    toUpdate += QString("Observer2 = '%1', ").arg(this->getObserver2().replace("'", "''"));
-
-    toUpdate += QString("SessionOutcome = '%1'").arg(QString::number(this->getOutcome()));
-
+    toUpdate += QString("Observer2 = '%1'").arg(this->getObserver2().replace("'", "''"));
+qDebug()<<toUpdate;
     return toUpdate;
 }
 
@@ -117,7 +116,7 @@ QString MediationSession::getFeeStatus() const
     }
 
     if(noFees)           //check if all fees are empty
-        return "No fees added";
+        return "No fees added";  // stateupdate.cpp is comparing with this return value.
     else if(paidInFull)                                                                             //check if paid in full
         return "Paid In Full";
     else if(partial)                                           //check if there are any partial payments
@@ -165,27 +164,25 @@ MediationSession *MediationSession::SampleData()
     return result;
 }
 
-void MediationSession::print(QTextCursor &cursor)
+void MediationSession::BuildToPDF(QTextCursor &cursor)
 {
-    QTextCharFormat format;
-    format.setFontPointSize(10);
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
-    cursor.insertText("\n\nMediation Date: ", format);
+    cursor.insertText("\nMediation Date: ");
     cursor.insertText(_mediationTime.toString("MM/dd/yyyy HH:mm")+ "\n");
     cursor.insertText("Session Outcome: ");
     cursor.insertText(StringForSessionOutcomes(_outcome) + "\n");
     cursor.insertText("Schedule Status: ");
     cursor.insertText(StringForSessionStates(_state) + "\n");
     cursor.insertText("Mediators: ");
-    cursor.insertText(_mediator1 + "  "+ _mediator2 + "\n");
+    cursor.insertText(_mediator1 + ",  "+ _mediator2 + "\n");
     cursor.insertText("Observers: ");
-    cursor.insertText(_observer1 + "  " + _observer2 + "\n");
+    cursor.insertText(_observer1 + ",  " + _observer2 + "\n");
     for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
     {
         cursor.insertText("Client " + QString::number(i + 1) + "\n");
         _clientSessionDataVector.at(i)->print(cursor);
 
     }
-    cursor.insertText("\n");
+
 }

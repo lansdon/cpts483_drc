@@ -66,6 +66,7 @@ private:
     bool FillingFields;
     void ConfigureComboBoxes();
     void populateAttyAndSupportTable();
+    void populateMediatorTable();
 
 };
 

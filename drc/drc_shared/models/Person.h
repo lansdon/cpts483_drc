@@ -72,7 +72,7 @@ public:
     void setState(QString value) { _state = value; }
     QString getZip() const { return _zip; }
     void setZip(QString value) { _zip = value; }
-    CountyIds getCounty() const { return _county; }
+    CountyIds getCounty() { return _county; }
     void setCounty(CountyIds value) { _county = value; }
 
     QString getPrimaryPhone() const { return _primaryPhone; }

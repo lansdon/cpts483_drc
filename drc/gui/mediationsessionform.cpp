@@ -150,6 +150,7 @@ void MediationSessionForm::updateFromTable()
         _mediationSession->setObserver1(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(0,1))->text());
         _mediationSession->setMediator2(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(1,0))->text());
         _mediationSession->setObserver2(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(1,1))->text());
+
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
         fillFields(_mediationSession);
     }
@@ -179,16 +180,26 @@ void MediationSessionForm::configureMediatorTable()
             c, QHeaderView::Stretch);
     }
 
-    for(int i = 0;i < 2; i++)
-    {
-        QLineEdit *mediator = new QLineEdit();
-        QLineEdit *observer = new QLineEdit();
-        ui->MediatorDisplayTableView->setCellWidget(i,0, mediator);
+}
+void MediationSessionForm::populateMediatorTable()
+{
+        QLineEdit *mediator1 = new QLineEdit();
+        QLineEdit *observer1 = new QLineEdit();
+        QLineEdit *mediator2 = new QLineEdit();
+        QLineEdit *observer2 = new QLineEdit();
+        mediator1->setText(_mediationSession->getMediator1());
+        mediator2->setText(_mediationSession->getMediator2());
+        observer1->setText(_mediationSession->getObserver1());
+        observer2->setText(_mediationSession->getObserver2());
+        ui->MediatorDisplayTableView->setCellWidget(0,0, mediator1);
+        ui->MediatorDisplayTableView->setCellWidget(0,1, observer1);
+        ui->MediatorDisplayTableView->setCellWidget(1,0, mediator2);
+        ui->MediatorDisplayTableView->setCellWidget(1,1, observer2);
+        connect(mediator1,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
+        connect(observer1,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
+        connect(mediator2,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
+        connect(observer2,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
 
-        ui->MediatorDisplayTableView->setCellWidget(i,1, observer);
-        connect(mediator,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
-        connect(observer,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
-    }
 
     //ui->MediatorDisplayTableView->addItems(header);
     //ui->MediatorDisplayTableView->set(new QListWidgetItem(),new MediationObserverView());
@@ -330,6 +341,7 @@ void MediationSessionForm::fillFields(MediationSession *input)
     }
     populateAttyAndSupportTable();
     PopulateFeeTable();
+    populateMediatorTable();
 }
 
 

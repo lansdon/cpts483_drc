@@ -79,21 +79,24 @@ void ClientSessionData::print(QTextCursor &cursor)
         cursor.insertText("Yes");
     else
         cursor.insertText("No");
-    cursor.insertText("  Fee: " + fee + "  Income: " + income + "  Paid: ");
+    cursor.insertText("\n\tFee: " + fee);
+    cursor.insertText("\n\tIncome: " + income);
+    cursor.insertText("\n\tPaid: ");
     if(paid)
-        cursor.insertText("Yes\n");
+        cursor.insertText("Yes");
     else
-        cursor.insertText("No\n");
-    cursor.insertText("\tAttorney: Said: ");
+        cursor.insertText("No");
+    cursor.insertText("\n\tSupport: " + QString::number(support));
+    cursor.insertText("\n\tAttorney said they would attend: ");
     if(attySaidAttend)
         cursor.insertText("Yes");
     else
         cursor.insertText("No");
-    cursor.insertText(" Did: ");
+    cursor.insertText("\n\tAttorney did attend: ");
     if(attyDidAttend)
         cursor.insertText("Yes");
     else
         cursor.insertText("No");
-    cursor.insertText(" Support: " + QString::number(support) + "\n");
+    cursor.insertText("\n");
 
 }
