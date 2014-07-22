@@ -164,7 +164,7 @@ MediationSession *MediationSession::SampleData()
     return result;
 }
 
-void MediationSession::print(QTextCursor &cursor)
+void MediationSession::BuildToPDF(QTextCursor &cursor)
 {
     QTextCharFormat format;
     format.setFontPointSize(10);

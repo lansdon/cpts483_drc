@@ -162,6 +162,7 @@ private:
     void BuildHeaderSection(QTextCursor& cursor);
     void BuildGeneralInfoSection(QTextCursor& cursor);
     void BuildPartyInfoSection(QTextCursor& cursor);
+    void BuildSessionInfoSection(QTextCursor& cursor);
 
 };
 

@@ -62,7 +62,7 @@ public:
     void addClientSessionData(ClientSessionData *value) { _clientSessionDataVector.push_back(value); }
     void removeClientSessionData(uint value);
 
-    void print(QTextCursor& cursor);
+    void BuildToPDF(QTextCursor& cursor);
 
 };
 

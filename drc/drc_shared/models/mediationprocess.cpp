@@ -85,6 +85,9 @@ void MediationProcess::BuildReport()
     // 2.  Party Information:  Party member address, phone and attorney information
     BuildPartyInfoSection(cursor);
 
+    // 3.  Session Information:  Schedule, client and mediation information
+    BuildSessionInfoSection(cursor);
+
     _report->end();    
 
     //OpenReportPDF();
@@ -182,6 +185,14 @@ void MediationProcess::BuildPartyInfoSection(QTextCursor &cursor)
     for (int i = 0; i < _parties.size(); i++)
     {
         _parties.at(i)->BuildToPDF(cursor);
+    }
+}
+
+void MediationProcess::BuildSessionInfoSection(QTextCursor &cursor)
+{
+    for (int i = 0; i < _mediationSessionVector.size(); i++)
+    {
+        _mediationSessionVector.at(i)->BuildToPDF(cursor);
     }
 }
 
