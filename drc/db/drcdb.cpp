@@ -239,7 +239,7 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> person_table_columns;
-    person_table_columns.push_back(QString("person_id integer primary key autoincrement null"));
+    person_table_columns.push_back(QString("id integer primary key autoincrement null"));
     person_table_columns.push_back(QString("first_name char(50)"));
     person_table_columns.push_back(QString("middle_name char(50)"));
     person_table_columns.push_back(QString("last_name char(50) not null"));
@@ -254,14 +254,6 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
     person_table_columns.push_back(QString("secondary_phone char(50)"));
     person_table_columns.push_back(QString("secondary_phone_ext char(50)"));
     person_table_columns.push_back(QString("email_address char(50)"));
-    person_table_columns.push_back(QString("number_adult_in_house int"));
-    person_table_columns.push_back(QString("number_children_in_house int"));
-    person_table_columns.push_back(QString("attorney_name char(50)"));
-    person_table_columns.push_back(QString("attorney_phone char(50)"));
-    person_table_columns.push_back(QString("attorney_email char(50)"));
-    person_table_columns.push_back(QString("assistant_name char(50)"));
-    person_table_columns.push_back(QString("assistant_phone char(50)"));
-    person_table_columns.push_back(QString("assistant_email char(50)"));
 
     return CreateTable(person_table_name, person_table_columns);
 }
@@ -286,7 +278,7 @@ void DRCDB::LoadDatabase(QString filename)
 
     //Name of the table we're creating.
     QString person_table_name = QString("Person_Table");
-    QString mediation_table_name = QString("Mediation_Table");
+    QString mediation_table_name = QString("Process_Table");
     QString session_table_name = QString("Session_Table");
     QString client_table_name = QString("Client_Table");
     QString notes_table_name = QString("Notes_Table");
@@ -301,7 +293,7 @@ void DRCDB::LoadDatabase(QString filename)
 
     if (!this->DoesTableExist(mediation_table_name))
     {
-        CreateMediationTable(mediation_table_name);
+        CreateProcessTable(mediation_table_name);
     }
 
     if (!this->DoesTableExist(session_table_name))
@@ -343,11 +335,11 @@ void DRCDB::LoadDatabase(QString filename)
 
 
 
-bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
+bool DRCDB::CreateProcessTable(const QString& mediation_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> mediation_table_columns;
-    mediation_table_columns.push_back(QString("Process_id integer primary key autoincrement null"));
+    mediation_table_columns.push_back(QString("id integer primary key autoincrement null"));
     mediation_table_columns.push_back(QString("DisputeType integer"));
     mediation_table_columns.push_back(QString("CreationDate Date"));
     mediation_table_columns.push_back(QString("UpdatedDate Date"));
@@ -397,7 +389,7 @@ bool DRCDB::CreateClientTable(const QString& client_table_name)
     client_table_columns.push_back(QString("Process_id integer"));
     client_table_columns.push_back(QString("Person_id integer"));
     client_table_columns.push_back(QString("Children integer"));
-    client_table_columns.push_back(QString("Support char(128)"));
+    client_table_columns.push_back(QString("Adult integer"));
     client_table_columns.push_back(QString("AttorneyName char(128)"));
     client_table_columns.push_back(QString("AttorneyPhone char(128)"));
     client_table_columns.push_back(QString("AttorneyEmail char(128)"));
@@ -1502,7 +1494,7 @@ bool DRCDB::InsertObject(DBBaseObject* db_object)
     QString command_string = QString("insert into %1 %2")
             .arg(db_object->table())
             .arg(db_object->Parse());
-qDebug() << command_string;
+
     bool insertSuccess = false;
     QSqlQuery query_object(database);
 
@@ -1587,10 +1579,10 @@ bool DRCDB::InsertClientObject(MediationProcess* dispute_object, Party* party_ob
             .arg(party_object->GetChildren().size())
             .arg(party_object->GetObservers().size())
             .arg(party_object->GetPrimary()->getAttorney().replace("'","''"))
-            .arg(party_object->GetPrimary()->getAttorneyPhone())
+            .arg(party_object->GetPrimary()->getAttorneyPhone().replace("'","''"))
             .arg(party_object->GetPrimary()->getAttorneyEmail().replace("'","''"))
             .arg(party_object->GetPrimary()->getAssistantName().replace("'","''"))
-            .arg(party_object->GetPrimary()->getAssistantPhone())
+            .arg(party_object->GetPrimary()->getAssistantPhone().replace("'","''"))
             .arg(party_object->GetPrimary()->getAssistantEmail().replace("'","''"));
             //Needs the assistant information as well!!!
 
@@ -1714,14 +1706,15 @@ QVector<QString> DRCDB::SelectPersonField(QString column_name, QString table_nam
 //QVector.count > 0:        Success
 //QVector.count == 0:       Failure
 //------------------------------------------------------------------------
-QVector<QString> DRCDB::SelectAllFields(QString table_name)
+QVector<QString> DRCDB::SelectOneFields(QString table_name, int id)
 {
     QVector<QString> return_vec;
 
     if (this->DoesTableExist(table_name))
     {
-        QString command_string = QString("select * from %1")
-                .arg(table_name);
+        QString command_string = QString("select * from %1 where id = %2")
+                .arg(table_name)
+                .arg(QString::number(id));
 
         QSqlQuery query_object(database);
         this->ExecuteCommand(command_string, query_object);
@@ -1732,7 +1725,6 @@ QVector<QString> DRCDB::SelectAllFields(QString table_name)
             for (int index = 0 ; index < temp.count() ; ++index)
                 return_vec.push_back(query_object.value(index).toString());
         }
-
     }
 
     return return_vec;

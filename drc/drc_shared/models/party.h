@@ -2,7 +2,7 @@
 #define PARTY_H
 
 #include <vector>
-#include <qtextcursor>
+#include <QTextCursor>
 #include <QTextDocument>
 #include "drctypes.h"
 #include "Person.h"

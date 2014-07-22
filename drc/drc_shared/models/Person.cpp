@@ -3,14 +3,15 @@
 
 Person::Person()
 {
-    _firstName = "";
+//    _firstName = "";
+    _county = COUNTY_NONE;
     _numberInHousehold = 0;
     _numberChildrenInHousehold = 0;
 }
 
 Person::Person(QString n)
 {
-    _firstName = n.toUtf8().constData();
+    _county = COUNTY_NONE;
     _numberInHousehold = 0;
     _numberChildrenInHousehold = 0;
 }
@@ -282,7 +283,7 @@ QString Person::Parse(void)
 {
     //Name
     QString column_names = QString("%1, %2, %3, %4,")
-        .arg(QString("person_id"))
+        .arg(QString("id"))
         .arg(QString("first_name"))
         .arg(QString("middle_name"))
         .arg(QString("last_name"));
@@ -297,7 +298,7 @@ QString Person::Parse(void)
         .arg(QString("county_name"));
 
     //Contact
-    column_names += QString(" %1, %2, %3, %4, %5,")
+    column_names += QString(" %1, %2, %3, %4, %5")
         .arg(QString("primary_phone"))
         .arg(QString("primary_phone_ext"))
         .arg(QString("secondary_phone"))
@@ -305,18 +306,18 @@ QString Person::Parse(void)
         .arg(QString("email_address"));
 
     //Household
-    column_names += QString(" %1, %2,")
-        .arg(QString("number_adult_in_house"))
-        .arg(QString("number_children_in_house"));
+    // column_names += QString(" %1, %2,")
+    //     .arg(QString("number_adult_in_house"))
+    //     .arg(QString("number_children_in_house"));
 
     //Legal Representation
-    column_names += QString(" %1, %2, %3, %4, %5, %6")
-        .arg(QString("attorney_name"))
-        .arg(QString("attorney_phone"))
-        .arg(QString("attorney_email"))
-        .arg(QString("assistant_name"))
-        .arg(QString("assistant_phone"))
-        .arg(QString("assistant_email"));
+    // column_names += QString(" %1, %2, %3, %4, %5, %6")
+    //     .arg(QString("attorney_name"))
+    //     .arg(QString("attorney_phone"))
+    //     .arg(QString("attorney_email"))
+    //     .arg(QString("assistant_name"))
+    //     .arg(QString("assistant_phone"))
+    //     .arg(QString("assistant_email"));
 
     //Name
     QString column_values = QString("%1, '%2', '%3', '%4',")
@@ -335,7 +336,7 @@ QString Person::Parse(void)
         .arg(QString::number(this->getCounty()));
 
     //Contact
-    column_values += QString(" '%1', '%2', '%3', '%4', '%5',")
+    column_values += QString(" '%1', '%2', '%3', '%4', '%5'")
         .arg(this->getPrimaryPhone().replace("'", "''"))
         .arg(this->getPrimaryPhoneExt().replace("'", "''"))
         .arg(this->getSecondaryPhone().replace("'", "''"))
@@ -343,17 +344,17 @@ QString Person::Parse(void)
         .arg(this->getEmail().replace("'", "''"));
 
     //Other
-    column_values += QString(" %1, %2,")
-        .arg(this->getNumberInHousehold())
-        .arg(this->getNumberChildrenInHousehold());
+    // column_values += QString(" %1, %2,")
+    //     .arg(this->getNumberInHousehold())
+    //     .arg(this->getNumberChildrenInHousehold());
 
-    column_values += QString(" '%1', '%2', '%3', '%4', '%5', '%6'")
-        .arg(this->getAttorney().replace("'", "''"))
-        .arg(this->getAttorneyPhone().replace("'", "''"))
-        .arg(this->getAttorneyEmail().replace("'", "''"))
-        .arg(this->getAssistantName().replace("'", "''"))
-        .arg(this->getAssistantPhone().replace("'", "''"))
-        .arg(this->getAssistantEmail().replace("'", "''"));
+    // column_values += QString(" '%1', '%2', '%3', '%4', '%5', '%6'")
+    //     .arg(this->getAttorney().replace("'", "''"))
+    //     .arg(this->getAttorneyPhone().replace("'", "''"))
+    //     .arg(this->getAttorneyEmail().replace("'", "''"))
+    //     .arg(this->getAssistantName().replace("'", "''"))
+    //     .arg(this->getAssistantPhone().replace("'", "''"))
+    //     .arg(this->getAssistantEmail().replace("'", "''"));
 
     QString toReturn = QString("(%1) VALUES(%2)")
         .arg(column_names)
@@ -398,7 +399,7 @@ QString Person::UpdateParse()
 
 QString Person::GetIdRowName()
 {
-    return "person_id";
+    return "id";
 }
 
 QString Person::table(void)

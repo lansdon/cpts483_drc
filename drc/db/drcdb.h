@@ -51,7 +51,7 @@ public:
 
     bool CreatePersonTable(const QString &person_table_name);
 
-    bool CreateMediationTable(const QString& mediation_table_name);
+    bool CreateProcessTable(const QString& mediation_table_name);
 
     bool CreateSessionTable(const QString& session_table_name);
 
@@ -94,7 +94,7 @@ public:
 
     bool InsertClientSessionData(ClientSessionData* data, int sessionId, int clientId);
 
-    QVector<QString> SelectAllFields(QString table_name);
+    QVector<QString> SelectOneFields(QString table_name, int id);
 
     //Parameters are temporary until Filter Object finalized.
     QVector<QString> SelectPersonField(QString column_name, QString table_name, QString compare_value, QString find_value);
