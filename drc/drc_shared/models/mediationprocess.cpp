@@ -51,8 +51,21 @@ MediationProcess::~MediationProcess()
 void MediationProcess::OpenReportPDF()
 {
     if(!QDesktopServices::openUrl(QUrl::fromLocalFile(DEF_PDF_PATH)))
-        qDebug() << "Error opening MP PDF";
+        qDebug() << "Error opening MEDIATION_PROCESS_REPORT.pdf";
 }
+
+///////////////// Print PDF ///////////////////
+void MediationProcess::PrintMediation()
+{
+    QPrinter printer(QPrinter::HighResolution);
+    printer.setOutputFormat(QPrinter::PdfFormat);
+    printer.setOutputFileName(DEF_PDF_PATH);
+
+    BuildReport();
+
+    _report->print(&printer);
+}
+
 
 ///////////////// Report Builder ///////////////////
 // Primary call
@@ -60,10 +73,6 @@ void MediationProcess::BuildReport()
 {
     _report = new QTextDocument();
     _report->begin();
-
-    QPrinter printer(QPrinter::HighResolution);
-    printer.setOutputFormat(QPrinter::PdfFormat);
-    printer.setOutputFileName(DEF_PDF_PATH);
 
     QTextCursor cursor(_report);
 
@@ -73,12 +82,12 @@ void MediationProcess::BuildReport()
     // 1. General Information:  Inquiry, Mediation and Session information
     BuildGeneralInfoSection(cursor);
 
+    // 2.  Party Information:  Party member address, phone and attorney information
+    BuildPartyInfoSection(cursor);
 
-    _report->end();
+    _report->end();    
 
-    _report->print(&printer);
-
-    OpenReportPDF();
+    //OpenReportPDF();
 }
 
 ///////////////// Report Builder - INTERNAL ///////////////////
@@ -100,13 +109,13 @@ void MediationProcess::BuildHeaderSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();  //  Is this necessary?
     cursor.insertText("\nMediation\n", _headerFormat);
-    cursor.insertText("1) Inquiry, Mediation and Session types and statuses\n", _tableTextFormat);
+    cursor.insertText("Inquiry, Mediation and Session types and statuses\n", _tableTextFormat);
 }
 
 void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
 {
     cursor.movePosition(QTextCursor::End);
-    cursor.insertText("\n==========General Information==========", _tableTextFormat);
+    cursor.insertText("\n========== General Information ==========", _tableTextFormat);
 
     QString InquiryType = "\nInquiry Type:\t";
     InquiryType += StringForInquiryTypes(_inquiryType);
@@ -161,12 +170,21 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     cursor.insertText(CourtOrderExpires, _tableTextFormat);\
 
     QString CurrentStatus = "\nCurrent Status:";
-    CurrentStatus += "\n\tLast Activity:\t";
+    CurrentStatus += "\n -Last Activity:\t";
     CurrentStatus += m_updated.currentDateTime().toString();
-    CurrentStatus += "\n\tCreation Date:\t";
+    CurrentStatus += "\n -Creation Date:\t";
     CurrentStatus += m_created.currentDateTime().toString();
     cursor.insertText(CurrentStatus, _tableTextFormat);
 }
+
+void MediationProcess::BuildPartyInfoSection(QTextCursor &cursor)
+{
+    for (int i = 0; i < _parties.size(); i++)
+    {
+        _parties.at(i)->BuildToPDF(cursor);
+    }
+}
+
 
 QString MediationProcess::Parse()
 {
