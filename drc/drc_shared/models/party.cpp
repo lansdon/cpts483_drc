@@ -54,7 +54,6 @@ QString Party::GetIdRowName()
 void Party::BuildToPDF(QTextCursor &cursor)
 {
     cursor.movePosition(QTextCursor::End);
-    cursor.insertText("\n========== Party Member ==========", _tableTextFormat);
 
     QString Name = "\nFirst:\t";
     Name += _primary->getFirstName();
@@ -101,9 +100,9 @@ void Party::BuildToPDF(QTextCursor &cursor)
     cursor.insertText(Email, _tableTextFormat);
 
     QString AdultsChildrenInHome = "\nAdults in Home:\t";
-    AdultsChildrenInHome += _primary->getNumberInHousehold();
+    AdultsChildrenInHome += QString::number(_primary->getNumberInHousehold());
     AdultsChildrenInHome += "\tChildren in Home:\t";
-    AdultsChildrenInHome += _primary->getNumberChildrenInHousehold();
+    AdultsChildrenInHome += QString::number(_primary->getNumberChildrenInHousehold());
     cursor.insertText(AdultsChildrenInHome, _tableTextFormat);
 
     QString AttorneyNamePhone = "\nAttorney Name:\t";

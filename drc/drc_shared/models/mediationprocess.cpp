@@ -184,6 +184,11 @@ void MediationProcess::BuildPartyInfoSection(QTextCursor &cursor)
 {
     for (int i = 0; i < _parties.size(); i++)
     {
+        QString ClientHeader = "\n========== ";
+        ClientHeader += "Client ";
+        ClientHeader += QString::number(i + 1);
+        ClientHeader += " ==========";
+        cursor.insertText(ClientHeader, _tableTextFormat);
         _parties.at(i)->BuildToPDF(cursor);
     }
 }
