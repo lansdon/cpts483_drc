@@ -20,6 +20,7 @@
 #include "reswareportform.h"
 #include "slideshowform.h"
 #include "monthlyreportform.h"
+#include "tabbedbrowsers.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -206,7 +207,8 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
     if(_browserDock)
     {
         // Close the current window if the same browser is requested.
-        MPToolBox* toolbox = (MPToolBox*)_browserDock->widget();
+//        MPToolBox* toolbox = (MPToolBox*)_browserDock->widget();
+        TabbedBrowsers* toolbox = (TabbedBrowsers*)_browserDock->widget();
         MPBrowserTypes curBrowser = toolbox->GetCurrentBrowserType();
         if(curBrowser == browserType)
         {
@@ -229,15 +231,15 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
     if(shouldDisplayTable)
     {
         // Create a new one if it doesn't exist.
-        MPToolBox* mpToolbox = nullptr;
+        TabbedBrowsers* mpToolbox = nullptr;
         if(_browserDock)
         {
-            mpToolbox = (MPToolBox*)_browserDock->widget();
+            mpToolbox = (TabbedBrowsers*)_browserDock->widget();
         }
         else
         {
             _browserDock = new QDockWidget("Browser Toolbox", this);
-            mpToolbox = new MPToolBox(_browserDock);
+            mpToolbox = new TabbedBrowsers(_browserDock);
             connect(mpToolbox, SIGNAL(MPSelected(MediationProcess*)), this, SLOT(on_mediationProcessSelected(MediationProcess*)));
             _browserDock->setWidget(mpToolbox);
             addDockWidget(Qt::RightDockWidgetArea, _browserDock);
@@ -249,7 +251,8 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
             _mediationProcessView->PopulateView();
         else Mediator::Call(MKEY_DOCK_SET_NOTES); // sets notes to null and disables notes browser.
 
-        _browserDock->show();
+        if(!_browserDock->isVisible())
+            _browserDock->show();
     }
 }
 

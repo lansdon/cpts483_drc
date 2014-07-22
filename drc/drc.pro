@@ -70,7 +70,8 @@ SOURCES += main.cpp\
     gui/reswareportform.cpp \
     drc_shared/models/reswareport.cpp \
     gui/slideshowform.cpp \
-    drc_shared/models/monthlyreport.cpp
+    drc_shared/models/monthlyreport.cpp \
+    gui/tabbedbrowsers.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -131,7 +132,8 @@ HEADERS  += \
     drc_shared/reportrequest.h \
     drc_shared/models/reswareport.h \
     gui/slideshowform.h \
-    drc_shared/models/monthlyreport.h
+    drc_shared/models/monthlyreport.h \
+    gui/tabbedbrowsers.h
 
 FORMS    += \
     DRCClient.ui \
@@ -160,7 +162,8 @@ FORMS    += \
     gui/monthlyreportform.ui \
     gui/mediationevaluationview.ui \
     gui/reswareportform.ui \
-    gui/slideshowform.ui
+    gui/slideshowform.ui \
+    gui/tabbedbrowsers.ui
 
 
 CONFIG += c++11
