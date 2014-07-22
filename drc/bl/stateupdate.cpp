@@ -14,6 +14,7 @@ StateUpdate::StateUpdate()
 {
     _errorMessage = "";
     _stateMessage = "";
+    _infoOnly = false;
 }
 
 //this function calls the method for the state transition the mediation process is in
@@ -31,6 +32,9 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
         {
         case PROCESS_INTERNAL_STATE_NONE:
             success = startState(arg);
+            break;
+        case PROCESS_INTERNAL_STATE_INFO_ONLY:
+            success = info(arg);
             break;
         case PROCESS_INTERNAL_STATE_INITIATED:
             success = initiated(arg);
@@ -75,7 +79,10 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
         errorMessage = _errorMessage;
         success = false;
     }
-    else success = true;
+    else
+    {
+        success = true;
+    }
 
     //return success;
     stateMessage = _stateMessage;
@@ -83,11 +90,11 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
     // debug statements
     if(success)
     {
-        qDebug() << "Decided status: " << success << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Success - Decided state: " << finalState << " stateMessage(" << _stateMessage << ")";
     }
     else
     {
-        qDebug() << "Decided status: " << success << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Error - Decided status: " << finalState << " errorMessage(" << _errorMessage << ")";
     }
 
     return success;
@@ -110,7 +117,7 @@ bool StateUpdate::startState(MediationProcess *arg)
 
             if (ValidateName(primaryName))
             {
-                arg->SetInternalState(PROCESS_INTERNAL_STATE_INITIATED);
+                arg->SetInternalState(PROCESS_INTERNAL_STATE_INFO_ONLY);
                 advance = true;
                 break;
             }
@@ -121,6 +128,45 @@ bool StateUpdate::startState(MediationProcess *arg)
     {
         _errorMessage = "Cannot save: Enter at least one party with a name.";
         _stateMessage = "To save, enter at least one party with a name.";
+    }
+
+    // debug statements
+    if(advance)
+    {
+        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+    }
+    else
+    {
+        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+    }
+
+    return advance;
+}
+
+/* -------------------------------------------------------------------------------------------------------
+ * info only state
+ * checks if the info only check box got checked.
+ *
+ * success: state = PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS
+ * failure: state = PROCESS_INTERNAL_STATE_INITIATED
+ * -------------------------------------------------------------------------------------------------------
+ */
+bool StateUpdate::info(MediationProcess* arg)
+{
+    bool advance;
+    qDebug() << "Validating Info Only State.";
+
+    if(arg->GetInfoOnly())
+    {
+        advance = false;
+        _infoOnly = true;
+        _stateMessage = "Info only, no further action required.";
+        _errorMessage = "Info only, no further action required.";
+    }
+    else
+    {
+        advance = true;
+        arg->SetInternalState(PROCESS_INTERNAL_STATE_INITIATED);
     }
 
     // debug statements
@@ -467,15 +513,16 @@ bool StateUpdate::outcome(MediationProcess *arg)
             if(!session->isFullyPaid())
             {
                 advance = false;
-                arg->SetInternalState(PROCESS_INTERNAL_STATE_OUTCOME_SELECTED);
                 _errorMessage = "Cannot close: All fees must be paid in full.";
                 _stateMessage = "To close, all fees must be paid in full.";
             }
+            else
+            {
+                advance = true;
+                arg->SetInternalState(PROCESS_INTERNAL_STATE_CLOSED);
+                _stateMessage = "Intake process complete.";
+            }
         }
-    }
-    if (advance)
-    {
-        arg->SetInternalState(PROCESS_INTERNAL_STATE_CLOSED);
     }
 
     if(advance)

@@ -19,7 +19,9 @@ public:
 private:
     QString _errorMessage;
     QString _stateMessage;
+    bool _infoOnly;
     bool startState(MediationProcess *arg);
+    bool info(MediationProcess *arg);
     bool initiated(MediationProcess* arg);
     bool unique(MediationProcess *arg);
     bool clientinfo(MediationProcess *arg);
