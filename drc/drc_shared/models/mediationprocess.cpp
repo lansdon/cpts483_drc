@@ -197,6 +197,11 @@ void MediationProcess::BuildSessionInfoSection(QTextCursor &cursor)
 {
     for (int i = 0; i < _mediationSessionVector.size(); i++)
     {
+        QString ClientHeader = "\n========== ";
+        ClientHeader += "Session ";
+        ClientHeader += QString::number(i + 1);
+        ClientHeader += " ==========";
+        cursor.insertText(ClientHeader, _tableTextFormat);
         _mediationSessionVector.at(i)->BuildToPDF(cursor);
     }
 }
