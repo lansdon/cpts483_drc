@@ -123,6 +123,14 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     cursor.movePosition(QTextCursor::End);
     cursor.insertText("\n========== General Information ==========", _tableTextFormat);
 
+    QString CurrentStatus = "\nCurrent Status:\t";
+    CurrentStatus += StringForDisputeProcessStates(_processState);
+    CurrentStatus += "\n -Last Activity:\t";
+    CurrentStatus += m_updated.toString();
+    CurrentStatus += "\n -Creation Date:\t";
+    CurrentStatus += m_created.currentDateTime().toString();
+    cursor.insertText(CurrentStatus, _tableTextFormat);
+
     QString InquiryType = "\nInquiry Type:\t";
     InquiryType += StringForInquiryTypes(_inquiryType);
     cursor.insertText(InquiryType, _tableTextFormat);
@@ -175,12 +183,6 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     CourtOrderExpires += _courtOrderExpiration.toString();
     cursor.insertText(CourtOrderExpires, _tableTextFormat);\
 
-    QString CurrentStatus = "\nCurrent Status:";
-    CurrentStatus += "\n -Last Activity:\t";
-    CurrentStatus += m_updated.toString();
-    CurrentStatus += "\n -Creation Date:\t";
-    CurrentStatus += m_created.currentDateTime().toString();
-    cursor.insertText(CurrentStatus, _tableTextFormat);
 }
 
 void MediationProcess::BuildPartyInfoSection(QTextCursor &cursor)
@@ -211,14 +213,17 @@ void MediationProcess::BuildSessionInfoSection(QTextCursor &cursor)
 
 void MediationProcess::BuildNotesSesction(QTextCursor &cursor)
 {
+    QString NotesHeader = "\n============================ Notes ===========================\n\n";
+    NotesHeader += "============= Creation Date ==================== Note =============\n";
+    cursor.insertText(NotesHeader, _tableTextFormat);
     for (int i = 0; i < _mediationNotes.size(); i++)
     {
         std::cout << i << std::endl;
-        QString NotesHeader = "\n========== ";
-        NotesHeader += "Note ";
-        NotesHeader += QString::number(i + 1);
-        NotesHeader += " ==========";
-        cursor.insertText(NotesHeader, _tableTextFormat);
+
+//        NotesHeader += "Note ";
+//        NotesHeader += QString::number(i + 1);
+//        NotesHeader += " ==========";
+
         _mediationNotes.at(i)->BuildToPDF(cursor);
     }
 }
