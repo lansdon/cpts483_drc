@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "MediatorArg.h"
+#include "monthlyreport.h"
 
 namespace Ui {
 class MonthlyReportForm;

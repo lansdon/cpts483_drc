@@ -4,6 +4,7 @@
 #include "MediatorKeys.h"
 #include "drctypes.h"
 #include "reportrequest.h"
+
 #include <QMessageBox>
 
 MonthlyReportForm::MonthlyReportForm(QWidget *parent) :
@@ -42,11 +43,11 @@ void MonthlyReportForm::RecieveReport(MediatorArg arg)
     if(arg.IsSuccessful())
     {
         // TO DO - CHANGE THIS TO MONTLY REPORT!!!
-//        auto report = arg.getArg<ResWaReport*>();
-//        if(report)
-//        {
-//            report->BuildReport();
-//        }
+        auto report = arg.getArg<monthlyreport*>();
+        if(report)
+        {
+            report->pdfReport();
+        }
     }
 }
 

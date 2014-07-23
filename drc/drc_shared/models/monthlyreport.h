@@ -3,6 +3,7 @@
 
 #include "drctypes.h"
 #include <map>
+#include <QTextDocument>
 
 class monthlyreport
 {
@@ -23,8 +24,9 @@ private:
     int m_sessionsCancelled;
     int m_openCases;
     int m_totalIntake;
+    int totalCasesMediated();
     std::map<CountyIds, int> m_countyCounts;
-
+    QTextDocument *_report;
 
     const int m_childrenDirect = 0;
 
@@ -70,6 +72,8 @@ public:
     int getOpenCases() {return m_openCases;}
     int getTotalIntake() {return m_totalIntake;}
     int getInfoOnlyCount() {return m_infoOnly;}
+
+    void pdfReport();
 };
 
 #endif // MONTHLYREPORT_H
