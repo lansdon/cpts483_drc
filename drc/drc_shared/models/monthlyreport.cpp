@@ -111,84 +111,110 @@ void monthlyreport::pdfReport()
     printer.setPageOrientation(QPageLayout::Portrait);
     printer.setOutputFileName(DEF_PDF_PATH);
 
+    QFont font("Monospace");
+    font.setStyleHint(QFont::Courier);
+    font.setFixedPitch(true);
+    font.setPointSize(10);
+    _report->setDefaultFont(font);
+
     QTextCursor cursor(_report);
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
+
     QString pdfString = "DRCTC Summary Statistics ";
     QDate date(m_year,m_month,1);
     pdfString += "for ";
     pdfString += date.toString("MMMM yyyy");
     pdfString += ".\n\n";
     pdfString += QString("%1:%2")
-            .arg(QString("%1").arg("# of Children Indirectly Served").rightJustified(35))
-            .arg(QString::number(m_childrenIndirect).rightJustified(5));
+            .arg(QString("%1").arg("# of Children Indirectly Served", 35))
+            .arg(QString::number(m_childrenIndirect), 5);
     pdfString += "\n";
     pdfString += QString("%1:%2")
-            .arg(QString("%1").arg("# of Children Directly Served").rightJustified(35))
-            .arg(QString::number(m_childrenDirect).rightJustified(5));
+            .arg(QString("%1").arg("# of Children Directly Served", 35))
+            .arg(QString::number(m_childrenDirect), 5);
     for(int i = 0; i < 7; i++)
     {
         if((CountyIds)i != COUNTY_NONE)
         {
             pdfString += "\n";
-//            pdfString +=
-//            pdfString += ":";
             pdfString += QString("%1:%2")
-                    .arg(QString("%1").arg(StringForCountyIds((CountyIds)i).rightJustified(35)))
-                    .arg(QString::number(m_countyCounts[(CountyIds)i]).rightJustified(5));
+                    .arg(QString("%1").arg(StringForCountyIds((CountyIds)i), 35))
+                    .arg(QString::number(m_countyCounts[(CountyIds)i]), 5);
         }
     }
-    pdfString += "\n========== INTAKE/CASE OUTCOME ==========";
+
+    pdfString += "\n\n================ INTAKE/CASE OUTCOME ===================";
     for(int i = 0; i < 9; i++)
     {
         if((SessionOutcomes)i != SESSION_OUTCOME_NONE)
         {
             pdfString += "\n";
-//            pdfString += StringForSessionOutcomes((SessionOutcomes)i);
-//            pdfString += ":\t";
             pdfString += QString("%1%2")
                     .arg(QString("%1:").arg(StringForSessionOutcomes((SessionOutcomes)i), 35))
-                    .arg(QString::number(m_outcomes[(SessionOutcomes)i]),5);
+                    .arg(QString::number(m_outcomes[(SessionOutcomes)i]), 5);
         }
     }
-    pdfString += "\nOpen Cases:\t";
-    pdfString += QString::number(m_openCases);
-    pdfString += "\nTotal Intake:\t";
-    pdfString += QString::number(m_totalIntake);
-    pdfString += "\nSessions Set & Cancelled:\t";
-    pdfString += QString::number(m_sessionsCancelled);
-    pdfString += "\nTotal Cases Mediated:\t";
-    pdfString += QString::number(totalCasesMediated());
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Open Cases", 35)
+            .arg(QString::number(m_openCases), 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Total Intake", 35)
+            .arg(QString::number(m_totalIntake), 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Sessions Set & Cancelled", 35)
+            .arg(QString::number(m_sessionsCancelled), 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Total Cases Mediated",35)
+            .arg(QString::number(totalCasesMediated()), 5);
 
-    pdfString += "\n=========== REGERRALS per SOURCE ===========";
+    pdfString += "\n\n================ REGERRALS per SOURCE =================";
     for(int i = 0; i < 16; i++)
     {
         if((ReferralTypes)i != REFERRAL_T_NONE)
         {
             pdfString += "\n";
-            /*pdfString += StringForReferralTypes((ReferralTypes)i);
-            pdfString += ":\t"*/;
             pdfString += QString("%1%2")
                     .arg(QString("%1:").arg(StringForReferralTypes((ReferralTypes)i), 35))
                     .arg(QString::number(m_referrals[(ReferralTypes)i]), 5);
         }
     }
-    pdfString += "\nTotal Referrals:\t";
-    pdfString += QString::number(m_totalReferals);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Total Referrals", 35)
+            .arg(QString::number(m_totalReferals), 5);
 
-    pdfString += "\n============ CATAGORIES OF SERVICE =============";
+    pdfString += "\n\n================== CATAGORIES OF SERVICE ===================";
     for(int i = 0; i < 13; i++)
     {
         if((DisputeTypes)i != DISPUTE_T_NONE)
         {
             pdfString += "\n";
-            pdfString += StringForDisputeTypes((DisputeTypes)i);
-            pdfString += ":\t";
-            pdfString += QString::number(m_disputes[(DisputeTypes)i]);
+            pdfString += QString("%1%2")
+                    .arg(QString("%1:").arg(StringForDisputeTypes((DisputeTypes)i), 35))
+                    .arg(QString::number(m_disputes[(DisputeTypes)i]), 5);
         }
     }
-    pdfString += "\nTotal Services:\t";
-    pdfString += QString::number(m_totalServices);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Total Services", 35)
+            .arg(QString::number(m_totalServices), 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Intake/Mediators Spanish", 35)
+            .arg(m_translator, 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("# of People at the Table", 35)
+            .arg(m_atTable, 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("# of People Indirectly Served", 35)
+            .arg(m_peopleIndirect, 5);
     pdfString += "\n";
 
     cursor.insertText(pdfString);
