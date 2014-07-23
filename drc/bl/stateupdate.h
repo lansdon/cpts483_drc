@@ -31,6 +31,7 @@ private:
     bool outcome(MediationProcess *arg);
     bool closed(MediationProcess *arg);
     bool ValidateName(QString name);
+    QString StateToString(DisputeProcessInternalStates);
     void GetExternalState(MediationProcess* arg);
 };
 

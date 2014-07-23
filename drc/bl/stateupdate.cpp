@@ -70,8 +70,10 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
     // after internal state has been calculated, we'll compare it with the
     // previously calculated internal state (target state).
     auto finalState = arg->GetInternalState();
-    if (finalState < targetState || finalState == PROCESS_INTERNAL_STATE_NONE)
+    //if (finalState < targetState || finalState == PROCESS_INTERNAL_STATE_NONE)
+    if (finalState == PROCESS_INTERNAL_STATE_NONE)
     {
+//        qDebug() << "targetState was [" << targetState << "] and finalState was [" << finalState << "]";
         if(_errorMessage.isEmpty())
         {
             _errorMessage = "Message not set.";
@@ -90,11 +92,11 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
     // debug statements
     if(success)
     {
-        qDebug() << "Success - Decided state: " << finalState << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Success - Decided state: " << StateToString(finalState) << " stateMessage(" << _stateMessage << ")";
     }
     else
     {
-        qDebug() << "Error - Decided status: " << finalState << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Error - Decided status: " << StateToString(finalState) << " errorMessage(" << _errorMessage << ")";
     }
 
     return success;
@@ -133,11 +135,11 @@ bool StateUpdate::startState(MediationProcess *arg)
     // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
 
     return advance;
@@ -172,11 +174,11 @@ bool StateUpdate::info(MediationProcess* arg)
     // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
 
     return advance;
@@ -222,8 +224,7 @@ bool StateUpdate::initiated(MediationProcess* arg)
         _stateMessage = "To proceed, at least two clients are needed.";
         advance = false;
     }
-
-    if (advance)
+    if(advance)
     {
         arg->SetInternalState(PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS);
     }
@@ -231,11 +232,11 @@ bool StateUpdate::initiated(MediationProcess* arg)
     // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
 
     return advance;
@@ -278,11 +279,11 @@ bool StateUpdate::unique(MediationProcess* arg)
     // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
 
     return advance;
@@ -328,11 +329,11 @@ bool StateUpdate::clientinfo(MediationProcess *arg)
     // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
 
     return advance;
@@ -378,11 +379,11 @@ bool StateUpdate::fees(MediationProcess *arg)
     // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
 
     return advance;
@@ -429,11 +430,11 @@ bool StateUpdate::mediators(MediationProcess *arg)
     // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
 
     return advance;
@@ -478,11 +479,11 @@ bool StateUpdate::scheduled(MediationProcess *arg)
     // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
 
     return advance;
@@ -525,14 +526,16 @@ bool StateUpdate::outcome(MediationProcess *arg)
         }
     }
 
+    // debug statements
     if(advance)
     {
-        qDebug() << "Validation status: " << advance << " stateMessage(" << _stateMessage << ")";
+        qDebug() << "Validation status: transition criteria met, advancing.";
     }
     else
     {
-        qDebug() << "Validation status: " << advance << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
     }
+
     return advance;
 }
 
@@ -557,6 +560,7 @@ void StateUpdate::GetExternalState(MediationProcess* arg)
         // Any state that is part of a straight path (no branches) on the
         // state diagram should be able to be implemented as a fall through
         // like this.
+        case PROCESS_INTERNAL_STATE_INFO_ONLY:
         case PROCESS_INTERNAL_STATE_INITIATED:
         case PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS:
         case PROCESS_INTERNAL_STATE_CLIENT_INFO:
@@ -589,4 +593,42 @@ bool StateUpdate::ValidateName(QString name)
 {
     if (name.isEmpty() || name == " ") return false;
     return true;
+}
+
+QString StateUpdate::StateToString(DisputeProcessInternalStates state)
+{
+  switch(state)
+  {
+  case PROCESS_INTERNAL_STATE_NONE:
+      return "NONE";
+      break;
+  case PROCESS_INTERNAL_STATE_INFO_ONLY:
+      return "INFO_ONLY";
+      break;
+  case PROCESS_INTERNAL_STATE_INITIATED:
+      return "INITIATED";
+      break;
+  case PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS:
+      return "UNIQUE_CLIENTS";
+      break;
+  case PROCESS_INTERNAL_STATE_CLIENT_INFO:
+      return "CLIENT_INFO";
+      break;
+  case PROCESS_INTERNAL_STATE_FEES_RECORDED:
+      return "FEES_RECORDED";
+      break;
+  case PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED:
+      return "MEDIATORS_ASSIGNED";
+      break;
+  case PROCESS_INTERNAL_STATE_SCHEDULED:
+      return "SCHEDULED";
+      break;
+  case PROCESS_INTERNAL_STATE_OUTCOME_SELECTED:
+      return "OUTCOME_SELECTED";
+      break;
+  case PROCESS_INTERNAL_STATE_CLOSED:
+      return "CLOSED";
+      break;
+  }
+
 }
