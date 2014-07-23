@@ -54,9 +54,11 @@ private Q_SLOTS:
     void CreatePersonTable();
     void CheckPersonColumn();
     void CheckInsertPersonObject();
+    void CheckInsertEmptyPersonObject();
 
     void CheckCreateProcessTable();
     void CheckProcessColumn();
+    void CheckInsertEmptyProcessObject();
 
 
 //    void CheckSessionColumn();
@@ -79,7 +81,7 @@ private slots:
         //*******Comment out if undesirable; IE, looking inside file directly.       *******
         //*******Be sure to manually delete if you do comment this line out.         *******
 
-        QCOMPARE(QFile::remove(database_name), true);
+        //QCOMPARE(QFile::remove(database_name), true);
     }
 };
 
@@ -238,24 +240,31 @@ void DRC_DB_TESTS::CheckInsertPersonObject()
 
     QVector<QString> TruncatedPerson = full_person_values.mid(0,15);
 
-
     QCOMPARE(TruncatedPerson, FullResults);
 
 //  Visually verify that all the values match.
 //    for (int index = 0 ; index < full_person_values.size() ; ++index)
 //        qDebug() << full_person_values[index] << FullResults[index];
 
+}
+
+void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
+{
     Person John_Doe;
-    John_Doe.setFirstName(QString(empty_person_values[1]));
-    John_Doe.setLastName(QString(empty_person_values[3]));
+    John_Doe.setFirstName("John");
+    John_Doe.setLastName("Doe");
 
     QCOMPARE(_db.InsertObject(&John_Doe), true);
     QVector<QString> EmptyResults = _db.SelectOneFields(person_table_name, 2);
+    QVector<QString> TruncatedEmpty = empty_person_values.mid(0,15);
+    QCOMPARE(TruncatedEmpty.size(), EmptyResults.size());
 
+    QCOMPARE(TruncatedEmpty, EmptyResults);
 
-//    QCOMPARE(empty_person_values, EmptyResults);
-//    for (int index = 0 ; index < full_person_values.size() ; ++index)
-//        qDebug() << EmptyResults[index];
+//  Visually verify that all the values match.
+//    for (int index = 0 ; index < TruncatedEmpty.size() ; ++index)
+//        qDebug() << EmptyResults[index] << TruncatedEmpty[index];
+
 }
 
 void DRC_DB_TESTS::CheckCreateProcessTable()
@@ -286,6 +295,42 @@ void DRC_DB_TESTS::CheckProcessColumn()
     QCOMPARE(_db.DoesColumnExist(QString("ShuttleRequired"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("TranslatorRequired"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("SessionType"), process_table_name), true);
+}
+
+void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
+{
+    MediationProcess EmptyProcess;
+    _db.InsertObject(&EmptyProcess);
+
+    QVector<QString> empty_process_values;
+    empty_process_values.push_back(QString("1"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(EmptyProcess.GetCreatedDate().toString("yyyy-MM-dd"));
+    empty_process_values.push_back(EmptyProcess.GetUpdatedDate().toString("yyyy-MM-dd"));
+    empty_process_values.push_back(EmptyProcess.GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"));
+    empty_process_values.push_back(EmptyProcess.GetUpdatedDate().toString("yyyy-MM-dd hh:mm:ss"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString("1"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString(""));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString(""));
+    empty_process_values.push_back(QString("127"));
+    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString("0"));
+
+    QVector<QString> EmptyResults = _db.SelectOneFields(process_table_name, 1);
+    QCOMPARE(EmptyResults.size(), empty_process_values.size());
+
+//    for (int index = 0 ; index < EmptyResults.size() ; ++index)
+//        qDebug() << EmptyResults[index] << empty_process_values[index];
+
+    QCOMPARE(EmptyResults, empty_process_values);
 }
 
 //void DRC_DB_TESTS::CheckSessionColumn()
