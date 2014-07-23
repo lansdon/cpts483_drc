@@ -6,13 +6,23 @@ Note::Note(QString message)
 , _sessionId(0)
 , _mediationId(0)
 {
+    _headerFormat.setFontPointSize(12);
+    _tableTextFormat.setFontPointSize(10);
+    _tableCellBlue.setBackground(QColor("#C2E0FF"));
+    _tableIndexDark.setBackground(QColor("#e0e0e0"));
+    _tableIndexLight.setBackground(QColor("#eeeee0"));
 
 }
 
-void Note::print(QTextCursor cursor)
+void Note::BuildToPDF(QTextCursor& cursor)
 {
     cursor.movePosition(QTextCursor::End);
-    cursor.insertText(m_created.toString() + "\t\t" + _message + "\n");
+    cursor.insertBlock();
+    QString Note = m_created.toString();
+    Note += "\t\t";
+    Note += _message;
+    Note += "\n";
+    cursor.insertText(Note, _tableTextFormat);
 }
 
 void Note::SetMessage(QString message)

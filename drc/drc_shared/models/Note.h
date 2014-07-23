@@ -14,6 +14,14 @@ private:
     QString _message;
     int _sessionId;
     int _mediationId;
+
+    // Text Formatters
+    QTextCharFormat _headerFormat;
+    QTextCharFormat _tableTextFormat;
+    QTextTableCellFormat _tableCellBlue;
+    QTextTableCellFormat _tableIndexDark;
+    QTextTableCellFormat _tableIndexLight;
+
 public:
     Note(QString message = "");
     void SetMessage(QString message);
@@ -32,7 +40,7 @@ public:
     QString DuplicateQuery();
     QString SearchQuery();
 
-    void print(QTextCursor cursor);
+    void BuildToPDF(QTextCursor& cursor);
 
 };
 
