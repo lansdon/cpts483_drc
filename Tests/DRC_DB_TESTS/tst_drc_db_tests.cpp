@@ -4,21 +4,12 @@
 #include "drcdb.h"
 #include "mediationprocess.h"
 #include "Person.h"
+#include "drctypes.h"
 
-//Tests Still Needed
-//1.  Check for Duplicate Insert
-//1a.   How can we be sure that they're duplicates and not just different persons?
-//2.  Need to prevent table creation if table already exists
-//3.  Need to prevent column generation if columns already exist.
-//4.  Need a retrieve by first name method
-//5.  Need a retrieve by last name method
-
-//Questions / Confirmations
-//1.  What is phone number format
-//2.  How are extensions to be dealt with
-
-//Notes
-//1.  Removed duplicate table check | This check is made in the default constructor
+#define INSERT_EMPTY_PERSON_DEBUG false
+#define INSERT_FULL_PERSON_DEBUG false
+#define INSERT_EMPTY_PROCESS_DEBUG false
+#define INSERT_FULL_PROCESS_DEBUG true
 
 
 class DRC_DB_TESTS : public QObject
@@ -44,6 +35,7 @@ private:
 
     QVector<QString> full_person_values;
     QVector<QString> empty_person_values;
+    QVector<QString> full_process_values;
     Person Bruce_Lee;
 
 private Q_SLOTS:
@@ -53,12 +45,13 @@ private Q_SLOTS:
 
     void CreatePersonTable();
     void CheckPersonColumn();
-    void CheckInsertPersonObject();
     void CheckInsertEmptyPersonObject();
+    void CheckInsertFullPersonObject();
 
     void CheckCreateProcessTable();
     void CheckProcessColumn();
     void CheckInsertEmptyProcessObject();
+    void CheckInsertFullProcessObject();
 
 
 //    void CheckSessionColumn();
@@ -72,6 +65,11 @@ private Q_SLOTS:
 //    void FindFirstName();
 
 private slots:
+    void initTestCase()
+    {
+        QFile::remove(database_name);
+    }
+
     void cleanupTestCase()
     {
         //Database should've closed successfully.
@@ -101,7 +99,7 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     user_table_name = QString("User_Table");
     evaluationTableName = QString("Evaluation_Table");
 
-    full_person_values.push_back(QString("1"));
+    full_person_values.push_back(QString("2"));
     full_person_values.push_back(QString("Bruce"));
     full_person_values.push_back(QString("Chan"));
     full_person_values.push_back(QString("Lee"));
@@ -125,7 +123,7 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     full_person_values.push_back(QString("333-333-3333"));
     full_person_values.push_back(QString("MaskNotMe@Attorney.law"));
 
-    empty_person_values.push_back(QString("2"));
+    empty_person_values.push_back(QString("1"));
     empty_person_values.push_back(QString("John"));
     empty_person_values.push_back(QString(""));
     empty_person_values.push_back(QString("Doe"));
@@ -149,7 +147,28 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     empty_person_values.push_back(QString(""));
     empty_person_values.push_back(QString(""));
 
-    //Insert Fully Populated Object
+    full_process_values.push_back("2");             //Process ID
+    full_process_values.push_back("8");             //DisputeTypes - DISPUTE_T_WORKPLACE
+    full_process_values.push_back("2014-8-20 12:00:00");
+    full_process_values.push_back("2014-8-20 12:00:01");
+    full_process_values.push_back(("2014-8-20 12:00:00"));
+    full_process_values.push_back(("2014-8-20 12:00:01"));
+    full_process_values.push_back("3");             //DisputeProcessStates - PROCESS_STATE_SCHEDULED
+    full_process_values.push_back("7");             //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
+    full_process_values.push_back("2");             //CountyIds - COUNTY_BENTON
+    full_process_values.push_back("14");            //ReferralTypes - REFERRAL_T_PHONEBOOK
+    full_process_values.push_back("4");             //InquiryTypes - INQUIRY_T_WALKIN
+    full_process_values.push_back("0");             //Info Only - FALSE
+    full_process_values.push_back("1");             //Is Court Case - TRUE
+    full_process_values.push_back("2");             //CourtCaseTypes - COURT_T_SUPERIOR
+    full_process_values.push_back("2014-9-25");     //COURT DATE
+    full_process_values.push_back("1");             //CourtOrderTyes - COURT_ORDER_T_NONE
+    full_process_values.push_back("2014-10-11");    //COURT EXPIRATION DATE
+    full_process_values.push_back("1");             //Is Shuttle Required - TRUE
+    full_process_values.push_back("1");             //Is Spanish Required - TRUE
+    full_process_values.push_back("1");             //SessionTypes - MEDIATION_SESSION
+
+
     Bruce_Lee.setFirstName(full_person_values[1]);
     Bruce_Lee.setMiddleName(full_person_values[2]);
     Bruce_Lee.setLastName(full_person_values[3]);
@@ -231,10 +250,31 @@ void DRC_DB_TESTS::CheckPersonColumn()
     // QCOMPARE(_db.DoesColumnExist(QString("assistant_email"), person_table_name), true);
 }
 
-void DRC_DB_TESTS::CheckInsertPersonObject()
+void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
+{
+    Person John_Doe;
+    John_Doe.setFirstName("John");
+    John_Doe.setLastName("Doe");
+
+    QCOMPARE(_db.InsertObject(&John_Doe), true);
+    QVector<QString> EmptyResults = _db.SelectOneFields(person_table_name, 1);
+    QVector<QString> TruncatedEmpty = empty_person_values.mid(0,15);
+    QCOMPARE(TruncatedEmpty.size(), EmptyResults.size());
+
+    if(INSERT_EMPTY_PERSON_DEBUG)
+    {
+        for (int index = 0 ; index < TruncatedEmpty.size() ; ++index)
+            qDebug() << EmptyResults[index] << TruncatedEmpty[index];
+    }
+    QCOMPARE(TruncatedEmpty, EmptyResults);
+
+//  Visually verify that all the values match.
+}
+
+void DRC_DB_TESTS::CheckInsertFullPersonObject()
 {
     QCOMPARE(_db.InsertObject(&Bruce_Lee), true);
-    QVector<QString> FullResults = _db.SelectOneFields(person_table_name, 1);
+    QVector<QString> FullResults = _db.SelectOneFields(person_table_name, 2);
 
     QCOMPARE(15, FullResults.size());
 
@@ -243,28 +283,11 @@ void DRC_DB_TESTS::CheckInsertPersonObject()
     QCOMPARE(TruncatedPerson, FullResults);
 
 //  Visually verify that all the values match.
-//    for (int index = 0 ; index < full_person_values.size() ; ++index)
-//        qDebug() << full_person_values[index] << FullResults[index];
-
-}
-
-void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
-{
-    Person John_Doe;
-    John_Doe.setFirstName("John");
-    John_Doe.setLastName("Doe");
-
-    QCOMPARE(_db.InsertObject(&John_Doe), true);
-    QVector<QString> EmptyResults = _db.SelectOneFields(person_table_name, 2);
-    QVector<QString> TruncatedEmpty = empty_person_values.mid(0,15);
-    QCOMPARE(TruncatedEmpty.size(), EmptyResults.size());
-
-    QCOMPARE(TruncatedEmpty, EmptyResults);
-
-//  Visually verify that all the values match.
-//    for (int index = 0 ; index < TruncatedEmpty.size() ; ++index)
-//        qDebug() << EmptyResults[index] << TruncatedEmpty[index];
-
+    if (INSERT_FULL_PERSON_DEBUG)
+    {
+        for (int index = 0 ; index < full_person_values.size() ; ++index)
+            qDebug() << full_person_values[index] << FullResults[index];
+    }
 }
 
 void DRC_DB_TESTS::CheckCreateProcessTable()
@@ -320,17 +343,58 @@ void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
     empty_process_values.push_back(QString("0"));
     empty_process_values.push_back(QString("0"));
     empty_process_values.push_back(QString(""));
-    empty_process_values.push_back(QString("127"));
+    empty_process_values.push_back(QString("0"));
     empty_process_values.push_back(QString("0"));
     empty_process_values.push_back(QString("0"));
 
     QVector<QString> EmptyResults = _db.SelectOneFields(process_table_name, 1);
     QCOMPARE(EmptyResults.size(), empty_process_values.size());
 
-//    for (int index = 0 ; index < EmptyResults.size() ; ++index)
-//        qDebug() << EmptyResults[index] << empty_process_values[index];
+    if(INSERT_EMPTY_PROCESS_DEBUG)
+    {
+        for (int index = 0 ; index < EmptyResults.size() ; ++index)
+            qDebug() << EmptyResults[index] << empty_process_values[index];
+    }
 
     QCOMPARE(EmptyResults, empty_process_values);
+}
+
+void DRC_DB_TESTS::CheckInsertFullProcessObject()
+{
+    QDate CourtDate(2014, 8, 20);
+    QDate CourtExpirationDate(2014, 9, 22);
+
+    //Replace with Vector
+    MediationProcess DojoBattle;
+    DojoBattle.SetDisputeType((DisputeTypes)full_process_values[1].toInt());
+    DojoBattle.SetCreatedDate(QDateTime::fromString(full_process_values[2], "yyyy-M-dd hh:mm:ss"));
+    DojoBattle.SetUpdatedDate(QDateTime::fromString(full_process_values[3], "yyyy-M-dd hh:mm:ss"));
+    DojoBattle.SetState((DisputeProcessStates)full_process_values[4].toInt());                  //DisputeProcessStates - PROCESS_STATE_SCHEDULED
+    DojoBattle.SetInternalState((DisputeProcessInternalStates)full_process_values[5].toInt());  //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
+    DojoBattle.SetCountyId((CountyIds)full_process_values[6].toInt());                          //CountyIds - COUNTY_BENTON
+    DojoBattle.SetReferralType((ReferralTypes)full_process_values[7].toInt());                  //ReferralTypes - REFERRAL_T_PHONEBOOK
+    DojoBattle.SetInquiryTypes((InquiryTypes)full_process_values[8].toInt());                   //InquiryTypes - INQUIRY_T_WALKIN
+    DojoBattle.SetInfoOnly((bool)full_process_values[9].toInt());                               //Info Only - FALSE
+    DojoBattle.SetIsCourtCase((bool)full_process_values[10].toInt());                           //Is Court Case - TRUE
+    DojoBattle.SetCourtType((CourtCaseTypes)full_process_values[11].toInt());                   //CourtCaseTypes - COURT_T_SUPERIOR
+    DojoBattle.SetCourtDate(QDateTime::fromString(full_process_values[12], "yyyy-M-dd"));
+    DojoBattle.SetCourtOrderType((CourtOrderTypes)full_process_values[13].toInt());
+    DojoBattle.SetCourtOrderExpiration(QDateTime::fromString(full_process_values[14], "yyyy-M-dd"));
+    DojoBattle.SetIsShuttle((bool)full_process_values[15].toInt());
+    DojoBattle.SetRequiresSpanish((bool)full_process_values[16].toInt());
+    DojoBattle.SetSessionType((SessionTypes)full_process_values[17].toInt());
+
+    QCOMPARE(_db.InsertObject(&DojoBattle),true);
+
+    QVector<QString> FullResults = _db.SelectOneFields(process_table_name, 2);
+
+    if(INSERT_FULL_PROCESS_DEBUG)
+    {
+        for (int index = 0 ; index < FullResults.size() ; ++index)
+            qDebug() << "From Database: " << FullResults[index] << " From File:" << full_process_values[index];
+    }
+
+    QCOMPARE(full_process_values, FullResults);
 }
 
 //void DRC_DB_TESTS::CheckSessionColumn()

@@ -40,6 +40,7 @@ MediationProcess::MediationProcess()
     , _courtCaseType(COURT_T_NONE)
     , _courtOrderType(COURT_ORDER_T_NONE)
     , _infoOnly(false)
+    , _isShuttle(false)
     , _sessionType(MEDIATION_SESSION)
 {
 
