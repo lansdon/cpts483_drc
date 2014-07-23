@@ -6,6 +6,11 @@ Note::Note(QString message)
 , _sessionId(0)
 , _mediationId(0)
 {
+    _headerFormat.setFontPointSize(12);
+    _tableTextFormat.setFontPointSize(10);
+    _tableCellBlue.setBackground(QColor("#C2E0FF"));
+    _tableIndexDark.setBackground(QColor("#e0e0e0"));
+    _tableIndexLight.setBackground(QColor("#eeeee0"));
 
 }
 
