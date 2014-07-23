@@ -163,6 +163,7 @@ private:
     void BuildGeneralInfoSection(QTextCursor& cursor);
     void BuildPartyInfoSection(QTextCursor& cursor);
     void BuildSessionInfoSection(QTextCursor& cursor);
+    void BuildNotesSesction(QTextCursor& cursor);
 
 };
 

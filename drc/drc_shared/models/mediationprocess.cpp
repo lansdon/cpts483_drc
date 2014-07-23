@@ -90,7 +90,7 @@ void MediationProcess::BuildReport()
 
     _report->end();    
 
-    //OpenReportPDF();
+    OpenReportPDF();
 }
 
 ///////////////// Report Builder - INTERNAL ///////////////////
@@ -169,12 +169,12 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     cursor.insertText(CourtOrderType, _tableTextFormat);
 
     QString CourtOrderExpires = "\nCourt Order Expires:\t";
-    CourtOrderExpires += _courtOrderExpiration.currentDateTime().toString();
+    CourtOrderExpires += _courtOrderExpiration.toString();
     cursor.insertText(CourtOrderExpires, _tableTextFormat);\
 
     QString CurrentStatus = "\nCurrent Status:";
     CurrentStatus += "\n -Last Activity:\t";
-    CurrentStatus += m_updated.currentDateTime().toString();
+    CurrentStatus += m_updated.toString();
     CurrentStatus += "\n -Creation Date:\t";
     CurrentStatus += m_created.currentDateTime().toString();
     cursor.insertText(CurrentStatus, _tableTextFormat);
@@ -206,6 +206,17 @@ void MediationProcess::BuildSessionInfoSection(QTextCursor &cursor)
     }
 }
 
+void MediationProcess::BuildNotesSesction(QTextCursor &cursor)
+{
+    for (int i = 0; i < _mediationNotes.size(); i++)
+    {
+        QString NotesHeader = "\n========== ";
+        NotesHeader += "Note ";
+        NotesHeader += QString::number(i + 1);
+        NotesHeader += " ==========";
+        cursor.insertText(NotesHeader, _tableTextFormat);
+    }
+}
 
 QString MediationProcess::Parse()
 {
