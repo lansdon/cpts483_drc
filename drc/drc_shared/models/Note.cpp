@@ -9,6 +9,12 @@ Note::Note(QString message)
 
 }
 
+void Note::print(QTextCursor cursor)
+{
+    cursor.movePosition(QTextCursor::End);
+    cursor.insertText(m_created.toString() + "\t\t" + _message + "\n");
+}
+
 void Note::SetMessage(QString message)
 {
     _message = message;

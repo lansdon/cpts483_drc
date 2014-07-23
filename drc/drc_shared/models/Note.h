@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <QTextCursor>
 
 #include "DBBaseObject.h"
 
@@ -30,6 +31,8 @@ public:
     QString table();
     QString DuplicateQuery();
     QString SearchQuery();
+
+    void print(QTextCursor cursor);
 
 };
 
