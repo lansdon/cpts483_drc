@@ -88,6 +88,9 @@ void MediationProcess::BuildReport()
     // 3.  Session Information:  Schedule, client and mediation information
     BuildSessionInfoSection(cursor);
 
+    // 4.  Notes Information:  Just Notes.
+    BuildNotesSesction(cursor);
+
     _report->end();    
 
     OpenReportPDF();
@@ -210,11 +213,13 @@ void MediationProcess::BuildNotesSesction(QTextCursor &cursor)
 {
     for (int i = 0; i < _mediationNotes.size(); i++)
     {
+        std::cout << i << std::endl;
         QString NotesHeader = "\n========== ";
         NotesHeader += "Note ";
         NotesHeader += QString::number(i + 1);
         NotesHeader += " ==========";
         cursor.insertText(NotesHeader, _tableTextFormat);
+        _mediationNotes.at(i)->BuildToPDF(cursor);
     }
 }
 

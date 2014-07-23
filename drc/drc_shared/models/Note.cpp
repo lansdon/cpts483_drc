@@ -9,10 +9,15 @@ Note::Note(QString message)
 
 }
 
-void Note::print(QTextCursor cursor)
+void Note::BuildToPDF(QTextCursor& cursor)
 {
     cursor.movePosition(QTextCursor::End);
-    cursor.insertText(m_created.toString() + "\t\t" + _message + "\n");
+    cursor.insertBlock();
+    QString Note = m_created.toString();
+    Note += "\t\t";
+    Note += _message;
+    Note += "\n";
+    cursor.insertText(Note, _tableTextFormat);
 }
 
 void Note::SetMessage(QString message)
