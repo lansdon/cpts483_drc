@@ -295,18 +295,22 @@ QString Person::Parse(void)
             .arg(this->getZip().replace("'", "''"))
             .arg(QString::number(this->getCounty()));
 
-    //Phone Number
-    toReturn += QString(" '%1', '%2', '%3',")
+    //Contact
+    toReturn += QString(" '%1', '%2', '%3', '%4', '%5'")
             .arg(this->getPrimaryPhone().replace("'", "''"))
+            .arg(this->getPrimaryPhoneExt().replace("'", "''"))
             .arg(this->getSecondaryPhone().replace("'", "''"))
-            .arg(this->getAssistantPhone().replace("'", "''"));
+            .arg(this->getSecondaryPhoneExt().replace("'", "''"))
+            .arg(this->getEmail().replace("'", "''"));
 
-    //Other
-    toReturn += QString(" '%1', %2, '%3', '%4'")
-            .arg(this->getEmail().replace("'", "''"))
-            .arg(this->getNumberInHousehold())
-            .arg(this->getNumberChildrenInHousehold())
-            .arg(this->getAttorney().replace("'", "''"));
+//    //Other
+//    toReturn += QString(" '%1', %2, '%3', '%4'")
+
+
+//            .arg(this->getAssistantPhone().replace("'", "''"));
+//            .arg(this->getNumberInHousehold())
+//            .arg(this->getNumberChildrenInHousehold())
+//            .arg(this->getAttorney().replace("'", "''"));
 
     return toReturn;
 }
@@ -329,17 +333,19 @@ QString Person::UpdateParse()
             .arg(QString::number(this->getCounty()));
 
     //Phone Number
-    toUpdate += QString(" primary_phone =  '%1', secondary_phone = '%2', assistance_phone = '%3',")
+    toUpdate += QString(" primary_phone =  '%1', primary_phone_ext = '%2', secondary_phone = '%3', secondary_phone_ext = '%4', email_address = '%5'")//' assistance_phone = '%3',")
             .arg(this->getPrimaryPhone().replace("'", "''"))
+            .arg(this->getPrimaryPhoneExt().replace("'", "''"))
             .arg(this->getSecondaryPhone().replace("'", "''"))
-            .arg(this->getAssistantPhone().replace("'", "''"));
+            .arg(this->getSecondaryPhoneExt().replace("'", "''"))
+            .arg(this->getEmail().replace("'", "''"));
 
     //Other
-    toUpdate += QString(" email_address = '%1', number_in_house = %2, number_children_in_house = %3, attorney_name = '%4'")
-            .arg(this->getEmail().replace("'", "''"))
-            .arg(this->getNumberInHousehold())
-            .arg(this->getNumberChildrenInHousehold())
-            .arg(this->getAttorney().replace("'", "''"));
+//    toUpdate += QString(" email_address = '%1', number_in_house = %2, number_children_in_house = %3, attorney_name = '%4'")
+//            .arg(this->getEmail().replace("'", "''"))
+//            .arg(this->getNumberInHousehold())
+//            .arg(this->getNumberChildrenInHousehold())
+//            .arg(this->getAttorney().replace("'", "''"));
 
     return toUpdate;
 }

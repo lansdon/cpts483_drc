@@ -250,12 +250,14 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
     person_table_columns.push_back(QString("zip_code char(50)"));
     person_table_columns.push_back(QString("county_name int"));
     person_table_columns.push_back(QString("primary_phone char(50)"));  //Confirm Phone Format
+    person_table_columns.push_back(QString("primary_phone_ext char(50)"));
     person_table_columns.push_back(QString("secondary_phone char(50)"));
-    person_table_columns.push_back(QString("assistance_phone char(50)"));
+    person_table_columns.push_back(QString("secondary_phone_ext char(50)"));
     person_table_columns.push_back(QString("email_address char(50)"));
-    person_table_columns.push_back(QString("number_in_house int"));
-    person_table_columns.push_back(QString("number_children_in_house int"));
-    person_table_columns.push_back(QString("attorney_name char(50)"));
+//    person_table_columns.push_back(QString("assistance_phone char(50)"));
+//    person_table_columns.push_back(QString("number_in_house int"));
+//    person_table_columns.push_back(QString("number_children_in_house int"));
+//    person_table_columns.push_back(QString("attorney_name char(50)"));
 
     return CreateTable(person_table_name, person_table_columns);
 }
@@ -854,12 +856,14 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
                 primary->setZip(peopleQuery.value(8).toString());
                 primary->setCounty((CountyIds)peopleQuery.value(9).toInt());
                 primary->setPrimaryPhone(peopleQuery.value(10).toString());
-                primary->setSecondaryPhone(peopleQuery.value(11).toString());
-                primary->setAssistantPhone(peopleQuery.value(12).toString());
-                primary->setEmail(peopleQuery.value(13).toString());
-                primary->setNumberInHousehold(peopleQuery.value(14).toUInt());
-                primary->setNumberChildrenInHousehold(peopleQuery.value(15).toUInt());
-                primary->setAttorney(peopleQuery.value(16).toString());
+                primary->setPrimaryPhoneExt(peopleQuery.value(11).toString());
+                primary->setSecondaryPhone(peopleQuery.value(12).toString());
+                primary->setSecondaryPhoneExt(peopleQuery.value(13).toString());
+                // primary->setAssistantPhone(peopleQuery.value(12).toString());
+                primary->setEmail(peopleQuery.value(14).toString());
+                // primary->setNumberInHousehold(peopleQuery.value(14).toUInt());
+                // primary->setNumberChildrenInHousehold(peopleQuery.value(15).toUInt());
+                // primary->setAttorney(peopleQuery.value(16).toString());
                 party->SetPrimary(primary);
             }
 
@@ -873,6 +877,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             // party->SetChildren(clientQuery.value(3).toUInt());
             // party->SetObservers(clientQuery.value(4).toString());
             // party->SetAttorney(clientQuery.value(5).toString());
+            party->GetPrimary()->setAttorney(clientQuery.value(5).toString());
             party->GetPrimary()->setAttorneyPhone(clientQuery.value(6).toString());
             party->GetPrimary()->SetAttorneyEmail(clientQuery.value(7).toString());
             party->GetPrimary()->setAssistantName(clientQuery.value(8).toString());
