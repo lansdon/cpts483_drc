@@ -121,11 +121,11 @@ void monthlyreport::pdfReport()
     pdfString += ".\n\n";
     pdfString += QString("%1:%2")
             .arg(QString("%1").arg("# of Children Indirectly Served").rightJustified(35))
-            .arg(QString::number(m_childrenIndirect).rightJustified(10));
+            .arg(QString::number(m_childrenIndirect).rightJustified(5));
     pdfString += "\n";
     pdfString += QString("%1:%2")
             .arg(QString("%1").arg("# of Children Directly Served").rightJustified(35))
-            .arg(QString::number(m_childrenDirect).rightJustified(10));
+            .arg(QString::number(m_childrenDirect).rightJustified(5));
     for(int i = 0; i < 7; i++)
     {
         if((CountyIds)i != COUNTY_NONE)
@@ -148,7 +148,7 @@ void monthlyreport::pdfReport()
 //            pdfString += ":\t";
             pdfString += QString("%1%2")
                     .arg(QString("%1:").arg(StringForSessionOutcomes((SessionOutcomes)i), 35))
-                    .arg(QString::number(m_outcomes[(SessionOutcomes)i]),10);
+                    .arg(QString::number(m_outcomes[(SessionOutcomes)i]),5);
         }
     }
     pdfString += "\nOpen Cases:\t";
@@ -166,9 +166,11 @@ void monthlyreport::pdfReport()
         if((ReferralTypes)i != REFERRAL_T_NONE)
         {
             pdfString += "\n";
-            pdfString += StringForReferralTypes((ReferralTypes)i);
-            pdfString += ":\t";
-            pdfString += QString::number(m_referrals[(ReferralTypes)i]);
+            /*pdfString += StringForReferralTypes((ReferralTypes)i);
+            pdfString += ":\t"*/;
+            pdfString += QString("%1%2")
+                    .arg(QString("%1:").arg(StringForReferralTypes((ReferralTypes)i), 35))
+                    .arg(QString::number(m_referrals[(ReferralTypes)i]), 5);
         }
     }
     pdfString += "\nTotal Referrals:\t";
