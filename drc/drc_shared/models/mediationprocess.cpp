@@ -243,18 +243,17 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetInternalState()))
             .arg(QString::number(this->GetCountyId()));
 
-    toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10', %11")
+    toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10'")
             .arg(QString::number(this->GetReferralType()))
             .arg(QString::number(this->GetInquiryType()))
             .arg(this->GetInfoOnly())
             .arg(this->GetIsCourtCase())
             .arg(this->GetCourtDate().toString("yyyy-MM-dd"))
-            .arg(QString::number(this->GetCourtType()))
-            .arg(this->GetCourtOrder())
-//            .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
-            .arg(this->GetIsShuttle())
+            .arg(QString::number(this->GetCourtType()).replace("'", "''"))
+            .arg(this->GetCourtOrder().replace("'", "''"))
             .arg(QString::number(this->GetRequiresSpanish()))
-            .arg(QString::number(this->GetSessionType()));
+            .arg(QString::number(this->GetSessionType()))
+            .arg(this->getMediationClause());
 
     return toReturn;
 }
@@ -277,14 +276,13 @@ QString MediationProcess::UpdateParse()
             .arg(this->GetInfoOnly())
             .arg(this->GetIsCourtCase());
 
-    toUpdate += QString("CourtDate = '%1', CourtCaseType = %2, CourtOrderType = %3, CourtOrderExpiration = '%4', ShuttleRequired = '%5', TranslatorRequired = '%6', SessionType = %7")
+    toUpdate += QString("CourtDate = '%1', CourtCaseType = %2, CourtOrderType = '%3', TranslatorRequired = '%4', SessionType = %5, MediationClause = '%6'")
             .arg(this->GetCourtDate().toString("yyyy-MM-dd"))
             .arg(QString::number(this->GetCourtType()))
-            .arg(this->GetCourtOrder())
-//            .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
-            .arg(this->GetIsShuttle())
+            .arg(this->GetCourtOrder().replace("'", "''"))
             .arg(this->GetRequiresSpanish())
-            .arg(QString::number(this->GetSessionType()));
+            .arg(QString::number(this->GetSessionType()))
+            .arg(this->getMediationClause());
 
     return toUpdate;
 }

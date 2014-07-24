@@ -358,11 +358,10 @@ bool DRCDB::CreateMediationTable(const QString& mediation_table_name)
     mediation_table_columns.push_back(QString("CourtCase Bool"));
     mediation_table_columns.push_back(QString("CourtDate Date"));
     mediation_table_columns.push_back(QString("CourtCaseType integer"));
-    mediation_table_columns.push_back(QString("CourtOrderType integer"));
-    mediation_table_columns.push_back(QString("CourtOrderExpiration Date"));
-    mediation_table_columns.push_back(QString("ShuttleRequired Bool"));
+    mediation_table_columns.push_back(QString("CourtOrderType char(128)"));
     mediation_table_columns.push_back(QString("TranslatorRequired Bool"));
     mediation_table_columns.push_back(QString("SessionType integer"));
+    mediation_table_columns.push_back(QString("MediationClause Bool"));
 
     return CreateTable(mediation_table_name, mediation_table_columns);
 }
@@ -379,6 +378,7 @@ bool DRCDB::CreateClientSessionTable(const QString& client_session_table_name)
     client_session_table_columns.push_back(QString("feesPaid Bool"));
     client_session_table_columns.push_back(QString("AttorneyExpected Bool"));
     client_session_table_columns.push_back(QString("AttorneyAttended Bool"));
+    client_session_table_columns.push_back(QString("ClientPhone Bool"));
     client_session_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
 
     return CreateTable(client_session_table_name, client_session_table_columns);
@@ -392,7 +392,7 @@ bool DRCDB::CreateClientTable(const QString& client_table_name)
     client_table_columns.push_back(QString("Process_id integer"));
     client_table_columns.push_back(QString("Person_id integer"));
     client_table_columns.push_back(QString("Children integer"));
-    client_table_columns.push_back(QString("Support char(128)"));
+    client_table_columns.push_back(QString("Support integer"));
     client_table_columns.push_back(QString("AttorneyName char(128)"));
     client_table_columns.push_back(QString("AttorneyPhone char(128)"));
     client_table_columns.push_back(QString("AttorneyEmail char(128)"));
@@ -420,6 +420,7 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
     session_table_columns.push_back(QString("Observer2 char(128)"));
+    session_table_columns.push_back(QString("Shuttle bool"));
     session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
 
     return CreateTable(session_table_name, session_table_columns);
@@ -742,15 +743,10 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             process->SetCourtDate(QDate::fromString(courtDate, "yyyy-MM-dd"));
         }
         process->SetCourtType((CourtCaseTypes)Mediation_query.value(14).toInt());
-//        process->SetCourtOrderType((CourtOrderTypes)Mediation_query.value(15).toInt());
-        courtDate = Mediation_query.value(16).toString();
-//        if(courtDate != NULL)
-//        {
-//            process->SetCourtOrderExpiration(QDate::fromString(courtDate, "yyyy-MM-dd"));
-//        }
-        process->SetIsShuttle(Mediation_query.value(17).toBool());
-        process->SetRequiresSpanish(Mediation_query.value(18).toBool());
-        process->SetSessionType((SessionTypes)Mediation_query.value(19).toInt());
+        process->SetCourtOrder(Mediation_query.value(15).toString());
+        process->SetRequiresSpanish(Mediation_query.value(16).toBool());
+        process->SetSessionType((SessionTypes)Mediation_query.value(17).toInt());
+        process->setMediationClause(Mediation_query.value(18).toBool());
 
         //Grab sessions based on the mediation id
         QSqlQuery sessionQuery(database);
@@ -777,6 +773,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             session->setMediator2(sessionQuery.value(8).toString());
             session->setObserver1(sessionQuery.value(9).toString());
             session->setObserver2(sessionQuery.value(10).toString());
+            session->SetIsShuttle(sessionQuery.value(11).toBool());
 
             //Load the clientsession data, based on the session id
             QSqlQuery DataQuery(database);
@@ -797,6 +794,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
                 data->setPaid(DataQuery.value(5).toBool());
                 data->setAttySaidAttend(DataQuery.value(6).toBool());
                 data->setAttyDidAttend(DataQuery.value(7).toBool());
+                data->setOnPhone(DataQuery.value(8).toBool());
 
                 session->getClientSessionDataVector()->push_back(data);
             }
@@ -874,8 +872,8 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             // TODO: Attorney... This data needs to be more robust in the database.
             //       Translation: Degan - redo that insertjoinobject method for that.
             //
-            // party->SetChildren(clientQuery.value(3).toUInt());
-            // party->SetObservers(clientQuery.value(4).toString());
+            party->GetPrimary()->setNumberChildrenInHousehold(clientQuery.value(3).toUInt());
+            party->GetPrimary()->setNumberInHousehold(clientQuery.value(4).toUInt());
             // party->SetAttorney(clientQuery.value(5).toString());
             party->GetPrimary()->setAttorney(clientQuery.value(5).toString());
             party->GetPrimary()->setAttorneyPhone(clientQuery.value(6).toString());
@@ -1505,6 +1503,10 @@ qDebug() << command_string;
         int id = query_object.lastInsertId().toInt();
         db_object->SetId(id);
     }
+    else
+    {
+        qDebug()<<this->GetLastErrors();
+    }
 
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
@@ -1575,8 +1577,8 @@ bool DRCDB::InsertClientObject(MediationProcess* dispute_object, Party* party_ob
     QString value_string = QString("%1, %2, %3, %4, '%5', '%6', '%7', '%8', '%9', '%10'")
             .arg(dispute_object->GetId())
             .arg(party_object->GetPrimary()->GetId())
-            .arg(party_object->GetChildren().size())
-            .arg(party_object->GetObservers().size())
+            .arg(party_object->GetPrimary()->getNumberChildrenInHousehold())
+            .arg(party_object->GetPrimary()->getNumberInHousehold())
             .arg(party_object->GetPrimary()->getAttorney().replace("'","''"))
             .arg(party_object->GetPrimary()->getAttorneyPhone())
             .arg(party_object->GetPrimary()->getAttorneyEmail().replace("'","''"))
@@ -1601,6 +1603,10 @@ qDebug() << command_string;
         int id = query_object.lastInsertId().toInt();
         party_object->SetId(id);
     }
+    else
+    {
+        qDebug()<<this->GetLastErrors();
+    }
 
     //Returning the boolean that was found before so work flow won't change
     return insertSuccess;
@@ -1608,14 +1614,15 @@ qDebug() << command_string;
 
 bool DRCDB::InsertClientSessionData(ClientSessionData* data, int sessionId, int clientId)
 {
-    QString value_string = QString("%1, %2, '%3', '%4', '%5', '%6', '%7'")
+    QString value_string = QString("%1, %2, '%3', '%4', '%5', '%6', '%7', '%8'")
                                 .arg(clientId)
                                 .arg(sessionId)
                                 .arg(data->getIncome())
                                 .arg(data->getFee())
                                 .arg(data->getPaid())
                                 .arg(data->getAttySaidAttend())
-                                .arg(data->getAttyDidAttend());
+                                .arg(data->getAttyDidAttend())
+                                .arg(data->getOnPhone());
 
     QString command_string = QString("insert into %1 values (%2, %3)")
                                 .arg("Client_Session_Table")
@@ -1627,7 +1634,10 @@ bool DRCDB::InsertClientSessionData(ClientSessionData* data, int sessionId, int 
 
     insertSuccess = this->ExecuteCommand(command_string, query_object);
 
-    qDebug() << insertSuccess;
+    if(!insertSuccess)
+    {
+        qDebug()<<this->GetLastErrors();
+    }
 
     return insertSuccess;
 }

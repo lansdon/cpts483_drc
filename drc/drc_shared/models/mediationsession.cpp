@@ -48,6 +48,9 @@ QString MediationSession::Parse()
     toReturn += ", ";
     toReturn += single_quote + this->getObserver2().replace("'", "''") + single_quote;
 
+    toReturn += ", ";
+    toReturn += single_quote + this->GetIsShuttle() + single_quote;
+
     return toReturn;
 }
 
@@ -69,7 +72,8 @@ QString MediationSession::UpdateParse()
 
     //Observers
     toUpdate += QString("Observer1 = '%1', ").arg(this->getObserver1().replace("'", "''"));
-    toUpdate += QString("Observer2 = '%1'").arg(this->getObserver2().replace("'", "''"));
+    toUpdate += QString("Observer2 = '%1', ").arg(this->getObserver2().replace("'", "''"));
+    toUpdate += QString("Shuttle = '%1'").arg(this->GetIsShuttle());
 qDebug()<<toUpdate;
     return toUpdate;
 }

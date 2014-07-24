@@ -21,6 +21,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     int intakeCount = 0;
     int openCount = 0;
     int infoOnlyCount = 0;
+    int clauseCount = 0;
 
     for(size_t i = 0; i < mpVec->size(); i++)
     {
@@ -30,6 +31,11 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         if(process->GetInfoOnly())
         {
             infoOnlyCount++;
+        }
+
+        if(process->getMediationClause())
+        {
+            clauseCount++;
         }
 
         this->setTranslator(translatorCount++);

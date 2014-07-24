@@ -24,6 +24,7 @@ private:
     int m_sessionsCancelled;
     int m_openCases;
     int m_totalIntake;
+    int m_clauseCount;
     int totalCasesMediated();
     std::map<CountyIds, int> m_countyCounts;
     QTextDocument *_report;
@@ -44,6 +45,7 @@ private:
     void setOpenCases(int value) {m_openCases = value;}
     void setTotalIntake(int value) {m_totalIntake = value;}
     void setInfoOnlyCount(int value) {m_infoOnly = value;}
+    void setClauseCount(int value) {m_clauseCount = value;}
 
 
 public:
@@ -72,6 +74,7 @@ public:
     int getOpenCases() {return m_openCases;}
     int getTotalIntake() {return m_totalIntake;}
     int getInfoOnlyCount() {return m_infoOnly;}
+    int getClauseCount() {return m_clauseCount;}
 
     void pdfReport();
 };
