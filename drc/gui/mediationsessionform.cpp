@@ -141,13 +141,14 @@ void MediationSessionForm::updateFromTable()
 //    mb.exec();
     for(int i = 0; i < (int)_mediationSession->getClientSessionDataVector()->size();i++)
     {
-        _mediationSession->getClientSessionDataVector()->at(i)->setFee(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,1))->text());
-        _mediationSession->getClientSessionDataVector()->at(i)->setPaid(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,2))->isChecked());
-        _mediationSession->getClientSessionDataVector()->at(i)->setIncome(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,3))->text());
+        _mediationSession->getClientSessionDataVector()->at(i)->setFee(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,0))->text());
+        _mediationSession->getClientSessionDataVector()->at(i)->setPaid(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,1))->isChecked());
+        _mediationSession->getClientSessionDataVector()->at(i)->setIncome(qobject_cast<QLineEdit*>(ui->feeDiplayTableWidget->cellWidget(i,2))->text());
         _mediationSession->getClientSessionDataVector()->at(i)->setAttySaidAttend(qobject_cast<QCheckBox*>(ui->attyAttendTableWidget->cellWidget(i,0))->isChecked());
         _mediationSession->getClientSessionDataVector()->at(i)->setAttyDidAttend(qobject_cast<QCheckBox*>(ui->attyAttendTableWidget->cellWidget(i,1))->isChecked());
         _mediationSession->getClientSessionDataVector()->at(i)->setSupport(qobject_cast<QSpinBox*>(ui->attyAttendTableWidget->cellWidget(i,2))->value());
-        _mediationSession->getClientSessionDataVector()->at(i)->setAtTable(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,0))->isChecked());
+        _mediationSession->getClientSessionDataVector()->at(i)->setAtTable(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,3))->isChecked());
+        _mediationSession->getClientSessionDataVector()->at(i)->setOnPhone(qobject_cast<QCheckBox*>(ui->feeDiplayTableWidget->cellWidget(i,4))->isChecked());
     }
     if((int)_mediationSession->getClientSessionDataVector()->size() > 0)
     {
