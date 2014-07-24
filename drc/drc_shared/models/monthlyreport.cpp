@@ -95,8 +95,8 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         for(size_t num = 0; num < process->GetParties()->size(); num++)
         {
             this->m_countyCounts[process->GetPartyAtIndex(num)->GetPrimary()->getCounty()]++;
-            this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold());
             this->setChildrenIndirect(this->getChildrenIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
+            this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
         }
     }
     this->setInfoOnlyCount(infoOnlyCount);
