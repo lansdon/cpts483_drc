@@ -650,7 +650,7 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
         }
 
         QSqlQuery query(database);
-        QString command = QString("Select * from Session_table where UpdatedDate <= '%1' and UpdatedDate > '%2'")
+        QString command = QString("Select * from Session_table where ScheduledTime <= '%1' and ScheduledTime > '%2'")
                             .arg(end.toString("yyyy-MM-dd"))
                             .arg(start.toString("yyyy-MM-dd"))
                             .arg(QString::number(params->GetCounty()));

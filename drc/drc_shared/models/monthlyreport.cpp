@@ -95,8 +95,8 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         for(size_t num = 0; num < process->GetParties()->size(); num++)
         {
             this->m_countyCounts[process->GetPartyAtIndex(num)->GetPrimary()->getCounty()]++;
-            this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold());
             this->setChildrenIndirect(this->getChildrenIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
+            this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
         }
     }
     this->setInfoOnlyCount(infoOnlyCount);
@@ -105,6 +105,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     this->setSessionsCancelled(cancelCount);
     this->setTotalIntake(intakeCount);
     this->setOpenCases(openCount);
+    this->setClauseCount(clauseCount);
 
 }
 
@@ -164,6 +165,10 @@ void monthlyreport::pdfReport()
     }
     pdfString += "\n";
     pdfString += QString("%1:%2")
+            .arg("Info Only", 35)
+            .arg(QString::number(m_infoOnly), 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
             .arg("Open Cases", 35)
             .arg(QString::number(m_openCases), 5);
     pdfString += "\n";
@@ -210,6 +215,10 @@ void monthlyreport::pdfReport()
     pdfString += QString("%1:%2")
             .arg("Total Services", 35)
             .arg(QString::number(m_totalServices), 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Parenting Plan Clause", 35)
+            .arg(QString::number(m_clauseCount), 5);
     pdfString += "\n";
     pdfString += QString("%1:%2")
             .arg("Intake/Mediators Spanish", 35)
