@@ -62,14 +62,10 @@ void ManageUsers::ConfigureUserTableView()
 
     //  Set the column count and widths of user table
     ui->usertableWidget->setColumnCount(2);
-//    ui->usertableWidget->setColumnWidth(0, ui->usertableWidget->width()/2);
-//    ui->usertableWidget->setColumnWidth(1, ui->usertableWidget->width()/2);
 
     //  Define the user table horizontal header and set it's alignment
-    QStringList Header;
-    Header << "Username" << "Admin Status";
-//    ui->usertableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
-    ui->usertableWidget->setHorizontalHeaderLabels(Header);
+    ui->usertableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Username"));
+    ui->usertableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Admin Status"));
 
     for (int c = 0; c < ui->usertableWidget->horizontalHeader()->count(); ++c)
     {
@@ -101,6 +97,10 @@ void ManageUsers::PopulateUserTableView()
     //  Clear the user table and set the row count
     ui->usertableWidget->clear();
     ui->usertableWidget->setRowCount(_userVector->count());
+
+    // Force headers ?
+    ui->usertableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Username"));
+    ui->usertableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Admin Status"));
 
     //  Iterate through _userVector and populate user table with
     //  the appropriate information
