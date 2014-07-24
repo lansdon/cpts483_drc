@@ -108,6 +108,7 @@ void ResWaReport::BuildReport()
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPageOrientation(QPageLayout::Landscape);
     printer.setOutputFileName(DEF_PDF_PATH);
+    printer.setPageMargins(12, 16, 12, 20, QPrinter::Millimeter);
 
     QTextCursor cursor(_report);
 
@@ -316,8 +317,8 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     QTextTable *table = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(table, 0, 0, "Cases Settled", &_tableTextFormat);
-    TextToCell(table, 1, 0, "Percentage of total cases settled", &_tableTextFormat);
+    TextToCell(table, 0, 0, "All People Directly Served", &_tableTextFormat);
+    TextToCell(table, 1, 0, "Children Directly Served", &_tableTextFormat);
     // VALUES
     TextToCell(table, 0, 1, QString::number(_numByPhone), &_tableCellBlue);
     TextToCell(table, 1, 1, QString::number(_numChildByPhone), &_tableCellBlue);
@@ -330,8 +331,8 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     QTextTable *tableB = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(tableB, 0, 0, "All people Served", &_tableTextFormat);
-    TextToCell(tableB, 1, 0, "Children Served", &_tableTextFormat);
+    TextToCell(tableB, 0, 0, "All People Directly Served", &_tableTextFormat);
+    TextToCell(tableB, 1, 0, "Children Directly Served", &_tableTextFormat);
     // VALUES
     TextToCell(tableB, 0, 1, QString::number(_numByCoaching), &_tableCellBlue);
     TextToCell(tableB, 1, 1, QString::number(_numChildByCoaching), &_tableCellBlue);
@@ -343,8 +344,8 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     QTextTable *tableC = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(tableC, 0, 0, "All people Served", &_tableTextFormat);
-    TextToCell(tableC, 1, 0, "Children Served", &_tableTextFormat);
+    TextToCell(tableC, 0, 0, "All People Directly Served", &_tableTextFormat);
+    TextToCell(tableC, 1, 0, "Children Directly Served", &_tableTextFormat);
     // VALUES
     TextToCell(tableC, 0, 1, QString::number(_numByPhoneConcilliation), &_tableCellBlue);
     TextToCell(tableC, 1, 1, QString::number(_numChildByPhoneConcilliation), &_tableCellBlue);
@@ -356,8 +357,8 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     QTextTable *tableD = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(tableD, 0, 0, "All people Served", &_tableTextFormat);
-    TextToCell(tableD, 1, 0, "Children Served", &_tableTextFormat);
+    TextToCell(tableD, 0, 0, "All People Directly Served", &_tableTextFormat);
+    TextToCell(tableD, 1, 0, "Children Directly Served", &_tableTextFormat);
     // VALUES
     TextToCell(tableD, 0, 1, QString::number(_numBySessions), &_tableCellBlue);
     TextToCell(tableD, 1, 1, QString::number(_numChildBySessions), &_tableCellBlue);
@@ -369,8 +370,8 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     QTextTable *tableE = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(tableE, 0, 0, "All people Served", &_tableTextFormat);
-    TextToCell(tableE, 1, 0, "Children Served", &_tableTextFormat);
+    TextToCell(tableE, 0, 0, "All People Directly Served", &_tableTextFormat);
+    TextToCell(tableE, 1, 0, "Children Directly Served", &_tableTextFormat);
     // VALUES
     TextToCell(tableE, 0, 1, QString::number(_numBySessionFacilliation), &_tableCellBlue);
     TextToCell(tableE, 1, 1, QString::number(_numChildBySessionFacilliation), &_tableCellBlue);
@@ -382,8 +383,8 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     QTextTable *tableF = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(tableF, 0, 0, "All people Served", &_tableTextFormat);
-    TextToCell(tableF, 1, 0, "Children Served", &_tableTextFormat);
+    TextToCell(tableF, 0, 0, "All People Indirectly Served", &_tableTextFormat);
+    TextToCell(tableF, 1, 0, "Children Indirectly Served", &_tableTextFormat);
     // VALUES
     TextToCell(tableF, 0, 1, QString::number(_numIndirectly), &_tableCellBlue);
     TextToCell(tableF, 1, 1, QString::number(_numChildIndirectly), &_tableCellBlue);
@@ -395,8 +396,8 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     QTextTable *tableG = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(tableG, 0, 0, "All people Served", &_tableTextFormat);
-    TextToCell(tableG, 1, 0, "Children Served", &_tableTextFormat);
+    TextToCell(tableG, 0, 0, "All People Directly Served", &_tableTextFormat);
+    TextToCell(tableG, 1, 0, "Children Directly Served", &_tableTextFormat);
     // VALUES
     TextToCell(tableG, 0, 1, QString::number(_numByTraining), &_tableCellBlue);
     TextToCell(tableG, 1, 1, QString::number(_numChildByTraining), &_tableCellBlue);
@@ -408,8 +409,8 @@ void ResWaReport::BuildPeopleServedSection(QTextCursor& cursor)
     cursor.movePosition(QTextCursor::End);
     QTextTable *tableH = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(tableH, 0, 0, "All people Served", &_tableTextFormat);
-    TextToCell(tableH, 1, 0, "Children Served", &_tableTextFormat);
+    TextToCell(tableH, 0, 0, "All People Directly Served", &_tableTextFormat);
+    TextToCell(tableH, 1, 0, "Children Directly Served", &_tableTextFormat);
     // VALUES
     TextToCell(tableH, 0, 1, QString::number(_numAdditionalServed), &_tableCellBlue);
     TextToCell(tableH, 1, 1, QString::number(_numChildAdditionalServed), &_tableCellBlue);
@@ -547,43 +548,75 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
     }
 
 
-    // The 1st row is the number of cases, the row+1 is the number settled. 3rd row is percentage (todo!)
+    // The 1st row is the number of cases, the row+1 is the number settled. 3rd row is percentage
     switch(disputeType)
     {
     case DISPUTE_T_PARENTING_PLAN:
         _casesTable[row][CT_H_PARENTING]++;
-        qDebug() << "** ADDing a case to Small Claims parenting cases\n";
+        _casesTable[CT_TOTAL_CASES][CT_H_PARENTING]++;
         if(settled)
         {
             _casesTable[row+1][CT_H_PARENTING]++;
-            qDebug() << "** ADDing a SETTLED case to Small Claims parenting cases\n";
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_PARENTING]++;
         }
         break;
     case DISPUTE_T_TENANT:
         _casesTable[row][CT_H_TENANT]++;
-        if(settled) _casesTable[row+1][CT_H_TENANT]++;
+        _casesTable[CT_TOTAL_CASES][CT_H_TENANT]++;
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_TENANT]++;
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_TENANT]++;
+        }
         break;
     case DISPUTE_T_PROPERTY_BUSINESS:
         _casesTable[row][CT_H_BUSINESS]++;
-        if(settled) _casesTable[row+1][CT_H_BUSINESS]++;
+        _casesTable[CT_TOTAL_CASES][CT_H_BUSINESS]++;
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_BUSINESS]++;
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_BUSINESS]++;
+        }
         break;
     case DISPUTE_T_WORKPLACE:
         _casesTable[row][CT_H_WORKPLACE]++;
-        if(settled) _casesTable[row+1][CT_H_WORKPLACE]++;
+        _casesTable[CT_TOTAL_CASES][CT_H_WORKPLACE]++;
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_WORKPLACE]++;
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_WORKPLACE]++;
+        }
         break;
     case DISPUTE_T_NEIGHBORHOOD:
         _casesTable[row][CT_H_NEIGHBOR]++;
-        if(settled) _casesTable[row+1][CT_H_NEIGHBOR]++;
+        _casesTable[CT_TOTAL_CASES][CT_H_NEIGHBOR]++;
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_NEIGHBOR]++;
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_NEIGHBOR]++;
+        }
         break;
     case DISPUTE_T_PARENT_TEEN:
         _casesTable[row][CT_H_PARENT]++;
-        if(settled) _casesTable[row+1][CT_H_PARENT]++;
+        _casesTable[CT_TOTAL_CASES][CT_H_PARENT]++;
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_PARENT]++;
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_PARENT]++;
+        }
         break;
     default:
         _casesTable[row][CT_H_OTHER]++;
-        if(settled) _casesTable[row+1][CT_H_OTHER]++;
+        _casesTable[CT_TOTAL_CASES][CT_H_OTHER]++;
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_OTHER]++;
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_OTHER]++;
+        }
         break;
-    }
+    }    
+    _casesTable[row][CT_H_TOTAL]++;
+    if(settled) _casesTable[row+1][CT_H_TOTAL]++;
 }
 
 void ResWaReport::CalculateCasesTable()
@@ -705,10 +738,10 @@ void ResWaReport::CalculateCasesTable()
     {
         for(column = (int)CT_H_PARENTING; column <= CT_H_TOTAL; ++column)
         {
-            qDebug() << "Calculated percent for [" << row+2 << "][" << column << "] cell";
             if(_casesTable[row][column] != 0)
             {
-                _casesTable[row+2][column] = _casesTable[row+1][column] / _casesTable[row][column];
+                _casesTable[row+2][column] = (_casesTable[row+1][column] / _casesTable[row][column]) * 100;
+                qDebug() << "Calculated percent for [" << row+2 << "][" << column << "] cell";
             }
         }
         row = row + 3;
@@ -766,7 +799,7 @@ void ResWaReport::CalculateTraining(int& numTrainings, int& numAttendingTraining
     }
     // The RESWA report calls this one a "Freebie" in that it is copied over to the
     // People section of the report automatically.  So, here, we just copy it too.
-    _numByTraining = numAttendingTraining;
+    _numByTraining = numTrainings;
 }
 
 void ResWaReport::CalculatePeople()
@@ -789,8 +822,7 @@ void ResWaReport::CalculatePeople()
     = _numAdditionalServed
     = _numChildAdditionalServed = 0;
 
-    bool isChild = false;
-    bool isConflictCoaching = false;
+    bool isChild = false;  // no children are directly served, so we are just setting this
 
     foreach(MediationProcess* mp,  *_processes)
     {
@@ -811,70 +843,61 @@ void ResWaReport::CalculatePeople()
 
             // The sum of _numByCoaching and _numByPhone should equal the number of total calls
             // from the CALLS section, assuming a call is only ever one person.
-            if (mp->GetInfoOnly() || (mp->GetState() == PROCESS_STATE_CLOSED_NO_SESSION)) {
-                // All Statistics for Info only intakes are collected here.
 
-                // PARTS A and B
-                // the DRC does not currently do conflict coaching
-                if (isConflictCoaching) {
-                    _numByCoaching++;
-                    if(isChild) {
-                        _numChildByCoaching++;
-                    }
+            // PARTS A,B, C, D, and E
+            // The sum of _numByPhoneConciliation, _numBySessionFacilitation, and _numBySessions
+            // represents all of the people involved in the total number of cases from the
+            // CASES section.
+            switch(mp->GetSessionType())
+            {
+            case PHONE_SESSION:
+                _numByPhoneConcilliation++;
+                if(isChild) {
+                    _numChildByPhoneConcilliation++;
                 }
-                else {
+                break;
+            case FACILITATION_SESSION:
+                _numBySessionFacilliation++;
+                if(isChild) {
+                    _numChildBySessionFacilliation++;
+                }
+                break;
+            case MEDIATION_SESSION:
+                _numBySessions++;
+                if(isChild) {
+                    _numChildBySessions++;
+                }
+                break;
+            case COACHING_SESSION:
+                _numByCoaching++;
+                if(isChild) {
+                    _numChildByCoaching++;
+                }
+                break;
+            default:
+                if(mp->GetInfoOnly() || (mp->GetState() == PROCESS_STATE_CLOSED_NO_SESSION))
+                {
                     _numByPhone++;
                     if(isChild) {
                         _numChildByPhone++;  // this is likely always 0.
                     }
                 }
-            }
-            else {
-                // All statistics for mediations that had sessions are collected here.
+                break;
+            };
 
-                // PARTS C, D, and E
-                // The sum of _numByPhoneConciliation, _numBySessionFacilitation, and _numBySessions
-                // represents all of the people involved in the total number of cases from the
-                // CASES section.
-                switch(mp->GetSessionType())
-                {
-                case PHONE_SESSION:
-                    _numByPhoneConcilliation++;
-                    if(isChild) {
-                        _numChildByPhoneConcilliation++;
-                    }
-                    break;
-                case FACILITATION_SESSION:
-                    _numBySessionFacilliation++;
-                    if(isChild) {
-                        _numChildBySessionFacilliation++;
-                    }
-                    break;
-                case MEDIATION_SESSION:
-                    _numBySessions++;
-                    if(isChild) {
-                        _numChildBySessions++;
-                    }
-                    break;
-                default:
-                    // weird.  not counted cuz its not a type on the report
-                    // (we don't know what it is), but we shouldn't get here.
-                    break;
-                };
+            // PART F
+            // total number indirectly includes both adults AND children.
+            _numIndirectly = _numIndirectly + party->GetPrimary()->getNumberInHousehold();
+            _numIndirectly = _numIndirectly + (int)party->GetChildren().size();
+            _numChildIndirectly = _numChildIndirectly + (int)party->GetChildren().size();
 
-                // PART F
-                // total number indirectly includes both adults AND children.
-                _numIndirectly = _numIndirectly + party->GetPrimary()->getNumberInHousehold();
-                _numIndirectly = _numIndirectly + (int)party->GetChildren().size();
-                _numChildIndirectly = _numChildIndirectly + (int)party->GetChildren().size();
+            // PART G
+            // The training number gets copied over when the training section is calculated.
 
-                // PART G
-                // The training number gets copied over when the training section is calculated.
+            // PART H
+            // Additional people served would be a unique case.  Since we don't have any other fields to check for
+            // we will just leave _numAdditionalServed and _numChildAdditionalServed as zero for now.
 
-                // PART H
-                // Additional people served would be a unique case.  Since we don't have any other fields to check for
-                // we will just leave _numAdditionalServed and _numChildAdditionalServed as zero for now.
-            }
         }
     }
 }

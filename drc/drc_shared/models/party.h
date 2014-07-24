@@ -9,8 +9,6 @@
 #include "DBBaseObject.h"
 
 
-
-
 class Party : public DBBaseObject
 {
 public:
