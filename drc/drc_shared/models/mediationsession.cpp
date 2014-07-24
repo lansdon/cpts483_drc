@@ -10,6 +10,7 @@ MediationSession::MediationSession()
     _outcome = SESSION_OUTCOME_NONE;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
+    _isShuttle = false;
 
 }
 MediationSession::MediationSession(uint numOfClients)
@@ -18,6 +19,7 @@ MediationSession::MediationSession(uint numOfClients)
     _outcome = SESSION_OUTCOME_NONE;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
+    _isShuttle = false;
     for(int i = 0; i < (int)numOfClients; i++)
         _clientSessionDataVector.insert(_clientSessionDataVector.end() - 2, new ClientSessionData());
 }

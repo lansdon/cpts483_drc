@@ -52,6 +52,11 @@ public:
      * \return bool
      */
     bool getAtTable() const { return atTable; }
+    /*!
+     * \brief getOnPhone() returns a bool if party attended by phone or not.
+     * \return bool
+     */
+    bool getOnPhone() const { return onPhone; }
 
     // setters
     /*!
@@ -89,6 +94,11 @@ public:
      * \param value
      */
     void setAtTable(bool value) { atTable = value; }
+    /*!
+     * \brief setOnPhone()
+     * \param value
+     */
+    void setOnPhone(bool value) { onPhone = value; }
 
     //Virtual overrides
     QString Parse();
@@ -109,7 +119,7 @@ public slots:
     void on_support(uint value);
 private:
     QString income, fee;
-    bool paid, attySaidAttend, attyDidAttend, atTable;
+    bool paid, attySaidAttend, attyDidAttend, atTable, onPhone;
     uint support;
 };
 

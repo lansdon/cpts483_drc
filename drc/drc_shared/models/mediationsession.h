@@ -15,6 +15,7 @@ private:
     SessionStates _state;
     QString _mediator1, _mediator2, _observer1, _observer2;
     ClientSessionDataVector _clientSessionDataVector;
+    bool _isShuttle;
     SessionOutcomes _outcome;
 
 public:
@@ -42,6 +43,8 @@ public:
     QDate getScheduledDate() const { return _mediationTime.date(); }
     QTime getScheduledTime() const { return _mediationTime.time(); }
     SessionOutcomes getOutcome() { return _outcome; }
+    bool GetIsShuttle() { return _isShuttle; }
+
 
     //setters
     void setMediationTime(QDateTime value) { _mediationTime = value; }
@@ -54,6 +57,8 @@ public:
     void setScheduledDate(QDate value) { _mediationTime.setDate(value); }
     void setScheduledTime(QTime value) { _mediationTime.setTime(value); }
     void setOutcome(SessionOutcomes value) { _outcome = value; }
+    void SetIsShuttle(bool isShuttle) { _isShuttle = isShuttle; }
+
 
     QString getStatus() const;
     QString getFeeStatus() const;

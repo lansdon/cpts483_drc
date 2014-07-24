@@ -739,15 +739,15 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
         QString courtDate = Mediation_query.value(13).toString();
         if(courtDate != NULL)
         {
-            process->SetCourtDate(QDateTime::fromString(courtDate, "yyyy-MM-dd"));
+            process->SetCourtDate(QDate::fromString(courtDate, "yyyy-MM-dd"));
         }
         process->SetCourtType((CourtCaseTypes)Mediation_query.value(14).toInt());
-        process->SetCourtOrderType((CourtOrderTypes)Mediation_query.value(15).toInt());
+//        process->SetCourtOrderType((CourtOrderTypes)Mediation_query.value(15).toInt());
         courtDate = Mediation_query.value(16).toString();
-        if(courtDate != NULL)
-        {
-            process->SetCourtOrderExpiration(QDateTime::fromString(courtDate, "yyyy-MM-dd"));
-        }
+//        if(courtDate != NULL)
+//        {
+//            process->SetCourtOrderExpiration(QDate::fromString(courtDate, "yyyy-MM-dd"));
+//        }
         process->SetIsShuttle(Mediation_query.value(17).toBool());
         process->SetRequiresSpanish(Mediation_query.value(18).toBool());
         process->SetSessionType((SessionTypes)Mediation_query.value(19).toInt());
