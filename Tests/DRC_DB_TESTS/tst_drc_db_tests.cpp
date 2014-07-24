@@ -1,5 +1,7 @@
 #include <QString>
 #include <QtTest>
+#include <QTextStream>
+#include <QFile>
 
 #include "drcdb.h"
 #include "mediationprocess.h"
@@ -10,6 +12,54 @@
 #define INSERT_FULL_PERSON_DEBUG false
 #define INSERT_EMPTY_PROCESS_DEBUG false
 #define INSERT_FULL_PROCESS_DEBUG true
+
+#define TITLE_COLUMNS 45
+#define DISTANCE_FROM_COLON -30
+#define DISTANCE_BETWEEN_COLUMNS 45
+#define FILL_CHARACTER ' '
+
+enum PersonColumns
+{
+    PERSON_ID = 0,
+    FIRST_NAME = 1,
+    MIDDLE_NAME = 2,
+    LAST_NAME = 3,
+    STREET_NAME = 4,
+    UNIT_NAME = 5,
+    CITY_NAME = 6,
+    STATE_NAME = 7,
+    ZIP_CODE = 8,
+    COUNTY_NAME = 9,
+    PRIMARY_PHONE = 10,
+    PRIMARY_PHONE_EXT = 11,
+    SECONDARY_PHONE = 12,
+    SECONDARY_PHONE_EXT = 13,
+    EMAIL_ADDRESS = 14
+};
+
+enum ProcessColumns
+{
+    PROCESS_ID = 0,
+    DISPUTETYPE = 1,
+    CREATIONDATE = 2,
+    UPDATEDDATE = 3,
+    CREATIONDATETIME = 4,
+    UPDATEDDATETIME = 5,
+    DISPUTESTATE = 6,
+    DISPUTEINTERNALSTATE = 7,
+    DISPUTECOUNTY = 8,
+    REFERALSOURCE = 9,
+    INQUIRYTYPE = 10,
+    INFOONLY = 11,
+    COURTDATE = 12,
+    COURTCASE = 13,
+    COURTCASETYPE = 14,
+    COURTORDERTYPE = 15,
+    COURTORDEREXPIRATION = 16,
+    SHUTTLEREQUIRED = 17,
+    TRANSLATORREQUIRED = 18,
+    SESSIONTYPE = 19
+};
 
 
 class DRC_DB_TESTS : public QObject
@@ -32,6 +82,9 @@ private:
     QString client_session_table_name;
     QString user_table_name;
     QString evaluationTableName;
+
+    QVector<QString> person_table_columns;
+    QVector<QString> process_table_columns;
 
     QVector<QString> full_person_values;
     QVector<QString> empty_person_values;
@@ -99,6 +152,43 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     user_table_name = QString("User_Table");
     evaluationTableName = QString("Evaluation_Table");
 
+    person_table_columns.push_back("id");
+    person_table_columns.push_back("first_name");
+    person_table_columns.push_back("middle_name");
+    person_table_columns.push_back("last_name");
+    person_table_columns.push_back("street_name");
+    person_table_columns.push_back("unit_name");
+    person_table_columns.push_back("city_name");
+    person_table_columns.push_back("state_name");
+    person_table_columns.push_back("zip_code");
+    person_table_columns.push_back("county_name");
+    person_table_columns.push_back("primary_phone");
+    person_table_columns.push_back("primary_phone_ext");
+    person_table_columns.push_back("secondary_phone");
+    person_table_columns.push_back("secondary_phone_ext");
+    person_table_columns.push_back("email_address");
+
+    process_table_columns.push_back("id");
+    process_table_columns.push_back("DisputeType");
+    process_table_columns.push_back("CreationDate");
+    process_table_columns.push_back("UpdatedDate");
+    process_table_columns.push_back("CreationDateTime");
+    process_table_columns.push_back("UpdatedDateTime");
+    process_table_columns.push_back("DisputeState");
+    process_table_columns.push_back("DisputeInternalState");
+    process_table_columns.push_back("DisputeCounty");
+    process_table_columns.push_back("ReferalSource");
+    process_table_columns.push_back("InquiryType");
+    process_table_columns.push_back("InfoOnly");
+    process_table_columns.push_back("CourtCase");
+    process_table_columns.push_back("CourtDate");
+    process_table_columns.push_back("CourtCaseType");
+    process_table_columns.push_back("CourtOrderType");
+    process_table_columns.push_back("CourtOrderExpiration");
+    process_table_columns.push_back("ShuttleRequired");
+    process_table_columns.push_back("TranslatorRequired");
+    process_table_columns.push_back("SessionType");
+
     full_person_values.push_back(QString("2"));
     full_person_values.push_back(QString("Bruce"));
     full_person_values.push_back(QString("Chan"));
@@ -149,10 +239,10 @@ DRC_DB_TESTS::DRC_DB_TESTS()
 
     full_process_values.push_back("2");             //Process ID
     full_process_values.push_back("8");             //DisputeTypes - DISPUTE_T_WORKPLACE
-    full_process_values.push_back("2014-8-20 12:00:00");
-    full_process_values.push_back("2014-8-20 12:00:01");
-    full_process_values.push_back(("2014-8-20 12:00:00"));
-    full_process_values.push_back(("2014-8-20 12:00:01"));
+    full_process_values.push_back(QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    full_process_values.push_back(QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    full_process_values.push_back(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    full_process_values.push_back(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
     full_process_values.push_back("3");             //DisputeProcessStates - PROCESS_STATE_SCHEDULED
     full_process_values.push_back("7");             //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
     full_process_values.push_back("2");             //CountyIds - COUNTY_BENTON
@@ -160,10 +250,10 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     full_process_values.push_back("4");             //InquiryTypes - INQUIRY_T_WALKIN
     full_process_values.push_back("0");             //Info Only - FALSE
     full_process_values.push_back("1");             //Is Court Case - TRUE
+    full_process_values.push_back("");              //COURT DATE
     full_process_values.push_back("2");             //CourtCaseTypes - COURT_T_SUPERIOR
-    full_process_values.push_back("2014-9-25");     //COURT DATE
     full_process_values.push_back("1");             //CourtOrderTyes - COURT_ORDER_T_NONE
-    full_process_values.push_back("2014-10-11");    //COURT EXPIRATION DATE
+    full_process_values.push_back("");              //COURT EXPIRATION DATE
     full_process_values.push_back("1");             //Is Shuttle Required - TRUE
     full_process_values.push_back("1");             //Is Spanish Required - TRUE
     full_process_values.push_back("1");             //SessionTypes - MEDIATION_SESSION
@@ -263,8 +353,17 @@ void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
 
     if(INSERT_EMPTY_PERSON_DEBUG)
     {
+        QFile file("INSERT_EMPTY_PERSON_DEBUG.txt");
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream out(&file);
+        out << QString("%1%2\n")
+            .arg(QString("Data read from Database"), TITLE_COLUMNS, QLatin1Char(FILL_CHARACTER))
+            .arg(QString("Data read from File"), DISTANCE_BETWEEN_COLUMNS, QLatin1Char(FILL_CHARACTER));
         for (int index = 0 ; index < TruncatedEmpty.size() ; ++index)
-            qDebug() << EmptyResults[index] << TruncatedEmpty[index];
+            out << QString("%1%2%3\n")
+                .arg(person_table_columns[index] + QString(": "), DISTANCE_FROM_COLON, QLatin1Char(FILL_CHARACTER))
+                .arg(QString("\"") + EmptyResults[index] + QString("\""))
+                .arg(QString("\"") + TruncatedEmpty[index] + QString("\""), DISTANCE_BETWEEN_COLUMNS , QLatin1Char(FILL_CHARACTER));
     }
     QCOMPARE(TruncatedEmpty, EmptyResults);
 
@@ -285,8 +384,17 @@ void DRC_DB_TESTS::CheckInsertFullPersonObject()
 //  Visually verify that all the values match.
     if (INSERT_FULL_PERSON_DEBUG)
     {
-        for (int index = 0 ; index < full_person_values.size() ; ++index)
-            qDebug() << full_person_values[index] << FullResults[index];
+        QFile file("INSERT_FULL_PERSON_DEBUG.txt");
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream out(&file);
+        out << QString("%1%2\n")
+            .arg(QString("Data read from Database"), TITLE_COLUMNS, QLatin1Char(FILL_CHARACTER))
+            .arg(QString("Data read from File"), DISTANCE_BETWEEN_COLUMNS, QLatin1Char(FILL_CHARACTER));
+        for (int index = 0 ; index < FullResults.size() ; ++index)
+            out << QString("%1%2%3\n")
+                .arg(person_table_columns[index] + QString(": "), DISTANCE_FROM_COLON, QLatin1Char(FILL_CHARACTER))
+                .arg(QString("\"") + FullResults[index] + QString("\""))
+                .arg(QString("\"") + TruncatedPerson[index] + QString("\""), DISTANCE_BETWEEN_COLUMNS , QLatin1Char(FILL_CHARACTER));
     }
 }
 
@@ -352,8 +460,20 @@ void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
 
     if(INSERT_EMPTY_PROCESS_DEBUG)
     {
+        QFile file("INSERT_EMPTY_PROCESS_DEBUG.txt");
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream out(&file);
+        out << QString("%1%2\n")
+            .arg(QString("Data read from Database"), TITLE_COLUMNS, QLatin1Char(FILL_CHARACTER))
+            .arg(QString("Data read from File"), DISTANCE_BETWEEN_COLUMNS, QLatin1Char(FILL_CHARACTER));
+
         for (int index = 0 ; index < EmptyResults.size() ; ++index)
-            qDebug() << EmptyResults[index] << empty_process_values[index];
+        {
+            out << QString("%1%2%3\n")
+                .arg(process_table_columns[index] + QString(": "), DISTANCE_FROM_COLON, QLatin1Char(FILL_CHARACTER))
+                .arg(QString("\"") + EmptyResults[index] + QString("\""))
+                .arg(QString("\"") + empty_process_values[index] + QString("\""), DISTANCE_BETWEEN_COLUMNS , QLatin1Char(FILL_CHARACTER));
+        }
     }
 
     QCOMPARE(EmptyResults, empty_process_values);
@@ -361,28 +481,25 @@ void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
 
 void DRC_DB_TESTS::CheckInsertFullProcessObject()
 {
-    QDate CourtDate(2014, 8, 20);
-    QDate CourtExpirationDate(2014, 9, 22);
-
     //Replace with Vector
     MediationProcess DojoBattle;
-    DojoBattle.SetDisputeType((DisputeTypes)full_process_values[1].toInt());
-    DojoBattle.SetCreatedDate(QDateTime::fromString(full_process_values[2], "yyyy-M-dd hh:mm:ss"));
-    DojoBattle.SetUpdatedDate(QDateTime::fromString(full_process_values[3], "yyyy-M-dd hh:mm:ss"));
-    DojoBattle.SetState((DisputeProcessStates)full_process_values[4].toInt());                  //DisputeProcessStates - PROCESS_STATE_SCHEDULED
-    DojoBattle.SetInternalState((DisputeProcessInternalStates)full_process_values[5].toInt());  //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
-    DojoBattle.SetCountyId((CountyIds)full_process_values[6].toInt());                          //CountyIds - COUNTY_BENTON
-    DojoBattle.SetReferralType((ReferralTypes)full_process_values[7].toInt());                  //ReferralTypes - REFERRAL_T_PHONEBOOK
-    DojoBattle.SetInquiryTypes((InquiryTypes)full_process_values[8].toInt());                   //InquiryTypes - INQUIRY_T_WALKIN
-    DojoBattle.SetInfoOnly((bool)full_process_values[9].toInt());                               //Info Only - FALSE
-    DojoBattle.SetIsCourtCase((bool)full_process_values[10].toInt());                           //Is Court Case - TRUE
-    DojoBattle.SetCourtType((CourtCaseTypes)full_process_values[11].toInt());                   //CourtCaseTypes - COURT_T_SUPERIOR
-    DojoBattle.SetCourtDate(QDateTime::fromString(full_process_values[12], "yyyy-M-dd"));
-    DojoBattle.SetCourtOrderType((CourtOrderTypes)full_process_values[13].toInt());
-    DojoBattle.SetCourtOrderExpiration(QDateTime::fromString(full_process_values[14], "yyyy-M-dd"));
-    DojoBattle.SetIsShuttle((bool)full_process_values[15].toInt());
-    DojoBattle.SetRequiresSpanish((bool)full_process_values[16].toInt());
-    DojoBattle.SetSessionType((SessionTypes)full_process_values[17].toInt());
+    DojoBattle.SetDisputeType(              (DisputeTypes)                      full_process_values[DISPUTETYPE].toInt());
+    DojoBattle.SetCreatedDate(              QDateTime::fromString(              full_process_values[CREATIONDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
+    DojoBattle.SetUpdatedDate(              QDateTime::fromString(              full_process_values[UPDATEDDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
+    DojoBattle.SetState(                    (DisputeProcessStates)              full_process_values[DISPUTESTATE].toInt());                  //DisputeProcessStates - PROCESS_STATE_SCHEDULED
+    DojoBattle.SetInternalState(            (DisputeProcessInternalStates)      full_process_values[DISPUTEINTERNALSTATE].toInt());  //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
+    DojoBattle.SetCountyId(                 (CountyIds)                         full_process_values[DISPUTECOUNTY].toInt());                          //CountyIds - COUNTY_BENTON
+    DojoBattle.SetReferralType(             (ReferralTypes)                     full_process_values[REFERALSOURCE].toInt());                  //ReferralTypes - REFERRAL_T_PHONEBOOK
+    DojoBattle.SetInquiryTypes(             (InquiryTypes)                      full_process_values[INQUIRYTYPE].toInt());                   //InquiryTypes - INQUIRY_T_WALKIN
+    DojoBattle.SetInfoOnly(                 (bool)                              full_process_values[INFOONLY].toInt());                               //Info Only - FALSE
+    DojoBattle.SetIsCourtCase(              (bool)                              full_process_values[COURTCASE].toInt());                           //Is Court Case - TRUE
+    DojoBattle.SetCourtDate(                QDateTime::fromString(              full_process_values[COURTDATE], "yyyy-M-dd"));
+    DojoBattle.SetCourtType(                (CourtCaseTypes)                    full_process_values[COURTCASETYPE].toInt());                   //CourtCaseTypes - COURT_T_SUPERIOR
+    DojoBattle.SetCourtOrderType(           (CourtOrderTypes)                   full_process_values[COURTORDERTYPE].toInt());
+    DojoBattle.SetCourtOrderExpiration(     QDateTime::fromString(              full_process_values[COURTORDEREXPIRATION], "yyyy-M-dd"));
+    DojoBattle.SetIsShuttle(                (bool)                              full_process_values[SHUTTLEREQUIRED].toInt());
+    DojoBattle.SetRequiresSpanish(          (bool)                              full_process_values[TRANSLATORREQUIRED].toInt());
+    DojoBattle.SetSessionType(              (SessionTypes)                      full_process_values[SESSIONTYPE].toInt());
 
     QCOMPARE(_db.InsertObject(&DojoBattle),true);
 
@@ -390,8 +507,18 @@ void DRC_DB_TESTS::CheckInsertFullProcessObject()
 
     if(INSERT_FULL_PROCESS_DEBUG)
     {
+        QFile file("INSERT_FULL_PROCESS_DEBUG.txt");
+        file.open(QIODevice::WriteOnly | QIODevice::Text);
+        QTextStream out(&file);
+        out << QString("%1%2\n")
+            .arg(QString("Data read from Database"), TITLE_COLUMNS, QLatin1Char(FILL_CHARACTER))
+            .arg(QString("Data read from File"), DISTANCE_BETWEEN_COLUMNS, QLatin1Char(FILL_CHARACTER));
+
         for (int index = 0 ; index < FullResults.size() ; ++index)
-            qDebug() << "From Database: " << FullResults[index] << " From File:" << full_process_values[index];
+            out << QString("%1%2%3\n")
+                .arg(process_table_columns[index] + QString(": "), DISTANCE_FROM_COLON, QLatin1Char(FILL_CHARACTER))
+                .arg(QString("\"") + FullResults[index] + QString("\""))
+                .arg(QString("\"") + full_process_values[index] + QString("\""), DISTANCE_BETWEEN_COLUMNS , QLatin1Char(FILL_CHARACTER));
     }
 
     QCOMPARE(full_process_values, FullResults);
