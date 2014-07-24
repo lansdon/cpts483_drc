@@ -379,6 +379,7 @@ bool DRCDB::CreateClientSessionTable(const QString& client_session_table_name)
     client_session_table_columns.push_back(QString("AttorneyExpected Bool"));
     client_session_table_columns.push_back(QString("AttorneyAttended Bool"));
     client_session_table_columns.push_back(QString("ClientPhone Bool"));
+    client_session_table_columns.push_back(QString("AtTable Bool"));
     client_session_table_columns.push_back(QString("foreign key(Session_id) references Session_Table(Session_id)"));
 
     return CreateTable(client_session_table_name, client_session_table_columns);
@@ -795,6 +796,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
                 data->setAttySaidAttend(DataQuery.value(6).toBool());
                 data->setAttyDidAttend(DataQuery.value(7).toBool());
                 data->setOnPhone(DataQuery.value(8).toBool());
+                data->setAtTable(DataQuery.value(9).toBool());
 
                 session->getClientSessionDataVector()->push_back(data);
             }
@@ -1614,7 +1616,7 @@ qDebug() << command_string;
 
 bool DRCDB::InsertClientSessionData(ClientSessionData* data, int sessionId, int clientId)
 {
-    QString value_string = QString("%1, %2, '%3', '%4', '%5', '%6', '%7', '%8'")
+    QString value_string = QString("%1, %2, '%3', '%4', '%5', '%6', '%7', '%8', '%9'")
                                 .arg(clientId)
                                 .arg(sessionId)
                                 .arg(data->getIncome())
@@ -1622,7 +1624,8 @@ bool DRCDB::InsertClientSessionData(ClientSessionData* data, int sessionId, int 
                                 .arg(data->getPaid())
                                 .arg(data->getAttySaidAttend())
                                 .arg(data->getAttyDidAttend())
-                                .arg(data->getOnPhone());
+                                .arg(data->getOnPhone())
+                                .arg(data->getAtTable());
 
     QString command_string = QString("insert into %1 values (%2, %3)")
                                 .arg("Client_Session_Table")

@@ -48,9 +48,8 @@ QString MediationSession::Parse()
     toReturn += ", ";
     toReturn += single_quote + this->getObserver2().replace("'", "''") + single_quote;
 
-    toReturn += ", ";
-    toReturn += single_quote + this->GetIsShuttle() + single_quote;
-
+    toReturn += QString(", '%1'").arg(this->GetIsShuttle());
+qDebug()<<toReturn;
     return toReturn;
 }
 

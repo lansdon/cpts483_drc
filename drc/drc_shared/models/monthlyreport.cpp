@@ -64,7 +64,8 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
             int atTable = 0;
             for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
             {
-                atTable += session->getClientSessionDataVectorAt(num)->getAtTable();
+                atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
+                            session->getClientSessionDataVectorAt(num)->getOnPhone());
             }
 
             if((session->GetState() == SESSION_STATE_CANCELLED) ||
