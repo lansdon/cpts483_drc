@@ -92,12 +92,18 @@
           <property name="text">
            <string>Show Recent</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="pendingButton">
           <property name="text">
            <string>Show Pending</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
           </property>
          </widget>
         </item>
@@ -110,12 +116,18 @@
           <property name="text">
            <string>Show Scheduled</string>
           </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
          </widget>
         </item>
         <item>
          <widget class="QPushButton" name="closedButton">
           <property name="text">
            <string>Show Closed</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
           </property>
          </widget>
         </item>

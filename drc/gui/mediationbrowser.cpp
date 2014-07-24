@@ -31,7 +31,6 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
     _queryMediationCallback = Mediator::Register(MKEY_DB_QUERY_MEDIATION, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
 
     LoadTableData(sortType);
-
 }
 
 MediationBrowser::~MediationBrowser()
@@ -122,31 +121,36 @@ void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
 {
     _sortType = sortType;
 
-    if(sortType == MEDIATION_SORT_T_RECENT)
-        Mediator::Call(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS);
-    else
-        //MakeSampleTable();
+    // Reset Buttons
+    ui->closedButton->setChecked(false);
+    ui->scheduledButton->setChecked(false);
+    ui->pendingButton->setChecked(false);
+    ui->recentButton->setChecked(false);
 
     switch(sortType)
     {
         case MEDIATION_SORT_T_RECENT:
         {
             Mediator::Call(MKEY_DOCK_REQUEST_RECENT_MEDIATIONS);
+            ui->recentButton->setChecked(true); // default
             break;
         }
         case MEDIATION_SORT_T_PENDING:
         {
             Mediator::Call(MKEY_DOCK_REQUEST_PENDING_MEDIATIONS);
+            ui->pendingButton->setChecked(true);
             break;
         }
         case MEDIATION_SORT_T_SCHEDULED:
         {
             Mediator::Call(MKEY_DOCK_REQUEST_SCHEDULED_MEDIATIONS);
+            ui->scheduledButton->setChecked(true);
             break;
         }
         case MEDIATION_SORT_T_CLOSED:
         {
             Mediator::Call(MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS);
+            ui->closedButton->setChecked(true);
             break;
         }
         default:

@@ -38,8 +38,9 @@ TabbedBrowsers::~TabbedBrowsers()
 void TabbedBrowsers::NotesChanged(MediatorArg arg)
 {
     // If the vector is null - there's no MP. Hide the notes browser!
-    if(_notesBrowser->isVisible())
-        _notesBrowser->setHidden(!arg.getArg<MediationNotesVector*>());
+//    if(_notesBrowser->isVisible())
+//        _notesBrowser->setHidden(!arg.getArg<MediationNotesVector*>());
+        setTabEnabled(_notesBrowserIndex, arg.getArg<MediationNotesVector*>());
 }
 
 void TabbedBrowsers::Configure()

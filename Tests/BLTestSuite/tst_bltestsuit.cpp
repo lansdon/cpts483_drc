@@ -14,18 +14,93 @@ public:
     BLTestSuit();
 
 private Q_SLOTS:
-    void testInitiatedValid();
-    void testInitiatedInvalid();
+    // The approach for these tests is to test the checks we wanted to catch,
+    // not necessarily related to any particular state or function.
+    // Each function however builds on the previous.
+    // For example, if including a name was tested in the first function,
+    // it is assumed that for all the remaining tests a name is provided.
 
-    void testReadyToScheduleValid();
-    void testReadyToScheduleInvalid();
+    void testOnlyNameProvided(); // tests the progress out of NONE
+    void testNoNameProvided();
 
-    void testScheduledValid();
-    void testScheduledInvalid();
+    void testInfoOnlyChecked();
+    void testInfoOnlyNotChecked();
+
+    void testTwoDuplicateClients();
+    void testTwoDifferentClients();
+
+    void testOneClientOnly();
+    void testTwoUniqueClients();
+
+    void testSufficientContactInfo();
+    void testInsufficientContactInfo();
+
+    void testFeesRecorded();
+    void testNoFeesRecorded();
+
+    void testMediatiorsRecorded();
+    void testNoMediatorsRecorded();
+
+    void testSessionConfirmed();
+    void testSessionNotConfirmed();
+
+    void testFeesPaid();
+    void testFeesNotPaid();
 };
 
 BLTestSuit::BLTestSuit()
 {
+}
+
+/* Test no name provided.
+ *
+ * Expected result:
+ *      success = false
+ *      internalState = PROCESS_INTERNAL_STATE_NONE
+ *      externalState = PROCESS_STATE_NONE
+ */
+void BLTestSuit::testNoNameProvided()
+{
+    Person person;
+
+    Party party;
+    party.SetPrimary(&person);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
+
+    QString errorMessage = "";
+    StateUpdate stateUpdate;
+    bool success = !stateUpdate.StateCheck(&mediationProcess, errorMessage);   // Flipping success since we expect failure
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_NONE);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_NONE);
+    QVERIFY2(success, "Successful: No name provided fails");
+}
+
+/* Test name provided.
+ *
+ * Expected result:
+ *      success = true
+ *      internalState = PROCESS_INTERNAL_STATE_INITIATED
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testNameProvided()
+{
+    Person person;
+    person.setName("SomeFirst", "SomeMiddle", "SomeLast");
+
+    Party party;
+    party.SetPrimary(&person);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
+
+    QString errorMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_INITIATED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Name provided succeeds");
 }
 
 /* Test Initiated State with valid data:

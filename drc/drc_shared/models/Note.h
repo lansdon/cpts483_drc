@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <string>
+#include <QTextCursor>
 
 #include "DBBaseObject.h"
 
@@ -13,6 +14,14 @@ private:
     QString _message;
     int _sessionId;
     int _mediationId;
+
+    // Text Formatters
+    QTextCharFormat _headerFormat;
+    QTextCharFormat _tableTextFormat;
+    QTextTableCellFormat _tableCellBlue;
+    QTextTableCellFormat _tableIndexDark;
+    QTextTableCellFormat _tableIndexLight;
+
 public:
     Note(QString message = "");
     void SetMessage(QString message);
@@ -30,6 +39,8 @@ public:
     QString table();
     QString DuplicateQuery();
     QString SearchQuery();
+
+    void BuildToPDF(QTextCursor& cursor);
 
 };
 
