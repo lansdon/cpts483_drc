@@ -68,11 +68,14 @@ class DRC_DB_TESTS : public QObject
 
 public:
     DRC_DB_TESTS();
-    void DebugOutput(QVector<QString> FromDatabase, QVector<QString> FromFile, QString FileName);
-    void PrintVector(QVector<QString> PrintThis);
+    void OutputDebugInfo(QVector<QString> TableColumns, QVector<QString> FromDatabase, QVector<QString> FromFile, QString FileName);
+    void PrintVectorStrings(QVector<QString> PrintThis);
 
 private:
     DRCDB _db;
+
+    QString DateFormat;
+    QString DateTimeFormat;
 
     QString database_name;
 
@@ -147,6 +150,9 @@ private slots:
 DRC_DB_TESTS::DRC_DB_TESTS()
 {
     database_name = QString("drc_db.db3");
+
+    DateFormat = QString("yyyy-MM-dd");
+    DateTimeFormat = QString("yyyy-MM-dd hh:mm:ss");
 
     //Names of all the tables
     person_table_name = QString("Person_Table");
@@ -268,10 +274,10 @@ DRC_DB_TESTS::DRC_DB_TESTS()
 
     empty_process_values.push_back(QString("1"));
     empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString(QDateTime::currentDateTime().toString("yyyy-MM-dd")));
-    empty_process_values.push_back(QString(QDateTime::currentDateTime().toString("yyyy-MM-dd")));
-    empty_process_values.push_back(QString(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")));
-    empty_process_values.push_back(QString(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")));
+    empty_process_values.push_back(QString("2000-01-01"));
+    empty_process_values.push_back(QString("2000-01-01"));
+    empty_process_values.push_back(QString("2000-01-01 12:00:01"));
+    empty_process_values.push_back(QString("2000-01-01 12:00:01"));
     empty_process_values.push_back(QString("0"));
     empty_process_values.push_back(QString("0"));
     empty_process_values.push_back(QString("1"));
@@ -328,7 +334,7 @@ DRC_DB_TESTS::DRC_DB_TESTS()
 }
 //=======================================================
 
-void DRC_DB_TESTS::DebugOutput(QVector<QString> FromDatabase, QVector<QString> FromFile, QString FileName)
+void DRC_DB_TESTS::OutputDebugInfo(QVector<QString> TableColumns, QVector<QString> FromDatabase, QVector<QString> FromFile, QString FileName)
 {
     QFile file(FileName);
     file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -338,12 +344,12 @@ void DRC_DB_TESTS::DebugOutput(QVector<QString> FromDatabase, QVector<QString> F
         .arg(QString("Data read from File"), DISTANCE_BETWEEN_COLUMNS, QLatin1Char(FILL_CHARACTER));
     for (int index = 0 ; index < FromFile.size() ; ++index)
         out << QString("%1%2%3\n")
-            .arg(FromFile[index] + QString(": "), DISTANCE_FROM_COLON, QLatin1Char(FILL_CHARACTER))
+            .arg(TableColumns[index] + QString(": "), DISTANCE_FROM_COLON, QLatin1Char(FILL_CHARACTER))
             .arg(QString("\"") + FromDatabase[index] + QString("\""))
             .arg(QString("\"") + FromFile[index] + QString("\""), DISTANCE_BETWEEN_COLUMNS , QLatin1Char(FILL_CHARACTER));
 }
 
-void DRC_DB_TESTS::PrintVector(QVector<QString> PrintThis)
+void DRC_DB_TESTS::PrintVectorStrings(QVector<QString> PrintThis)
 {
     qDebug() << "Printing your damn Vector:";
     foreach (QString line, PrintThis)
@@ -416,7 +422,7 @@ void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
     QCOMPARE(TruncatedEmpty.size(), EmptyResults.size());
 
     if(INSERT_EMPTY_PERSON_DEBUG)
-        DebugOutput(EmptyResults, TruncatedEmpty, "INSERT_EMPTY_PERSON_DEBUG.txt");
+        OutputDebugInfo(person_table_columns, EmptyResults, TruncatedEmpty, "INSERT_EMPTY_PERSON_DEBUG.txt");
 
     QCOMPARE(TruncatedEmpty, EmptyResults);
 }
@@ -430,8 +436,10 @@ void DRC_DB_TESTS::CheckInsertFullPersonObject()
 
     QVector<QString> TruncatedPerson = full_person_values.mid(0,15);
 
+    QCOMPARE(FullResults.size(), TruncatedPerson.size());
+
     if (INSERT_FULL_PERSON_DEBUG)
-        DebugOutput(FullResults, TruncatedPerson, "INSERT_FULL_PERSON_DEBUG.txt");
+        OutputDebugInfo(person_table_columns, FullResults, TruncatedPerson, "INSERT_FULL_PERSON_DEBUG.txt");
 
     QCOMPARE(TruncatedPerson, FullResults);
 }
@@ -469,13 +477,15 @@ void DRC_DB_TESTS::CheckProcessColumn()
 void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
 {
     MediationProcess EmptyProcess;
+    EmptyProcess.SetCreatedDate(QDateTime::fromString(empty_process_values[CREATIONDATETIME], DateTimeFormat));
+    EmptyProcess.SetUpdatedDate(QDateTime::fromString(empty_process_values[UPDATEDDATETIME], DateTimeFormat));
     _db.InsertObject(&EmptyProcess);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(process_table_name, 1);
     QCOMPARE(EmptyResults.size(), empty_process_values.size());
 
     if(INSERT_EMPTY_PROCESS_DEBUG)
-        DebugOutput(EmptyResults, empty_process_values, "INSERT_EMPTY_PROCESS_DEBUG.txt");
+        OutputDebugInfo(process_table_columns, EmptyResults, empty_process_values, "INSERT_EMPTY_PROCESS_DEBUG.txt");
 
     QCOMPARE(EmptyResults, empty_process_values);
 }
@@ -487,7 +497,7 @@ void DRC_DB_TESTS::CheckInsertFullProcessObject()
     QVector<QString> FullResults = _db.SelectOneFields(process_table_name, 2);
 
     if(INSERT_FULL_PROCESS_DEBUG)
-        DebugOutput(FullResults, full_process_values, "INSERT_FULL_PROCESS_DEBUG.txt");
+        OutputDebugInfo(process_table_columns, FullResults, full_process_values, "INSERT_FULL_PROCESS_DEBUG.txt");
 
     QCOMPARE(full_process_values, FullResults);
 }
