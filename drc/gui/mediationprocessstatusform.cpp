@@ -96,6 +96,10 @@ void MediationProcessStatusForm::sessionTypeDisplay()
         break;
     case PHONE_SESSION:
         ui->phoneRadioButton->setChecked(true);
+        break;
+    case COACHING_SESSION:
+        ui->coachingRadioButton->setChecked(true);
+        break;
     default:
         break;
     }
