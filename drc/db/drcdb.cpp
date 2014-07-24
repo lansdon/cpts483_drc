@@ -75,31 +75,36 @@ void DRCDB::InsertEvaluation(MediatorArg arg)
         {
             QSqlQuery EvalQuery(database);
             QString EvalCommandString = QString("Select * from Evaluation_table where startDate < '%1' and endDate > '%1' and CountyId = %2")
-                                                .arg(eval->GetCreatedDate().toString("yyyy-MM-dd"))
+                                                .arg(eval->getMediationDate().toString("yyyy-MM-dd"))
                                                 .arg(QString::number(eval->getCountyOfMediation()));
             this->ExecuteCommand(EvalCommandString, EvalQuery);
             if(!EvalQuery.next())
             {
                 QSqlQuery insert(database);
-                int month = eval->GetCreatedDate().toString("MM").toInt();
+                int month = eval->getMediationDate().toString("MM").toInt();
                 QString start;
                 QString end;
                 if(month < 7)
                 {
-                    start = eval->GetCreatedDate().toString("yyyy-")+"01-01";
-                    end = eval->GetCreatedDate().toString("yyyy-")+"06-30";
+                    start = eval->getMediationDate().toString("yyyy-")+"01-01";
+                    end = eval->getMediationDate().toString("yyyy-")+"06-30";
                 }
                 else
                 {
-                    start = eval->GetCreatedDate().toString("yyyy-")+"07-01";
-                    end = eval->GetCreatedDate().toString("yyyy-")+"12-31";
+                    start = eval->getMediationDate().toString("yyyy-")+"07-01";
+                    end = eval->getMediationDate().toString("yyyy-")+"12-31";
                 }
                 QString Command = QString("insert into Evaluation_Table values (%1, '%2', '%3', %4)")
                                         .arg("null")
                         .arg(start)
                         .arg(end)
                         .arg(eval->Parse());
-                this->ExecuteCommand(Command, insert);
+                if(!this->ExecuteCommand(Command, insert))
+                {
+                    qDebug()<<Command;
+                    qDebug()<<this->GetLastErrors().first();
+                }
+
 
                 arg.SetSuccessful(true);
             }
@@ -513,7 +518,7 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
         }
 
         QSqlQuery query(database);
-        QString command = QString("Select * from Session_table where UpdatedDate <= '%1' and UpdatedDate >= '%2'")
+        QString command = QString("Select * from Session_table where ScheduledTime <= '%1' and ScheduledTime >= '%2'")
                             .arg(end.toString("yyyy-MM-dd"))
                             .arg(start.toString("yyyy-MM-dd"));
                             //.arg(QString::number(params->GetCounty()));
@@ -645,17 +650,18 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
         }
         else
         {
-            start = QDateTime::fromString(QString("%1-%2-01").arg(year),"yyyy-M-dd");
-            end = QDateTime::fromString(QString("%1-%2-01").arg(year+1).arg(1),"yyyy-M-dd");
+
+            start = QDateTime::fromString(QString("%1-%2-01").arg(year).arg(month),"yyyy-MM-dd");
+            year++;
+            end = QDateTime::fromString(QString("%1-%2-01").arg(year).arg(1),"yyyy-M-dd");
         }
 
         QSqlQuery query(database);
         QString command = QString("Select * from Session_table where ScheduledTime <= '%1' and ScheduledTime > '%2'")
                             .arg(end.toString("yyyy-MM-dd"))
-                            .arg(start.toString("yyyy-MM-dd"))
-                            .arg(QString::number(params->GetCounty()));
+                            .arg(start.toString("yyyy-MM-dd"));
         this->ExecuteCommand(command, query);
-
+qDebug()<<command;
         QString mediationIdMatches = "";
         bool first = true;
         while(query.next())
