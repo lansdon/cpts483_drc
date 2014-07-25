@@ -147,7 +147,7 @@ void monthlyreport::pdfReport()
         {
             pdfString += "\n";
             pdfString += QString("%1:%2")
-                    .arg(QString("People from %1").arg(StringForCountyIds((CountyIds)i), 23))
+                    .arg(QString("%1").arg(("People from " + StringForCountyIds((CountyIds)i)), 35))
                     .arg(QString::number(m_countyCounts[(CountyIds)i]), 5);
         }
     }
