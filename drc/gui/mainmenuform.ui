@@ -101,7 +101,7 @@
          </font>
         </property>
         <property name="text">
-         <string>New Evauluation</string>
+         <string>New Evaluation</string>
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonTextBesideIcon</enum>

@@ -10,7 +10,8 @@ class monthlyreport
 private:
     short int m_month;
     short int m_year;
-    CountyIds m_county;
+    CountyIds m_county; // county clients are from
+    CountyIds r_county; // county for which the report is generated.
     int m_translator;
     int m_atTable;
     int m_peopleIndirect;
