@@ -673,6 +673,24 @@ qDebug()<<command;
             mediationIdMatches += query.value(1).toString();
             first = false;
         }
+
+        command = QString("Select * from Mediation_table where UpdatedDate <= '%1' and UpdatedDate > '%2' and DisputeState = '%3'")
+                            .arg(end.toString("yyyy-MM-dd"))
+                            .arg(start.toString("yyyy-MM-dd"))
+                            .arg(QString::number(PROCESS_STATE_CLOSED_NO_SESSION));
+        this->ExecuteCommand(command, query);
+
+
+        while(query.next())
+        {
+            if(!first)
+            {
+                mediationIdMatches += ", ";
+            }
+            mediationIdMatches += query.value(1).toString();
+            first = false;
+        }
+
         MediationProcessVector* mpVec = LoadMediations(mediationIdMatches);
 
         mediationIdMatches = "";
