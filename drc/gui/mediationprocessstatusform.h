@@ -33,8 +33,6 @@ private slots:
 
     void on_courtCheckBox_clicked();
 
-    void on_shuttleCheckBox_clicked();
-
     void on_courtTypeComboBox_currentIndexChanged(int index);
 
     void on_courDateTimeEdit_dateTimeChanged(const QDateTime &dateTime);
@@ -54,6 +52,12 @@ private slots:
     void on_facilitationRadioButton_clicked();
 
     void on_phoneRadioButton_clicked();
+
+    void on_mediationClauseCheckBox_toggled(bool checked);
+
+    void on_coachingRadioButton_clicked();
+
+    void on_courtOrderLineEdit_textEdited(const QString &arg1);
 
 private:
     Ui::MediationProcessStatusForm *ui;

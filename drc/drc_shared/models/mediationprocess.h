@@ -54,19 +54,19 @@ public:
     void SetInquiryTypes(InquiryTypes type) { _inquiryType = type; }
 
     bool GetIsCourtCase() { return _isCourtCase; }
-    QDateTime GetCourtDate() { return _courtDate; }
+    QDate GetCourtDate() { return _courtDate; }
     CourtCaseTypes GetCourtType() { return _courtCaseType; }
-    CourtOrderTypes GetCourtOrderType() { return _courtOrderType; }
-    QDateTime GetCourtOrderExpiration() { return _courtOrderExpiration; }
+    QString GetCourtOrder() { return _courtOrder; }
+
 
     bool GetIsShuttle() { return _isShuttle; }
     void SetIsShuttle(bool isShuttle) { _isShuttle = isShuttle; }
 
     void SetIsCourtCase(bool isCourt) { _isCourtCase = isCourt; }
-    void SetCourtDate(QDateTime courtDate) { _courtDate = courtDate; _isCourtCase = true; }
+    void SetCourtDate(QDate courtDate) { _courtDate = courtDate; _isCourtCase = true; }
     void SetCourtType(CourtCaseTypes caseType) { _courtCaseType = caseType; }
-    void SetCourtOrderType(CourtOrderTypes orderType) { _courtOrderType = orderType; }
-    void SetCourtOrderExpiration(QDateTime expiration) { _courtOrderExpiration = expiration; }
+    void SetCourtOrder(QString orderType) { _courtOrder = orderType; }
+
 
     void SetDisputeType(DisputeTypes type) { _disputeType = type; }
     void SetCountyId(CountyIds countyId) { _countyOfMediation = countyId; }
@@ -83,6 +83,9 @@ public:
 
     void SetStateMessage(QString message) { _stateMessage = message; }
     QString GetStateMessage() { return _stateMessage; }
+
+    void setMediationClause(bool value) { _mediationClause = value; }
+    bool getMediationClause() const { return _mediationClause; }
 
     // Helpers
     int GetAffectedChildrenCount();
@@ -131,6 +134,7 @@ private:
     ReferralTypes _referalSource;
 
     bool _requiresSpanish;
+    bool _mediationClause;
 
     MediationSessionVector _mediationSessionVector;
 
@@ -143,10 +147,10 @@ private:
 
     // Court Stuff - ALL NEW 7/4/2014
     bool _isCourtCase;
-    QDateTime _courtDate;
+    QDate _courtDate;
     enum CourtCaseTypes _courtCaseType;
-    enum CourtOrderTypes _courtOrderType;
-    QDateTime _courtOrderExpiration;
+    QString _courtOrder;
+
 
     QString _stateMessage;  // Message set by BL explaining how to advance to next state.
 

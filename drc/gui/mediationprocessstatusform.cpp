@@ -62,19 +62,25 @@ void MediationProcessStatusForm::Update()
 
     ui->courtCheckBox->setChecked(_mediationProcess->GetIsCourtCase());
     ui->courtTypeComboBox->setCurrentIndex(_mediationProcess->GetCourtType());
-    ui->courDateTimeEdit->setDateTime(_mediationProcess->GetCourtDate());
-    ui->courtOrderComboBox->setCurrentIndex(_mediationProcess->GetCourtOrderType());
-    ui->expirationDateTimeEdit->setDateTime(_mediationProcess->GetCourtOrderExpiration());
+    ui->courDateEdit->setDate(_mediationProcess->GetCourtDate());
+    ui->courtOrderLineEdit->setText(_mediationProcess->GetCourtOrder());
+//    ui->courtOrderComboBox->setCurrentIndex(_mediationProcess->GetCourtOrderType());
+//    ui->expirationDateTimeEdit->setDateTime(_mediationProcess->GetCourtOrderExpiration());
     sessionTypeDisplay();
-
+    ui->mediationClauseCheckBox->setEnabled(false);
     ui->lastActivityDisplayLabel->setText(_mediationProcess->GetUpdatedDate().toString("MM/dd/yyyy"));
-    ui->courtRow_3->setEnabled(false);
-
+    if(_mediationProcess->GetDisputeType() == DISPUTE_T_PARENTING_PLAN)
+    {
+        ui->mediationClauseCheckBox->setEnabled(true);
+        ui->mediationClauseCheckBox->setChecked(_mediationProcess->getMediationClause());
+    }
 
 
     ui->statusMessageLabel->setStyleSheet("QLabel#statusMessageLabel { color : blue; font: italic; }");
     ui->statusMessageLabel->setText(_mediationProcess->GetStateMessage());
-     on_courtCheckBox_clicked();
+    ui->courtCheckBox->setChecked(_mediationProcess->GetIsCourtCase());
+    ui->courtRow_3->setEnabled(_mediationProcess->GetIsCourtCase());
+    //on_courtCheckBox_clicked();
 
     SetSavedLabel(isSaved); // Preserve labels
 }
@@ -90,6 +96,10 @@ void MediationProcessStatusForm::sessionTypeDisplay()
         break;
     case PHONE_SESSION:
         ui->phoneRadioButton->setChecked(true);
+        break;
+    case COACHING_SESSION:
+        ui->coachingRadioButton->setChecked(true);
+        break;
     default:
         break;
     }
@@ -109,6 +119,10 @@ void MediationProcessStatusForm::updateSessionType()
     else if(ui->phoneRadioButton->isChecked())
     {
         _mediationProcess->SetSessionType(PHONE_SESSION);
+    }
+    else if(ui->coachingRadioButton->isChecked())
+    {
+        _mediationProcess->SetSessionType(COACHING_SESSION);
     }
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -168,13 +182,15 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
     ui->courtTypeComboBox->setItemText(COURT_T_SMALL_CLAIMS, StringForCourtTypes(COURT_T_SMALL_CLAIMS));
     ui->courtTypeComboBox->setItemText(COURT_T_SUPERIOR, StringForCourtTypes(COURT_T_SUPERIOR));
 
-    ui->courtOrderComboBox->setItemText(COURT_ORDER_T_NONE, StringForCourtOrderTypes(COURT_ORDER_T_NONE));
+   // ui->courtOrderComboBox->setItemText(COURT_ORDER_T_NONE, StringForCourtOrderTypes(COURT_ORDER_T_NONE));
 }
 
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetDisputeType((DisputeTypes)index);
+    Update();
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+
 }
 
 void MediationProcessStatusForm::on_statusComboBox_currentIndexChanged(int index)
@@ -207,6 +223,7 @@ void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
     {
         SetStatusLabel(SAVED_MSG);
     }
+
 }
 
 void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)
@@ -250,12 +267,6 @@ void MediationProcessStatusForm::on_courtCheckBox_clicked()
     }
 }
 
-void MediationProcessStatusForm::on_shuttleCheckBox_clicked()
-{
-    _mediationProcess->SetIsShuttle(ui->shuttleCheckBox->isChecked());
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-}
-
 void MediationProcessStatusForm::on_courtTypeComboBox_currentIndexChanged(int index)
 {
     _mediationProcess->SetCourtType((CourtCaseTypes)index);
@@ -264,20 +275,20 @@ void MediationProcessStatusForm::on_courtTypeComboBox_currentIndexChanged(int in
 
 void MediationProcessStatusForm::on_courDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
-    _mediationProcess->SetCourtDate(ui->courDateTimeEdit->dateTime());
+    _mediationProcess->SetCourtDate(ui->courDateEdit->date());
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_courtOrderComboBox_currentIndexChanged(int index)
 {
-    _mediationProcess->SetCourtOrderType((CourtOrderTypes)index);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//    _mediationProcess->SetCourtOrderType((CourtOrderTypes)index);
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_expirationDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
-    _mediationProcess->SetCourtOrderExpiration(dateTime);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//    _mediationProcess->SetCourtOrderExpiration(dateTime);
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_inquiryTypeComboBox_currentIndexChanged(int index)
@@ -311,4 +322,21 @@ void MediationProcessStatusForm::on_facilitationRadioButton_clicked()
 void MediationProcessStatusForm::on_phoneRadioButton_clicked()
 {
     updateSessionType();
+}
+
+void MediationProcessStatusForm::on_mediationClauseCheckBox_toggled(bool checked)
+{
+    _mediationProcess->setMediationClause(checked);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::on_coachingRadioButton_clicked()
+{
+    updateSessionType();
+}
+
+void MediationProcessStatusForm::on_courtOrderLineEdit_textEdited(const QString &arg1)
+{
+    _mediationProcess->SetCourtOrder(arg1);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

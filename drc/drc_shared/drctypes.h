@@ -201,10 +201,11 @@ enum SessionTypes
 {
     MEDIATION_SESSION,
     FACILITATION_SESSION,
-    PHONE_SESSION
+    PHONE_SESSION,
+    COACHING_SESSION
 };
 
-/// String Helpers
+/// String Helpers to convert enums to QStrings
 QString StringForCountyIds(CountyIds id);
 QString StringForDisputeProcessStates(DisputeProcessStates id);
 QString StringForDisputeTypes(DisputeTypes id);
@@ -220,6 +221,4 @@ QString StringForSessionOutcomes(SessionOutcomes id);
 QString StringForEvaluationAnswers(EvaluationAnswers id);
 QString StringForSessionTypes(SessionTypes id);
 
-
-
-#endif // DRCTYPES_H
+#endif /// DRCTYPES_H

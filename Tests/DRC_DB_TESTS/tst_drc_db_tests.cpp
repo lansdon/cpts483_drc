@@ -8,8 +8,8 @@
 #include "Person.h"
 #include "drctypes.h"
 
-#define INSERT_EMPTY_PERSON_DEBUG true
-#define INSERT_FULL_PERSON_DEBUG true
+#define INSERT_EMPTY_PERSON_DEBUG false
+#define INSERT_FULL_PERSON_DEBUG false
 #define INSERT_EMPTY_PROCESS_DEBUG true
 #define INSERT_FULL_PROCESS_DEBUG true
 
@@ -51,14 +51,13 @@ enum ProcessColumns
     REFERALSOURCE = 9,
     INQUIRYTYPE = 10,
     INFOONLY = 11,
-    COURTCASE = 12,
+    ISCOURTCASE = 12,
     COURTDATE = 13,
     COURTCASETYPE = 14,
     COURTORDERTYPE = 15,
-    COURTORDEREXPIRATION = 16,
-    SHUTTLEREQUIRED = 17,
-    TRANSLATORREQUIRED = 18,
-    SESSIONTYPE = 19
+    TRANSLATORREQUIRED = 16,
+    SESSIONTYPE = 17,
+    MEDIATIONCLAUSE = 18
 };
 
 
@@ -192,14 +191,13 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     process_table_columns.push_back("ReferalSource");
     process_table_columns.push_back("InquiryType");
     process_table_columns.push_back("InfoOnly");
-    process_table_columns.push_back("CourtCase");
+    process_table_columns.push_back("IsCourtCase");
     process_table_columns.push_back("CourtDate");
     process_table_columns.push_back("CourtCaseType");
     process_table_columns.push_back("CourtOrderType");
-    process_table_columns.push_back("CourtOrderExpiration");
-    process_table_columns.push_back("ShuttleRequired");
     process_table_columns.push_back("TranslatorRequired");
     process_table_columns.push_back("SessionType");
+    process_table_columns.push_back("MediationClause");
 
     full_person_values.push_back(QString("2"));
     full_person_values.push_back(QString("Bruce"));
@@ -272,47 +270,47 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     Bruce_Lee.setAssistantPhone(full_person_values[21]);
     Bruce_Lee.setAssistantEmail(full_person_values[22]);
 
-    empty_process_values.push_back(QString("1"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("2000-01-01"));
-    empty_process_values.push_back(QString("2000-01-01"));
-    empty_process_values.push_back(QString("2000-01-01 12:00:01"));
-    empty_process_values.push_back(QString("2000-01-01 12:00:01"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("1"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString(""));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString(""));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("0"));
-    empty_process_values.push_back(QString("0"));
+    empty_process_values.push_back(QString("1"));                           //PROCESS_ID
+    empty_process_values.push_back(QString("0"));                           //DISPUTETYPE
+    empty_process_values.push_back(QString("2000-01-01"));                  //CREATIONDATE
+    empty_process_values.push_back(QString("2000-01-01"));                  //UPDATEDDATE
+    empty_process_values.push_back(QString("2000-01-01 12:00:01"));         //CREATIONDATETIME
+    empty_process_values.push_back(QString("2000-01-01 12:00:01"));         //UPDATEDDATETIME
+    empty_process_values.push_back(QString("0"));                           //DISPUTESTATE
+    empty_process_values.push_back(QString("0"));                           //DISPUTEINTERNALSTATE
+    empty_process_values.push_back(QString("1"));                           //DISPUTECOUNTY
+    empty_process_values.push_back(QString("0"));                           //REFERALSOURCE
+    empty_process_values.push_back(QString("0"));                           //INQUIRYTYPE
+    empty_process_values.push_back(QString("0"));                           //INFOONLY
+    empty_process_values.push_back(QString("0"));                           //ISCOURTCASE
+    empty_process_values.push_back(QString(""));                            //COURTDATE
+    empty_process_values.push_back(QString("0"));                           //COURTCASETYPE
+    empty_process_values.push_back(QString(""));                            //COURTORDERTYPE
+    empty_process_values.push_back(QString("0"));                           //TRANSLATORREQUIRED
+    empty_process_values.push_back(QString("0"));                           //SESSIONTYPE
+    empty_process_values.push_back(QString("0"));                           //MEDIATIONCLAUSE
+    // empty_process_values.push_back(QString(""));                            
+    // empty_process_values.push_back(QString("0"));                           
 
-    full_process_values.push_back("2");             //Process ID
-    full_process_values.push_back("8");             //DisputeTypes - DISPUTE_T_WORKPLACE
-    full_process_values.push_back("2014-07-24");//QDateTime::currentDateTime().toString("yyyy-MM-dd"));
-    full_process_values.push_back("2014-07-25");//QDateTime::currentDateTime().toString("yyyy-MM-dd"));
-    full_process_values.push_back("2014-07-24 12:00:01");//QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-    full_process_values.push_back("2014-07-25 12:00:02");//QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-    full_process_values.push_back("3");             //DisputeProcessStates - PROCESS_STATE_SCHEDULED
-    full_process_values.push_back("7");             //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
-    full_process_values.push_back("2");             //CountyIds - COUNTY_BENTON
-    full_process_values.push_back("14");            //ReferralTypes - REFERRAL_T_PHONEBOOK
-    full_process_values.push_back("4");             //InquiryTypes - INQUIRY_T_WALKIN
-    full_process_values.push_back("0");             //Info Only - FALSE
-    full_process_values.push_back("1");             //Is Court Case - TRUE
-    full_process_values.push_back("2015-07-22");              //COURT DATE
-    full_process_values.push_back("2");             //CourtCaseTypes - COURT_T_SUPERIOR
-    full_process_values.push_back("1");             //CourtOrderTyes - COURT_ORDER_T_NONE
-    full_process_values.push_back("2017-09-11");              //COURT EXPIRATION DATE
-    full_process_values.push_back("1");             //Is Shuttle Required - TRUE
-    full_process_values.push_back("1");             //Is Spanish Required - TRUE
-    full_process_values.push_back("1");             //SessionTypes - MEDIATION_SESSION
+    full_process_values.push_back("2");                     //Process ID
+    full_process_values.push_back("8");                     //DisputeTypes - DISPUTE_T_WORKPLACE
+    full_process_values.push_back("2014-07-24");            //Creation Date     QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    full_process_values.push_back("2014-07-25");            //Updated Date      QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    full_process_values.push_back("2014-07-24 12:00:01");   //Creation DateTime QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    full_process_values.push_back("2014-07-25 12:00:02");   //Updated DateTime  QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    full_process_values.push_back("3");                     //DisputeProcessStates - PROCESS_STATE_SCHEDULED
+    full_process_values.push_back("7");                     //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
+    full_process_values.push_back("2");                     //CountyIds - COUNTY_BENTON
+    full_process_values.push_back("14");                    //ReferralTypes - REFERRAL_T_PHONEBOOK
+    full_process_values.push_back("4");                     //InquiryTypes - INQUIRY_T_WALKIN
+    full_process_values.push_back("0");                     //Info Only - FALSE
+    full_process_values.push_back("1");                     //Is Court Case - TRUE
+    full_process_values.push_back("2015-07-22");            //COURT DATE
+    full_process_values.push_back("2");                     //CourtCaseTypes - COURT_T_SUPERIOR
+    full_process_values.push_back("Ultimate Fists of Fury!!!");                     //CourtOrderTypes
+    full_process_values.push_back("1");                     //Is Spanish Required - TRUE
+    full_process_values.push_back("1");                     //SessionTypes - MEDIATION_SESSION
+    full_process_values.push_back("1");                     //MediationClause - TRUE
 
     DojoBattle.SetDisputeType(              (DisputeTypes)                      full_process_values[DISPUTETYPE].toInt());
     DojoBattle.SetCreatedDate(              QDateTime::fromString(              full_process_values[CREATIONDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
@@ -323,14 +321,16 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     DojoBattle.SetReferralType(             (ReferralTypes)                     full_process_values[REFERALSOURCE].toInt());                  //ReferralTypes - REFERRAL_T_PHONEBOOK
     DojoBattle.SetInquiryTypes(             (InquiryTypes)                      full_process_values[INQUIRYTYPE].toInt());                   //InquiryTypes - INQUIRY_T_WALKIN
     DojoBattle.SetInfoOnly(                 (bool)                              full_process_values[INFOONLY].toInt());                               //Info Only - FALSE
-    DojoBattle.SetIsCourtCase(              (bool)                              full_process_values[COURTCASE].toInt());                           //Is Court Case - TRUE
-    DojoBattle.SetCourtDate(                QDateTime::fromString(              full_process_values[COURTDATE], "yyyy-MM-dd"));
+    DojoBattle.SetIsCourtCase(              (bool)                              full_process_values[ISCOURTCASE].toInt());                           //Is Court Case - TRUE
+    DojoBattle.SetCourtDate(                QDate::fromString(                  full_process_values[COURTDATE], "yyyy-MM-dd"));
     DojoBattle.SetCourtType(                (CourtCaseTypes)                    full_process_values[COURTCASETYPE].toInt());                   //CourtCaseTypes - COURT_T_SUPERIOR
-    DojoBattle.SetCourtOrderType(           (CourtOrderTypes)                   full_process_values[COURTORDERTYPE].toInt());
-    DojoBattle.SetCourtOrderExpiration(     QDateTime::fromString(              full_process_values[COURTORDEREXPIRATION], "yyyy-MM-dd"));
-    DojoBattle.SetIsShuttle(                (bool)                              full_process_values[SHUTTLEREQUIRED].toInt());
+    DojoBattle.SetCourtOrder(                                                   full_process_values[COURTORDERTYPE]);
     DojoBattle.SetRequiresSpanish(          (bool)                              full_process_values[TRANSLATORREQUIRED].toInt());
     DojoBattle.SetSessionType(              (SessionTypes)                      full_process_values[SESSIONTYPE].toInt());
+    DojoBattle.setMediationClause(          (bool)                              full_process_values[MEDIATIONCLAUSE].toInt());
+//    DojoBattle.SetCourtOrderType(           (CourtOrderTypes)                   full_process_values[COURTORDERTYPE].toInt());
+//    DojoBattle.SetCourtOrderExpiration(     QDateTime::fromString(              full_process_values[COURTORDEREXPIRATION], "yyyy-MM-dd"));
+//    DojoBattle.SetIsShuttle(                (bool)                              full_process_values[SHUTTLEREQUIRED].toInt());
 }
 //=======================================================
 
@@ -464,14 +464,13 @@ void DRC_DB_TESTS::CheckProcessColumn()
     QCOMPARE(_db.DoesColumnExist(QString("ReferalSource"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("InquiryType"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("InfoOnly"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("CourtCase"), process_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("IsCourtCase"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("CourtDate"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("CourtCaseType"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("CourtOrderType"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("CourtOrderExpiration"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("ShuttleRequired"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("TranslatorRequired"), process_table_name), true);
     QCOMPARE(_db.DoesColumnExist(QString("SessionType"), process_table_name), true);
+    QCOMPARE(_db.DoesColumnExist(QString("MediationClause"), process_table_name), true);
 }
 
 void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
@@ -479,7 +478,7 @@ void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
     MediationProcess EmptyProcess;
     EmptyProcess.SetCreatedDate(QDateTime::fromString(empty_process_values[CREATIONDATETIME], DateTimeFormat));
     EmptyProcess.SetUpdatedDate(QDateTime::fromString(empty_process_values[UPDATEDDATETIME], DateTimeFormat));
-    _db.InsertObject(&EmptyProcess);
+    QCOMPARE(_db.InsertObject(&EmptyProcess), true);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(process_table_name, 1);
     QCOMPARE(EmptyResults.size(), empty_process_values.size());

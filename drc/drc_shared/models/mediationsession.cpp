@@ -10,6 +10,7 @@ MediationSession::MediationSession()
     _outcome = SESSION_OUTCOME_NONE;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
+    _isShuttle = false;
 
 }
 MediationSession::MediationSession(uint numOfClients)
@@ -18,6 +19,7 @@ MediationSession::MediationSession(uint numOfClients)
     _outcome = SESSION_OUTCOME_NONE;
     _mediator1 = _mediator2 = _observer1 = _observer2 = "";
     _mediationTime = QDateTime::currentDateTime();
+    _isShuttle = false;
     for(int i = 0; i < (int)numOfClients; i++)
         _clientSessionDataVector.insert(_clientSessionDataVector.end() - 2, new ClientSessionData());
 }
@@ -46,6 +48,8 @@ QString MediationSession::Parse()
     toReturn += ", ";
     toReturn += single_quote + this->getObserver2().replace("'", "''") + single_quote;
 
+    toReturn += QString(", '%1'").arg(this->GetIsShuttle());
+qDebug()<<toReturn;
     return toReturn;
 }
 
@@ -67,7 +71,8 @@ QString MediationSession::UpdateParse()
 
     //Observers
     toUpdate += QString("Observer1 = '%1', ").arg(this->getObserver1().replace("'", "''"));
-    toUpdate += QString("Observer2 = '%1'").arg(this->getObserver2().replace("'", "''"));
+    toUpdate += QString("Observer2 = '%1', ").arg(this->getObserver2().replace("'", "''"));
+    toUpdate += QString("Shuttle = '%1'").arg(this->GetIsShuttle());
 qDebug()<<toUpdate;
     return toUpdate;
 }

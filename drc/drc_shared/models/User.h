@@ -2,11 +2,13 @@
 #define USER_H
 
 #include "DBBaseObject.h"
-
 #include <QString>
 #include "drctypes.h"
 #include "Crypto/SHA256_Crypto.h"
 
+/*!
+ * \brief The User class
+ */
 class User : public DBBaseObject
 {
 private:
