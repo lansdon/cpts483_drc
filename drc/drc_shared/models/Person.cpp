@@ -281,7 +281,7 @@ QString Person::ColumnNames()
 {
     //Name
     QString column_names = QString("%1, %2, %3, %4,")
-        .arg(QString("id"))
+        .arg(QString("Person_id"))
         .arg(QString("first_name"))
         .arg(QString("middle_name"))
         .arg(QString("last_name"));
@@ -402,7 +402,7 @@ QString Person::UpdateParse()
 
 QString Person::GetIdRowName()
 {
-    return "id";
+    return "Person_id";
 }
 
 QString Person::table(void)

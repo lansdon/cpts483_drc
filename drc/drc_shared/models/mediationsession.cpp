@@ -27,7 +27,7 @@ MediationSession::MediationSession(uint numOfClients)
 QString MediationSession::ColumnNames()
 {
     QString column_names = QString ("%1, %2, %3, %4, %5 ,%6, %7, ")
-            .arg("id")
+            .arg("Session_id")
             .arg("Process_id")
             .arg("SessionStatus")
             .arg("SessionOutcome")

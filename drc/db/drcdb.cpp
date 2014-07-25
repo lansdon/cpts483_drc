@@ -244,7 +244,7 @@ bool DRCDB::CreatePersonTable(const QString& person_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> person_table_columns;
-    person_table_columns.push_back(QString("id integer primary key autoincrement null"));
+    person_table_columns.push_back(QString("Person_id integer primary key autoincrement null"));
     person_table_columns.push_back(QString("first_name char(50)"));
     person_table_columns.push_back(QString("middle_name char(50)"));
     person_table_columns.push_back(QString("last_name char(50) not null"));
@@ -344,7 +344,7 @@ bool DRCDB::CreateProcessTable(const QString& mediation_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> mediation_table_columns;
-    mediation_table_columns.push_back(QString("id integer primary key autoincrement null"));
+    mediation_table_columns.push_back(QString("Process_id integer primary key autoincrement null"));
     mediation_table_columns.push_back(QString("DisputeType integer"));
     mediation_table_columns.push_back(QString("CreationDate Date"));
     mediation_table_columns.push_back(QString("UpdatedDate Date"));
@@ -412,7 +412,7 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> session_table_columns;
-    session_table_columns.push_back(QString("id integer primary key autoincrement null"));
+    session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
     session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
     session_table_columns.push_back(QString("SessionOutcome integer"));

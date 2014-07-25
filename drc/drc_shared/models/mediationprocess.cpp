@@ -234,7 +234,7 @@ void MediationProcess::BuildNotesSesction(QTextCursor &cursor)
 QString MediationProcess::ColumnNames()
 {
     QString column_names = QString("%1, %2, %3, %4, %5, %6, %7, %8, %9, ")
-            .arg(QString("id"))
+            .arg(QString("Process_id"))
             .arg(QString("DisputeType"))
             .arg(QString("CreationDate"))
             .arg(QString("UpdatedDate"))
