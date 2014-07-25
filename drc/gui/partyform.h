@@ -13,7 +13,6 @@ namespace Ui {
 class PartyForm;
 }
 
-
 //enum ObserverTableColumns
 //{
 //    OCOL_ID = 0,
@@ -28,7 +27,9 @@ class PartyForm;
 //    CCOL_INVOLVED
 //};
 
-
+/*!
+ * \brief The PartyForm class
+ */
 class PartyForm : public QWidget
 {
     Q_OBJECT
@@ -36,13 +37,30 @@ class PartyForm : public QWidget
 public:
     explicit PartyForm(QWidget *parent = 0, Party* party = nullptr);
     ~PartyForm();
+    /*!
+     * \brief setParty
+     * \param value
+     */
     void setParty(Party *value);
+    /*!
+     * \brief GetParty
+     * \return
+     */
     Party* GetParty() { return _party; }
-
+    /*!
+     * \brief getFullName
+     * \return
+     */
     QString getFullName() const {return _party->GetPrimary()->FullName();}
 
 private slots:
+    /*!
+     * \brief DoSaveSignal
+     */
     void DoSaveSignal() { emit SaveSignaled(); }
+    /*!
+     * \brief DoEditSignal
+     */
     void DoEditSignal() { emit EditSignaled(); }
 private:
     Ui::PartyForm *ui;
@@ -50,7 +68,13 @@ private:
     PersonDetailsForm *_personDetailsForm;
 
 signals:
+    /*!
+     * \brief SaveSignaled
+     */
     void SaveSignaled();    // Passes save events to parent
+    /*!
+     * \brief EditSignaled
+     */
     void EditSignaled();    // Passes edit events to parent
 };
 

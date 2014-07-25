@@ -9,6 +9,9 @@ namespace Ui {
 class ResWaReportForm;
 }
 
+/*!
+ * \brief The ResWaReportForm class
+ */
 class ResWaReportForm : public QWidget
 {
     Q_OBJECT
@@ -18,16 +21,23 @@ public:
     ~ResWaReportForm();
 
 private slots:
-
+    /*!
+     * \brief on_showResportBtn_clicked
+     */
     void on_showResportBtn_clicked();
-
+    /*!
+     * \brief on_cancelBtn_clicked
+     */
     void on_cancelBtn_clicked();
 
 private:
     Ui::ResWaReportForm *ui;
 
     QTextDocument* _report;
-
+    /*!
+     * \brief RecieveReport
+     * \param arg
+     */
     void RecieveReport(MediatorArg arg);
 };
 

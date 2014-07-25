@@ -7,6 +7,9 @@ namespace Ui {
 class FeeForm;
 }
 
+/*!
+ * \brief The FeeForm class
+ */
 class FeeForm : public QWidget
 {
     Q_OBJECT

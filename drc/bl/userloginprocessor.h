@@ -7,18 +7,39 @@
 
 class SHA256_Crypto;
 
+/*!
+ * \brief The UserLoginProcessor class
+ */
 class UserLoginProcessor
 {
 public:
     UserLoginProcessor(QString authUser, QString sendUser);
+    /*!
+     * \brief Process
+     * \param arg
+     */
     void Process(MediatorArg arg);
+    /*!
+     * \brief Load
+     * \param arg
+     */
     void Load(MediatorArg arg);
-
+    /*!
+     * \brief Authenticate
+     * \param arg
+     */
     void Authenticate(MediatorArg arg);
 
     ~UserLoginProcessor();
 private:
+    /*!
+     * \brief ReceiveSalt
+     * \param arg
+     */
     void ReceiveSalt(MediatorArg arg);
+    /*!
+     * \brief CleanUserName
+     */
     void CleanUserName();
 
     QString _sendUser;

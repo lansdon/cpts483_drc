@@ -12,6 +12,9 @@ namespace Ui {
 class QueryForm;
 }
 
+/*!
+ * \brief The QueryForm class
+ */
 class QueryForm : public QWidget
 {
     Q_OBJECT
@@ -21,16 +24,40 @@ public:
     ~QueryForm();
 
 private slots:
+    /*!
+     * \brief on_comboBox_currentIndexChanged
+     * \param arg1
+     */
     void on_comboBox_currentIndexChanged(const QString &arg1);
-
+    /*!
+     * \brief on_searchButton_clicked
+     */
     void on_searchButton_clicked();
-
+    /*!
+     * \brief RecievedPersonResult
+     * \param arg
+     */
     void RecievedPersonResult(MediatorArg arg);
+    /*!
+     * \brief RecievedMediationResult
+     * \param arg
+     */
     void RecievedMediationResult(MediatorArg arg);
 
 public slots:
+    /*!
+     * \brief ResultCellSelected
+     * \param nRow
+     * \param nCol
+     */
     void ResultCellSelected(int nRow, int nCol);
+    /*!
+     * \brief NewMediationSearchSelected
+     */
     void NewMediationSearchSelected();
+    /*!
+     * \brief NewPersonSearchSelected
+     */
     void NewPersonSearchSelected();
 
 private:
@@ -39,12 +66,21 @@ private:
     SearchTypes _searchType;
 
     QWidget* _currentInputForm;
+    /*!
+     * \brief ConfigureInputForm
+     */
     void ConfigureInputForm();
 
     // Results Table
     QTableWidget* _resultsTable;
     QStringList _resultsTableHeader;
+    /*!
+     * \brief ConfigResultsTable
+     */
     void ConfigResultsTable();
+    /*!
+     * \brief PopulateResultsTable
+     */
     void PopulateResultsTable();
 
     // Async Calls to DB
@@ -53,7 +89,9 @@ private:
 
     PersonVector* _personResults;
     MediationProcessVector* _mediationResults;
-
+    /*!
+     * \brief ConfigureToolbar
+     */
     void ConfigureToolbar();
 };
 

@@ -14,6 +14,7 @@
  * to certain features within the program. For example Admin type users
  * get teh admin menu.
  */
+
 class CurrentUser
 {
 private:

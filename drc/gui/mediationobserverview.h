@@ -7,6 +7,9 @@ namespace Ui {
 class MediationObserverView;
 }
 
+/*!
+ * \brief The MediationObserverView class
+ */
 class MediationObserverView : public QWidget
 {
     Q_OBJECT

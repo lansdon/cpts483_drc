@@ -19,23 +19,46 @@
 //namespace drc {
 //namespace drc_shared {
 
-/*! \brief  Brief descrioption for AsyncMediatorCall.
- *          Brief description continued.
- *
- *  Detailed description starts here for AsyncMediatorCall.
+/*!
+ * \brief The AsyncMediatorCall class
  */
 class AsyncMediatorCall : QObject
 {
     Q_OBJECT
 
 public:
+    /*!
+     * \brief AsyncMediatorCall
+     * \param sendEventMediatorKey
+     * \param recieveEventMediatorKey
+     * \param callback
+     * \param argObject
+     * \param waitForResponse
+     * \param timeoutSecs
+     */
     AsyncMediatorCall(QString sendEventMediatorKey, QString recieveEventMediatorKey, MediatorCallbackFunc callback, void* argObject, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
+    /*!
+     * \brief AsyncMediatorCall
+     * \param sendEventMediatorKey
+     * \param recieveEventMediatorKey
+     * \param callback
+     * \param _sendMediatorArg
+     * \param waitForResponse
+     * \param timeoutSecs
+     */
     AsyncMediatorCall(QString sendEventMediatorKey, QString recieveEventMediatorKey, MediatorCallbackFunc callback, MediatorArg _sendMediatorArg, bool waitForResponse = false, unsigned long timeoutSecs = DEF_ASYNC_TIMEOUT_SECS);
     virtual ~AsyncMediatorCall();
 
     /// Accessors
+    /*!
+     * \brief GetMediatorArg
+     * \return
+     */
     MediatorArg& GetMediatorArg() { return _sendMediatorArg; }
     /// This will perform the send event, and wait for the response.
+    /*!
+     * \brief Send
+     */
     void Send();
 
 private:
@@ -51,9 +74,23 @@ private:
     bool _waiting;                          // This will block additional calls to Send() if a Send is already in progress.
 
 public slots:
+    /*!
+     * \brief errorString
+     * \param error
+     */
     void errorString(QString error);        // meh. this can prolly go away.
+    /*!
+     * \brief threadFinished
+     */
     void threadFinished();
+    /*!
+     * \brief DoCallbackOnMainThread
+     */
     void DoCallbackOnMainThread();
+    /*!
+     * \brief updateRecieveArg
+     * \param responseArg
+     */
     void updateRecieveArg(MediatorArg responseArg);
 };
 
