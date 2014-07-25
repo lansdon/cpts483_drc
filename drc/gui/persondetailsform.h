@@ -81,6 +81,14 @@ private slots:
 
     void on_assistantNameLineEdit_textEdited(const QString &arg1);
 
+    void on_attorneyPhoneLineEdit_textEdited(const QString &arg1);
+
+    void on_attorneyEmailLineEdit_textEdited(const QString &arg1);
+
+    void on_assistantPhoneLineEdit_textEdited(const QString &arg1);
+
+    void on_assistantEmailLineEdit_textEdited(const QString &arg1);
+
 signals:
     void SaveSignaled();
     void EditSignaled();
