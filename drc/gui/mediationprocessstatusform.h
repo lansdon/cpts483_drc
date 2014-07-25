@@ -63,10 +63,6 @@ private slots:
      */
     void on_courtCheckBox_clicked();
     /*!
-     * \brief on_shuttleCheckBox_clicked
-     */
-    void on_shuttleCheckBox_clicked();
-    /*!
      * \brief on_courtTypeComboBox_currentIndexChanged
      * \param index
      */

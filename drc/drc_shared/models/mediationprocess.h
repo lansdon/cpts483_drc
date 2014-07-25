@@ -198,6 +198,11 @@ public:
      */
     void AddNote(QString note) { _mediationNotes.push_back(new Note(note)); }
     /*!
+     * \brief SetCourtDate
+     * \param CourtDate
+     */
+    void SetCourtDate(QDate CourtDate) { _courtDate = CourtDate; }
+    /*!
      * \brief SetReferralType
      * \param type
      */
