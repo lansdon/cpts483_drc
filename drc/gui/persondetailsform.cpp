@@ -132,16 +132,25 @@ bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* wid
     if(string.length() == 0) return true;
 
     QString s = string;
+    QString last = _phoneMap[widget];   // previously stored value.
 
-    // Auto complete first dash
-    QRegExp rx("(^[0-9]{3})");
-    if(rx.exactMatch(s))
-        s.append("-");
+    // Only auto complete if delete was not pushed and we have a
+    QRegExp rx;
+    if(last.length() != string.length() + 1)
+    {
+        // Auto complete first dash
+        rx.setPattern("(^[0-9]{3})");
+        if(rx.exactMatch(s))
+            s.append("-");
 
-    // Auto complete second dash
-    rx.setPattern("^[0-9]{3}-[0-9]{3}");
-    if(rx.exactMatch(s))
-        s.append("-");
+        // Auto complete second dash
+        rx.setPattern("^[0-9]{3}-[0-9]{3}");
+        if(rx.exactMatch(s))
+            s.append("-");
+    }
+
+    // Save the new string to the map for later comparisons
+    _phoneMap[widget] = s;
 
     // phone validation - xxx-xxx-xxxx
     rx.setPattern("^[0-9]{3}-[0-9]{3}-[0-9]{4}");

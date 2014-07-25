@@ -114,6 +114,8 @@ private:
 
     void configureComboBoxes();
 
+    // Tracking Phone Changes for auto-complete using a map
+    std::map<QWidget*, QString> _phoneMap;
 };
 
 #endif // PARTYDETAILSFORM_H
