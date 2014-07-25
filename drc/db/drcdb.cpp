@@ -1077,8 +1077,7 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
     QString Mediation_command_string = QString("Select * from Mediation_Table where DisputeState in (%1, %2) order by UpdatedDateTime desc")
                                         .arg(PROCESS_STATE_CLOSED_WITH_SESSION)
                                         .arg(PROCESS_STATE_CLOSED_NO_SESSION);
-#warning LoadClosedMediations only loads CLOSED_WITH_SESSION
-    // TODO:  Because an additional Dispute State was added, DisputeState PROCESS_STATE_CLOSED_WITH_SESSION also needs to be added
+
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";
