@@ -177,6 +177,14 @@ private slots:
      */
     void on_assistantNameLineEdit_textEdited(const QString &arg1);
 
+    void on_attorneyPhoneLineEdit_textEdited(const QString &arg1);
+
+    void on_attorneyEmailLineEdit_textEdited(const QString &arg1);
+
+    void on_assistantPhoneLineEdit_textEdited(const QString &arg1);
+
+    void on_assistantEmailLineEdit_textEdited(const QString &arg1);
+
 signals:
     /*!
      * \brief SaveSignaled
@@ -255,6 +263,8 @@ private:
      */
     void configureComboBoxes();
 
+    // Tracking Phone Changes for auto-complete using a map
+    std::map<QWidget*, QString> _phoneMap;
 };
 
 #endif // PARTYDETAILSFORM_H

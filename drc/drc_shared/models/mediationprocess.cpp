@@ -37,9 +37,10 @@ MediationProcess::MediationProcess()
     , _requiresSpanish(false)
     , _isCourtCase(false)
     , _courtCaseType(COURT_T_NONE)
-    , _courtOrderType(COURT_ORDER_T_NONE)
     , _infoOnly(false)
     , _sessionType(MEDIATION_SESSION)
+    , _mediationClause(false)
+    , _inquiryType(INQUIRY_T_NONE)
 {
 
 }
@@ -173,16 +174,16 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     cursor.insertText(CourtCaseType, _tableTextFormat);
 
     QString CourtDate = "\nCourt Date:\t";
-    CourtDate += _courtDate.currentDateTime().toString();
+    CourtDate += _courtDate.toString();
     cursor.insertText(CourtDate, _tableTextFormat);
 
     QString CourtOrderType = "\nCourt Order:\t";
-    CourtOrderType += StringForCourtOrderTypes(_courtOrderType);
+    CourtOrderType += _courtOrder;
     cursor.insertText(CourtOrderType, _tableTextFormat);
 
-    QString CourtOrderExpires = "\nCourt Order Expires:\t";
-    CourtOrderExpires += _courtOrderExpiration.toString();
-    cursor.insertText(CourtOrderExpires, _tableTextFormat);\
+//    QString CourtOrderExpires = "\nCourt Order Expires:\t";
+//    CourtOrderExpires += _courtOrderExpiration.toString();
+//    cursor.insertText(CourtOrderExpires, _tableTextFormat);\
 
 }
 
@@ -242,18 +243,17 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetInternalState()))
             .arg(QString::number(this->GetCountyId()));
 
-    toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10', %11")
+    toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10'")
             .arg(QString::number(this->GetReferralType()))
             .arg(QString::number(this->GetInquiryType()))
             .arg(this->GetInfoOnly())
             .arg(this->GetIsCourtCase())
             .arg(this->GetCourtDate().toString("yyyy-MM-dd"))
-            .arg(QString::number(this->GetCourtType()))
-            .arg(QString::number(this->GetCourtOrderType()))
-            .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
-            .arg(this->GetIsShuttle())
+            .arg(QString::number(this->GetCourtType()).replace("'", "''"))
+            .arg(this->GetCourtOrder().replace("'", "''"))
             .arg(QString::number(this->GetRequiresSpanish()))
-            .arg(QString::number(this->GetSessionType()));
+            .arg(QString::number(this->GetSessionType()))
+            .arg(this->getMediationClause());
 
     return toReturn;
 }
@@ -276,14 +276,13 @@ QString MediationProcess::UpdateParse()
             .arg(this->GetInfoOnly())
             .arg(this->GetIsCourtCase());
 
-    toUpdate += QString("CourtDate = '%1', CourtCaseType = %2, CourtOrderType = %3, CourtOrderExpiration = '%4', ShuttleRequired = '%5', TranslatorRequired = '%6', SessionType = %7")
+    toUpdate += QString("CourtDate = '%1', CourtCaseType = %2, CourtOrderType = '%3', TranslatorRequired = '%4', SessionType = %5, MediationClause = '%6'")
             .arg(this->GetCourtDate().toString("yyyy-MM-dd"))
             .arg(QString::number(this->GetCourtType()))
-            .arg(QString::number(this->GetCourtOrderType()))
-            .arg(this->GetCourtOrderExpiration().toString("yyyy-MM-dd"))
-            .arg(this->GetIsShuttle())
+            .arg(this->GetCourtOrder().replace("'", "''"))
             .arg(this->GetRequiresSpanish())
-            .arg(QString::number(this->GetSessionType()));
+            .arg(QString::number(this->GetSessionType()))
+            .arg(this->getMediationClause());
 
     return toUpdate;
 }

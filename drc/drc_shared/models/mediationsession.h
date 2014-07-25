@@ -18,6 +18,7 @@ private:
     SessionStates _state;
     QString _mediator1, _mediator2, _observer1, _observer2;
     ClientSessionDataVector _clientSessionDataVector;
+    bool _isShuttle;
     SessionOutcomes _outcome;
 
 public:
@@ -120,6 +121,8 @@ public:
      * \return
      */
     SessionOutcomes getOutcome() { return _outcome; }
+    bool GetIsShuttle() { return _isShuttle; }
+
 
     //setters
     /*!
@@ -172,6 +175,8 @@ public:
      * \param value
      */
     void setOutcome(SessionOutcomes value) { _outcome = value; }
+    void SetIsShuttle(bool isShuttle) { _isShuttle = isShuttle; }
+
 
     /*!
      * \brief getStatus

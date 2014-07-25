@@ -114,6 +114,12 @@ private slots:
      */
     void on_phoneRadioButton_clicked();
 
+    void on_mediationClauseCheckBox_toggled(bool checked);
+
+    void on_coachingRadioButton_clicked();
+
+    void on_courtOrderLineEdit_textEdited(const QString &arg1);
+
 private:
     Ui::MediationProcessStatusForm *ui;
 

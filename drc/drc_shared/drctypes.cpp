@@ -72,6 +72,7 @@ QString StringForSessionTypes(SessionTypes id)
     case MEDIATION_SESSION: result = "Mediation"; break;
     case FACILITATION_SESSION: result = "Faciliation"; break;
     case PHONE_SESSION: result = "Phone Conciliation"; break;
+    case COACHING_SESSION: result = "Coaching Conciliation"; break;
     default: result = "<error>"; break;
     }
     return result;

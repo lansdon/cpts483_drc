@@ -25,6 +25,10 @@ QString MediationEvaluation::Parse()
     {
         toReturn += "0, 0, 1, ";
     }
+    else
+    {
+        toReturn += "0, 0, 0, ";
+    }
 
     if(_q4 == EVALUATION_ANSWERS_YES)
     {
@@ -37,6 +41,10 @@ QString MediationEvaluation::Parse()
     else if(_q4 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1, ";
+    }
+    else
+    {
+        toReturn += "0, 0, 0, ";
     }
 
     if(_q5 == EVALUATION_ANSWERS_YES)
@@ -51,6 +59,10 @@ QString MediationEvaluation::Parse()
     {
         toReturn += "0, 0, 1, ";
     }
+    else
+    {
+        toReturn += "0, 0, 0, ";
+    }
 
     if(_q6 == EVALUATION_ANSWERS_YES)
     {
@@ -63,6 +75,10 @@ QString MediationEvaluation::Parse()
     else if(_q6 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1, ";
+    }
+    else
+    {
+        toReturn += "0, 0, 0, ";
     }
 
     if(_q7 == EVALUATION_ANSWERS_YES)
@@ -77,6 +93,10 @@ QString MediationEvaluation::Parse()
     {
         toReturn += "0, 0, 1, ";
     }
+    else
+    {
+        toReturn += "0, 0, 0, ";
+    }
 
     if(_q8 == EVALUATION_ANSWERS_YES)
     {
@@ -89,6 +109,10 @@ QString MediationEvaluation::Parse()
     else if(_q8 == EVALUATION_ANSWERS_SOMEWHAT)
     {
         toReturn += "0, 0, 1";
+    }
+    else
+    {
+        toReturn += "0, 0, 0";
     }
     return toReturn;
 }

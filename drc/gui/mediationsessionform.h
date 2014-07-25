@@ -101,6 +101,8 @@ private slots:
      */
     void on_outcomeComboBox_currentIndexChanged(int index);
 
+    void on_shuttleCheckBox_toggled(bool checked);
+
 public slots:
     /*!
      * \brief updateFromTable

@@ -11,6 +11,7 @@ monthlyreport::monthlyreport()
     this->m_childrenIndirect = 0;
     this->m_peopleIndirect = 0;
     this->m_translator = 0;
+    this->r_county = COUNTY_NONE;
 }
 
 void monthlyreport::BuildReport(MediationProcessVector* mpVec)
@@ -21,6 +22,14 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     int intakeCount = 0;
     int openCount = 0;
     int infoOnlyCount = 0;
+    int clauseCount = 0;
+
+    if(mpVec->size() != 0)
+    {
+        // all of the mediations in this vector should have
+        // the same county of mediation, so we'll just save the first one.
+        r_county = mpVec->front()->GetCountyId();
+    }
 
     for(size_t i = 0; i < mpVec->size(); i++)
     {
@@ -30,6 +39,11 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         if(process->GetInfoOnly())
         {
             infoOnlyCount++;
+        }
+
+        if(process->getMediationClause())
+        {
+            clauseCount++;
         }
 
         this->setTranslator(translatorCount++);
@@ -58,7 +72,8 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
             int atTable = 0;
             for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
             {
-                atTable += session->getClientSessionDataVectorAt(num)->getAtTable();
+                atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
+                            session->getClientSessionDataVectorAt(num)->getOnPhone());
             }
 
             if((session->GetState() == SESSION_STATE_CANCELLED) ||
@@ -78,7 +93,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         {
             MediationSession* session = process->getMediationSessionVector()->at((process->getMediationSessionVector()->size() - 1));
             if((session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
-                    (session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
+                    (session->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT) ||
                     (session->getOutcome() != SESSION_OUTCOME_SELF_RESOLVED))
             {
                 openCount++;
@@ -88,8 +103,8 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         for(size_t num = 0; num < process->GetParties()->size(); num++)
         {
             this->m_countyCounts[process->GetPartyAtIndex(num)->GetPrimary()->getCounty()]++;
-            this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold());
             this->setChildrenIndirect(this->getChildrenIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
+            this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
         }
     }
     this->setInfoOnlyCount(infoOnlyCount);
@@ -98,6 +113,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     this->setSessionsCancelled(cancelCount);
     this->setTotalIntake(intakeCount);
     this->setOpenCases(openCount);
+    this->setClauseCount(clauseCount);
 
 }
 
@@ -125,7 +141,10 @@ void monthlyreport::pdfReport()
     QDate date(m_year,m_month,1);
     pdfString += "for ";
     pdfString += date.toString("MMMM yyyy");
-    pdfString += ".\n\n";
+    pdfString += ".\n";
+    pdfString += "County of Mediation - ";
+    pdfString += StringForCountyIds(r_county);
+    pdfString += "\n\n";
     pdfString += QString("%1:%2")
             .arg(QString("%1").arg("# of Children Indirectly Served", 35))
             .arg(QString::number(m_childrenIndirect), 5);
@@ -139,7 +158,7 @@ void monthlyreport::pdfReport()
         {
             pdfString += "\n";
             pdfString += QString("%1:%2")
-                    .arg(QString("%1").arg(StringForCountyIds((CountyIds)i), 35))
+                    .arg(QString("%1").arg(("People from " + StringForCountyIds((CountyIds)i)), 35))
                     .arg(QString::number(m_countyCounts[(CountyIds)i]), 5);
         }
     }
@@ -155,6 +174,10 @@ void monthlyreport::pdfReport()
                     .arg(QString::number(m_outcomes[(SessionOutcomes)i]), 5);
         }
     }
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Info Only", 35)
+            .arg(QString::number(m_infoOnly), 5);
     pdfString += "\n";
     pdfString += QString("%1:%2")
             .arg("Open Cases", 35)
@@ -203,6 +226,10 @@ void monthlyreport::pdfReport()
     pdfString += QString("%1:%2")
             .arg("Total Services", 35)
             .arg(QString::number(m_totalServices), 5);
+    pdfString += "\n";
+    pdfString += QString("%1:%2")
+            .arg("Parenting Plan Clause", 35)
+            .arg(QString::number(m_clauseCount), 5);
     pdfString += "\n";
     pdfString += QString("%1:%2")
             .arg("Intake/Mediators Spanish", 35)

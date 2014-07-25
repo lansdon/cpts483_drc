@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QString>
+#include <QStringList>
 #include "User.h"
 #include "Mediator.h"
 #include "MediatorKeys.h"

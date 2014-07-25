@@ -13,7 +13,8 @@ class monthlyreport
 private:
     short int m_month;
     short int m_year;
-    CountyIds m_county;
+    CountyIds m_county; // county clients are from
+    CountyIds r_county; // county for which the report is generated.
     int m_translator;
     int m_atTable;
     int m_peopleIndirect;
@@ -27,6 +28,7 @@ private:
     int m_sessionsCancelled;
     int m_openCases;
     int m_totalIntake;
+    int m_clauseCount;
     int totalCasesMediated();
     std::map<CountyIds, int> m_countyCounts;
     QTextDocument *_report;
@@ -103,6 +105,7 @@ private:
      * \param value
      */
     void setInfoOnlyCount(int value) {m_infoOnly = value;}
+    void setClauseCount(int value) {m_clauseCount = value;}
 
 public:
     monthlyreport();
@@ -215,6 +218,9 @@ public:
      * \brief pdfReport
      */
     void pdfReport();
+
+    int getClauseCount() {return m_clauseCount;}
+
 };
 
 #endif // MONTHLYREPORT_H

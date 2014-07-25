@@ -146,22 +146,17 @@ public:
      * \brief GetCourtDate
      * \return
      */
-    QDateTime GetCourtDate() { return _courtDate; }
+    QDate GetCourtDate() { return _courtDate; }
     /*!
      * \brief GetCourtType
      * \return
      */
     CourtCaseTypes GetCourtType() { return _courtCaseType; }
     /*!
-     * \brief GetCourtOrderType
+     * \brief GetCourtOrder
      * \return
      */
-    CourtOrderTypes GetCourtOrderType() { return _courtOrderType; }
-    /*!
-     * \brief GetCourtOrderExpiration
-     * \return
-     */
-    QDateTime GetCourtOrderExpiration() { return _courtOrderExpiration; }
+    QString GetCourtOrder() { return _courtOrder; }
     /*!
      * \brief GetIsShuttle
      * \return
@@ -178,25 +173,15 @@ public:
      */
     void SetIsCourtCase(bool isCourt) { _isCourtCase = isCourt; }
     /*!
-     * \brief SetCourtDate
-     * \param courtDate
-     */
-    void SetCourtDate(QDateTime courtDate) { _courtDate = courtDate; _isCourtCase = true; }
-    /*!
      * \brief SetCourtType
      * \param caseType
      */
     void SetCourtType(CourtCaseTypes caseType) { _courtCaseType = caseType; }
     /*!
-     * \brief SetCourtOrderType
+     * \brief SetCourtOrder
      * \param orderType
      */
-    void SetCourtOrderType(CourtOrderTypes orderType) { _courtOrderType = orderType; }
-    /*!
-     * \brief SetCourtOrderExpiration
-     * \param expiration
-     */
-    void SetCourtOrderExpiration(QDateTime expiration) { _courtOrderExpiration = expiration; }
+    void SetCourtOrder(QString orderType) { _courtOrder = orderType; }
     /*!
      * \brief SetDisputeType
      * \param type
@@ -257,6 +242,9 @@ public:
      * \return
      */
     QString GetStateMessage() { return _stateMessage; }
+
+    void setMediationClause(bool value) { _mediationClause = value; }
+    bool getMediationClause() const { return _mediationClause; }
 
     // Helpers
     /*!
@@ -322,15 +310,15 @@ private:
     MediationNotesVector _mediationNotes;
     ReferralTypes _referalSource;
     bool _requiresSpanish;
+    bool _mediationClause;
     MediationSessionVector _mediationSessionVector;
     InquiryTypes _inquiryType;
     bool _infoOnly;
     bool _isShuttle;
     bool _isCourtCase;
-    QDateTime _courtDate;
+    QDate _courtDate;
     enum CourtCaseTypes _courtCaseType;
-    enum CourtOrderTypes _courtOrderType;
-    QDateTime _courtOrderExpiration;
+    QString _courtOrder;
     QString _stateMessage;  // Message set by BL explaining how to advance to next state.
 
     ///////////////// Report Builder ///////////////////

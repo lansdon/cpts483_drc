@@ -132,16 +132,25 @@ bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* wid
     if(string.length() == 0) return true;
 
     QString s = string;
+    QString last = _phoneMap[widget];   // previously stored value.
 
-    // Auto complete first dash
-    QRegExp rx("(^[0-9]{3})");
-    if(rx.exactMatch(s))
-        s.append("-");
+    // Only auto complete if delete was not pushed and we have a
+    QRegExp rx;
+    if(last.length() != string.length() + 1)
+    {
+        // Auto complete first dash
+        rx.setPattern("(^[0-9]{3})");
+        if(rx.exactMatch(s))
+            s.append("-");
 
-    // Auto complete second dash
-    rx.setPattern("^[0-9]{3}-[0-9]{3}");
-    if(rx.exactMatch(s))
-        s.append("-");
+        // Auto complete second dash
+        rx.setPattern("^[0-9]{3}-[0-9]{3}");
+        if(rx.exactMatch(s))
+            s.append("-");
+    }
+
+    // Save the new string to the map for later comparisons
+    _phoneMap[widget] = s;
 
     // phone validation - xxx-xxx-xxxx
     rx.setPattern("^[0-9]{3}-[0-9]{3}-[0-9]{4}");
@@ -362,8 +371,8 @@ void PersonDetailsForm::on_adultsInHomeSpinBox_valueChanged(int arg1)
 
 void PersonDetailsForm::on_assistantLineEdit_editingFinished()
 {
-    _person->setAssistantName(ui->assistantNameLineEdit->text());
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//    _person->setAssistantName(ui->assistantNameLineEdit->text());
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_countyComboBox_currentIndexChanged(int index)
@@ -383,30 +392,58 @@ void PersonDetailsForm::on_childrenInHomeSpinBox_valueChanged(int arg1)
 
 void PersonDetailsForm::on_attorneyPhoneLineEdit_editingFinished()
 {
-    _person->setAttorneyPhone(ui->attorneyPhoneLineEdit->text());
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//    _person->setAttorneyPhone(ui->attorneyPhoneLineEdit->text());
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_attorneyEmailLineEdit_editingFinished()
 {
-    _person->SetAttorneyEmail(ui->attorneyEmailLineEdit->text());
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//    _person->SetAttorneyEmail(ui->attorneyEmailLineEdit->text());
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_assistantPhoneLineEdit_editingFinished()
 {
-    _person->setAssistantPhone(ui->assistantPhoneLineEdit->text());
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//    _person->setAssistantPhone(ui->assistantPhoneLineEdit->text());
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_assistantEmailLineEdit_editingFinished()
 {
-    _person->setAssistantEmail(ui->assistantEmailLineEdit->text());
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//    _person->setAssistantEmail(ui->assistantEmailLineEdit->text());
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_assistantNameLineEdit_textEdited(const QString &arg1)
 {
     _person->setAssistantName(arg1);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_attorneyPhoneLineEdit_textEdited(const QString &arg1)
+{
+    _person->setAttorneyPhone(arg1);
+    ProcessPhoneNumber(arg1,ui->attorneyPhoneLineEdit);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_attorneyEmailLineEdit_textEdited(const QString &arg1)
+{
+    _person->SetAttorneyEmail(arg1);
+    ProcessEmail(arg1, ui->attorneyEmailLineEdit);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_assistantPhoneLineEdit_textEdited(const QString &arg1)
+{
+    _person->setAssistantPhone(arg1);
+    ProcessPhoneNumber(arg1, ui->assistantPhoneLineEdit);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void PersonDetailsForm::on_assistantEmailLineEdit_textEdited(const QString &arg1)
+{
+    _person->setAssistantEmail(arg1);
+    ProcessPhoneNumber(arg1, ui->assistantEmailLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

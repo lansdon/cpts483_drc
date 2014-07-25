@@ -201,7 +201,8 @@ enum SessionTypes
 {
     MEDIATION_SESSION,
     FACILITATION_SESSION,
-    PHONE_SESSION
+    PHONE_SESSION,
+    COACHING_SESSION
 };
 
 /// String Helpers to convert enums to QStrings

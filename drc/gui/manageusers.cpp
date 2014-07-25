@@ -14,6 +14,16 @@ ManageUsers::ManageUsers(QWidget *parent) :
     _passwordMatch = false;
     _selectedUser = nullptr;
 
+    //configure look of group boxes
+    ui->groupBox->setStyleSheet("QGroupBox {\
+                                border: 2px solid gray;\
+                                border-radius: 5px;\
+                                margin-top: 10px;\
+                                } QGroupBox::title { subcontrol-origin: margin;\
+                                subcontrol-position: top left;\
+                                padding:0 3px;\
+                                }");
+
     // Make it so the passwords entered can't be seen.
     ui->passwordLineEdit->setEchoMode(QLineEdit::Password);
     ui->reenterpasswordLineEdit->setEchoMode(QLineEdit::Password);
@@ -52,14 +62,16 @@ void ManageUsers::ConfigureUserTableView()
 
     //  Set the column count and widths of user table
     ui->usertableWidget->setColumnCount(2);
-    ui->usertableWidget->setColumnWidth(0, ui->usertableWidget->width()/2);
-    ui->usertableWidget->setColumnWidth(1, ui->usertableWidget->width()/2);
 
     //  Define the user table horizontal header and set it's alignment
-    QStringList Header;
-    Header << "Username" << "Admin Status";
-    ui->usertableWidget->setHorizontalHeaderLabels(Header);
-    ui->usertableWidget->horizontalHeader()->setDefaultAlignment(Qt::AlignCenter);
+    ui->usertableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Username"));
+    ui->usertableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Admin Status"));
+
+    for (int c = 0; c < ui->usertableWidget->horizontalHeader()->count(); ++c)
+    {
+        ui->usertableWidget->horizontalHeader()->setSectionResizeMode(
+            c, QHeaderView::Stretch);
+    }
 
     //  Set the vertical header to be invisible:  Not used in this program
     ui->usertableWidget->verticalHeader()->setVisible(false);
@@ -71,7 +83,7 @@ void ManageUsers::ConfigureUserTableView()
 
     //  Show the grid and define it's style sheet
     ui->usertableWidget->setShowGrid(true);
-    ui->usertableWidget->setStyleSheet("QTableView {selection-background-color: red;}");
+    ui->usertableWidget->setStyleSheet("QTableView {selection-background-color: AntiqueWhite; selection-color: Black;}");
 }
 
 void ManageUsers::PopulateUserTableView()
@@ -85,6 +97,10 @@ void ManageUsers::PopulateUserTableView()
     //  Clear the user table and set the row count
     ui->usertableWidget->clear();
     ui->usertableWidget->setRowCount(_userVector->count());
+
+    // Force headers ?
+    ui->usertableWidget->setHorizontalHeaderItem(0, new QTableWidgetItem("Username"));
+    ui->usertableWidget->setHorizontalHeaderItem(1, new QTableWidgetItem("Admin Status"));
 
     //  Iterate through _userVector and populate user table with
     //  the appropriate information
