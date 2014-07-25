@@ -1730,14 +1730,15 @@ QVector<QString> DRCDB::SelectPersonField(QString column_name, QString table_nam
 //QVector.count > 0:        Success
 //QVector.count == 0:       Failure
 //------------------------------------------------------------------------
-QVector<QString> DRCDB::SelectOneFields(QString table_name, int id)
+QVector<QString> DRCDB::SelectOneFields(QString table_name, QString id_name, int id)
 {
     QVector<QString> return_vec;
 
     if (this->DoesTableExist(table_name))
     {
-        QString command_string = QString("select * from %1 where id = %2")
+        QString command_string = QString("select * from %1 where %2 = %3")
                 .arg(table_name)
+                .arg(id_name)
                 .arg(QString::number(id));
 
         QSqlQuery query_object(database);

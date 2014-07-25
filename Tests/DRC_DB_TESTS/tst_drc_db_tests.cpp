@@ -328,7 +328,7 @@ void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
     John_Doe.setLastName("Doe");
 
     QCOMPARE(_db.InsertObject(&John_Doe), true);
-    QVector<QString> EmptyResults = _db.SelectOneFields(person_table_name, 1);
+    QVector<QString> EmptyResults = _db.SelectOneFields(person_table_name, "Person_id", 1);
     QVector<QString> TruncatedEmpty = empty_person_values.mid(0,15);
     QCOMPARE(TruncatedEmpty.size(), EmptyResults.size());
 
@@ -341,7 +341,7 @@ void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
 void DRC_DB_TESTS::CheckInsertFullPersonObject()
 {
     QCOMPARE(_db.InsertObject(&Bruce_Lee), true);
-    QVector<QString> FullResults = _db.SelectOneFields(person_table_name, 2);
+    QVector<QString> FullResults = _db.SelectOneFields(person_table_name, "Person_id", 2);
 
     QCOMPARE(15, FullResults.size());
 
@@ -372,7 +372,7 @@ void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
 {
     QCOMPARE(_db.InsertObject(&EmptyProcess), true);
 
-    QVector<QString> EmptyResults = _db.SelectOneFields(mediation_table_name, 1);
+    QVector<QString> EmptyResults = _db.SelectOneFields(mediation_table_name, "Process_id", 1);
     QCOMPARE(EmptyResults.size(), empty_process_values.size());
 
     if(INSERT_EMPTY_PROCESS_DEBUG)
@@ -385,7 +385,7 @@ void DRC_DB_TESTS::CheckInsertFullProcessObject()
 {
     QCOMPARE(_db.InsertObject(&DojoBattle),true);
 
-    QVector<QString> FullResults = _db.SelectOneFields(mediation_table_name, 2);
+    QVector<QString> FullResults = _db.SelectOneFields(mediation_table_name, "Process_id", 2);
 
     if(INSERT_FULL_PROCESS_DEBUG)
         OutputDebugInfo(mediation_table_columns, FullResults, full_process_values, "INSERT_FULL_PROCESS_DEBUG.txt");
@@ -409,7 +409,7 @@ void DRC_DB_TESTS::CheckInsertEmptySessionObject()
 {
     QCOMPARE(_db.InsertLinkedObject(EmptyProcess.GetId(), &EmptySession), true);
 
-    QVector<QString> EmptyResults = _db.SelectOneFields(session_table_name, 1);
+    QVector<QString> EmptyResults = _db.SelectOneFields(session_table_name, "Session_id", 1);
 
     QCOMPARE(EmptyResults.size(), empty_session_values.size());
 
@@ -433,7 +433,7 @@ void DRC_DB_TESTS::AllocateTableNames()
 
 void DRC_DB_TESTS::AllocatePersonColumns()
 {
-    person_table_columns.push_back("id");
+    person_table_columns.push_back("Person_id");
     person_table_columns.push_back("first_name");
     person_table_columns.push_back("middle_name");
     person_table_columns.push_back("last_name");
@@ -452,7 +452,7 @@ void DRC_DB_TESTS::AllocatePersonColumns()
 
 void DRC_DB_TESTS::AllocateProcessColumns()
 {
-    mediation_table_columns.push_back("id");
+    mediation_table_columns.push_back("Process_id");
     mediation_table_columns.push_back("DisputeType");
     mediation_table_columns.push_back("CreationDate");
     mediation_table_columns.push_back("UpdatedDate");
@@ -475,7 +475,7 @@ void DRC_DB_TESTS::AllocateProcessColumns()
 
 void DRC_DB_TESTS::AllocateSessionColumns()
 {
-    session_table_columns.push_back("id");
+    session_table_columns.push_back("Session_id");
     session_table_columns.push_back("Process_id");
     session_table_columns.push_back("SessionStatus");
     session_table_columns.push_back("SessionOutcome");

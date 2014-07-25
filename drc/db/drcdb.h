@@ -94,7 +94,7 @@ public:
 
     bool InsertClientSessionData(ClientSessionData* data, int sessionId, int clientId);
 
-    QVector<QString> SelectOneFields(QString table_name, int id);
+    QVector<QString> SelectOneFields(QString table_name, QString id_name, int id);
 
     //Parameters are temporary until Filter Object finalized.
     QVector<QString> SelectPersonField(QString column_name, QString table_name, QString compare_value, QString find_value);
