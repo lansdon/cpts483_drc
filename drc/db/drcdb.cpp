@@ -806,6 +806,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
                 data->setPaid(DataQuery.value(5).toBool());
                 data->setAttySaidAttend(DataQuery.value(6).toBool());
                 data->setAttyDidAttend(DataQuery.value(7).toBool());
+                data->setSupport(DataQuery.value(8).toUInt());
                 data->setOnPhone(DataQuery.value(8).toBool());
                 data->setAtTable(DataQuery.value(9).toBool());
 
