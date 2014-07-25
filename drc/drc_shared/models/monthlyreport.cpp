@@ -85,7 +85,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         {
             MediationSession* session = process->getMediationSessionVector()->at((process->getMediationSessionVector()->size() - 1));
             if((session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
-                    (session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
+                    (session->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT) ||
                     (session->getOutcome() != SESSION_OUTCOME_SELF_RESOLVED))
             {
                 openCount++;
@@ -147,7 +147,7 @@ void monthlyreport::pdfReport()
         {
             pdfString += "\n";
             pdfString += QString("%1:%2")
-                    .arg(QString("%1").arg(StringForCountyIds((CountyIds)i), 35))
+                    .arg(QString("People from %1").arg(StringForCountyIds((CountyIds)i), 23))
                     .arg(QString::number(m_countyCounts[(CountyIds)i]), 5);
         }
     }
