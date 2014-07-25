@@ -4,6 +4,9 @@
 #include <QString>
 #include <QDateTime>
 
+/*!
+ * \brief The DBBaseObject class
+ */
 class DBBaseObject
 {
 protected:
@@ -20,6 +23,8 @@ public:
     virtual QString Parse(void) = 0;
 
     virtual QString UpdateParse(void) = 0;
+
+    virtual QString ColumnNames(void) = 0;
 
     virtual QString GetIdRowName(void) = 0;
 

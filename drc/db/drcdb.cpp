@@ -283,7 +283,7 @@ void DRCDB::LoadDatabase(QString filename)
 
     //Name of the table we're creating.
     QString person_table_name = QString("Person_Table");
-    QString mediation_table_name = QString("Process_Table");
+    QString mediation_table_name = QString("Mediation_Table");
     QString session_table_name = QString("Session_Table");
     QString client_table_name = QString("Client_Table");
     QString notes_table_name = QString("Notes_Table");
@@ -412,19 +412,19 @@ bool DRCDB::CreateSessionTable(const QString& session_table_name)
 {
     //Name and Datatypes of all Table columns
     QVector<QString> session_table_columns;
-    session_table_columns.push_back(QString("Session_id integer primary key autoincrement null"));
+    session_table_columns.push_back(QString("id integer primary key autoincrement null"));
     session_table_columns.push_back(QString("Process_id integer"));
     session_table_columns.push_back(QString("SessionStatus integer"));
     session_table_columns.push_back(QString("SessionOutcome integer"));
-    session_table_columns.push_back(QString("CreatedDate Date"));
-    session_table_columns.push_back(QString("UpdatedDate Date"));
+    session_table_columns.push_back(QString("CreatedDateTime DateTime"));
+    session_table_columns.push_back(QString("UpdatedDateTime DateTime"));
     session_table_columns.push_back(QString("ScheduledTime DateTime"));
     session_table_columns.push_back(QString("Mediator1 char(128)"));
     session_table_columns.push_back(QString("Mediator2 char(128)"));
     session_table_columns.push_back(QString("Observer1 char(128)"));
     session_table_columns.push_back(QString("Observer2 char(128)"));
     session_table_columns.push_back(QString("Shuttle bool"));
-    session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(Process_id)"));
+    session_table_columns.push_back(QString("foreign key(Process_id) references Mediation_Table(id)"));
 
     return CreateTable(session_table_name, session_table_columns);
 }
@@ -1439,7 +1439,7 @@ bool DRCDB::OpenDatabase(QString database_name)
     // query.exec("PRAGMA foreign_keys = ON;");
 
     if(database.isOpenError())
-        this->ExtractError(database.lastError());
+        this->ExtractError(database.lastError(), QString("Database Failed to Open."));
 
     return database.isOpen();
 }
@@ -1500,8 +1500,9 @@ bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 bool DRCDB::InsertObject(DBBaseObject* db_object)
 {
     //if (!this->DuplicateInsert(db_object->DuplicateQuery()))
-    QString command_string = QString("insert into %1 %2")
+    QString command_string = QString("insert into %1 %2 VALUES(%3)")
             .arg(db_object->table())
+            .arg(db_object->ColumnNames())
             .arg(db_object->Parse());
 
     bool insertSuccess = false;
@@ -1552,12 +1553,13 @@ if(this->DB_ERROR)
 // For inserting objects which link only one direction (such as dispute having many sessions)
 bool DRCDB::InsertLinkedObject(int linkedID, DBBaseObject* db_object)
 {
-    QString command_string = QString("insert into %1 values ( %2, %3, %4 )")
+    QString command_string = QString("insert into %1 %2 values ( %3, %4, %5 )")
             .arg(db_object->table())
+            .arg(db_object->ColumnNames())
             .arg("null")
             .arg(linkedID)
             .arg(db_object->Parse());
-qDebug() << command_string;
+//qDebug() << command_string;
     bool insertSuccess = false;
     QSqlQuery query_object(database);
 
@@ -1682,7 +1684,7 @@ bool DRCDB::InsertClientSessionData(ClientSessionData* data, int sessionId, int 
 bool DRCDB::ExecuteCommand(QString command_string, QSqlQuery &query_object)
 {
     if(!query_object.prepare(command_string))
-        this->ExtractError(query_object.lastError());
+        this->ExtractError(query_object.lastError(), command_string);
 
     return query_object.exec();
 }
@@ -1768,15 +1770,17 @@ QVector<QString> DRCDB::SelectOneFields(QString table_name, int id)
 //True:     Error Occurred
 //False:    No Error Occurred / Detected
 //------------------------------------------------------------------------
-bool DRCDB::ExtractError(const QSqlError &error_object)
+bool DRCDB::ExtractError(const QSqlError &error_object, QString command_string)
 {
     DB_ERROR = error_object.isValid();
 
     if (DB_ERROR)
     {
+        qDebug() << command_string;
         qDebug() << error_object.databaseText();
         qDebug() << error_object.driverText();
 
+        ErrorMessageVec.push_back(command_string);
         ErrorMessageVec.push_back(error_object.databaseText());
         ErrorMessageVec.push_back(error_object.driverText());
     }

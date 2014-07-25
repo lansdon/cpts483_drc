@@ -30,6 +30,7 @@ public:
     QString GetTypeString(void);
 
     QString Parse(void);
+    QString ColumnNames();
     QString UpdateParse();
 
     QString GetIdRowName();

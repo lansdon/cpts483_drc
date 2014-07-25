@@ -16,6 +16,7 @@ public:
 
     //Virtual overrides
     QString Parse();
+    QString ColumnNames();
     QString UpdateParse();
     QString table();
     QString DuplicateQuery();

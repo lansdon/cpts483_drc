@@ -231,7 +231,7 @@ void MediationProcess::BuildNotesSesction(QTextCursor &cursor)
     }
 }
 
-QString MediationProcess::Parse()
+QString MediationProcess::ColumnNames()
 {
     QString column_names = QString("%1, %2, %3, %4, %5, %6, %7, %8, %9, ")
             .arg(QString("id"))
@@ -255,6 +255,16 @@ QString MediationProcess::Parse()
             .arg(QString("TranslatorRequired"))
             .arg(QString("SessionType"))
             .arg(QString("MediationClause"));
+
+    QString toReturn = QString("(%1)")
+            .arg(column_names);
+
+    return toReturn;
+}
+
+QString MediationProcess::Parse()
+{
+
 
     // UPDATED 7-14-14 for new schema
     QString column_values = QString("%1, %2, '%3', '%4', '%5', '%6', %7, %8, %9, ")
@@ -280,11 +290,11 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetSessionType()))
             .arg(this->getMediationClause());
 
-    QString toReturn = QString("(%1) VALUES(%2)")
-        .arg(column_names)
-        .arg(column_values);
+//    QString toReturn = QString("(%1) VALUES(%2)")
+//        .arg(column_names)
+//        .arg(column_values);
 
-    return toReturn;
+    return column_values;
 }
 
 QString MediationProcess::UpdateParse()
@@ -323,7 +333,7 @@ QString MediationProcess::GetIdRowName()
 
 QString MediationProcess::table()
 {
-    return QString("Process_Table");
+    return QString("Mediation_Table");
 }
 void MediationProcess::addMediation()
 {

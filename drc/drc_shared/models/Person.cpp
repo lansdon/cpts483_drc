@@ -277,9 +277,7 @@ Person *Person::SampleData()
     return result;
 }
 
-
-
-QString Person::Parse(void)
+QString Person::ColumnNames()
 {
     //Name
     QString column_names = QString("%1, %2, %3, %4,")
@@ -319,6 +317,14 @@ QString Person::Parse(void)
     //     .arg(QString("assistant_phone"))
     //     .arg(QString("assistant_email"));
 
+    QString toReturn = QString("(%1)")
+            .arg(column_names);
+
+    return toReturn;
+}
+
+QString Person::Parse(void)
+{
     //Name
     QString column_values = QString("%1, '%2', '%3', '%4',")
         .arg(QString("null"))
@@ -356,12 +362,7 @@ QString Person::Parse(void)
     //     .arg(this->getAssistantPhone().replace("'", "''"))
     //     .arg(this->getAssistantEmail().replace("'", "''"));
 
-    QString toReturn = QString("(%1) VALUES(%2)")
-        .arg(column_names)
-        .arg(column_values);
-
-
-    return toReturn;
+    return column_values;
 }
 
 QString Person::UpdateParse()

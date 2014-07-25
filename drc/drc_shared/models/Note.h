@@ -34,6 +34,7 @@ public:
 
     // Base Class Virtual Overrides
     QString Parse(void);
+    QString ColumnNames();
     QString UpdateParse();
     QString GetIdRowName();
     QString table();

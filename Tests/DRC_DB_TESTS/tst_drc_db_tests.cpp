@@ -8,10 +8,11 @@
 #include "Person.h"
 #include "drctypes.h"
 
-#define INSERT_EMPTY_PERSON_DEBUG false
-#define INSERT_FULL_PERSON_DEBUG false
+#define INSERT_EMPTY_PERSON_DEBUG true
+#define INSERT_FULL_PERSON_DEBUG true
 #define INSERT_EMPTY_PROCESS_DEBUG true
 #define INSERT_FULL_PROCESS_DEBUG true
+#define INSERT_EMPTY_SESSION_DEBUG true
 
 #define TITLE_COLUMNS 45
 #define DISTANCE_FROM_COLON -30
@@ -43,8 +44,8 @@ enum ProcessColumns
     DISPUTETYPE = 1,
     CREATIONDATE = 2,
     UPDATEDDATE = 3,
-    CREATIONDATETIME = 4,
-    UPDATEDDATETIME = 5,
+    PROCESS_CREATIONDATETIME = 4,
+    PROCESS_UPDATEDDATETIME = 5,
     DISPUTESTATE = 6,
     DISPUTEINTERNALSTATE = 7,
     DISPUTECOUNTY = 8,
@@ -60,6 +61,22 @@ enum ProcessColumns
     MEDIATIONCLAUSE = 18
 };
 
+enum SessionColumns
+{
+    ID = 0,
+    FOREIGN_PROCESS_ID = 1,
+    SESSIONSTATUS = 2,
+    SESSIONOUTCOME = 3,
+    SESSION_CREATEDDATETIME = 4,
+    SESSION_UPDATEDDATETIME = 5,
+    SCHEDULEDTIME = 6,
+    MEDIATOR1 = 7,
+    MEDIATOR2 = 8,
+    OBSERVER1 = 9,
+    OBSERVER2 = 10,
+    SHUTTLE = 11
+};
+
 
 class DRC_DB_TESTS : public QObject
 {
@@ -69,17 +86,30 @@ public:
     DRC_DB_TESTS();
     void OutputDebugInfo(QVector<QString> TableColumns, QVector<QString> FromDatabase, QVector<QString> FromFile, QString FileName);
     void PrintVectorStrings(QVector<QString> PrintThis);
+    void AllocateTableNames();
+    void AllocatePersonColumns();
+    void AllocateProcessColumns();
+    void AllocateSessionColumns();
+
+    void AllocateEmptyPersonVector();
+    void AllocateFullPersonVector();
+
+    void AllocateEmptyProcessVector();
+    void AllocateFullProcessVector();
+
+    void AllocateEmptySessionVector();
 
 private:
     DRCDB _db;
 
-    QString DateFormat;
-    QString DateTimeFormat;
+    const QString DateFormat;
+    const QString DateTimeFormat;
+    const QString TimeFormat;
 
     QString database_name;
 
     QString person_table_name;
-    QString process_table_name;
+    QString mediation_table_name;
     QString session_table_name;
     QString client_table_name;
     QString notes_table_name;
@@ -88,7 +118,8 @@ private:
     QString evaluationTableName;
 
     QVector<QString> person_table_columns;
-    QVector<QString> process_table_columns;
+    QVector<QString> mediation_table_columns;
+    QVector<QString> session_table_columns;
 
     QVector<QString> empty_person_values;
     QVector<QString> full_person_values;
@@ -96,15 +127,19 @@ private:
     QVector<QString> empty_process_values;
     QVector<QString> full_process_values;
 
+    QVector<QString> empty_session_values;
+
     Person Bruce_Lee;
     MediationProcess DojoBattle;
+    MediationProcess EmptyProcess;
+    MediationSession EmptySession;
 
 private Q_SLOTS:
     void OpenDatabase();
     void CorrectDatabaseName();
     void ForeignKeysActive();
 
-    void CreatePersonTable();
+    void CheckCreatePersonTable();
     void CheckPersonColumn();
     void CheckInsertEmptyPersonObject();
     void CheckInsertFullPersonObject();
@@ -113,6 +148,10 @@ private Q_SLOTS:
     void CheckProcessColumn();
     void CheckInsertEmptyProcessObject();
     void CheckInsertFullProcessObject();
+
+    void CheckCreateSessionTable();
+    void CheckSessionColumn();
+    void CheckInsertEmptySessionObject();
 
 
 //    void CheckSessionColumn();
@@ -146,175 +185,54 @@ private slots:
 
 //  Change information to accomodate new circumstances.
 //======================================================
-DRC_DB_TESTS::DRC_DB_TESTS()
+DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM-dd hh:mm:ss"), TimeFormat("hh:mm:ss")
 {
     database_name = QString("drc_db.db3");
 
-    DateFormat = QString("yyyy-MM-dd");
-    DateTimeFormat = QString("yyyy-MM-dd hh:mm:ss");
+    AllocateTableNames();
 
-    //Names of all the tables
-    person_table_name = QString("Person_Table");
-    process_table_name = QString("Process_Table");
-    session_table_name = QString("Session_Table");
-    client_table_name = QString("Client_Table");
-    notes_table_name = QString("Notes_Table");
-    client_session_table_name = QString("Client_session_table");
-    user_table_name = QString("User_Table");
-    evaluationTableName = QString("Evaluation_Table");
+    AllocatePersonColumns();
+    AllocateProcessColumns();
+    AllocateSessionColumns();
 
-    person_table_columns.push_back("id");
-    person_table_columns.push_back("first_name");
-    person_table_columns.push_back("middle_name");
-    person_table_columns.push_back("last_name");
-    person_table_columns.push_back("street_name");
-    person_table_columns.push_back("unit_name");
-    person_table_columns.push_back("city_name");
-    person_table_columns.push_back("state_name");
-    person_table_columns.push_back("zip_code");
-    person_table_columns.push_back("county_name");
-    person_table_columns.push_back("primary_phone");
-    person_table_columns.push_back("primary_phone_ext");
-    person_table_columns.push_back("secondary_phone");
-    person_table_columns.push_back("secondary_phone_ext");
-    person_table_columns.push_back("email_address");
+    AllocateEmptyPersonVector();
+    AllocateFullPersonVector();
 
-    process_table_columns.push_back("id");
-    process_table_columns.push_back("DisputeType");
-    process_table_columns.push_back("CreationDate");
-    process_table_columns.push_back("UpdatedDate");
-    process_table_columns.push_back("CreationDateTime");
-    process_table_columns.push_back("UpdatedDateTime");
-    process_table_columns.push_back("DisputeState");
-    process_table_columns.push_back("DisputeInternalState");
-    process_table_columns.push_back("DisputeCounty");
-    process_table_columns.push_back("ReferalSource");
-    process_table_columns.push_back("InquiryType");
-    process_table_columns.push_back("InfoOnly");
-    process_table_columns.push_back("IsCourtCase");
-    process_table_columns.push_back("CourtDate");
-    process_table_columns.push_back("CourtCaseType");
-    process_table_columns.push_back("CourtOrderType");
-    process_table_columns.push_back("TranslatorRequired");
-    process_table_columns.push_back("SessionType");
-    process_table_columns.push_back("MediationClause");
+    AllocateEmptyProcessVector();
+    AllocateFullProcessVector();
 
-    full_person_values.push_back(QString("2"));
-    full_person_values.push_back(QString("Bruce"));
-    full_person_values.push_back(QString("Chan"));
-    full_person_values.push_back(QString("Lee"));
-    full_person_values.push_back(QString("55555 Huntington Place"));
-    full_person_values.push_back(QString("B"));
-    full_person_values.push_back(QString("New York"));
-    full_person_values.push_back(QString("Alaska"));
-    full_person_values.push_back(QString("55555"));
-    full_person_values.push_back(QString("2"));
-    full_person_values.push_back(QString("111-111-1111"));
-    full_person_values.push_back(QString("111"));
-    full_person_values.push_back(QString("222-222-2222"));
-    full_person_values.push_back(QString("222"));
-    full_person_values.push_back(QString("EnterTheDragon@BruceLee.com"));
-    full_person_values.push_back(QString("7"));
-    full_person_values.push_back(QString("1000"));
-    full_person_values.push_back(QString("Birdman"));
-    full_person_values.push_back(QString("123-123-1234"));
-    full_person_values.push_back(QString("Birdman@Attorney.law"));
-    full_person_values.push_back(QString("Rachel Dawes"));
-    full_person_values.push_back(QString("333-333-3333"));
-    full_person_values.push_back(QString("MaskNotMe@Attorney.law"));
+    AllocateEmptySessionVector();
 
-    empty_person_values.push_back(QString("1"));
-    empty_person_values.push_back(QString("John"));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString("Doe"));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString("0"));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString("0"));
-    empty_person_values.push_back(QString("0"));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
-    empty_person_values.push_back(QString(""));
+    //Write method that accepts vector, and inserts into DB Object
+    Bruce_Lee.setFirstName(                                                     full_person_values[FIRST_NAME]);
+    Bruce_Lee.setMiddleName(                                                    full_person_values[MIDDLE_NAME]);
+    Bruce_Lee.setLastName(                                                      full_person_values[LAST_NAME]);
+    Bruce_Lee.setStreet(                                                        full_person_values[STREET_NAME]);
+    Bruce_Lee.setUnit(                                                          full_person_values[UNIT_NAME]);
+    Bruce_Lee.setCity(                                                          full_person_values[CITY_NAME]);
+    Bruce_Lee.setState(                                                         full_person_values[STATE_NAME]);
+    Bruce_Lee.setZip(                                                           full_person_values[ZIP_CODE]);
+    Bruce_Lee.setCounty((CountyIds)                                             full_person_values[COUNTY_NAME].toInt());
+    Bruce_Lee.setPrimaryPhone(                                                  full_person_values[PRIMARY_PHONE]);
+    Bruce_Lee.setPrimaryPhoneExt(                                               full_person_values[PRIMARY_PHONE_EXT]);
+    Bruce_Lee.setSecondaryPhone(                                                full_person_values[SECONDARY_PHONE]);
+    Bruce_Lee.setSecondaryPhoneExt(                                             full_person_values[SECONDARY_PHONE_EXT]);
+    Bruce_Lee.setEmail(                                                         full_person_values[EMAIL_ADDRESS]);
+    Bruce_Lee.setNumberInHousehold(                                             full_person_values[15].toInt());
+    Bruce_Lee.setNumberChildrenInHousehold(                                     full_person_values[16].toInt());
+    Bruce_Lee.setAttorney(                                                      full_person_values[17]);
+    Bruce_Lee.setAttorneyPhone(                                                 full_person_values[18]);
+    Bruce_Lee.SetAttorneyEmail(                                                 full_person_values[19]);
+    Bruce_Lee.setAssistantName(                                                 full_person_values[20]);
+    Bruce_Lee.setAssistantPhone(                                                full_person_values[21]);
+    Bruce_Lee.setAssistantEmail(                                                full_person_values[22]);
 
-    Bruce_Lee.setFirstName(full_person_values[1]);
-    Bruce_Lee.setMiddleName(full_person_values[2]);
-    Bruce_Lee.setLastName(full_person_values[3]);
-    Bruce_Lee.setStreet(full_person_values[4]);
-    Bruce_Lee.setUnit(full_person_values[5]);
-    Bruce_Lee.setCity(full_person_values[6]);
-    Bruce_Lee.setState(full_person_values[7]);
-    Bruce_Lee.setZip(full_person_values[8]);
-    Bruce_Lee.setCounty((CountyIds)full_person_values[9].toInt());
-    Bruce_Lee.setPrimaryPhone(full_person_values[10]);
-    Bruce_Lee.setPrimaryPhoneExt(full_person_values[11]);
-    Bruce_Lee.setSecondaryPhone(full_person_values[12]);
-    Bruce_Lee.setSecondaryPhoneExt(full_person_values[13]);
-    Bruce_Lee.setEmail(full_person_values[14]);
-    Bruce_Lee.setNumberInHousehold(full_person_values[15].toInt());
-    Bruce_Lee.setNumberChildrenInHousehold(full_person_values[16].toInt());
-    Bruce_Lee.setAttorney(full_person_values[17]);
-    Bruce_Lee.setAttorneyPhone(full_person_values[18]);
-    Bruce_Lee.SetAttorneyEmail(full_person_values[19]);
-    Bruce_Lee.setAssistantName(full_person_values[20]);
-    Bruce_Lee.setAssistantPhone(full_person_values[21]);
-    Bruce_Lee.setAssistantEmail(full_person_values[22]);
-
-    empty_process_values.push_back(QString("1"));                           //PROCESS_ID
-    empty_process_values.push_back(QString("0"));                           //DISPUTETYPE
-    empty_process_values.push_back(QString("2000-01-01"));                  //CREATIONDATE
-    empty_process_values.push_back(QString("2000-01-01"));                  //UPDATEDDATE
-    empty_process_values.push_back(QString("2000-01-01 12:00:01"));         //CREATIONDATETIME
-    empty_process_values.push_back(QString("2000-01-01 12:00:01"));         //UPDATEDDATETIME
-    empty_process_values.push_back(QString("0"));                           //DISPUTESTATE
-    empty_process_values.push_back(QString("0"));                           //DISPUTEINTERNALSTATE
-    empty_process_values.push_back(QString("1"));                           //DISPUTECOUNTY
-    empty_process_values.push_back(QString("0"));                           //REFERALSOURCE
-    empty_process_values.push_back(QString("0"));                           //INQUIRYTYPE
-    empty_process_values.push_back(QString("0"));                           //INFOONLY
-    empty_process_values.push_back(QString("0"));                           //ISCOURTCASE
-    empty_process_values.push_back(QString(""));                            //COURTDATE
-    empty_process_values.push_back(QString("0"));                           //COURTCASETYPE
-    empty_process_values.push_back(QString(""));                            //COURTORDERTYPE
-    empty_process_values.push_back(QString("0"));                           //TRANSLATORREQUIRED
-    empty_process_values.push_back(QString("0"));                           //SESSIONTYPE
-    empty_process_values.push_back(QString("0"));                           //MEDIATIONCLAUSE
-    // empty_process_values.push_back(QString(""));                            
-    // empty_process_values.push_back(QString("0"));                           
-
-    full_process_values.push_back("2");                     //Process ID
-    full_process_values.push_back("8");                     //DisputeTypes - DISPUTE_T_WORKPLACE
-    full_process_values.push_back("2014-07-24");            //Creation Date     QDateTime::currentDateTime().toString("yyyy-MM-dd"));
-    full_process_values.push_back("2014-07-25");            //Updated Date      QDateTime::currentDateTime().toString("yyyy-MM-dd"));
-    full_process_values.push_back("2014-07-24 12:00:01");   //Creation DateTime QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-    full_process_values.push_back("2014-07-25 12:00:02");   //Updated DateTime  QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
-    full_process_values.push_back("3");                     //DisputeProcessStates - PROCESS_STATE_SCHEDULED
-    full_process_values.push_back("7");                     //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
-    full_process_values.push_back("2");                     //CountyIds - COUNTY_BENTON
-    full_process_values.push_back("14");                    //ReferralTypes - REFERRAL_T_PHONEBOOK
-    full_process_values.push_back("4");                     //InquiryTypes - INQUIRY_T_WALKIN
-    full_process_values.push_back("0");                     //Info Only - FALSE
-    full_process_values.push_back("1");                     //Is Court Case - TRUE
-    full_process_values.push_back("2015-07-22");            //COURT DATE
-    full_process_values.push_back("2");                     //CourtCaseTypes - COURT_T_SUPERIOR
-    full_process_values.push_back("Ultimate Fists of Fury!!!");                     //CourtOrderTypes
-    full_process_values.push_back("1");                     //Is Spanish Required - TRUE
-    full_process_values.push_back("1");                     //SessionTypes - MEDIATION_SESSION
-    full_process_values.push_back("1");                     //MediationClause - TRUE
+    EmptyProcess.SetCreatedDate(QDateTime::fromString(empty_process_values[PROCESS_CREATIONDATETIME], DateTimeFormat));
+    EmptyProcess.SetUpdatedDate(QDateTime::fromString(empty_process_values[PROCESS_UPDATEDDATETIME], DateTimeFormat));
 
     DojoBattle.SetDisputeType(              (DisputeTypes)                      full_process_values[DISPUTETYPE].toInt());
-    DojoBattle.SetCreatedDate(              QDateTime::fromString(              full_process_values[CREATIONDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
-    DojoBattle.SetUpdatedDate(              QDateTime::fromString(              full_process_values[UPDATEDDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
+    DojoBattle.SetCreatedDate(              QDateTime::fromString(              full_process_values[PROCESS_CREATIONDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
+    DojoBattle.SetUpdatedDate(              QDateTime::fromString(              full_process_values[PROCESS_UPDATEDDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
     DojoBattle.SetState(                    (DisputeProcessStates)              full_process_values[DISPUTESTATE].toInt());                  //DisputeProcessStates - PROCESS_STATE_SCHEDULED
     DojoBattle.SetInternalState(            (DisputeProcessInternalStates)      full_process_values[DISPUTEINTERNALSTATE].toInt());  //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
     DojoBattle.SetCountyId(                 (CountyIds)                         full_process_values[DISPUTECOUNTY].toInt());                          //CountyIds - COUNTY_BENTON
@@ -328,9 +246,23 @@ DRC_DB_TESTS::DRC_DB_TESTS()
     DojoBattle.SetRequiresSpanish(          (bool)                              full_process_values[TRANSLATORREQUIRED].toInt());
     DojoBattle.SetSessionType(              (SessionTypes)                      full_process_values[SESSIONTYPE].toInt());
     DojoBattle.setMediationClause(          (bool)                              full_process_values[MEDIATIONCLAUSE].toInt());
+
 //    DojoBattle.SetCourtOrderType(           (CourtOrderTypes)                   full_process_values[COURTORDERTYPE].toInt());
 //    DojoBattle.SetCourtOrderExpiration(     QDateTime::fromString(              full_process_values[COURTORDEREXPIRATION], "yyyy-MM-dd"));
 //    DojoBattle.SetIsShuttle(                (bool)                              full_process_values[SHUTTLEREQUIRED].toInt());
+
+    //EmptySession.SetId(                 empty_session_values[0].toInt());
+    EmptySession.SetState(              (SessionStates)                         empty_session_values[SESSIONSTATUS].toInt());
+    EmptySession.setOutcome(            (SessionOutcomes)                       empty_session_values[SESSIONOUTCOME].toInt());
+    EmptySession.SetCreatedDate(        QDateTime::fromString(                  empty_session_values[SESSION_CREATEDDATETIME], DateTimeFormat));
+    EmptySession.SetUpdatedDate(        QDateTime::fromString(                  empty_session_values[SESSION_UPDATEDDATETIME], DateTimeFormat));
+    EmptySession.setScheduledDate(      QDate::fromString(                      empty_session_values[SCHEDULEDTIME].split(" ")[0], DateFormat));
+    EmptySession.setScheduledTime(      QTime::fromString(                      empty_session_values[SCHEDULEDTIME].split(" ")[1], TimeFormat));
+    EmptySession.setMediator1(                                                  empty_session_values[MEDIATOR1]);
+    EmptySession.setMediator2(                                                  empty_session_values[MEDIATOR2]);
+    EmptySession.setObserver1(                                                  empty_session_values[OBSERVER1]);
+    EmptySession.setObserver2(                                                  empty_session_values[OBSERVER2]);
+    EmptySession.SetIsShuttle(          (bool)                                  empty_session_values[SHUTTLE].toInt());
 }
 //=======================================================
 
@@ -376,7 +308,7 @@ void DRC_DB_TESTS::ForeignKeysActive()
     QCOMPARE(_db.WhatOptionsEnabled(), QString("foreign_keys = ON"));
 }
 
-void DRC_DB_TESTS::CreatePersonTable()
+void DRC_DB_TESTS::CheckCreatePersonTable()
 {
     QCOMPARE(_db.CreatePersonTable(person_table_name), true);
     QCOMPARE(_db.DoesTableExist(person_table_name), true);
@@ -385,29 +317,8 @@ void DRC_DB_TESTS::CreatePersonTable()
 //Verify all person columns that should be inside table are there.
 void DRC_DB_TESTS::CheckPersonColumn()
 {
-    QCOMPARE(_db.DoesColumnExist(QString("id"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("first_name"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("middle_name"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("last_name"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("street_name"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("unit_name"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("city_name"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("state_name"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("zip_code"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("county_name"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("primary_phone"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("primary_phone_ext"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone_ext"), person_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("email_address"), person_table_name), true);
-    // QCOMPARE(_db.DoesColumnExist(QString("number_adult_in_house"), person_table_name), true);
-    // QCOMPARE(_db.DoesColumnExist(QString("number_children_in_house"), person_table_name), true);
-    // QCOMPARE(_db.DoesColumnExist(QString("attorney_name"), person_table_name), true);
-    // QCOMPARE(_db.DoesColumnExist(QString("attorney_phone"), person_table_name), true);
-    // QCOMPARE(_db.DoesColumnExist(QString("attorney_email"), person_table_name), true);
-    // QCOMPARE(_db.DoesColumnExist(QString("assistant_name"), person_table_name), true);
-    // QCOMPARE(_db.DoesColumnExist(QString("assistant_phone"), person_table_name), true);
-    // QCOMPARE(_db.DoesColumnExist(QString("assistant_email"), person_table_name), true);
+    foreach(QString column_line, person_table_columns)
+        QCOMPARE(_db.DoesColumnExist(column_line, person_table_name), true);
 }
 
 void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
@@ -446,45 +357,26 @@ void DRC_DB_TESTS::CheckInsertFullPersonObject()
 
 void DRC_DB_TESTS::CheckCreateProcessTable()
 {
-    QCOMPARE(_db.CreateProcessTable(process_table_name), true);
-    QCOMPARE(_db.DoesTableExist(process_table_name), true);
+    QCOMPARE(_db.CreateProcessTable(mediation_table_name), true);
+    QCOMPARE(_db.DoesTableExist(mediation_table_name), true);
 }
 
 void DRC_DB_TESTS::CheckProcessColumn()
 {
-    QCOMPARE(_db.DoesColumnExist(QString("id"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("DisputeType"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("CreationDate"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("UpdatedDate"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("CreationDateTime"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("UpdatedDateTime"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("DisputeState"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("DisputeInternalState"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("DisputeCounty"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("ReferalSource"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("InquiryType"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("InfoOnly"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("IsCourtCase"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("CourtDate"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("CourtCaseType"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("CourtOrderType"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("TranslatorRequired"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("SessionType"), process_table_name), true);
-    QCOMPARE(_db.DoesColumnExist(QString("MediationClause"), process_table_name), true);
+    foreach(QString column_line, mediation_table_columns)
+        QCOMPARE(_db.DoesColumnExist(column_line, mediation_table_name), true);
+
 }
 
 void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
 {
-    MediationProcess EmptyProcess;
-    EmptyProcess.SetCreatedDate(QDateTime::fromString(empty_process_values[CREATIONDATETIME], DateTimeFormat));
-    EmptyProcess.SetUpdatedDate(QDateTime::fromString(empty_process_values[UPDATEDDATETIME], DateTimeFormat));
     QCOMPARE(_db.InsertObject(&EmptyProcess), true);
 
-    QVector<QString> EmptyResults = _db.SelectOneFields(process_table_name, 1);
+    QVector<QString> EmptyResults = _db.SelectOneFields(mediation_table_name, 1);
     QCOMPARE(EmptyResults.size(), empty_process_values.size());
 
     if(INSERT_EMPTY_PROCESS_DEBUG)
-        OutputDebugInfo(process_table_columns, EmptyResults, empty_process_values, "INSERT_EMPTY_PROCESS_DEBUG.txt");
+        OutputDebugInfo(mediation_table_columns, EmptyResults, empty_process_values, "INSERT_EMPTY_PROCESS_DEBUG.txt");
 
     QCOMPARE(EmptyResults, empty_process_values);
 }
@@ -493,37 +385,227 @@ void DRC_DB_TESTS::CheckInsertFullProcessObject()
 {
     QCOMPARE(_db.InsertObject(&DojoBattle),true);
 
-    QVector<QString> FullResults = _db.SelectOneFields(process_table_name, 2);
+    QVector<QString> FullResults = _db.SelectOneFields(mediation_table_name, 2);
 
     if(INSERT_FULL_PROCESS_DEBUG)
-        OutputDebugInfo(process_table_columns, FullResults, full_process_values, "INSERT_FULL_PROCESS_DEBUG.txt");
+        OutputDebugInfo(mediation_table_columns, FullResults, full_process_values, "INSERT_FULL_PROCESS_DEBUG.txt");
 
     QCOMPARE(full_process_values, FullResults);
 }
 
-//void DRC_DB_TESTS::CheckSessionColumn()
-//{
-//    QCOMPARE(_db.DoesColumnExist(QString("Session_id"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("SessionStatus"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Fee1Paid"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Fee2Paid"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("FeeFamilyPaid"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Fee1OtherPaid"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Fee1"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Fee2"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("FeeFamily"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("FeeOther"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("IncomeFee1"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("IncomeFee2"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("IncomeFeeFamily"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("IncomeFeeOther"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Mediator1"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Mediator2"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Observer1"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Observer2"), session_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), session_table_name), true);
-//}
+void DRC_DB_TESTS::CheckCreateSessionTable()
+{
+    QCOMPARE(_db.CreateSessionTable(session_table_name), true);
+    QCOMPARE(_db.DoesTableExist(session_table_name), true);
+}
+
+void DRC_DB_TESTS::CheckSessionColumn()
+{
+    foreach(QString column_line, session_table_columns)
+        QCOMPARE(_db.DoesColumnExist(column_line, session_table_name), true);
+}
+
+void DRC_DB_TESTS::CheckInsertEmptySessionObject()
+{
+    QCOMPARE(_db.InsertLinkedObject(EmptyProcess.GetId(), &EmptySession), true);
+
+    QVector<QString> EmptyResults = _db.SelectOneFields(session_table_name, 1);
+
+    QCOMPARE(EmptyResults.size(), empty_session_values.size());
+
+    if(INSERT_EMPTY_SESSION_DEBUG)
+        OutputDebugInfo(session_table_columns, EmptyResults, empty_session_values, "INSERT_EMPTY_SESSION_DEBUG.txt");
+
+    QCOMPARE(EmptyResults, empty_session_values);
+}
+
+void DRC_DB_TESTS::AllocateTableNames()
+{
+    person_table_name = QString("Person_Table");
+    mediation_table_name = QString("Mediation_Table");
+    session_table_name = QString("Session_Table");
+    client_table_name = QString("Client_Table");
+    notes_table_name = QString("Notes_Table");
+    client_session_table_name = QString("Client_session_table");
+    user_table_name = QString("User_Table");
+    evaluationTableName = QString("Evaluation_Table");
+}
+
+void DRC_DB_TESTS::AllocatePersonColumns()
+{
+    person_table_columns.push_back("id");
+    person_table_columns.push_back("first_name");
+    person_table_columns.push_back("middle_name");
+    person_table_columns.push_back("last_name");
+    person_table_columns.push_back("street_name");
+    person_table_columns.push_back("unit_name");
+    person_table_columns.push_back("city_name");
+    person_table_columns.push_back("state_name");
+    person_table_columns.push_back("zip_code");
+    person_table_columns.push_back("county_name");
+    person_table_columns.push_back("primary_phone");
+    person_table_columns.push_back("primary_phone_ext");
+    person_table_columns.push_back("secondary_phone");
+    person_table_columns.push_back("secondary_phone_ext");
+    person_table_columns.push_back("email_address");
+}
+
+void DRC_DB_TESTS::AllocateProcessColumns()
+{
+    mediation_table_columns.push_back("id");
+    mediation_table_columns.push_back("DisputeType");
+    mediation_table_columns.push_back("CreationDate");
+    mediation_table_columns.push_back("UpdatedDate");
+    mediation_table_columns.push_back("CreationDateTime");
+    mediation_table_columns.push_back("UpdatedDateTime");
+    mediation_table_columns.push_back("DisputeState");
+    mediation_table_columns.push_back("DisputeInternalState");
+    mediation_table_columns.push_back("DisputeCounty");
+    mediation_table_columns.push_back("ReferalSource");
+    mediation_table_columns.push_back("InquiryType");
+    mediation_table_columns.push_back("InfoOnly");
+    mediation_table_columns.push_back("IsCourtCase");
+    mediation_table_columns.push_back("CourtDate");
+    mediation_table_columns.push_back("CourtCaseType");
+    mediation_table_columns.push_back("CourtOrderType");
+    mediation_table_columns.push_back("TranslatorRequired");
+    mediation_table_columns.push_back("SessionType");
+    mediation_table_columns.push_back("MediationClause");
+}
+
+void DRC_DB_TESTS::AllocateSessionColumns()
+{
+    session_table_columns.push_back("id");
+    session_table_columns.push_back("Process_id");
+    session_table_columns.push_back("SessionStatus");
+    session_table_columns.push_back("SessionOutcome");
+    session_table_columns.push_back("CreatedDateTime");
+    session_table_columns.push_back("UpdatedDateTime");
+    session_table_columns.push_back("ScheduledTime");
+    session_table_columns.push_back("Mediator1");
+    session_table_columns.push_back("Mediator2");
+    session_table_columns.push_back("Observer1");
+    session_table_columns.push_back("Observer2");
+    session_table_columns.push_back("Shuttle");
+}
+
+void DRC_DB_TESTS::AllocateEmptyPersonVector()
+{
+    empty_person_values.push_back(QString("1"));
+    empty_person_values.push_back(QString("John"));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString("Doe"));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString("0"));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString("0"));
+    empty_person_values.push_back(QString("0"));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+    empty_person_values.push_back(QString(""));
+}
+
+void DRC_DB_TESTS::AllocateFullPersonVector()
+{
+    full_person_values.push_back(QString("2"));
+    full_person_values.push_back(QString("Bruce"));
+    full_person_values.push_back(QString("Chan"));
+    full_person_values.push_back(QString("Lee"));
+    full_person_values.push_back(QString("55555 Huntington Place"));
+    full_person_values.push_back(QString("B"));
+    full_person_values.push_back(QString("New York"));
+    full_person_values.push_back(QString("Alaska"));
+    full_person_values.push_back(QString("55555"));
+    full_person_values.push_back(QString("2"));
+    full_person_values.push_back(QString("111-111-1111"));
+    full_person_values.push_back(QString("111"));
+    full_person_values.push_back(QString("222-222-2222"));
+    full_person_values.push_back(QString("222"));
+    full_person_values.push_back(QString("EnterTheDragon@BruceLee.com"));
+    full_person_values.push_back(QString("7"));
+    full_person_values.push_back(QString("1000"));
+    full_person_values.push_back(QString("Birdman"));
+    full_person_values.push_back(QString("123-123-1234"));
+    full_person_values.push_back(QString("Birdman@Attorney.law"));
+    full_person_values.push_back(QString("Rachel Dawes"));
+    full_person_values.push_back(QString("333-333-3333"));
+    full_person_values.push_back(QString("MaskNotMe@Attorney.law"));
+}
+
+void DRC_DB_TESTS::AllocateEmptyProcessVector()
+{
+    empty_process_values.push_back(QString("1"));                           //PROCESS_ID
+    empty_process_values.push_back(QString("0"));                           //DISPUTETYPE
+    empty_process_values.push_back(QString("2000-01-01"));                  //CREATIONDATE
+    empty_process_values.push_back(QString("2000-01-01"));                  //UPDATEDDATE
+    empty_process_values.push_back(QString("2000-01-01 12:00:01"));         //CREATIONDATETIME
+    empty_process_values.push_back(QString("2000-01-01 12:00:01"));         //UPDATEDDATETIME
+    empty_process_values.push_back(QString("0"));                           //DISPUTESTATE
+    empty_process_values.push_back(QString("0"));                           //DISPUTEINTERNALSTATE
+    empty_process_values.push_back(QString("1"));                           //DISPUTECOUNTY
+    empty_process_values.push_back(QString("0"));                           //REFERALSOURCE
+    empty_process_values.push_back(QString("0"));                           //INQUIRYTYPE
+    empty_process_values.push_back(QString("0"));                           //INFOONLY
+    empty_process_values.push_back(QString("0"));                           //ISCOURTCASE
+    empty_process_values.push_back(QString(""));                            //COURTDATE
+    empty_process_values.push_back(QString("0"));                           //COURTCASETYPE
+    empty_process_values.push_back(QString(""));                            //COURTORDERTYPE
+    empty_process_values.push_back(QString("0"));                           //TRANSLATORREQUIRED
+    empty_process_values.push_back(QString("0"));                           //SESSIONTYPE
+    empty_process_values.push_back(QString("0"));                           //MEDIATIONCLAUSE
+}
+
+void DRC_DB_TESTS::AllocateFullProcessVector()
+{
+    full_process_values.push_back("2");                     //Process ID
+    full_process_values.push_back("8");                     //DisputeTypes - DISPUTE_T_WORKPLACE
+    full_process_values.push_back("2014-07-24");            //Creation Date     QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    full_process_values.push_back("2014-07-25");            //Updated Date      QDateTime::currentDateTime().toString("yyyy-MM-dd"));
+    full_process_values.push_back("2014-07-24 12:00:01");   //Creation DateTime QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    full_process_values.push_back("2014-07-25 12:00:02");   //Updated DateTime  QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"));
+    full_process_values.push_back("3");                     //DisputeProcessStates - PROCESS_STATE_SCHEDULED
+    full_process_values.push_back("7");                     //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
+    full_process_values.push_back("2");                     //CountyIds - COUNTY_BENTON
+    full_process_values.push_back("14");                    //ReferralTypes - REFERRAL_T_PHONEBOOK
+    full_process_values.push_back("4");                     //InquiryTypes - INQUIRY_T_WALKIN
+    full_process_values.push_back("0");                     //Info Only - FALSE
+    full_process_values.push_back("1");                     //Is Court Case - TRUE
+    full_process_values.push_back("2015-07-22");            //COURT DATE
+    full_process_values.push_back("2");                     //CourtCaseTypes - COURT_T_SUPERIOR
+    full_process_values.push_back("Ultimate Fists of Fury!!!");                     //CourtOrderTypes
+    full_process_values.push_back("1");                     //Is Spanish Required - TRUE
+    full_process_values.push_back("1");                     //SessionTypes - MEDIATION_SESSION
+    full_process_values.push_back("1");                     //MediationClause - TRUE
+}
+
+void DRC_DB_TESTS::AllocateEmptySessionVector()
+{
+    empty_session_values.push_back("1");  //SESSION_ID
+    empty_session_values.push_back("1");  //PROCESS_ID
+    empty_session_values.push_back("1");  //SESSION_STATE - NONE
+    empty_session_values.push_back("1");  //SESSION_OUTCOME - NONE
+    empty_session_values.push_back("2014-07-24 00:00:01");
+    empty_session_values.push_back("2014-07-24 00:00:02");
+    empty_session_values.push_back("2014-07-28 00:00:03");
+    empty_session_values.push_back("MediatorNone1");
+    empty_session_values.push_back("MediatorNone2");
+    empty_session_values.push_back("ObserverNone1");
+    empty_session_values.push_back("ObserverNone2");
+    empty_session_values.push_back("0");
+}
+
+
 
 //void DRC_DB_TESTS::CheckClientColumn()
 //{
@@ -624,6 +706,50 @@ void DRC_DB_TESTS::CheckInsertFullProcessObject()
 //    }
 
 //}
+
+//    QCOMPARE(_db.DoesColumnExist(QString("id"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("DisputeType"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("CreationDate"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("UpdatedDate"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("CreationDateTime"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("UpdatedDateTime"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("DisputeState"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("DisputeInternalState"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("DisputeCounty"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("ReferalSource"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("InquiryType"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("InfoOnly"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("IsCourtCase"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("CourtDate"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("CourtCaseType"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("CourtOrderType"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("TranslatorRequired"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("SessionType"), mediation_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("MediationClause"), mediation_table_name), true);
+
+//    QCOMPARE(_db.DoesColumnExist(QString("first_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("middle_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("last_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("street_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("unit_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("city_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("state_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("zip_code"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("county_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("primary_phone"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("primary_phone_ext"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone_ext"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("email_address"), person_table_name), true);
+
+//    QCOMPARE(_db.DoesColumnExist(QString("number_adult_in_house"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("number_children_in_house"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("attorney_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("attorney_phone"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("attorney_email"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("assistant_name"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("assistant_phone"), person_table_name), true);
+//    QCOMPARE(_db.DoesColumnExist(QString("assistant_email"), person_table_name), true);
 
 QTEST_APPLESS_MAIN(DRC_DB_TESTS)
 

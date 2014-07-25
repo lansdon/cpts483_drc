@@ -24,6 +24,7 @@ public:
 
     // Required Overrides
     QString Parse();
+    QString ColumnNames();
     QString UpdateParse();
     QString table();
     QString DuplicateQuery();

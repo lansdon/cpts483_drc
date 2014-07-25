@@ -43,7 +43,7 @@ public:
 
     bool CreateTable(QString table_name, QVector<QString> column_data);
 
-    bool ExtractError(const QSqlError &error_object);
+    bool ExtractError(const QSqlError &error_object, QString command_string);
 
     bool CloseDatabase();
 

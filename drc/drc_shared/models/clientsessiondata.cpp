@@ -9,6 +9,11 @@ ClientSessionData::ClientSessionData()
     support = 0;
 }
 
+QString ClientSessionData::ColumnNames()
+{
+    return "";
+}
+
 QString ClientSessionData::Parse()
 {
 #warning TODO - Parse() UNIMPLEMENTED!!!!
