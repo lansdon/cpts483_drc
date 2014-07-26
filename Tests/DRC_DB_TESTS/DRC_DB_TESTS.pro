@@ -7,6 +7,7 @@
 QT       += sql testlib
 QT       += widgets
 QT       -= gui
+QT       += printsupport
 
 TARGET = tst_drc_db_tests
 CONFIG   += console
@@ -35,6 +36,10 @@ SOURCES += tst_drc_db_tests.cpp \
     ../../drc/drc_shared/mediator/Mediator.cpp \
     ../../drc/drc_shared/models/User.cpp \
     ../../drc/bl/Crypto/SHA256_Crypto.cpp \
+    ../../drc/drc_shared/models/clientsessiondata.cpp \
+    ../../drc/drc_shared/models/reswareport.cpp \
+    ../../drc/drc_shared/models/mediationevaluation.cpp \
+    ../../drc/drc_shared/models/monthlyreport.cpp \
     ../../drc/drc_shared/models/Note.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
@@ -53,4 +58,8 @@ HEADERS += \
     ../../drc/drc_shared/models/User.h \
     ../../drc/drc_shared/models/DRCModels.h \
     ../../drc/bl/Crypto/SHA256_Crypto.h \
+    ../../drc/drc_shared/models/clientsessiondata.h \
+    ../../drc/drc_shared/models/reswareport.h \
+    ../../drc/drc_shared/models/mediationevaluation.h \
+    ../../drc/drc_shared/models/monthlyreport.h \
     ../../drc/drc_shared/models/Note.h

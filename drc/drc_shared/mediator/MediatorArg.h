@@ -27,9 +27,25 @@
 /// bool success    (defaults to true)
 /// string errorMessage (defaults to "")
 
+/*!
+ * \brief The MediatorArg class
+ * This wraps a void* object used as an argument.
+ *
+ * The reciever must know what kind of * to cast to
+ * Use GetArg<PointerType*> to get the object automatically cast.  ex:  Dog* myDogPtr = GetArg<Dog*>();
+ * Also includes optional meta settings:
+ * bool success    (defaults to true)
+ * string errorMessage (defaults to "").
+ */
 class MediatorArg
 {
 public:
+    /*!
+     * \brief MediatorArg
+     * \param arg
+     * \param success
+     * \param errorMessage
+     */
 	MediatorArg(void* arg = nullptr, bool success = true, QString errorMessage = "")
 	: _arg(arg)
 	, _success(success)
@@ -38,16 +54,38 @@ public:
 	~MediatorArg() { }
 	
 	// Accessors
+    /*!
+     * \brief IsSuccessful
+     * \return
+     */
     bool IsSuccessful() { return _success; }
-	void SetSuccessful(bool isSuccessful) { _success = isSuccessful; }
-	QString ErrorMessage() { return _errorMessage; }
-	void SetErrorMsg(QString errorMessage) { _errorMessage = errorMessage; }
+    /*!
+     * \brief SetSuccessful
+     * \param isSuccessful
+     */
+    void SetSuccessful(bool isSuccessful) { _success = isSuccessful; }
+    /*!
+     * \brief ErrorMessage
+     * \return
+     */
+    QString ErrorMessage() { return _errorMessage; }
+    /*!
+     * \brief SetErrorMsg
+     * \param errorMessage
+     */
+    void SetErrorMsg(QString errorMessage) { _errorMessage = errorMessage; }
+    /*!
+     * \brief SetArg
+     * \param arg
+     * \param success
+     * \param error
+     */
     void SetArg(void* arg = nullptr, bool success=true, QString error = "") { _arg = arg; _success = success; _errorMessage = error;}
 	
 	// Cast the argument to expected type (Must be a pointer!)
     // Example:
     // Dog* dogPtr = mediatorInstance.getArg<Dog*>();
-	template<typename T>
+    template<typename T>
 	T getArg() {
         // Special case for no arguments
         if(_arg == nullptr) return nullptr;

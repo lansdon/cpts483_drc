@@ -52,12 +52,33 @@ UserTypes User::GetType(void)
     return m_type;
 }
 
+QString User::ColumnNames()
+{
+    QString column_names = QString("%1, %2, %3, %4")
+            .arg(QString("user_id"))
+            .arg(QString("userName"))
+            .arg(QString("password"))
+            .arg(QString("Admin"));
+
+    QString toReturn = QString("(%1)")
+            .arg(column_names);
+
+    return toReturn;
+}
+
 QString User::Parse()
 {   
-    return QString("'%1', '%2', '%3'")
+    QString column_values = QString("%1, '%2', '%3', '%4'")
+            .arg(QString("null"))
             .arg(this->GetName())
             .arg(this->GetPass())
             .arg(QString::number(this->GetType()));
+
+//    QString toReturn = QString("(%1) VALUES(%2)")
+//        .arg(column_names)
+//        .arg(column_values);
+
+    return column_values;
 }
 
 QString User::GetIdRowName()

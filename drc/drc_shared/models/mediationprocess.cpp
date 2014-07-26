@@ -30,19 +30,20 @@ const QString DEF_PDF_PATH = "MEDIATION_PROCESS_REPORT.pdf";
 MediationProcess::MediationProcess()
     : DBBaseObject()
     , _disputeType(DISPUTE_T_NONE)
-    , _processState(PROCESS_STATE_NONE)
+    , _inquiryType(INQUIRY_T_NONE)
     , _processInternalState(PROCESS_INTERNAL_STATE_NONE)
+    , _processState(PROCESS_STATE_NONE)
     , _countyOfMediation(COUNTY_BENTON)
     , _referalSource(REFERRAL_T_NONE)
     , _requiresSpanish(false)
     , _isCourtCase(false)
     , _courtCaseType(COURT_T_NONE)
     , _infoOnly(false)
+    , _isShuttle(false)
     , _sessionType(MEDIATION_SESSION)
     , _mediationClause(false)
-    , _inquiryType(INQUIRY_T_NONE)
 {
-
+    _courtDate = QDate::currentDate();
 }
 
 
@@ -157,10 +158,6 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     RequiresSpanish += (_requiresSpanish == true ? "Yes" : "No");
     cursor.insertText(RequiresSpanish, _tableTextFormat);
 
-    QString RequiresShuttle = "\nRequires Shuttle:\t";
-    RequiresShuttle += (_isShuttle == true ? "Yes" : "No");
-    cursor.insertText(RequiresShuttle, _tableTextFormat);
-
     QString CountyofMediation = "\nCounty of Mediation:\t";
     CountyofMediation += StringForCountyIds(_countyOfMediation);
     cursor.insertText(CountyofMediation, _tableTextFormat);
@@ -230,10 +227,44 @@ void MediationProcess::BuildNotesSesction(QTextCursor &cursor)
     }
 }
 
+QString MediationProcess::ColumnNames()
+{
+    QString column_names = QString("%1, %2, %3, %4, %5, %6, %7, %8, %9, ")
+            .arg(QString("Process_id"))
+            .arg(QString("DisputeType"))
+            .arg(QString("CreationDate"))
+            .arg(QString("UpdatedDate"))
+            .arg(QString("CreationDateTime"))
+            .arg(QString("UpdatedDateTime"))
+            .arg(QString("DisputeState"))
+            .arg(QString("DisputeInternalState"))
+            .arg(QString("DisputeCounty"));
+
+    column_names += QString("%1, %2, %3, %4, %5, %6, %7, %8, %9, %10")
+            .arg(QString("ReferalSource"))
+            .arg(QString("InquiryType"))
+            .arg(QString("InfoOnly"))
+            .arg(QString("IsCourtCase"))
+            .arg(QString("CourtDate"))
+            .arg(QString("CourtCaseType"))
+            .arg(QString("CourtOrderType"))
+            .arg(QString("TranslatorRequired"))
+            .arg(QString("SessionType"))
+            .arg(QString("MediationClause"));
+
+    QString toReturn = QString("(%1)")
+            .arg(column_names);
+
+    return toReturn;
+}
+
 QString MediationProcess::Parse()
 {
+
+
     // UPDATED 7-14-14 for new schema
-    QString toReturn = QString("%1, '%2', '%3', '%4', '%5', %6, %7, %8, ")
+    QString column_values = QString("%1, %2, '%3', '%4', '%5', '%6', %7, %8, %9, ")
+            .arg(QString("null"))
             .arg(QString::number(this->GetDisputeType()))
             .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
             .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
@@ -243,7 +274,7 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetInternalState()))
             .arg(QString::number(this->GetCountyId()));
 
-    toReturn += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', '%10'")
+    column_values += QString("%1, '%2', '%3', '%4', '%5', %6, '%7', '%8', '%9', %10")
             .arg(QString::number(this->GetReferralType()))
             .arg(QString::number(this->GetInquiryType()))
             .arg(this->GetInfoOnly())
@@ -255,7 +286,11 @@ QString MediationProcess::Parse()
             .arg(QString::number(this->GetSessionType()))
             .arg(this->getMediationClause());
 
-    return toReturn;
+//    QString toReturn = QString("(%1) VALUES(%2)")
+//        .arg(column_names)
+//        .arg(column_values);
+
+    return column_values;
 }
 
 QString MediationProcess::UpdateParse()

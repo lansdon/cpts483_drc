@@ -9,6 +9,7 @@
 class MediatorArg;
 class MediatorCallback;
 
+/// List of Toolbar type enums
 enum ToolbarTypes
 {
     TOOLBAR_T_NONE,
@@ -19,6 +20,7 @@ enum ToolbarTypes
     TOOLBAR_T_REPORTS
 };
 
+/// List of Toodbar button type enums
 enum ToolbarButtonTypes
 {
     TBTN_T_NONE         = 0x00,
@@ -31,6 +33,9 @@ enum ToolbarButtonTypes
 };
 
 // Wrap a callback and type for variadic arguments
+/*!
+ * \brief The ToolbarCallback struct
+ */
 struct ToolbarCallback
 {
     ToolbarCallback(ToolbarButtonTypes a_btnType, MediatorCallback* a_callback) : btnType(a_btnType), callback(a_callback) {}
@@ -38,6 +43,9 @@ struct ToolbarCallback
     MediatorCallback* callback;
 };
 
+/*!
+ * \brief The ToolbarManager class
+ */
 class ToolbarManager : public QObject
 {
     Q_OBJECT
@@ -46,12 +54,34 @@ public:
     explicit ToolbarManager(QObject *parent = 0);
     static ToolbarManager& Instance();  // Singleton
 
+    /*!
+     * \brief AddAction
+     * \param text
+     * \param receiver
+     * \param member
+     * \param icon
+     */
     void AddAction(const QString & text, const QObject * receiver, const char * member, QIcon icon);
+    /*!
+     * \brief AddAction
+     * \param text
+     * \param receiver
+     * \param member
+     */
     void AddAction(const QString & text, const QObject * receiver, const char * member);
-
+    /*!
+     * \brief Clear
+     */
     void Clear();
-
+    /*!
+     * \brief GetToolbar
+     * \return
+     */
     QToolBar* GetToolbar() { return _toolbar; }
+    /*!
+     * \brief SetToolbar
+     * \param toolbar
+     */
     void SetToolbar(QToolBar* toolbar) { _toolbar = toolbar; }
 
 private:

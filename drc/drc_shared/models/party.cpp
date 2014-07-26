@@ -10,6 +10,11 @@ Party::Party()
     _primary = new Person();
 }
 
+QString Party::ColumnNames()
+{
+    return "";
+}
+
 QString Party::Parse()
 {
 #warning TODO - Parse() UNIMPLEMENTED!!!!

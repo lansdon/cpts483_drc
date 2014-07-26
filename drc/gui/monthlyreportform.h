@@ -9,6 +9,9 @@ namespace Ui {
 class MonthlyReportForm;
 }
 
+/*!
+ * \brief The MonthlyReportForm class
+ */
 class MonthlyReportForm : public QWidget
 {
     Q_OBJECT
@@ -18,13 +21,21 @@ public:
     ~MonthlyReportForm();
 
 private slots:
+    /*!
+     * \brief on_showResportBtn_clicked
+     */
     void on_showResportBtn_clicked();
-
+    /*!
+     * \brief on_cancelBtn_clicked
+     */
     void on_cancelBtn_clicked();
 
 private:
     Ui::MonthlyReportForm *ui;
-
+    /*!
+     * \brief RecieveReport
+     * \param arg
+     */
     void RecieveReport(MediatorArg arg);
 
 };

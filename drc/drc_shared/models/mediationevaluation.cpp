@@ -7,6 +7,11 @@ MediationEvaluation::MediationEvaluation()
     _countyOfMediation = COUNTY_NONE;
 }
 
+QString MediationEvaluation::ColumnNames()
+{
+    return "";
+}
+
 QString MediationEvaluation::Parse()
 {
     QString toReturn;

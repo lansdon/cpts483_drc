@@ -55,6 +55,11 @@ int Note::GetSessionId()
     return _sessionId;
 }
 
+QString Note::ColumnNames()
+{
+    return "";
+}
+
 // Abstract Overrides
 QString Note::Parse()
 {

@@ -4,10 +4,17 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.7"/>
-<title>DRC: DRCClient.h Source File</title>
+<title>DRC_Documentation: C:/Users/Dan/Documents/GitHub/cpts483_drc/drc/DRCClient.h Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
+<link href="navtree.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="resize.js"></script>
+<script type="text/javascript" src="navtree.js"></script>
+<script type="text/javascript">
+  $(document).ready(initResizable);
+  $(window).load(resizeHeight);
+</script>
 <link href="search/search.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="search/search.js"></script>
 <script type="text/javascript">
@@ -23,10 +30,9 @@
  <tr style="height: 56px;">
   <td id="projectlogo"><img alt="Logo" src="drclogo.png"/></td>
   <td style="padding-left: 0.5em;">
-   <div id="projectname">DRC
-   &#160;<span id="projectnumber">0.1</span>
+   <div id="projectname">DRC_Documentation
+   &#160;<span id="projectnumber">1.0</span>
    </div>
-   <div id="projectbrief">DRC office management</div>
   </td>
  </tr>
  </tbody>
@@ -66,12 +72,26 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     </ul>
   </div>
 </div><!-- top -->
+<div id="side-nav" class="ui-resizable side-nav-resizable">
+  <div id="nav-tree">
+    <div id="nav-tree-contents">
+      <div id="nav-sync" class="sync"></div>
+    </div>
+  </div>
+  <div id="splitbar" style="-moz-user-select:none;" 
+       class="ui-resizable-handle">
+  </div>
+</div>
+<script type="text/javascript">
+$(document).ready(function(){initNavTree('_d_r_c_client_8h_source.html','');});
+</script>
+<div id="doc-content">
 <!-- window showing the filter options -->
 <div id="MSearchSelectWindow"
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Functions</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -82,7 +102,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 
 <div class="header">
   <div class="headertitle">
-<div class="title">DRCClient.h</div>  </div>
+<div class="title">C:/Users/Dan/Documents/GitHub/cpts483_drc/drc/DRCClient.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef DRCCLIENT_H</span></div>
@@ -102,103 +122,108 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">namespace </span>Ui {</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">class </span><a class="code" href="class_d_r_c_client.html">DRCClient</a>;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="class_d_r_c_client.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d_r_c_client.html">DRCClient</a> : <span class="keyword">public</span> QMainWindow</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    Q_OBJECT</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d_r_c_client.html">DRCClient</a>(QWidget *parent = 0);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ~<a class="code" href="class_d_r_c_client.html">DRCClient</a>();</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment">// This will enable our GUI menus</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">void</span> SetMenuBarEnabled();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">void</span> SetMenuHelpEnabled();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">// This will disable our GUI menus</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">void</span> SetMenuBarDisabled();</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> SetMenuHelpDisabled();</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">// This will set our Admin menu options to visible</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">void</span> SetMenuAdminShow();</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// This will set our Admin menu options to invisible</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> SetMenuAdminHide();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> ShowMainMenu();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">private</span> slots:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> on_actionNew_search_form_triggered();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> on_actionOpen_mediation_view_triggered();</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="class_d_r_c_client.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_d_r_c_client.html">DRCClient</a> : <span class="keyword">public</span> QMainWindow</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    Q_OBJECT</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">explicit</span> <a class="code" href="class_d_r_c_client.html">DRCClient</a>(QWidget *parent = 0);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    ~<a class="code" href="class_d_r_c_client.html">DRCClient</a>();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">// This will enable our GUI menus</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#a683d3c7736b16b9af693716059051d05">SetMenuBarEnabled</a>();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#aaffb1b348f93aedecdd17f95b2efda8f">SetMenuHelpEnabled</a>();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment">// This will disable our GUI menus</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#abf230c9ae786c1672f5b78c920898ed6">SetMenuBarDisabled</a>();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#a7e8c0f68984b74d1c2d0a8b115d7ee27">SetMenuHelpDisabled</a>();</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> on_actionMediation_Process_triggered();</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> on_actionLogout_User_triggered();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> on_actionNew_2_triggered();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// This will set our Admin menu options to visible</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#aecdf87fecd4f4e569223d65923787696">SetMenuAdminShow</a>();</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> on_actionAdd_1_MP_sample_triggered();</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">void</span> on_actionAdd_to_vector_triggered();</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">void</span> on_actionSave_to_file_triggered();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">void</span> on_actionLoad_from_file_triggered();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> on_actionAdd_5_MP_samples_triggered();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">// This will set our Admin menu options to invisible</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"></span>    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#aeeb5526960e0a84d69b7b1fcb25a5446">SetMenuAdminHide</a>();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#a1bfe13d3e247ba7d1b4872fd91bcee02">ShowMainMenu</a>();</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">void</span> on_actionManage_Users_triggered();</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">void</span> on_actionConnect_to_Remote_DB_triggered();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> on_actionFindMediation_triggered();</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">public</span> slots:</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">void</span> ShowSessionBrowser();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> ShowMediationBrowser();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">void</span> ShowNotesBrowser();</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">void</span> send_mediation_vector();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">void</span> on_mediationProcessSelected(MediationProcess* process);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Ui::DRCClient *ui;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="comment">// Important!! These objects are automatically initialized.</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">// They need to be instantiated at startup to register events properly.</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    DRCBL _bl;  <span class="comment">// Business Logic</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    DRCDB _db;  <span class="comment">// Database</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    Mock_Server _ms; <span class="comment">// mock server for gui testing</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="comment">// Primary Views</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    MediationProcessView* _mediationProcessView;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> LoadMediationProcessView(MediationProcess* process = <span class="keyword">nullptr</span>);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="comment">// Dock views</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    QDockWidget* _browserDock;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">void</span> ShowBrowser(MPBrowserTypes browserType);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">void</span> SetMainView(QWidget* widget);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">void</span> SetMenusEnabled(<span class="keywordtype">bool</span> enableMenus, <span class="keywordtype">bool</span> showAdmin);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">//for file load save</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    MediationProcessVector *_mediationProcessVector;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    MPFileMaker _filemaker;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">void</span> saveMPEvent(MediatorArg arg);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    QString LoadDBPathFromFile();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;};</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="preprocessor">#endif // DRCClient_H</span></div>
-<div class="ttc" id="class_d_r_c_client_html"><div class="ttname"><a href="class_d_r_c_client.html">DRCClient</a></div><div class="ttdef"><b>Definition:</b> DRCClient.h:19</div></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span> slots:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> on_actionNew_search_form_triggered();</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> on_actionOpen_mediation_view_triggered();</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">void</span> on_actionMediation_Process_triggered();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> on_actionLogout_User_triggered();</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">void</span> on_actionNew_2_triggered();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">void</span> on_actionAdd_1_MP_sample_triggered();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">void</span> on_actionAdd_to_vector_triggered();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">void</span> on_actionSave_to_file_triggered();</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">void</span> on_actionLoad_from_file_triggered();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> on_actionAdd_5_MP_samples_triggered();</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">void</span> on_actionManage_Users_triggered();</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">void</span> on_actionConnect_to_Remote_DB_triggered();</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">void</span> on_actionFindMediation_triggered();</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword">public</span> slots:</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#a34a8c4d63c84012c0791467ef4f77905">ShowSessionBrowser</a>();</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#a04ffafe500b5daaeea0503e173d419d0">ShowMediationBrowser</a>();</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#afc64c53c1d8b0fd481ccb5853f02e330">ShowNotesBrowser</a>();</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#a04d151e1d14b87e3f0a4270c808486f4">ShowResWaReport</a>();</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#a2c134a674f6839d612937960897b6edf">ShowMonthlyReport</a>();</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#ae8fc463096864dd223c53b2e46500dcd">LoadEvaluationView</a>();</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#ae779d87e70f12eb1f14c8fb13ea9f0a9">send_mediation_vector</a>();</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="class_d_r_c_client.html#a567c3b535f625c416367fb45fc5b9f35">on_mediationProcessSelected</a>(MediationProcess* process);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    Ui::DRCClient *ui;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">// Important!! These objects are automatically initialized.</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="comment">// They need to be instantiated at startup to register events properly.</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    DRCBL _bl;  <span class="comment">// Business Logic</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    DRCDB _db;  <span class="comment">// Database</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    Mock_Server _ms; <span class="comment">// mock server for gui testing</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment">// Primary Views</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    MediationProcessView* _mediationProcessView;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">void</span> LoadMediationProcessView(MediationProcess* process = <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="comment">// Dock views</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    QDockWidget* _browserDock;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">void</span> ShowBrowser(MPBrowserTypes browserType);</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordtype">void</span> SetMainView(QWidget* widget);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordtype">void</span> SetMenusEnabled(<span class="keywordtype">bool</span> enableMenus, <span class="keywordtype">bool</span> showAdmin);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="comment">//for file load save</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    MediationProcessVector *_mediationProcessVector;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    MPFileMaker _filemaker;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordtype">void</span> saveMPEvent(MediatorArg arg);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    QString LoadDBPathFromFile();</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;};</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="preprocessor">#endif // DRCClient_H</span></div>
+<div class="ttc" id="class_d_r_c_client_html_afc64c53c1d8b0fd481ccb5853f02e330"><div class="ttname"><a href="class_d_r_c_client.html#afc64c53c1d8b0fd481ccb5853f02e330">DRCClient::ShowNotesBrowser</a></div><div class="ttdeci">void ShowNotesBrowser()</div><div class="ttdoc">ShowNotesBrowser. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:185</div></div>
+<div class="ttc" id="class_d_r_c_client_html_ae779d87e70f12eb1f14c8fb13ea9f0a9"><div class="ttname"><a href="class_d_r_c_client.html#ae779d87e70f12eb1f14c8fb13ea9f0a9">DRCClient::send_mediation_vector</a></div><div class="ttdeci">void send_mediation_vector()</div><div class="ttdoc">send_mediation_vector </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:346</div></div>
+<div class="ttc" id="class_d_r_c_client_html_ae8fc463096864dd223c53b2e46500dcd"><div class="ttname"><a href="class_d_r_c_client.html#ae8fc463096864dd223c53b2e46500dcd">DRCClient::LoadEvaluationView</a></div><div class="ttdeci">void LoadEvaluationView()</div><div class="ttdoc">LoadEvaluationView. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:408</div></div>
+<div class="ttc" id="class_d_r_c_client_html_a7e8c0f68984b74d1c2d0a8b115d7ee27"><div class="ttname"><a href="class_d_r_c_client.html#a7e8c0f68984b74d1c2d0a8b115d7ee27">DRCClient::SetMenuHelpDisabled</a></div><div class="ttdeci">void SetMenuHelpDisabled()</div><div class="ttdoc">SetMenuHelpDisabled. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:106</div></div>
+<div class="ttc" id="class_d_r_c_client_html_abf230c9ae786c1672f5b78c920898ed6"><div class="ttname"><a href="class_d_r_c_client.html#abf230c9ae786c1672f5b78c920898ed6">DRCClient::SetMenuBarDisabled</a></div><div class="ttdeci">void SetMenuBarDisabled()</div><div class="ttdoc">SetMenuBarDisabled. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:101</div></div>
+<div class="ttc" id="class_d_r_c_client_html_a2c134a674f6839d612937960897b6edf"><div class="ttname"><a href="class_d_r_c_client.html#a2c134a674f6839d612937960897b6edf">DRCClient::ShowMonthlyReport</a></div><div class="ttdeci">void ShowMonthlyReport()</div><div class="ttdoc">ShowMonthlyReport. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:420</div></div>
+<div class="ttc" id="class_d_r_c_client_html_a567c3b535f625c416367fb45fc5b9f35"><div class="ttname"><a href="class_d_r_c_client.html#a567c3b535f625c416367fb45fc5b9f35">DRCClient::on_mediationProcessSelected</a></div><div class="ttdeci">void on_mediationProcessSelected(MediationProcess *process)</div><div class="ttdoc">on_mediationProcessSelected </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:164</div></div>
+<div class="ttc" id="class_d_r_c_client_html_aaffb1b348f93aedecdd17f95b2efda8f"><div class="ttname"><a href="class_d_r_c_client.html#aaffb1b348f93aedecdd17f95b2efda8f">DRCClient::SetMenuHelpEnabled</a></div><div class="ttdeci">void SetMenuHelpEnabled()</div><div class="ttdoc">SetMenuHelpEnabled. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:96</div></div>
+<div class="ttc" id="class_d_r_c_client_html_aeeb5526960e0a84d69b7b1fcb25a5446"><div class="ttname"><a href="class_d_r_c_client.html#aeeb5526960e0a84d69b7b1fcb25a5446">DRCClient::SetMenuAdminHide</a></div><div class="ttdeci">void SetMenuAdminHide()</div><div class="ttdoc">SetMenuAdminHide. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:116</div></div>
+<div class="ttc" id="class_d_r_c_client_html_a683d3c7736b16b9af693716059051d05"><div class="ttname"><a href="class_d_r_c_client.html#a683d3c7736b16b9af693716059051d05">DRCClient::SetMenuBarEnabled</a></div><div class="ttdeci">void SetMenuBarEnabled()</div><div class="ttdoc">SetMenuBarEnabled. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:90</div></div>
+<div class="ttc" id="class_d_r_c_client_html_a04ffafe500b5daaeea0503e173d419d0"><div class="ttname"><a href="class_d_r_c_client.html#a04ffafe500b5daaeea0503e173d419d0">DRCClient::ShowMediationBrowser</a></div><div class="ttdeci">void ShowMediationBrowser()</div><div class="ttdoc">ShowMediationBrowser. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:195</div></div>
+<div class="ttc" id="class_d_r_c_client_html_a1bfe13d3e247ba7d1b4872fd91bcee02"><div class="ttname"><a href="class_d_r_c_client.html#a1bfe13d3e247ba7d1b4872fd91bcee02">DRCClient::ShowMainMenu</a></div><div class="ttdeci">void ShowMainMenu()</div><div class="ttdoc">ShowMainMenu. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:399</div></div>
+<div class="ttc" id="class_d_r_c_client_html_a34a8c4d63c84012c0791467ef4f77905"><div class="ttname"><a href="class_d_r_c_client.html#a34a8c4d63c84012c0791467ef4f77905">DRCClient::ShowSessionBrowser</a></div><div class="ttdeci">void ShowSessionBrowser()</div><div class="ttdoc">ShowSessionBrowser. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:190</div></div>
+<div class="ttc" id="class_d_r_c_client_html_a04d151e1d14b87e3f0a4270c808486f4"><div class="ttname"><a href="class_d_r_c_client.html#a04d151e1d14b87e3f0a4270c808486f4">DRCClient::ShowResWaReport</a></div><div class="ttdeci">void ShowResWaReport()</div><div class="ttdoc">ShowResWaReport. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:414</div></div>
+<div class="ttc" id="class_d_r_c_client_html"><div class="ttname"><a href="class_d_r_c_client.html">DRCClient</a></div><div class="ttdoc">The DRCClient class. </div><div class="ttdef"><b>Definition:</b> DRCClient.h:21</div></div>
+<div class="ttc" id="class_d_r_c_client_html_aecdf87fecd4f4e569223d65923787696"><div class="ttname"><a href="class_d_r_c_client.html#aecdf87fecd4f4e569223d65923787696">DRCClient::SetMenuAdminShow</a></div><div class="ttdeci">void SetMenuAdminShow()</div><div class="ttdoc">SetMenuAdminShow. </div><div class="ttdef"><b>Definition:</b> DRCClient.cpp:111</div></div>
 </div><!-- fragment --></div><!-- contents -->
+</div><!-- doc-content -->
 <!-- start footer part -->
-<hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 11 2014 17:53:19 for DRC by &#160;<a href="http://www.doxygen.org/index.html">
-<img class="footer" src="doxygen.png" alt="doxygen"/>
-</a> 1.8.7
-</small></address>
+<div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
+  <ul>
+    <li class="navelem"><b>DRCClient.h</b></li>
+    <li class="footer">Generated on Fri Jul 25 2014 12:06:07 for DRC_Documentation by
+    <a href="http://www.doxygen.org/index.html">
+    <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.7 </li>
+  </ul>
+</div>
 </body>
 </html>

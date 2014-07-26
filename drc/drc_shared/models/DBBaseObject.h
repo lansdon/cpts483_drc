@@ -4,6 +4,9 @@
 #include <QString>
 #include <QDateTime>
 
+/*!
+ * \brief The DBBaseObject class
+ */
 class DBBaseObject
 {
 protected:
@@ -16,29 +19,63 @@ public:
     //Outputs field data into a SQLite appropriate string format
     //for insertion into a database.
 
-    //Object is still subject to change pending discussion with DB Team.
+    /*!
+     * \brief Parse
+     * \return
+     */
     virtual QString Parse(void) = 0;
-
+    /*!
+     * \brief UpdateParse
+     * \return
+     */
     virtual QString UpdateParse(void) = 0;
 
+    virtual QString ColumnNames(void) = 0;
+
+    /*!
+     * \brief GetIdRowName
+     * \return
+     */
     virtual QString GetIdRowName(void) = 0;
-
+    /*!
+     * \brief GetId
+     * \return
+     */
     unsigned int GetId() { return m_id; }
+    /*!
+     * \brief SetId
+     * \param id
+     */
     void SetId(unsigned int id) { m_id = id; }
-
+    /*!
+     * \brief GetCreatedDate
+     * \return
+     */
     QDateTime GetCreatedDate() { return m_created; }
+    /*!
+     * \brief SetCreatedDate
+     * \param created
+     */
     void SetCreatedDate(QDateTime created) { m_created = created; }
-
+    /*!
+     * \brief GetUpdatedDate
+     * \return
+     */
     QDateTime GetUpdatedDate() { return m_updated; }
+    /*!
+     * \brief SetUpdatedDate
+     * \param updated
+     */
     void SetUpdatedDate(QDateTime updated) { m_updated = updated; }
+    /*!
+     * \brief SetUpdatedDate
+     */
     void SetUpdatedDate() { m_updated = QDateTime::currentDateTime(); } // helper for current date
-
+    /*!
+     * \brief table
+     * \return
+     */
     virtual QString table() = 0;
-
-    //virtual QString DuplicateQuery() = 0;
-
-    //virtual QString SearchQuery() = 0;
 };
-
 
 #endif // DBBASEOBJECT_H

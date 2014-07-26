@@ -3,16 +3,19 @@
 
 Person::Person()
 {
-    _firstName = "";
+//    _firstName = "";
+    _county = COUNTY_NONE;
     _numberInHousehold = 0;
     _numberChildrenInHousehold = 0;
+    _county = COUNTY_NONE;
 }
 
 Person::Person(QString n)
 {
-    _firstName = n.toUtf8().constData();
+    _county = COUNTY_NONE;
     _numberInHousehold = 0;
     _numberChildrenInHousehold = 0;
+    _county = COUNTY_NONE;
 }
 
 Person::~Person()
@@ -276,43 +279,92 @@ Person *Person::SampleData()
     return result;
 }
 
+QString Person::ColumnNames()
+{
+    //Name
+    QString column_names = QString("%1, %2, %3, %4,")
+        .arg(QString("Person_id"))
+        .arg(QString("first_name"))
+        .arg(QString("middle_name"))
+        .arg(QString("last_name"));
 
+    //Address
+    column_names += QString(" %1, %2, %3, %4, %5, %6,")
+        .arg(QString("street_name"))
+        .arg(QString("unit_name"))
+        .arg(QString("city_name"))
+        .arg(QString("state_name"))
+        .arg(QString("zip_code"))
+        .arg(QString("county_name"));
+
+    //Contact
+    column_names += QString(" %1, %2, %3, %4, %5")
+        .arg(QString("primary_phone"))
+        .arg(QString("primary_phone_ext"))
+        .arg(QString("secondary_phone"))
+        .arg(QString("secondary_phone_ext"))
+        .arg(QString("email_address"));
+
+    //Household
+    // column_names += QString(" %1, %2,")
+    //     .arg(QString("number_adult_in_house"))
+    //     .arg(QString("number_children_in_house"));
+
+    //Legal Representation
+    // column_names += QString(" %1, %2, %3, %4, %5, %6")
+    //     .arg(QString("attorney_name"))
+    //     .arg(QString("attorney_phone"))
+    //     .arg(QString("attorney_email"))
+    //     .arg(QString("assistant_name"))
+    //     .arg(QString("assistant_phone"))
+    //     .arg(QString("assistant_email"));
+
+    QString toReturn = QString("(%1)")
+            .arg(column_names);
+
+    return toReturn;
+}
 
 QString Person::Parse(void)
 {
     //Name
-    QString toReturn = QString("'%1', '%2', '%3',")
-            .arg(this->getFirstName().replace("'", "''"))
-            .arg(this->getMiddleName().replace("'", "''"))
-            .arg(this->getLastName().replace("'", "''"));
+    QString column_values = QString("%1, '%2', '%3', '%4',")
+        .arg(QString("null"))
+        .arg(this->getFirstName().replace("'", "''"))
+        .arg(this->getMiddleName().replace("'", "''"))
+        .arg(this->getLastName().replace("'", "''"));
 
     //Address
-    toReturn += QString(" '%1', '%2', '%3', '%4', '%5', '%6',")
-            .arg(this->getStreet().replace("'", "''"))
-            .arg(this->getUnit().replace("'", "''"))
-            .arg(this->getCity().replace("'", "''"))
-            .arg(this->getState().replace("'", "''"))
-            .arg(this->getZip().replace("'", "''"))
-            .arg(QString::number(this->getCounty()));
+    column_values += QString(" '%1', '%2', '%3', '%4', '%5', '%6',")
+        .arg(this->getStreet().replace("'", "''"))
+        .arg(this->getUnit().replace("'", "''"))
+        .arg(this->getCity().replace("'", "''"))
+        .arg(this->getState().replace("'", "''"))
+        .arg(this->getZip().replace("'", "''"))
+        .arg(QString::number(this->getCounty()));
 
     //Contact
-    toReturn += QString(" '%1', '%2', '%3', '%4', '%5'")
-            .arg(this->getPrimaryPhone().replace("'", "''"))
-            .arg(this->getPrimaryPhoneExt().replace("'", "''"))
-            .arg(this->getSecondaryPhone().replace("'", "''"))
-            .arg(this->getSecondaryPhoneExt().replace("'", "''"))
-            .arg(this->getEmail().replace("'", "''"));
+    column_values += QString(" '%1', '%2', '%3', '%4', '%5'")
+        .arg(this->getPrimaryPhone().replace("'", "''"))
+        .arg(this->getPrimaryPhoneExt().replace("'", "''"))
+        .arg(this->getSecondaryPhone().replace("'", "''"))
+        .arg(this->getSecondaryPhoneExt().replace("'", "''"))
+        .arg(this->getEmail().replace("'", "''"));
 
-//    //Other
-//    toReturn += QString(" '%1', %2, '%3', '%4'")
+    //Other
+    // column_values += QString(" %1, %2,")
+    //     .arg(this->getNumberInHousehold())
+    //     .arg(this->getNumberChildrenInHousehold());
 
+    // column_values += QString(" '%1', '%2', '%3', '%4', '%5', '%6'")
+    //     .arg(this->getAttorney().replace("'", "''"))
+    //     .arg(this->getAttorneyPhone().replace("'", "''"))
+    //     .arg(this->getAttorneyEmail().replace("'", "''"))
+    //     .arg(this->getAssistantName().replace("'", "''"))
+    //     .arg(this->getAssistantPhone().replace("'", "''"))
+    //     .arg(this->getAssistantEmail().replace("'", "''"));
 
-//            .arg(this->getAssistantPhone().replace("'", "''"));
-//            .arg(this->getNumberInHousehold())
-//            .arg(this->getNumberChildrenInHousehold())
-//            .arg(this->getAttorney().replace("'", "''"));
-
-    return toReturn;
+    return column_values;
 }
 
 QString Person::UpdateParse()
@@ -352,7 +404,7 @@ QString Person::UpdateParse()
 
 QString Person::GetIdRowName()
 {
-    return "person_id";
+    return "Person_id";
 }
 
 QString Person::table(void)

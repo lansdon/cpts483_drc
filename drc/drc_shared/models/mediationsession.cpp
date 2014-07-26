@@ -24,33 +24,72 @@ MediationSession::MediationSession(uint numOfClients)
         _clientSessionDataVector.insert(_clientSessionDataVector.end() - 2, new ClientSessionData());
 }
 
+QString MediationSession::ColumnNames()
+{
+    QString column_names = QString ("%1, %2, %3, %4, %5 ,%6, %7, ")
+            .arg("Session_id")
+            .arg("Process_id")
+            .arg("SessionStatus")
+            .arg("SessionOutcome")
+            .arg("CreatedDateTime")
+            .arg("UpdatedDateTime")
+            .arg("ScheduledTime");
+
+    column_names += QString ("%1, %2, %3, %4, %5")
+            .arg("Mediator1")
+            .arg("Mediator2")
+            .arg("Observer1")
+            .arg("Observer2")
+            .arg("Shuttle");
+
+    QString toReturn = QString("(%1)")
+            .arg(column_names);
+
+    return toReturn;
+}
+
 QString MediationSession::Parse()
 {
-    static QString single_quote("\'");
+    //static QString single_quote("\'");
+    QString column_values = QString("%1, %2, ")
+            .arg(QString::number(this->GetState()))
+            .arg(QString::number(this->getOutcome()));
 
-    QString toReturn;
+    column_values += QString("'%1', '%2', '%3', ")
+            .arg(this->GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"))
+            .arg(this->GetUpdatedDate().toString("yyyy-MM-dd hh:mm:ss"))
+            .arg(this->getMediationTime().toString("yyyy-MM-dd hh:mm:ss"));
 
-    toReturn += QString::number(this->GetState());
-    toReturn += ", ";
-    toReturn += QString:: number(this->getOutcome());
-    toReturn += ", ";
-    toReturn += QString("'%1', '%2', '%3', ")
-    .arg(this->GetCreatedDate().toString("yyyy-MM-dd"))
-    .arg(this->GetUpdatedDate().toString("yyyy-MM-dd"))
-    .arg(this->getMediationTime().toString("yyyy-MM-dd hh:mm:ss"));
+    column_values += QString("'%1', '%2', '%3', '%4', ")
+            .arg(this->getMediator1())
+            .arg(this->getMediator2())
+            .arg(this->getObserver1())
+            .arg(this->getObserver2());
+
+    column_values += QString("%1")
+            .arg(QString::number(this->GetIsShuttle()));
+
+//    QString toReturn = QString("(%1) VALUES(%2)")
+//        .arg(column_names)
+//        .arg(column_values);
+
+//    toReturn += QString::number(this->GetState());
+//    toReturn += ", ";
+//    toReturn += QString:: number(this->getOutcome());
+//    toReturn += ", ";
+//    toReturn += QString("'%1', '%2', '%3', ")
 
     // Mediator Info
-    toReturn += single_quote + this->getMediator1().replace("'", "''") + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getMediator2().replace("'", "''") + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getObserver1().replace("'", "''") + single_quote;
-    toReturn += ", ";
-    toReturn += single_quote + this->getObserver2().replace("'", "''") + single_quote;
+//    toReturn += single_quote + this->getMediator1().replace("'", "''") + single_quote;
+//    toReturn += ", ";
+//    toReturn += single_quote + this->getMediator2().replace("'", "''") + single_quote;
+//    toReturn += ", ";
+//    toReturn += single_quote + this->getObserver1().replace("'", "''") + single_quote;
+//    toReturn += ", ";
+//    toReturn += single_quote + this->getObserver2().replace("'", "''") + single_quote;
 
-    toReturn += QString(", '%1'").arg(this->GetIsShuttle());
-qDebug()<<toReturn;
-    return toReturn;
+//    toReturn += QString(", '%1'").arg(this->GetIsShuttle());
+    return column_values;
 }
 
 QString MediationSession::UpdateParse()
@@ -179,10 +218,18 @@ void MediationSession::BuildToPDF(QTextCursor &cursor)
     cursor.insertText(StringForSessionOutcomes(_outcome) + "\n");
     cursor.insertText("Schedule Status: ");
     cursor.insertText(StringForSessionStates(_state) + "\n");
+    cursor.insertText("Requires shuttle: ");
+    cursor.insertText(_isShuttle == true ? "Yes" : "No");
     cursor.insertText("Mediators: ");
-    cursor.insertText(_mediator1 + ",  "+ _mediator2 + "\n");
+    if((_mediator1 == "" || _mediator1.isEmpty()) && (_mediator2.isEmpty() || _mediator2 == ""))
+        cursor.insertText("None");
+    else
+        cursor.insertText(_mediator1 + ",  "+ _mediator2 + "\n");
     cursor.insertText("Observers: ");
-    cursor.insertText(_observer1 + ",  " + _observer2 + "\n");
+    if((_observer1 == "" || _observer1.isEmpty()) && (_observer2.isEmpty() || _observer2 == ""))
+        cursor.insertText("None");
+    else
+        cursor.insertText(_observer1 + ",  " + _observer2 + "\n");
     for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
     {
         cursor.insertText("Client " + QString::number(i + 1) + "\n");

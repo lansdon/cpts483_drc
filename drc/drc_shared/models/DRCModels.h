@@ -1,14 +1,9 @@
 #ifndef DRCMODELS_H
 #define DRCMODELS_H
 
-
-///
 ///
 /// Include this to get all models
 ///
-///
-
-
 
 #include "Person.h"
 #include "drc_shared/models/User.h"

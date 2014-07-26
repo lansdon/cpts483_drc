@@ -2,9 +2,11 @@
 #define FILTER_H
 
 #include "FilterTypes.h"
-
 using namespace std;
 
+/*!
+ * \brief The Filter class
+ */
 class Filter
 {
     private:
@@ -12,11 +14,9 @@ class Filter
         string m_filterData;
         FilterEnum m_filterType;
 
-
     public:
     Filter(name, data, filterType)
     {
-
     }
 };
 #endif // FILTER_H

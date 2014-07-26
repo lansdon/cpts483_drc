@@ -3,6 +3,9 @@
 #include "DBBaseObject.h"
 #include "drctypes.h"
 
+/*!
+ * \brief The ReportRequest class
+ */
 class ReportRequest
 {
 public:
@@ -13,13 +16,40 @@ public:
     {}
 
     // reswa helper - use to check 1st/2nd half of year
+    /*!
+     * \brief IsForFirstHalfOfYear
+     * \return
+     */
     bool IsForFirstHalfOfYear() { return (_month >= 1 && _month <= 6); }
-
+    /*!
+     * \brief GetYear
+     * \return
+     */
     int GetYear() { return _year; }
+    /*!
+     * \brief SetYear
+     * \param year
+     */
     void SetYear(int year) { _year = year; }
+    /*!
+     * \brief GetMonth
+     * \return
+     */
     int GetMonth() { return _month; }
+    /*!
+     * \brief SetMonth
+     * \param month
+     */
     void SetMonth(int month) { _month = month; }
+    /*!
+     * \brief GetCounty
+     * \return
+     */
     CountyIds GetCounty() { return _county; }
+    /*!
+     * \brief SetCounty
+     * \param county
+     */
     void SetCounty(CountyIds county) { _county = county; }
 
 private:

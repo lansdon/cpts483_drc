@@ -9,6 +9,11 @@ ClientSessionData::ClientSessionData()
     support = 0;
 }
 
+QString ClientSessionData::ColumnNames()
+{
+    return "";
+}
+
 QString ClientSessionData::Parse()
 {
 #warning TODO - Parse() UNIMPLEMENTED!!!!
@@ -97,16 +102,16 @@ bool ClientSessionData::isNoFee() const
 }
 
 void ClientSessionData::print(QTextCursor &cursor)
-{
-    cursor.insertText("\tAt Table: ");
-    if(atTable)
-        cursor.insertText("Yes");
-    else
-        cursor.insertText("No");
+{      
     cursor.insertText("\n\tFee: " + fee);
     cursor.insertText("\n\tIncome: " + income);
     cursor.insertText("\n\tPaid: ");
     if(paid)
+        cursor.insertText("Yes");
+    else
+        cursor.insertText("No");
+    cursor.insertText("\tAt Table: ");
+    if(atTable)
         cursor.insertText("Yes");
     else
         cursor.insertText("No");
