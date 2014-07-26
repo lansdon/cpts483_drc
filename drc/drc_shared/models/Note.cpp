@@ -66,6 +66,8 @@ QString Note::Parse()
 
     QString toReturn;
 
+    toReturn += QString("null, ");
+
     toReturn += QString("%1, %2, ").arg(QString::number(this->GetmediationId()))
                                    .arg(QString::number(this->GetSessionId()));
 

@@ -127,6 +127,11 @@ private Q_SLOTS:
     void CheckInsertEmptyClientSessionObject();
     void CheckInsertFullClientSessionObject();
 
+    void CheckCreateNotesTable();
+    void CheckNotesColumn();
+    void CheckInsertEmptyNoteObject();
+    void CheckInsertFullNoteObject();
+
 //    void CheckNotesColumn();
 
 //    void InsertPersonObject();
@@ -148,6 +153,7 @@ public:
     void AllocateSessionColumns();
     void AllocateClientColumns();
     void AllocateClientSessionColumns();
+    void AllocateNotesColumns();
 
     void AllocateEmptyPersonVector();
     void AllocateFullPersonVector();
@@ -163,6 +169,9 @@ public:
 
     void AllocateEmptyClientSessionVector();
     void AllocateFullClientSessionVector();
+
+    void AllocateEmptyNoteValues();
+    void AllocateFullNoteValues();
 
 private:
     DRCDB _db;
@@ -187,6 +196,7 @@ private:
     QVector<QString> session_table_columns;
     QVector<QString> client_table_columns;
     QVector<QString> client_session_table_columns;
+    QVector<QString> notes_table_columns;
 
     QVector<QString> empty_person_values;
     QVector<QString> full_person_values;
@@ -203,6 +213,9 @@ private:
     QVector<QString> empty_client_session_values;
     QVector<QString> full_client_session_values;
 
+    QVector<QString> empty_note_values;
+    QVector<QString> full_note_values;
+
     Person EmptyPerson;
     Person FullPerson;
 
@@ -216,6 +229,9 @@ private:
 
     ClientSessionData EmptyClientSession;
     ClientSessionData FullClientSession;
+
+    Note EmptyNote;
+    Note FullNote;
 
 
 private slots:
@@ -244,8 +260,8 @@ void DRC_DB_TESTS::OutputColumnInfo(QVector<QString> DatabaseColumns, QVector<QS
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     QTextStream out(&file);
     out << QString("%1%2\n")
-        .arg(QString("Data read from Database"))
-        .arg(QString("Data read from File"), SMALLER_DISTANCE_BETWEEN, QLatin1Char(FILL_CHARACTER));
+        .arg(QString("Column read from Database"))
+        .arg(QString("Column read from File"), SMALLER_DISTANCE_BETWEEN, QLatin1Char(FILL_CHARACTER));
     for (int index = 0 ; index < TestColumns.size() ; ++index)
     {
         out << QString("%1%2")
@@ -272,6 +288,7 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     AllocateSessionColumns();
     AllocateClientColumns();
     AllocateClientSessionColumns();
+    AllocateNotesColumns();
 
     AllocateEmptyPersonVector();
     AllocateFullPersonVector();
@@ -287,6 +304,9 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
 
     AllocateEmptyClientSessionVector();
     AllocateFullClientSessionVector();
+
+    AllocateEmptyNoteValues();
+    AllocateFullNoteValues();
 
     //Write method that accepts vector, and inserts into DB Object
     FullPerson.setFirstName(                                                     full_person_values[FIRST_NAME]);
@@ -376,8 +396,6 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     FullClientSession.setSupport(                                               full_client_session_values[SUPPORT].toInt()); //Support
     FullClientSession.setOnPhone(        (bool)                                 full_client_session_values[CLIENTPHONE].toInt()); //ClientPhone
     FullClientSession.setAtTable(        (bool)                                 full_client_session_values[ATTABLE].toInt()); //AtTable
-
-
 }
 //=======================================================
 
@@ -445,7 +463,7 @@ void DRC_DB_TESTS::CheckPersonColumn()
     QVERIFY2(database_columns.size() > 0, "Person DatabaseColumn Vector Contains No Columns");
     QCOMPARE(person_table_columns.size(), database_columns.size());
 
-    OutputColumnInfo(database_columns, person_table_columns, "PERSON_COLUMNS_DEBUG.txt");
+    OutputColumnInfo(database_columns, person_table_columns, "VERIFY_PERSON_COLUMNS_DEBUG.txt");
     QCOMPARE(person_table_columns, database_columns);
 }
 
@@ -493,7 +511,7 @@ void DRC_DB_TESTS::CheckProcessColumn()
     QVERIFY2(database_columns.size() > 0, "Mediation DatabaseColumn Vector Contains No Columns");
     QCOMPARE(mediation_table_columns.size(), database_columns.size());
 
-    OutputColumnInfo(database_columns, mediation_table_columns, "MEDIATION_COLUMNS_DEBUG.txt");
+    OutputColumnInfo(database_columns, mediation_table_columns, "VERIFY_MEDIATION_COLUMNS_DEBUG.txt");
     QCOMPARE(mediation_table_columns, database_columns);
 }
 
@@ -536,7 +554,7 @@ void DRC_DB_TESTS::CheckSessionColumn()
     QVERIFY2(database_columns.size() > 0, "Session DatabaseColumn Vector Contains No Columns");
     QCOMPARE(session_table_columns.size(), database_columns.size());
 
-    OutputColumnInfo(database_columns, session_table_columns, "SESSION_COLUMNS_DEBUG.txt");
+    OutputColumnInfo(database_columns, session_table_columns, "VERIFY_SESSION_COLUMNS_DEBUG.txt");
     QCOMPARE(session_table_columns, database_columns);
 }
 
@@ -582,7 +600,7 @@ void DRC_DB_TESTS::CheckClientColumn()
     QVERIFY2(database_columns.size() > 0, "Client DatabaseColumn Vector Contains No Columns");
     QCOMPARE(client_table_columns.size(), database_columns.size());
 
-    OutputColumnInfo(database_columns, client_table_columns, "CLIENT_COLUMNS_DEBUG.txt");
+    OutputColumnInfo(database_columns, client_table_columns, "VERIFY_CLIENT_COLUMNS_DEBUG.txt");
     QCOMPARE(client_table_columns, database_columns);
 }
 
@@ -628,7 +646,7 @@ void DRC_DB_TESTS::CheckClientSessionColumn()
     QVERIFY2(database_columns.size() > 0, "ClientSession DatabaseColumn Vector Contains No Columns");
     QCOMPARE(client_session_table_columns.size(), database_columns.size());
 
-    OutputColumnInfo(database_columns, client_session_table_columns, "CLIENTSESSION_COLUMNS_DEBUG.txt");
+    OutputColumnInfo(database_columns, client_session_table_columns, "VERIFY_CLIENTSESSION_COLUMNS_DEBUG.txt");
     QCOMPARE(client_session_table_columns, database_columns);
 }
 
@@ -654,14 +672,68 @@ void DRC_DB_TESTS::CheckInsertFullClientSessionObject()
 
     QVector<QString> FullResults = _db.SelectOneFields(client_session_table_name, "Data_id", 2);
 
-    //PrintVectorStrings(EmptyResults);
-
     QCOMPARE(FullResults.size(), full_client_session_values.size());
 
     if(INSERT_FULL_CLIENT_SESSION_DEBUG)
         OutputDebugInfo(client_session_table_columns, FullResults, full_client_session_values, "INSERT_FULL_CLIENTSESSION_DEBUG.txt");
 
     QCOMPARE(FullResults, full_client_session_values);
+}
+
+void DRC_DB_TESTS::CheckCreateNotesTable()
+{
+    QCOMPARE(_db.CreateNotesTable(notes_table_name), true);
+    QCOMPARE(_db.DoesTableExist(notes_table_name), true);
+}
+
+void DRC_DB_TESTS::CheckNotesColumn()
+{
+    QVERIFY2(notes_table_columns.size() > 0, "Notes Column Vector Contains No Columns");
+    QVector<QString> database_columns = _db.GetColumnsList(notes_table_name);
+
+    QVERIFY2(database_columns.size() > 0, "Notes DatabaseColumn Vector Contains No Columns");
+    QCOMPARE(notes_table_columns.size(), database_columns.size());
+
+    OutputColumnInfo(database_columns, notes_table_columns, "VERIFY_NOTES_COLUMNS_DEBUG.txt");
+    QCOMPARE(notes_table_columns, database_columns);
+}
+
+void DRC_DB_TESTS::CheckInsertEmptyNoteObject()
+{
+    EmptyNote.SetMediationId(EmptyProcess.GetId());
+    EmptyNote.SetSessionId(EmptySession.GetId());
+    EmptyNote.SetMessage(                                                       empty_note_values[3]);
+    EmptyNote.SetCreatedDate(           QDateTime::fromString(                  empty_note_values[4], DateTimeFormat));
+
+    QCOMPARE(_db.InsertObject(&EmptyNote), true);
+
+    QVector<QString> EmptyResults = _db.SelectOneFields(notes_table_name, "Note_id", 1);
+
+    QCOMPARE(EmptyResults.size(), empty_note_values.size());
+
+    if(INSERT_EMPTY_CLIENT_SESSION_DEBUG)
+        OutputDebugInfo(notes_table_columns, EmptyResults, empty_note_values, "INSERT_EMPTY_NOTE_DEBUG.txt");
+
+    QCOMPARE(EmptyResults, empty_note_values);
+}
+
+void DRC_DB_TESTS::CheckInsertFullNoteObject()
+{
+    FullNote.SetMediationId(FullProcess.GetId());
+    FullNote.SetSessionId(FullSession.GetId());
+    FullNote.SetMessage(                                                        full_note_values[3]);
+    FullNote.SetCreatedDate(             QDateTime::fromString(                 full_note_values[4], DateTimeFormat));
+
+    QCOMPARE(_db.InsertObject(&FullNote), true);
+
+    QVector<QString> FullResults = _db.SelectOneFields(notes_table_name, "Note_id", 2);
+
+    QCOMPARE(FullResults.size(), full_note_values.size());
+
+    if(INSERT_EMPTY_CLIENT_SESSION_DEBUG)
+        OutputDebugInfo(notes_table_columns, FullResults, full_note_values, "INSERT_FULL_NOTE_DEBUG.txt");
+
+    QCOMPARE(FullResults, full_note_values);
 }
 
 void DRC_DB_TESTS::AllocateTableNames()
@@ -764,6 +836,15 @@ void DRC_DB_TESTS::AllocateClientSessionColumns()
     client_session_table_columns.push_back("Support");
     client_session_table_columns.push_back("ClientPhone");
     client_session_table_columns.push_back("AtTable");
+}
+
+void DRC_DB_TESTS::AllocateNotesColumns()
+{
+    notes_table_columns.push_back("Note_id");
+    notes_table_columns.push_back("Process_id");
+    notes_table_columns.push_back("Session_id");
+    notes_table_columns.push_back("Note");
+    notes_table_columns.push_back("CreateDate");
 }
 
 void DRC_DB_TESTS::AllocateEmptyPersonVector()
@@ -956,6 +1037,24 @@ void DRC_DB_TESTS::AllocateFullClientSessionVector()
     full_client_session_values.push_back("5000");                   //Support - INT
     full_client_session_values.push_back("1");                      //ClientPhone - TRUE
     full_client_session_values.push_back("1");                      //AtTable - TRUE
+}
+
+void DRC_DB_TESTS::AllocateEmptyNoteValues()
+{
+    empty_note_values.push_back("1");
+    empty_note_values.push_back("1");
+    empty_note_values.push_back("1");
+    empty_note_values.push_back("Empty Note of Justice.");
+    empty_note_values.push_back("2014-07-26 17:23:01");
+}
+
+void DRC_DB_TESTS::AllocateFullNoteValues()
+{
+    full_note_values.push_back("2");
+    full_note_values.push_back("2");
+    full_note_values.push_back("2");
+    full_note_values.push_back("This note is going to be filled with wonderfully meaningful, and useful things.");
+    full_note_values.push_back("2700-12-31 23:59:59");
 }
 
 QTEST_APPLESS_MAIN(DRC_DB_TESTS)
