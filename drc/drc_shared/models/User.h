@@ -18,27 +18,78 @@ private:
 
 public:
 	User();
+    /*!
+     * \brief User
+     * \param name
+     * \param pass
+     * \param type
+     */
     User(QString name, QString pass, UserTypes type = USER_T_NORMAL);
-
+    /*!
+     * \brief GetName
+     * \return
+     */
     QString GetName(void);
+    /*!
+     * \brief SetName
+     * \param name
+     */
     void SetName(QString name);
+    /*!
+     * \brief GetPass
+     * \return
+     */
     QString GetPass(void);
+    /*!
+     * \brief SetPassword
+     * \param password
+     */
     void SetPassword(QString password);
-
+    /*!
+     * \brief GetType
+     * \return
+     */
     UserTypes GetType(void);
+    /*!
+     * \brief SetType
+     * \param Type
+     */
     void SetType(UserTypes Type);
+    /*!
+     * \brief GetTypeString
+     * \return
+     */
     QString GetTypeString(void);
-
+    /*!
+     * \brief Parse
+     * \return
+     */
     QString Parse(void);
     QString ColumnNames();
+    /*!
+     * \brief UpdateParse
+     * \return
+     */
     QString UpdateParse();
-
+    /*!
+     * \brief GetIdRowName
+     * \return
+     */
     QString GetIdRowName();
-
+    /*!
+     * \brief table
+     * \return
+     */
     QString table(void);
-
+    /*!
+     * \brief DuplicateQuery
+     * \return
+     */
     QString DuplicateQuery(void);
-
+    /*!
+     * \brief SearchQuery
+     * \return
+     */
     QString SearchQuery(void);
 };
 

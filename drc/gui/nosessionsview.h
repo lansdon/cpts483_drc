@@ -7,6 +7,9 @@ namespace Ui {
 class NoSessionsView;
 }
 
+/*!
+ * \brief The NoSessionsView class
+ */
 class NoSessionsView : public QWidget
 {
     Q_OBJECT
@@ -16,11 +19,17 @@ public:
     ~NoSessionsView();
 
 private slots:
+    /*!
+     * \brief on_clickToAddSessionPushButton_clicked
+     */
     void on_clickToAddSessionPushButton_clicked();
 
 private:
     Ui::NoSessionsView *ui;
 signals:
+    /*!
+     * \brief sendAddNewSession
+     */
     void sendAddNewSession();
 };
 

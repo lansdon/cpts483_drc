@@ -8,6 +8,9 @@ namespace Ui {
 class ContactRecordDataView;
 }
 
+/*!
+ * \brief The ContactRecordDataView class
+ */
 class ContactRecordDataView : public QWidget
 {
     Q_OBJECT

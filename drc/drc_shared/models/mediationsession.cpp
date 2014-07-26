@@ -218,10 +218,18 @@ void MediationSession::BuildToPDF(QTextCursor &cursor)
     cursor.insertText(StringForSessionOutcomes(_outcome) + "\n");
     cursor.insertText("Schedule Status: ");
     cursor.insertText(StringForSessionStates(_state) + "\n");
+    cursor.insertText("Requires shuttle: ");
+    cursor.insertText(_isShuttle == true ? "Yes" : "No");
     cursor.insertText("Mediators: ");
-    cursor.insertText(_mediator1 + ",  "+ _mediator2 + "\n");
+    if((_mediator1 == "" || _mediator1.isEmpty()) && (_mediator2.isEmpty() || _mediator2 == ""))
+        cursor.insertText("None");
+    else
+        cursor.insertText(_mediator1 + ",  "+ _mediator2 + "\n");
     cursor.insertText("Observers: ");
-    cursor.insertText(_observer1 + ",  " + _observer2 + "\n");
+    if((_observer1 == "" || _observer1.isEmpty()) && (_observer2.isEmpty() || _observer2 == ""))
+        cursor.insertText("None");
+    else
+        cursor.insertText(_observer1 + ",  " + _observer2 + "\n");
     for(int i = 0; i < (int)_clientSessionDataVector.size(); i++)
     {
         cursor.insertText("Client " + QString::number(i + 1) + "\n");

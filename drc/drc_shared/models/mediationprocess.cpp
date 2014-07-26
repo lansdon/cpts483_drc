@@ -43,7 +43,7 @@ MediationProcess::MediationProcess()
     , _sessionType(MEDIATION_SESSION)
     , _mediationClause(false)
 {
-
+    _courtDate = QDate::currentDate();
 }
 
 
@@ -157,10 +157,6 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     QString RequiresSpanish = "\nRequires Spanish:\t";
     RequiresSpanish += (_requiresSpanish == true ? "Yes" : "No");
     cursor.insertText(RequiresSpanish, _tableTextFormat);
-
-    QString RequiresShuttle = "\nRequires Shuttle:\t";
-    RequiresShuttle += (_isShuttle == true ? "Yes" : "No");
-    cursor.insertText(RequiresShuttle, _tableTextFormat);
 
     QString CountyofMediation = "\nCounty of Mediation:\t";
     CountyofMediation += StringForCountyIds(_countyOfMediation);

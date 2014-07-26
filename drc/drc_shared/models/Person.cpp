@@ -7,6 +7,7 @@ Person::Person()
     _county = COUNTY_NONE;
     _numberInHousehold = 0;
     _numberChildrenInHousehold = 0;
+    _county = COUNTY_NONE;
 }
 
 Person::Person(QString n)
@@ -14,6 +15,7 @@ Person::Person(QString n)
     _county = COUNTY_NONE;
     _numberInHousehold = 0;
     _numberChildrenInHousehold = 0;
+    _county = COUNTY_NONE;
 }
 
 Person::~Person()

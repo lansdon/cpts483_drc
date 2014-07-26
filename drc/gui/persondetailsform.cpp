@@ -444,6 +444,6 @@ void PersonDetailsForm::on_assistantPhoneLineEdit_textEdited(const QString &arg1
 void PersonDetailsForm::on_assistantEmailLineEdit_textEdited(const QString &arg1)
 {
     _person->setAssistantEmail(arg1);
-    ProcessPhoneNumber(arg1, ui->assistantEmailLineEdit);
+    ProcessEmail(arg1, ui->assistantEmailLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

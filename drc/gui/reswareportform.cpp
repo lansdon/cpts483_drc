@@ -85,6 +85,7 @@ void ResWaReportForm::on_showResportBtn_clicked()
                                                 );
 
         Mediator::Call(MKEY_GUI_REQUEST_RESWA_REPORT, params);
+        Mediator::Call(MKEY_GUI_ENABLE_MENUS);
     }
 }
 

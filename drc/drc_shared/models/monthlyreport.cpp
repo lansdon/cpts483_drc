@@ -85,18 +85,21 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
             this->setAtTable(this->getAtTable() + atTable);
         }
 
-        if(process->getMediationSessionVector()->size() == 0)
+        if(process->GetState() != PROCESS_STATE_CLOSED_NO_SESSION)
         {
-            openCount++;
-        }
-        else
-        {
-            MediationSession* session = process->getMediationSessionVector()->at((process->getMediationSessionVector()->size() - 1));
-            if((session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
-                    (session->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT) ||
-                    (session->getOutcome() != SESSION_OUTCOME_SELF_RESOLVED))
+            if(process->getMediationSessionVector()->size() == 0)
             {
                 openCount++;
+            }
+            else
+            {
+                MediationSession* session = process->getMediationSessionVector()->at((process->getMediationSessionVector()->size() - 1));
+                if((session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
+                        (session->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT) ||
+                        (session->getOutcome() != SESSION_OUTCOME_SELF_RESOLVED))
+                {
+                    openCount++;
+                }
             }
         }
 

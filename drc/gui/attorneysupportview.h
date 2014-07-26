@@ -7,6 +7,9 @@ namespace Ui {
 class AttorneySupportView;
 }
 
+/*!
+ * \brief The AttorneySupportView class
+ */
 class AttorneySupportView : public QWidget
 {
     Q_OBJECT

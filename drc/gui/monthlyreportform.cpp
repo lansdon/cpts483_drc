@@ -70,6 +70,7 @@ void MonthlyReportForm::on_showResportBtn_clicked()
                                                 );
 
         Mediator::Call(MKEY_GUI_REQUEST_MONTHLY_REPORT, params);
+        Mediator::Call(MKEY_GUI_ENABLE_MENUS);
 
     }
 }
