@@ -144,7 +144,7 @@ public:
      * \param table_name
      * \return
      */
-    bool DoesColumnExist(QString column_name, QString table_name);    
+    QVector<QString> GetColumnsList(QString table_name);
     /*!
      * \brief WhatOptionsEnabled
      * \return

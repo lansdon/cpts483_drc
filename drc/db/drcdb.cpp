@@ -1807,10 +1807,17 @@ QString DRCDB::WhatDatabaseName()
 //========================================================================
 //A way to programmically verify that a column within a table exists.
 //------------------------------------------------------------------------
-bool DRCDB::DoesColumnExist(QString column_name, QString table_name)
+QVector<QString> DRCDB::GetColumnsList(QString table_name)
 {
     QSqlRecord column_list = database.record(table_name);
-    return column_list.contains(column_name);
+
+    QVector<QString> columns_vector;
+
+    for (int index = 0 ; index < column_list.count() ; ++index)
+        columns_vector.push_back(column_list.fieldName(index));
+
+    return columns_vector;
+    //return column_list.contains(column_name);
 }
 //========================================================================
 
