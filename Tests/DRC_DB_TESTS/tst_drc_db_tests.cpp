@@ -13,6 +13,7 @@
 #define INSERT_EMPTY_PROCESS_DEBUG true
 #define INSERT_FULL_PROCESS_DEBUG true
 #define INSERT_EMPTY_SESSION_DEBUG true
+#define INSERT_FULL_SESSION_DEBUG true
 
 #define TITLE_COLUMNS 45
 #define DISTANCE_FROM_COLON -30
@@ -86,7 +87,9 @@ public:
     DRC_DB_TESTS();
     void OutputDebugInfo(QVector<QString> TableColumns, QVector<QString> FromDatabase, QVector<QString> FromFile, QString FileName);
     void PrintVectorStrings(QVector<QString> PrintThis);
+
     void AllocateTableNames();
+
     void AllocatePersonColumns();
     void AllocateProcessColumns();
     void AllocateSessionColumns();
@@ -98,6 +101,10 @@ public:
     void AllocateFullProcessVector();
 
     void AllocateEmptySessionVector();
+    void AllocateFullSessionVector();
+
+    void AllocateEmptyClientVector();
+
 
 private:
     DRCDB _db;
@@ -128,11 +135,17 @@ private:
     QVector<QString> full_process_values;
 
     QVector<QString> empty_session_values;
+    QVector<QString> full_session_values;
+
+    QVector<QString> empty_client_values;
+    QVector<QString> full_client_values;
+
 
     Person Bruce_Lee;
-    MediationProcess DojoBattle;
+    MediationProcess FullProcess;
     MediationProcess EmptyProcess;
     MediationSession EmptySession;
+    MediationSession FullSession;
 
 private Q_SLOTS:
     void OpenDatabase();
@@ -152,6 +165,9 @@ private Q_SLOTS:
     void CheckCreateSessionTable();
     void CheckSessionColumn();
     void CheckInsertEmptySessionObject();
+    void CheckInsertFullSessionObject();
+
+//    void CheckCreateClientTable();
 
 
 //    void CheckSessionColumn();
@@ -183,6 +199,7 @@ private slots:
     }
 };
 
+
 //  Change information to accomodate new circumstances.
 //======================================================
 DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM-dd hh:mm:ss"), TimeFormat("hh:mm:ss")
@@ -202,6 +219,9 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     AllocateFullProcessVector();
 
     AllocateEmptySessionVector();
+    AllocateFullSessionVector();
+
+    //AllocateEmptyClientVector();
 
     //Write method that accepts vector, and inserts into DB Object
     Bruce_Lee.setFirstName(                                                     full_person_values[FIRST_NAME]);
@@ -230,26 +250,26 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     EmptyProcess.SetCreatedDate(QDateTime::fromString(empty_process_values[PROCESS_CREATIONDATETIME], DateTimeFormat));
     EmptyProcess.SetUpdatedDate(QDateTime::fromString(empty_process_values[PROCESS_UPDATEDDATETIME], DateTimeFormat));
 
-    DojoBattle.SetDisputeType(              (DisputeTypes)                      full_process_values[DISPUTETYPE].toInt());
-    DojoBattle.SetCreatedDate(              QDateTime::fromString(              full_process_values[PROCESS_CREATIONDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
-    DojoBattle.SetUpdatedDate(              QDateTime::fromString(              full_process_values[PROCESS_UPDATEDDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
-    DojoBattle.SetState(                    (DisputeProcessStates)              full_process_values[DISPUTESTATE].toInt());                  //DisputeProcessStates - PROCESS_STATE_SCHEDULED
-    DojoBattle.SetInternalState(            (DisputeProcessInternalStates)      full_process_values[DISPUTEINTERNALSTATE].toInt());  //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
-    DojoBattle.SetCountyId(                 (CountyIds)                         full_process_values[DISPUTECOUNTY].toInt());                          //CountyIds - COUNTY_BENTON
-    DojoBattle.SetReferralType(             (ReferralTypes)                     full_process_values[REFERALSOURCE].toInt());                  //ReferralTypes - REFERRAL_T_PHONEBOOK
-    DojoBattle.SetInquiryTypes(             (InquiryTypes)                      full_process_values[INQUIRYTYPE].toInt());                   //InquiryTypes - INQUIRY_T_WALKIN
-    DojoBattle.SetInfoOnly(                 (bool)                              full_process_values[INFOONLY].toInt());                               //Info Only - FALSE
-    DojoBattle.SetIsCourtCase(              (bool)                              full_process_values[ISCOURTCASE].toInt());                           //Is Court Case - TRUE
-    DojoBattle.SetCourtDate(                QDate::fromString(                  full_process_values[COURTDATE], "yyyy-MM-dd"));
-    DojoBattle.SetCourtType(                (CourtCaseTypes)                    full_process_values[COURTCASETYPE].toInt());                   //CourtCaseTypes - COURT_T_SUPERIOR
-    DojoBattle.SetCourtOrder(                                                   full_process_values[COURTORDERTYPE]);
-    DojoBattle.SetRequiresSpanish(          (bool)                              full_process_values[TRANSLATORREQUIRED].toInt());
-    DojoBattle.SetSessionType(              (SessionTypes)                      full_process_values[SESSIONTYPE].toInt());
-    DojoBattle.setMediationClause(          (bool)                              full_process_values[MEDIATIONCLAUSE].toInt());
+    FullProcess.SetDisputeType(              (DisputeTypes)                      full_process_values[DISPUTETYPE].toInt());
+    FullProcess.SetCreatedDate(              QDateTime::fromString(              full_process_values[PROCESS_CREATIONDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
+    FullProcess.SetUpdatedDate(              QDateTime::fromString(              full_process_values[PROCESS_UPDATEDDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
+    FullProcess.SetState(                    (DisputeProcessStates)              full_process_values[DISPUTESTATE].toInt());                  //DisputeProcessStates - PROCESS_STATE_SCHEDULED
+    FullProcess.SetInternalState(            (DisputeProcessInternalStates)      full_process_values[DISPUTEINTERNALSTATE].toInt());  //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
+    FullProcess.SetCountyId(                 (CountyIds)                         full_process_values[DISPUTECOUNTY].toInt());                          //CountyIds - COUNTY_BENTON
+    FullProcess.SetReferralType(             (ReferralTypes)                     full_process_values[REFERALSOURCE].toInt());                  //ReferralTypes - REFERRAL_T_PHONEBOOK
+    FullProcess.SetInquiryTypes(             (InquiryTypes)                      full_process_values[INQUIRYTYPE].toInt());                   //InquiryTypes - INQUIRY_T_WALKIN
+    FullProcess.SetInfoOnly(                 (bool)                              full_process_values[INFOONLY].toInt());                               //Info Only - FALSE
+    FullProcess.SetIsCourtCase(              (bool)                              full_process_values[ISCOURTCASE].toInt());                           //Is Court Case - TRUE
+    FullProcess.SetCourtDate(                QDate::fromString(                  full_process_values[COURTDATE], "yyyy-MM-dd"));
+    FullProcess.SetCourtType(                (CourtCaseTypes)                    full_process_values[COURTCASETYPE].toInt());                   //CourtCaseTypes - COURT_T_SUPERIOR
+    FullProcess.SetCourtOrder(                                                   full_process_values[COURTORDERTYPE]);
+    FullProcess.SetRequiresSpanish(          (bool)                              full_process_values[TRANSLATORREQUIRED].toInt());
+    FullProcess.SetSessionType(              (SessionTypes)                      full_process_values[SESSIONTYPE].toInt());
+    FullProcess.setMediationClause(          (bool)                              full_process_values[MEDIATIONCLAUSE].toInt());
 
-//    DojoBattle.SetCourtOrderType(           (CourtOrderTypes)                   full_process_values[COURTORDERTYPE].toInt());
-//    DojoBattle.SetCourtOrderExpiration(     QDateTime::fromString(              full_process_values[COURTORDEREXPIRATION], "yyyy-MM-dd"));
-//    DojoBattle.SetIsShuttle(                (bool)                              full_process_values[SHUTTLEREQUIRED].toInt());
+//    FullProcess.SetCourtOrderType(           (CourtOrderTypes)                   full_process_values[COURTORDERTYPE].toInt());
+//    FullProcess.SetCourtOrderExpiration(     QDateTime::fromString(              full_process_values[COURTORDEREXPIRATION], "yyyy-MM-dd"));
+//    FullProcess.SetIsShuttle(                (bool)                              full_process_values[SHUTTLEREQUIRED].toInt());
 
     //EmptySession.SetId(                 empty_session_values[0].toInt());
     EmptySession.SetState(              (SessionStates)                         empty_session_values[SESSIONSTATUS].toInt());
@@ -263,6 +283,18 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     EmptySession.setObserver1(                                                  empty_session_values[OBSERVER1]);
     EmptySession.setObserver2(                                                  empty_session_values[OBSERVER2]);
     EmptySession.SetIsShuttle(          (bool)                                  empty_session_values[SHUTTLE].toInt());
+
+    FullSession.SetState(               (SessionStates)                         full_session_values[SESSIONSTATUS].toInt());
+    FullSession.setOutcome(             (SessionOutcomes)                       full_session_values[SESSIONOUTCOME].toInt());
+    FullSession.SetCreatedDate(         QDateTime::fromString(                  full_session_values[SESSION_CREATEDDATETIME], DateTimeFormat));
+    FullSession.SetUpdatedDate(         QDateTime::fromString(                  full_session_values[SESSION_UPDATEDDATETIME], DateTimeFormat));
+    FullSession.setScheduledDate(       QDate::fromString(                      full_session_values[SCHEDULEDTIME].split(" ")[0], DateFormat));
+    FullSession.setScheduledTime(       QTime::fromString(                      full_session_values[SCHEDULEDTIME].split(" ")[1], TimeFormat));
+    FullSession.setMediator1(                                                   full_session_values[MEDIATOR1]);
+    FullSession.setMediator2(                                                   full_session_values[MEDIATOR2]);
+    FullSession.setObserver1(                                                   full_session_values[OBSERVER1]);
+    FullSession.setObserver2(                                                   full_session_values[OBSERVER2]);
+    FullSession.SetIsShuttle(           (bool)                                  full_session_values[SHUTTLE].toInt());
 }
 //=======================================================
 
@@ -383,7 +415,7 @@ void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
 
 void DRC_DB_TESTS::CheckInsertFullProcessObject()
 {
-    QCOMPARE(_db.InsertObject(&DojoBattle),true);
+    QCOMPARE(_db.InsertObject(&FullProcess),true);
 
     QVector<QString> FullResults = _db.SelectOneFields(mediation_table_name, "Process_id", 2);
 
@@ -417,6 +449,20 @@ void DRC_DB_TESTS::CheckInsertEmptySessionObject()
         OutputDebugInfo(session_table_columns, EmptyResults, empty_session_values, "INSERT_EMPTY_SESSION_DEBUG.txt");
 
     QCOMPARE(EmptyResults, empty_session_values);
+}
+
+void DRC_DB_TESTS::CheckInsertFullSessionObject()
+{
+    QCOMPARE(_db.InsertLinkedObject(FullProcess.GetId(), &FullSession), true);
+
+    QVector<QString> FullResults = _db.SelectOneFields(session_table_name, "Session_id", 2);
+
+    QCOMPARE(FullResults.size(), empty_session_values.size());
+
+    if(INSERT_FULL_SESSION_DEBUG)
+        OutputDebugInfo(session_table_columns, FullResults, full_session_values, "INSERT_FULL_SESSION_DEBUG.txt");
+
+    QCOMPARE(FullResults, full_session_values);
 }
 
 void DRC_DB_TESTS::AllocateTableNames()
@@ -591,10 +637,10 @@ void DRC_DB_TESTS::AllocateFullProcessVector()
 
 void DRC_DB_TESTS::AllocateEmptySessionVector()
 {
-    empty_session_values.push_back("1");  //SESSION_ID
-    empty_session_values.push_back("1");  //PROCESS_ID
-    empty_session_values.push_back("1");  //SESSION_STATE - NONE
-    empty_session_values.push_back("1");  //SESSION_OUTCOME - NONE
+    empty_session_values.push_back("1");                        //SESSION_ID
+    empty_session_values.push_back("1");                        //PROCESS_ID
+    empty_session_values.push_back("1");                        //SESSION_STATE - NONE
+    empty_session_values.push_back("1");                        //SESSION_OUTCOME - NONE
     empty_session_values.push_back("2014-07-24 00:00:01");
     empty_session_values.push_back("2014-07-24 00:00:02");
     empty_session_values.push_back("2014-07-28 00:00:03");
@@ -605,18 +651,36 @@ void DRC_DB_TESTS::AllocateEmptySessionVector()
     empty_session_values.push_back("0");
 }
 
+void DRC_DB_TESTS::AllocateFullSessionVector()
+{
+    full_session_values.push_back("2");
+    full_session_values.push_back("2");
+    full_session_values.push_back("3");        //SESSION_STATE_CONFIRMED
+    full_session_values.push_back("4");        //SESSION_OUTCOME_AGREEMENT
+    full_session_values.push_back("2025-08-25 03:44:55");
+    full_session_values.push_back("2025-08-26 06:00:00");
+    full_session_values.push_back("2700-08-26 01:00:44");
+    full_session_values.push_back("Ironfist");
+    full_session_values.push_back("Luke Cage");
+    full_session_values.push_back("Red Arrow");
+    full_session_values.push_back("Bizzaro");
+    full_session_values.push_back("1");
+}
 
+//void DRC_DB_TESTS::AllocateEmptyClientVector()
+//{
+//    empty_client_values.push_back("");
+//    empty_client_values.push_back("");
+//    empty_client_values.push_back("");
+//    empty_client_values.push_back("");
+//    empty_client_values.push_back("");
+//    empty_client_values.push_back("");
+//    empty_client_values.push_back("");
+//}
 
 //void DRC_DB_TESTS::CheckClientColumn()
 //{
-//    QCOMPARE(_db.DoesColumnExist(QString("Client_id"), client_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), client_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Person_id"), client_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Children"), client_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Observers"), client_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Attorney"), client_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), client_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Person_id"), client_table_name), true);
+
 //}
 
 //void DRC_DB_TESTS::CheckNotesColumn()
