@@ -84,31 +84,6 @@ class DRC_DB_TESTS : public QObject
 {
     Q_OBJECT
 
-public:
-    DRC_DB_TESTS();
-    void OutputDebugInfo(QVector<QString> TableColumns, QVector<QString> FromDatabase, QVector<QString> FromFile, QString OutputFileName);
-    void OutputColumnInfo(QVector<QString> DatabaseColumns, QVector<QString> TestColumns, QString OutputFileName);
-    void PrintVectorStrings(QVector<QString> PrintThis);
-
-    void AllocateTableNames();
-
-    void AllocatePersonColumns();
-    void AllocateProcessColumns();
-    void AllocateSessionColumns();
-    void AllocateClientColumns();
-
-    void AllocateEmptyPersonVector();
-    void AllocateFullPersonVector();
-
-    void AllocateEmptyProcessVector();
-    void AllocateFullProcessVector();
-
-    void AllocateEmptySessionVector();
-    void AllocateFullSessionVector();
-
-    void AllocateEmptyClientVector();
-    void AllocateFullClientVector();
-
 private Q_SLOTS:
     void OpenDatabase();
     void CorrectDatabaseName();
@@ -135,6 +110,11 @@ private Q_SLOTS:
     void CheckInsertFullClientObject();
 
     void CheckCreateClientSessionTable();
+    void CheckClientSessionColumn();
+
+    void CheckInsertEmptyClientSessionObject();
+    void CheckInsertFullClientSessionObject();
+
 //    void CheckNotesColumn();
 
 //    void InsertPersonObject();
@@ -142,6 +122,34 @@ private Q_SLOTS:
 
 //    void CheckErrors();
 //    void FindFirstName();
+
+public:
+    DRC_DB_TESTS();
+    void OutputDebugInfo(QVector<QString> TableColumns, QVector<QString> FromDatabase, QVector<QString> FromFile, QString OutputFileName);
+    void OutputColumnInfo(QVector<QString> DatabaseColumns, QVector<QString> TestColumns, QString OutputFileName);
+    void PrintVectorStrings(QVector<QString> PrintThis);
+
+    void AllocateTableNames();
+
+    void AllocatePersonColumns();
+    void AllocateProcessColumns();
+    void AllocateSessionColumns();
+    void AllocateClientColumns();
+    void AllocateClientSessionColumns();
+
+    void AllocateEmptyPersonVector();
+    void AllocateFullPersonVector();
+
+    void AllocateEmptyProcessVector();
+    void AllocateFullProcessVector();
+
+    void AllocateEmptySessionVector();
+    void AllocateFullSessionVector();
+
+    void AllocateEmptyClientVector();
+    void AllocateFullClientVector();
+
+    void AllocateEmptyClientSessionVector();
 
 private:
     DRCDB _db;
@@ -165,6 +173,7 @@ private:
     QVector<QString> mediation_table_columns;
     QVector<QString> session_table_columns;
     QVector<QString> client_table_columns;
+    QVector<QString> client_session_table_columns;
 
     QVector<QString> empty_person_values;
     QVector<QString> full_person_values;
@@ -178,8 +187,11 @@ private:
     QVector<QString> empty_client_values;
     QVector<QString> full_client_values;
 
+    QVector<QString> empty_client_session_values;
+
     Person EmptyPerson;
     Person FullPerson;
+
     MediationProcess FullProcess;
     MediationProcess EmptyProcess;
     MediationSession EmptySession;
@@ -187,6 +199,8 @@ private:
 
     Party EmptyParty;
     Party FullParty;
+
+    ClientSessionData EmptyClientSession;
 
 
 private slots:
@@ -242,6 +256,7 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     AllocateProcessColumns();
     AllocateSessionColumns();
     AllocateClientColumns();
+    AllocateClientSessionColumns();
 
     AllocateEmptyPersonVector();
     AllocateFullPersonVector();
@@ -254,6 +269,8 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
 
     AllocateEmptyClientVector();
     AllocateFullClientVector();
+
+    AllocateEmptyClientSessionVector();
 
     //Write method that accepts vector, and inserts into DB Object
     FullPerson.setFirstName(                                                     full_person_values[FIRST_NAME]);
@@ -573,6 +590,39 @@ void DRC_DB_TESTS::CheckCreateClientSessionTable()
     QCOMPARE(_db.DoesTableExist(client_session_table_name), true);
 }
 
+void DRC_DB_TESTS::CheckClientSessionColumn()
+{
+    QVERIFY2(client_session_table_columns.size() > 0, "ClientSession Column Vector Contains No Columns");
+    QVector<QString> database_columns = _db.GetColumnsList(client_session_table_name);
+
+    QVERIFY2(database_columns.size() > 0, "ClientSession DatabaseColumn Vector Contains No Columns");
+    QCOMPARE(client_session_table_columns.size(), database_columns.size());
+
+    OutputColumnInfo(database_columns, client_session_table_columns, "CLIENTSESSION_COLUMNS_DEBUG.txt");
+    QCOMPARE(client_session_table_columns, database_columns);
+}
+
+void DRC_DB_TESTS::CheckInsertEmptyClientSessionObject()
+{
+    QCOMPARE(_db.InsertClientSessionData(&EmptyClientSession, EmptySession.GetId(), EmptyParty.GetId()), true);
+
+    QVector<QString> EmptyResults = _db.SelectOneFields(client_session_table_name, "Data_id", 1);
+
+    //PrintVectorStrings(EmptyResults);
+
+    QCOMPARE(EmptyResults.size(), empty_client_session_values.size());
+
+    if(INSERT_FULL_SESSION_DEBUG)
+        OutputDebugInfo(client_session_table_columns, EmptyResults, empty_client_session_values, "INSERT_EMPTY_CLIENTSESSION_DEBUG.txt");
+
+    QCOMPARE(EmptyResults, empty_client_session_values);
+}
+
+void DRC_DB_TESTS::CheckInsertFullClientSessionObject()
+{
+
+}
+
 void DRC_DB_TESTS::AllocateTableNames()
 {
     person_table_name = QString("Person_Table");
@@ -658,6 +708,21 @@ void DRC_DB_TESTS::AllocateClientColumns()
     client_table_columns.push_back("AssistantName");
     client_table_columns.push_back("AssistantPhone");
     client_table_columns.push_back("AssistantEmail");
+}
+
+void DRC_DB_TESTS::AllocateClientSessionColumns()
+{
+    client_session_table_columns.push_back("Data_id");
+    client_session_table_columns.push_back("Client_id");
+    client_session_table_columns.push_back("Session_id");
+    client_session_table_columns.push_back("income");
+    client_session_table_columns.push_back("feesCharged");
+    client_session_table_columns.push_back("feesPaid");
+    client_session_table_columns.push_back("AttorneyExpected");
+    client_session_table_columns.push_back("AttorneyAttended");
+    client_session_table_columns.push_back("Support");
+    client_session_table_columns.push_back("ClientPhone");
+    client_session_table_columns.push_back("AtTable");
 }
 
 void DRC_DB_TESTS::AllocateEmptyPersonVector()
@@ -822,6 +887,20 @@ void DRC_DB_TESTS::AllocateFullClientVector()
     full_client_values.push_back("MaskNotMe@Attorney.law");      //Assistant Email
 }
 
+void DRC_DB_TESTS::AllocateEmptyClientSessionVector()
+{
+    empty_client_session_values.push_back("1");
+    empty_client_session_values.push_back("1");
+    empty_client_session_values.push_back("1");
+    empty_client_session_values.push_back("");
+    empty_client_session_values.push_back("");
+    empty_client_session_values.push_back("0");
+    empty_client_session_values.push_back("0");
+    empty_client_session_values.push_back("0");
+    empty_client_session_values.push_back("0");
+    empty_client_session_values.push_back("0");
+    empty_client_session_values.push_back("0");
+}
 
 //void DRC_DB_TESTS::CheckNotesColumn()
 //{
