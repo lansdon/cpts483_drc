@@ -121,6 +121,8 @@ private slots:
      */
     void on_partyTabWidget_tabCloseRequested(int index);
 
+    void on_notesPushButton_clicked();
+
 private:
     Ui::MediationProcessView *ui;
 

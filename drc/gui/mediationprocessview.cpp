@@ -76,7 +76,7 @@ void MediationProcessView::PopulateView()
 {
     if(!_mediationProcess)
         _mediationProcess = new MediationProcess();
-
+    ui->addSessionPushButton->setEnabled(false);
     // SUMMARY
     _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
     // CLIENTS
@@ -90,7 +90,8 @@ void MediationProcessView::PopulateView()
     Mediator::Call(MKEY_DOCK_SET_NOTES, _mediationProcess->GetNotes());
     // Update Mediations Browser
     Mediator::Call(MKEY_DOCK_REFRESH_MEDIATIONS);
-
+    if(_mediationProcess->GetInternalState() >= PROCESS_INTERNAL_STATE_CLIENT_INFO)
+        ui->addSessionPushButton->setEnabled(true);
     // Each View can setup it's own toolbar buttons
     ConfigureToolbar();
 
@@ -343,4 +344,9 @@ void MediationProcessView::PrintMediationProcessPressed()
         _mediationProcess->PrintMediation();
     }
     //qDebug() << "Print Mediation Pressed!";
+}
+
+void MediationProcessView::on_notesPushButton_clicked()
+{
+    ShowNotesBrowserPressed();
 }

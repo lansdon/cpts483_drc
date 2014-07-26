@@ -185,6 +185,8 @@ private slots:
 
     void on_assistantEmailLineEdit_textEdited(const QString &arg1);
 
+    void on_notesPushButton_clicked();
+
 signals:
     /*!
      * \brief SaveSignaled

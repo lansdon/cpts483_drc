@@ -447,3 +447,9 @@ void PersonDetailsForm::on_assistantEmailLineEdit_textEdited(const QString &arg1
     ProcessEmail(arg1, ui->assistantEmailLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
+
+void PersonDetailsForm::on_notesPushButton_clicked()
+{
+    Mediator::Call(MKEY_GUI_SHOW_NOTES_BROWSER);
+    update();
+}

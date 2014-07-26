@@ -56,8 +56,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>534</width>
-        <height>541</height>
+        <width>540</width>
+        <height>547</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -426,6 +426,13 @@
                   <widget class="QSpinBox" name="childrenInHomeSpinBox"/>
                  </item>
                 </layout>
+               </item>
+               <item>
+                <widget class="QPushButton" name="notesPushButton">
+                 <property name="text">
+                  <string>Open Notes</string>
+                 </property>
+                </widget>
                </item>
                <item>
                 <spacer name="horizontalSpacer">
