@@ -107,6 +107,7 @@ public:
     void AllocateFullSessionVector();
 
     void AllocateEmptyClientVector();
+    void AllocateFullClientVector();
 
 private Q_SLOTS:
     void OpenDatabase();
@@ -131,10 +132,9 @@ private Q_SLOTS:
     void CheckCreateClientTable();
     void CheckClientColumn();
     void CheckInsertEmptyClientObject();
+    void CheckInsertFullClientObject();
 
-
-//    void CheckSessionColumn();
-//    void CheckClientColumn();
+    void CheckCreateClientSessionTable();
 //    void CheckNotesColumn();
 
 //    void InsertPersonObject();
@@ -186,6 +186,7 @@ private:
     MediationSession FullSession;
 
     Party EmptyParty;
+    Party FullParty;
 
 
 private slots:
@@ -252,6 +253,7 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     AllocateFullSessionVector();
 
     AllocateEmptyClientVector();
+    AllocateFullClientVector();
 
     //Write method that accepts vector, and inserts into DB Object
     FullPerson.setFirstName(                                                     full_person_values[FIRST_NAME]);
@@ -328,6 +330,7 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     FullSession.SetIsShuttle(           (bool)                                  full_session_values[SHUTTLE].toInt());
 
     EmptyParty.SetPrimary(&EmptyPerson);
+    FullParty.SetPrimary(&FullPerson);
 }
 //=======================================================
 
@@ -550,6 +553,26 @@ void DRC_DB_TESTS::CheckInsertEmptyClientObject()
     QCOMPARE(EmptyResults, empty_client_values);
 }
 
+void DRC_DB_TESTS::CheckInsertFullClientObject()
+{
+    QCOMPARE(_db.InsertClientObject(&FullProcess, &FullParty), true);
+
+    QVector<QString> FullResults = _db.SelectOneFields(client_table_name, "Client_id", 2);
+
+    QCOMPARE(FullResults.size(), full_client_values.size());
+
+    if(INSERT_FULL_SESSION_DEBUG)
+        OutputDebugInfo(client_table_columns, FullResults, full_client_values, "INSERT_FULL_CLIENT_DEBUG.txt");
+
+    QCOMPARE(FullResults, full_client_values);
+}
+
+void DRC_DB_TESTS::CheckCreateClientSessionTable()
+{
+    QCOMPARE(_db.CreateClientSessionTable(client_session_table_name), true);
+    QCOMPARE(_db.DoesTableExist(client_session_table_name), true);
+}
+
 void DRC_DB_TESTS::AllocateTableNames()
 {
     person_table_name = QString("Person_Table");
@@ -621,6 +644,7 @@ void DRC_DB_TESTS::AllocateSessionColumns()
     session_table_columns.push_back("Shuttle");
 }
 
+
 void DRC_DB_TESTS::AllocateClientColumns()
 {
     client_table_columns.push_back("Client_id");
@@ -635,7 +659,6 @@ void DRC_DB_TESTS::AllocateClientColumns()
     client_table_columns.push_back("AssistantPhone");
     client_table_columns.push_back("AssistantEmail");
 }
-
 
 void DRC_DB_TESTS::AllocateEmptyPersonVector()
 {
@@ -770,8 +793,7 @@ void DRC_DB_TESTS::AllocateFullSessionVector()
 }
 
 void DRC_DB_TESTS::AllocateEmptyClientVector()
-{
-    
+{    
     empty_client_values.push_back("1");     //Client ID
     empty_client_values.push_back("1");     //Process ID
     empty_client_values.push_back("1");     //Person ID
@@ -784,6 +806,22 @@ void DRC_DB_TESTS::AllocateEmptyClientVector()
     empty_client_values.push_back("");      //Assistant Phone
     empty_client_values.push_back("");      //Assistant Email
 }
+
+void DRC_DB_TESTS::AllocateFullClientVector()
+{
+    full_client_values.push_back("2");     //Client ID
+    full_client_values.push_back("2");     //Process ID
+    full_client_values.push_back("2");     //Person ID
+    full_client_values.push_back("1000");     //Number of Children in Household
+    full_client_values.push_back("7");     //Number of Adults in Houeshold
+    full_client_values.push_back("Birdman");      //Attorney Name
+    full_client_values.push_back("123-123-1234");      //Attorney Phone
+    full_client_values.push_back("Birdman@Attorney.law");      //Attorney Email
+    full_client_values.push_back("Rachel Dawes");      //Assistant Name
+    full_client_values.push_back("333-333-3333");      //Assistant Phone
+    full_client_values.push_back("MaskNotMe@Attorney.law");      //Assistant Email
+}
+
 
 //void DRC_DB_TESTS::CheckNotesColumn()
 //{
