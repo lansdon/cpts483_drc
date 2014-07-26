@@ -157,7 +157,7 @@ private Q_SLOTS:
     void CheckInsertEmptyPersonObject();
     void CheckInsertFullPersonObject();
 
-    void CheckCreateProcessTable();
+    void CheckCreateMediationTable();
     void CheckProcessColumn();
     void CheckInsertEmptyProcessObject();
     void CheckInsertFullProcessObject();
@@ -387,9 +387,9 @@ void DRC_DB_TESTS::CheckInsertFullPersonObject()
     QCOMPARE(TruncatedPerson, FullResults);
 }
 
-void DRC_DB_TESTS::CheckCreateProcessTable()
+void DRC_DB_TESTS::CheckCreateMediationTable()
 {
-    QCOMPARE(_db.CreateProcessTable(mediation_table_name), true);
+    QCOMPARE(_db.CreateMediationTable(mediation_table_name), true);
     QCOMPARE(_db.DoesTableExist(mediation_table_name), true);
 }
 

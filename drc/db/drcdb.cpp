@@ -291,7 +291,7 @@ void DRCDB::LoadDatabase(QString filename)
 
     if (!this->DoesTableExist(mediation_table_name))
     {
-        CreateProcessTable(mediation_table_name);
+        CreateMediationTable(mediation_table_name);
     }
 
     if (!this->DoesTableExist(session_table_name))
