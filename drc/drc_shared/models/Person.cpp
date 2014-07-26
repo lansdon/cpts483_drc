@@ -6,6 +6,7 @@ Person::Person()
     _firstName = "";
     _numberInHousehold = 0;
     _numberChildrenInHousehold = 0;
+    _county = COUNTY_NONE;
 }
 
 Person::Person(QString n)
@@ -13,6 +14,7 @@ Person::Person(QString n)
     _firstName = n.toUtf8().constData();
     _numberInHousehold = 0;
     _numberChildrenInHousehold = 0;
+    _county = COUNTY_NONE;
 }
 
 Person::~Person()
