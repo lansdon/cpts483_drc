@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += testlib
+QT       += printsupport
 
 QT       -= gui
 
@@ -17,11 +18,17 @@ TEMPLATE = app
 
 INCLUDEPATH += ../../drc/bl/ \
     ../../drc/drc_shared/ \
+    ../../drc/drc_shared/models/ \
+    ../../drc/gui/ \
+    ../../drc/drc_shared/mediator/ \
+    ../../drc/ \
     ../../drc/drc_shared/models/
 
 SOURCES += tst_bltestsuit.cpp \
     ../../drc/drc_shared/models/Person.cpp \
     ../../drc/drc_shared/models/mediationprocess.cpp \
     ../../drc/drc_shared/models/party.cpp \
-    ../../drc/bl/stateupdate.cpp
+    ../../drc/bl/stateupdate.cpp \
+    ../../drc/drc_shared/drctypes.cpp \
+    ../../drc/drc_shared/models/mediationsession.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
