@@ -124,7 +124,6 @@ private Q_SLOTS:
 
     void CheckCreateClientSessionTable();
     void CheckClientSessionColumn();
-
     void CheckInsertEmptyClientSessionObject();
     void CheckInsertFullClientSessionObject();
 
@@ -958,38 +957,6 @@ void DRC_DB_TESTS::AllocateFullClientSessionVector()
     full_client_session_values.push_back("1");                      //ClientPhone - TRUE
     full_client_session_values.push_back("1");                      //AtTable - TRUE
 }
-
-//void DRC_DB_TESTS::CheckNotesColumn()
-//{
-//    QCOMPARE(_db.DoesColumnExist(QString("Note_id"), notes_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Process_id"), notes_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("Note"), notes_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("CreateDate"), notes_table_name), true);
-//}
-
-//    QCOMPARE(_db.DoesColumnExist(QString("first_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("middle_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("last_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("street_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("unit_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("city_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("state_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("zip_code"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("county_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("primary_phone"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("primary_phone_ext"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("secondary_phone_ext"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("email_address"), person_table_name), true);
-
-//    QCOMPARE(_db.DoesColumnExist(QString("number_adult_in_house"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("number_children_in_house"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("attorney_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("attorney_phone"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("attorney_email"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("assistant_name"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("assistant_phone"), person_table_name), true);
-//    QCOMPARE(_db.DoesColumnExist(QString("assistant_email"), person_table_name), true);
 
 QTEST_APPLESS_MAIN(DRC_DB_TESTS)
 
