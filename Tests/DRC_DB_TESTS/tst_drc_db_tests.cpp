@@ -14,6 +14,8 @@
 #define INSERT_FULL_PROCESS_DEBUG true
 #define INSERT_EMPTY_SESSION_DEBUG true
 #define INSERT_FULL_SESSION_DEBUG true
+#define INSERT_EMPTY_CLIENT_SESSION_DEBUG true
+#define INSERT_FULL_CLIENT_SESSION_DEBUG true
 
 #define TITLE_COLUMNS 45
 #define DISTANCE_FROM_COLON -30
@@ -79,6 +81,17 @@ enum SessionColumns
     SHUTTLE = 11
 };
 
+enum ClientSessionColumns
+{
+    INCOME = 3,
+    FEESCHARGED = 4,
+    FEESPAID = 5,
+    ATTORNEYEXPECTED = 6,
+    ATTORNEYATTENDED = 7,
+    SUPPORT = 8,
+    CLIENTPHONE = 9,
+    ATTABLE = 10
+};
 
 class DRC_DB_TESTS : public QObject
 {
@@ -150,6 +163,7 @@ public:
     void AllocateFullClientVector();
 
     void AllocateEmptyClientSessionVector();
+    void AllocateFullClientSessionVector();
 
 private:
     DRCDB _db;
@@ -188,6 +202,7 @@ private:
     QVector<QString> full_client_values;
 
     QVector<QString> empty_client_session_values;
+    QVector<QString> full_client_session_values;
 
     Person EmptyPerson;
     Person FullPerson;
@@ -201,6 +216,7 @@ private:
     Party FullParty;
 
     ClientSessionData EmptyClientSession;
+    ClientSessionData FullClientSession;
 
 
 private slots:
@@ -271,6 +287,7 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     AllocateFullClientVector();
 
     AllocateEmptyClientSessionVector();
+    AllocateFullClientSessionVector();
 
     //Write method that accepts vector, and inserts into DB Object
     FullPerson.setFirstName(                                                     full_person_values[FIRST_NAME]);
@@ -348,6 +365,20 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
 
     EmptyParty.SetPrimary(&EmptyPerson);
     FullParty.SetPrimary(&FullPerson);
+
+//    FullClientSession //Data_id
+//    FullClientSession //Client_id
+//    FullClientSession //Session_id
+    FullClientSession.setIncome(                                                full_client_session_values[INCOME]); //income
+    FullClientSession.setFee(                                                   full_client_session_values[FEESCHARGED]); //feesCharged
+    FullClientSession.setPaid(           (bool)                                 full_client_session_values[FEESPAID].toInt()); //feesPaid
+    FullClientSession.setAttySaidAttend( (bool)                                 full_client_session_values[ATTORNEYEXPECTED].toInt()); //AttorneyExpected
+    FullClientSession.setAttyDidAttend(  (bool)                                 full_client_session_values[ATTORNEYATTENDED].toInt()); //AttorneyAttended
+    FullClientSession.setSupport(                                               full_client_session_values[SUPPORT].toInt()); //Support
+    FullClientSession.setOnPhone(        (bool)                                 full_client_session_values[CLIENTPHONE].toInt()); //ClientPhone
+    FullClientSession.setAtTable(        (bool)                                 full_client_session_values[ATTABLE].toInt()); //AtTable
+
+
 }
 //=======================================================
 
@@ -612,7 +643,7 @@ void DRC_DB_TESTS::CheckInsertEmptyClientSessionObject()
 
     QCOMPARE(EmptyResults.size(), empty_client_session_values.size());
 
-    if(INSERT_FULL_SESSION_DEBUG)
+    if(INSERT_EMPTY_CLIENT_SESSION_DEBUG)
         OutputDebugInfo(client_session_table_columns, EmptyResults, empty_client_session_values, "INSERT_EMPTY_CLIENTSESSION_DEBUG.txt");
 
     QCOMPARE(EmptyResults, empty_client_session_values);
@@ -620,7 +651,18 @@ void DRC_DB_TESTS::CheckInsertEmptyClientSessionObject()
 
 void DRC_DB_TESTS::CheckInsertFullClientSessionObject()
 {
+    QCOMPARE(_db.InsertClientSessionData(&FullClientSession, FullSession.GetId(), FullParty.GetId()), true);
 
+    QVector<QString> FullResults = _db.SelectOneFields(client_session_table_name, "Data_id", 2);
+
+    //PrintVectorStrings(EmptyResults);
+
+    QCOMPARE(FullResults.size(), full_client_session_values.size());
+
+    if(INSERT_FULL_CLIENT_SESSION_DEBUG)
+        OutputDebugInfo(client_session_table_columns, FullResults, full_client_session_values, "INSERT_FULL_CLIENTSESSION_DEBUG.txt");
+
+    QCOMPARE(FullResults, full_client_session_values);
 }
 
 void DRC_DB_TESTS::AllocateTableNames()
@@ -900,6 +942,21 @@ void DRC_DB_TESTS::AllocateEmptyClientSessionVector()
     empty_client_session_values.push_back("0");
     empty_client_session_values.push_back("0");
     empty_client_session_values.push_back("0");
+}
+
+void DRC_DB_TESTS::AllocateFullClientSessionVector()
+{
+    full_client_session_values.push_back("2");                      //Data_id
+    full_client_session_values.push_back("2");                      //Client_id
+    full_client_session_values.push_back("2");                      //Session_id
+    full_client_session_values.push_back("100000000");              //income - QString
+    full_client_session_values.push_back("50");                     //feesCharged - QString
+    full_client_session_values.push_back("1");                      //feesPaid - TRUE
+    full_client_session_values.push_back("1");                      //AttorneyExpected - TRUE
+    full_client_session_values.push_back("1");                      //AttorneyAttended - TRUE
+    full_client_session_values.push_back("5000");                   //Support - INT
+    full_client_session_values.push_back("1");                      //ClientPhone - TRUE
+    full_client_session_values.push_back("1");                      //AtTable - TRUE
 }
 
 //void DRC_DB_TESTS::CheckNotesColumn()
