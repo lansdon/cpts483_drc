@@ -49,11 +49,17 @@ private:
      */
     bool initiated(MediationProcess* arg);
     /*!
-     * \brief unique
-     * \param arg
-     * \return
+     * \brief The MediationProcess has at least two unique clients
+     * \param arg MediationProcess we are evaluating.
+     * \return true if ok to save, false if not.
      */
     bool unique(MediationProcess *arg);
+    /*!
+     * \brief Attorney information has been collected
+     * \param arg MediationProcess we are evaluating.
+     * \return true if ok to save, false if not.
+     */
+    bool attorney(MediationProcess *arg);
     /*!
      * \brief clientinfo
      * \param arg
@@ -93,14 +99,14 @@ private:
     /*!
      * \brief ValidateName
      * \param name
-     * \return
+     * \return true if name is not empty or " ", otherwise false.
      */
     bool ValidateName(QString name);
     /*!
      * \brief StateToString
-     * \return
+     * \return A string version of each internal state for debug statements
      */
-    QString StateToString(DisputeProcessInternalStates);
+    QString StateToString(DisputeProcessInternalStates state);
     /*!
      * \brief GetExternalState
      * \param arg

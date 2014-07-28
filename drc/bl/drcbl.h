@@ -16,6 +16,7 @@ class DRCBL
 {
 public:
     DRCBL();
+    ~DRCBL();
     /*!
      * \brief AuthenticateUser
      * \param arg
@@ -26,6 +27,16 @@ public:
      * \param arg
      */
     void ValidateMediationProcess(MediatorArg arg) const;
+    /*!
+     * \brief Calculates internal state on save pending event
+     *
+     * \param arg The MediationProcess for which state message is calculated.
+     *
+     * Does not send anything to db, so nothing gets saved, but
+     * the internal state is calculated for more interactive state
+     * message feedback.
+     */
+    void CalculateInternalStateOnSavePending(MediatorArg arg) const;
     /*!
      * \brief LoadMediationProcess
      * \param arg
@@ -67,6 +78,16 @@ public:
      */
     void QueryMonthlyReport(MediatorArg arg) const;
 private:
+    MediatorId midSubmitMP;
+    MediatorId midLoadMP;
+    MediatorId midRecentMP;
+    MediatorId midPendingMP;
+    MediatorId midScheduledMP;
+    MediatorId midClosedMP;
+    MediatorId midQueryMP;
+    MediatorId midReswaRpt;
+    MediatorId midMonthlyRpt;
+    MediatorId midSavePendingMP;
 };
 
 //}   // end namespace

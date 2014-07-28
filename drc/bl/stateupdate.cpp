@@ -42,6 +42,9 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
         case PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS:
             success = unique(arg);
             break;
+        case PROCESS_INTERNAL_STATE_ATTORNEY_INFO:
+            success = attorney(arg);
+            break;
         case PROCESS_INTERNAL_STATE_CLIENT_INFO:
             success = clientinfo(arg);
             break;
@@ -96,7 +99,7 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
     }
     else
     {
-        qDebug() << "Error - Decided status: " << StateToString(finalState) << " errorMessage(" << _errorMessage << ")";
+        qDebug() << "Error - Decided status: " << StateToString(finalState) << " errorMessage(" << errorMessage << ") << should be blank!";
     }
 
     return success;
@@ -217,11 +220,16 @@ bool StateUpdate::initiated(MediationProcess* arg)
             }
         }
     }
+    else if (arg->GetSessionType() == COACHING_SESSION)
+    {
+        // coaching sessions do not require more than 1 person.
+        advance = true;
+    }
     else
     {
         // need at least two clients to proceed.
         _errorMessage = "Cannot schedule: At least two clients are needed.";
-        _stateMessage = "To proceed, at least two clients are needed.";
+        _stateMessage = "To create session(s), client(s) or coaching need to be identified.";
         advance = false;
     }
     if(advance)
@@ -246,7 +254,7 @@ bool StateUpdate::initiated(MediationProcess* arg)
  * unique state: we know there are at least two unique clients
  * checks to see if party1 primary == party2 primary
  * AND ensure we have some contact info for both parties
- * success: state = PROCESS_INTERNAL_STATE_CLIENT_INFO
+ * success: state = PROCESS_INTERNAL_STATE_ATTORNEY_INFO
  * failure: state = PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS
  * -------------------------------------------------------------------------------------------------------
  */
@@ -268,12 +276,55 @@ bool StateUpdate::unique(MediationProcess* arg)
 
     if (advance)
     {
-        arg->SetInternalState(PROCESS_INTERNAL_STATE_CLIENT_INFO);
+        arg->SetInternalState(PROCESS_INTERNAL_STATE_ATTORNEY_INFO);
     }
     else
     {
         _errorMessage = "Cannot schedule: Enter a phone number then enter email or mailing address for each client.";
         _stateMessage = "To schedule, enter a phone number then enter either email or a mailing address for each client.";
+    }
+
+    // debug statements
+    if(advance)
+    {
+        qDebug() << "Validation status: transition criteria met, advancing.";
+    }
+    else
+    {
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
+    }
+
+    return advance;
+}
+
+/* -------------------------------------------------------------------------------------------------------
+ * unique state: we know there are at least two unique clients
+ * checks to see if party1 primary == party2 primary
+ * AND ensure we have some contact info for both parties
+ * success: state = PROCESS_INTERNAL_STATE_CLIENT_INFO
+ * failure: state = PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS
+ * -------------------------------------------------------------------------------------------------------
+ */
+bool StateUpdate::attorney(MediationProcess* arg)
+{
+    qDebug() << "Validating Attorney State.";
+    auto parties = arg->GetParties();
+    bool advance = true;
+
+    for (unsigned int i=0; i < parties->size(); i++)
+    {
+        auto primary = parties->at(i)->GetPrimary();
+        advance &= ValidateName(primary->getAttorney());
+    }
+
+    if (advance)
+    {
+        arg->SetInternalState(PROCESS_INTERNAL_STATE_CLIENT_INFO);
+    }
+    else
+    {
+        _errorMessage = "Cannot schedule: Enter a name (or the word none) for each parties attorney.";
+        _stateMessage = "To schedule, enter an attorney name for each client.";
     }
 
     // debug statements
@@ -563,6 +614,7 @@ void StateUpdate::GetExternalState(MediationProcess* arg)
         case PROCESS_INTERNAL_STATE_INFO_ONLY:
         case PROCESS_INTERNAL_STATE_INITIATED:
         case PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS:
+        case PROCESS_INTERNAL_STATE_ATTORNEY_INFO:
         case PROCESS_INTERNAL_STATE_CLIENT_INFO:
         case PROCESS_INTERNAL_STATE_FEES_RECORDED:
         case PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED:
@@ -610,6 +662,9 @@ QString StateUpdate::StateToString(DisputeProcessInternalStates state)
       break;
   case PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS:
       return "UNIQUE_CLIENTS";
+      break;
+  case PROCESS_INTERNAL_STATE_ATTORNEY_INFO:
+      return "ATTORNEY_INFO";
       break;
   case PROCESS_INTERNAL_STATE_CLIENT_INFO:
       return "CLIENT_INFO";
