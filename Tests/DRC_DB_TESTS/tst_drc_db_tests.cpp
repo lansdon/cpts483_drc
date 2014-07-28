@@ -157,6 +157,7 @@ public:
     DRC_DB_TESTS();
     void OutputDebugInfo(QVector<QString> TableColumns, QVector<QString> FromDatabase, QVector<QString> FromFile, QString OutputFileName);
     void OutputColumnInfo(QVector<QString> DatabaseColumns, QVector<QString> TestColumns, QString OutputFileName);
+
     void PrintVectorStrings(QVector<QString> PrintThis);
 
     void PrintObjects();
@@ -170,11 +171,13 @@ public:
     Person* InitializePersonObject(QVector<QString> PersonStringValues);
     MediationProcess* InitializeProcessObject(QVector<QString> ProcessStringValues);
     MediationSession* InitializeSessionObject(QVector<QString> SessionStringValues);
+    Party* InitializeClientObject(Person *Primary);
+    ClientSessionData* InitializeClientSessionObject(QVector<QString> ClientSessionValues);
+    Note* InitializeNoteObject(QVector<QString> NoteStringValues, MediationProcess* ProcessID, MediationSession* SessionID);
 
     void AllocateTableNames();
     void AllocateVectorValues();
     void AllocateTableColumns();
-
 
     void AllocatePersonColumns();
     void AllocateProcessColumns();
@@ -207,6 +210,9 @@ private:
     QVector<Person*> PersonObjectsTracker;
     QVector<MediationProcess*> ProcessObjectsTracker;
     QVector<MediationSession*> SessionObjectsTracker;
+    QVector<Party*> PartyObjectsTracker;
+    QVector<ClientSessionData*> ClientSessionObjectsTracker;
+    QVector<Note*> NoteObjectsTracker;
 
     const QString DateFormat;
     const QString DateTimeFormat;
@@ -257,14 +263,14 @@ private:
     MediationSession* EmptySession;
     MediationSession* FullSession;
 
-    Party EmptyParty;
-    Party FullParty;
+    Party* EmptyParty;
+    Party* FullParty;
 
-    ClientSessionData EmptyClientSession;
-    ClientSessionData FullClientSession;
+    ClientSessionData* EmptyClientSession;
+    ClientSessionData* FullClientSession;
 
-    Note EmptyNote;
-    Note FullNote;
+    Note* EmptyNote;
+    Note* FullNote;
 
 
 private slots:
@@ -285,6 +291,31 @@ private slots:
         }
 
         foreach(MediationProcess* object, ProcessObjectsTracker)
+        {
+            delete object;
+            object = nullptr;
+        }
+
+        foreach(MediationSession* object, SessionObjectsTracker)
+        {
+            delete object;
+            object = nullptr;
+        }
+
+        foreach(Party* object, PartyObjectsTracker)
+        {
+            object->SetPrimary(nullptr);
+            delete object;
+            object = nullptr;
+        }
+
+        foreach(ClientSessionData* object, ClientSessionObjectsTracker)
+        {
+            delete object;
+            object = nullptr;
+        }
+
+        foreach(Note* object, NoteObjectsTracker)
         {
             delete object;
             object = nullptr;
@@ -323,21 +354,15 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     EmptySession = InitializeSessionObject(empty_session_values);
     FullSession = InitializeSessionObject(full_session_values);
 
+    EmptyParty = InitializeClientObject(EmptyPerson);
+    FullParty = InitializeClientObject(FullPerson);
 
-    EmptyParty.SetPrimary(EmptyPerson);
-    FullParty.SetPrimary(FullPerson);
+    EmptyClientSession = InitializeClientSessionObject(empty_client_session_values);
+    FullClientSession = InitializeClientSessionObject(full_client_session_values);
 
-//    FullClientSession //Data_id
-//    FullClientSession //Client_id
-//    FullClientSession //Session_id
-    FullClientSession.setIncome(                                                full_client_session_values[INCOME]); //income
-    FullClientSession.setFee(                                                   full_client_session_values[FEESCHARGED]); //feesCharged
-    FullClientSession.setPaid(           (bool)                                 full_client_session_values[FEESPAID].toInt()); //feesPaid
-    FullClientSession.setAttySaidAttend( (bool)                                 full_client_session_values[ATTORNEYEXPECTED].toInt()); //AttorneyExpected
-    FullClientSession.setAttyDidAttend(  (bool)                                 full_client_session_values[ATTORNEYATTENDED].toInt()); //AttorneyAttended
-    FullClientSession.setSupport(                                               full_client_session_values[SUPPORT].toInt()); //Support
-    FullClientSession.setOnPhone(        (bool)                                 full_client_session_values[CLIENTPHONE].toInt()); //ClientPhone
-    FullClientSession.setAtTable(        (bool)                                 full_client_session_values[ATTABLE].toInt()); //AtTable
+    EmptyNote = InitializeNoteObject(empty_note_values, EmptyProcess, EmptySession);
+    FullNote = InitializeNoteObject(full_note_values, FullProcess, FullSession);
+
 }
 //=======================================================
 
@@ -370,6 +395,49 @@ void DRC_DB_TESTS::AllocateVectorValues()
 
     AllocateEmptyNoteValues();
     AllocateFullNoteValues();
+}
+
+Note* DRC_DB_TESTS::InitializeNoteObject(QVector<QString> NoteStringValues, MediationProcess* ProcessID, MediationSession* SessionID)
+{
+    Note* object = new Note;
+    NoteObjectsTracker.push_back(object);
+
+    qDebug() << ProcessID->GetId();
+    qDebug() << SessionID->GetId();
+
+    object->SetMediationId(ProcessID->GetId());
+    object->SetSessionId(SessionID->GetId());
+    object->SetMessage(                                                        NoteStringValues[3]);
+    object->SetCreatedDate(             QDateTime::fromString(                 NoteStringValues[4], DateTimeFormat));
+
+    return object;
+}
+
+ClientSessionData* DRC_DB_TESTS::InitializeClientSessionObject(QVector<QString> ClientSessionValues)
+{
+    ClientSessionData* object = new ClientSessionData;
+    ClientSessionObjectsTracker.push_back(object);
+
+    object->setIncome(                                                ClientSessionValues[INCOME]); //income
+    object->setFee(                                                   ClientSessionValues[FEESCHARGED]); //feesCharged
+    object->setPaid(           (bool)                                 ClientSessionValues[FEESPAID].toInt()); //feesPaid
+    object->setAttySaidAttend( (bool)                                 ClientSessionValues[ATTORNEYEXPECTED].toInt()); //AttorneyExpected
+    object->setAttyDidAttend(  (bool)                                 ClientSessionValues[ATTORNEYATTENDED].toInt()); //AttorneyAttended
+    object->setSupport(                                               ClientSessionValues[SUPPORT].toInt()); //Support
+    object->setOnPhone(        (bool)                                 ClientSessionValues[CLIENTPHONE].toInt()); //ClientPhone
+    object->setAtTable(        (bool)                                 ClientSessionValues[ATTABLE].toInt()); //AtTable
+
+    return object;
+}
+
+Party* DRC_DB_TESTS::InitializeClientObject(Person* Primary)
+{
+    Party* object = new Party;
+    PartyObjectsTracker.push_back(object);
+
+    object->SetPrimary(Primary);
+
+    return object;
 }
 
 MediationSession* DRC_DB_TESTS::InitializeSessionObject(QVector<QString> SessionStringValues)
@@ -451,9 +519,9 @@ Person* DRC_DB_TESTS::InitializePersonObject(QVector<QString> PersonStringValues
 void DRC_DB_TESTS::PrintObjects()
 {
     PrintPersonObject(FullPerson);
-    PrintClientObject(&FullParty);
+    PrintClientObject(FullParty);
     PrintSessionObject(FullSession);
-    PrintNoteObject(&FullNote);
+    PrintNoteObject(FullNote);
     PrintProcessObject(FullProcess);
 }
 
@@ -764,7 +832,7 @@ void DRC_DB_TESTS::CheckClientColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptyClientObject()
 {
-    QCOMPARE(_db.InsertClientObject(EmptyProcess, &EmptyParty), true);
+    QCOMPARE(_db.InsertClientObject(EmptyProcess, EmptyParty), true);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(client_table_name, "Client_id", 1);
 
@@ -778,7 +846,7 @@ void DRC_DB_TESTS::CheckInsertEmptyClientObject()
 
 void DRC_DB_TESTS::CheckInsertFullClientObject()
 {
-    QCOMPARE(_db.InsertClientObject(FullProcess, &FullParty), true);
+    QCOMPARE(_db.InsertClientObject(FullProcess, FullParty), true);
 
     QVector<QString> FullResults = _db.SelectOneFields(client_table_name, "Client_id", 2);
 
@@ -810,7 +878,7 @@ void DRC_DB_TESTS::CheckClientSessionColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptyClientSessionObject()
 {
-    QCOMPARE(_db.InsertClientSessionData(&EmptyClientSession, EmptySession->GetId(), EmptyParty.GetId()), true);
+    QCOMPARE(_db.InsertClientSessionData(EmptyClientSession, EmptySession->GetId(), EmptyParty->GetId()), true);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(client_session_table_name, "Data_id", 1);
 
@@ -826,7 +894,7 @@ void DRC_DB_TESTS::CheckInsertEmptyClientSessionObject()
 
 void DRC_DB_TESTS::CheckInsertFullClientSessionObject()
 {
-    QCOMPARE(_db.InsertClientSessionData(&FullClientSession, FullSession->GetId(), FullParty.GetId()), true);
+    QCOMPARE(_db.InsertClientSessionData(FullClientSession, FullSession->GetId(), FullParty->GetId()), true);
 
     QVector<QString> FullResults = _db.SelectOneFields(client_session_table_name, "Data_id", 2);
 
@@ -858,12 +926,12 @@ void DRC_DB_TESTS::CheckNotesColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptyNoteObject()
 {
-    EmptyNote.SetMediationId(EmptyProcess->GetId());
-    EmptyNote.SetSessionId(EmptySession->GetId());
-    EmptyNote.SetMessage(                                                       empty_note_values[3]);
-    EmptyNote.SetCreatedDate(           QDateTime::fromString(                  empty_note_values[4], DateTimeFormat));
+//    EmptyNote.SetMediationId(EmptyProcess->GetId());
+//    EmptyNote.SetSessionId(EmptySession->GetId());
+//    EmptyNote.SetMessage(                                                       empty_note_values[3]);
+//    EmptyNote.SetCreatedDate(           QDateTime::fromString(                  empty_note_values[4], DateTimeFormat));
 
-    QCOMPARE(_db.InsertObject(&EmptyNote), true);
+    QCOMPARE(_db.InsertObject(EmptyNote), true);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(notes_table_name, "Note_id", 1);
 
@@ -872,17 +940,17 @@ void DRC_DB_TESTS::CheckInsertEmptyNoteObject()
     if(INSERT_EMPTY_CLIENT_SESSION_DEBUG)
         OutputDebugInfo(notes_table_columns, EmptyResults, empty_note_values, "INSERT_EMPTY_NOTE_DEBUG.txt");
 
-    QCOMPARE(EmptyResults, empty_note_values);
+     QCOMPARE(EmptyResults, empty_note_values);
 }
 
 void DRC_DB_TESTS::CheckInsertFullNoteObject()
 {
-    FullNote.SetMediationId(FullProcess->GetId());
-    FullNote.SetSessionId(FullSession->GetId());
-    FullNote.SetMessage(                                                        full_note_values[3]);
-    FullNote.SetCreatedDate(             QDateTime::fromString(                 full_note_values[4], DateTimeFormat));
+//    FullNote.SetMediationId(FullProcess->GetId());
+//    FullNote.SetSessionId(FullSession->GetId());
+//    FullNote.SetMessage(                                                        full_note_values[3]);
+//    FullNote.SetCreatedDate(             QDateTime::fromString(                 full_note_values[4], DateTimeFormat));
 
-    QCOMPARE(_db.InsertObject(&FullNote), true);
+    QCOMPARE(_db.InsertObject(FullNote), true);
 
     QVector<QString> FullResults = _db.SelectOneFields(notes_table_name, "Note_id", 2);
 
