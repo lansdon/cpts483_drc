@@ -42,6 +42,18 @@ enum PersonColumns
     EMAIL_ADDRESS = 14
 };
 
+enum ClientColumns
+{
+    NUMBERINHOUSEHOLD = 15,
+    NUMBERCHILDRENINHOUSEHOLD = 16,
+    ATTORNEY = 17,
+    ATTORNEYPHONE = 18,
+    ATTORNEYEMAIL = 19,
+    ASSISTANTNAME = 20,
+    ASSISTANTPHONE = 21,
+    ASSISTANTEMAIL = 22
+};
+
 enum ProcessColumns
 {
     PROCESS_ID = 0,
@@ -132,6 +144,7 @@ private Q_SLOTS:
     void CheckInsertEmptyNoteObject();
     void CheckInsertFullNoteObject();
 
+
 //    void CheckNotesColumn();
 
 //    void InsertPersonObject();
@@ -146,7 +159,22 @@ public:
     void OutputColumnInfo(QVector<QString> DatabaseColumns, QVector<QString> TestColumns, QString OutputFileName);
     void PrintVectorStrings(QVector<QString> PrintThis);
 
+    void PrintObjects();
+
+    void PrintProcessObject(MediationProcess *object);
+    void PrintSessionObject(MediationSession *object);
+    void PrintClientObject(Party *object);
+    void PrintPersonObject(Person *object);
+    void PrintNoteObject(Note *object);
+
+    Person* InitializePersonObject(QVector<QString> PersonStringValues);
+    MediationProcess* InitializeProcessObject(QVector<QString> ProcessStringValues);
+    MediationSession* InitializeSessionObject(QVector<QString> SessionStringValues);
+
     void AllocateTableNames();
+    void AllocateVectorValues();
+    void AllocateTableColumns();
+
 
     void AllocatePersonColumns();
     void AllocateProcessColumns();
@@ -175,6 +203,10 @@ public:
 
 private:
     DRCDB _db;
+
+    QVector<Person*> PersonObjectsTracker;
+    QVector<MediationProcess*> ProcessObjectsTracker;
+    QVector<MediationSession*> SessionObjectsTracker;
 
     const QString DateFormat;
     const QString DateTimeFormat;
@@ -216,13 +248,14 @@ private:
     QVector<QString> empty_note_values;
     QVector<QString> full_note_values;
 
-    Person EmptyPerson;
-    Person FullPerson;
+    Person* EmptyPerson;
+    Person* FullPerson;
 
-    MediationProcess FullProcess;
-    MediationProcess EmptyProcess;
-    MediationSession EmptySession;
-    MediationSession FullSession;
+    MediationProcess* EmptyProcess;
+    MediationProcess* FullProcess;
+
+    MediationSession* EmptySession;
+    MediationSession* FullSession;
 
     Party EmptyParty;
     Party FullParty;
@@ -245,6 +278,18 @@ private slots:
         //Database should've closed successfully.
         QCOMPARE(_db.CloseDatabase(), true);
 
+        foreach(Person* object, PersonObjectsTracker)
+        {
+            delete object;
+            object = nullptr;
+        }
+
+        foreach(MediationProcess* object, ProcessObjectsTracker)
+        {
+            delete object;
+            object = nullptr;
+        }
+
         //*******For the sake of this Test Suite, we delete database after every run.*******
         //*******Comment out if undesirable; IE, looking inside file directly.       *******
         //*******Be sure to manually delete if you do comment this line out.         *******
@@ -253,6 +298,247 @@ private slots:
     }
 };
 
+
+
+
+//  Change information to accomodate new circumstances.
+//======================================================
+DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM-dd hh:mm:ss"), TimeFormat("hh:mm:ss")
+{
+    database_name = QString("drc_db.db3");
+
+    AllocateTableNames();
+
+    AllocateTableColumns();
+
+    AllocateVectorValues();
+
+    //Write method that accepts vector, and inserts into DB Object
+    FullPerson = InitializePersonObject(full_person_values);
+    EmptyPerson = InitializePersonObject(empty_person_values);
+
+    EmptyProcess = InitializeProcessObject(empty_process_values);
+    FullProcess = InitializeProcessObject(full_process_values);
+
+    EmptySession = InitializeSessionObject(empty_session_values);
+    FullSession = InitializeSessionObject(full_session_values);
+
+
+    EmptyParty.SetPrimary(EmptyPerson);
+    FullParty.SetPrimary(FullPerson);
+
+//    FullClientSession //Data_id
+//    FullClientSession //Client_id
+//    FullClientSession //Session_id
+    FullClientSession.setIncome(                                                full_client_session_values[INCOME]); //income
+    FullClientSession.setFee(                                                   full_client_session_values[FEESCHARGED]); //feesCharged
+    FullClientSession.setPaid(           (bool)                                 full_client_session_values[FEESPAID].toInt()); //feesPaid
+    FullClientSession.setAttySaidAttend( (bool)                                 full_client_session_values[ATTORNEYEXPECTED].toInt()); //AttorneyExpected
+    FullClientSession.setAttyDidAttend(  (bool)                                 full_client_session_values[ATTORNEYATTENDED].toInt()); //AttorneyAttended
+    FullClientSession.setSupport(                                               full_client_session_values[SUPPORT].toInt()); //Support
+    FullClientSession.setOnPhone(        (bool)                                 full_client_session_values[CLIENTPHONE].toInt()); //ClientPhone
+    FullClientSession.setAtTable(        (bool)                                 full_client_session_values[ATTABLE].toInt()); //AtTable
+}
+//=======================================================
+
+void DRC_DB_TESTS::AllocateTableColumns()
+{
+    AllocatePersonColumns();
+    AllocateProcessColumns();
+    AllocateSessionColumns();
+    AllocateClientColumns();
+    AllocateClientSessionColumns();
+    AllocateNotesColumns();
+}
+
+void DRC_DB_TESTS::AllocateVectorValues()
+{
+    AllocateEmptyPersonVector();
+    AllocateFullPersonVector();
+
+    AllocateEmptyProcessVector();
+    AllocateFullProcessVector();
+
+    AllocateEmptySessionVector();
+    AllocateFullSessionVector();
+
+    AllocateEmptyClientVector();
+    AllocateFullClientVector();
+
+    AllocateEmptyClientSessionVector();
+    AllocateFullClientSessionVector();
+
+    AllocateEmptyNoteValues();
+    AllocateFullNoteValues();
+}
+
+MediationSession* DRC_DB_TESTS::InitializeSessionObject(QVector<QString> SessionStringValues)
+{
+    MediationSession* object = new MediationSession;
+    SessionObjectsTracker.push_back(object);
+
+    object->SetState(               (SessionStates)                         SessionStringValues[SESSIONSTATUS].toInt());
+    object->setOutcome(             (SessionOutcomes)                       SessionStringValues[SESSIONOUTCOME].toInt());
+    object->SetCreatedDate(         QDateTime::fromString(                  SessionStringValues[SESSION_CREATEDDATETIME], DateTimeFormat));
+    object->SetUpdatedDate(         QDateTime::fromString(                  SessionStringValues[SESSION_UPDATEDDATETIME], DateTimeFormat));
+    object->setScheduledDate(       QDate::fromString(                      SessionStringValues[SCHEDULEDTIME].split(" ")[0], DateFormat));
+    object->setScheduledTime(       QTime::fromString(                      SessionStringValues[SCHEDULEDTIME].split(" ")[1], TimeFormat));
+    object->setMediator1(                                                   SessionStringValues[MEDIATOR1]);
+    object->setMediator2(                                                   SessionStringValues[MEDIATOR2]);
+    object->setObserver1(                                                   SessionStringValues[OBSERVER1]);
+    object->setObserver2(                                                   SessionStringValues[OBSERVER2]);
+    object->SetIsShuttle(           (bool)                                  SessionStringValues[SHUTTLE].toInt());
+
+    return object;
+}
+
+MediationProcess* DRC_DB_TESTS::InitializeProcessObject(QVector<QString> ProcessStringValues)
+{
+    MediationProcess* object = new MediationProcess;
+    ProcessObjectsTracker.push_back(object);
+
+    object->SetDisputeType(              (DisputeTypes)                      ProcessStringValues[DISPUTETYPE].toInt());
+    object->SetCreatedDate(              QDateTime::fromString(              ProcessStringValues[PROCESS_CREATIONDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
+    object->SetUpdatedDate(              QDateTime::fromString(              ProcessStringValues[PROCESS_UPDATEDDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
+    object->SetState(                    (DisputeProcessStates)              ProcessStringValues[DISPUTESTATE].toInt());                  //DisputeProcessStates - PROCESS_STATE_SCHEDULED
+    object->SetInternalState(            (DisputeProcessInternalStates)      ProcessStringValues[DISPUTEINTERNALSTATE].toInt());  //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
+    object->SetCountyId(                 (CountyIds)                         ProcessStringValues[DISPUTECOUNTY].toInt());                          //CountyIds - COUNTY_BENTON
+    object->SetReferralType(             (ReferralTypes)                     ProcessStringValues[REFERALSOURCE].toInt());                  //ReferralTypes - REFERRAL_T_PHONEBOOK
+    object->SetInquiryTypes(             (InquiryTypes)                      ProcessStringValues[INQUIRYTYPE].toInt());                   //InquiryTypes - INQUIRY_T_WALKIN
+    object->SetInfoOnly(                 (bool)                              ProcessStringValues[INFOONLY].toInt());                               //Info Only - FALSE
+    object->SetIsCourtCase(              (bool)                              ProcessStringValues[ISCOURTCASE].toInt());                           //Is Court Case - TRUE
+    object->SetCourtDate(                QDate::fromString(                  ProcessStringValues[COURTDATE], DateFormat));
+    object->SetCourtType(                (CourtCaseTypes)                    ProcessStringValues[COURTCASETYPE].toInt());                   //CourtCaseTypes - COURT_T_SUPERIOR
+    object->SetCourtOrder(                                                   ProcessStringValues[COURTORDERTYPE]);
+    object->SetRequiresSpanish(          (bool)                              ProcessStringValues[TRANSLATORREQUIRED].toInt());
+    object->SetSessionType(              (SessionTypes)                      ProcessStringValues[SESSIONTYPE].toInt());
+    object->setMediationClause(          (bool)                              ProcessStringValues[MEDIATIONCLAUSE].toInt());
+
+    return object;
+}
+
+Person* DRC_DB_TESTS::InitializePersonObject(QVector<QString> PersonStringValues)
+{
+    Person* object = new Person;
+    PersonObjectsTracker.push_back(object);
+
+    object->setFirstName(                                                     PersonStringValues[FIRST_NAME]);
+    object->setMiddleName(                                                    PersonStringValues[MIDDLE_NAME]);
+    object->setLastName(                                                      PersonStringValues[LAST_NAME]);
+    object->setStreet(                                                        PersonStringValues[STREET_NAME]);
+    object->setUnit(                                                          PersonStringValues[UNIT_NAME]);
+    object->setCity(                                                          PersonStringValues[CITY_NAME]);
+    object->setState(                                                         PersonStringValues[STATE_NAME]);
+    object->setZip(                                                           PersonStringValues[ZIP_CODE]);
+    object->setCounty((CountyIds)                                             PersonStringValues[COUNTY_NAME].toInt());
+    object->setPrimaryPhone(                                                  PersonStringValues[PRIMARY_PHONE]);
+    object->setPrimaryPhoneExt(                                               PersonStringValues[PRIMARY_PHONE_EXT]);
+    object->setSecondaryPhone(                                                PersonStringValues[SECONDARY_PHONE]);
+    object->setSecondaryPhoneExt(                                             PersonStringValues[SECONDARY_PHONE_EXT]);
+    object->setEmail(                                                         PersonStringValues[EMAIL_ADDRESS]);
+    object->setNumberInHousehold(                                             PersonStringValues[NUMBERINHOUSEHOLD].toInt());
+    object->setNumberChildrenInHousehold(                                     PersonStringValues[NUMBERCHILDRENINHOUSEHOLD].toInt());
+    object->setAttorney(                                                      PersonStringValues[ATTORNEY]);
+    object->setAttorneyPhone(                                                 PersonStringValues[ATTORNEYPHONE]);
+    object->SetAttorneyEmail(                                                 PersonStringValues[ATTORNEYEMAIL]);
+    object->setAssistantName(                                                 PersonStringValues[ASSISTANTNAME]);
+    object->setAssistantPhone(                                                PersonStringValues[ASSISTANTPHONE]);
+    object->setAssistantEmail(                                                PersonStringValues[ASSISTANTEMAIL]);
+
+    return object;
+}
+
+void DRC_DB_TESTS::PrintObjects()
+{
+    PrintPersonObject(FullPerson);
+    PrintClientObject(&FullParty);
+    PrintSessionObject(FullSession);
+    PrintNoteObject(&FullNote);
+    PrintProcessObject(FullProcess);
+}
+
+void DRC_DB_TESTS::PrintProcessObject(MediationProcess *object)
+{
+    qDebug() << "Process Object:------------------------";
+    qDebug() << object->GetId();
+    qDebug() << object->GetDisputeType();
+    qDebug() << object->GetCreatedDate().toString(DateTimeFormat);
+    qDebug() << object->GetUpdatedDate().toString(DateTimeFormat);
+    qDebug() << object->GetState();
+    qDebug() << object->GetInternalState();
+    qDebug() << object->GetCountyId();
+    qDebug() << object->GetReferralType();
+    qDebug() << object->GetInquiryType();
+    qDebug() << object->GetInfoOnly();
+    qDebug() << object->GetIsCourtCase();
+    qDebug() << object->GetCourtDate().toString(DateFormat);
+    qDebug() << object->GetCourtType();
+    qDebug() << object->GetCourtOrder();
+    qDebug() << object->GetRequiresSpanish();
+    qDebug() << object->GetSessionType();
+    qDebug() << object->getMediationClause();
+}
+
+void DRC_DB_TESTS::PrintNoteObject(Note *object)
+{
+    qDebug() << "Note Object:---------------------------";
+    qDebug() << object->GetId();
+    qDebug() << object->GetmediationId();
+    qDebug() << object->GetSessionId();
+    qDebug() << object->GetMessage();
+    qDebug() << object->GetCreatedDate().toString(DateFormat);
+}
+
+void DRC_DB_TESTS::PrintSessionObject(MediationSession *object)
+{
+    qDebug() << "Session Object:------------------------";
+    qDebug() << object->GetId();
+    qDebug() << object->GetState();
+    qDebug() << object->getOutcome();
+    qDebug() << object->GetCreatedDate().toString(DateTimeFormat);
+    qDebug() << object->GetUpdatedDate().toString(DateTimeFormat);
+    qDebug() << object->getScheduledDate().toString(DateFormat);
+    qDebug() << object->getScheduledTime().toString(TimeFormat);
+    qDebug() << object->getMediator1();
+    qDebug() << object->getMediator2();
+    qDebug() << object->getObserver1();
+    qDebug() << object->getObserver2();
+    qDebug() << object->GetIsShuttle();
+}
+
+void DRC_DB_TESTS::PrintClientObject(Party *object)
+{
+    qDebug() << "Party Object:---------------------------";
+    qDebug() << object->GetId();
+    qDebug() << object->GetPrimary()->getNumberInHousehold();
+    qDebug() << object->GetPrimary()->getNumberChildrenInHousehold();
+    qDebug() << object->GetPrimary()->getAttorney();
+    qDebug() << object->GetPrimary()->getAttorneyPhone();
+    qDebug() << object->GetPrimary()->getAttorneyEmail();
+    qDebug() << object->GetPrimary()->getAssistantName();
+    qDebug() << object->GetPrimary()->getAssistantPhone();
+    qDebug() << object->GetPrimary()->getAssistantEmail();
+}
+
+void DRC_DB_TESTS::PrintPersonObject(Person *object)
+{
+    qDebug() << "Person Object:--------------------------";
+    qDebug() << object->GetId();
+    qDebug() << object->getFirstName();
+    qDebug() << object->getMiddleName();
+    qDebug() << object->getLastName();
+    qDebug() << object->getStreet();
+    qDebug() << object->getUnit();
+    qDebug() << object->getCity();
+    qDebug() << object->getState();
+    qDebug() << object->getZip();
+    qDebug() << object->getCounty();
+    qDebug() << object->getPrimaryPhone();
+    qDebug() << object->getPrimaryPhoneExt();
+    qDebug() << object->getSecondaryPhone();
+    qDebug() << object->getSecondaryPhoneExt();
+    qDebug() << object->getEmail();
+}
 
 void DRC_DB_TESTS::OutputColumnInfo(QVector<QString> DatabaseColumns, QVector<QString> TestColumns, QString OutputFileName)
 {
@@ -274,130 +560,6 @@ void DRC_DB_TESTS::OutputColumnInfo(QVector<QString> DatabaseColumns, QVector<QS
             out << QString("%1\n\n").arg("**ERROR**", DISTANCE_BETWEEN_COLUMNS, QLatin1Char(FILL_CHARACTER));
     }
 }
-
-//  Change information to accomodate new circumstances.
-//======================================================
-DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM-dd hh:mm:ss"), TimeFormat("hh:mm:ss")
-{
-    database_name = QString("drc_db.db3");
-
-    AllocateTableNames();
-
-    AllocatePersonColumns();
-    AllocateProcessColumns();
-    AllocateSessionColumns();
-    AllocateClientColumns();
-    AllocateClientSessionColumns();
-    AllocateNotesColumns();
-
-    AllocateEmptyPersonVector();
-    AllocateFullPersonVector();
-
-    AllocateEmptyProcessVector();
-    AllocateFullProcessVector();
-
-    AllocateEmptySessionVector();
-    AllocateFullSessionVector();
-
-    AllocateEmptyClientVector();
-    AllocateFullClientVector();
-
-    AllocateEmptyClientSessionVector();
-    AllocateFullClientSessionVector();
-
-    AllocateEmptyNoteValues();
-    AllocateFullNoteValues();
-
-    //Write method that accepts vector, and inserts into DB Object
-    FullPerson.setFirstName(                                                     full_person_values[FIRST_NAME]);
-    FullPerson.setMiddleName(                                                    full_person_values[MIDDLE_NAME]);
-    FullPerson.setLastName(                                                      full_person_values[LAST_NAME]);
-    FullPerson.setStreet(                                                        full_person_values[STREET_NAME]);
-    FullPerson.setUnit(                                                          full_person_values[UNIT_NAME]);
-    FullPerson.setCity(                                                          full_person_values[CITY_NAME]);
-    FullPerson.setState(                                                         full_person_values[STATE_NAME]);
-    FullPerson.setZip(                                                           full_person_values[ZIP_CODE]);
-    FullPerson.setCounty((CountyIds)                                             full_person_values[COUNTY_NAME].toInt());
-    FullPerson.setPrimaryPhone(                                                  full_person_values[PRIMARY_PHONE]);
-    FullPerson.setPrimaryPhoneExt(                                               full_person_values[PRIMARY_PHONE_EXT]);
-    FullPerson.setSecondaryPhone(                                                full_person_values[SECONDARY_PHONE]);
-    FullPerson.setSecondaryPhoneExt(                                             full_person_values[SECONDARY_PHONE_EXT]);
-    FullPerson.setEmail(                                                         full_person_values[EMAIL_ADDRESS]);
-    FullPerson.setNumberInHousehold(                                             full_person_values[15].toInt());
-    FullPerson.setNumberChildrenInHousehold(                                     full_person_values[16].toInt());
-    FullPerson.setAttorney(                                                      full_person_values[17]);
-    FullPerson.setAttorneyPhone(                                                 full_person_values[18]);
-    FullPerson.SetAttorneyEmail(                                                 full_person_values[19]);
-    FullPerson.setAssistantName(                                                 full_person_values[20]);
-    FullPerson.setAssistantPhone(                                                full_person_values[21]);
-    FullPerson.setAssistantEmail(                                                full_person_values[22]);
-
-    EmptyProcess.SetCreatedDate(QDateTime::fromString(empty_process_values[PROCESS_CREATIONDATETIME], DateTimeFormat));
-    EmptyProcess.SetUpdatedDate(QDateTime::fromString(empty_process_values[PROCESS_UPDATEDDATETIME], DateTimeFormat));
-    EmptyProcess.SetCourtDate(QDate::fromString(empty_process_values[COURTDATE], DateFormat));
-
-    FullProcess.SetDisputeType(              (DisputeTypes)                      full_process_values[DISPUTETYPE].toInt());
-    FullProcess.SetCreatedDate(              QDateTime::fromString(              full_process_values[PROCESS_CREATIONDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
-    FullProcess.SetUpdatedDate(              QDateTime::fromString(              full_process_values[PROCESS_UPDATEDDATETIME], QString("yyyy-MM-dd hh:mm:ss")));
-    FullProcess.SetState(                    (DisputeProcessStates)              full_process_values[DISPUTESTATE].toInt());                  //DisputeProcessStates - PROCESS_STATE_SCHEDULED
-    FullProcess.SetInternalState(            (DisputeProcessInternalStates)      full_process_values[DISPUTEINTERNALSTATE].toInt());  //DisputeProcessInternalStates - PROCESS_INTERNAL_STATE_SCHEDULED
-    FullProcess.SetCountyId(                 (CountyIds)                         full_process_values[DISPUTECOUNTY].toInt());                          //CountyIds - COUNTY_BENTON
-    FullProcess.SetReferralType(             (ReferralTypes)                     full_process_values[REFERALSOURCE].toInt());                  //ReferralTypes - REFERRAL_T_PHONEBOOK
-    FullProcess.SetInquiryTypes(             (InquiryTypes)                      full_process_values[INQUIRYTYPE].toInt());                   //InquiryTypes - INQUIRY_T_WALKIN
-    FullProcess.SetInfoOnly(                 (bool)                              full_process_values[INFOONLY].toInt());                               //Info Only - FALSE
-    FullProcess.SetIsCourtCase(              (bool)                              full_process_values[ISCOURTCASE].toInt());                           //Is Court Case - TRUE
-    FullProcess.SetCourtDate(                QDate::fromString(                  full_process_values[COURTDATE], DateFormat));
-    FullProcess.SetCourtType(                (CourtCaseTypes)                    full_process_values[COURTCASETYPE].toInt());                   //CourtCaseTypes - COURT_T_SUPERIOR
-    FullProcess.SetCourtOrder(                                                   full_process_values[COURTORDERTYPE]);
-    FullProcess.SetRequiresSpanish(          (bool)                              full_process_values[TRANSLATORREQUIRED].toInt());
-    FullProcess.SetSessionType(              (SessionTypes)                      full_process_values[SESSIONTYPE].toInt());
-    FullProcess.setMediationClause(          (bool)                              full_process_values[MEDIATIONCLAUSE].toInt());
-
-//    FullProcess.SetCourtOrderType(           (CourtOrderTypes)                   full_process_values[COURTORDERTYPE].toInt());
-//    FullProcess.SetCourtOrderExpiration(     QDateTime::fromString(              full_process_values[COURTORDEREXPIRATION], "yyyy-MM-dd"));
-//    FullProcess.SetIsShuttle(                (bool)                              full_process_values[SHUTTLEREQUIRED].toInt());
-
-    //EmptySession.SetId(                 empty_session_values[0].toInt());
-    EmptySession.SetState(              (SessionStates)                         empty_session_values[SESSIONSTATUS].toInt());
-    EmptySession.setOutcome(            (SessionOutcomes)                       empty_session_values[SESSIONOUTCOME].toInt());
-    EmptySession.SetCreatedDate(        QDateTime::fromString(                  empty_session_values[SESSION_CREATEDDATETIME], DateTimeFormat));
-    EmptySession.SetUpdatedDate(        QDateTime::fromString(                  empty_session_values[SESSION_UPDATEDDATETIME], DateTimeFormat));
-    EmptySession.setScheduledDate(      QDate::fromString(                      empty_session_values[SCHEDULEDTIME].split(" ")[0], DateFormat));
-    EmptySession.setScheduledTime(      QTime::fromString(                      empty_session_values[SCHEDULEDTIME].split(" ")[1], TimeFormat));
-    EmptySession.setMediator1(                                                  empty_session_values[MEDIATOR1]);
-    EmptySession.setMediator2(                                                  empty_session_values[MEDIATOR2]);
-    EmptySession.setObserver1(                                                  empty_session_values[OBSERVER1]);
-    EmptySession.setObserver2(                                                  empty_session_values[OBSERVER2]);
-    EmptySession.SetIsShuttle(          (bool)                                  empty_session_values[SHUTTLE].toInt());
-
-    FullSession.SetState(               (SessionStates)                         full_session_values[SESSIONSTATUS].toInt());
-    FullSession.setOutcome(             (SessionOutcomes)                       full_session_values[SESSIONOUTCOME].toInt());
-    FullSession.SetCreatedDate(         QDateTime::fromString(                  full_session_values[SESSION_CREATEDDATETIME], DateTimeFormat));
-    FullSession.SetUpdatedDate(         QDateTime::fromString(                  full_session_values[SESSION_UPDATEDDATETIME], DateTimeFormat));
-    FullSession.setScheduledDate(       QDate::fromString(                      full_session_values[SCHEDULEDTIME].split(" ")[0], DateFormat));
-    FullSession.setScheduledTime(       QTime::fromString(                      full_session_values[SCHEDULEDTIME].split(" ")[1], TimeFormat));
-    FullSession.setMediator1(                                                   full_session_values[MEDIATOR1]);
-    FullSession.setMediator2(                                                   full_session_values[MEDIATOR2]);
-    FullSession.setObserver1(                                                   full_session_values[OBSERVER1]);
-    FullSession.setObserver2(                                                   full_session_values[OBSERVER2]);
-    FullSession.SetIsShuttle(           (bool)                                  full_session_values[SHUTTLE].toInt());
-
-    EmptyParty.SetPrimary(&EmptyPerson);
-    FullParty.SetPrimary(&FullPerson);
-
-//    FullClientSession //Data_id
-//    FullClientSession //Client_id
-//    FullClientSession //Session_id
-    FullClientSession.setIncome(                                                full_client_session_values[INCOME]); //income
-    FullClientSession.setFee(                                                   full_client_session_values[FEESCHARGED]); //feesCharged
-    FullClientSession.setPaid(           (bool)                                 full_client_session_values[FEESPAID].toInt()); //feesPaid
-    FullClientSession.setAttySaidAttend( (bool)                                 full_client_session_values[ATTORNEYEXPECTED].toInt()); //AttorneyExpected
-    FullClientSession.setAttyDidAttend(  (bool)                                 full_client_session_values[ATTORNEYATTENDED].toInt()); //AttorneyAttended
-    FullClientSession.setSupport(                                               full_client_session_values[SUPPORT].toInt()); //Support
-    FullClientSession.setOnPhone(        (bool)                                 full_client_session_values[CLIENTPHONE].toInt()); //ClientPhone
-    FullClientSession.setAtTable(        (bool)                                 full_client_session_values[ATTABLE].toInt()); //AtTable
-}
-//=======================================================
 
 void DRC_DB_TESTS::OutputDebugInfo(QVector<QString> TableColumns, QVector<QString> FromDatabase, QVector<QString> FromFile, QString OutputFileName)
 {
@@ -429,20 +591,17 @@ void DRC_DB_TESTS::PrintVectorStrings(QVector<QString> PrintThis)
     qDebug();
 }
 
-//Default constructor should've opened the database.
 void DRC_DB_TESTS::OpenDatabase()
 {
     _db.OpenDatabase(database_name);
     QCOMPARE(_db.IsDatabaseOpen(), true);
 }
 
-//Just making sure the database is named what it's supposed to.
 void DRC_DB_TESTS::CorrectDatabaseName()
 {
     QCOMPARE(_db.WhatDatabaseName(), database_name);
 }
 
-//Make sure Foreign keys were enabled.
 void DRC_DB_TESTS::ForeignKeysActive()
 {
     QCOMPARE(_db.WhatOptionsEnabled(), QString("foreign_keys = ON"));
@@ -454,7 +613,6 @@ void DRC_DB_TESTS::CheckCreatePersonTable()
     QCOMPARE(_db.DoesTableExist(person_table_name), true);
 }
 
-//Verify all person columns that should be inside table are there.
 void DRC_DB_TESTS::CheckPersonColumn()
 {
     QVERIFY2(person_table_columns.size() > 0, "Person TestColumn Vector Contains No Columns");
@@ -469,7 +627,7 @@ void DRC_DB_TESTS::CheckPersonColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
 {
-    QCOMPARE(_db.InsertObject(&EmptyPerson), true);
+    QCOMPARE(_db.InsertObject(EmptyPerson), true);
     QVector<QString> EmptyResults = _db.SelectOneFields(person_table_name, "Person_id", 1);
     QVector<QString> TruncatedEmpty = empty_person_values.mid(0,15);
     QCOMPARE(TruncatedEmpty.size(), EmptyResults.size());
@@ -482,7 +640,7 @@ void DRC_DB_TESTS::CheckInsertEmptyPersonObject()
 
 void DRC_DB_TESTS::CheckInsertFullPersonObject()
 {
-    QCOMPARE(_db.InsertObject(&FullPerson), true);
+    QCOMPARE(_db.InsertObject(FullPerson), true);
     QVector<QString> FullResults = _db.SelectOneFields(person_table_name, "Person_id", 2);
 
     QCOMPARE(15, FullResults.size());
@@ -517,7 +675,7 @@ void DRC_DB_TESTS::CheckProcessColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
 {
-    QCOMPARE(_db.InsertObject(&EmptyProcess), true);
+    QCOMPARE(_db.InsertObject(EmptyProcess), true);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(mediation_table_name, "Process_id", 1);
     QCOMPARE(EmptyResults.size(), empty_process_values.size());
@@ -530,7 +688,7 @@ void DRC_DB_TESTS::CheckInsertEmptyProcessObject()
 
 void DRC_DB_TESTS::CheckInsertFullProcessObject()
 {
-    QCOMPARE(_db.InsertObject(&FullProcess),true);
+    QCOMPARE(_db.InsertObject(FullProcess),true);
 
     QVector<QString> FullResults = _db.SelectOneFields(mediation_table_name, "Process_id", 2);
 
@@ -560,7 +718,7 @@ void DRC_DB_TESTS::CheckSessionColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptySessionObject()
 {
-    QCOMPARE(_db.InsertLinkedObject(EmptyProcess.GetId(), &EmptySession), true);
+    QCOMPARE(_db.InsertLinkedObject(EmptyProcess->GetId(), EmptySession), true);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(session_table_name, "Session_id", 1);
 
@@ -574,7 +732,7 @@ void DRC_DB_TESTS::CheckInsertEmptySessionObject()
 
 void DRC_DB_TESTS::CheckInsertFullSessionObject()
 {
-    QCOMPARE(_db.InsertLinkedObject(FullProcess.GetId(), &FullSession), true);
+    QCOMPARE(_db.InsertLinkedObject(FullProcess->GetId(), FullSession), true);
 
     QVector<QString> FullResults = _db.SelectOneFields(session_table_name, "Session_id", 2);
 
@@ -606,7 +764,7 @@ void DRC_DB_TESTS::CheckClientColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptyClientObject()
 {
-    QCOMPARE(_db.InsertClientObject(&EmptyProcess, &EmptyParty), true);
+    QCOMPARE(_db.InsertClientObject(EmptyProcess, &EmptyParty), true);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(client_table_name, "Client_id", 1);
 
@@ -620,7 +778,7 @@ void DRC_DB_TESTS::CheckInsertEmptyClientObject()
 
 void DRC_DB_TESTS::CheckInsertFullClientObject()
 {
-    QCOMPARE(_db.InsertClientObject(&FullProcess, &FullParty), true);
+    QCOMPARE(_db.InsertClientObject(FullProcess, &FullParty), true);
 
     QVector<QString> FullResults = _db.SelectOneFields(client_table_name, "Client_id", 2);
 
@@ -652,7 +810,7 @@ void DRC_DB_TESTS::CheckClientSessionColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptyClientSessionObject()
 {
-    QCOMPARE(_db.InsertClientSessionData(&EmptyClientSession, EmptySession.GetId(), EmptyParty.GetId()), true);
+    QCOMPARE(_db.InsertClientSessionData(&EmptyClientSession, EmptySession->GetId(), EmptyParty.GetId()), true);
 
     QVector<QString> EmptyResults = _db.SelectOneFields(client_session_table_name, "Data_id", 1);
 
@@ -668,7 +826,7 @@ void DRC_DB_TESTS::CheckInsertEmptyClientSessionObject()
 
 void DRC_DB_TESTS::CheckInsertFullClientSessionObject()
 {
-    QCOMPARE(_db.InsertClientSessionData(&FullClientSession, FullSession.GetId(), FullParty.GetId()), true);
+    QCOMPARE(_db.InsertClientSessionData(&FullClientSession, FullSession->GetId(), FullParty.GetId()), true);
 
     QVector<QString> FullResults = _db.SelectOneFields(client_session_table_name, "Data_id", 2);
 
@@ -700,8 +858,8 @@ void DRC_DB_TESTS::CheckNotesColumn()
 
 void DRC_DB_TESTS::CheckInsertEmptyNoteObject()
 {
-    EmptyNote.SetMediationId(EmptyProcess.GetId());
-    EmptyNote.SetSessionId(EmptySession.GetId());
+    EmptyNote.SetMediationId(EmptyProcess->GetId());
+    EmptyNote.SetSessionId(EmptySession->GetId());
     EmptyNote.SetMessage(                                                       empty_note_values[3]);
     EmptyNote.SetCreatedDate(           QDateTime::fromString(                  empty_note_values[4], DateTimeFormat));
 
@@ -719,8 +877,8 @@ void DRC_DB_TESTS::CheckInsertEmptyNoteObject()
 
 void DRC_DB_TESTS::CheckInsertFullNoteObject()
 {
-    FullNote.SetMediationId(FullProcess.GetId());
-    FullNote.SetSessionId(FullSession.GetId());
+    FullNote.SetMediationId(FullProcess->GetId());
+    FullNote.SetSessionId(FullSession->GetId());
     FullNote.SetMessage(                                                        full_note_values[3]);
     FullNote.SetCreatedDate(             QDateTime::fromString(                 full_note_values[4], DateTimeFormat));
 
