@@ -84,6 +84,7 @@ void MediationProcessView::PopulateView()
     // PARTY!
     AddPartyTabs(_mediationProcess->GetParties());
 
+    Mediator::Call(MKEY_GUI_SEND_MP_POINTER,_mediationProcess);
     // Update Session Browser
 //    Mediator::Call(MKEY_DOCK_SET_SESSIONS, _mediationProcess->getMediationSessionVector());
     // Update Notes Browser

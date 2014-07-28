@@ -116,7 +116,7 @@ const QString MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS = "MKEY_DOCK_REQUEST_CLOSED_ME
 const QString MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE = "MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE";
 const QString MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE = "MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE";
 
-
+const QString MKEY_GUI_SEND_MP_POINTER = "MKEY_GUI_SEND_MP_POINTER";                             // MediationProcess
 
 
 //////////////////////////////////////////////////////////////////
