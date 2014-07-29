@@ -304,7 +304,7 @@ QString MediationProcess::UpdateParse()
             .arg(QString::number(this->GetInternalState()))
             .arg(QString::number(this->GetCountyId()));
 
-    toUpdate += QString("ReferalSource = '%1', TranslatorRequired = '%2', InquiryType = %3, InfoOnly = '%4', CourtCase = '%5', ")
+    toUpdate += QString("ReferalSource = '%1', TranslatorRequired = '%2', InquiryType = %3, InfoOnly = '%4', IsCourtCase = '%5', ")
             .arg(QString::number(this->GetReferralType()))
             .arg(QString::number(this->GetRequiresSpanish()))
             .arg(QString::number(this->GetInquiryType()))
