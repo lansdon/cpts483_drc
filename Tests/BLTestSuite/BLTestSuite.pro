@@ -30,5 +30,28 @@ SOURCES += tst_bltestsuit.cpp \
     ../../drc/drc_shared/models/party.cpp \
     ../../drc/bl/stateupdate.cpp \
     ../../drc/drc_shared/drctypes.cpp \
-    ../../drc/drc_shared/models/mediationsession.cpp
+    ../../drc/drc_shared/models/mediationsession.cpp \
+    ../../drc/drc_shared/models/clientsessiondata.cpp \
+    ../../drc/drc_shared/models/CurrentUser.cpp \
+    ../../drc/drc_shared/models/mediationevaluation.cpp \
+    ../../drc/drc_shared/models/monthlyreport.cpp \
+    ../../drc/drc_shared/models/Note.cpp \
+    ../../drc/drc_shared/models/reswareport.cpp \
+    ../../drc/drc_shared/models/User.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
+
+HEADERS += \
+    ../../drc/drc_shared/models/clientsessiondata.h \
+    ../../drc/drc_shared/models/CurrentUser.h \
+    ../../drc/drc_shared/models/DBBaseObject.h \
+    ../../drc/drc_shared/models/DRCModels.h \
+    ../../drc/drc_shared/models/mediationevaluation.h \
+    ../../drc/drc_shared/models/mediationprocess.h \
+    ../../drc/drc_shared/models/mediationsession.h \
+    ../../drc/drc_shared/models/monthlyreport.h \
+    ../../drc/drc_shared/models/Note.h \
+    ../../drc/drc_shared/models/party.h \
+    ../../drc/drc_shared/models/Person.h \
+    ../../drc/drc_shared/models/reswareport.h \
+    ../../drc/drc_shared/models/User.h \
+    ../../drc/drc_shared/mediator/MediatorKeys.h
