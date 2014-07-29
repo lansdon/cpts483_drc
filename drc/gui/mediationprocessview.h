@@ -176,6 +176,7 @@ private:
      * \param arg
      */
     void SaveCompleted(MediatorArg arg);
+    void sessionAddButtonEnable();
 
     // Unregister Mediator Ids
     MediatorId _unregisterSavePendingId;

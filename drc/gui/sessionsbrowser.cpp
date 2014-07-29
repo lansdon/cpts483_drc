@@ -122,7 +122,7 @@ void SessionsBrowser::on_addSessionBtn_clicked()
         _sessionTable->setCellWidget(row, 0, new SessionCell(_sessionTable, _sessions->back()));
         _sessionTable->setRowHeight(row, 50);
         PopulateSessionTable();
-        Mediator::Call(MKEY_GUI_MP_POPULATE);
+//        Mediator::Call(MKEY_GUI_MP_POPULATE);
         Mediator::Call(MKEY_DOCK_SESSION_CHANGED, session);
 
     }

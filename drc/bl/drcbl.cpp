@@ -93,6 +93,9 @@ void DRCBL::CalculateInternalStateOnSavePending(MediatorArg arg) const
        errorMessage = "Invalid Mediation Process";
        success = false;
     }
+
+    Mediator::Call(MKEY_GUI_MP_POPULATE, mp, success, errorMessage);
+
 }
 
 void DRCBL::ReceiveMPPointer(MediatorArg arg)

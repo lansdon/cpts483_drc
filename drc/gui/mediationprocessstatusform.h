@@ -36,6 +36,10 @@ public:
      * \param isSaved
      */
     void SetSavedLabel(bool isSaved);
+    /*!
+     * \brief Update
+     */
+    void Update();
 
 private slots:
     /*!
@@ -120,10 +124,7 @@ private:
     Ui::MediationProcessStatusForm *ui;
 
     MediationProcess* _mediationProcess;
-    /*!
-     * \brief Update
-     */
-    void Update();
+
     /*!
      * \brief ConfigureComboBoxes
      */

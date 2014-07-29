@@ -55,10 +55,12 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
                                                                    subcontrol-position: top left; padding:0 13px;}");
 
     // Update Fields for current record
+    // SUMMARY
+    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
     PopulateView();
 
     _unregisterSavePendingId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg arg){Q_UNUSED(arg);UpdateSignaled();});
-    _unregisterPopulateId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){Q_UNUSED(arg);PopulateView();});
+//    _unregisterPopulateId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){Q_UNUSED(arg);PopulateView();});
     _unregisterPersistMPId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
 
 }
@@ -66,7 +68,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
 MediationProcessView::~MediationProcessView()
 {
     Mediator::Unregister(MKEY_GUI_MP_SAVE_PENDING, _unregisterSavePendingId);
-    Mediator::Unregister(MKEY_GUI_MP_POPULATE, _unregisterPopulateId);
+//    Mediator::Unregister(MKEY_GUI_MP_POPULATE, _unregisterPopulateId);
     Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _unregisterPersistMPId);
     delete _mediationProcessStatusForm;
     delete ui;
@@ -76,9 +78,8 @@ void MediationProcessView::PopulateView()
 {
     if(!_mediationProcess)
         _mediationProcess = new MediationProcess();
-    ui->addSessionPushButton->setEnabled(false);
-    // SUMMARY
-    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
+
+    _mediationProcessStatusForm->update();
     // CLIENTS
     _mediationProcess->updateClientSessions(_mediationProcess->GetParties()->size());
     // PARTY!
@@ -93,13 +94,20 @@ void MediationProcessView::PopulateView()
     Mediator::Call(MKEY_DOCK_SET_NOTES, _mediationProcess->GetNotes());
     // Update Mediations Browser
     Mediator::Call(MKEY_DOCK_REFRESH_MEDIATIONS);
-    if(_mediationProcess->GetInternalState() >= PROCESS_INTERNAL_STATE_CLIENT_INFO)
-        ui->addSessionPushButton->setEnabled(true);
+
     // Each View can setup it's own toolbar buttons
     ConfigureToolbar();
-
+    sessionAddButtonEnable();
     diplaySessions();
 }
+
+void MediationProcessView::sessionAddButtonEnable()
+{
+    ui->addSessionPushButton->setEnabled(false);
+    if(_mediationProcess->GetInternalState() >= PROCESS_INTERNAL_STATE_CLIENT_INFO)
+        ui->addSessionPushButton->setEnabled(true);
+}
+
 void MediationProcessView::addSession()
 {
     _mediationProcess->addMediation();
@@ -280,6 +288,8 @@ void MediationProcessView::UpdateSignaled()      // Child process signals a chan
     //    Mediator::Call(MKEY_GUI_, _mediationProcess);
 //    PopulateView();
     _changesPending = true;
+    _mediationProcessStatusForm->update();
+    sessionAddButtonEnable();
 }
 
 void MediationProcessView::SaveCompleted(MediatorArg arg)

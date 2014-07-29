@@ -451,5 +451,5 @@ void PersonDetailsForm::on_assistantEmailLineEdit_textEdited(const QString &arg1
 void PersonDetailsForm::on_notesPushButton_clicked()
 {
     Mediator::Call(MKEY_GUI_SHOW_NOTES_BROWSER);
-    update();
+    UpdateLabels();
 }

@@ -49,7 +49,7 @@ void MediationProcessStatusForm::Update()
     if(!(ui && _mediationProcess)) return;
 
     // Preserve save label status
-    bool isSaved = ui->saveStatusLabel->text() == SAVED_MSG;
+    //bool isSaved = ui->saveStatusLabel->text() == SAVED_MSG;
 
     ui->inquiryTypeComboBox->setCurrentIndex(_mediationProcess->GetInquiryType());
     ui->infoOnlyCheckBox->setChecked(_mediationProcess->GetInfoOnly());
@@ -82,7 +82,7 @@ void MediationProcessStatusForm::Update()
     ui->courtRow_3->setEnabled(_mediationProcess->GetIsCourtCase());
     //on_courtCheckBox_clicked();
 
-    SetSavedLabel(isSaved); // Preserve labels
+   // SetSavedLabel(isSaved); // Preserve labels
 }
 //session type display function to set the radio buttons
 void MediationProcessStatusForm::sessionTypeDisplay()
