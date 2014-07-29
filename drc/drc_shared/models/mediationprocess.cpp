@@ -180,7 +180,7 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
 
 //    QString CourtOrderExpires = "\nCourt Order Expires:\t";
 //    CourtOrderExpires += _courtOrderExpiration.toString();
-//    cursor.insertText(CourtOrderExpires, _tableTextFormat);\
+//    cursor.insertText(CourtOrderExpires, _tableTextFormat);
 
 }
 

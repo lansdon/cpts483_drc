@@ -69,26 +69,6 @@ QString MediationSession::Parse()
     column_values += QString("%1")
             .arg(QString::number(this->GetIsShuttle()));
 
-//    QString toReturn = QString("(%1) VALUES(%2)")
-//        .arg(column_names)
-//        .arg(column_values);
-
-//    toReturn += QString::number(this->GetState());
-//    toReturn += ", ";
-//    toReturn += QString:: number(this->getOutcome());
-//    toReturn += ", ";
-//    toReturn += QString("'%1', '%2', '%3', ")
-
-    // Mediator Info
-//    toReturn += single_quote + this->getMediator1().replace("'", "''") + single_quote;
-//    toReturn += ", ";
-//    toReturn += single_quote + this->getMediator2().replace("'", "''") + single_quote;
-//    toReturn += ", ";
-//    toReturn += single_quote + this->getObserver1().replace("'", "''") + single_quote;
-//    toReturn += ", ";
-//    toReturn += single_quote + this->getObserver2().replace("'", "''") + single_quote;
-
-//    toReturn += QString(", '%1'").arg(this->GetIsShuttle());
     return column_values;
 }
 
@@ -128,13 +108,11 @@ QString MediationSession::GetIdRowName()
 
 QString MediationSession::DuplicateQuery()
 {
-#warning TODO - DuplicateQuery() UNIMPLEMENTED!!!!
     return "";
 }
 
 QString MediationSession::SearchQuery()
 {
-#warning TODO - SearchQuery() UNIMPLEMENTED!!!!
     return "";
 }
 

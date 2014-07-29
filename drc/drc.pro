@@ -100,9 +100,9 @@ HEADERS  += \
     gui/mediationprocessview.h \
     gui/partyform.h \
     drc_shared/models/party.h \
-    drc_shared/models/mediationprocess.h \
     drc_shared/models/mediationevaluation.h \
     drc_shared/drctypes.h \
+    drc_shared/models/mediationprocess.h \
     gui/mediationprocessstatusform.h \
     gui/Mock_Server/mock_server.h \
     drc_shared/CurrentUser.h \

@@ -88,7 +88,6 @@ QString User::GetIdRowName()
 
 QString User::UpdateParse()
 {
-#warning    TODO - UpdateParse() UNIMPLEMENTED!!
     return QString("userName = '%1', password = '%2', admin = '%3'")
             .arg(this->GetName())
             .arg(this->GetPass())
