@@ -125,7 +125,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QLineEdit" name="streetLineEdit"/>
+                  <widget class="QLineEdit" name="streetLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="cityLabel">
@@ -135,7 +139,11 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="cityLineEdit"/>
+                  <widget class="QLineEdit" name="cityLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="countyLabel">
@@ -165,7 +173,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QLineEdit" name="unitLineEdit"/>
+                  <widget class="QLineEdit" name="unitLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="statelabel">
@@ -175,7 +187,11 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="stateLineEdit"/>
+                  <widget class="QLineEdit" name="stateLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="zipLabel">
@@ -185,7 +201,11 @@
                   </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QLineEdit" name="zipLineEdit"/>
+                  <widget class="QLineEdit" name="zipLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -216,6 +236,9 @@
                    <property name="text">
                     <string>&lt;First Name&gt;</string>
                    </property>
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -237,6 +260,9 @@
                    <property name="text">
                     <string>&lt;Middle&gt;</string>
                    </property>
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
                   </widget>
                  </item>
                 </layout>
@@ -257,6 +283,9 @@
                   <widget class="QLineEdit" name="lastLineEdit">
                    <property name="text">
                     <string>&lt;Last Name&gt;</string>
+                   </property>
+                   <property name="maxLength">
+                    <number>50</number>
                    </property>
                   </widget>
                  </item>
@@ -305,7 +334,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QLineEdit" name="primaryLineEdit"/>
+                  <widget class="QLineEdit" name="primaryLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="homeLabel">
@@ -315,7 +348,11 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="secondaryLineEdit"/>
+                  <widget class="QLineEdit" name="secondaryLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="emailLabel">
@@ -325,7 +362,11 @@
                   </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QLineEdit" name="emailLineEdit"/>
+                  <widget class="QLineEdit" name="emailLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>
@@ -342,7 +383,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QLineEdit" name="primaryExtLineEdit"/>
+                  <widget class="QLineEdit" name="primaryExtLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="homeExtLabel">
@@ -352,7 +397,11 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="secondaryExtLineEdit"/>
+                  <widget class="QLineEdit" name="secondaryExtLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="1">
                   <spacer name="verticalSpacer_3">
@@ -466,7 +515,11 @@
                     </widget>
                    </item>
                    <item row="0" column="1">
-                    <widget class="QLineEdit" name="attorneyLineEdit"/>
+                    <widget class="QLineEdit" name="attorneyLineEdit">
+                     <property name="maxLength">
+                      <number>50</number>
+                     </property>
+                    </widget>
                    </item>
                   </layout>
                  </item>
@@ -495,7 +548,11 @@
                       </widget>
                      </item>
                      <item>
-                      <widget class="QLineEdit" name="assistantNameLineEdit"/>
+                      <widget class="QLineEdit" name="assistantNameLineEdit">
+                       <property name="maxLength">
+                        <number>50</number>
+                       </property>
+                      </widget>
                      </item>
                     </layout>
                    </item>
@@ -516,7 +573,11 @@
                   </widget>
                  </item>
                  <item row="0" column="1">
-                  <widget class="QLineEdit" name="attorneyPhoneLineEdit"/>
+                  <widget class="QLineEdit" name="attorneyPhoneLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="1" column="0">
                   <widget class="QLabel" name="label_4">
@@ -526,7 +587,11 @@
                   </widget>
                  </item>
                  <item row="1" column="1">
-                  <widget class="QLineEdit" name="attorneyEmailLineEdit"/>
+                  <widget class="QLineEdit" name="attorneyEmailLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="2" column="0">
                   <widget class="QLabel" name="label_5">
@@ -536,7 +601,11 @@
                   </widget>
                  </item>
                  <item row="2" column="1">
-                  <widget class="QLineEdit" name="assistantPhoneLineEdit"/>
+                  <widget class="QLineEdit" name="assistantPhoneLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                  <item row="3" column="0">
                   <widget class="QLabel" name="label_6">
@@ -546,7 +615,11 @@
                   </widget>
                  </item>
                  <item row="3" column="1">
-                  <widget class="QLineEdit" name="assistantEmailLineEdit"/>
+                  <widget class="QLineEdit" name="assistantEmailLineEdit">
+                   <property name="maxLength">
+                    <number>50</number>
+                   </property>
+                  </widget>
                  </item>
                 </layout>
                </item>

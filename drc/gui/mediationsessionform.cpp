@@ -69,7 +69,7 @@ void MediationSessionForm::PopulateFeeTable()
          vertHeader << ("Client " + QString::number(i + 1));
         QLineEdit *incomeLE = new QLineEdit();
 
-
+        incomeLE->setMaxLength(50);
         incomeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getIncome());
        //cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
        ui->feeDiplayTableWidget->setCellWidget(i,2,incomeLE);
@@ -80,6 +80,7 @@ void MediationSessionForm::PopulateFeeTable()
 
        QLineEdit *feeLE = new QLineEdit();
        feeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getFee());
+       feeLE->setMaxLength(50);
       ui->feeDiplayTableWidget->setCellWidget(i,0,feeLE);
       connect(feeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
         feeLE->setMaximumSize(50,25);
@@ -193,6 +194,10 @@ void MediationSessionForm::populateMediatorTable()
         QLineEdit *observer1 = new QLineEdit();
         QLineEdit *mediator2 = new QLineEdit();
         QLineEdit *observer2 = new QLineEdit();
+        mediator1->setMaxLength(50);
+        mediator2->setMaxLength(50);
+        observer1->setMaxLength(50);
+        observer2->setMaxLength(50);
         mediator1->setText(_mediationSession->getMediator1());
         mediator2->setText(_mediationSession->getMediator2());
         observer1->setText(_mediationSession->getObserver1());
