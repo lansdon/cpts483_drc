@@ -80,7 +80,7 @@ QString MediationSession::UpdateParse()
     toUpdate += QString("SessionStatus = '%1', ").arg(QString::number(this->GetState()));
     toUpdate += QString("SessionOutcome = '%1', ").arg(QString::number(this->getOutcome()));
 
-    toUpdate += QString("UpdatedDate = '%1', ").arg(this->GetUpdatedDate().toString("yyyy-MM-dd"));
+    toUpdate += QString("UpdatedDateTime = '%1', ").arg(this->GetUpdatedDate().toString("yyyy-MM-dd"));
     toUpdate += QString("ScheduledTime = '%1', ")
             .arg(this->getMediationTime().toString("yyyy-MM-dd hh:mm:ss"));
 
