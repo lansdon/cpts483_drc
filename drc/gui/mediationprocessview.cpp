@@ -55,8 +55,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
                                                                    subcontrol-position: top left; padding:0 13px;}");
 
     // Update Fields for current record
-    // SUMMARY
-    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
+
     PopulateView();
 
     _unregisterSavePendingId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg arg){Q_UNUSED(arg);UpdateSignaled();});
@@ -79,7 +78,7 @@ void MediationProcessView::PopulateView()
     if(!_mediationProcess)
         _mediationProcess = new MediationProcess();
 
-    _mediationProcessStatusForm->update();
+
     // CLIENTS
     _mediationProcess->updateClientSessions(_mediationProcess->GetParties()->size());
     // PARTY!
@@ -99,6 +98,8 @@ void MediationProcessView::PopulateView()
     ConfigureToolbar();
     sessionAddButtonEnable();
     diplaySessions();
+    // SUMMARY
+    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
 }
 
 void MediationProcessView::sessionAddButtonEnable()
@@ -201,7 +202,6 @@ void MediationProcessView::SetMediationProcess(MediationProcess* process)
     if(_mediationProcess->GetParties()->size() == 0)
         _mediationProcess->AddParty(new Party());
     PopulateView();
-    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
 }
 
 void MediationProcessView::AddPartyTabs(PartyVector* parties)
