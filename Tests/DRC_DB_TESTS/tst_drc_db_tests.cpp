@@ -23,6 +23,15 @@
 #define DISTANCE_BETWEEN_COLUMNS 45
 #define FILL_CHARACTER ' '
 
+enum NoteColumns
+{
+    NOTE_ID = 0,
+    NOTE_PROCESS_ID = 1,
+    NOTE_SESSION_ID = 2,
+    NOTE = 3,
+    CREATEDATE = 4
+};
+
 enum PersonColumns
 {
     PERSON_ID = 0,
@@ -144,6 +153,8 @@ private Q_SLOTS:
     void CheckInsertEmptyNoteObject();
     void CheckInsertFullNoteObject();
 
+    void CheckInsertEntireMediationObject();
+
 
 //    void CheckNotesColumn();
 
@@ -173,7 +184,9 @@ public:
     MediationSession* InitializeSessionObject(QVector<QString> SessionStringValues);
     Party* InitializeClientObject(Person *Primary);
     ClientSessionData* InitializeClientSessionObject(QVector<QString> ClientSessionValues);
-    Note* InitializeNoteObject(QVector<QString> NoteStringValues, MediationProcess* ProcessID, MediationSession* SessionID);
+    Note* InitializeNoteObject(QVector<QString> NoteStringValues);
+
+    MediationProcess* InitializeEntireMediationProcess();
 
     void AllocateTableNames();
     void AllocateVectorValues();
@@ -213,6 +226,8 @@ private:
     QVector<Party*> PartyObjectsTracker;
     QVector<ClientSessionData*> ClientSessionObjectsTracker;
     QVector<Note*> NoteObjectsTracker;
+
+
 
     const QString DateFormat;
     const QString DateTimeFormat;
@@ -360,11 +375,19 @@ DRC_DB_TESTS::DRC_DB_TESTS() : DateFormat("yyyy-MM-dd"), DateTimeFormat("yyyy-MM
     EmptyClientSession = InitializeClientSessionObject(empty_client_session_values);
     FullClientSession = InitializeClientSessionObject(full_client_session_values);
 
-    EmptyNote = InitializeNoteObject(empty_note_values, EmptyProcess, EmptySession);
-    FullNote = InitializeNoteObject(full_note_values, FullProcess, FullSession);
-
+    EmptyNote = InitializeNoteObject(empty_note_values);
+    FullNote = InitializeNoteObject(full_note_values);
 }
 //=======================================================
+
+void DRC_DB_TESTS::CheckInsertEntireMediationObject()
+{
+    MediationProcess* Full = InitializeEntireMediationProcess();    
+    MediatorArg arg;
+    arg.SetArg(Full);
+    _db.InsertMediation(arg);
+    QCOMPARE(arg.IsSuccessful(), true);
+}
 
 void DRC_DB_TESTS::AllocateTableColumns()
 {
@@ -397,18 +420,32 @@ void DRC_DB_TESTS::AllocateVectorValues()
     AllocateFullNoteValues();
 }
 
-Note* DRC_DB_TESTS::InitializeNoteObject(QVector<QString> NoteStringValues, MediationProcess* ProcessID, MediationSession* SessionID)
+MediationProcess* DRC_DB_TESTS::InitializeEntireMediationProcess()
+{
+    MediationProcess* object = InitializeProcessObject(full_process_values);
+    object->AddParty(InitializeClientObject(InitializePersonObject(full_person_values)));
+    //object->AddParty(InitializeClientObject(InitializePersonObject(empty_person_values)));
+
+    MediationSessionVector* sessions = new MediationSessionVector;
+    MediationSession *pointer = InitializeSessionObject(full_session_values);
+    pointer->addClientSessionData(InitializeClientSessionObject(full_client_session_values));
+
+    sessions->push_back(pointer);
+
+    object->setMediationSessionVector(sessions);
+
+    return object;
+}
+
+Note* DRC_DB_TESTS::InitializeNoteObject(QVector<QString> NoteStringValues)
 {
     Note* object = new Note;
     NoteObjectsTracker.push_back(object);
 
-    qDebug() << ProcessID->GetId();
-    qDebug() << SessionID->GetId();
-
-    object->SetMediationId(ProcessID->GetId());
-    object->SetSessionId(SessionID->GetId());
-    object->SetMessage(                                                        NoteStringValues[3]);
-    object->SetCreatedDate(             QDateTime::fromString(                 NoteStringValues[4], DateTimeFormat));
+    object->SetMediationId(                                                    NoteStringValues[NOTE_PROCESS_ID].toInt());
+    object->SetSessionId(                                                      NoteStringValues[NOTE_SESSION_ID].toInt());
+    object->SetMessage(                                                        NoteStringValues[NOTE]);
+    object->SetCreatedDate(             QDateTime::fromString(                 NoteStringValues[CREATEDATE], DateTimeFormat));
 
     return object;
 }
@@ -1268,8 +1305,8 @@ void DRC_DB_TESTS::AllocateFullClientSessionVector()
 void DRC_DB_TESTS::AllocateEmptyNoteValues()
 {
     empty_note_values.push_back("1");
-    empty_note_values.push_back("1");
-    empty_note_values.push_back("1");
+    empty_note_values.push_back("0");
+    empty_note_values.push_back("0");
     empty_note_values.push_back("Empty Note of Justice.");
     empty_note_values.push_back("2014-07-26 17:23:01");
 }
@@ -1277,8 +1314,8 @@ void DRC_DB_TESTS::AllocateEmptyNoteValues()
 void DRC_DB_TESTS::AllocateFullNoteValues()
 {
     full_note_values.push_back("2");
-    full_note_values.push_back("2");
-    full_note_values.push_back("2");
+    full_note_values.push_back("0");
+    full_note_values.push_back("0");
     full_note_values.push_back("This note is going to be filled with wonderfully meaningful, and useful things.");
     full_note_values.push_back("2700-12-31 23:59:59");
 }
