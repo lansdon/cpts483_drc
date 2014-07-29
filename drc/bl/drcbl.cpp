@@ -94,7 +94,7 @@ void DRCBL::CalculateInternalStateOnSavePending(MediatorArg arg) const
        success = false;
     }
 
-    Mediator::Call(MKEY_GUI_MP_POPULATE, mp, success, errorMessage);
+    //Mediator::Call(MKEY_GUI_MP_POPULATE, mp, success, errorMessage);
 
 }
 

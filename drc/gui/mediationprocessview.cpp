@@ -197,6 +197,7 @@ void MediationProcessView::ShowSessionBrowserPressed()
 void MediationProcessView::SetMediationProcess(MediationProcess* process)
 {
     _mediationProcess = process;
+    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
     if(_mediationProcess->GetParties()->size() == 0)
         _mediationProcess->AddParty(new Party());
     PopulateView();
@@ -288,7 +289,7 @@ void MediationProcessView::UpdateSignaled()      // Child process signals a chan
     //    Mediator::Call(MKEY_GUI_, _mediationProcess);
 //    PopulateView();
     _changesPending = true;
-    _mediationProcessStatusForm->update();
+    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
     sessionAddButtonEnable();
 }
 
