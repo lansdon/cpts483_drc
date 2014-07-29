@@ -617,10 +617,10 @@ void StateUpdate::GetExternalState(MediationProcess* arg)
         case PROCESS_INTERNAL_STATE_ATTORNEY_INFO:
         case PROCESS_INTERNAL_STATE_CLIENT_INFO:
         case PROCESS_INTERNAL_STATE_FEES_RECORDED:
-        case PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED:
             if (arg->GetInfoOnly()) externalState = PROCESS_STATE_CLOSED_NO_SESSION;
             else externalState = PROCESS_STATE_PENDING;
             break;
+        case PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED:
         case PROCESS_INTERNAL_STATE_SCHEDULED:
         case PROCESS_INTERNAL_STATE_OUTCOME_SELECTED:
             externalState = PROCESS_STATE_SCHEDULED;
@@ -633,7 +633,7 @@ void StateUpdate::GetExternalState(MediationProcess* arg)
                 if (lastSession->getOutcome() == SESSION_OUTCOME_AGREEMENT ||
                     lastSession->getOutcome() == SESSION_OUTCOME_NO_AGREEMENT) // Was an outcome reached/not reached?
                     externalState = PROCESS_STATE_CLOSED_WITH_SESSION;
-                else externalState = PROCESS_STATE_CLOSED_NO_SESSION;   // No outcome has been reahed yet.
+                else externalState = PROCESS_STATE_CLOSED_NO_SESSION;   // No outcome has been reached yet.
             }
             else externalState = PROCESS_STATE_CLOSED_NO_SESSION;
             break;
