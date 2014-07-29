@@ -51,12 +51,12 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
         case PROCESS_INTERNAL_STATE_FEES_RECORDED:
             success = fees(arg);
             break;
-        case PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED:
-            success = mediators(arg);
-              break;
         case PROCESS_INTERNAL_STATE_SCHEDULED:
             success = scheduled(arg);
             break;
+        case PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED:
+            success = mediators(arg);
+              break;
         case PROCESS_INTERNAL_STATE_OUTCOME_SELECTED:
             success = outcome(arg);
             break;
@@ -234,7 +234,7 @@ bool StateUpdate::initiated(MediationProcess* arg)
     {
         // need at least two clients to proceed.
         _errorMessage = "Cannot schedule: At least two clients are needed.";
-        _stateMessage = "To create session(s), client(s) or coaching need to be identified.";
+        _stateMessage = "To create session, two or more client(s) or coaching need to be identified.";
         advance = false;
     }
     if(advance)
@@ -307,7 +307,7 @@ bool StateUpdate::unique(MediationProcess* arg)
  * checks to see if party1 primary == party2 primary
  * AND ensure we have some contact info for both parties
  * success: state = PROCESS_INTERNAL_STATE_CLIENT_INFO
- * failure: state = PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS
+ * failure: state = PROCESS_INTERNAL_STATE_ATTORNEY_INFO
  * -------------------------------------------------------------------------------------------------------
  */
 bool StateUpdate::attorney(MediationProcess* arg)
@@ -399,62 +399,11 @@ bool StateUpdate::clientinfo(MediationProcess *arg)
  * fees state: fees have been recorded.
  * checks to see if the most recent session has mediators assigned.
  *
- * success: state = PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED
+ * success: state = PROCESS_INTERNAL_STATE_SCHEDULED
  * failure: state = PROCESS_INTERNAL_STATE_FEES_RECORDED
  * -------------------------------------------------------------------------------------------------------
  */
 bool StateUpdate::fees(MediationProcess *arg)
-{
-    qDebug() << "Validating Fees state.";
-    bool advance;
-
-    // is there a session?
-    if(arg->getMediationSessionVector()->size() == 0)
-    {
-        advance = false;
-        _errorMessage = "Cannot schedule: Add a session.";
-        _stateMessage = "To proceed, add a session.";
-    }
-    else
-    {
-        // are any mediators missing?
-        MediationSession* session = arg->getMediationSessionVector()->at(arg->getMediationSessionVector()->size() - 1);
-        if (session->getMediator1().isEmpty() || session->getMediator2().isEmpty())
-        {
-            advance = false;
-            _errorMessage = "Cannot schedule: Enter session mediator(s).";
-            _stateMessage = "To schedule, enter names of session mediator(s).";
-        }
-        else
-        {
-            arg->SetInternalState(PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED);
-            advance = true;
-        }
-    }
-
-    // debug statements
-    if(advance)
-    {
-        qDebug() << "Validation status: transition criteria met, advancing.";
-    }
-    else
-    {
-        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
-    }
-
-    return advance;
-}
-
-
-/* -------------------------------------------------------------------------------------------------------
- * mediator state: mediators have been assigned.
- * checks to see if the most recent session is confirmed.
- *
- * success: state = PROCESS_INTERNAL_STATE_SCHEDULED
- * failure: state = PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED
- * -------------------------------------------------------------------------------------------------------
- */
-bool StateUpdate::mediators(MediationProcess *arg)
 {
     qDebug() << "Validating mediators state.";
     bool advance;
@@ -497,14 +446,65 @@ bool StateUpdate::mediators(MediationProcess *arg)
 }
 
 /* -------------------------------------------------------------------------------------------------------
- * scheduled state
- * checks to see the latest session has some outcome selected,
- * and all fees are paid in full.
- * success: state = PROCESS_INTERNAL_STATE_OUTCOME_SELECTED
+ * mediator state: mediators have been assigned.
+ * checks to see if the most recent session is confirmed.
+ *
+ * success: state = PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED
  * failure: state = PROCESS_INTERNAL_STATE_SCHEDULED
  * -------------------------------------------------------------------------------------------------------
  */
 bool StateUpdate::scheduled(MediationProcess *arg)
+{
+    qDebug() << "Validating Mediators state.";
+    bool advance;
+
+    // is there a session?
+    if(arg->getMediationSessionVector()->size() == 0)
+    {
+        advance = false;
+        _errorMessage = "Cannot schedule: Add a session.";
+        _stateMessage = "To proceed, add a session.";
+    }
+    else
+    {
+        // are any mediators missing?
+        MediationSession* session = arg->getMediationSessionVector()->at(arg->getMediationSessionVector()->size() - 1);
+        if (session->getMediator1().isEmpty() || session->getMediator2().isEmpty())
+        {
+            advance = false;
+            _errorMessage = "Cannot schedule: Enter session mediator(s).";
+            _stateMessage = "To schedule, enter names of session mediator(s).";
+        }
+        else
+        {
+            arg->SetInternalState(PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED);
+            advance = true;
+        }
+    }
+
+
+    // debug statements
+    if(advance)
+    {
+        qDebug() << "Validation status: transition criteria met, advancing.";
+    }
+    else
+    {
+        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
+    }
+
+    return advance;
+}
+
+/* -------------------------------------------------------------------------------------------------------
+ * scheduled state
+ * checks to see the latest session has some outcome selected,
+ * and all fees are paid in full.
+ * success: state = PROCESS_INTERNAL_STATE_OUTCOME_SELECTED
+ * failure: state = PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED
+ * -------------------------------------------------------------------------------------------------------
+ */
+bool StateUpdate::mediators(MediationProcess *arg)
 {
     qDebug() << "Validating Scheduled state.";
     bool advance = true;
@@ -688,6 +688,9 @@ QString StateUpdate::StateToString(DisputeProcessInternalStates state)
       break;
   case PROCESS_INTERNAL_STATE_CLOSED:
       return "CLOSED";
+      break;
+  default:
+      return "NONE";
       break;
   }
 
