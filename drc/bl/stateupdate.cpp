@@ -73,16 +73,21 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
     // after internal state has been calculated, we'll compare it with the
     // previously calculated internal state (target state).
     auto finalState = arg->GetInternalState();
-    //if (finalState < targetState || finalState == PROCESS_INTERNAL_STATE_NONE)
     if (finalState == PROCESS_INTERNAL_STATE_NONE)
     {
-//        qDebug() << "targetState was [" << targetState << "] and finalState was [" << finalState << "]";
+        // we didn't get anywhere... which means we should return false.
         if(_errorMessage.isEmpty())
         {
             _errorMessage = "Message not set.";
         }
         errorMessage = _errorMessage;
         success = false;
+    }
+    else if (finalState < targetState)
+    {
+        qDebug() << "Regression! targetState was [" << targetState << "] and finalState was [" << finalState << "]";
+        // we have regressed!
+        stateMessage = _errorMessage;
     }
     else
     {
@@ -131,8 +136,8 @@ bool StateUpdate::startState(MediationProcess *arg)
 
     if (!advance)
     {
-        _errorMessage = "Cannot save: Enter at least one party with a name.";
-        _stateMessage = "To save, enter at least one party with a name.";
+        _errorMessage = "Cannot save: Enter at least one client with a name.";
+        _stateMessage = "To save, enter at least one client with a name.";
     }
 
     // debug statements
