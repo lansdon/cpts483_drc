@@ -197,10 +197,11 @@ void MediationProcessView::ShowSessionBrowserPressed()
 void MediationProcessView::SetMediationProcess(MediationProcess* process)
 {
     _mediationProcess = process;
-    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
+
     if(_mediationProcess->GetParties()->size() == 0)
         _mediationProcess->AddParty(new Party());
     PopulateView();
+    _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
 }
 
 void MediationProcessView::AddPartyTabs(PartyVector* parties)

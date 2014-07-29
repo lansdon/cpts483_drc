@@ -251,8 +251,9 @@ void MediationProcessStatusForm::MPSaveFinished(MediatorArg arg)
 {
     SetSavedLabel(arg.IsSuccessful());
 
-    if(arg.ErrorMessage().length())
-        ui->statusMessageLabel->setText(arg.ErrorMessage());
+    //    if(arg.ErrorMessage().length())
+    //        ui->statusMessageLabel->setText(arg.ErrorMessage());
+    Update();
 }
 
 void MediationProcessStatusForm::on_courtCheckBox_clicked()

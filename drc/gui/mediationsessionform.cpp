@@ -73,7 +73,7 @@ void MediationSessionForm::PopulateFeeTable()
         incomeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getIncome());
        //cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
        ui->feeDiplayTableWidget->setCellWidget(i,2,incomeLE);
-       connect(incomeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
+       connect(incomeLE, SIGNAL(textEdited(QString)), this, SLOT(updateFromTable()));
        incomeLE->setMaximumSize(50,25);
        incomeLE->setAlignment(Qt::AlignCenter);
        //ui->feeDiplayTableWidget->item(i,0)->setTextAlignment(Qt::AlignCenter);
@@ -82,7 +82,7 @@ void MediationSessionForm::PopulateFeeTable()
        feeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getFee());
        feeLE->setMaxLength(50);
       ui->feeDiplayTableWidget->setCellWidget(i,0,feeLE);
-      connect(feeLE, SIGNAL(editingFinished()), this, SLOT(updateFromTable()));
+      connect(feeLE, SIGNAL(textEdited(QString)), this, SLOT(updateFromTable()));
         feeLE->setMaximumSize(50,25);
         feeLE->setAlignment(Qt::AlignCenter);
 
@@ -159,7 +159,7 @@ void MediationSessionForm::updateFromTable()
         _mediationSession->setObserver2(qobject_cast<QLineEdit*>(ui->MediatorDisplayTableView->cellWidget(1,1))->text());
 
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-        fillFields(_mediationSession);
+        //fillFields(_mediationSession);
     }
 }
 
@@ -206,10 +206,10 @@ void MediationSessionForm::populateMediatorTable()
         ui->MediatorDisplayTableView->setCellWidget(0,1, observer1);
         ui->MediatorDisplayTableView->setCellWidget(1,0, mediator2);
         ui->MediatorDisplayTableView->setCellWidget(1,1, observer2);
-        connect(mediator1,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
-        connect(observer1,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
-        connect(mediator2,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
-        connect(observer2,SIGNAL(editingFinished()),this, SLOT(updateFromTable()));
+        connect(mediator1,SIGNAL(textEdited(QString)),this, SLOT(updateFromTable()));
+        connect(observer1,SIGNAL(textEdited(QString)),this, SLOT(updateFromTable()));
+        connect(mediator2,SIGNAL(textEdited(QString)),this, SLOT(updateFromTable()));
+        connect(observer2,SIGNAL(textEdited(QString)),this, SLOT(updateFromTable()));
 
 
     //ui->MediatorDisplayTableView->addItems(header);

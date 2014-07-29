@@ -101,6 +101,7 @@ void DRCBL::CalculateInternalStateOnSavePending(MediatorArg arg) const
 void DRCBL::ReceiveMPPointer(MediatorArg arg)
 {
     _activeMP = arg.getArg<MediationProcess*>();
+    CalculateInternalStateOnSavePending(nullptr);
 }
 
 void DRCBL::LoadRecentMediations(MediatorArg arg) const
