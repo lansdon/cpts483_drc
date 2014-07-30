@@ -772,7 +772,7 @@ MediationProcessVector* DRCDB::LoadMediations(QString processIds)
             //Load the clientsession data, based on the session id
             QSqlQuery DataQuery(database);
             QString data_command_string = QString("Select * from Client_session_table where session_id = %1")
-                                                .arg(processId);
+                                                .arg(session->GetId());
             bool dataResult = false;
             dataResult = this->ExecuteCommand(data_command_string, DataQuery);
 
