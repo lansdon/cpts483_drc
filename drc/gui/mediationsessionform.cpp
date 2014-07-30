@@ -475,6 +475,8 @@ void MediationSessionForm::on_outcomeComboBox_currentIndexChanged(int index)
 
 void MediationSessionForm::on_shuttleCheckBox_toggled(bool checked)
 {
+    if(_mediationSession->GetIsShuttle() == checked) return;
+
     _mediationSession->SetIsShuttle(checked);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
