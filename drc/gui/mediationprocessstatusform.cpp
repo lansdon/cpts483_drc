@@ -227,7 +227,6 @@ void MediationProcessStatusForm::SetSavedLabel(bool isSaved)
     {
         SetStatusLabel(SAVED_MSG);
     }
-
 }
 
 void MediationProcessStatusForm::SetStatusLabel(QString message, bool isError)

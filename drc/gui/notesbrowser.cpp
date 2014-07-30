@@ -124,6 +124,7 @@ void NotesBrowser::on_delNoteBtn_clicked()
             _notes = new MediationNotesVector();
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     }
+    PopulateTable();
 }
 
 void NotesBrowser::on_tableWidget_itemSelectionChanged()

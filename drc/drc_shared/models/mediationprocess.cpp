@@ -212,16 +212,12 @@ void MediationProcess::BuildSessionInfoSection(QTextCursor &cursor)
 
 void MediationProcess::BuildNotesSesction(QTextCursor &cursor)
 {
-    QString NotesHeader = "\n============================ Notes ===========================\n\n";
-    NotesHeader += "============= Creation Date ==================== Note =============\n";
+    QString NotesHeader = "\n================= Notes ===============\n\n";
+//    NotesHeader += "   Creation Date -----------------  Note\n";
     cursor.insertText(NotesHeader, _tableTextFormat);
     for (int i = 0; i < _mediationNotes.size(); i++)
     {
         std::cout << i << std::endl;
-
-//        NotesHeader += "Note ";
-//        NotesHeader += QString::number(i + 1);
-//        NotesHeader += " ==========";
 
         _mediationNotes.at(i)->BuildToPDF(cursor);
     }
