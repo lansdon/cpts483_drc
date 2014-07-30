@@ -473,7 +473,7 @@ bool StateUpdate::scheduled(MediationProcess *arg)
         {
             advance = false;
             _errorMessage = "Cannot schedule: Enter session mediator(s).";
-            _stateMessage = "To schedule, enter names of session mediator(s).";
+            _stateMessage = "To proceed, enter names of session mediator(s).";
         }
         else
         {
