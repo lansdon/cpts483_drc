@@ -1136,16 +1136,17 @@ void DRCDB::UpdateMediation(MediatorArg arg)
 
     Note* note;
 
+    QString note_clean_string = QString("delete from Notes_Table where process_id = %1")
+                                .arg(process->GetId());
+    QSqlQuery note_clean(database);
+
+    this->ExecuteCommand(note_clean_string, note_clean);
+
     for(size_t i = 0; i < process->GetNotes()->size(); i++)
     {
         note = process->GetNotes()->at(i);
-        if(note->GetId() == 0)
         {
             InsertObject(note);
-        }
-        else
-        {
-            UpdateObject(note);
         }
     }
 
