@@ -187,26 +187,30 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
 
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
 {
+    if((int)_mediationProcess->GetDisputeType() == index) return;
+
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     _mediationProcess->SetDisputeType((DisputeTypes)index);
     Update();
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
-
 }
 
 void MediationProcessStatusForm::on_statusComboBox_currentIndexChanged(int index)
 {
-    _mediationProcess->SetState((DisputeProcessStates)index);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//    _mediationProcess->SetState((DisputeProcessStates)index);
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_countyComboBox_currentIndexChanged(int index)
 {
+    if((int)_mediationProcess->GetCountyId() == index) return;
+
     _mediationProcess->SetCountyId((CountyIds)index);
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int index)
 {
+    if((int)_mediationProcess->GetReferralType() == index) return;
+
     _mediationProcess->SetReferralType((ReferralTypes)index);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -270,12 +274,16 @@ void MediationProcessStatusForm::on_courtCheckBox_clicked()
 
 void MediationProcessStatusForm::on_courtTypeComboBox_currentIndexChanged(int index)
 {
+    if((int)_mediationProcess->GetCourtType() == index) return;
+
     _mediationProcess->SetCourtType((CourtCaseTypes)index);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_courDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
+    if(_mediationProcess->GetCourtDate() == dateTime.date()) return;
+
     _mediationProcess->SetCourtDate(ui->courDateEdit->date());
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -294,23 +302,29 @@ void MediationProcessStatusForm::on_expirationDateTimeEdit_dateTimeChanged(const
 
 void MediationProcessStatusForm::on_inquiryTypeComboBox_currentIndexChanged(int index)
 {
+    if((int)_mediationProcess->GetInquiryType() == index) return;
+
     _mediationProcess->SetInquiryTypes((InquiryTypes)index);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_infoOnlyCheckBox_toggled(bool checked)
 {
+    if(_mediationProcess->GetInfoOnly() == checked) return;
+
     _mediationProcess->SetInfoOnly(checked);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void MediationProcessStatusForm::on_spanishCheckBox_clicked(bool checked)
 {
+    if(_mediationProcess->GetRequiresSpanish() == checked) return;
+
     _mediationProcess->SetRequiresSpanish(checked);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-void MediationProcessStatusForm::on_regularRadioButton_clicked()
+void MediationProcessStatusForm::on_regularRadioButton_clicked() // ???
 {
     updateSessionType();
 }
@@ -327,6 +341,8 @@ void MediationProcessStatusForm::on_phoneRadioButton_clicked()
 
 void MediationProcessStatusForm::on_mediationClauseCheckBox_toggled(bool checked)
 {
+    if(_mediationProcess->getMediationClause() == checked) return;
+
     _mediationProcess->setMediationClause(checked);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -338,6 +354,8 @@ void MediationProcessStatusForm::on_coachingRadioButton_clicked()
 
 void MediationProcessStatusForm::on_courtOrderLineEdit_textEdited(const QString &arg1)
 {
+    if(_mediationProcess->GetCourtOrder() == arg1) return;
+
     _mediationProcess->SetCourtOrder(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

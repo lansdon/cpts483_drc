@@ -377,10 +377,11 @@ void PersonDetailsForm::on_assistantLineEdit_editingFinished()
 
 void PersonDetailsForm::on_countyComboBox_currentIndexChanged(int index)
 {
-    if(index != _person->getCounty())
+    int savedCounty = (int)_person->getCounty();
+    if(index != (int)_person->getCounty())
     {
         _person->setCounty((CountyIds)index);
-        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+//        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     }
 }
 

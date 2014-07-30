@@ -308,9 +308,8 @@ void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &date
     if(!FillingFields)
     {
         _mediationSession->setMediationTime(dateTime);
+        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     }
-
-    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 
