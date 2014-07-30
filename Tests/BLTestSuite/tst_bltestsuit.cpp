@@ -31,14 +31,14 @@ private Q_SLOTS:
     void testTwoDifferentClients();
 
     void testOneClientOnly();
-    void testTwoUniqueClients();
 
     void testCoachingSession();
 
     void testAttorneyInfoProvided();
     void testAttorneyInfoMissing();
 
-    void testSufficientContactInfo();
+    void testSufficientContactInfoEmail();
+    void testSufficientContactInfoAddress();
     void testInsufficientContactInfo();
 
     void testFeesRecorded();
@@ -115,6 +115,62 @@ void BLTestSuit::testOnlyNameProvided()
  *
  * Expected result:
  *      success = true
+ *      internalState = PROCESS_INTERNAL_STATE_INFO_ONLY
+ *      externalState = PROCESS_STATE_CLOSED_NO_SESSION
+ */
+void BLTestSuit::testInfoOnlyChecked()
+{
+    Person person;
+    person.setName("SomeFirst", "SomeMiddle", "SomeLast");
+
+    Party party;
+    party.SetPrimary(&person);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
+
+    mediationProcess.SetInfoOnly(true);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_INFO_ONLY);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_CLOSED_NO_SESSION);
+    QVERIFY2(success, "Info only checked successful.");
+}
+
+/* Test info only not checked.
+ * Expected result:
+ *      success = true
+ *      internalState = PROCESS_INTERNAL_STATE_INITIATED
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testInfoOnlyNotChecked()
+{
+    Person person;
+    person.setName("SomeFirst", "SomeMiddle", "SomeLast");
+
+    Party party;
+    party.SetPrimary(&person);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
+
+    mediationProcess.SetInfoOnly(false);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_INITIATED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Info only not checked successful.");
+}
+
+/* Test name provided.
+ * Expected result:
+ *      success = true
  *      internalState = PROCESS_INTERNAL_STATE_INITIATED
  *      externalState = PROCESS_STATE_PENDING
  */
@@ -137,6 +193,355 @@ void BLTestSuit::testNameProvided()
          success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
     QVERIFY2(success, "Successful: Name provided succeeds");
 }
+
+/* Test Two Duplicate Clients
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_INITIATED
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testTwoDuplicateClients()
+{
+    Person person1;
+    person1.setName("SomeFirst", "SomeMiddle", "SomeLast");
+    Party party1;
+    party1.SetPrimary(&person1);
+
+    Person person2;
+    person2.setName("SomeFirst", "SomeMiddle", "SomeLast");
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_INITIATED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Test two duplicate clients succeeds");
+}
+
+/* Test Two Different Clients
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testTwoDifferentClients()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    Party party1;
+    party1.SetPrimary(&person1);
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Test two unique clients succeeds");
+}
+
+/* Test One Client Only
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_INITIATED
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testOneClientOnly()
+{
+    Person person;
+    person.setName("SomeFirst", "SomeMiddle", "SomeLast");
+
+    Party party;
+    party.SetPrimary(&person);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
+
+    QString errorMessage = "";
+    QString stateMessage="";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_INITIATED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: One client only succeeds");
+}
+
+/* Test Sufficient Contact Info with email address
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_CLIENT_INFO
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testSufficientContactInfoEmail()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    Party party1;
+    party1.SetPrimary(&person1);
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_CLIENT_INFO);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Test sufficient contact info with email succeeds");
+}
+
+/* Test Sufficient Contact Info with street address
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_CLIENT_INFO
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testSufficientContactInfoAddress()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setStreet("123 Fake Street");
+    person1.setCity("Kennewick");
+    person1.setState("Washington");
+    person1.setZip("99337");
+    person1.setCounty(COUNTY_BENTON);
+    person1.setAttorney("asdf");
+    Party party1;
+    party1.SetPrimary(&person1);
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setStreet("125 Fake Street");
+    person2.setCity("Kennewick");
+    person2.setState("Washington");
+    person2.setZip("99337");
+    person2.setCounty(COUNTY_BENTON);
+    person2.setAttorney("qwerty");
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_CLIENT_INFO);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Test sufficient contact info with stree addresses");
+}
+
+/* Test Insufficient Contact Info
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testInsufficientContactInfo()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+//    person1.setAttorney("asdf");
+    Party party1;
+    party1.SetPrimary(&person1);
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Test sufficient contact info with stree addresses");
+}
+
+/* Test state gets advanced with one client when process type is coaching session
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testCoachingSession()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    Party party1;
+    party1.SetPrimary(&person1);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+
+    mediationProcess.SetSessionType(COACHING_SESSION);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Test coaching session");
+}
+
+/* Test that both clients have attorney name set
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_CLIENT_INFO
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testAttorneyInfoProvided()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("Bob Loblaw");
+    Party party1;
+    party1.SetPrimary(&person1);
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("Douchey McDoucherson");
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_CLIENT_INFO);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Attorney Info Provided");
+}
+
+/* Test that both clients have attorney name set
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_ATTORNEY_INFO
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testAttorneyInfoMissing()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("Bob Loblaw");
+    Party party1;
+    party1.SetPrimary(&person1);
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    Party party2;
+    party2.SetPrimary(&person2);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_ATTORNEY_INFO);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Attorney Info Missing");
+}
+
+/* Test to see if fees have been recorded
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_FEES_RECORDED
+ *      externalState = PROCESS_STATE_SCHEDULED
+ */
+/*void BLTestSuit::testFeesRecorded()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("1200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("123456");
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.setClientSessionDataVector(clientSessionData);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_FEES_RECORDED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "Successful: Test sufficient contact info with email succeeds");
+} */
+
+void testNoFeesRecorded();
+
+// Old tests
 
 /* Test Initiated State with valid data:
  *      MediationProcess contains at least one party with a primary that has a valid name
