@@ -144,6 +144,7 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
     ui->conflictComboBox->setItemText(DISPUTE_T_PARENT_TEEN, StringForDisputeTypes(DISPUTE_T_PARENT_TEEN));
     ui->conflictComboBox->setItemText(DISPUTE_T_VICTIM_OFFENDER, StringForDisputeTypes(DISPUTE_T_VICTIM_OFFENDER));
     ui->conflictComboBox->setItemText(DISPUTE_T_OTHER, StringForDisputeTypes(DISPUTE_T_OTHER));
+    ui->conflictComboBox->setItemText(DISPUTE_T_FORECLOSURE,StringForDisputeTypes(DISPUTE_T_FORECLOSURE));
 
     ui->countyComboBox->setItemText(COUNTY_NONE, StringForCountyIds(COUNTY_NONE));
     ui->countyComboBox->setItemText(COUNTY_BENTON, StringForCountyIds(COUNTY_BENTON));
