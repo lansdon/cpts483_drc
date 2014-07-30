@@ -108,7 +108,7 @@ void ResWaReport::BuildReport()
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPageOrientation(QPageLayout::Landscape);
     printer.setOutputFileName(DEF_PDF_PATH);
-    printer.setPageMargins(12, 16, 12, 20, QPrinter::Millimeter);
+    printer.setPageMargins(12, 12, 12, 12, QPrinter::Millimeter);
 
     QTextCursor cursor(_report);
 
@@ -558,6 +558,24 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
         {
             _casesTable[row+1][CT_H_PARENTING]++;
             _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_PARENTING]++;
+        }
+        break;
+    case DISPUTE_T_DIVORCE:
+        _casesTable[row][CT_H_DISOLUTION]++;
+        _casesTable[CT_TOTAL_CASES][CT_H_DISOLUTION]++;
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_DISOLUTION]++;
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_DISOLUTION]++;
+        }
+        break;
+    case DISPUTE_T_FORECLOSURE:
+        _casesTable[row][CT_H_FORECLOSURE]++;
+        _casesTable[CT_TOTAL_CASES][CT_H_FORECLOSURE]++;
+        if(settled)
+        {
+            _casesTable[row+1][CT_H_FORECLOSURE]++;
+            _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_FORECLOSURE]++;
         }
         break;
     case DISPUTE_T_TENANT:

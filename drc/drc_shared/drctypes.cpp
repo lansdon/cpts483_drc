@@ -48,6 +48,7 @@ QString StringForDisputeTypes(DisputeTypes id)
     case DISPUTE_T_CONSUMER_MERCHANT: result = "Consumer/Merchant"; break;
     case DISPUTE_T_DIVORCE: result = "Divorce"; break;
     case DISPUTE_T_FAMILY: result = "Family"; break;
+    case DISPUTE_T_FORECLOSURE: result = "Foreclosure"; break;
     case DISPUTE_T_LANDLORD: result = "Landlord"; break;
     case DISPUTE_T_NEIGHBORHOOD: result = "Neighborhood"; break;
     case DISPUTE_T_NONE: result = "None"; break;
