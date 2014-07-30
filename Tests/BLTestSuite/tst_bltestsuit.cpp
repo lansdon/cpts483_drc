@@ -22,8 +22,9 @@ private Q_SLOTS:
 
     void testOnlyNameProvided(); // tests the progress out of NONE
     void testNoNameProvided();
+    void testNameProvided();
 
-/*    void testInfoOnlyChecked();
+    void testInfoOnlyChecked();
     void testInfoOnlyNotChecked();
 
     void testTwoDuplicateClients();
@@ -50,7 +51,7 @@ private Q_SLOTS:
     void testSessionNotConfirmed();
 
     void testFeesPaid();
-    void testFeesNotPaid(); */
+    void testFeesNotPaid();
 };
 
 BLTestSuit::BLTestSuit()
@@ -117,29 +118,30 @@ void BLTestSuit::testOnlyNameProvided()
  *      internalState = PROCESS_INTERNAL_STATE_INITIATED
  *      externalState = PROCESS_STATE_PENDING
  */
-//void BLTestSuit::testNameProvided()
-//{
-//    Person person;
-//    person.setName("SomeFirst", "SomeMiddle", "SomeLast");
+void BLTestSuit::testNameProvided()
+{
+    Person person;
+    person.setName("SomeFirst", "SomeMiddle", "SomeLast");
 
-//    Party party;
-//    party.SetPrimary(&person);
+    Party party;
+    party.SetPrimary(&person);
 
-//    MediationProcess mediationProcess;
-//    mediationProcess.AddParty(&party);
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party);
 
-//    QString errorMessage = "";
-//    StateUpdate stateUpdate;
-//    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage);
-//         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_INITIATED);
-//         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
-//    QVERIFY2(success, "Successful: Name provided succeeds");
-//}
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_INITIATED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Name provided succeeds");
+}
 
-///* Test Initiated State with valid data:
-// *      MediationProcess contains at least one party with a primary that has a valid name
-// * Expected result: MediationProcess should be in PROCESS_STATE_INITIATED
-// */
+/* Test Initiated State with valid data:
+ *      MediationProcess contains at least one party with a primary that has a valid name
+ * Expected result: MediationProcess should be in PROCESS_STATE_INITIATED
+ */
 //void BLTestSuit::testInitiatedValid()
 //{
 //    Person person;

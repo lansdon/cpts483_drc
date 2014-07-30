@@ -37,7 +37,12 @@ SOURCES += tst_bltestsuit.cpp \
     ../../drc/drc_shared/models/monthlyreport.cpp \
     ../../drc/drc_shared/models/Note.cpp \
     ../../drc/drc_shared/models/reswareport.cpp \
-    ../../drc/drc_shared/models/User.cpp
+    ../../drc/drc_shared/models/User.cpp \
+    ../../drc/bl/Crypto/SHA256_Crypto.cpp \
+    ../../drc/drc_shared/mpfilemaker.cpp \
+    ../../drc/drc_shared/mediator/AsyncMediatorCall.cpp \
+    ../../drc/drc_shared/mediator/asyncmediatorworker.cpp \
+    ../../drc/drc_shared/mediator/Mediator.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
@@ -54,4 +59,12 @@ HEADERS += \
     ../../drc/drc_shared/models/Person.h \
     ../../drc/drc_shared/models/reswareport.h \
     ../../drc/drc_shared/models/User.h \
-    ../../drc/drc_shared/mediator/MediatorKeys.h
+    ../../drc/drc_shared/mediator/MediatorKeys.h \
+    ../../drc/drc_shared/CurrentUser.h \
+    ../../drc/drc_shared/drctypes.h \
+    ../../drc/drc_shared/mpfilemaker.h \
+    ../../drc/drc_shared/reportrequest.h \
+    ../../drc/drc_shared/mediator/AsyncMediatorCall.h \
+    ../../drc/drc_shared/mediator/asyncmediatorworker.h \
+    ../../drc/drc_shared/mediator/Mediator.h \
+    ../../drc/drc_shared/mediator/MediatorArg.h
