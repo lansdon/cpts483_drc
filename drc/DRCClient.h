@@ -116,6 +116,10 @@ private slots:
      */
     void on_actionFindMediation_triggered();
 
+    void on_actionMonthly_Report_triggered();
+
+    void on_actionRes_Wa_Report_triggered();
+
 public slots:
     /*!
      * \brief ShowSessionBrowser

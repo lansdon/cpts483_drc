@@ -424,3 +424,13 @@ void DRCClient::ShowMonthlyReport()
 //    setCentralWidget(slides);
     setCentralWidget(new MonthlyReportForm(this));
 }
+
+void DRCClient::on_actionMonthly_Report_triggered()
+{
+    ShowMonthlyReport();
+}
+
+void DRCClient::on_actionRes_Wa_Report_triggered()
+{
+    ShowResWaReport();
+}

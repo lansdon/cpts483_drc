@@ -54,14 +54,15 @@
      <x>0</x>
      <y>0</y>
      <width>800</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuReports">
     <property name="title">
      <string>Reports</string>
     </property>
-    <addaction name="actionCase_Summary"/>
+    <addaction name="actionMonthly_Report"/>
+    <addaction name="actionRes_Wa_Report"/>
    </widget>
    <widget class="QMenu" name="menu_mediationProcess">
     <property name="title">
@@ -83,24 +84,10 @@
     </property>
     <addaction name="actionLogout_User"/>
    </widget>
-   <widget class="QMenu" name="menuTest_Area">
-    <property name="title">
-     <string>Test Area</string>
-    </property>
-    <addaction name="actionNew_2"/>
-    <addaction name="actionAdd_1_MP_sample"/>
-    <addaction name="actionAdd_to_vector"/>
-    <addaction name="separator"/>
-    <addaction name="actionAdd_5_MP_samples"/>
-    <addaction name="separator"/>
-    <addaction name="actionLoad_from_file"/>
-    <addaction name="actionSave_to_file"/>
-   </widget>
    <addaction name="menu_mediationProcess"/>
    <addaction name="menuReports"/>
    <addaction name="menuAdmin"/>
    <addaction name="menuUser"/>
-   <addaction name="menuTest_Area"/>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="toolBar">
@@ -179,6 +166,16 @@
   <action name="actionConnect_to_Remote_DB">
    <property name="text">
     <string>Connect to Remote DB</string>
+   </property>
+  </action>
+  <action name="actionMonthly_Report">
+   <property name="text">
+    <string>Monthly Report</string>
+   </property>
+  </action>
+  <action name="actionRes_Wa_Report">
+   <property name="text">
+    <string>Res Wa Report</string>
    </property>
   </action>
  </widget>
