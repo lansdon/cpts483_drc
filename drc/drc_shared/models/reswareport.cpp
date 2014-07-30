@@ -108,7 +108,7 @@ void ResWaReport::BuildReport()
     printer.setOutputFormat(QPrinter::PdfFormat);
     printer.setPageOrientation(QPageLayout::Landscape);
     printer.setOutputFileName(DEF_PDF_PATH);
-    printer.setPageMargins(12, 12, 12, 12, QPrinter::Millimeter);
+    printer.setPageMargins(12, 8, 12, 12, QPrinter::Millimeter);
 
     QTextCursor cursor(_report);
 
@@ -291,8 +291,8 @@ void ResWaReport::BuildTrainingSection(QTextCursor& cursor)
     tableFormat.setColumnWidthConstraints(constraints);
     QTextTable *table = cursor.insertTable(2, 2, tableFormat);
     // HEADERS
-    TextToCell(table, 0, 0, "# of trainings", &_tableTextFormat);
-    TextToCell(table, 0, 1, "# attending trainings", &_tableTextFormat);
+    TextToCell(table, 0, 0, "# of trainings (observers)", &_tableTextFormat);
+    TextToCell(table, 0, 1, "# attending trainings (all people in room)", &_tableTextFormat);
     // VALUES
     TextToCell(table, 1, 0, QString::number(numTrainings), &_tableCellBlue);
     TextToCell(table, 1, 1, QString::number(numAttendingTrainings), &_tableCellBlue);
@@ -450,7 +450,7 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     // fair
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
-    cursor.insertText("\tMediators fair and impartial?\n", _headerFormat);
+    cursor.insertText("\n\n\tMediators fair and impartial?\n", _headerFormat);
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
     QTextTable *table1 = cursor.insertTable(3, 2, tableFormat);
@@ -544,7 +544,7 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
     case COURT_T_JUVENILE: row = CT_JUVENIILE_COURT; break;
     case COURT_T_OTHER: row = CT_OTHER_CASES; break;
     case COURT_T_SUPERIOR: row = CT_SUPERIOR_COURT; break;
-    case COURT_T_NONE: row = CT_NONE; break;
+    case COURT_T_NONE: row = CT_OTHER_CASES; break;
     }
 
 
@@ -580,6 +580,7 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
         }
         break;
     case DISPUTE_T_TENANT:
+    case DISPUTE_T_LANDLORD:
         _casesTable[row][CT_H_TENANT]++;
         _casesTable[CT_TOTAL_CASES][CT_H_TENANT]++;
         if(settled)
