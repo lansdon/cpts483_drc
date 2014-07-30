@@ -10,8 +10,9 @@ QT      += printsupport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = drc
+TARGET = drc_mime
 TEMPLATE = app
+RC_ICONS = images/DRClogoNoBackground.ico
 
 INCLUDEPATH += bl/ \
     db/ \
