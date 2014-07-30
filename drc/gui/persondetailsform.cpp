@@ -363,9 +363,9 @@ void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
-void PersonDetailsForm::on_adultsInHomeSpinBox_valueChanged(int arg1)
+void PersonDetailsForm::on_adultsInHomeSpinBox_editingFinished()
 {
-    _person->setNumberInHousehold(arg1);
+    _person->setNumberInHousehold(ui->adultsInHomeSpinBox->value());
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
@@ -385,9 +385,9 @@ void PersonDetailsForm::on_countyComboBox_currentIndexChanged(int index)
     }
 }
 
-void PersonDetailsForm::on_childrenInHomeSpinBox_valueChanged(int arg1)
+void PersonDetailsForm::on_childrenInHomeSpinBox_editingFinished()
 {
-    _person->setNumberChildrenInHousehold((unsigned int)arg1);
+    _person->setNumberChildrenInHousehold(ui->childrenInHomeSpinBox->value());
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 

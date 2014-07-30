@@ -140,7 +140,7 @@ private slots:
      * \brief on_adultsInHomeSpinBox_valueChanged
      * \param arg1
      */
-    void on_adultsInHomeSpinBox_valueChanged(int arg1);
+    void on_adultsInHomeSpinBox_editingFinished();
     /*!
      * \brief on_assistantLineEdit_editingFinished
      */
@@ -154,7 +154,7 @@ private slots:
      * \brief on_childrenInHomeSpinBox_valueChanged
      * \param arg1
      */
-    void on_childrenInHomeSpinBox_valueChanged(int arg1);
+    void on_childrenInHomeSpinBox_editingFinished();
     /*!
      * \brief on_attorneyPhoneLineEdit_editingFinished
      */
