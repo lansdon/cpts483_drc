@@ -5,6 +5,7 @@
 #include "party.h"
 #include "mediationprocess.h"
 #include "stateupdate.h"
+#include "mediationsession.h"
 
 class BLTestSuit : public QObject
 {
@@ -44,14 +45,11 @@ private Q_SLOTS:
     void testFeesRecorded();
     void testNoFeesRecorded();
 
-    void testMediatiorsRecorded();
+    void testMediatorsRecorded();
     void testNoMediatorsRecorded();
 
     void testSessionConfirmed();
     void testSessionNotConfirmed();
-
-    void testFeesPaid();
-    void testFeesNotPaid();
 };
 
 BLTestSuit::BLTestSuit()
@@ -487,12 +485,12 @@ void BLTestSuit::testAttorneyInfoMissing()
     QVERIFY2(success, "Successful: Attorney Info Missing");
 }
 
-/* Test to see if fees have been recorded
+/* Test when session is set to confirmed
  * Expected result: success = true
- *      internalState = PROCESS_INTERNAL_STATE_FEES_RECORDED
+ *      internalState = PROCESS_INTERNAL_STATE_SCHEDULED
  *      externalState = PROCESS_STATE_SCHEDULED
  */
-/*void BLTestSuit::testFeesRecorded()
+void BLTestSuit::testSessionConfirmed()
 {
     Person person1;
     person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
@@ -502,7 +500,7 @@ void BLTestSuit::testAttorneyInfoMissing()
     Party party1;
     party1.SetPrimary(&person1);
     ClientSessionData client1Data;
-    client1Data.setFee("1200");
+    client1Data.setFee("120");
 
     Person person2;
     person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
@@ -512,13 +510,67 @@ void BLTestSuit::testAttorneyInfoMissing()
     Party party2;
     party2.SetPrimary(&person2);
     ClientSessionData client2Data;
-    client2Data.setFee("123456");
+    client2Data.setFee("200");
 
     ClientSessionDataVector clientSessionData;
     clientSessionData.push_back(&client1Data);
     clientSessionData.push_back(&client2Data);
 
     MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_SCHEDULED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "Successful: Test mediators set succeeds.");
+}
+
+/* Test when session is set to confirmed
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_FEES_RECORDED
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testSessionNotConfirmed()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("120");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("200");
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_NONE);
     mediationSession.setClientSessionDataVector(clientSessionData);
 
     MediationSessionVector mediationSessions;
@@ -535,11 +587,227 @@ void BLTestSuit::testAttorneyInfoMissing()
     StateUpdate stateUpdate;
     bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
          success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_FEES_RECORDED);
-         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
-    QVERIFY2(success, "Successful: Test sufficient contact info with email succeeds");
-} */
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "Successful: Test mediators set succeeds.");
+}
 
-void testNoFeesRecorded();
+/* Test that fees have been recorded for the session
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_SCHEDULED
+ *      externalState = PROCESS_STATE_SCHEDULED
+ */
+void BLTestSuit::testFeesRecorded()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("150");
+
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_SCHEDULED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "Successful: Test mediators set succeeds.");
+}
+
+/* Test that no fees have been recorded for the session
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_SCHEDULED
+ *      externalState = PROCESS_STATE_SCHEDULED
+ */
+void BLTestSuit::testNoFeesRecorded()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("150");
+
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_SCHEDULED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "Successful: Test mediators set succeeds.");
+}
+
+/* Test to see if mediators have been added
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED
+ *      externalState = PROCESS_STATE_SCHEDULED
+ */
+void BLTestSuit::testMediatorsRecorded()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("150");
+
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+    mediationSession.setMediator1("Jim bob");
+    mediationSession.setMediator2("Jill");
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "Successful: Test mediators set succeeds.");
+}
+
+/* Test to see if no mediators have been added
+ * Expected result: success = true
+ *      internalState = PROCESS_INTERNAL_STATE_SCHEDULED
+ *      externalState = PROCESS_STATE_SCHEDULED
+ */
+void BLTestSuit::testNoMediatorsRecorded()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("150");
+
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_SCHEDULED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "Successful: Test mediators set succeeds.");
+}
 
 // Old tests
 
