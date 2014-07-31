@@ -12,5 +12,14 @@
         <file>images/close.jpg</file>
         <file>images/printer-icon.png</file>
         <file>images/DRClogoNoBackground.ico</file>
+        <file>images/7.jpg</file>
+        <file>images/cherries.png</file>
+        <file>images/coin.jpg</file>
+        <file>images/dollarSign.jpg</file>
+        <file>images/slot_machine.wav</file>
+        <file>images/slot_machine_run.wav</file>
+        <file>images/slot_machine_run.mp3</file>
+        <file>images/slot_machine_winner.mp3</file>
+        <file>images/slot_machine_winner.wav</file>
     </qresource>
 </RCC>

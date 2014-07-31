@@ -7,6 +7,8 @@
 QT      += core gui
 QT	+= sql
 QT      += printsupport
+QT      += multimedia
+QT      += concurrent
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -72,7 +74,8 @@ SOURCES += main.cpp\
     drc_shared/models/reswareport.cpp \
     gui/slideshowform.cpp \
     drc_shared/models/monthlyreport.cpp \
-    gui/tabbedbrowsers.cpp
+    gui/tabbedbrowsers.cpp \
+    gui/slotsgame.cpp
 
 HEADERS  += \
     bl/drcbl.h \
@@ -134,7 +137,8 @@ HEADERS  += \
     drc_shared/models/reswareport.h \
     gui/slideshowform.h \
     drc_shared/models/monthlyreport.h \
-    gui/tabbedbrowsers.h
+    gui/tabbedbrowsers.h \
+    gui/slotsgame.h
 
 FORMS    += \
     DRCClient.ui \
@@ -164,7 +168,8 @@ FORMS    += \
     gui/mediationevaluationview.ui \
     gui/reswareportform.ui \
     gui/slideshowform.ui \
-    gui/tabbedbrowsers.ui
+    gui/tabbedbrowsers.ui \
+    gui/slotsgame.ui
 
 
 CONFIG += c++11

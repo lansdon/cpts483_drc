@@ -77,6 +77,7 @@
     </property>
     <addaction name="actionManage_Users"/>
     <addaction name="actionConnect_to_Remote_DB"/>
+    <addaction name="actionSlots_Game"/>
    </widget>
    <widget class="QMenu" name="menuUser">
     <property name="title">
@@ -176,6 +177,11 @@
   <action name="actionRes_Wa_Report">
    <property name="text">
     <string>Res Wa Report</string>
+   </property>
+  </action>
+  <action name="actionSlots_Game">
+   <property name="text">
+    <string>Slots Game</string>
    </property>
   </action>
  </widget>

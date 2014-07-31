@@ -120,6 +120,8 @@ private slots:
 
     void on_actionRes_Wa_Report_triggered();
 
+    void on_actionSlots_Game_triggered();
+
 public slots:
     /*!
      * \brief ShowSessionBrowser

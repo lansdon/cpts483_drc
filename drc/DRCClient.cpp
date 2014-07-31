@@ -21,6 +21,7 @@
 #include "slideshowform.h"
 #include "monthlyreportform.h"
 #include "tabbedbrowsers.h"
+#include "slotsgame.h"
 
 // DRC COMPONENTS
 #include "drcbl.h"
@@ -433,4 +434,10 @@ void DRCClient::on_actionMonthly_Report_triggered()
 void DRCClient::on_actionRes_Wa_Report_triggered()
 {
     ShowResWaReport();
+}
+
+void DRCClient::on_actionSlots_Game_triggered()
+{
+    _mediationProcessView = nullptr;
+    setCentralWidget(new SlotsGame());
 }
