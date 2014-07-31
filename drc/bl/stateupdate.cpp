@@ -285,8 +285,8 @@ bool StateUpdate::unique(MediationProcess* arg)
     }
     else
     {
-        _errorMessage = "Cannot schedule: Enter a phone number then enter email or mailing address for each client.";
-        _stateMessage = "To schedule, enter a phone number, email and mailing address for each client.";
+        _errorMessage = "Cannot schedule: Enter a phone number, email and mailing address for each client.";
+        _stateMessage = "Enter a phone number, email, mailing address, and select county for each client.";
     }
 
     // debug statements
