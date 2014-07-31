@@ -90,7 +90,7 @@
         <item>
          <widget class="QPushButton" name="recentButton">
           <property name="text">
-           <string>Show Recent</string>
+           <string>Recent</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -100,7 +100,17 @@
         <item>
          <widget class="QPushButton" name="pendingButton">
           <property name="text">
-           <string>Show Pending</string>
+           <string>Pending</string>
+          </property>
+          <property name="checkable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="scheduledButton">
+          <property name="text">
+           <string>Scheduled</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -112,9 +122,9 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QPushButton" name="scheduledButton">
+         <widget class="QPushButton" name="closedButton">
           <property name="text">
-           <string>Show Scheduled</string>
+           <string>Closed</string>
           </property>
           <property name="checkable">
            <bool>true</bool>
@@ -122,9 +132,9 @@
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="closedButton">
+         <widget class="QPushButton" name="closedFeesDueButton">
           <property name="text">
-           <string>Show Closed</string>
+           <string>Closed - Fees Due</string>
           </property>
           <property name="checkable">
            <bool>true</bool>

@@ -26,6 +26,7 @@ MediationBrowser::MediationBrowser(QWidget *parent, MediationTableSortTypes sort
     _requestPendingCallback = Mediator::Register(MKEY_DB_REQUEST_PENDING_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
     _requestScheduledCallback = Mediator::Register(MKEY_DB_REQUEST_SCHEDULED_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
     _requestClosedCallback = Mediator::Register(MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
+    _requestClosedFeesDueCallback = Mediator::Register(MKEY_DB_REQUEST_CLOSED_FEES_DUE_MEDIATIONS_DONE, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
     _setMediationsCallback = Mediator::Register(MKEY_DOCK_SET_MEDIATIONS, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
     _refreshMediationsCallback = Mediator::Register(MKEY_DOCK_REFRESH_MEDIATIONS, [this](MediatorArg arg){Q_UNUSED(arg);LoadTableData(_sortType);});
     _queryMediationCallback = Mediator::Register(MKEY_DB_QUERY_MEDIATION, [this](MediatorArg arg){OnRecieveMediationVector(arg);});
@@ -117,6 +118,13 @@ void MediationBrowser::on_closedButton_clicked()
     LoadTableData(MEDIATION_SORT_T_CLOSED);
 }
 
+void MediationBrowser::on_closedFeesDueButton_clicked()
+{
+    ui->firstnameLineEdit->clear();
+    ui->lastnameLineEdit->clear();
+    LoadTableData(MEDIATION_SORT_T_CLOSED_FEES_DUE);
+}
+
 void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
 {
     _sortType = sortType;
@@ -126,6 +134,7 @@ void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
     ui->scheduledButton->setChecked(false);
     ui->pendingButton->setChecked(false);
     ui->recentButton->setChecked(false);
+    ui->closedFeesDueButton->setChecked(false);
 
     switch(sortType)
     {
@@ -153,6 +162,12 @@ void MediationBrowser::LoadTableData(MediationTableSortTypes sortType)
             ui->closedButton->setChecked(true);
             break;
         }
+        case MEDIATION_SORT_T_CLOSED_FEES_DUE:
+        {
+            Mediator::Call(MKEY_DOCK_REQUEST_CLOSED_FEES_DUE_MEDIATIONS);
+            ui->closedFeesDueButton->setChecked(true);
+            break;
+        }
         default:
         {
             MakeSampleTable();
@@ -168,7 +183,6 @@ void MediationBrowser::OnRecieveMediationVector( MediatorArg arg)
     if(mediations)
     {
         _mediationsVector = *mediations;
-
     }
     PopulateMediationProcessTable();
 }
@@ -200,3 +214,4 @@ void MediationBrowser::on_searchBtn_clicked()
 
     Mediator::Call(MKEY_GUI_QUERY_MEDIATION, searchParams);
 }
+

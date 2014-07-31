@@ -308,6 +308,8 @@ public:
      */
     void LoadClosedMediations(MediatorArg arg);
 
+    void LoadClosedMediationsWithoutPayment(MediatorArg arg);
+
     // Arg must be a Person* (for now at least) for processing to take place.
     /*!
      * \brief QueryMediations

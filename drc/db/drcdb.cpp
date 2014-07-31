@@ -18,6 +18,7 @@ DRCDB::DRCDB() : DB_ERROR(false)
     Mediator::Register(MKEY_BL_REQUEST_PENDING_MEDIATIONS_DONE, [this](MediatorArg arg){LoadPendingMediations(arg);});
     Mediator::Register(MKEY_BL_REQUEST_SCHEDULED_MEDIATIONS_DONE, [this](MediatorArg arg){LoadScheduledMediations(arg);});
     Mediator::Register(MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE, [this](MediatorArg arg){LoadClosedMediations(arg);});
+    Mediator::Register(MKEY_BL_REQUEST_CLOSED_FEES_DUE_MEDIATIONS_DONE, [this](MediatorArg arg){LoadClosedMediationsWithoutPayment(arg);});
     Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
     Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
     Mediator::Register(MKEY_DB_REMOVE_USER, [this](MediatorArg arg){RemoveUser(arg);});
@@ -1055,6 +1056,76 @@ void DRCDB::LoadClosedMediations(MediatorArg arg)
 
 
     Mediator::Call(MKEY_DB_REQUEST_CLOSED_MEDIATIONS_DONE, processVector);
+}
+
+void DRCDB::LoadClosedMediationsWithoutPayment(MediatorArg arg)
+{
+     Q_UNUSED(arg);  // don't care about incoming arg.
+    // sort by update date and return the closed mediations which have yet to pay
+    QSqlQuery unpaidQuery(database);
+    QString unpaidCommandString = QString("Select * from Client_Session_Table where feesPaid = '0'");
+
+    this->ExecuteCommand(unpaidCommandString, unpaidQuery);
+
+    // Get sessions where one or more of the clients did not pay.
+    bool first = true;
+    QString sessionIdMatches = "";
+    while(unpaidQuery.next())
+    {
+        if(!first)
+        {
+            sessionIdMatches += ", ";
+        }
+        sessionIdMatches += unpaidQuery.value(2).toString();
+        first = false;
+    }
+
+    QSqlQuery sessionQuery(database);
+    QString sessionCommandString = QString("Select * from Session_table where Session_id in (%1)")
+                                        .arg(sessionIdMatches);
+    qDebug()<<sessionIdMatches;
+    this->ExecuteCommand(sessionCommandString, sessionQuery);
+
+    first = true;
+    QString processIdMatches = "";
+    while(sessionQuery.next())
+    {
+        if(!first)
+        {
+            processIdMatches += ", ";
+        }
+        processIdMatches += sessionQuery.value(1).toString();
+        first = false;
+    }
+
+qDebug()<<processIdMatches;
+    QSqlQuery Mediation_query(database);
+    QString Mediation_command_string = QString("Select * from Mediation_Table where DisputeState in (%1, %2) and Process_id in (%3) order by UpdatedDateTime desc")
+                                        .arg(PROCESS_STATE_CLOSED_WITH_SESSION)
+                                        .arg(PROCESS_STATE_CLOSED_NO_SESSION)
+                                        .arg(processIdMatches);
+
+    this->ExecuteCommand(Mediation_command_string, Mediation_query);
+
+    QString mediationIdMatches = "";
+    first = true;
+    while(Mediation_query.next())
+    {
+        if(!first)
+        {
+            mediationIdMatches += ", ";
+        }
+        mediationIdMatches += Mediation_query.value(0).toString();
+        first = false;
+    }
+qDebug()<<mediationIdMatches;
+    MediationProcessVector* processVector = nullptr;
+
+    if(mediationIdMatches != "");
+        processVector = LoadMediations(mediationIdMatches);
+
+
+    Mediator::Call(MKEY_DB_REQUEST_CLOSED_FEES_DUE_MEDIATIONS_DONE, processVector);
 }
 
 void DRCDB::InsertOrUpdateMediation(MediatorArg arg)

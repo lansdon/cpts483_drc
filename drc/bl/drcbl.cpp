@@ -22,6 +22,7 @@ DRCBL::DRCBL()
     _midPendingMP      = Mediator::Register(MKEY_DOCK_REQUEST_PENDING_MEDIATIONS, [this](MediatorArg arg){LoadPendingMediations(arg);});
     _midScheduledMP    = Mediator::Register(MKEY_DOCK_REQUEST_SCHEDULED_MEDIATIONS, [this](MediatorArg arg){LoadScheduledMediations(arg);});
     _midClosedMP       = Mediator::Register(MKEY_DOCK_REQUEST_CLOSED_MEDIATIONS, [this](MediatorArg arg){LoadClosedMediations(arg);});
+    _midClosedFeesDueMP = Mediator::Register(MKEY_DOCK_REQUEST_CLOSED_FEES_DUE_MEDIATIONS, [this](MediatorArg arg){LoadClosedFeesDueMediations(arg);});
     _midQueryMP        = Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
     _midReswaRpt       = Mediator::Register(MKEY_GUI_REQUEST_RESWA_REPORT, [this](MediatorArg arg){QueryResWaReport(arg);});
     _midMonthlyRpt     = Mediator::Register(MKEY_GUI_REQUEST_MONTHLY_REPORT, [this](MediatorArg arg){QueryMonthlyReport(arg);});
@@ -120,7 +121,10 @@ void DRCBL::LoadClosedMediations(MediatorArg arg) const
 {
     Mediator::Call(MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE, arg);
 }
-
+void DRCBL::LoadClosedFeesDueMediations(MediatorArg arg) const
+{
+    Mediator::Call(MKEY_BL_REQUEST_CLOSED_FEES_DUE_MEDIATIONS_DONE, arg);
+}
 //
 void DRCBL::LoadMediationProcess(MediatorArg arg) const
 {

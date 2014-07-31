@@ -68,6 +68,12 @@ public:
      */
     void LoadClosedMediations(MediatorArg arg) const;
     /*!
+     * \brief LoadClosedFeesDueMediations loads closed mp's w/ fees pending
+     * \param arg - has nullptr type
+     */
+    void LoadClosedFeesDueMediations(MediatorArg arg) const;
+
+    /*!
      * \brief QueryMediations
      * \param arg
      */
@@ -92,6 +98,7 @@ private:
     MediatorId _midPendingMP;
     MediatorId _midScheduledMP;
     MediatorId _midClosedMP;
+    MediatorId _midClosedFeesDueMP;
     MediatorId _midQueryMP;
     MediatorId _midReswaRpt;
     MediatorId _midMonthlyRpt;
