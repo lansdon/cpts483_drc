@@ -15,7 +15,6 @@ StateUpdate::StateUpdate()
     _errorMessage = "";
     _stateMessage = "";
     _infoOnly = false;
-    _cancelled = false;
 }
 
 //this function calls the method for the state transition the mediation process is in
@@ -226,18 +225,18 @@ bool StateUpdate::initiated(MediationProcess* arg)
             }
         }
     }
-    else if (arg->GetSessionType() == COACHING_SESSION)
-    {
-        // coaching sessions do not require more than 1 person.
-        advance = true;
-    }
-    else
-    {
-        // need at least two clients to proceed.
-        _errorMessage = "Cannot schedule: At least two clients are needed.";
-        _stateMessage = "To create session, two or more client(s) or coaching need to be identified.";
-        advance = false;
-    }
+//    else if (arg->GetSessionType() == COACHING_SESSION)
+//    {
+//        // coaching sessions do not require more than 1 person.
+//        advance = true;
+//    }
+//    else
+//    {
+//        // need at least two clients to proceed.
+//        _errorMessage = "Cannot schedule: At least two clients are needed.";
+//        _stateMessage = "To create session, two or more client(s) or coaching need to be identified.";
+//        advance = false;
+//    }
     if(advance)
     {
         arg->SetInternalState(PROCESS_INTERNAL_STATE_UNIQUE_CLIENTS);
@@ -512,7 +511,7 @@ bool StateUpdate::scheduled(MediationProcess *arg)
  * mediators assigned state: mediators have been identified
  * checks to see the latest session has some outcome selected,
  * and all fees are paid in full.
- * success: state = PROCESS_INTERNAL_STATE_OUTCOME_SELECTED
+ * success: state = PROCESS_INTERNAL_STATE_CLOSED
  * failure: state = PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED
  * -------------------------------------------------------------------------------------------------------
  */
