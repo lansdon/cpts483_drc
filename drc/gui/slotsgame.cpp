@@ -7,7 +7,6 @@
 #include <QDebug>
 #include <QString>
 #include <QFuture>
-#include <QtConcurrent>
 
 
 #include <windows.h>
