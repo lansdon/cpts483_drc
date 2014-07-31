@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>436</width>
+    <width>450</width>
     <height>472</height>
    </rect>
   </property>
@@ -241,6 +241,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>countyComboBox</tabstop>
+  <tabstop>yearHalfComboBox</tabstop>
+  <tabstop>yearSpinBox</tabstop>
+  <tabstop>showResportBtn</tabstop>
+  <tabstop>cancelBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -291,6 +291,13 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>countyComboBox</tabstop>
+  <tabstop>monthComboBox</tabstop>
+  <tabstop>yearSpinBox</tabstop>
+  <tabstop>showResportBtn</tabstop>
+  <tabstop>cancelBtn</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

@@ -151,6 +151,17 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>firstnameLineEdit</tabstop>
+  <tabstop>lastnameLineEdit</tabstop>
+  <tabstop>searchBtn</tabstop>
+  <tabstop>recentButton</tabstop>
+  <tabstop>pendingButton</tabstop>
+  <tabstop>scheduledButton</tabstop>
+  <tabstop>closedButton</tabstop>
+  <tabstop>closedFeesDueButton</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

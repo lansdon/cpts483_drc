@@ -1041,6 +1041,23 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>inquiryTypeComboBox</tabstop>
+  <tabstop>referralComboBox</tabstop>
+  <tabstop>infoOnlyCheckBox</tabstop>
+  <tabstop>countyComboBox</tabstop>
+  <tabstop>conflictComboBox</tabstop>
+  <tabstop>courtCheckBox</tabstop>
+  <tabstop>spanishCheckBox</tabstop>
+  <tabstop>mediationClauseCheckBox</tabstop>
+  <tabstop>regularRadioButton</tabstop>
+  <tabstop>facilitationRadioButton</tabstop>
+  <tabstop>phoneRadioButton</tabstop>
+  <tabstop>coachingRadioButton</tabstop>
+  <tabstop>courtTypeComboBox</tabstop>
+  <tabstop>courDateEdit</tabstop>
+  <tabstop>courtOrderLineEdit</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

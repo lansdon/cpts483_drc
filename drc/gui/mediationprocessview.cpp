@@ -291,7 +291,7 @@ void MediationProcessView::UpdateSignaled()      // Child process signals a chan
 //    PopulateView();
     _changesPending = true;
     _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
-    sessionAddButtonEnable();
+    //sessionAddButtonEnable();
 }
 
 void MediationProcessView::SaveCompleted(MediatorArg arg)

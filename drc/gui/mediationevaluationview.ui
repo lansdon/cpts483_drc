@@ -639,6 +639,25 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>MediationDateDateEdit</tabstop>
+  <tabstop>countyOfMediationComboBox</tabstop>
+  <tabstop>questionThreeComboBox</tabstop>
+  <tabstop>questionFourComboBox</tabstop>
+  <tabstop>questionFiveComboBox</tabstop>
+  <tabstop>questionSixComboBox</tabstop>
+  <tabstop>questionSevenComboBox</tabstop>
+  <tabstop>questionEightComboBox</tabstop>
+  <tabstop>questionOneComboBox</tabstop>
+  <tabstop>questionTwoComboBox</tabstop>
+  <tabstop>nameLineEdit</tabstop>
+  <tabstop>emailLineEdit</tabstop>
+  <tabstop>phoneDayLineEdit</tabstop>
+  <tabstop>phoneEveningLineEdit</tabstop>
+  <tabstop>commentsPlainTextEdit</tabstop>
+  <tabstop>promotionalPermissionsComboBox</tabstop>
+  <tabstop>followUpPermissionsComboBox</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

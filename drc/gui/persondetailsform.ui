@@ -637,6 +637,32 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>firstLineEdit</tabstop>
+  <tabstop>middleLineEdit</tabstop>
+  <tabstop>lastLineEdit</tabstop>
+  <tabstop>streetLineEdit</tabstop>
+  <tabstop>unitLineEdit</tabstop>
+  <tabstop>cityLineEdit</tabstop>
+  <tabstop>stateLineEdit</tabstop>
+  <tabstop>zipLineEdit</tabstop>
+  <tabstop>countyComboBox</tabstop>
+  <tabstop>primaryLineEdit</tabstop>
+  <tabstop>primaryExtLineEdit</tabstop>
+  <tabstop>secondaryLineEdit</tabstop>
+  <tabstop>secondaryExtLineEdit</tabstop>
+  <tabstop>emailLineEdit</tabstop>
+  <tabstop>adultsInHomeSpinBox</tabstop>
+  <tabstop>childrenInHomeSpinBox</tabstop>
+  <tabstop>attorneyLineEdit</tabstop>
+  <tabstop>attorneyPhoneLineEdit</tabstop>
+  <tabstop>attorneyEmailLineEdit</tabstop>
+  <tabstop>assistantNameLineEdit</tabstop>
+  <tabstop>assistantPhoneLineEdit</tabstop>
+  <tabstop>assistantEmailLineEdit</tabstop>
+  <tabstop>notesPushButton</tabstop>
+  <tabstop>scrollArea</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
