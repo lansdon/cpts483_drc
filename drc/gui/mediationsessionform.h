@@ -103,6 +103,7 @@ private slots:
 
     void on_shuttleCheckBox_toggled(bool checked);
 
+
 public slots:
     /*!
      * \brief updateFromTable
@@ -113,8 +114,10 @@ public slots:
      * \param value
      */
     void TestCheckBoxToggled(bool value);
+    void editFinished();
 private:
     Ui::MediationSessionForm *ui;
+    bool _loading;
     MediationSession *_mediationSession;
 //    ClientSessionDataVector _sessionData;
     MediatorId _mediatorid;

@@ -11,13 +11,13 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopu
     , _bPopup(bPopup)
 {
     ui->setupUi(this);
-
+    _loading = true;
     // Setup Validations
     ui->zipLineEdit->setValidator(new QIntValidator(ui->zipLineEdit));
     //ui->adultsInHomeSpinBox->setValidator(new QIntValidator(ui->adultsInHomeSpinBox));
-    CountyIds quickCountyBugFix = _person->getCounty();
+    //CountyIds quickCountyBugFix = _person->getCounty();
     configureComboBoxes();
-    _person->setCounty(quickCountyBugFix);
+    //_person->setCounty(quickCountyBugFix);
     // If a valid person object was passed, display it and don't go into edit mode.
     if(person)
         UpdateLabels();
@@ -27,6 +27,7 @@ PersonDetailsForm::PersonDetailsForm(QWidget *parent, Person* person, bool bPopu
 //    ui->emailFrame->setStyleSheet("QFrame {border: 2px solid gray; border-radius: 5px; margin-top: 1.3px;}");
     ui->miscFrame->setStyleSheet("QFrame#miscFrame {border: 2px solid gray; border-radius: 5px; margin-top: 8px;}");
     ui->addressGroupBox->setStyleSheet("QGroupBox#addressGroupBox {border: 2px solid gray; border-radius: 5px; margin-top: 10px;}");
+    _loading = false;
 }
 
 PersonDetailsForm::~PersonDetailsForm()
@@ -277,6 +278,7 @@ void PersonDetailsForm::ShowButtons(bool showButtons)
 
 void PersonDetailsForm::on_middleLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setMiddleName(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -284,18 +286,21 @@ void PersonDetailsForm::on_middleLineEdit_textEdited(const QString &arg1)
 
 void PersonDetailsForm::on_streetLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setStreet(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_unitLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setUnit(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_cityLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setCity(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -308,18 +313,21 @@ void PersonDetailsForm::on_zipLineEdit_textEdited(const QString &arg1)
 
 void PersonDetailsForm::on_stateLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setState(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_attorneyLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setAttorney(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setEmail(arg1);
     ProcessEmail(arg1, ui->emailLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
@@ -327,6 +335,7 @@ void PersonDetailsForm::on_emailLineEdit_textEdited(const QString &arg1)
 
 void PersonDetailsForm::on_primaryLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setPrimaryPhone(arg1);
     ProcessPhoneNumber(arg1, ui->primaryLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
@@ -334,12 +343,14 @@ void PersonDetailsForm::on_primaryLineEdit_textEdited(const QString &arg1)
 
 void PersonDetailsForm::on_primaryExtLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setPrimaryPhoneExt(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_secondaryLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setSecondaryPhone(ui->secondaryLineEdit->text());
     ProcessPhoneNumber(arg1, ui->secondaryLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
@@ -347,24 +358,28 @@ void PersonDetailsForm::on_secondaryLineEdit_textEdited(const QString &arg1)
 
 void PersonDetailsForm::on_secondaryExtLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setSecondaryPhoneExt(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_lastLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setLastName(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_firstLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setFirstName(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_adultsInHomeSpinBox_editingFinished()
 {
+    if(_loading) return;
     _person->setNumberInHousehold(ui->adultsInHomeSpinBox->value());
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -377,16 +392,18 @@ void PersonDetailsForm::on_assistantLineEdit_editingFinished()
 
 void PersonDetailsForm::on_countyComboBox_currentIndexChanged(int index)
 {
-    int savedCounty = (int)_person->getCounty();
+    if(_loading) return;
+//    int savedCounty = (int)_person->getCounty();
     if(index != (int)_person->getCounty())
     {
         _person->setCounty((CountyIds)index);
-//        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+        Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     }
 }
 
 void PersonDetailsForm::on_childrenInHomeSpinBox_editingFinished()
 {
+    if(_loading) return;
     _person->setNumberChildrenInHousehold(ui->childrenInHomeSpinBox->value());
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
@@ -417,12 +434,14 @@ void PersonDetailsForm::on_assistantEmailLineEdit_editingFinished()
 
 void PersonDetailsForm::on_assistantNameLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setAssistantName(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
 void PersonDetailsForm::on_attorneyPhoneLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setAttorneyPhone(arg1);
     ProcessPhoneNumber(arg1,ui->attorneyPhoneLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
@@ -430,6 +449,7 @@ void PersonDetailsForm::on_attorneyPhoneLineEdit_textEdited(const QString &arg1)
 
 void PersonDetailsForm::on_attorneyEmailLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->SetAttorneyEmail(arg1);
     ProcessEmail(arg1, ui->attorneyEmailLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
@@ -437,6 +457,7 @@ void PersonDetailsForm::on_attorneyEmailLineEdit_textEdited(const QString &arg1)
 
 void PersonDetailsForm::on_assistantPhoneLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setAssistantPhone(arg1);
     ProcessPhoneNumber(arg1, ui->assistantPhoneLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
@@ -444,6 +465,7 @@ void PersonDetailsForm::on_assistantPhoneLineEdit_textEdited(const QString &arg1
 
 void PersonDetailsForm::on_assistantEmailLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     _person->setAssistantEmail(arg1);
     ProcessEmail(arg1, ui->assistantEmailLineEdit);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);

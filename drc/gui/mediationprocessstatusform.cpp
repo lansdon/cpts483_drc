@@ -14,7 +14,7 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
   _mediationProcess(mediationProcess)
 {
     ui->setupUi(this);
-
+    _loading = true;
     SetSavedLabel(false);
 
     ui->saveStatusLabel->setVisible(false);
@@ -26,6 +26,7 @@ MediationProcessStatusForm::MediationProcessStatusForm(QWidget *parent, Mediatio
     _SavePendingCallbackId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg){SetSavedLabel(false);});
     _PersistMPDoneCallbackId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){MPSaveFinished(arg);});
     _LoadMPCallbackId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){MPSaveFinished(arg);});
+    _loading = false;
 }
 MediationProcessStatusForm::~MediationProcessStatusForm()
 {
@@ -108,6 +109,7 @@ void MediationProcessStatusForm::sessionTypeDisplay()
 //update session type to update the model based off gui
 void MediationProcessStatusForm::updateSessionType()
 {
+    if(_loading) return;
     if(ui->regularRadioButton->isChecked())
     {
         _mediationProcess->SetSessionType(MEDIATION_SESSION);
@@ -125,6 +127,7 @@ void MediationProcessStatusForm::updateSessionType()
         _mediationProcess->SetSessionType(COACHING_SESSION);
     }
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+
 }
 
 // Sets the values based on enums.
@@ -188,6 +191,7 @@ void MediationProcessStatusForm::ConfigureComboBoxes()
 
 void MediationProcessStatusForm::on_conflictComboBox_currentIndexChanged(int index)
 {
+    if(_loading) return;
     if((int)_mediationProcess->GetDisputeType() == index) return;
 
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
@@ -203,13 +207,17 @@ void MediationProcessStatusForm::on_statusComboBox_currentIndexChanged(int index
 
 void MediationProcessStatusForm::on_countyComboBox_currentIndexChanged(int index)
 {
-    if((int)_mediationProcess->GetCountyId() == index) return;
+    if(_loading) return;
+        if((int)_mediationProcess->GetCountyId() == index) return;
 
-    _mediationProcess->SetCountyId((CountyIds)index);
+        _mediationProcess->SetCountyId((CountyIds)index);
+
 }
 
 void MediationProcessStatusForm::on_referralComboBox_currentIndexChanged(int index)
 {
+    if(_loading) return;
+
     if((int)_mediationProcess->GetReferralType() == index) return;
 
     _mediationProcess->SetReferralType((ReferralTypes)index);
@@ -262,6 +270,7 @@ void MediationProcessStatusForm::MPSaveFinished(MediatorArg arg)
 
 void MediationProcessStatusForm::on_courtCheckBox_clicked()
 {
+
     bool isCourtCase = ui->courtCheckBox->isChecked();
     // Block the save label from getting overriden during gui loading
     if(isCourtCase != _mediationProcess->GetIsCourtCase())
@@ -274,6 +283,7 @@ void MediationProcessStatusForm::on_courtCheckBox_clicked()
 
 void MediationProcessStatusForm::on_courtTypeComboBox_currentIndexChanged(int index)
 {
+    if(_loading) return;
     if((int)_mediationProcess->GetCourtType() == index) return;
 
     _mediationProcess->SetCourtType((CourtCaseTypes)index);
@@ -282,6 +292,7 @@ void MediationProcessStatusForm::on_courtTypeComboBox_currentIndexChanged(int in
 
 void MediationProcessStatusForm::on_courDateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
+    if(_loading) return;
     if(_mediationProcess->GetCourtDate() == dateTime.date()) return;
 
     _mediationProcess->SetCourtDate(ui->courDateEdit->date());
@@ -302,6 +313,7 @@ void MediationProcessStatusForm::on_expirationDateTimeEdit_dateTimeChanged(const
 
 void MediationProcessStatusForm::on_inquiryTypeComboBox_currentIndexChanged(int index)
 {
+    if(_loading) return;
     if((int)_mediationProcess->GetInquiryType() == index) return;
 
     _mediationProcess->SetInquiryTypes((InquiryTypes)index);
@@ -310,6 +322,7 @@ void MediationProcessStatusForm::on_inquiryTypeComboBox_currentIndexChanged(int 
 
 void MediationProcessStatusForm::on_infoOnlyCheckBox_toggled(bool checked)
 {
+    if(_loading) return;
     if(_mediationProcess->GetInfoOnly() == checked) return;
 
     _mediationProcess->SetInfoOnly(checked);
@@ -318,6 +331,7 @@ void MediationProcessStatusForm::on_infoOnlyCheckBox_toggled(bool checked)
 
 void MediationProcessStatusForm::on_spanishCheckBox_clicked(bool checked)
 {
+    if(_loading) return;
     if(_mediationProcess->GetRequiresSpanish() == checked) return;
 
     _mediationProcess->SetRequiresSpanish(checked);
@@ -341,6 +355,7 @@ void MediationProcessStatusForm::on_phoneRadioButton_clicked()
 
 void MediationProcessStatusForm::on_mediationClauseCheckBox_toggled(bool checked)
 {
+    if(_loading) return;
     if(_mediationProcess->getMediationClause() == checked) return;
 
     _mediationProcess->setMediationClause(checked);
@@ -354,6 +369,7 @@ void MediationProcessStatusForm::on_coachingRadioButton_clicked()
 
 void MediationProcessStatusForm::on_courtOrderLineEdit_textEdited(const QString &arg1)
 {
+    if(_loading) return;
     if(_mediationProcess->GetCourtOrder() == arg1) return;
 
     _mediationProcess->SetCourtOrder(arg1);

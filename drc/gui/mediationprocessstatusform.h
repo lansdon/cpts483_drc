@@ -122,7 +122,7 @@ private slots:
 
 private:
     Ui::MediationProcessStatusForm *ui;
-
+    bool _loading;
     MediationProcess* _mediationProcess;
 
     /*!

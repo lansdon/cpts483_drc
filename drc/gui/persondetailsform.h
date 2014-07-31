@@ -209,7 +209,7 @@ signals:
 
 private:
     Ui::PersonDetailsForm *ui;
-
+    bool _loading;
     Person *_person;
 
     // This will set the labels based on Person object.
