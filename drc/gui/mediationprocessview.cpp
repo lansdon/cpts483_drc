@@ -96,7 +96,7 @@ void MediationProcessView::PopulateView()
 
     // Each View can setup it's own toolbar buttons
     ConfigureToolbar();
-    sessionAddButtonEnable();
+    //sessionAddButtonEnable();
     diplaySessions();
     // SUMMARY
     _mediationProcessStatusForm->setMediationProcess(_mediationProcess);
