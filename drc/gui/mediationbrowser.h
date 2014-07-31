@@ -56,6 +56,8 @@ private slots:
      */
     void on_searchBtn_clicked();
 
+    void on_closedFeesDueButton_clicked();
+
 signals:
     /*!
      * \brief on_mediationProcessSelected
@@ -91,6 +93,7 @@ private:
     MediatorId _requestPendingCallback;
     MediatorId _requestScheduledCallback;
     MediatorId _requestClosedCallback;
+    MediatorId _requestClosedFeesDueCallback;
     MediatorId _setMediationsCallback;
     MediatorId _refreshMediationsCallback;
     MediatorId _queryMediationCallback;
