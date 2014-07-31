@@ -30,6 +30,7 @@ private:
     QString _errorMessage;
     QString _stateMessage;
     bool _infoOnly;
+    bool _cancelled; // in some way
     /*!
      * \brief startState
      * \param arg

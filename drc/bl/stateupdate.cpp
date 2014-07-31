@@ -15,6 +15,7 @@ StateUpdate::StateUpdate()
     _errorMessage = "";
     _stateMessage = "";
     _infoOnly = false;
+    _cancelled = false;
 }
 
 //this function calls the method for the state transition the mediation process is in
@@ -58,8 +59,8 @@ bool StateUpdate::StateCheck(MediationProcess *arg, QString& errorMessage, QStri
             success = mediators(arg);
               break;
         case PROCESS_INTERNAL_STATE_OUTCOME_SELECTED:
-            success = outcome(arg);
-            break;
+//            success = outcome(arg);
+//            break;
         case PROCESS_INTERNAL_STATE_CLOSED:
             success = false;
             break;
@@ -273,9 +274,9 @@ bool StateUpdate::unique(MediationProcess* arg)
     {
         auto primary = parties->at(i)->GetPrimary();
         advance &= ValidateName(primary->FullName());
-        advance &=              // (phone not empty) AND ((address not empty) OR (email address not empty))
+        advance &=              // (phone not empty) AND ((address not empty) AND (email address not empty))
            ((!primary->getPrimaryPhone().isEmpty()) &&
-           ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && (primary->getCounty() != COUNTY_NONE)) ||
+           ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && (primary->getCounty() != COUNTY_NONE)) &&
              !primary->getEmail().isEmpty()));
     }
 
@@ -286,7 +287,7 @@ bool StateUpdate::unique(MediationProcess* arg)
     else
     {
         _errorMessage = "Cannot schedule: Enter a phone number then enter email or mailing address for each client.";
-        _stateMessage = "To schedule, enter a phone number then enter either email or a mailing address for each client.";
+        _stateMessage = "To schedule, enter a phone number, email and mailing address for each client.";
     }
 
     // debug statements
@@ -424,6 +425,17 @@ bool StateUpdate::fees(MediationProcess *arg)
             advance = true;
             arg->SetInternalState(PROCESS_INTERNAL_STATE_SCHEDULED);
         }
+        else if(session->GetState() == SESSION_STATE_CANCELLED)
+        {
+            advance = true;
+            arg->SetInternalState(PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED);
+        }
+        else if(session->GetState() == SESSION_STATE_RESCHEDULED)
+        {
+            advance = true;
+            arg->SetInternalState(PROCESS_INTERNAL_STATE_CLOSED);
+            _stateMessage = "Session cancelled, add session to reschedule.";
+        }
         else
         {
             advance = false;
@@ -446,7 +458,7 @@ bool StateUpdate::fees(MediationProcess *arg)
 }
 
 /* -------------------------------------------------------------------------------------------------------
- * mediator state: mediators have been assigned.
+ * mediator state: session has been marked confirmed.
  * checks to see if the most recent session is confirmed.
  *
  * success: state = PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED
@@ -497,7 +509,7 @@ bool StateUpdate::scheduled(MediationProcess *arg)
 }
 
 /* -------------------------------------------------------------------------------------------------------
- * scheduled state
+ * mediators assigned state: mediators have been identified
  * checks to see the latest session has some outcome selected,
  * and all fees are paid in full.
  * success: state = PROCESS_INTERNAL_STATE_OUTCOME_SELECTED
@@ -516,69 +528,16 @@ bool StateUpdate::mediators(MediationProcess *arg)
     }
     else
     {
-        MediationSessionVector* sessions = arg->getMediationSessionVector();
-        foreach(MediationSession* session, *sessions)
+        MediationSession* session = arg->getMediationSessionVector()->at(arg->getMediationSessionVector()->size() - 1);
+        if(session->getOutcome() == SESSION_OUTCOME_NONE)
         {
-            if(session->getOutcome() == SESSION_OUTCOME_NONE)
-            {
-                _errorMessage = "Cannot close: Select session outcome.";
-                _stateMessage = "To close, select session outcome.";
-                advance = false;
-            }
+            _errorMessage = "Cannot close: Select session outcome.";
+            _stateMessage = "To close, select session outcome.";
+            advance = false;
         }
         if (advance)
         {
-            arg->SetInternalState(PROCESS_INTERNAL_STATE_OUTCOME_SELECTED);
-        }
-    }
-
-    // debug statements
-    if(advance)
-    {
-        qDebug() << "Validation status: transition criteria met, advancing.";
-    }
-    else
-    {
-        qDebug() << "Validation status: state calculation complete, final state=" << StateToString(arg->GetInternalState());
-    }
-
-    return advance;
-}
-
-/* -------------------------------------------------------------------------------------------------------
- * outcome state
- * checks to see if all fees have been paid
- * success: state = PROCESS_INTERNAL_STATE_CLOSED
- * failure: state = PROCESS_INTERNAL_STATE_OUTCOME_SELECTED
- * -------------------------------------------------------------------------------------------------------
- */
-bool StateUpdate::outcome(MediationProcess *arg)
-{
-    qDebug() << "Validating Outcome state.";
-    bool advance = true;
-    if(arg->getMediationSessionVector()->size() == 0)
-    {
-        advance = false;
-        _errorMessage = "Cannot schedule: Add a session.";
-        _stateMessage = "To proceed, add a session.";
-    }
-    else
-    {
-        MediationSessionVector* sessions = arg->getMediationSessionVector();
-        foreach(MediationSession* session, *sessions)
-        {
-            if(!session->isFullyPaid())
-            {
-                advance = false;
-                _errorMessage = "Cannot close: All fees must be paid in full.";
-                _stateMessage = "To close, all fees must be paid in full.";
-            }
-            else
-            {
-                advance = true;
-                arg->SetInternalState(PROCESS_INTERNAL_STATE_CLOSED);
-                _stateMessage = "Intake process complete.";
-            }
+            arg->SetInternalState(PROCESS_INTERNAL_STATE_CLOSED);
         }
     }
 
