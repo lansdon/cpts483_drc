@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "MediatorArg.h"
 #include "monthlyreport.h"
+#include "Mediator.h"
 
 namespace Ui {
 class MonthlyReportForm;
@@ -32,6 +33,7 @@ private slots:
 
 private:
     Ui::MonthlyReportForm *ui;
+    MediatorId _unregMonthlyRequestDoneCall;
     /*!
      * \brief RecieveReport
      * \param arg

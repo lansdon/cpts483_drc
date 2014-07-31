@@ -42,13 +42,14 @@ ResWaReportForm::ResWaReportForm(QWidget *parent)
     ui->countyComboBox->setItemText(COUNTY_WALLAWALLA, StringForCountyIds((COUNTY_WALLAWALLA)));
     ui->countyComboBox->setItemText(COUNTY_OTHER, StringForCountyIds(COUNTY_OTHER));
 
-    Mediator::Register(MKEY_DB_REQUEST_RESWA_REPORT_DONE, [this](MediatorArg arg){RecieveReport(arg);});
+    _unregMediatorReportDoneCall = Mediator::Register(MKEY_DB_REQUEST_RESWA_REPORT_DONE, [this](MediatorArg arg){RecieveReport(arg);});
 
 }
 
 ResWaReportForm::~ResWaReportForm()
 {
     delete ui;
+    Mediator::Unregister(MKEY_DB_REQUEST_RESWA_REPORT_DONE, _unregMediatorReportDoneCall);
 }
 
 // Mediator Callback when report comes from DB.

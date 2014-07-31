@@ -55,8 +55,13 @@
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QLabel" name="label">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="text">
-           <string>Costs $25 to spin, match all 4 to win $500</string>
+           <string>Costs $25 to spin, match all 4 to win $500. If below $200 you can add money.</string>
           </property>
          </widget>
         </item>
@@ -198,6 +203,11 @@
         </item>
         <item>
          <widget class="QLabel" name="cashDisplayLabel">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
           <property name="text">
            <string>Cash</string>
           </property>

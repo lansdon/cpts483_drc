@@ -4,6 +4,7 @@
 #include <QWidget>
 #include <QTextDocument>
 #include "MediatorArg.h"
+#include "Mediator.h"
 
 namespace Ui {
 class ResWaReportForm;
@@ -32,6 +33,7 @@ private slots:
 
 private:
     Ui::ResWaReportForm *ui;
+    MediatorId _unregMediatorReportDoneCall;
 
     QTextDocument* _report;
     /*!

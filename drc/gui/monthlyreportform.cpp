@@ -29,12 +29,13 @@ MonthlyReportForm::MonthlyReportForm(QWidget *parent) :
     ui->countyComboBox->setItemText(COUNTY_WALLAWALLA, StringForCountyIds((COUNTY_WALLAWALLA)));
     ui->countyComboBox->setItemText(COUNTY_OTHER, StringForCountyIds(COUNTY_OTHER));
 
-    Mediator::Register(MKEY_DB_REQUEST_MONTHLY_REPORT_DONE, [this](MediatorArg arg){RecieveReport(arg);});
+    _unregMonthlyRequestDoneCall = Mediator::Register(MKEY_DB_REQUEST_MONTHLY_REPORT_DONE, [this](MediatorArg arg){RecieveReport(arg);});
 }
 
 MonthlyReportForm::~MonthlyReportForm()
 {
     delete ui;
+    Mediator::Unregister(MKEY_DB_REQUEST_MONTHLY_REPORT_DONE, _unregMonthlyRequestDoneCall);
 }
 
 // Mediator Callback when report comes from DB.
