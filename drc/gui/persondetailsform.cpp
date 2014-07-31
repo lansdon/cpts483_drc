@@ -49,6 +49,7 @@ void PersonDetailsForm::configureComboBoxes()
 
 void PersonDetailsForm::UpdateLabels()
 {
+    _loading = true;
     ui->firstLineEdit->setText((_person->getFirstName()));
     ui->middleLineEdit->setText((_person->getMiddleName()));
     ui->lastLineEdit->setText((_person->getLastName()));
@@ -73,7 +74,7 @@ void PersonDetailsForm::UpdateLabels()
     ui->assistantNameLineEdit->setText(_person->getAssistantName());
     ui->assistantEmailLineEdit->setText(_person->getAssistantEmail());
     ui->assistantPhoneLineEdit->setText(_person->getAssistantPhone());
-
+    _loading = false;
 //    SetEditMode(false);
 }
 

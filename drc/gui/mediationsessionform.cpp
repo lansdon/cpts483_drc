@@ -59,6 +59,7 @@ void MediationSessionForm::configureFeeTable()
 
 void MediationSessionForm::PopulateFeeTable()
 {
+    _loading = true;
     // Samples:
     if(_mediationSession->getClientSessionDataVector()->size() == 0)
         return;
@@ -135,6 +136,7 @@ void MediationSessionForm::PopulateFeeTable()
 //     }
 //     vertHeader << "Family" << "Other";
     ui->feeDiplayTableWidget->setVerticalHeaderLabels(vertHeader);
+     _loading = false;
 }
 
 void MediationSessionForm::editFinished()
@@ -203,6 +205,7 @@ void MediationSessionForm::configureMediatorTable()
 }
 void MediationSessionForm::populateMediatorTable()
 {
+    _loading = true;
         QLineEdit *mediator1 = new QLineEdit();
         QLineEdit *observer1 = new QLineEdit();
         QLineEdit *mediator2 = new QLineEdit();
@@ -228,7 +231,7 @@ void MediationSessionForm::populateMediatorTable()
         connect(mediator2, SIGNAL(editingFinished()), this, SLOT(editFinished()));
         connect(observer2, SIGNAL(editingFinished()), this, SLOT(editFinished()));
 
-
+     _loading = false;
     //ui->MediatorDisplayTableView->addItems(header);
     //ui->MediatorDisplayTableView->set(new QListWidgetItem(),new MediationObserverView());
 
@@ -252,6 +255,7 @@ void MediationSessionForm::configureAttyAndSupportTable()
 
 void MediationSessionForm::populateAttyAndSupportTable()
 {
+    _loading = true;
     if(_mediationSession->getClientSessionDataVector()->size() == 0)
         return;
     ui->attyAttendTableWidget->setRowCount(_mediationSession->getClientSessionDataVector()->size());
@@ -302,6 +306,7 @@ void MediationSessionForm::populateAttyAndSupportTable()
 //   ui->attyAttendListWidget->addItem(item1);
 //   ui->attyAttendListWidget->setItemWidget(item,myItem);
 //   ui->attyAttendListWidget->setItemWidget(item1,myItem1);
+     _loading = false;
 }
 
 void MediationSessionForm::setMediationSession(MediationSession *session)
@@ -336,6 +341,7 @@ void MediationSessionForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &date
 
 void MediationSessionForm::fillFields(MediationSession *input)
 {
+    _loading = true;
     if(input)
     {
         _mediationSession = input;
@@ -371,6 +377,7 @@ void MediationSessionForm::fillFields(MediationSession *input)
     populateAttyAndSupportTable();
     PopulateFeeTable();
     populateMediatorTable();
+     _loading = false;
 }
 
 

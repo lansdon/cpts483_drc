@@ -47,8 +47,9 @@ void MediationProcessStatusForm::setMediationProcess(MediationProcess* value)
 
 void MediationProcessStatusForm::Update()
 {
-    if(!(ui && _mediationProcess)) return;
 
+    if(!(ui && _mediationProcess)) return;
+    _loading = true;
     // Preserve save label status
 //    bool isSaved = ui->saveStatusLabel->text() == SAVED_MSG;
 
@@ -82,12 +83,13 @@ void MediationProcessStatusForm::Update()
     ui->courtCheckBox->setChecked(_mediationProcess->GetIsCourtCase());
     ui->courtRow_3->setEnabled(_mediationProcess->GetIsCourtCase());
     //on_courtCheckBox_clicked();
-
+     _loading = false;
 //    SetSavedLabel(isSaved); // Preserve labels
 }
 //session type display function to set the radio buttons
 void MediationProcessStatusForm::sessionTypeDisplay()
 {
+    _loading = true;
     switch (_mediationProcess->GetSessionType()){
     case MEDIATION_SESSION:
         ui->regularRadioButton->setChecked(true);
@@ -104,6 +106,7 @@ void MediationProcessStatusForm::sessionTypeDisplay()
     default:
         break;
     }
+     _loading = false;
 }
 
 //update session type to update the model based off gui
