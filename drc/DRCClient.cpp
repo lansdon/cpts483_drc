@@ -232,12 +232,9 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
 
         if(curBrowser == browserType)
         {
-            if(_browserDock->isVisible() && !closeNote &&  (browserType == MPBROWSER_NOTES))
-            {
-                closeNote = true;
-                return;
-            }
-            if(_browserDock->isVisible())
+
+/*            if(_browserDock->isVisible())
+
             {
 
                 _browserDock->close();
@@ -247,7 +244,7 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
                 shouldDisplayTable = false;
             }
             else
-            {
+*/            {
                 _browserDock->show();
                 shouldDisplayTable = false;
             }

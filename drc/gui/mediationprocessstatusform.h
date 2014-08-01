@@ -120,6 +120,8 @@ private slots:
 
     void on_courtOrderLineEdit_textEdited(const QString &arg1);
 
+    void on_dateEdit_dateChanged(const QDate &date);
+
 private:
     Ui::MediationProcessStatusForm *ui;
     bool _loading;
