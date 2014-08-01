@@ -8,9 +8,6 @@
 #include <QString>
 #include <QFuture>
 
-
-#include <windows.h>
-
 std::map<int,QString> imageMap;
 
 
@@ -158,7 +155,7 @@ void SlotsGame::spinDisplay()
             ui->Slot4label->setPixmap(QPixmap(imageMap[_imageSlot4]));
             ui->Slot4label->repaint();
         }
-        Sleep(250);
+        QThread::sleep(.25);
     }
 }
 

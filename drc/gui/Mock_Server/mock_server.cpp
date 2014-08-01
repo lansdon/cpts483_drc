@@ -7,7 +7,7 @@ Mock_Server::Mock_Server()
     _unregQueryPersonCall = Mediator::Register(MKEY_GUI_QUERY_PERSON, [this](MediatorArg arg){SendResults(arg); });
 //    Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){SendResultsMediation(arg); });
 }
-Mock_server::~Mock_Server()
+Mock_Server::~Mock_Server()
 {
     Mediator::Unregister(MKEY_GUI_QUERY_PERSON, _unregQueryPersonCall);
 }
