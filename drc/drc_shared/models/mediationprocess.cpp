@@ -292,13 +292,14 @@ QString MediationProcess::Parse()
 QString MediationProcess::UpdateParse()
 {
     //Updated 7-14-14 for new schema
-    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeInternalState = %5, DisputeCounty = %6, ")
+    QString toUpdate = QString("DisputeType = %1, UpdatedDate = '%2', UpdatedDateTime = '%3', DisputeState = %4, DisputeInternalState = %5, DisputeCounty = %6, CreationDateTime = '%7', ")
             .arg(QString::number(this->GetDisputeType()))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd"))
             .arg(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss"))
             .arg(QString::number(this->GetState()))
             .arg(QString::number(this->GetInternalState()))
-            .arg(QString::number(this->GetCountyId()));
+            .arg(QString::number(this->GetCountyId()))
+            .arg(this->GetCreatedDate().toString("yyyy-MM-dd hh:mm:ss"));
 
     toUpdate += QString("ReferalSource = '%1', TranslatorRequired = '%2', InquiryType = %3, InfoOnly = '%4', IsCourtCase = '%5', ")
             .arg(QString::number(this->GetReferralType()))
