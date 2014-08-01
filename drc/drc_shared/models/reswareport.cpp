@@ -635,8 +635,6 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
 
 void ResWaReport::CalculateCasesTable()
 {
-    _casesTable.clear();
-
     foreach(MediationProcess* mp,  *_processes)
     {
         AddMPToCasesTable(mp->GetDisputeType(), mp->GetCourtType(), mp->IsSettled());
