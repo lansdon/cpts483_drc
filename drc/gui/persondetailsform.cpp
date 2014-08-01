@@ -159,7 +159,7 @@ bool PersonDetailsForm::ProcessPhoneNumber(const QString& string, QLineEdit* wid
     widget->setText(s);
     if(!rx.exactMatch(s))
     {
-        SetWidgetInvalid(widget);
+        //SetWidgetInvalid(widget);
         return false;
     } else {
         SetWidgetValid(widget);
