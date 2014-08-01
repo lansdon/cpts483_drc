@@ -85,7 +85,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
             this->setAtTable(this->getAtTable() + atTable);
         }
 
-        if((process->GetState() != PROCESS_STATE_CLOSED_NO_SESSION) ||
+        if((process->GetState() != PROCESS_STATE_CLOSED_NO_SESSION) &&
             (process->GetState() != PROCESS_STATE_CLOSED_WITH_SESSION))
         {
          /*   if(process->getMediationSessionVector()->size() == 0)
