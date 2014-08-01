@@ -580,8 +580,7 @@ void StateUpdate::GetExternalState(MediationProcess* arg)
         case PROCESS_INTERNAL_STATE_ATTORNEY_INFO:
         case PROCESS_INTERNAL_STATE_CLIENT_INFO:
         case PROCESS_INTERNAL_STATE_FEES_RECORDED:
-            if (arg->GetInfoOnly()) externalState = PROCESS_STATE_CLOSED_NO_SESSION;
-            else externalState = PROCESS_STATE_PENDING;
+            externalState = (IsExternalClosedNoSession(arg)) ? PROCESS_STATE_CLOSED_NO_SESSION : PROCESS_STATE_PENDING;
             break;
         case PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED:
         case PROCESS_INTERNAL_STATE_SCHEDULED:
@@ -602,6 +601,24 @@ void StateUpdate::GetExternalState(MediationProcess* arg)
             break;
     }
     arg->SetState(externalState);
+}
+
+bool StateUpdate::IsExternalClosedNoSession(MediationProcess* arg)
+{
+    bool shouldBeClosed = false;
+    MediationSessionVector* mpsessions = arg->getMediationSessionVector();
+    MediationSession* mplastSession = nullptr;
+    if (mpsessions->size() > 0) mplastSession = mpsessions->at(mpsessions->size()-1);
+    // info only should result in closure of MP
+    if (arg->GetInfoOnly()) shouldBeClosed = true;
+    // if the final session is anything but an agreement/no agreement or none,
+    // the MP should be closed without a session.
+    else if (mplastSession && (mplastSession->getOutcome() != SESSION_OUTCOME_NONE &&
+        mplastSession->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT &&
+        mplastSession->getOutcome() != SESSION_OUTCOME_AGREEMENT))
+        shouldBeClosed = true;
+
+    return shouldBeClosed;
 }
 
 bool StateUpdate::ValidateName(QString name)

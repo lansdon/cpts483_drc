@@ -112,6 +112,7 @@ private:
      * \param arg
      */
     void GetExternalState(MediationProcess* arg);
+    bool IsExternalClosedNoSession(MediationProcess* arg);
 };
 
 #endif // STATEUPDATE_H
