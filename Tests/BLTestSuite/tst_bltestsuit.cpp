@@ -49,6 +49,12 @@ private Q_SLOTS:
 
     void testSessionConfirmed();
     void testSessionNotConfirmed();
+
+    void testAgreementReachedSufficientContactInfo();
+    void testAgreementReachedInsufficientContactInfo();
+
+    void testOtherOutcomeSufficientContactInfo();
+    void testOtherOutcomeInsufficientContactInfo();
 };
 
 BLTestSuit::BLTestSuit()
@@ -758,7 +764,6 @@ void BLTestSuit::testMediatorsRecorded()
     ClientSessionData client2Data;
     client2Data.setFee("150");
 
-
     ClientSessionDataVector clientSessionData;
     clientSessionData.push_back(&client1Data);
     clientSessionData.push_back(&client2Data);
@@ -771,7 +776,6 @@ void BLTestSuit::testMediatorsRecorded()
 
     MediationSessionVector mediationSessions;
     mediationSessions.push_back(&mediationSession);
-
 
     MediationProcess mediationProcess;
     mediationProcess.AddParty(&party1);
@@ -824,6 +828,65 @@ void BLTestSuit::testNoMediatorsRecorded()
     ClientSessionData client2Data;
     client2Data.setFee("150");
 
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_SCHEDULED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "FAILURE!! Test mediators not set.");
+}
+
+/* Test Agreement reached with sufficient contact info
+ *      externalState = PROCESS_STATE_CLOSED_SCHEDULED
+ */
+void BLTestSuit::testAgreementReachedSufficientContactInfo()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    person1.setStreet("12 Street");
+    person1.setCity("Kennewick");
+    person1.setState("Washington");
+    person1.setZip("99337");
+    person1.setCounty(COUNTY_BENTON);
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    person2.setStreet("125 Fake Street");
+    person2.setCity("Kennewick");
+    person2.setState("Washington");
+    person2.setZip("99337");
+    person2.setCounty(COUNTY_BENTON);
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("150");
 
     ClientSessionDataVector clientSessionData;
     clientSessionData.push_back(&client1Data);
@@ -832,6 +895,119 @@ void BLTestSuit::testNoMediatorsRecorded()
     MediationSession mediationSession;
     mediationSession.SetState(SESSION_STATE_CONFIRMED);
     mediationSession.setClientSessionDataVector(clientSessionData);
+    mediationSession.setOutcome(SESSION_OUTCOME_AGREEMENT);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+    QVERIFY2(success, "FAILURE!! Test agreement reached with sufficient contact info");
+}
+
+/* Test agreement reached with with insufficient contact info
+ *      externalState = PROCESS_STATE_PENDING
+ */
+void BLTestSuit::testAgreementReachedInsufficientContactInfo()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    person1.setStreet("12 Street");
+    person1.setCity("Kennewick");
+    person1.setState("Washington");
+    person1.setZip("99337");
+    person1.setCounty(COUNTY_BENTON);
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("150");
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+    mediationSession.setOutcome(SESSION_OUTCOME_AGREEMENT);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_PENDING);
+    QVERIFY2(success, "FAILURE!! Test agreement reached with insufficient contact info");
+}
+
+/* Test other outcome with sufficient contact info
+ *      externalState = PROCESS_STATE_SCHEDULED
+ */
+void BLTestSuit::testOtherOutcomeSufficientContactInfo()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    person1.setStreet("12 Street");
+    person1.setCity("Kennewick");
+    person1.setState("Washington");
+    person1.setZip("99337");
+    person1.setCounty(COUNTY_BENTON);
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    person2.setPrimaryPhone("2222222222");
+    person2.setEmail("someguy2@blah.com");
+    person2.setAttorney("dfwerty");
+    person2.setStreet("125 Fake Street");
+    person2.setCity("Kennewick");
+    person2.setState("Washington");
+    person2.setZip("99337");
+    person2.setCounty(COUNTY_BENTON);
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("150");
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+    mediationSession.setOutcome(SESSION_OUTCOME_FIRST_PARTY_WITHDREW);
 
     MediationSessionVector mediationSessions;
     mediationSessions.push_back(&mediationSession);
@@ -846,9 +1022,60 @@ void BLTestSuit::testNoMediatorsRecorded()
     QString stateMessage = "";
     StateUpdate stateUpdate;
     bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
-         success &= (mediationProcess.GetInternalState() == PROCESS_INTERNAL_STATE_SCHEDULED);
          success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
-    QVERIFY2(success, "FAILURE!! Test mediators not set.");
+    QVERIFY2(success, "FAILURE!! Test other outcome with sufficient contact info.");
+}
+
+/* Test other outcome with insufficient contact info
+ *      externalState = PROCESS_STATE_CLOSED_NO_SESSION
+ */
+void BLTestSuit::testOtherOutcomeInsufficientContactInfo()
+{
+    Person person1;
+    person1.setName("SomeFirst1", "SomeMiddle1", "SomeLast1");
+    person1.setPrimaryPhone("5555555555");
+    person1.setEmail("someguy@blah.com");
+    person1.setAttorney("asdfwerty");
+    person1.setStreet("12 Street");
+    person1.setCity("Kennewick");
+    person1.setState("Washington");
+    person1.setZip("99337");
+    person1.setCounty(COUNTY_BENTON);
+    Party party1;
+    party1.SetPrimary(&person1);
+    ClientSessionData client1Data;
+    client1Data.setFee("200");
+
+    Person person2;
+    person2.setName("SomeFirst2", "SomeMiddle2", "SomeLast2");
+    Party party2;
+    party2.SetPrimary(&person2);
+    ClientSessionData client2Data;
+    client2Data.setFee("150");
+
+    ClientSessionDataVector clientSessionData;
+    clientSessionData.push_back(&client1Data);
+    clientSessionData.push_back(&client2Data);
+
+    MediationSession mediationSession;
+    mediationSession.SetState(SESSION_STATE_CONFIRMED);
+    mediationSession.setClientSessionDataVector(clientSessionData);
+    mediationSession.setOutcome(SESSION_OUTCOME_FIRST_PARTY_WITHDREW);
+
+    MediationSessionVector mediationSessions;
+    mediationSessions.push_back(&mediationSession);
+
+    MediationProcess mediationProcess;
+    mediationProcess.AddParty(&party1);
+    mediationProcess.AddParty(&party2);
+    mediationProcess.setMediationSessionVector(&mediationSessions);
+
+    QString errorMessage = "";
+    QString stateMessage = "";
+    StateUpdate stateUpdate;
+    bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_CLOSED_NO_SESSION);
+    QVERIFY2(success, "FAILURE!! Test other outcome with sufficient contact info");
 }
 
 // Old tests
