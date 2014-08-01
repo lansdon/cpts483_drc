@@ -275,7 +275,7 @@ bool StateUpdate::unique(MediationProcess* arg)
         advance &= ValidateName(primary->FullName());
         advance &=              // (phone not empty) AND ((address not empty) AND (email address not empty))
            ((!primary->getPrimaryPhone().isEmpty()) &&
-           ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty() && (primary->getCounty() != COUNTY_NONE)) &&
+           ((!primary->getStreet().isEmpty() && !primary->getCity().isEmpty() && !primary->getState().isEmpty()) &&
              !primary->getEmail().isEmpty()));
     }
 
@@ -286,7 +286,7 @@ bool StateUpdate::unique(MediationProcess* arg)
     else
     {
         _errorMessage = "Cannot schedule: Enter a phone number, email and mailing address for each client.";
-        _stateMessage = "Enter a phone number, email, mailing address, and select county for each client.";
+        _stateMessage = "Enter a phone number, email, and mailing address for each client.";
     }
 
     // debug statements
