@@ -966,7 +966,7 @@ void BLTestSuit::testAgreementReachedInsufficientContactInfo()
 }
 
 /* Test other outcome with sufficient contact info
- *      externalState = PROCESS_STATE_SCHEDULED
+ *      externalState = PROCESS_STATE_CLOSED_NO_SESSION
  */
 void BLTestSuit::testOtherOutcomeSufficientContactInfo()
 {
@@ -1022,7 +1022,7 @@ void BLTestSuit::testOtherOutcomeSufficientContactInfo()
     QString stateMessage = "";
     StateUpdate stateUpdate;
     bool success = stateUpdate.StateCheck(&mediationProcess, errorMessage, stateMessage);
-         success &= (mediationProcess.GetState() == PROCESS_STATE_SCHEDULED);
+         success &= (mediationProcess.GetState() == PROCESS_STATE_CLOSED_NO_SESSION);
     QVERIFY2(success, "FAILURE!! Test other outcome with sufficient contact info.");
 }
 

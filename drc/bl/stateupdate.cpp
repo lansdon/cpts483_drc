@@ -585,7 +585,7 @@ void StateUpdate::GetExternalState(MediationProcess* arg)
         case PROCESS_INTERNAL_STATE_MEDIATORS_ASSIGNED:
         case PROCESS_INTERNAL_STATE_SCHEDULED:
         case PROCESS_INTERNAL_STATE_OUTCOME_SELECTED:
-            externalState = PROCESS_STATE_SCHEDULED;
+            externalState = (IsExternalClosedNoSession(arg)) ? PROCESS_STATE_CLOSED_NO_SESSION : PROCESS_STATE_SCHEDULED;
             break;
         case PROCESS_INTERNAL_STATE_CLOSED:
             MediationSessionVector* sessions = arg->getMediationSessionVector();
