@@ -224,7 +224,7 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
         MPBrowserTypes curBrowser = toolbox->GetCurrentBrowserType();
         if(curBrowser == browserType)
         {
-            if(_browserDock->isVisible())
+/*            if(_browserDock->isVisible())
             {
                 _browserDock->close();
                 removeDockWidget(_browserDock);
@@ -233,7 +233,7 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
                 shouldDisplayTable = false;
             }
             else
-            {
+*/            {
                 _browserDock->show();
                 shouldDisplayTable = false;
             }
