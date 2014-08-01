@@ -7,7 +7,8 @@
 
 UserLoginProcessor::UserLoginProcessor(QString authUser, QString sendUser): _sendUser(sendUser)
 {
-    Mediator::Register(authUser, [this](MediatorArg arg){ Authenticate(arg); });
+    MKEY = authUser;
+    _unregAurhUserCall = Mediator::Register(authUser, [this](MediatorArg arg){ Authenticate(arg); });
     _user = nullptr;
     _userName = nullptr;
 }
@@ -76,6 +77,7 @@ void UserLoginProcessor::CleanUserName()
 UserLoginProcessor::~UserLoginProcessor()
 {
     CleanUserName();
+    Mediator::Unregister(MKEY, _unregAurhUserCall);
 }
 
 

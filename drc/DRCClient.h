@@ -166,6 +166,18 @@ private:
     DRCDB _db;  // Database
     Mock_Server _ms; // mock server for gui testing
 
+    MediatorId _unregEnableMenusCall;
+    MediatorId _unregDisableMenusCall;
+    MediatorId _unregShowAdminCall;
+    MediatorId _unregHideAdminCall;
+    MediatorId _unregShowMediationBrowserCall;
+    MediatorId _unregShowSessionsBrowserCall;
+    MediatorId _unregShowNotesBrowserCall;
+    MediatorId _unregMpNewformCall;
+    MediatorId _unregShowEvalCall;
+    MediatorId _unregShowMonthlyCall;
+    MediatorId _unregShowReswaCall;
+
     // Primary Views
     MediationProcessView* _mediationProcessView;
     /*!

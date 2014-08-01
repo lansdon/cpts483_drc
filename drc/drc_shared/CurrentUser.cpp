@@ -11,12 +11,16 @@ CurrentUser::CurrentUser()
     _currentUser = nullptr;
 
     /// Register our LoginUser method to calls
-    Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){LoginUser(arg);});
+    _unregCurrentUserChangedCall = Mediator::Register(MKEY_CURRENT_USER_CHANGED, [this](MediatorArg arg){LoginUser(arg);});
 }
 CurrentUser::CurrentUser(const CurrentUser& User)
 {
     Q_UNUSED(User);
     /// Filler
+}
+CurrentUser::~CurrentUser()
+{
+    Mediator::Unregister(MKEY_CURRENT_USER_CHANGED, _unregCurrentUserChangedCall);
 }
 
 void CurrentUser::Init()

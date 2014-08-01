@@ -12,21 +12,21 @@
 DRCDB::DRCDB() : DB_ERROR(false)
 {
     // Register to Listen for events.
-    Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
-    Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
-    Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
-    Mediator::Register(MKEY_BL_REQUEST_PENDING_MEDIATIONS_DONE, [this](MediatorArg arg){LoadPendingMediations(arg);});
-    Mediator::Register(MKEY_BL_REQUEST_SCHEDULED_MEDIATIONS_DONE, [this](MediatorArg arg){LoadScheduledMediations(arg);});
-    Mediator::Register(MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE, [this](MediatorArg arg){LoadClosedMediations(arg);});
-    Mediator::Register(MKEY_BL_REQUEST_CLOSED_FEES_DUE_MEDIATIONS_DONE, [this](MediatorArg arg){LoadClosedMediationsWithoutPayment(arg);});
-    Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
-    Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
-    Mediator::Register(MKEY_DB_REMOVE_USER, [this](MediatorArg arg){RemoveUser(arg);});
-    Mediator::Register(MKEY_DB_UPDATE_USER, [this](MediatorArg arg){UpdateUser(arg);});
-    Mediator::Register(MKEY_DB_GET_ALL_USER, [this](MediatorArg arg) {GetAllUsers(arg);});
-    Mediator::Register(MKEY_GUI_SAVE_EVALUATION, [this](MediatorArg arg) {InsertEvaluation(arg);});
-    Mediator::Register(MKEY_BL_REQUEST_RESWA_REPORT, [this](MediatorArg arg) {QueryResWaReport(arg);});
-    Mediator::Register(MKEY_BL_REQUEST_MONTHLY_REPORT, [this](MediatorArg arg) {QueryMonthlyReport(arg);});
+    _unregAuthUserCall = Mediator::Register(MKEY_GUI_AUTHENTICATE_USER, [this](MediatorArg arg){AuthenticateUser(arg);});
+    _unregValidatSaveMediationCall = Mediator::Register(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){InsertOrUpdateMediation(arg);});
+    _unregRequestRecentCall = Mediator::Register(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, [this](MediatorArg arg){LoadRecentMediations(arg);});
+    _unregRequsetPendingCall = Mediator::Register(MKEY_BL_REQUEST_PENDING_MEDIATIONS_DONE, [this](MediatorArg arg){LoadPendingMediations(arg);});
+    _unregRequsetScheduledCall = Mediator::Register(MKEY_BL_REQUEST_SCHEDULED_MEDIATIONS_DONE, [this](MediatorArg arg){LoadScheduledMediations(arg);});
+    _unregRequsetClosedCall = Mediator::Register(MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE, [this](MediatorArg arg){LoadClosedMediations(arg);});
+    _unregRequestClosedFeesDueCall = Mediator::Register(MKEY_BL_REQUEST_CLOSED_FEES_DUE_MEDIATIONS_DONE, [this](MediatorArg arg){LoadClosedMediationsWithoutPayment(arg);});
+    _unregQueryMediationCall = Mediator::Register(MKEY_BL_QUERY_MEDIATION, [this](MediatorArg arg){QueryMediations(arg);});
+    _unregAddNewUserCall = Mediator::Register(MKEY_DB_ADD_NEW_USER, [this](MediatorArg arg){AddNewUser(arg);});
+    _unregRemoveUserCall = Mediator::Register(MKEY_DB_REMOVE_USER, [this](MediatorArg arg){RemoveUser(arg);});
+    _unregUpdateUserCall = Mediator::Register(MKEY_DB_UPDATE_USER, [this](MediatorArg arg){UpdateUser(arg);});
+    _unregGetAllUserCall = Mediator::Register(MKEY_DB_GET_ALL_USER, [this](MediatorArg arg) {GetAllUsers(arg);});
+    _unregSaveEvaluationCall = Mediator::Register(MKEY_GUI_SAVE_EVALUATION, [this](MediatorArg arg) {InsertEvaluation(arg);});
+    _unregRequestResWaCall = Mediator::Register(MKEY_BL_REQUEST_RESWA_REPORT, [this](MediatorArg arg) {QueryResWaReport(arg);});
+    _unregRequestMonthlyCall = Mediator::Register(MKEY_BL_REQUEST_MONTHLY_REPORT, [this](MediatorArg arg) {QueryMonthlyReport(arg);});
 
 }
 //========================================================================
@@ -475,6 +475,21 @@ bool DRCDB::CloseDatabase()
 DRCDB::~DRCDB()
 {
     this->CloseDatabase();
+    Mediator::Unregister(MKEY_GUI_AUTHENTICATE_USER, _unregAuthUserCall);
+    Mediator::Unregister(MKEY_BL_VALIDATE_SAVE_MEDIATION_PROCESS_FORM_DONE, _unregValidatSaveMediationCall);
+    Mediator::Unregister(MKEY_BL_REQUEST_RECENT_MEDIATIONS_DONE, _unregRequestRecentCall);
+    Mediator::Unregister(MKEY_BL_REQUEST_PENDING_MEDIATIONS_DONE, _unregRequsetPendingCall);
+    Mediator::Unregister(MKEY_BL_REQUEST_SCHEDULED_MEDIATIONS_DONE, _unregRequsetScheduledCall);
+    Mediator::Unregister(MKEY_BL_REQUEST_CLOSED_MEDIATIONS_DONE, _unregRequsetClosedCall);
+    Mediator::Unregister(MKEY_BL_REQUEST_CLOSED_FEES_DUE_MEDIATIONS_DONE, _unregRequestClosedFeesDueCall);
+    Mediator::Unregister(MKEY_BL_QUERY_MEDIATION, _unregQueryMediationCall);
+    Mediator::Unregister(MKEY_DB_ADD_NEW_USER, _unregAddNewUserCall);
+    Mediator::Unregister(MKEY_DB_REMOVE_USER, _unregRemoveUserCall);
+    Mediator::Unregister(MKEY_DB_UPDATE_USER, _unregUpdateUserCall);
+    Mediator::Unregister(MKEY_DB_GET_ALL_USER, _unregGetAllUserCall);
+    Mediator::Unregister(MKEY_GUI_SAVE_EVALUATION, _unregSaveEvaluationCall);
+    Mediator::Unregister(MKEY_BL_REQUEST_RESWA_REPORT, _unregRequestResWaCall);
+    Mediator::Unregister(MKEY_BL_REQUEST_MONTHLY_REPORT, _unregRequestMonthlyCall);
 }
 //========================================================================
 

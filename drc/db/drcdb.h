@@ -32,6 +32,21 @@ private:
     std::vector<User*> UserMap;
 
     bool DB_ERROR;
+    MediatorId _unregAuthUserCall;
+    MediatorId _unregValidatSaveMediationCall;
+    MediatorId _unregRequestRecentCall;
+    MediatorId _unregRequsetPendingCall;
+    MediatorId _unregRequsetScheduledCall;
+    MediatorId _unregRequsetClosedCall;
+    MediatorId _unregRequestClosedFeesDueCall;
+    MediatorId _unregQueryMediationCall;
+    MediatorId _unregAddNewUserCall;
+    MediatorId _unregRemoveUserCall;
+    MediatorId _unregUpdateUserCall;
+    MediatorId _unregGetAllUserCall;
+    MediatorId _unregRequestMonthlyCall;
+    MediatorId _unregSaveEvaluationCall;
+    MediatorId _unregRequestResWaCall;
 
 public:
     /*!

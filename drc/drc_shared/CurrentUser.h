@@ -5,6 +5,7 @@
 #include <time.h>
 #include "User.h"
 #include "MediatorArg.h"
+#include "Mediator.h"
 
 /*!
  * \brief The CurrentUser class.
@@ -20,7 +21,8 @@ class CurrentUser
 private:
     CurrentUser();
     CurrentUser(const CurrentUser &);
-
+    ~CurrentUser();
+    MediatorId _unregCurrentUserChangedCall;
     User	*_currentUser;
 public:
     static CurrentUser& Instance();

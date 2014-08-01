@@ -15,7 +15,7 @@ SessionsBrowser::SessionsBrowser(QWidget *parent, MediationSessionVector* sessio
 
     configSessionTable();
 
-    Mediator::Register(MKEY_DOCK_SET_SESSIONS, [this](MediatorArg arg){SetSessionsEvent(arg); });
+    _setSessionsCallback = Mediator::Register(MKEY_DOCK_SET_SESSIONS, [this](MediatorArg arg){SetSessionsEvent(arg); });
 }
 
 SessionsBrowser::~SessionsBrowser()

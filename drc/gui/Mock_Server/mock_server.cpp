@@ -4,9 +4,14 @@
 
 Mock_Server::Mock_Server()
 {
-    Mediator::Register(MKEY_GUI_QUERY_PERSON, [this](MediatorArg arg){SendResults(arg); });
+    _unregQueryPersonCall = Mediator::Register(MKEY_GUI_QUERY_PERSON, [this](MediatorArg arg){SendResults(arg); });
 //    Mediator::Register(MKEY_GUI_QUERY_MEDIATION, [this](MediatorArg arg){SendResultsMediation(arg); });
 }
+Mock_server::~Mock_Server()
+{
+    Mediator::Unregister(MKEY_GUI_QUERY_PERSON, _unregQueryPersonCall);
+}
+
 void Mock_Server::PrintPerson(Person *input, std::fstream &file)
 {
     time_t tm = std::time(0);

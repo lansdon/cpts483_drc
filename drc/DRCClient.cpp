@@ -56,17 +56,17 @@ DRCClient::DRCClient(QWidget *parent)
     setCentralWidget(new LoginForm(this));
 
     // Listen for Events
-    Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);ShowMainMenu();});
-    Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuBarDisabled();SetMenuHelpDisabled();});
-    Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminShow();});
-    Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminHide();});
-    Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowMediationBrowser();});
-    Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowSessionBrowser();});
-    Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowNotesBrowser();});
-    Mediator::Register(MKEY_GUI_MP_NEW_FORM, [this](MediatorArg arg){Q_UNUSED(arg);LoadMediationProcessView();});
-    Mediator::Register(MKEY_GUI_SHOW_EVALUATION, [this](MediatorArg arg){Q_UNUSED(arg);LoadEvaluationView();});
-    Mediator::Register(MKEY_GUI_SHOW_MONTHLY_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowMonthlyReport();});
-    Mediator::Register(MKEY_GUI_SHOW_RESWA_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowResWaReport();});
+    _unregEnableMenusCall = Mediator::Register(MKEY_GUI_ENABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);ShowMainMenu();});
+    _unregDisableMenusCall = Mediator::Register(MKEY_GUI_DISABLE_MENUS, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuBarDisabled();SetMenuHelpDisabled();});
+    _unregShowAdminCall = Mediator::Register(MKEY_GUI_SHOW_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminShow();});
+    _unregHideAdminCall = Mediator::Register(MKEY_GUI_HIDE_ADMIN, [this](MediatorArg arg){Q_UNUSED(arg);SetMenuAdminHide();});
+    _unregShowMediationBrowserCall = Mediator::Register(MKEY_GUI_SHOW_MEDIATION_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowMediationBrowser();});
+    _unregShowSessionsBrowserCall = Mediator::Register(MKEY_GUI_SHOW_SESSIONS_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowSessionBrowser();});
+    _unregShowNotesBrowserCall = Mediator::Register(MKEY_GUI_SHOW_NOTES_BROWSER, [this](MediatorArg arg){Q_UNUSED(arg);ShowNotesBrowser();});
+    _unregMpNewformCall = Mediator::Register(MKEY_GUI_MP_NEW_FORM, [this](MediatorArg arg){Q_UNUSED(arg);LoadMediationProcessView();});
+    _unregShowEvalCall = Mediator::Register(MKEY_GUI_SHOW_EVALUATION, [this](MediatorArg arg){Q_UNUSED(arg);LoadEvaluationView();});
+    _unregShowMonthlyCall = Mediator::Register(MKEY_GUI_SHOW_MONTHLY_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowMonthlyReport();});
+    _unregShowReswaCall = Mediator::Register(MKEY_GUI_SHOW_RESWA_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowResWaReport();});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -79,6 +79,17 @@ DRCClient::DRCClient(QWidget *parent)
 DRCClient::~DRCClient()
 {
    delete ui;
+   Mediator::Unregister(MKEY_GUI_ENABLE_MENUS, _unregEnableMenusCall);
+   Mediator::Unregister(MKEY_GUI_DISABLE_MENUS, _unregDisableMenusCall);
+   Mediator::Unregister(MKEY_GUI_SHOW_ADMIN, _unregShowAdminCall);
+   Mediator::Unregister(MKEY_GUI_HIDE_ADMIN, _unregHideAdminCall);
+   Mediator::Unregister(MKEY_GUI_SHOW_MEDIATION_BROWSER, _unregShowMediationBrowserCall);
+   Mediator::Unregister(MKEY_GUI_SHOW_SESSIONS_BROWSER, _unregShowSessionsBrowserCall);
+   Mediator::Unregister(MKEY_GUI_SHOW_NOTES_BROWSER, _unregShowNotesBrowserCall);
+   Mediator::Unregister(MKEY_GUI_MP_NEW_FORM, _unregMpNewformCall);
+   Mediator::Unregister(MKEY_GUI_SHOW_EVALUATION, _unregShowEvalCall);
+   Mediator::Unregister(MKEY_GUI_SHOW_MONTHLY_REPORT, _unregShowMonthlyCall);
+   Mediator::Unregister(MKEY_GUI_SHOW_RESWA_REPORT, _unregShowReswaCall);
 }
 
 void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)

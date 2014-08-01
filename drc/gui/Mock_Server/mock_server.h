@@ -38,8 +38,10 @@ private:
      * \param arg
      */
     void SendResultsMediation(MediatorArg arg);
+    MediatorId _unregQueryPersonCall;
 public:
     Mock_Server();
+    ~Mock_Server();
 };
 
 #endif // MOCK_SERVER_H

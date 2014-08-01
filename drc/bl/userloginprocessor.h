@@ -4,6 +4,7 @@
 #include <string>
 #include "MediatorArg.h"
 #include "User.h"
+#include "Mediator.h"
 
 class SHA256_Crypto;
 
@@ -41,7 +42,8 @@ private:
      * \brief CleanUserName
      */
     void CleanUserName();
-
+    MediatorId _unregAurhUserCall;
+    QString MKEY;
     QString _sendUser;
     QString _requestSalt;
     User* _user;
