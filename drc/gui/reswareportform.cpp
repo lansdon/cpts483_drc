@@ -60,7 +60,7 @@ void ResWaReportForm::RecieveReport(MediatorArg arg)
         auto report = arg.getArg<ResWaReport*>();
         if(report)
         {
-            report->BuildReport();
+           report->BuildReport();
         }
     }
 }
