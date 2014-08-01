@@ -55,7 +55,7 @@ void MediationProcessStatusForm::Update()
 
     ui->inquiryTypeComboBox->setCurrentIndex(_mediationProcess->GetInquiryType());
     ui->infoOnlyCheckBox->setChecked(_mediationProcess->GetInfoOnly());
-    ui->dateTimeEdit->setDateTime(_mediationProcess->GetCreatedDate());
+    ui->dateEdit->setDate(_mediationProcess->GetCreatedDate().date());
     ui->currentStatusLabel->setText("Status: " + StringForDisputeProcessStates( _mediationProcess->GetState()));
     ui->spanishCheckBox->setChecked(_mediationProcess->GetRequiresSpanish());
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
@@ -384,7 +384,16 @@ void MediationProcessStatusForm::on_courtOrderLineEdit_textEdited(const QString 
 
 void MediationProcessStatusForm::on_dateTimeEdit_dateTimeChanged(const QDateTime &dateTime)
 {
+//    if(_loading) return;
+//    _mediationProcess->SetCreatedDate(dateTime);
+//    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::on_dateEdit_dateChanged(const QDate &date)
+{
     if(_loading) return;
-    _mediationProcess->SetCreatedDate(dateTime);
+    QDateTime a = _mediationProcess->GetCreatedDate();
+    a.setDate(date);
+    _mediationProcess->SetCreatedDate(a);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }

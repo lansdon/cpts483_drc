@@ -159,18 +159,48 @@ void DRCClient::on_actionOpen_mediation_view_triggered()
 
 void DRCClient::on_actionMediation_Process_triggered()
 {
-    setCentralWidget(new MediationProcessView());
+    if(_mediationProcessView && _mediationProcessView->getChangesPending())
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to create new?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+            setCentralWidget(new MediationProcessView());
+        }
+    }
+    else
+       setCentralWidget(new MediationProcessView());
 }
 
 void DRCClient::on_actionLogout_User_triggered()
 {
-    ui->toolBar->clear();
-    if(_browserDock && _browserDock->isVisible())
-        _browserDock->close();
-    SetMenusEnabled(false, false);
-    delete _mediationProcessView;
-    _mediationProcessView = nullptr;
-    setCentralWidget(new LoginForm());
+    if(_mediationProcessView && _mediationProcessView->getChangesPending())
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+            ui->toolBar->clear();
+            if(_browserDock && _browserDock->isVisible())
+                _browserDock->close();
+            SetMenusEnabled(false, false);
+            delete _mediationProcessView;
+            _mediationProcessView = nullptr;
+            setCentralWidget(new LoginForm());
+        }
+    }
+    else
+        setCentralWidget(new LoginForm());
 }
 
 void DRCClient::on_mediationProcessSelected(MediationProcess* process)
@@ -374,26 +404,69 @@ void DRCClient::send_mediation_vector()
 
 void DRCClient::on_actionManage_Users_triggered()
 {
-    setCentralWidget(new ManageUsers(this));
+    if(_mediationProcessView && _mediationProcessView->getChangesPending())
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+            setCentralWidget(new ManageUsers(this));
+        }
+    }
+    else
+        setCentralWidget(new ManageUsers(this));
 }
 
 // Allow the admin to find a remote .db3 file to use. This file location will be stored as a file.
 void DRCClient::on_actionConnect_to_Remote_DB_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
-        "Open Remote Database", "", "Db Files (*.db3)");
-
-    if(fileName.length())
+    if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
-        QFile file(DBPATH_FILE);
-        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
         {
-            file.write(fileName.toStdString().c_str());
-            file.close();
-            _db.LoadDatabase(fileName);
+            QString fileName = QFileDialog::getOpenFileName(this,
+                "Open Remote Database", "", "Db Files (*.db3)");
+
+            if(fileName.length())
+            {
+                QFile file(DBPATH_FILE);
+                if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+                {
+                    file.write(fileName.toStdString().c_str());
+                    file.close();
+                    _db.LoadDatabase(fileName);
+                }
+            }
         }
     }
+    else
+    {
+        QString fileName = QFileDialog::getOpenFileName(this,
+            "Open Remote Database", "", "Db Files (*.db3)");
 
+        if(fileName.length())
+        {
+            QFile file(DBPATH_FILE);
+            if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+            {
+                file.write(fileName.toStdString().c_str());
+                file.close();
+                _db.LoadDatabase(fileName);
+            }
+        }
+    }
 }
 
 QString DRCClient::LoadDBPathFromFile()
@@ -437,8 +510,26 @@ void DRCClient::LoadEvaluationView()
 
 void DRCClient::ShowResWaReport()
 {
-    _mediationProcessView = nullptr;
-    setCentralWidget(new ResWaReportForm(this));
+    if(_mediationProcessView && _mediationProcessView->getChangesPending())
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+            _mediationProcessView = nullptr;
+            setCentralWidget(new ResWaReportForm(this));
+        }
+    }
+    else
+    {
+        _mediationProcessView = nullptr;
+        setCentralWidget(new ResWaReportForm(this));
+    }
 }
 
 void DRCClient::ShowMonthlyReport()
@@ -446,7 +537,22 @@ void DRCClient::ShowMonthlyReport()
 //    SlideShowForm* slides = new SlideShowForm(this);
 //    slides->SetSlideWidgets({new PersonDetailsForm, new MediationSessionForm, new NotesBrowser});
 //    setCentralWidget(slides);
-    setCentralWidget(new MonthlyReportForm(this));
+    if(_mediationProcessView && _mediationProcessView->getChangesPending())
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+            setCentralWidget(new MonthlyReportForm(this));
+        }
+    }
+    else
+       setCentralWidget(new MonthlyReportForm(this));
 }
 
 void DRCClient::on_actionMonthly_Report_triggered()
@@ -461,6 +567,24 @@ void DRCClient::on_actionRes_Wa_Report_triggered()
 
 void DRCClient::on_actionSlots_Game_triggered()
 {
-    _mediationProcessView = nullptr;
-    setCentralWidget(new SlotsGame());
+    if(_mediationProcessView && _mediationProcessView->getChangesPending())
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+            _mediationProcessView = nullptr;
+            setCentralWidget(new SlotsGame());
+        }
+    }
+    else
+    {
+        _mediationProcessView = nullptr;
+        setCentralWidget(new SlotsGame());
+    }
 }
