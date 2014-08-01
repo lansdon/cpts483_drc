@@ -34,7 +34,6 @@ SOURCES += main.cpp\
     drc_shared/mediator/asyncmediatorworker.cpp \
     gui/queryform.cpp \
     gui/contactrecorddataview.cpp \
-    bl/userloginprocessor.cpp \
     bl/stateupdate.cpp \
     drc_shared/models/User.cpp \
     gui/persondetailsform.cpp \
@@ -89,7 +88,6 @@ HEADERS  += \
     db/Filter.h \
     db/FilterTypes.h \
     drc_shared/models/User.h \
-    bl/userloginprocessor.h \
     bl/Crypto/SHA256_Crypto.h \
     gui/loginform.h \
     bl/Crypto/SHA256_Crypto.h \
