@@ -118,7 +118,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     this->setTotalServices(servicesCount);
     this->setSessionsCancelled(cancelCount);
     this->setTotalIntake(intakeCount);
-    this->setOpenCases(openCount);
+    //this->setOpenCases(openCount);
     this->setClauseCount(clauseCount);
 
 }

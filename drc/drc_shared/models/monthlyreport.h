@@ -91,11 +91,6 @@ private:
      */
     void setSessionsCancelled(int value) {m_sessionsCancelled = value;}
     /*!
-     * \brief setOpenCases
-     * \param value
-     */
-    void setOpenCases(int value) {m_openCases = value;}
-    /*!
      * \brief setTotalIntake
      * \param value
      */
@@ -109,6 +104,11 @@ private:
 
 public:
     monthlyreport();
+    /*!
+     * \brief setOpenCases
+     * \param value
+     */
+    void setOpenCases(int value) {m_openCases = value;}
     /*!
      * \brief setMonth
      * \param value

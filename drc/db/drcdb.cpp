@@ -654,6 +654,24 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
             end = QDateTime::fromString(QString("%1-%2-01").arg(year).arg(1),"yyyy-M-dd");
         }
 
+        // To get the number of open cases
+        QSqlQuery openQuery(database);
+        QString openCommand = QString("Select * from Mediation_table where CreationDate < '%1' and DisputeState not in ('%2', '%3')")
+                                .arg(end.toString("yyyy-MM-dd"))
+                                .arg(PROCESS_STATE_CLOSED_NO_SESSION)
+                                .arg(PROCESS_STATE_CLOSED_WITH_SESSION);
+
+        if(!this->ExecuteCommand(openCommand, openQuery));
+        {
+            qDebug()<<this->GetLastErrors();
+        }
+
+        int openCount = 0;
+        while(openQuery.next())
+        {
+            openCount++;
+        }
+
         QSqlQuery query(database);
         QString command = QString("Select * from Session_table where ScheduledTime <= '%1' and ScheduledTime > '%2'")
                             .arg(end.toString("yyyy-MM-dd"))
@@ -712,6 +730,7 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
         report->setMonth(month);
         report->setYear(year);
         report->BuildReport(mpVec);
+        report->setOpenCases(openCount);
 
         arg.SetArg(report);
     }
