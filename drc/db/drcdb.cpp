@@ -574,7 +574,7 @@ void DRCDB::QueryResWaReport(MediatorArg arg)
             {
                 mediationIdMatches += ", ";
             }
-            mediationIdMatches += query.value(1).toString();
+            mediationIdMatches += query.value(0).toString();
             first = false;
         }
         MediationProcessVector* temp = LoadMediations(mediationIdMatches);
