@@ -239,12 +239,9 @@ void ResWaReport::BuildCasesSection(QTextCursor& cursor)
 // 2)  CALLS
 void ResWaReport::BuildCallsSection(QTextCursor& cursor)
 {
-
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
     cursor.insertText("\n\n2) CALLS (Information, intake, and referal calls)\n", _headerFormat);
-
-//    cursor.insertText("Total calls: " + QString::number(_totalCalls) + "\n\n");
 
     cursor.insertBlock();
     cursor.movePosition(QTextCursor::End);
@@ -256,7 +253,6 @@ void ResWaReport::BuildCallsSection(QTextCursor& cursor)
     QTextTable *table = cursor.insertTable(1, 2, tableFormat);
     TextToCell(table, 0, 0, "Total calls", &_tableTextFormat);
     TextToCell(table, 0, 1, QString::number(_totalCalls), &_tableCellBlue);
-
 }
 
 // 3) CONTACTS
@@ -530,8 +526,6 @@ void ResWaReport::BuildEvaluationSection(QTextCursor& cursor)
     TextToCell(table6, 0, 1, QString::number(_q2Yes), &_tableCellBlue);
     TextToCell(table6, 1, 1, QString::number(_q2No), &_tableCellBlue);
     TextToCell(table6, 2, 1, QString::number(_q2Somewhat), &_tableCellBlue);
-
-    SetTotalCalls(345);
 }
 
 void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes courtType, bool settled)
@@ -641,6 +635,8 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
 
 void ResWaReport::CalculateCasesTable()
 {
+    _casesTable.clear();
+
     foreach(MediationProcess* mp,  *_processes)
     {
         AddMPToCasesTable(mp->GetDisputeType(), mp->GetCourtType(), mp->IsSettled());
