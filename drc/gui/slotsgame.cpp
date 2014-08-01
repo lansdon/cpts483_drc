@@ -155,7 +155,7 @@ void SlotsGame::spinDisplay()
             ui->Slot4label->setPixmap(QPixmap(imageMap[_imageSlot4]));
             ui->Slot4label->repaint();
         }
-        QThread::sleep(.25);
+        QThread::msleep(250);
     }
 }
 
