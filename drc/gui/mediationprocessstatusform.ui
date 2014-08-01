@@ -93,7 +93,7 @@
                </font>
               </property>
               <property name="text">
-               <string>Creation Date:</string>
+               <string>Opened Date:</string>
               </property>
              </widget>
             </item>
