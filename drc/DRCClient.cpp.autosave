@@ -196,13 +196,7 @@ void DRCClient::LoadMediationProcessView(MediationProcess* process)
 
 void DRCClient::ShowNotesBrowser(MediatorArg arg)
 {
-
-    if(!arg.IsSuccessful())
-    {
-
-            closeNote = false;
-    }
-        ShowBrowser(MPBROWSER_NOTES);
+    ShowBrowser(MPBROWSER_NOTES);
 }
 
 void DRCClient::ShowSessionBrowser()
@@ -232,11 +226,6 @@ void DRCClient::ShowBrowser(MPBrowserTypes browserType)
 
         if(curBrowser == browserType)
         {
-            if(_browserDock->isVisible() && !closeNote &&  (browserType == MPBROWSER_NOTES))
-            {
-                closeNote = true;
-                return;
-            }
             if(_browserDock->isVisible())
             {
 

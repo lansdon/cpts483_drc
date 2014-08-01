@@ -123,7 +123,7 @@
   </action>
   <action name="actionFindMediation">
    <property name="text">
-    <string>Find</string>
+    <string>Search</string>
    </property>
    <property name="toolTip">
     <string>Find an existing Mediation Record</string>

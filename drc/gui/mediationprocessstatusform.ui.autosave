@@ -93,27 +93,12 @@
                </font>
               </property>
               <property name="text">
-               <string>Opened Date:</string>
+               <string>Creation Date:</string>
               </property>
              </widget>
             </item>
             <item row="0" column="1">
-             <widget class="QLabel" name="createdDateLabel">
-              <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                <horstretch>0</horstretch>
-                <verstretch>0</verstretch>
-               </sizepolicy>
-              </property>
-              <property name="font">
-               <font>
-                <pointsize>12</pointsize>
-               </font>
-              </property>
-              <property name="text">
-               <string>&lt;date&gt;</string>
-              </property>
-             </widget>
+             <widget class="QDateEdit" name="dateEdit"/>
             </item>
            </layout>
           </item>

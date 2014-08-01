@@ -381,3 +381,8 @@ void MediationProcessStatusForm::on_courtOrderLineEdit_textEdited(const QString 
     _mediationProcess->SetCourtOrder(arg1);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
+
+void MediationProcessStatusForm::on_dateEdit_dateChanged(const QDate &date)
+{
+    _mediationProcess->set
+}

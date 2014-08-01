@@ -111,6 +111,7 @@ void NotesBrowser::on_saveNoteBtn_clicked()
         ui->noteInput->clear();
         PopulateTable();
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+        ui->tableWidget->setCurrentCell(-1,-1);
     }
 }
 

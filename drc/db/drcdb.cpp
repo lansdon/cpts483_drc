@@ -323,13 +323,12 @@ void DRCDB::LoadDatabase(QString filename)
     if(!this->DoesTableExist(user_table_name))
     {
         CreateUserTable(user_table_name);
-    }
-
-    // To make sure there is always Admin/admin for access to application
-    MediatorArg arg;
-    User* adminUser = new User("Admin", "admin", USER_T_ADMIN);
-    arg.SetArg(adminUser);
-    AddNewUser(arg);
+        // To make sure there is always Admin/admin for access to application
+        MediatorArg arg;
+        User* adminUser = new User("Admin", "admin", USER_T_ADMIN);
+        arg.SetArg(adminUser);
+        AddNewUser(arg);
+    }    
 }
 
 bool DRCDB::CreateMediationTable(const QString& mediation_table_name)

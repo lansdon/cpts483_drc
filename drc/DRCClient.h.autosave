@@ -160,7 +160,6 @@ public slots:
 
 private:
     Ui::DRCClient *ui;
-    bool closeNote;
     // Important!! These objects are automatically initialized.
     // They need to be instantiated at startup to register events properly.
     DRCBL _bl;  // Business Logic
