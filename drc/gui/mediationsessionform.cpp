@@ -47,14 +47,12 @@ void MediationSessionForm::configureFeeTable()
     ui->feeDiplayTableWidget->setColumnCount(5);
     ui->feeDiplayTableWidget->setRowCount(0);
     QStringList header;
-    header << "Fee" << "Paid" << "Income" << "At Table" << "On Phone";
+    header << "Fee" << "Paid" << "Income" << "At\nTable" << "On\nPhone";
     ui->feeDiplayTableWidget->setHorizontalHeaderLabels(header);
     for (int c = 0; c < ui->feeDiplayTableWidget->horizontalHeader()->count(); ++c)
     {
        ui->feeDiplayTableWidget->horizontalHeader()->setSectionResizeMode(c, QHeaderView::Stretch);
     }
-    // TEMP
-
 }
 
 void MediationSessionForm::PopulateFeeTable()
@@ -241,7 +239,7 @@ void MediationSessionForm::configureAttyAndSupportTable()
     ui->attyAttendTableWidget->setColumnCount(3);
     ui->attyAttendTableWidget->setRowCount(0);
     QStringList header;
-    header << "Attorney will attend" <<   "Attorney did attend" <<   "Support";
+    header << "Attorney\nwill attend" <<   "Attorney\ndid attend" <<   "Support";
     ui->attyAttendTableWidget->setHorizontalHeaderLabels(header);
     //ui->attyAttendTableWidget->horizontalHeader()->setSectionResizeMode(0, QHeaderView::Stretch);
    // ui->attyAttendTableWidget->horizontalHeader()->setHidden(true);

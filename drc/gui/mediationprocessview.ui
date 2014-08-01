@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>793</width>
+    <width>1266</width>
     <height>609</height>
    </rect>
   </property>
@@ -71,6 +71,12 @@
     <layout class="QHBoxLayout" name="horizontalLayout_3">
      <item>
       <widget class="QGroupBox" name="clientsContainer">
+       <property name="minimumSize">
+        <size>
+         <width>612</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="maximumSize">
         <size>
          <width>800</width>
@@ -284,7 +290,7 @@
       <widget class="QGroupBox" name="sessionOverviewGroupBox">
        <property name="minimumSize">
         <size>
-         <width>0</width>
+         <width>612</width>
          <height>0</height>
         </size>
        </property>
@@ -378,19 +384,6 @@
         </item>
        </layout>
       </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_10">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
      </item>
     </layout>
    </item>
