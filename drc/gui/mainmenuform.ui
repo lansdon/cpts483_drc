@@ -80,7 +80,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Search</string>
+         <string>Find/Search</string>
         </property>
         <property name="toolButtonStyle">
          <enum>Qt::ToolButtonTextBesideIcon</enum>
