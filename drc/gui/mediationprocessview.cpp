@@ -15,6 +15,7 @@
 #include "MediatorKeys.h"
 #include "nosessionsview.h"
 #include "partyform.h"
+#include "persondetailsform.h"
 
 MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *mediationProcess) :
     QWidget(parent),
@@ -214,6 +215,7 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
 
         for(size_t i=0; i<parties->size(); ++i)
         {
+
             Party* partyToAdd = parties->at(i);
             PartyForm* curPartyForm = (PartyForm*)ui->partyTabWidget->widget(i);
             if(partyToAdd)
@@ -223,7 +225,8 @@ void MediationProcessView::AddPartyTabs(PartyVector* parties)
                     curParty = curPartyForm->GetParty();
                 if(partyToAdd != curParty)
                 {
-                    PartyForm* pForm = new PartyForm(ui->partyTabWidget, partyToAdd);
+                    PersonDetailsForm* pForm = new PersonDetailsForm(ui->partyTabWidget, partyToAdd->GetPrimary());
+                    //PartyForm* pForm = new PartyForm(ui->partyTabWidget, partyToAdd);
                     ui->partyTabWidget->addTab(pForm, partyToAdd->GetPrimary()->FullName() );
                     connect(pForm,SIGNAL(SaveSignaled()),this,SLOT(SaveSignaled()));
                 }
