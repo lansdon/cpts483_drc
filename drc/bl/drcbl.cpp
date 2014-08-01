@@ -137,9 +137,8 @@ void DRCBL::QueryMediations(MediatorArg arg) const
 }
 
 void DRCBL::QueryResWaReport(MediatorArg arg) const
-{   qDebug() << "BL ResWaReport request event caught.  Now calling MKEY_BL_REQUEST_RESWA_REPORT";
+{
     Mediator::Call(MKEY_BL_REQUEST_RESWA_REPORT, arg);
-    qDebug() << "BL -- AFTER calling report request.";
 }
 
 void DRCBL::QueryMonthlyReport(MediatorArg arg) const

@@ -550,7 +550,6 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
         _casesTable[CT_TOTAL_CASES][CT_H_PARENTING]++;
         if(settled)
         {
-            qDebug() << "Found a settled parenting plan dispute!";
             _casesTable[row+1][CT_H_PARENTING]++;
             _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_PARENTING]++;
         }
@@ -631,6 +630,8 @@ void ResWaReport::AddMPToCasesTable(DisputeTypes disputeType, CourtCaseTypes cou
     }    
     _casesTable[row][CT_H_TOTAL]++;
     if(settled) _casesTable[row+1][CT_H_TOTAL]++;
+    _casesTable[CT_TOTAL_CASES][CT_H_TOTAL]++;
+    if(settled) _casesTable[CT_TOTAL_CASES_SETTLED][CT_H_TOTAL]++;
 }
 
 void ResWaReport::CalculateCasesTable()
