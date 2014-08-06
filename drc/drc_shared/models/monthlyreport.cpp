@@ -69,23 +69,28 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         for(size_t sess = 0; sess < process->getMediationSessionVector()->size(); sess++)
         {
             MediationSession* session = process->getMediationSessionVector()->at(sess);
-            this->m_outcomes[session->getOutcome()]++;
-            intakeCount++;
 
-            int atTable = 0;
-            for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
+            if(session->getScheduledDate().toString("M").toInt() == this->getMonth())
             {
-                atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
-                            session->getClientSessionDataVectorAt(num)->getOnPhone());
-            }
 
-            if((session->GetState() == SESSION_STATE_CANCELLED) ||
-                    (session->GetState() == SESSION_STATE_RESCHEDULED))
-            {
-                cancelCount++;
-            }
+                this->m_outcomes[session->getOutcome()]++;
+                intakeCount++;
 
-            this->setAtTable(this->getAtTable() + atTable);
+                int atTable = 0;
+                for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
+                {
+                    atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
+                                session->getClientSessionDataVectorAt(num)->getOnPhone());
+                }
+
+                if((session->GetState() == SESSION_STATE_CANCELLED) ||
+                        (session->GetState() == SESSION_STATE_RESCHEDULED))
+                {
+                    cancelCount++;
+                }
+
+                this->setAtTable(this->getAtTable() + atTable);
+            }
         }
 
         if((process->GetState() != PROCESS_STATE_CLOSED_NO_SESSION) &&
