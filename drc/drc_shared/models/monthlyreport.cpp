@@ -226,7 +226,7 @@ void monthlyreport::pdfReport()
             .arg(QString::number(m_totalReferals), 5);
 
     pdfString += "\n\n================== CATAGORIES OF SERVICE ===================";
-    for(int i = 0; i < 13; i++)
+    for(int i = 0; i < 15; i++)
     {
         if((DisputeTypes)i != DISPUTE_T_NONE)
         {
