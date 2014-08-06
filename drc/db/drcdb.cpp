@@ -733,7 +733,7 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
         }
         mpVec = LoadMediations(mediationIdMatches);
         monthlyreport* report = new monthlyreport();
-        report->setCounty(county);
+        report->setCountyOfMediation(county);
         report->setMonth(month);
         report->setYear(year);
         report->BuildReport(mpVec);

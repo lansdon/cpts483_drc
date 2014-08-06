@@ -124,6 +124,7 @@ public:
      * \param value
      */
     void setCounty(CountyIds value) {m_county = value;}
+    void setCountyOfMediation(CountyIds value) { r_county = value; }
     /*!
      * \brief BuildReport
      * \param mpVec
