@@ -653,6 +653,8 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
             end = QDateTime::fromString(QString("%1-%2-01").arg(year).arg(1),"yyyy-M-dd");
         }
 
+        QString mediationIdMatches = "";
+
         // To get the number of open cases
         QSqlQuery openQuery(database);
         QString openCommand = QString("Select * from Mediation_table where CreationDateTime < '%1' and DisputeState not in ('%2', '%3') and DisputeCounty = '%4'")
@@ -667,9 +669,16 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
         }
 
         int openCount = 0;
+        bool first = true;
         while(openQuery.next())
         {
             openCount++;
+            if(!first)
+            {
+                mediationIdMatches += ", ";
+            }
+            mediationIdMatches += openQuery.value(0).toString();
+            first = false;
         }
 
         QSqlQuery query(database);
@@ -678,8 +687,7 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
                             .arg(start.toString("yyyy-MM-dd"));
         this->ExecuteCommand(command, query);
 
-        QString mediationIdMatches = "";
-        bool first = true;
+        first = true;
         while(query.next())
         {
             if(!first)

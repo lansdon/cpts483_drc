@@ -61,6 +61,11 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         }
 
         this->m_disputes[process->GetDisputeType()]++;
+
+        // If no sessions, add 1 to total.
+        if(process->getMediationSessionVector()->size() == 0) intakeCount++;
+
+        // If sessions add 1 for each session to total.
         for(size_t sess = 0; sess < process->getMediationSessionVector()->size(); sess++)
         {
             MediationSession* session = process->getMediationSessionVector()->at(sess);
