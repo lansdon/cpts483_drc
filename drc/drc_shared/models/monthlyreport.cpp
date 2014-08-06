@@ -67,8 +67,6 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
             this->m_outcomes[session->getOutcome()]++;
             intakeCount++;
 
-
-
             int atTable = 0;
             for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
             {

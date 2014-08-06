@@ -655,10 +655,11 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
 
         // To get the number of open cases
         QSqlQuery openQuery(database);
-        QString openCommand = QString("Select * from Mediation_table where CreationDateTime < '%1' and DisputeState not in ('%2', '%3')")
+        QString openCommand = QString("Select * from Mediation_table where CreationDateTime < '%1' and DisputeState not in ('%2', '%3') and DisputeCounty = '%4'")
                                 .arg(end.toString("yyyy-MM-dd"))
                                 .arg(PROCESS_STATE_CLOSED_NO_SESSION)
-                                .arg(PROCESS_STATE_CLOSED_WITH_SESSION);
+                                .arg(PROCESS_STATE_CLOSED_WITH_SESSION)
+                                .arg(county);
 
         if(!this->ExecuteCommand(openCommand, openQuery));
         {
