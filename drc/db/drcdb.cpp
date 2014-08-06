@@ -687,7 +687,6 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
                             .arg(start.toString("yyyy-MM-dd"));
         this->ExecuteCommand(command, query);
 
-        first = true;
         while(query.next())
         {
             if(!first)
