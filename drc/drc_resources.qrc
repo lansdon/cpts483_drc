@@ -21,5 +21,6 @@
         <file>images/slot_machine_run.mp3</file>
         <file>images/slot_machine_winner.mp3</file>
         <file>images/slot_machine_winner.wav</file>
+        <file>images/DRClogoFromJpg.ico</file>
     </qresource>
 </RCC>
