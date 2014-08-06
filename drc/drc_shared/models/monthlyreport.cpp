@@ -63,7 +63,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
         this->m_disputes[process->GetDisputeType()]++;
 
         // If no sessions, add 1 to total.
-        if(process->getMediationSessionVector()->size() == 0) intakeCount++;
+        if(process->getMediationSessionVector()->size() == 0 && process->GetCreatedDate().toString("M").toInt() == this->getMonth()) intakeCount++;
 
         // If sessions add 1 for each session to total.
         for(size_t sess = 0; sess < process->getMediationSessionVector()->size(); sess++)
@@ -209,7 +209,7 @@ void monthlyreport::pdfReport()
             .arg("Total Cases Mediated",35)
             .arg(QString::number(totalCasesMediated()), 5);
 
-    pdfString += "\n\n================ REGERRALS per SOURCE =================";
+    pdfString += "\n\n================ REFERRALS per SOURCE =================";
     for(int i = 0; i < 16; i++)
     {
         if((ReferralTypes)i != REFERRAL_T_NONE)
