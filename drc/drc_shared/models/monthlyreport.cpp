@@ -11,7 +11,7 @@ monthlyreport::monthlyreport()
     this->m_childrenIndirect = 0;
     this->m_peopleIndirect = 0;
     this->m_translator = 0;
-    this->r_county = COUNTY_NONE;
+    this->m_county = COUNTY_NONE;
 }
 
 void monthlyreport::BuildReport(MediationProcessVector* mpVec)
@@ -28,7 +28,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     {
         // all of the mediations in this vector should have
         // the same county of mediation, so we'll just save the first one.
-        r_county = mpVec->front()->GetCountyId();
+        m_county = mpVec->front()->GetCountyId();
     }
 
     for(size_t i = 0; i < mpVec->size(); i++)
@@ -157,7 +157,7 @@ void monthlyreport::pdfReport()
     pdfString += date.toString("MMMM yyyy");
     pdfString += ".\n";
     pdfString += "County of Mediation - ";
-    pdfString += StringForCountyIds(r_county);
+    pdfString += StringForCountyIds(m_county);
     pdfString += "\n\n";
     pdfString += QString("%1:%2")
             .arg(QString("%1").arg("# of Children Indirectly Served", 35))

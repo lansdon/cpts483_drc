@@ -13,8 +13,7 @@ class monthlyreport
 private:
     short int m_month;
     short int m_year;
-    CountyIds m_county; // county clients are from
-    CountyIds r_county; // county for which the report is generated.
+    CountyIds m_county; // county for which the report is generated.
     int m_translator;
     int m_atTable;
     int m_peopleIndirect;
@@ -124,7 +123,6 @@ public:
      * \param value
      */
     void setCounty(CountyIds value) {m_county = value;}
-    void setCountyOfMediation(CountyIds value) { r_county = value; }
     /*!
      * \brief BuildReport
      * \param mpVec
