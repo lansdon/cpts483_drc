@@ -989,7 +989,7 @@ void DRCDB::LoadRecentMediations(MediatorArg arg)
 
     // sort by update date and return the most recent 10
     QSqlQuery Mediation_query(database);
-    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc limit 10";
+    QString Mediation_command_string = "Select * from Mediation_Table order by UpdatedDateTime desc limit 30";
     this->ExecuteCommand(Mediation_command_string, Mediation_query);
 
     QString mediationIdMatches = "";

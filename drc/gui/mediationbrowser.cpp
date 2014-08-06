@@ -55,10 +55,10 @@ void MediationBrowser::Refresh()
 void MediationBrowser::ConfigMediationProcecssViewTable()
 {
         //ui->tableWidget = ui->sessiontTableWidget;
-        ui->tableWidget->setColumnCount(3);
+        ui->tableWidget->setColumnCount(4);
         ui->tableWidget->setRowCount(_mediationsVector.size());
         QStringList header;
-        header <<"Date Time"<<"Client1"<<"Status";
+        header <<"Updated"<<"Opened"<<"Client1"<<"Status";
         ui->tableWidget->setHorizontalHeaderLabels(header);
         ui->tableWidget->verticalHeader()->setVisible(false);
         ui->tableWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -84,8 +84,9 @@ void MediationBrowser::PopulateMediationProcessTable()
         if(mp)
         {
             ui->tableWidget->setItem(row, 0, new QTableWidgetItem(mp->GetUpdatedDate().toString("MM/dd/yyyy")));
-            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(mp->GetParties()->size() ? mp->GetPartyAtIndex(0)->GetPrimary()->FullName() : "N/A"));
-            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(StringForDisputeProcessStates( mp->GetState())));
+            ui->tableWidget->setItem(row, 1, new QTableWidgetItem(mp->GetCreatedDate().toString("MM/dd/yyyy")));
+            ui->tableWidget->setItem(row, 2, new QTableWidgetItem(mp->GetParties()->size() ? mp->GetPartyAtIndex(0)->GetPrimary()->FullName() : "N/A"));
+            ui->tableWidget->setItem(row, 3, new QTableWidgetItem(StringForDisputeProcessStates( mp->GetState())));
         }
     }
 }
