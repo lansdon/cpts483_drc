@@ -34,91 +34,103 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     for(size_t i = 0; i < mpVec->size(); i++)
     {
         MediationProcess* process = mpVec->at(i);
-        int translatorCount = this->getTranslator();
 
-        if(process->GetInfoOnly())
+
+        if(process->getMediationSessionVector()->size() != 0
+                && process->getMediationSessionVector()->at(process->getMediationSessionVector()->size() - 1)->getOutcome() != SESSION_OUTCOME_NONE)
         {
-            infoOnlyCount++;
-        }
+            int translatorCount = this->getTranslator();
 
-        if(process->getMediationClause())
-        {
-            clauseCount++;
-        }
 
-        this->setTranslator(translatorCount++);
 
-        if(process->GetReferralType() != REFERRAL_T_NONE)
-        {
-            referalCount++;
-        }
-
-        this->m_referrals[process->GetReferralType()]++;
-
-        if(process->GetDisputeType() != DISPUTE_T_NONE)
-        {
-            servicesCount++;
-        }
-
-        this->m_disputes[process->GetDisputeType()]++;
-
-        // If no sessions, add 1 to total.
-        if(process->getMediationSessionVector()->size() == 0 && process->GetCreatedDate().toString("M").toInt() == this->getMonth()) intakeCount++;
-
-        // If sessions add 1 for each session to total.
-        for(size_t sess = 0; sess < process->getMediationSessionVector()->size(); sess++)
-        {
-            MediationSession* session = process->getMediationSessionVector()->at(sess);
-
-            if(session->getScheduledDate().toString("M").toInt() == this->getMonth())
+            if(process->getMediationClause())
             {
-
-                this->m_outcomes[session->getOutcome()]++;
-                intakeCount++;
-
-                int atTable = 0;
-                for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
-                {
-                    atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
-                                session->getClientSessionDataVectorAt(num)->getOnPhone());
-                }
-
-                if((session->GetState() == SESSION_STATE_CANCELLED) ||
-                        (session->GetState() == SESSION_STATE_RESCHEDULED))
-                {
-                    cancelCount++;
-                }
-
-                this->setAtTable(this->getAtTable() + atTable);
+                clauseCount++;
             }
-        }
 
-        if((process->GetState() != PROCESS_STATE_CLOSED_NO_SESSION) &&
-            (process->GetState() != PROCESS_STATE_CLOSED_WITH_SESSION))
-        {
-         /*   if(process->getMediationSessionVector()->size() == 0)
+            this->setTranslator(translatorCount++);
+
+            if(process->GetReferralType() != REFERRAL_T_NONE)
             {
-                openCount++;
+                referalCount++;
             }
-            else
+
+            this->m_referrals[process->GetReferralType()]++;
+
+            if(process->GetDisputeType() != DISPUTE_T_NONE)
             {
-                MediationSession* session = process->getMediationSessionVector()->at((process->getMediationSessionVector()->size() - 1));
-                if((session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
-                        (session->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT) ||
-                        (session->getOutcome() != SESSION_OUTCOME_SELF_RESOLVED))
+                servicesCount++;
+            }
+
+            this->m_disputes[process->GetDisputeType()]++;
+
+
+
+            // If sessions add 1 for each session to total.
+            for(size_t sess = 0; sess < process->getMediationSessionVector()->size(); sess++)
+            {
+                MediationSession* session = process->getMediationSessionVector()->at(sess);
+
+                if(session->getScheduledDate().toString("M").toInt() == this->getMonth())
+                {
+
+                    this->m_outcomes[session->getOutcome()]++;
+                    intakeCount++;
+
+                    int atTable = 0;
+                    for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
+                    {
+                        atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
+                                    session->getClientSessionDataVectorAt(num)->getOnPhone());
+                    }
+
+                    if((session->GetState() == SESSION_STATE_CANCELLED) ||
+                            (session->GetState() == SESSION_STATE_RESCHEDULED))
+                    {
+                        cancelCount++;
+                    }
+
+                    this->setAtTable(this->getAtTable() + atTable);
+                }
+            }
+
+            if((process->GetState() != PROCESS_STATE_CLOSED_NO_SESSION) &&
+                (process->GetState() != PROCESS_STATE_CLOSED_WITH_SESSION))
+            {
+             /*   if(process->getMediationSessionVector()->size() == 0)
                 {
                     openCount++;
                 }
+                else
+                {
+                    MediationSession* session = process->getMediationSessionVector()->at((process->getMediationSessionVector()->size() - 1));
+                    if((session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
+                            (session->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT) ||
+                            (session->getOutcome() != SESSION_OUTCOME_SELF_RESOLVED))
+                    {
+                        openCount++;
+                    }
+                }
+                */
+                openCount++;
             }
-            */
-            openCount++;
-        }
 
-        for(size_t num = 0; num < process->GetParties()->size(); num++)
+            for(size_t num = 0; num < process->GetParties()->size(); num++)
+            {
+                this->m_countyCounts[process->GetPartyAtIndex(num)->GetPrimary()->getCounty()]++;
+                this->setChildrenIndirect(this->getChildrenIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
+                this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
+            }
+
+        }// If no sessions, add 1 to total.
+        else if(process->getMediationSessionVector()->size() == 0 && process->GetCreatedDate().toString("M").toInt() == this->getMonth())
         {
-            this->m_countyCounts[process->GetPartyAtIndex(num)->GetPrimary()->getCounty()]++;
-            this->setChildrenIndirect(this->getChildrenIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
-            this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
+            intakeCount++;
+            if(process->GetInfoOnly())
+            {
+                infoOnlyCount++;
+            }
+
         }
     }
     this->setInfoOnlyCount(infoOnlyCount);
