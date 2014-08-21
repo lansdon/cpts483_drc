@@ -191,7 +191,7 @@ void MediationSession::BuildToPDF(QTextCursor &cursor)
     cursor.movePosition(QTextCursor::End);
     cursor.insertBlock();
     cursor.insertText("\nMediation Date: ");
-    cursor.insertText(_mediationTime.toString("MM/dd/yyyy HH:mm")+ "\n");
+    cursor.insertText(_mediationTime.toString("MMM dd, yyyy.  h:mm AP")+ "\n");
     cursor.insertText("Session Outcome: ");
     cursor.insertText(StringForSessionOutcomes(_outcome) + "\n");
     cursor.insertText("Schedule Status: ");

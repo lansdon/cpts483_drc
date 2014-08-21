@@ -129,9 +129,9 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     QString CurrentStatus = "\nCurrent Status:\t";
     CurrentStatus += StringForDisputeProcessStates(_processState);
     CurrentStatus += "\n -Last Activity:\t";
-    CurrentStatus += m_updated.toString();
-    CurrentStatus += "\n -Creation Date:\t";
-    CurrentStatus += m_created.toString();
+    CurrentStatus += m_updated.toString("MMM dd, yyyy.  h:mm AP");
+    CurrentStatus += "\n -Opened Date:\t";
+    CurrentStatus += m_created.toString("MMM dd, yyyy.  h:mm AP");
     cursor.insertText(CurrentStatus, _tableTextFormat);
 
     QString InquiryType = "\nInquiry Type:\t";
