@@ -69,7 +69,11 @@ void MediationSessionForm::PopulateFeeTable()
     {
          vertHeader << ("Client " + QString::number(i + 1));
         QLineEdit *incomeLE = new QLineEdit();
-
+        if(_mediationSession->GetState() == SESSION_STATE_CANCELLED)
+        {
+            _mediationSession->getClientSessionDataVector()->at(i)->setAtTable(false);
+            _mediationSession->getClientSessionDataVector()->at(i)->setOnPhone(false);
+        }
         incomeLE->setMaxLength(50);
         incomeLE->setText(_mediationSession->getClientSessionDataVector()->at(i)->getIncome());
        //cb->addItems((QStringList() << "Item 1" << "Item 2" << "Item 3"));
@@ -443,6 +447,7 @@ void MediationSessionForm::on_stateComboBox_currentIndexChanged(int index)
     if(_loading) return;
     if(_mediationSession->GetState() == (SessionStates)index) return;
     _mediationSession->SetState((SessionStates)index);
+    PopulateFeeTable();
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
 
