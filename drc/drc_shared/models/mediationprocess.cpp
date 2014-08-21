@@ -131,7 +131,7 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     CurrentStatus += "\n -Last Activity:\t";
     CurrentStatus += m_updated.toString();
     CurrentStatus += "\n -Creation Date:\t";
-    CurrentStatus += m_created.currentDateTime().toString();
+    CurrentStatus += m_created.toString();
     cursor.insertText(CurrentStatus, _tableTextFormat);
 
     QString InquiryType = "\nInquiry Type:\t";

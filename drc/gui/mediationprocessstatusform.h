@@ -124,6 +124,8 @@ private slots:
 
     void on_dateEdit_dateChanged(const QDate &date);
 
+    void on_courDateEdit_dateChanged(const QDate &date);
+
 private:
     Ui::MediationProcessStatusForm *ui;
     bool _loading;

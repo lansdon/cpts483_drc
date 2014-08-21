@@ -397,3 +397,10 @@ void MediationProcessStatusForm::on_dateEdit_dateChanged(const QDate &date)
     _mediationProcess->SetCreatedDate(a);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
+
+void MediationProcessStatusForm::on_courDateEdit_dateChanged(const QDate &date)
+{
+    if(_loading) return;
+    _mediationProcess->SetCourtDate(date);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
