@@ -103,6 +103,7 @@ enum SessionOutcomes
     SESSION_OUTCOME_REFERRED_OUT,
     SESSION_OUTCOME_CANNOT_REACH_PARTIES,
     SESSION_OUTCOME_SELF_RESOLVED,
+    SESSION_OUTCOME_CANCELED
 };
 
 /// Enums of possible outcomes for Counties

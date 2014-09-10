@@ -382,23 +382,6 @@ void MediationSessionForm::fillFields(MediationSession *input)
      _loading = false;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // When a child has signaled a save event
 void MediationSessionForm::SaveSignaled()
 {
@@ -426,7 +409,7 @@ void MediationSessionForm::ConfigureComboBoxes()
 
 
     // outcome combo box
-    for(int i = 0; i < 9; i++)
+    for(int i = 0; i < 10; i++)
         ui->outcomeComboBox->addItem("");
 
     ui->outcomeComboBox->setItemText(SESSION_OUTCOME_NONE, StringForSessionOutcomes(SESSION_OUTCOME_NONE));
@@ -438,6 +421,7 @@ void MediationSessionForm::ConfigureComboBoxes()
     ui->outcomeComboBox->setItemText(SESSION_OUTCOME_REFERRED_OUT, StringForSessionOutcomes(SESSION_OUTCOME_REFERRED_OUT));
     ui->outcomeComboBox->setItemText(SESSION_OUTCOME_CANNOT_REACH_PARTIES, StringForSessionOutcomes(SESSION_OUTCOME_CANNOT_REACH_PARTIES));
     ui->outcomeComboBox->setItemText(SESSION_OUTCOME_SELF_RESOLVED, StringForSessionOutcomes(SESSION_OUTCOME_SELF_RESOLVED));
+    ui->outcomeComboBox->setItemText(SESSION_OUTCOME_CANCELED, StringForSessionOutcomes(SESSION_OUTCOME_CANCELED));
 }
 
 

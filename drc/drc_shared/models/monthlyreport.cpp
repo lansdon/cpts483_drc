@@ -190,7 +190,7 @@ void monthlyreport::pdfReport()
     }
 
     pdfString += "\n\n================ INTAKE/CASE OUTCOME ===================";
-    for(int i = 0; i < 9; i++)
+    for(int i = 0; i < 10; i++)
     {
         if((SessionOutcomes)i != SESSION_OUTCOME_NONE)
         {

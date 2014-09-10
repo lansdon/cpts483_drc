@@ -213,6 +213,7 @@ QString StringForSessionOutcomes(SessionOutcomes id)
     case SESSION_OUTCOME_REFERRED_OUT: result = "Referred Out"; break;
     case SESSION_OUTCOME_CANNOT_REACH_PARTIES: result = "Cannot Reach Either Client"; break;
     case SESSION_OUTCOME_SELF_RESOLVED: result = "Self Resolved"; break;
+    case SESSION_OUTCOME_CANCELED: result = "Canceled"; break;
     default: result = "<error>"; break;
     }
     return result;
