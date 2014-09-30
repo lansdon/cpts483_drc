@@ -126,6 +126,8 @@ private slots:
 
     void on_courDateEdit_dateChanged(const QDate &date);
 
+    void on_printCourtDateCheckBox_toggled(bool checked);
+
 private:
     Ui::MediationProcessStatusForm *ui;
     bool _loading;

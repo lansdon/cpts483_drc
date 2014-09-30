@@ -42,6 +42,7 @@ MediationProcess::MediationProcess()
     , _isShuttle(false)
     , _sessionType(MEDIATION_SESSION)
     , _mediationClause(false)
+    , _printCourtDate(true)
 {
     _courtDate = QDate::currentDate();
 }
@@ -154,6 +155,10 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     MediationType += StringForDisputeTypes(_disputeType);
     cursor.insertText(MediationType, _tableTextFormat);
 
+    QString mClause = "\nMediation Clause:\t";
+    mClause += (_mediationClause == true ? "Yes" : "No");
+    cursor.insertText(mClause, _tableTextFormat);
+
     QString RequiresSpanish = "\nRequires Spanish:\t";
     RequiresSpanish += (_requiresSpanish == true ? "Yes" : "No");
     cursor.insertText(RequiresSpanish, _tableTextFormat);
@@ -171,7 +176,8 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     cursor.insertText(CourtCaseType, _tableTextFormat);
 
     QString CourtDate = "\nCourt Date:\t";
-    CourtDate += _courtDate.toString();
+    if(_printCourtDate)
+        CourtDate += _courtDate.toString();
     cursor.insertText(CourtDate, _tableTextFormat);
 
     QString CourtOrderType = "\nCourt Order:\t";

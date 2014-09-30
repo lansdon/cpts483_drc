@@ -251,6 +251,8 @@ public:
 
     void setMediationClause(bool value) { _mediationClause = value; }
     bool getMediationClause() const { return _mediationClause; }
+    void setPrintCourtDate(bool value) { _printCourtDate = value; }
+    bool getPrintCourtDate() const { return _printCourtDate; }
 
     // Helpers
     /*!
@@ -317,6 +319,7 @@ private:
     ReferralTypes _referalSource;
     bool _requiresSpanish;
     bool _mediationClause;
+    bool _printCourtDate;
     MediationSessionVector _mediationSessionVector;
     InquiryTypes _inquiryType;
     bool _infoOnly;

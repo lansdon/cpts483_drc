@@ -61,7 +61,7 @@ void MediationProcessStatusForm::Update()
     ui->conflictComboBox->setCurrentIndex(_mediationProcess->GetDisputeType());
     ui->countyComboBox->setCurrentIndex(_mediationProcess->GetCountyId());
     ui->referralComboBox->setCurrentIndex(_mediationProcess->GetReferralType());
-
+    ui->printCourtDateCheckBox->setChecked(_mediationProcess->getPrintCourtDate());
     ui->courtCheckBox->setChecked(_mediationProcess->GetIsCourtCase());
     ui->courtTypeComboBox->setCurrentIndex(_mediationProcess->GetCourtType());
     ui->courDateEdit->setDate(_mediationProcess->GetCourtDate());
@@ -402,5 +402,12 @@ void MediationProcessStatusForm::on_courDateEdit_dateChanged(const QDate &date)
 {
     if(_loading) return;
     _mediationProcess->SetCourtDate(date);
+    Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
+}
+
+void MediationProcessStatusForm::on_printCourtDateCheckBox_toggled(bool checked)
+{
+    if(_loading) return;
+    _mediationProcess->setPrintCourtDate(checked);
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
 }
