@@ -172,16 +172,19 @@ void MediationProcess::BuildGeneralInfoSection(QTextCursor &cursor)
     cursor.insertText(SessionType, _tableTextFormat);
 
     QString CourtCaseType = "\nCourt Case Type:\t";
-    CourtCaseType += StringForCourtTypes(_courtCaseType);
+    if(_isCourtCase)
+        CourtCaseType += StringForCourtTypes(_courtCaseType);
     cursor.insertText(CourtCaseType, _tableTextFormat);
 
     QString CourtDate = "\nCourt Date:\t";
-    if(_printCourtDate)
-        CourtDate += _courtDate.toString();
+    if(_isCourtCase)
+        if(_printCourtDate)
+            CourtDate += _courtDate.toString();
     cursor.insertText(CourtDate, _tableTextFormat);
 
     QString CourtOrderType = "\nCourt Order:\t";
-    CourtOrderType += _courtOrder;
+    if(_isCourtCase)
+        CourtOrderType += _courtOrder;
     cursor.insertText(CourtOrderType, _tableTextFormat);
 
 //    QString CourtOrderExpires = "\nCourt Order Expires:\t";
