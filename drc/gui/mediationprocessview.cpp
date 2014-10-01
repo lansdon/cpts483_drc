@@ -318,6 +318,7 @@ void MediationProcessView::on_addSessionPushButton_clicked()
     _mediationProcess->addMediation();
     Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
     PopulateView();
+    ui->sessionTabWidget->setCurrentIndex(ui->sessionTabWidget->count() -  1);
 
 }
 

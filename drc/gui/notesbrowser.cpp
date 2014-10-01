@@ -91,6 +91,7 @@ void NotesBrowser::SetNotesEvent(MediatorArg arg)
     MediationNotesVector* notes = arg.getArg<MediationNotesVector*>();
     if(notes)
     {
+        ui->noteInput->clear();
         SetNotes(notes);
     }
     else qDebug() << "SetNotesEvent failbot! ";

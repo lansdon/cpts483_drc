@@ -1243,7 +1243,7 @@ void DRCDB::UpdateMediation(MediatorArg arg)
     MediationProcess* process = nullptr;
     process = arg.getArg<MediationProcess*>();
     UpdateObject(process);
-
+    QString saveArray = "";
     MediationSession* session = NULL;
 
     Note* note;
@@ -1269,7 +1269,8 @@ void DRCDB::UpdateMediation(MediatorArg arg)
     this->ExecuteCommand(client_clean_string, client_clean);
 
     Party* person = NULL;
-    std::vector<int> clientIds;
+    QString clientIds = "";
+    std::vector<int> clientIds2;
     for(size_t i = 0; i < process->GetParties()->size(); i++)
     {
         // Insert each new person
@@ -1291,7 +1292,11 @@ void DRCDB::UpdateMediation(MediatorArg arg)
             UpdateObject(person->GetPrimary());
             InsertClientObject(process, person);
         }
-        clientIds.push_back(process->GetPartyAtIndex(i)->GetId());
+        if(i < process->GetParties()->size()-1)
+            clientIds += QString::number(process->GetPartyAtIndex(i)->GetId()) + ", ";
+        else
+            clientIds += QString::number(process->GetPartyAtIndex(i)->GetId());
+        clientIds2.push_back(process->GetPartyAtIndex(i)->GetId());
     }
 
     for(size_t i = 0; i < process->getMediationSessionVector()->size(); i++)
@@ -1307,19 +1312,35 @@ void DRCDB::UpdateMediation(MediatorArg arg)
             // Session already existed, just need to update with new information
             UpdateObject(session);
         }
+        if(i < process->getMediationSessionVector()->size() - 1)
+            saveArray += QString::number(session->GetId()) + ", ";
+        else
+            saveArray += QString::number(session->GetId());
         //Delete old session data
-        QString data_clean_string = QString("delete from Client_Session_Table where session_id = %1")
+        QString data_clean_string = QString("delete from Client_session_table where session_id = %1")
                                                  .arg(session->GetId());
+//        QString session_clean_string = QString("DELETE FROM Session_Table WHERE process_id = %1")
+//                                                 .arg(process->GetId());
         QSqlQuery data_clean(database);
-
+//        QSqlQuery data_clean2(database);
         this->ExecuteCommand(data_clean_string, data_clean);
-        for(size_t k = 0; k < clientIds.size(); k++)
+//        this->ExecuteCommand(session_clean_string, data_clean2);
+        for(size_t k = 0; k < clientIds2.size(); k++)
         {
             // Insert Data particular to session, linked to client and session
-            qDebug() << InsertClientSessionData(session->getClientSessionDataVectorAt(k), session->GetId(), clientIds[k]);
+            qDebug() << InsertClientSessionData(session->getClientSessionDataVectorAt(k), session->GetId(), clientIds2[k]);
         }
     }
-
+//    QString data_clean_string = QString("DELETE FROM Client_session_table WHERE session_id NOT IN (%1) AND Client_id IS (%2)")
+//                                                   .arg(saveArray)
+//                                                    .arg(clientIds);
+    QString session_clean_string = QString("DELETE FROM Session_Table WHERE session_id NOT IN (%1) AND process_id IS %2")
+                                                   .arg(saveArray)
+                                                    .arg(process->GetId());
+//    QSqlQuery data_clean(database);
+    QSqlQuery data_clean2(database);
+//    this->ExecuteCommand(data_clean_string, data_clean);
+    this->ExecuteCommand(session_clean_string, data_clean2);
     Mediator::Call(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, arg);
 }
 
