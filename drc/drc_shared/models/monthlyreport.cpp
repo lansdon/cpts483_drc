@@ -34,10 +34,11 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     for(size_t i = 0; i < mpVec->size(); i++)
     {
         MediationProcess* process = mpVec->at(i);
-
-
-        if(process->getMediationSessionVector()->size() != 0
-                && process->getMediationSessionVector()->at(process->getMediationSessionVector()->size() - 1)->getOutcome() != SESSION_OUTCOME_NONE)
+        bool performedSessions = false;
+        for(int j = 0; j <  process->getMediationSessionVector()->size(); j++)
+               if (process->getMediationSessionVector()->at(j)->getOutcome() != SESSION_OUTCOME_NONE)
+                    performedSessions = true;
+        if(process->getMediationSessionVector()->size() != 0 && performedSessions)
         {
             int translatorCount = this->getTranslator();
 
@@ -78,11 +79,14 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
                     intakeCount++;
 
                     int atTable = 0;
-                    for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
-                    {
-                        atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
-                                    session->getClientSessionDataVectorAt(num)->getOnPhone());
-                    }
+                    if((session->getOutcome() == SESSION_OUTCOME_AGREEMENT) ||
+                        (session->getOutcome() == SESSION_OUTCOME_NO_AGREEMENT))
+                            for(size_t num = 0; num < session->getClientSessionDataVector()->size(); num++)
+                            {
+                                atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
+                                            session->getClientSessionDataVectorAt(num)->getOnPhone());
+                            }
+
 
                     if((session->GetState() == SESSION_STATE_CANCELLED) ||
                             (session->GetState() == SESSION_STATE_RESCHEDULED))
@@ -112,7 +116,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
                     }
                 }
                 */
-                openCount++;
+                 openCount++;
             }
 
             for(size_t num = 0; num < process->GetParties()->size(); num++)
