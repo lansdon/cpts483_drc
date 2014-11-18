@@ -677,8 +677,8 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
             {
                 mediationIdMatches += ", ";
             }
-            mediationIdMatches += openQuery.value(0).toString();
-            first = false;
+            //mediationIdMatches += openQuery.value(0).toString();
+            //first = false;
         }
 
         QSqlQuery query(database);
