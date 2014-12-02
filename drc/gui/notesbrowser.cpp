@@ -23,6 +23,8 @@ NotesBrowser::NotesBrowser(QWidget *parent, MediationNotesVector* notesVec)
 
     if(!notesVec || !notesVec->size())
         _editingNewNote = true; // first time in the browser, it's a new note.
+    _isSaved = true;
+
 }
 
 NotesBrowser::~NotesBrowser()
@@ -113,7 +115,10 @@ void NotesBrowser::on_saveNoteBtn_clicked()
         PopulateTable();
         Mediator::Call(MKEY_GUI_MP_SAVE_PENDING);
         ui->tableWidget->setCurrentCell(-1,-1);
+        bool* change = new bool(false);
+        Mediator::Call(MKEY_GUI_NOTE_CHANGED,change);
     }
+
 }
 
 void NotesBrowser::on_delNoteBtn_clicked()
@@ -146,3 +151,9 @@ void NotesBrowser::on_newNoteBtn_clicked()
     ui->noteInput->clear();
 }
 
+
+void NotesBrowser::on_noteInput_textChanged()
+{
+    bool *change = new bool(true);
+    Mediator::Call(MKEY_GUI_NOTE_CHANGED,change);
+}

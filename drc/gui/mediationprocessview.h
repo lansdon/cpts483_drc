@@ -134,6 +134,8 @@ private:
      SessionOverview *_sessionOverview;
      MediationSessionForm *_mediationSessionForm;
      NoSessionsView *_noSession;
+     bool _notes_Changed;
+     void notes_changed(MediatorArg arg);
 
     // Setup GUI Helpers
      /*!
@@ -182,6 +184,7 @@ private:
     MediatorId _unregisterSavePendingId;
     MediatorId _unregisterPopulateId;
     MediatorId _unregisterPersistMPId;
+    MediatorId _unregisterNotesChanged;
 };
 
 #endif // CONTACTRECORDVIEW_H

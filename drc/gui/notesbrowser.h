@@ -54,6 +54,8 @@ private slots:
      */
     void on_newNoteBtn_clicked();
 
+    void on_noteInput_textChanged();
+
 private:
     Ui::NotesBrowser *ui;
 
@@ -70,7 +72,7 @@ private:
      * \brief _editingNewNote
      */
     bool _editingNewNote;   // update or save?
-
+    bool _isSaved;  // for popup if needs to be saved
     MediatorId _setNotesCallback;
 
 };

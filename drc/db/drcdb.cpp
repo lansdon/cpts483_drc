@@ -673,10 +673,10 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
         while(openQuery.next())
         {
             openCount++;
-            if(!first)
-            {
-                mediationIdMatches += ", ";
-            }
+//            if(!first)
+//            {
+//                mediationIdMatches += ", ";
+//            }
             //mediationIdMatches += openQuery.value(0).toString();
             //first = false;
         }

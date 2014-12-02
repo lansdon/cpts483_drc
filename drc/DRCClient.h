@@ -166,6 +166,7 @@ private:
     DRCBL _bl;  // Business Logic
     DRCDB _db;  // Database
     Mock_Server _ms; // mock server for gui testing
+    bool _notesChanged;
 
     MediatorId _unregEnableMenusCall;
     MediatorId _unregDisableMenusCall;
@@ -178,7 +179,7 @@ private:
     MediatorId _unregShowEvalCall;
     MediatorId _unregShowMonthlyCall;
     MediatorId _unregShowReswaCall;
-
+    MediatorId _unregNoteChanged;
     // Primary Views
     MediationProcessView* _mediationProcessView;
     /*!
@@ -189,6 +190,7 @@ private:
     // Dock views
     QDockWidget* _browserDock;
 
+    void Notes_Changed(MediatorArg args);
     /*!
      * \brief ShowBrowser
      * \param browserType

@@ -27,7 +27,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
         _mediationProcess->AddParty(new Party());
     _mediationProcessStatusForm = new MediationProcessStatusForm(ui->overviewContainer, _mediationProcess);
     _changesPending = true;
-
+    _notes_Changed = false;
     // Set the overview container
     QVBoxLayout* layout = new QVBoxLayout();
     layout->addWidget(_mediationProcessStatusForm);
@@ -62,7 +62,7 @@ MediationProcessView::MediationProcessView(QWidget *parent, MediationProcess *me
     _unregisterSavePendingId = Mediator::Register(MKEY_GUI_MP_SAVE_PENDING, [this](MediatorArg arg){Q_UNUSED(arg);UpdateSignaled();});
 //    _unregisterPopulateId = Mediator::Register(MKEY_GUI_MP_POPULATE, [this](MediatorArg arg){Q_UNUSED(arg);PopulateView();});
     _unregisterPersistMPId = Mediator::Register(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, [this](MediatorArg arg){SaveCompleted(arg);});
-
+    _unregisterNotesChanged = Mediator::Register(MKEY_GUI_NOTE_CHANGED, [this](MediatorArg arg){notes_changed(arg);});
 }
 
 MediationProcessView::~MediationProcessView()
@@ -72,6 +72,15 @@ MediationProcessView::~MediationProcessView()
     Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _unregisterPersistMPId);
     delete _mediationProcessStatusForm;
     delete ui;
+}
+
+void MediationProcessView::notes_changed(MediatorArg arg)
+{
+    auto isChange = arg.getArg<bool *>();
+    if(*isChange)
+        _notes_Changed = true;
+    else
+        _notes_Changed = false;
 }
 
 void MediationProcessView::PopulateView()
@@ -139,11 +148,37 @@ void MediationProcessView::ConfigureToolbar()
 void MediationProcessView::SaveMediationPressed()
 {
     // Assign mediation ID's to the notes.
-    foreach(Note* note, *_mediationProcess->GetNotes())
-        note->SetMediationId(_mediationProcess->GetId());
-    _changesPending = false;
-    qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
-    Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
+    if(_notes_Changed)
+    {
+        QMessageBox msgBox;
+        msgBox.addButton(QMessageBox::Yes);
+        msgBox.addButton(QMessageBox::No);
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+        int selection = msgBox.exec();
+
+        if(selection == QMessageBox::Yes)
+        {
+            foreach(Note* note, *_mediationProcess->GetNotes())
+                note->SetMediationId(_mediationProcess->GetId());
+            _changesPending = false;
+            qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
+            Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
+            bool* change = new bool(false);
+            Mediator::Call(MKEY_GUI_NOTE_CHANGED,change);
+        }
+    }
+    else
+    {
+        foreach(Note* note, *_mediationProcess->GetNotes())
+            note->SetMediationId(_mediationProcess->GetId());
+
+        qDebug() << "SAVE MEDIATION PRESSED - Toolbar manager.";
+        Mediator::Call(MKEY_GUI_SUBMIT_MEDIATION_PROCESS_FORM, _mediationProcess);
+        bool* change = new bool(false);
+        Mediator::Call(MKEY_GUI_NOTE_CHANGED,change);
+    }
+
 }
 
 void MediationProcessView::CloseMediationPressed()
@@ -151,18 +186,66 @@ void MediationProcessView::CloseMediationPressed()
 
     if(_changesPending)
     {
+        if(_notes_Changed)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to close?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    // Pass null to notes browser to disable it.
+                    Mediator::Call(MKEY_DOCK_SET_NOTES, nullptr);
+                    Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+                    _notes_Changed = false;
+                }
+            }
+
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to close?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                // Pass null to notes browser to disable it.
+                Mediator::Call(MKEY_DOCK_SET_NOTES, nullptr);
+                Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+            }
+        }
+
+    }
+    else if(_notes_Changed)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to close?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
         if(selection == QMessageBox::Yes)
         {
-            // Pass null to notes browser to disable it.
             Mediator::Call(MKEY_DOCK_SET_NOTES, nullptr);
             Mediator::Call(MKEY_GUI_ENABLE_MENUS);
+            _notes_Changed = false;
         }
     }
     else
@@ -307,6 +390,7 @@ void MediationProcessView::SaveCompleted(MediatorArg arg)
             // Update with all the latest ID's etc.
             SetMediationProcess(mp);
             _changesPending = false;
+            _notes_Changed = false;
         }
     }
 }

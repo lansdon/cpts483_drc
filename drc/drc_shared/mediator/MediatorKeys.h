@@ -217,7 +217,7 @@ const QString MKEY_DB_SAVE_EVALUATION = "MKEY_DB_SAVE_EVALUATION";              
 const QString MKEY_GUI_SHOW_EVALUATION = "MKEY_GUI_SHOW_EVALUATION";                                // nullptr
 const QString MKEY_GUI_SHOW_MONTHLY_REPORT = "MKEY_GUI_SHOW_MONTHLY_REPORT";                          // nullptr
 const QString MKEY_GUI_SHOW_RESWA_REPORT = "MKEY_GUI_SHOW_RESWA_REPORT";                                // nullptr
-
+const QString MKEY_GUI_NOTE_CHANGED = "MKEY_GUI_NOTE_CHANGED";
 
 //////////////////////////////////////////////////////////////////
 //				RESWA REPORTS - REQUEST

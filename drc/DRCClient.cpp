@@ -48,7 +48,7 @@ DRCClient::DRCClient(QWidget *parent)
     closeNote = true;
     // Check for a saved database path... Load the default otherwise.
     _db.LoadDatabase(LoadDBPathFromFile());
-
+    _notesChanged = false;
     _mediationProcessVector = new MediationProcessVector();
     _mediationProcessView = nullptr;
     // Set the window to max size.
@@ -67,6 +67,7 @@ DRCClient::DRCClient(QWidget *parent)
     _unregShowEvalCall = Mediator::Register(MKEY_GUI_SHOW_EVALUATION, [this](MediatorArg arg){Q_UNUSED(arg);LoadEvaluationView();});
     _unregShowMonthlyCall = Mediator::Register(MKEY_GUI_SHOW_MONTHLY_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowMonthlyReport();});
     _unregShowReswaCall = Mediator::Register(MKEY_GUI_SHOW_RESWA_REPORT, [this](MediatorArg arg){Q_UNUSED(arg);ShowResWaReport();});
+    _unregNoteChanged = Mediator::Register(MKEY_GUI_NOTE_CHANGED, [this](MediatorArg arg){Notes_Changed(arg);});
 
     // Toolbar manager setup
     ToolbarManager::Instance().SetToolbar(ui->toolBar);
@@ -90,6 +91,7 @@ DRCClient::~DRCClient()
    Mediator::Unregister(MKEY_GUI_SHOW_EVALUATION, _unregShowEvalCall);
    Mediator::Unregister(MKEY_GUI_SHOW_MONTHLY_REPORT, _unregShowMonthlyCall);
    Mediator::Unregister(MKEY_GUI_SHOW_RESWA_REPORT, _unregShowReswaCall);
+   Mediator::Unregister(MKEY_GUI_NOTE_CHANGED, _unregNoteChanged);
 }
 
 void DRCClient::SetMenusEnabled(bool enableMenus, bool showAdmin)
@@ -141,16 +143,60 @@ void DRCClient::on_actionOpen_mediation_view_triggered()
 {
     if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
+        if(_notesChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to create new?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    LoadMediationProcessView();
+                    _notesChanged = false;
+                }
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to create new?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                LoadMediationProcessView();
+
+            }
+        }
+    }
+    else if(_mediationProcessView && _notesChanged)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to create new?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
         if(selection == QMessageBox::Yes)
         {
             LoadMediationProcessView();
+            _notesChanged = false;
         }
     }
     else
@@ -161,16 +207,60 @@ void DRCClient::on_actionMediation_Process_triggered()
 {
     if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
+        if(_notesChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to create new?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    setCentralWidget(new MediationProcessView());
+                    _notesChanged = false;
+                }
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to create new?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                setCentralWidget(new MediationProcessView());
+            }
+        }
+
+    }
+    else if(_mediationProcessView && _notesChanged)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to create new?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
         if(selection == QMessageBox::Yes)
         {
             setCentralWidget(new MediationProcessView());
+            _notesChanged = false;
         }
     }
     else
@@ -181,10 +271,66 @@ void DRCClient::on_actionLogout_User_triggered()
 {
     if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
+        if(_notesChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    ui->toolBar->clear();
+                    if(_browserDock && _browserDock->isVisible())
+                        _browserDock->close();
+                    SetMenusEnabled(false, false);
+                    delete _mediationProcessView;
+                    _mediationProcessView = nullptr;
+                    setCentralWidget(new LoginForm());
+                    _notesChanged = false;
+                }
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                ui->toolBar->clear();
+                if(_browserDock && _browserDock->isVisible())
+                    _browserDock->close();
+                SetMenusEnabled(false, false);
+                delete _mediationProcessView;
+                _mediationProcessView = nullptr;
+                setCentralWidget(new LoginForm());
+                _notesChanged = false;
+            }
+        }
+
+    }
+    else if(_mediationProcessView && _notesChanged)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
@@ -197,10 +343,19 @@ void DRCClient::on_actionLogout_User_triggered()
             delete _mediationProcessView;
             _mediationProcessView = nullptr;
             setCentralWidget(new LoginForm());
+            _notesChanged = false;
         }
     }
     else
+    {
+        ui->toolBar->clear();
+        if(_browserDock && _browserDock->isVisible())
+            _browserDock->close();
+        SetMenusEnabled(false, false);
+        delete _mediationProcessView;
+        _mediationProcessView = nullptr;
         setCentralWidget(new LoginForm());
+    }
 }
 
 void DRCClient::on_mediationProcessSelected(MediationProcess* process)
@@ -406,16 +561,66 @@ void DRCClient::on_actionManage_Users_triggered()
 {
     if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
+        if(_mediationProcessView && _notesChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    setCentralWidget(new ManageUsers(this));
+                    _notesChanged = false;
+                }
+
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                setCentralWidget(new ManageUsers(this));
+            }
+        }
+    }
+    else if(_mediationProcessView && _notesChanged)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
         if(selection == QMessageBox::Yes)
         {
-            setCentralWidget(new ManageUsers(this));
+            ui->toolBar->clear();
+            if(_browserDock && _browserDock->isVisible())
+                _browserDock->close();
+            SetMenusEnabled(false, false);
+            delete _mediationProcessView;
+            _mediationProcessView = nullptr;
+            setCentralWidget(new LoginForm());
+            _notesChanged = false;
         }
     }
     else
@@ -427,10 +632,77 @@ void DRCClient::on_actionConnect_to_Remote_DB_triggered()
 {
     if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
+        if(_notesChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    QString fileName = QFileDialog::getOpenFileName(this,
+                                                                    "Open Remote Database", "", "Db Files (*.db3)");
+
+                    if(fileName.length())
+                    {
+                        QFile file(DBPATH_FILE);
+                        if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+                        {
+                            file.write(fileName.toStdString().c_str());
+                            file.close();
+                            _db.LoadDatabase(fileName);
+                            _notesChanged = false;
+                        }
+                    }
+                }
+
+            }
+         }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QString fileName = QFileDialog::getOpenFileName(this,
+                                                                "Open Remote Database", "", "Db Files (*.db3)");
+
+                if(fileName.length())
+                {
+                    QFile file(DBPATH_FILE);
+                    if (file.open(QIODevice::WriteOnly | QIODevice::Text))
+                    {
+                        file.write(fileName.toStdString().c_str());
+                        file.close();
+                        _db.LoadDatabase(fileName);
+                    }
+                }
+            }
+        }
+    }
+    else if(_mediationProcessView && _notesChanged)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
@@ -449,6 +721,7 @@ void DRCClient::on_actionConnect_to_Remote_DB_triggered()
                     _db.LoadDatabase(fileName);
                 }
             }
+            _notesChanged = false;
         }
     }
     else
@@ -512,10 +785,55 @@ void DRCClient::ShowResWaReport()
 {
     if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
+        if(_notesChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    _mediationProcessView = nullptr;
+                    setCentralWidget(new ResWaReportForm(this));
+                    _notesChanged = false;
+                }
+
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                _mediationProcessView = nullptr;
+                setCentralWidget(new ResWaReportForm(this));
+            }
+        }
+    }
+    else if(_mediationProcessView && _notesChanged)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
@@ -523,6 +841,7 @@ void DRCClient::ShowResWaReport()
         {
             _mediationProcessView = nullptr;
             setCentralWidget(new ResWaReportForm(this));
+            _notesChanged = false;
         }
     }
     else
@@ -539,16 +858,60 @@ void DRCClient::ShowMonthlyReport()
 //    setCentralWidget(slides);
     if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
+        if(_notesChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    setCentralWidget(new MonthlyReportForm(this));
+                    _notesChanged = false;
+                }
+
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                setCentralWidget(new MonthlyReportForm(this));
+            }
+        }
+    }
+    else if(_mediationProcessView && _notesChanged)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
         if(selection == QMessageBox::Yes)
         {
             setCentralWidget(new MonthlyReportForm(this));
+            _notesChanged = false;
         }
     }
     else
@@ -569,10 +932,55 @@ void DRCClient::on_actionSlots_Game_triggered()
 {
     if(_mediationProcessView && _mediationProcessView->getChangesPending())
     {
+        if(_notesChanged)
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                QMessageBox msgBox;
+                msgBox.addButton(QMessageBox::Yes);
+                msgBox.addButton(QMessageBox::No);
+                msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+                int selection = msgBox.exec();
+
+                if(selection == QMessageBox::Yes)
+                {
+                    _mediationProcessView = nullptr;
+                    setCentralWidget(new SlotsGame());
+                    _notesChanged = false;
+                }
+
+            }
+        }
+        else
+        {
+            QMessageBox msgBox;
+            msgBox.addButton(QMessageBox::Yes);
+            msgBox.addButton(QMessageBox::No);
+            msgBox.setText("Intake is not saved, are you sure you want to leave?");
+
+            int selection = msgBox.exec();
+
+            if(selection == QMessageBox::Yes)
+            {
+                _mediationProcessView = nullptr;
+                setCentralWidget(new SlotsGame());
+            }
+        }
+    }
+    else if(_mediationProcessView && _notesChanged)
+    {
         QMessageBox msgBox;
         msgBox.addButton(QMessageBox::Yes);
         msgBox.addButton(QMessageBox::No);
-        msgBox.setText("Intake is not saved, are you sure you want to leave?");
+        msgBox.setText("Notes not saved, are you sure you want to continue without saving?");
 
         int selection = msgBox.exec();
 
@@ -580,6 +988,7 @@ void DRCClient::on_actionSlots_Game_triggered()
         {
             _mediationProcessView = nullptr;
             setCentralWidget(new SlotsGame());
+            _notesChanged = false;
         }
     }
     else
@@ -587,4 +996,13 @@ void DRCClient::on_actionSlots_Game_triggered()
         _mediationProcessView = nullptr;
         setCentralWidget(new SlotsGame());
     }
+}
+
+void DRCClient::Notes_Changed(MediatorArg args)
+{
+    auto seccess = args.getArg<bool*>();
+    if(*seccess)
+        _notesChanged = true;
+    else
+        _notesChanged = false;
 }
