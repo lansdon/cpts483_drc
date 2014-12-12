@@ -70,6 +70,7 @@ MediationProcessView::~MediationProcessView()
     Mediator::Unregister(MKEY_GUI_MP_SAVE_PENDING, _unregisterSavePendingId);
 //    Mediator::Unregister(MKEY_GUI_MP_POPULATE, _unregisterPopulateId);
     Mediator::Unregister(MKEY_DB_PERSIST_MEDIATION_PROCESS_FORM_DONE, _unregisterPersistMPId);
+    Mediator::Unregister(MKEY_GUI_NOTE_CHANGED, _unregisterNotesChanged);
     delete _mediationProcessStatusForm;
     delete ui;
 }
