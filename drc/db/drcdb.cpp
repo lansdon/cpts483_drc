@@ -270,6 +270,55 @@ bool DRCDB::CreateUserTable(const QString& user_table_name)
 
 //========================================================================
 
+bool DRCDB::CheckTables(QString tableName, QString columns)
+{
+    bool seccess = true;
+
+    bool new_table = true;
+    QString old_columns;
+
+
+    qDebug()<<tableName<<"\t"<<columns;
+    QSqlRecord rec = database.record(tableName);
+    if(!rec.isEmpty())
+    {
+        new_table = false;
+        for(int i = 0; i < rec.count();i++)
+        {
+            if(i==0)
+                old_columns += rec.fieldName(i);
+            else
+            {
+                old_columns += ", ";
+                old_columns += rec.fieldName(i);
+            }
+        }
+    }
+    qDebug()<<old_columns;
+    QSqlQuery qry(database);
+    if(columns == old_columns)
+        return true;
+    if(!new_table)
+    {
+        if(!qry.exec(QString("ALTER TABLE %1 RENAME TO TempOldTable").arg(tableName)))
+            seccess = false;
+        if(!qry.exec(QString("CREATE TABLE %1 (%2) ").arg(tableName, columns)))
+            seccess = false;
+        if(!qry.exec(QString("INSERT INTO %2 (%1) SELECT %1 FROM TempOldTable").arg(old_columns, tableName)))
+            seccess = false;
+        if(!qry.exec("DROP TABLE TempOldTable"))
+            seccess = false;
+    }
+    else
+    {
+        if(!qry.exec(QString("CREATE TABLE %1 (%2) ").arg(tableName, columns)))
+            seccess = false;
+    }
+
+    return seccess;
+}
+
+
 
 void DRCDB::LoadDatabase(QString filename)
 {
@@ -285,44 +334,17 @@ void DRCDB::LoadDatabase(QString filename)
     QString user_table_name = QString("User_Table");
     QString evaluationTableName = QString("Evaluation_Table");
 
-    if (!this->DoesTableExist(person_table_name))
-    {
-        CreatePersonTable(person_table_name);
-    }
-
-    if (!this->DoesTableExist(mediation_table_name))
-    {
-        CreateMediationTable(mediation_table_name);
-    }
-
-    if (!this->DoesTableExist(session_table_name))
-    {
-        CreateSessionTable(session_table_name);
-    }
-
-    if (!this->DoesTableExist(client_table_name))
-    {
-        CreateClientTable(client_table_name);
-    }
-
-    if(!this->DoesTableExist(notes_table_name))
-    {
-        CreateNotesTable(notes_table_name);
-    }
-
-    if (!this->DoesTableExist(client_session_table_name))
-    {
-         CreateClientSessionTable(client_session_table_name);
-    }
-
-    if (!this->DoesTableExist(evaluationTableName))
-    {
-        CreateEvaluationTable(evaluationTableName);
-    }
+    CreatePersonTable(person_table_name);
+    CreateMediationTable(mediation_table_name);
+    CreateSessionTable(session_table_name);
+    CreateClientTable(client_table_name);
+    CreateNotesTable(notes_table_name);
+    CreateClientSessionTable(client_session_table_name);
+    CreateEvaluationTable(evaluationTableName);
+    CreateUserTable(user_table_name);
 
     if(!this->DoesTableExist(user_table_name))
     {
-        CreateUserTable(user_table_name);
         // To make sure there is always Admin/admin for access to application
         MediatorArg arg;
         User* adminUser = new User("Admin", "admin", USER_T_ADMIN);
@@ -657,7 +679,12 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
 
         // To get the number of open cases
         QSqlQuery openQuery(database);
-        QString openCommand = QString("Select * from Mediation_table where CreationDateTime < '%1' and DisputeState not in ('%2', '%3') and DisputeCounty = '%4'")
+//        QString openCommand = QString("Select * from Mediation_table where CreationDateTime < '%1' and DisputeState not in ('%2', '%3') and DisputeCounty = '%4'")
+//                                .arg(end.toString("yyyy-MM-dd"))
+//                                .arg(PROCESS_STATE_CLOSED_NO_SESSION)
+//                                .arg(PROCESS_STATE_CLOSED_WITH_SESSION)
+//                                .arg(county);
+        QString openCommand = QString("Select COUNT(*) from Mediation_table where CreationDateTime < '%1' and DisputeState not in ('%2', '%3') and DisputeCounty = '%4'")
                                 .arg(end.toString("yyyy-MM-dd"))
                                 .arg(PROCESS_STATE_CLOSED_NO_SESSION)
                                 .arg(PROCESS_STATE_CLOSED_WITH_SESSION)
@@ -667,19 +694,21 @@ void DRCDB::QueryMonthlyReport(MediatorArg arg)
         {
             qDebug()<<this->GetLastErrors();
         }
-
         int openCount = 0;
+        if(openQuery.next())
+            openCount = openQuery.value(0).toInt();
+
         bool first = true;
-        while(openQuery.next())
-        {
-            openCount++;
+//        while(openQuery.next())
+//        {
+//            openCount++;
 //            if(!first)
 //            {
 //                mediationIdMatches += ", ";
 //            }
             //mediationIdMatches += openQuery.value(0).toString();
             //first = false;
-        }
+//        }
 
         QSqlQuery query(database);
         QString command = QString("Select * from Session_table where ScheduledTime <= '%1' and ScheduledTime > '%2'")
@@ -1552,7 +1581,7 @@ bool DRCDB::OpenDatabase(QString database_name)
 //------------------------------------------------------------------------
 bool DRCDB::CreateTable(QString table_name, QVector<QString> column_data)
 {
-    QString command_string = QString("create table %1 ").arg(table_name);
+    QString command_string = QString("CREATE TABLE IF NOT EXISTS %1 ").arg(table_name);
 
     command_string += "(";
 

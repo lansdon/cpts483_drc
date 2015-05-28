@@ -20,9 +20,10 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
     int servicesCount = 0;
     int cancelCount = 0;
     int intakeCount = 0;
-    int openCount = 0;
+   // int openCount = 0;
     int infoOnlyCount = 0;
     int clauseCount = 0;
+    int peopleIndirect = 0;
 
     if(mpVec->size() != 0)
     {
@@ -85,6 +86,7 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
                             {
                                 atTable += (session->getClientSessionDataVectorAt(num)->getAtTable() ||
                                             session->getClientSessionDataVectorAt(num)->getOnPhone());
+
                             }
 
 
@@ -98,32 +100,36 @@ void monthlyreport::BuildReport(MediationProcessVector* mpVec)
                 }
             }
 
-            if((process->GetState() != PROCESS_STATE_CLOSED_NO_SESSION) &&
-                (process->GetState() != PROCESS_STATE_CLOSED_WITH_SESSION))
-            {
-             /*   if(process->getMediationSessionVector()->size() == 0)
-                {
-                    openCount++;
-                }
-                else
-                {
-                    MediationSession* session = process->getMediationSessionVector()->at((process->getMediationSessionVector()->size() - 1));
-                    if((session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
-                            (session->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT) ||
-                            (session->getOutcome() != SESSION_OUTCOME_SELF_RESOLVED))
-                    {
-                        openCount++;
-                    }
-                }
-                */
-                 openCount++;
-            }
+            // taken care of in db query
+//            if((process->GetState() != PROCESS_STATE_CLOSED_NO_SESSION) &&
+//                (process->GetState() != PROCESS_STATE_CLOSED_WITH_SESSION))
+//            {
+//             /*   if(process->getMediationSessionVector()->size() == 0)
+//                {
+//                    openCount++;
+//                }
+//                else
+//                {
+//                    MediationSession* session = process->getMediationSessionVector()->at((process->getMediationSessionVector()->size() - 1));
+//                    if((session->getOutcome() != SESSION_OUTCOME_AGREEMENT) ||
+//                            (session->getOutcome() != SESSION_OUTCOME_NO_AGREEMENT) ||
+//                            (session->getOutcome() != SESSION_OUTCOME_SELF_RESOLVED))
+//                    {
+//                        openCount++;
+//                    }
+//                }
+//                */
+//                 openCount++;
+//            }
 
             for(size_t num = 0; num < process->GetParties()->size(); num++)
             {
                 this->m_countyCounts[process->GetPartyAtIndex(num)->GetPrimary()->getCounty()]++;
-                this->setChildrenIndirect(this->getChildrenIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
-                this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
+                if(process->GetState() == PROCESS_STATE_CLOSED_WITH_SESSION && process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold() > 0)
+                    this->setChildrenIndirect(this->getChildrenIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
+                if (process->GetState() == PROCESS_STATE_CLOSED_WITH_SESSION && (process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold() > 0 ||
+                        process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold() > 0))
+                    this->setPeopleIndirect(this->getPeopleIndirect() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberInHousehold() + process->GetPartyAtIndex(num)->GetPrimary()->getNumberChildrenInHousehold());
             }
 
         }// If no sessions, add 1 to total.

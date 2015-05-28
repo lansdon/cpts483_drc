@@ -47,6 +47,7 @@ private:
     MediatorId _unregRequestMonthlyCall;
     MediatorId _unregSaveEvaluationCall;
     MediatorId _unregRequestResWaCall;
+    bool CheckTables(QString tableName,QString columns);
 
 public:
     /*!
